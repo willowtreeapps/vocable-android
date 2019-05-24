@@ -2,15 +2,15 @@ package com.example.eyespeak
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
 import android.util.AttributeSet
-import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 
 class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
 
-    private val paint: Paint = Paint()
+    private val paint: Paint = Paint().apply { color = 0xFFFFFFFF.toInt() }
     private val radius: Float = 100f
 
     private var xAdjusted: Float = 0f
@@ -24,9 +24,15 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
         canvas?.drawCircle(xAdjusted, yAdjusted, radius, paint)
     }
 
-    fun updatePointerPosition(xPercent: Int, yPercent: Int){
+    fun updatePointerPositionPercent(xPercent: Int, yPercent: Int){
         this.xPercent = xPercent
         this.yPercent = yPercent
+        invalidate()
+    }
+
+    fun updatePointerPosition(x: Float, y: Float){
+        this.xAdjusted = x
+        this.yAdjusted = y
         invalidate()
     }
 
@@ -39,5 +45,4 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
         xAdjusted = (width/100F * xPercent)
         yAdjusted = (height/100F * yPercent)
     }
-
 }

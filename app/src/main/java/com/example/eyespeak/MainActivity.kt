@@ -9,10 +9,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
     }
 
     override fun onStart() {
         super.onStart()
-        pointer_view.updatePointerPosition(100, 100)
+        pointer_view.updatePointerPositionPercent(100, 100)
     }
 }
