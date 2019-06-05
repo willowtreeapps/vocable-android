@@ -37,7 +37,7 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         val widthHalf: Float = width.toFloat()/2
         val heightHalf: Float = height.toFloat()/2
 
-        val pointerXNew = (widthHalf * positionUnit.x) + widthHalf
+        val pointerXNew = (widthHalf * pointerPositionUnit.x) + widthHalf
         val pointerYNew = (heightHalf * pointerPositionUnit.y) + heightHalf
 
         updatePointerPosition(PointF(pointerXNew, pointerYNew))
