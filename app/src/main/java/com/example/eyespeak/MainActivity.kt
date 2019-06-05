@@ -1,5 +1,6 @@
 package com.example.eyespeak
 
+import android.graphics.PointF
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        pointer_view.updatePointerPositionPercent(100, 100)
+        pointer_view.updatePointerPositionUnitInternal(PointF(0f, -1f))
     }
 
 }
