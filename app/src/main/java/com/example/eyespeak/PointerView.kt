@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 
-class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
+class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paint: Paint = Paint().apply { color = 0xFFFFFFFF.toInt() }
     private val radius: Float = 100f
@@ -24,15 +24,9 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
         canvas?.drawCircle(xAdjusted, yAdjusted, radius, paint)
     }
 
-    fun updatePointerPositionPercent(xPercent: Int, yPercent: Int){
+    fun updatePointerPositionPercent(xPercent: Int, yPercent: Int) {
         this.xPercent = xPercent
         this.yPercent = yPercent
-        invalidate()
-    }
-
-    fun updatePointerPosition(x: Float, y: Float){
-        this.xAdjusted = x
-        this.yAdjusted = y
         invalidate()
     }
 
@@ -41,8 +35,8 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
         calcAdjustedCoords(w, h)
     }
 
-    private fun calcAdjustedCoords(width: Int, height: Int){
-        xAdjusted = (width/100F * xPercent)
-        yAdjusted = (height/100F * yPercent)
+    private fun calcAdjustedCoords(width: Int, height: Int) {
+        xAdjusted = (width / 100F * xPercent)
+        yAdjusted = (height / 100F * yPercent)
     }
 }
