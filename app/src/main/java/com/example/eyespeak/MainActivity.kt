@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.ar.core.ArCoreApk
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     val minOpenGlVersion = 3.0
+    var faceTrackFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,39 +21,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.activity_main)
-        // Code from AugmentedFaces sample is left below for reference
-//        var sceneView = arFragment.arSceneView
-//        sceneView.cameraStreamRenderPriority = Renderable.RENDER_PRIORITY_FIRST
-//        var scene = sceneView.scene
-//
-//        scene.addOnUpdateListener { frameTime: FrameTime ->
-//            val faceList = sceneView.getSession()!!.getAllTrackables(AugmentedFace::class.java)
-//
-//             Make new AugmentedFaceNodes for any new faces.
-//            for (face in faceList) {
-//                if (!faceNodeMap.containsKey(face)) {
-//                    val faceNode = AugmentedFaceNode(face)
-//                    faceNode.setParent(scene)
-//                    faceNode.faceRegionsRenderable = faceRegionsRenderable
-//                    faceNode.faceMeshTexture = faceMeshTexture
-//                    faceNodeMap.put(face, faceNode)
-//                }
-//            }
-//
-//            // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
-//            val iter = faceNodeMap.entries.iterator()
-//            while (iter.hasNext()) {
-//                val entry = iter.next()
-//                val face = entry.key
-//                if (face.getTrackingState() == TrackingState.STOPPED) {
-//                    val faceNode = entry.value
-//                    faceNode.setParent(null)
-//                    iter.remove()
-//                }
-//            }
-//        }
-
-
+        faceTrackFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
     }
 
     override fun onStart() {
