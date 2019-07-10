@@ -1,23 +1,28 @@
 package com.example.eyespeak
 
+import com.google.ar.core.AugmentedFace
+import com.google.ar.core.Pose
 import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
 import java.util.*
-import com.google.ar.core.AugmentedFace
+import kotlin.collections.ArrayList
 
 
-
-class FaceTrackFragment: ArFragment() {
+class FaceTrackFragment : ArFragment() {
 
     private val session = Session(context, EnumSet.of(Session.Feature.FRONT_CAMERA))
     val config = getSessionConfiguration(session)
-    var faceList = session.getAllTrackables(AugmentedFace::class.java)
+    private var faceList = session.getAllTrackables(AugmentedFace::class.java)
 
-    init {
+    fun getPoses(): List<Pose> {
+        var poses = ArrayList<Pose>()
         faceList.forEach { augmentedFace ->
-            var pose= augmentedFace.centerPose
+            poses.add(augmentedFace.centerPose)
         }
+        return poses
+
     }
+}
 
 
 

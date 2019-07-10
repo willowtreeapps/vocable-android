@@ -3,31 +3,23 @@ package com.example.eyespeak
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.widget.Toast
-import com.google.ar.core.ArCoreApk;
-import com.google.ar.core.AugmentedFace
-import com.google.ar.core.TrackingState
-import com.google.ar.sceneform.ArSceneView
-import com.google.ar.sceneform.FrameTime
-import com.google.ar.sceneform.Scene
-import com.google.ar.sceneform.rendering.Renderable
-import com.google.ar.sceneform.ux.*
-import com.google.ar.sceneform.ux.AugmentedFaceNode
+import androidx.appcompat.app.AppCompatActivity
+import com.google.ar.core.ArCoreApk
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    // TODO: Figure out why this cannot be casted to an ArFragment.
-    var arFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
     val minOpenGlVersion = 3.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(!checkIsSupportedDeviceOrFinish(this)){return}
+        if (!checkIsSupportedDeviceOrFinish(this)) {
+            return
+        }
         setContentView(R.layout.activity_main)
+        // Code from AugmentedFaces sample is left below for reference
 //        var sceneView = arFragment.arSceneView
 //        sceneView.cameraStreamRenderPriority = Renderable.RENDER_PRIORITY_FIRST
 //        var scene = sceneView.scene
