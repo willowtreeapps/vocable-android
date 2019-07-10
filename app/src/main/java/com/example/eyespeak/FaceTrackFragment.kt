@@ -1,29 +1,42 @@
 package com.example.eyespeak
 
+import android.os.Bundle
+import android.util.Log
 import com.google.ar.core.AugmentedFace
-import com.google.ar.core.Pose
+import com.google.ar.core.Config
 import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FaceTrackFragment : ArFragment() {
 
-    private val session = Session(context, EnumSet.of(Session.Feature.FRONT_CAMERA))
-    val config = getSessionConfiguration(session)
-    private var faceList = session.getAllTrackables(AugmentedFace::class.java)
-
-    fun getPoses(): List<Pose> {
-        var poses = ArrayList<Pose>()
-        faceList.forEach { augmentedFace ->
-            poses.add(augmentedFace.centerPose)
-        }
-        return poses
-
+    override fun getSessionConfiguration(session: Session): Config {
+        val config = Config(session)
+        config.augmentedFaceMode = Config.AugmentedFaceMode.MESH3D
+        return config
     }
-}
 
+    override fun getSessionFeatures(): Set<Session.Feature> {
+        return EnumSet.of<Session.Feature>(Session.Feature.FRONT_CAMERA)
+    }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        attachFaceTracker()
+    }
+
+    private fun attachFaceTracker() {
+        var scene = arSceneView.scene
+        scene.addOnUpdateListener { frameTime ->
+            var faceList = arSceneView.session?.getAllTrackables(AugmentedFace::class.java)
+            faceList?.let {
+                for (augmentedFace in faceList) {
+                    val pose = augmentedFace.centerPose
+                    Log.w("POSE", "x: ${pose.qx()}, y: ${pose.qy()}")
+                }
+            }
+        }
+    }
 
 }
