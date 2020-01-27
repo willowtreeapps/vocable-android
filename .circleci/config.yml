@@ -1,10 +1,10 @@
-version: 2.1
-orbs:
-    gradle: circleci/gradle@1.0.0
-workflows:
-    checkout-build-test:
-        jobs:
-            - gradle/test
-    checkout-run_task:
-        jobs:
-            - {gradle/run: {command: 'build -x test'}}
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/android:api-28-alpha  # gcloud is baked into this image
+    steps:
+      - run:
+          name: Build debug APK and release APK
+          command: |
+            ./gradlew :app:assembleDebug
