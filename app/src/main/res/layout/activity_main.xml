@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
 
     <fragment
-            android:name="com.example.eyespeak.FaceTrackFragment"
-            android:id="@+id/face_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/face_fragment"
+        android:name="com.example.eyespeak.FaceTrackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.example.eyespeak.PointerView
-            android:id="@+id/pointer_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-    />
+        android:id="@+id/pointer_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

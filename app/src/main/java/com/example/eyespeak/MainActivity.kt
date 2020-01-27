@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         pointer_view.updatePointerPositionPercent(100, 100)
     }
 
+    fun updatePointer(x: Float, y: Float) {
+        pointer_view.updatePointerPosition(x, y)
+    }
+
     /**
      * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run
      * on this device.
