@@ -28,7 +28,7 @@ jobs:
           command: ./gradlew assembleDebug
       - run:
           name: Install AppCenter CLI
-          command: npm install -g appcenter-cli
+          command: sudo npm install -g appcenter-cli
       - run:
           name: Publish to AppCenter
           command: |
