@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-29-node
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -26,6 +26,9 @@ jobs:
       - run:
           name: Build Debug Apk
           command: ./gradlew assembleDebug
+      - run:
+          name: Install AppCenter CLI
+          command: npm install -g appcenter-cli
       - run:
           name: Publish to AppCenter
           command: |
