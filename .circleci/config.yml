@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Publish to AppCenter
           command: |
-            appcenter login --token $APP_CENTER_TOKEN
+            appcenter login --token ${APP_CENTER_TOKEN}
             export apk="$(find ./app/build/outputs/apk/debug -regex '.*.apk')"
             appcenter distribute release -f ${apk} -g ${APP_CENTER_DISTRIBUTION_LIST} --app Release-Dev/EyeSpeak-Android-Debug --silent --debug
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
