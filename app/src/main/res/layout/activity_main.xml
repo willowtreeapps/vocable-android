@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -12,8 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/good_button"
+        android:stateListAnimator="@null"
+        android:layout_width="300dp"
+        android:visibility="gone"
+        android:layout_height="200dp" />
+
+    <View
+        android:layout_width="100dp"
+        android:id="@+id/drag_test_view"
+        android:background="@android:color/holo_blue_bright"
+        android:layout_height="100dp"/>
+
     <com.example.eyespeak.PointerView
         android:id="@+id/pointer_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:background="@android:color/white"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 </FrameLayout>

@@ -1,15 +1,24 @@
 package com.example.eyespeak
 
 import android.os.Bundle
+import android.util.Log
 import com.google.ar.core.AugmentedFace
 import com.google.ar.core.Config
 import com.google.ar.core.Session
+import com.google.ar.sceneform.ArSceneView
+import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.ux.ArFragment
+import com.google.ar.sceneform.ux.AugmentedFaceNode
+import org.w3c.dom.Node
 import java.util.*
 
 
 class FaceTrackFragment : ArFragment() {
+
+    private var oldVector: Vector3? = null
+
 
     override fun getSessionConfiguration(session: Session): Config {
         val config = Config(session)
@@ -30,18 +39,40 @@ class FaceTrackFragment : ArFragment() {
         attachFaceTracker()
     }
 
+    fun getArScene(): ArSceneView {
+        return arSceneView
+    }
+
     private fun attachFaceTracker() {
         val scene = arSceneView.scene
-        arSceneView.scene.addOnUpdateListener {
-            arSceneView.session?.getAllTrackables(AugmentedFace::class.java)?.let {
-                it.forEach { augmentedFace ->
+        scene.addOnUpdateListener {
+//            onUpdate(it)
+//            (activity as MainActivity).onUpdate()
+            arSceneView.session?.getAllTrackables(AugmentedFace::class.java)?.let { faces ->
+                faces.forEach { augmentedFace ->
                     val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
-                    val vector =
-                        scene.camera.worldToScreenPoint(Vector3(pose.tx(), pose.ty(), pose.tz()))
-                    (activity as MainActivity).updatePointer(
-                        vector.x,
-                        vector.y
-                    )
+                    val zAxis = pose.zAxis
+                    val x = zAxis[0]
+                    val y = zAxis[1]
+                    val z = -zAxis[2]
+
+                    when (this.oldVector) {
+                        null -> {
+                            this.oldVector = Vector3(x, y, z)
+                        }
+                        else -> {
+                            val goodVector = Vector3.lerp(this.oldVector, Vector3(x, y, z), 0.5F)
+                            val vector =
+                                scene.camera.worldToScreenPoint(goodVector)
+
+                            (activity as MainActivity).updatePointer(
+                                vector.x,
+                                vector.y
+                            )
+
+                            this.oldVector = goodVector
+                        }
+                    }
                 }
             }
         }

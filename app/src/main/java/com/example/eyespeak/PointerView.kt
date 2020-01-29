@@ -5,13 +5,16 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
+import androidx.core.view.marginTop
 
 class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
 
     private val paint: Paint = Paint().apply { color = 0xFFFFFFFF.toInt() }
-    private val radius: Float = 100f
+    private val radius: Float = 25f
 
     private var xAdjusted: Float = 0f
     private var yAdjusted: Float = 0f
@@ -33,7 +36,17 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
     fun updatePointerPosition(x: Float, y: Float){
         this.xAdjusted = x
         this.yAdjusted = y
+        val params = layoutParams as FrameLayout.LayoutParams
+        layoutParams = params.apply {
+            marginStart = x.toInt()
+            topMargin = y.toInt()
+        }
         invalidate()
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        val displayMetrics = DisplayMetrics()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
