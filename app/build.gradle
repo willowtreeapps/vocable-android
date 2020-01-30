@@ -38,4 +38,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // Provides ARCore Session and related resources.
     implementation 'com.google.ar:core:1.14.0'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2"
 }

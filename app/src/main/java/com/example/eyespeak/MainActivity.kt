@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.ClipData
 import android.content.Context
 import android.graphics.Point
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.DisplayMetrics
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     var isTracking = false
     var isHitting = false
     private var isDragging = false
+    private val allViews = mutableListOf<View>()
+    private var currentView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,19 +47,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         faceTrackFragment = supportFragmentManager.findFragmentById(R.id.face_fragment) as FaceTrackFragment
 
-        parent_layout.requestPointerCapture()
-        good_button.setOnDragListener { v, event ->
-            when(event.action) {
-                DragEvent.ACTION_DRAG_ENTERED -> {
-                    Toast.makeText(this, "DRAG ENTER", Toast.LENGTH_LONG).show()
-                }
-            }
-            Toast.makeText(this, "DRAG ENTER", Toast.LENGTH_LONG).show()
-            false
-        }
-        drag_test_view.setOnDragListener { v, event ->
-            Toast.makeText(this, "TEST DRAG", Toast.LENGTH_LONG).show()
-            false
+        with(allViews) {
+            add(good_button)
+            add(bad_button)
         }
     }
 
@@ -81,11 +74,37 @@ class MainActivity : AppCompatActivity() {
         }
         pointer_view.updatePointerPosition(newX, newY)
         pointer_view.bringToFront()
-        if (!isDragging) {
-            pointer_view.startDragAndDrop(ClipData.newPlainText("",""), View.DragShadowBuilder(), null, 0)
-            isDragging = true
+
+        if (currentView == null) {
+            findIntersectingView(newX, newY)
+        } else {
+            if (!viewIntersects(currentView!!, newX, newY)) {
+                (currentView as? EyeSpeakButton)?.onPointerExit()
+                findIntersectingView(newX, newY)
+            }
         }
-        //dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, newX, newY, 0))
+    }
+
+    private fun findIntersectingView(x: Float, y: Float) {
+        currentView = null
+        allViews.forEach {
+            if (viewIntersects(it, x, y)) {
+                currentView = it
+                (currentView as EyeSpeakButton).onPointerEnter()
+                return
+            }
+        }
+    }
+
+    private fun viewIntersects(view: View, x: Float, y: Float): Boolean {
+        val coords = IntArray(2)
+        view.getLocationOnScreen(coords)
+        val rect = Rect(coords[0], coords[1], coords[0] + view.measuredWidth, coords[1] + view.measuredHeight)
+
+        val pointerCoords = IntArray(2)
+        pointer_view.getLocationOnScreen(pointerCoords)
+        val pointerRect = Rect(pointerCoords[0], pointerCoords[1], pointerCoords[0] + pointer_view.measuredWidth, pointerCoords[1] + pointer_view.measuredHeight)
+        return rect.contains(pointerRect.centerX(), pointerRect.centerY())
     }
 
     fun onUpdate() {

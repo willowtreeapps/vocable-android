@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
@@ -13,22 +14,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.example.eyespeak.EyeSpeakButton
         android:id="@+id/good_button"
-        android:stateListAnimator="@null"
         android:layout_width="300dp"
-        android:visibility="gone"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:background="@android:color/white"
+        android:stateListAnimator="@null"
+        android:text="YES"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="100dp"
-        android:id="@+id/drag_test_view"
-        android:background="@android:color/holo_blue_bright"
-        android:layout_height="100dp"/>
+    <com.example.eyespeak.EyeSpeakButton
+        android:id="@+id/bad_button"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:background="@android:color/white"
+        android:stateListAnimator="@null"
+        android:text="NO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.eyespeak.PointerView
         android:id="@+id/pointer_view"
-        android:background="@android:color/white"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
-</FrameLayout>
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

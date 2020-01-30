@@ -9,6 +9,7 @@ import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.marginTop
 
 class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
@@ -36,7 +37,7 @@ class PointerView(context: Context, attrs: AttributeSet) : View(context, attrs){
     fun updatePointerPosition(x: Float, y: Float){
         this.xAdjusted = x
         this.yAdjusted = y
-        val params = layoutParams as FrameLayout.LayoutParams
+        val params = layoutParams as ConstraintLayout.LayoutParams
         layoutParams = params.apply {
             marginStart = x.toInt()
             topMargin = y.toInt()
