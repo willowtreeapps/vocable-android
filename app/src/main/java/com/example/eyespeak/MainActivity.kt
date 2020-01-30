@@ -2,38 +2,24 @@ package com.example.eyespeak
 
 import android.app.Activity
 import android.app.ActivityManager
-import android.content.ClipData
 import android.content.Context
-import android.graphics.Point
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.DragEvent
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.ar.core.ArCoreApk
-import com.google.ar.core.HitResult
-import com.google.ar.core.Plane
-import com.google.ar.core.TrackingState
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    val minOpenGlVersion = 3.0
-    var faceTrackFragment: FaceTrackFragment? = null
+    private val minOpenGlVersion = 3.0
+    private var faceTrackFragment: FaceTrackFragment? = null
 
     private val displayMetrics = DisplayMetrics()
-    val size = Point()
 
-
-    var pointer = PointerDrawable()
-    var isTracking = false
-    var isHitting = false
-    private var isDragging = false
     private val allViews = mutableListOf<View>()
     private var currentView: View? = null
 
@@ -43,9 +29,9 @@ class MainActivity : AppCompatActivity() {
             return
         }
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        windowManager.defaultDisplay.getSize(size)
         setContentView(R.layout.activity_main)
-        faceTrackFragment = supportFragmentManager.findFragmentById(R.id.face_fragment) as FaceTrackFragment
+        faceTrackFragment =
+            supportFragmentManager.findFragmentById(R.id.face_fragment) as FaceTrackFragment
 
         with(allViews) {
             add(good_button)
@@ -99,67 +85,22 @@ class MainActivity : AppCompatActivity() {
     private fun viewIntersects(view: View, x: Float, y: Float): Boolean {
         val coords = IntArray(2)
         view.getLocationOnScreen(coords)
-        val rect = Rect(coords[0], coords[1], coords[0] + view.measuredWidth, coords[1] + view.measuredHeight)
+        val rect = Rect(
+            coords[0],
+            coords[1],
+            coords[0] + view.measuredWidth,
+            coords[1] + view.measuredHeight
+        )
 
         val pointerCoords = IntArray(2)
         pointer_view.getLocationOnScreen(pointerCoords)
-        val pointerRect = Rect(pointerCoords[0], pointerCoords[1], pointerCoords[0] + pointer_view.measuredWidth, pointerCoords[1] + pointer_view.measuredHeight)
+        val pointerRect = Rect(
+            pointerCoords[0],
+            pointerCoords[1],
+            pointerCoords[0] + pointer_view.measuredWidth,
+            pointerCoords[1] + pointer_view.measuredHeight
+        )
         return rect.contains(pointerRect.centerX(), pointerRect.centerY())
-    }
-
-    fun onUpdate() {
-        val trackingChanged = updateTracking()
-        val contentView = findViewById<View>(android.R.id.content)
-        if (trackingChanged) {
-            if (isTracking) {
-                contentView.overlay.add(pointer)
-            } else {
-                contentView.overlay.remove(pointer)
-            }
-            contentView.invalidate()
-        }
-
-        if (isTracking) {
-           val hitTestChanged = updateHitTest()
-            if (hitTestChanged) {
-                pointer.setEnabled(isHitting)
-                contentView.invalidate()
-            }
-        }
-    }
-
-    private fun updateHitTest(): Boolean {
-        val frame = faceTrackFragment?.arSceneView?.arFrame
-        val pt = getScreenCenter()
-
-        val wasHitting = isHitting
-        isHitting = false
-        frame?.let {
-            frame.hitTest(pt?.x?.toFloat() ?: 0f, pt?.y?.toFloat() ?: 0f).forEach { hit ->
-                val trackable = hit.trackable
-                if (trackable is Plane &&
-                    trackable.isPoseInPolygon(hit.hitPose)
-                ) {
-                    isHitting = true
-                    return@forEach
-                }
-            }
-        }
-
-        return wasHitting != this.isHitting
-
-    }
-
-    private fun getScreenCenter(): Point? {
-        val vw = findViewById<View>(android.R.id.content)
-        return Point(vw.width / 2, vw.height / 2)
-    }
-
-    private fun updateTracking(): Boolean {
-        val frame = faceTrackFragment?.getArScene()?.arFrame
-        val wasTracking = isTracking
-        isTracking = frame != null && frame.camera.trackingState == TrackingState.TRACKING
-        return isTracking != wasTracking
     }
 
     /**
@@ -191,10 +132,6 @@ class MainActivity : AppCompatActivity() {
             return false
         }
         return true
-    }
-
-    private class CustomDragShadowBuilder : View.DragShadowBuilder() {
-
     }
 }
 

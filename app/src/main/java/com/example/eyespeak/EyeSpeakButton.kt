@@ -18,14 +18,16 @@ class EyeSpeakButton @JvmOverloads constructor(
 
     override fun onPointerEnter() {
         buttonJob = backgroundScope.launch {
-            delay(3000)
+            delay(2000)
             uiScope.launch {
+                background = context.getDrawable(R.drawable.button_selected_background)
                 Toast.makeText(context, text, Toast.LENGTH_LONG).show()
             }
         }
     }
 
     override fun onPointerExit() {
+        background = context.getDrawable(R.drawable.button_background)
         buttonJob?.cancel()
     }
 

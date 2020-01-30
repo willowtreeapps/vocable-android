@@ -1,17 +1,11 @@
 package com.example.eyespeak
 
 import android.os.Bundle
-import android.util.Log
 import com.google.ar.core.AugmentedFace
 import com.google.ar.core.Config
 import com.google.ar.core.Session
-import com.google.ar.sceneform.ArSceneView
-import com.google.ar.sceneform.FrameTime
-import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.AugmentedFaceNode
-import org.w3c.dom.Node
 import java.util.*
 
 
@@ -39,15 +33,9 @@ class FaceTrackFragment : ArFragment() {
         attachFaceTracker()
     }
 
-    fun getArScene(): ArSceneView {
-        return arSceneView
-    }
-
     private fun attachFaceTracker() {
         val scene = arSceneView.scene
         scene.addOnUpdateListener {
-//            onUpdate(it)
-//            (activity as MainActivity).onUpdate()
             arSceneView.session?.getAllTrackables(AugmentedFace::class.java)?.let { faces ->
                 faces.forEach { augmentedFace ->
                     val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
