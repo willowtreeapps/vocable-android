@@ -2,15 +2,15 @@ package com.example.eyespeak
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import kotlinx.coroutines.*
 
 class EyeSpeakButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : Button(context, attrs, defStyle), PointerListener {
+) : AppCompatButton(context, attrs, defStyle), PointerListener {
 
     private var buttonJob: Job? = null
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
