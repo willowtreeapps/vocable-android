@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.ar.core.ArCoreApk
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     private val allViews = mutableListOf<View>()
     private var currentView: View? = null
+
+    private lateinit var viewModel: FaceTrackingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,17 @@ class MainActivity : AppCompatActivity() {
             add(good_button)
             add(bad_button)
         }
+
+        viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
+        subscribeToVieModel()
+    }
+
+    private fun subscribeToVieModel() {
+        viewModel.pointerLocation.observe(this, Observer {
+            it.let {
+                updatePointer(it.x, it.y)
+            }
+        })
     }
 
     override fun onStart() {
@@ -44,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         pointer_view.updatePointerPositionPercent(100, 100)
     }
 
-    fun updatePointer(x: Float, y: Float) {
+    private fun updatePointer(x: Float, y: Float) {
         var newX = x
         var newY = y
         if (x < 0) {
@@ -113,7 +128,7 @@ class MainActivity : AppCompatActivity() {
      *
      * Finishes the activity if Sceneform can not run
      */
-    fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
+    private fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
         if (ArCoreApk.getInstance().checkAvailability(activity) === ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE) {
             Log.e("TAG", "Augmented Faces requires ARCore.")
             Toast.makeText(activity, "Augmented Faces requires ARCore", Toast.LENGTH_LONG).show()
