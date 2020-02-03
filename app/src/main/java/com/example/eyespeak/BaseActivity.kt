@@ -35,6 +35,14 @@ abstract class BaseActivity : AppCompatActivity() {
         subscribeToViewModel()
     }
 
+    override fun onStop() {
+        super.onStop()
+        with(VocableTextToSpeech.getTextToSpeech(this)) {
+            this?.stop()
+            this?.shutdown()
+        }
+    }
+
     protected abstract fun getPointerView(): PointerView
 
     protected abstract fun getAllViews(): List<View>
