@@ -15,34 +15,254 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="@android:color/black"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/black" />
 
-    <com.example.eyespeak.EyeSpeakButton
-        android:id="@+id/good_button"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
-        android:background="@drawable/button_background"
-        android:gravity="center"
-        android:text="YES"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4">
 
-    <com.example.eyespeak.EyeSpeakButton
-        android:id="@+id/bad_button"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/button_background"
-        android:gravity="center"
-        android:text="NO"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="6"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <com.example.eyespeak.EyeSpeakButton
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="Basic Needs"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="Personal Care"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="Salutations"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <com.example.eyespeak.EyeSpeakButton
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="Yes | No"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="2"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="More Categories"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I want the door closed."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I want the door open."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I would like to go to the bathroom."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I want the lights off."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I want the lights on."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I want my pillow fixed."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I would like some water."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I would like some coffee."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.eyespeak.EyeSpeakButton
+                style="@style/GoodTheme"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_default_background"
+                android:gravity="center"
+                android:text="I want another pillow."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+    </LinearLayout>
+
 
     <com.example.eyespeak.PointerView
         android:id="@+id/pointer_view"

@@ -33,6 +33,12 @@ abstract class BaseActivity : AppCompatActivity() {
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
+        VocableTextToSpeech.initialize(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        VocableTextToSpeech.shutdown()
     }
 
     protected abstract fun getPointerView(): PointerView
