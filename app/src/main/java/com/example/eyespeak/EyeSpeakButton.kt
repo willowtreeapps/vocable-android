@@ -1,6 +1,7 @@
 package com.example.eyespeak
 
 import android.content.Context
+import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
@@ -16,18 +17,26 @@ class EyeSpeakButton @JvmOverloads constructor(
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
+    init {
+        setOnClickListener {
+            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+            VocableTextToSpeech.getTextToSpeech()?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+        }
+    }
+
     override fun onPointerEnter() {
         buttonJob = backgroundScope.launch {
             delay(2000)
             uiScope.launch {
-                background = context.getDrawable(R.drawable.button_selected_background)
+                isPressed= true
                 Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+                VocableTextToSpeech.getTextToSpeech()?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
             }
         }
     }
 
     override fun onPointerExit() {
-        background = context.getDrawable(R.drawable.button_background)
+        isPressed = false
         buttonJob?.cancel()
     }
 
