@@ -8,7 +8,7 @@ object VocableTextToSpeech {
 
     private var textToSpeech: TextToSpeech? = null
 
-    fun getTextToSpeech(context: Context): TextToSpeech? {
+    fun initialize(context: Context) {
         if (textToSpeech == null) {
             textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener {
                 if (it != TextToSpeech.ERROR) {
@@ -16,6 +16,16 @@ object VocableTextToSpeech {
                 }
             })
         }
+    }
+
+    fun shutdown(){
+        with(textToSpeech) {
+            this?.stop()
+            this?.shutdown()
+        }
+    }
+
+    fun getTextToSpeech(): TextToSpeech? {
         return textToSpeech
     }
 }
