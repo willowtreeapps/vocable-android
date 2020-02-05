@@ -4,24 +4,28 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
-import kotlinx.coroutines.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-open class EyeSpeakButton @JvmOverloads constructor(
+class PauseButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : AppCompatButton(context, attrs, defStyle), PointerListener {
+) : EyeSpeakButton(context, attrs, defStyle) {
 
-    protected var buttonJob: Job? = null
-    protected val backgroundScope = CoroutineScope(Dispatchers.IO)
-    protected val uiScope = CoroutineScope(Dispatchers.Main)
+    private val liveIsPaused = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+    var isPaused: LiveData<Boolean> = liveIsPaused
 
     init {
         setOnClickListener {
             Toast.makeText(context, text, Toast.LENGTH_LONG).show()
             VocableTextToSpeech.getTextToSpeech()
                 ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+            togglePause()
         }
     }
 
@@ -33,17 +37,21 @@ open class EyeSpeakButton @JvmOverloads constructor(
                 Toast.makeText(context, text, Toast.LENGTH_LONG).show()
                 VocableTextToSpeech.getTextToSpeech()
                     ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+                togglePause()
             }
         }
     }
 
-    override fun onPointerExit() {
-        isPressed = false
-        buttonJob?.cancel()
+    fun togglePause(): Boolean {
+        liveIsPaused.value?.let {
+            liveIsPaused.value = !it
+        }
+        text = if (liveIsPaused.value == true) {
+            "Unpause"
+        } else {
+            "Pause"
+        }
+        return liveIsPaused.value ?: false
     }
 
-    override fun onDetachedFromWindow() {
-        buttonJob?.cancel()
-        super.onDetachedFromWindow()
-    }
 }
