@@ -31,6 +31,7 @@ class PauseButton @JvmOverloads constructor(
 
     override fun onPointerEnter() {
         buttonJob = backgroundScope.launch {
+            
             delay(2000)
             uiScope.launch {
                 isPressed = true
