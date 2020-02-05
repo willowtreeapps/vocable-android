@@ -28,9 +28,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:weightSum="6"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:weightSum="6">
+
             <com.example.eyespeak.EyeSpeakButton
                 android:layout_width="0dp"
                 android:layout_height="120dp"
@@ -72,6 +73,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <com.example.eyespeak.EyeSpeakButton
                 android:layout_width="0dp"
                 android:layout_height="120dp"
@@ -86,7 +88,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.PauseButton
+                android:id="@+id/pause_button"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
@@ -94,19 +97,20 @@
                 android:layout_weight="2"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="More Categories"
+                android:text="Pause"
                 android:textColor="@android:color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:gravity="center">
+            android:weightSum="3">
 
             <com.example.eyespeak.EyeSpeakButton
                 style="@style/GoodTheme"
@@ -158,9 +162,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:gravity="center">
+            android:weightSum="3">
 
             <com.example.eyespeak.EyeSpeakButton
                 style="@style/GoodTheme"
@@ -212,9 +216,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:gravity="center">
+            android:weightSum="3">
 
             <com.example.eyespeak.EyeSpeakButton
                 style="@style/GoodTheme"

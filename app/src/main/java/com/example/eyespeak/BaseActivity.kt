@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.ar.core.ArCoreApk
+import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class BaseActivity : AppCompatActivity() {
     private val minOpenGlVersion = 3.0
@@ -24,6 +25,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FaceTrackingViewModel
 
+    private var paused = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!checkIsSupportedDeviceOrFinish()) {
@@ -33,6 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
+        subscribeToPauseButton()
         VocableTextToSpeech.initialize(this)
     }
 
@@ -84,16 +88,38 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    private fun subscribeToPauseButton() {
+        pause_button.isPaused.observe(this, Observer {
+            it.let {
+                paused = it
+            }
+        })
+    }
+
     private fun findIntersectingView() {
         currentView = null
-        getAllViews().forEach {
-            if (viewIntersects(it, getPointerView())) {
-                currentView = it
-                (currentView as EyeSpeakButton).onPointerEnter()
-                return
+        if (!paused) {
+            getAllViews().forEach {
+                if (viewIntersects(it, getPointerView())) {
+                    currentView = it
+                    (currentView as EyeSpeakButton).onPointerEnter()
+                    return
+                }
+            }
+
+        } else {
+            getAllViews().forEach {
+                if (viewIntersects(it, getPointerView())) {
+                    currentView = it
+                    if(currentView is PauseButton) {
+                        (currentView as PauseButton).onPointerEnter()
+                    }
+                    return
+                }
             }
         }
     }
+
 
     private fun viewIntersects(view1: View, view2: View): Boolean {
         val coords = IntArray(2)
