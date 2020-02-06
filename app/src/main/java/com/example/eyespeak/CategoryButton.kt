@@ -5,13 +5,14 @@ import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatRadioButton
 import kotlinx.coroutines.*
 
 class CategoryButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : RadioButton(context, attrs, defStyle), PointerListener {
+) : AppCompatRadioButton(context, attrs, defStyle), PointerListener {
 
     private var buttonJob: Job? = null
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
