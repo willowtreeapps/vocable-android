@@ -89,11 +89,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun subscribeToPauseButton() {
-//        pause_button.isPaused.observe(this, Observer {
-//            it.let {
-//                paused = it
-//            }
-//        })
+        pause_button.isPaused.observe(this, Observer {
+            it.let {
+                paused = it
+            }
+        })
     }
 
     private fun findIntersectingView() {
@@ -111,7 +111,7 @@ abstract class BaseActivity : AppCompatActivity() {
             getAllViews().forEach {
                 if (viewIntersects(it, getPointerView())) {
                     currentView = it
-                    if(currentView is PauseButton) {
+                    if (currentView is PauseButton) {
                         (currentView as PauseButton).onPointerEnter()
                     }
                     return
