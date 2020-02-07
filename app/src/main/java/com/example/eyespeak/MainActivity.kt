@@ -21,7 +21,7 @@ class MainActivity : BaseActivity() {
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {
-            if (it is EyeSpeakButton) {
+            if (it is PointerListener) {
                 allViews.add(it)
             } else if (it is ViewGroup) {
                 getAllChildViews(it)

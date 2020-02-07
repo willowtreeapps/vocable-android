@@ -30,7 +30,11 @@ class PauseButton @JvmOverloads constructor(
     }
 
     override fun onPointerEnter() {
+        if (isPaused.value == false) {
+            text = "Pause"
+        }
         buttonJob = backgroundScope.launch {
+
             delay(2000)
             uiScope.launch {
                 isPressed = true
@@ -42,12 +46,19 @@ class PauseButton @JvmOverloads constructor(
         }
     }
 
+    override fun onPointerExit() {
+        super.onPointerExit()
+        if (isPaused.value == false) {
+            text = null
+        }
+    }
+
     fun togglePause(): Boolean {
         liveIsPaused.value?.let {
             liveIsPaused.value = !it
         }
         text = if (liveIsPaused.value == true) {
-            "Unpause"
+            "Resume"
         } else {
             "Pause"
         }

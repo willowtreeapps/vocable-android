@@ -27,8 +27,14 @@ open class EyeSpeakButton @JvmOverloads constructor(
 
     override fun onPointerEnter() {
         buttonJob = backgroundScope.launch {
-            delay(2000)
             uiScope.launch {
+                isSelected = true
+            }
+
+            delay(2000)
+
+            uiScope.launch {
+                isSelected = false
                 isPressed = true
                 Toast.makeText(context, text, Toast.LENGTH_LONG).show()
                 VocableTextToSpeech.getTextToSpeech()
@@ -39,6 +45,7 @@ open class EyeSpeakButton @JvmOverloads constructor(
 
     override fun onPointerExit() {
         isPressed = false
+        isSelected = false
         buttonJob?.cancel()
     }
 

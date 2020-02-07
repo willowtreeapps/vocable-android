@@ -82,7 +82,7 @@ abstract class BaseActivity : AppCompatActivity() {
             findIntersectingView()
         } else {
             if (!viewIntersects(currentView!!, getPointerView())) {
-                (currentView as? EyeSpeakButton)?.onPointerExit()
+                (currentView as? PointerListener)?.onPointerExit()
                 findIntersectingView()
             }
         }
@@ -102,7 +102,7 @@ abstract class BaseActivity : AppCompatActivity() {
             getAllViews().forEach {
                 if (viewIntersects(it, getPointerView())) {
                     currentView = it
-                    (currentView as EyeSpeakButton).onPointerEnter()
+                    (currentView as PointerListener).onPointerEnter()
                     return
                 }
             }
@@ -111,7 +111,7 @@ abstract class BaseActivity : AppCompatActivity() {
             getAllViews().forEach {
                 if (viewIntersects(it, getPointerView())) {
                     currentView = it
-                    if(currentView is PauseButton) {
+                    if (currentView is PauseButton) {
                         (currentView as PauseButton).onPointerEnter()
                     }
                     return
