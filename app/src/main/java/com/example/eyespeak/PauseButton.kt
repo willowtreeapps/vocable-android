@@ -1,49 +1,29 @@
 package com.example.eyespeak
 
 import android.content.Context
-import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
+/**
+ * A subclass of VocableButton that will toggle the pause state for head tracking
+ */
 class PauseButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : EyeSpeakButton(context, attrs, defStyle) {
+) : VocableButton(context, attrs, defStyle) {
 
     private val liveIsPaused = MutableLiveData<Boolean>().apply {
         value = false
     }
     var isPaused: LiveData<Boolean> = liveIsPaused
 
-    init {
-        setOnClickListener {
-            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-            VocableTextToSpeech.getTextToSpeech()
-                ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
-            togglePause()
-        }
-    }
-
     override fun onPointerEnter() {
         if (isPaused.value == false) {
             text = "Pause"
         }
-        buttonJob = backgroundScope.launch {
-
-            delay(2000)
-            uiScope.launch {
-                isPressed = true
-                Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-                VocableTextToSpeech.getTextToSpeech()
-                    ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
-                togglePause()
-            }
-        }
+        super.onPointerEnter()
     }
 
     override fun onPointerExit() {
@@ -53,7 +33,7 @@ class PauseButton @JvmOverloads constructor(
         }
     }
 
-    private fun togglePause(): Boolean {
+    override fun performAction() {
         liveIsPaused.value?.let {
             liveIsPaused.value = !it
         }
@@ -62,7 +42,5 @@ class PauseButton @JvmOverloads constructor(
         } else {
             "Pause"
         }
-        return liveIsPaused.value ?: false
     }
-
 }

@@ -133,7 +133,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -146,7 +146,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -160,7 +160,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -183,7 +183,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -197,7 +197,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -211,7 +211,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -234,7 +234,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -248,7 +248,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -262,7 +262,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.example.eyespeak.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
