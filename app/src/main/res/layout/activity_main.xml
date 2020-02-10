@@ -52,16 +52,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
+            style="@style/CategoryRadioGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/category_group_background"
-            android:checkedButton="@id/basic_needs"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="4">
+            android:layout_height="wrap_content">
 
             <com.example.eyespeak.CategoryButton
                 android:id="@+id/basic_needs"

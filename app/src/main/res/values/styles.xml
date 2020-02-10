@@ -14,54 +14,65 @@
     </style>
 
     <style name="SpeechButton" parent="VocableButton">
-        <item name="android:textSize">24sp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">128dp</item>
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/speech_button_text_size</item>
+        <item name="android:layout_width">@dimen/speech_button_width</item>
+        <item name="android:layout_height">@dimen/speech_button_height</item>
+        <item name="android:layout_margin">@dimen/speech_button_margin</item>
+        <item name="android:layout_weight">@dimen/speech_button_weight</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="CategoryTheme" parent="VocableButton">
         <item name="android:background">@drawable/radio_button_background</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/category_button_text_size</item>
         <item name="android:textColor">@color/category_button_text_colors</item>
         <item name="android:gravity">center</item>
         <item name="android:button">@android:color/transparent</item>
-        <item name="android:layout_width">@dimen/category_button_layout_width</item>
-        <item name="android:layout_height">@dimen/category_button_layout_height</item>
-        <item name="android:layout_margin">@dimen/category_button_layout_margin</item>
-        <item name="android:layout_weight">@dimen/category_button_layout_weight</item>
+        <item name="android:layout_width">@dimen/category_button_width</item>
+        <item name="android:layout_height">@dimen/category_button_height</item>
+        <item name="android:layout_margin">@dimen/category_button_margin</item>
+        <item name="android:layout_weight">@dimen/category_button_weight</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="PauseButton">
-        <item name="android:layout_marginStart">8dp</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">@dimen/pause_button_margin_start</item>
+        <item name="android:layout_marginTop">@dimen/pause_button_margin_top</item>
         <item name="android:drawableStart">@drawable/pause_light_48dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/pause_button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@android:color/transparent</item>
 
     </style>
 
     <style name="SettingsButton">
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginStart">8dp</item>
-        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">@dimen/settings_button_margin_top</item>
+        <item name="android:layout_marginStart">@dimen/settings_button_margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/settings_button_margin_end</item>
         <item name="android:drawableStart">@drawable/ic_settings_light_48dp</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="SpokenTextView">
-        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_height">@dimen/spoken_text_view_height</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">48sp</item>
+        <item name="android:textSize">@dimen/spoken_text_view_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="CategoryRadioGroup">
+        <item name="android:layout_marginStart">@dimen/category_group_margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/category_group_margin_end</item>
+        <item name="android:layout_weight">@dimen/category_group_weight</item>
+        <item name="android:background">@drawable/category_group_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:checkedButton">@id/basic_needs</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">@dimen/category_group_weight_sum</item>
     </style>
 
 </resources>
