@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Category Button -->
-    <dimen name="category_button_width">0dp</dimen>
     <dimen name="category_button_height">104dp</dimen>
     <dimen name="category_button_margin">8dp</dimen>
-    <dimen name="category_button_weight">1</dimen>
     <dimen name="category_button_text_size">20sp</dimen>
 
     <!-- Speech Button -->
     <dimen name="speech_button_text_size">24sp</dimen>
-    <dimen name="speech_button_width">0dp</dimen>
     <dimen name="speech_button_height">128dp</dimen>
     <dimen name="speech_button_margin">10dp</dimen>
-    <dimen name="speech_button_weight">1</dimen>
 
     <!-- Pause Button -->
-    <dimen name="pause_button_margin_start">8dp</dimen>
-    <dimen name="pause_button_margin_top">8dp</dimen>
+    <dimen name="pause_button_margin">8dp</dimen>
     <dimen name="pause_button_text_size">20sp</dimen>
 
 
     <!-- Settings Button -->
-    <dimen name="settings_button_margin_top">8dp</dimen>
-    <dimen name="settings_button_margin_start">8dp</dimen>
-    <dimen name="settings_button_margin_end">8dp</dimen>
+    <dimen name="settings_button_margin">8dp</dimen>
 
     <!-- Spoken Text View -->
     <dimen name="spoken_text_view_height">100dp</dimen>
     <dimen name="spoken_text_view_text_size">48sp</dimen>
 
     <!--  Category Radio Group -->
-    <dimen name="category_group_margin_start">10dp</dimen>
-    <dimen name="category_group_margin_end">10dp</dimen>
-    <dimen name="category_group_weight">1</dimen>
+    <dimen name="category_group_margin">10dp</dimen>
     <dimen name="category_group_weight_sum">4</dimen>
 
     <!-- Close Button -->
-    <dimen name="close_button_margin_top">8dp</dimen>
-    <dimen name="close_button_margin_end">8dp</dimen>
+    <dimen name="close_button_margin">8dp</dimen>
     <dimen name="close_button_text_size">20sp</dimen>
 
     <!-- Settings Title -->
@@ -47,11 +37,14 @@
     <!-- Action Button -->
     <dimen name="action_button_width">0dp</dimen>
     <dimen name="action_button_height">144dp</dimen>
-    <dimen name="action_button_margin_start">142dp</dimen>
-    <dimen name="action_button_margin_end">142dp</dimen>
+    <dimen name="action_button_margin">142dp</dimen>
     <dimen name="action_button_margin_bottom">40dp</dimen>
     <dimen name="action_button_text_size">48sp</dimen>
 
     <!-- Version Text View -->
     <dimen name="version_text_size">24sp</dimen>
+
+    <!-- Highlighted Background -->
+    <dimen name="highlighted_background_radius">4dp</dimen>
+    <dimen name="highlighted_background_width">4dp</dimen>
 </resources>
