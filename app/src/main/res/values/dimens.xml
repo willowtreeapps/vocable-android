@@ -34,4 +34,24 @@
     <dimen name="category_group_margin_end">10dp</dimen>
     <dimen name="category_group_weight">1</dimen>
     <dimen name="category_group_weight_sum">4</dimen>
+
+    <!-- Close Button -->
+    <dimen name="close_button_margin_top">8dp</dimen>
+    <dimen name="close_button_margin_end">8dp</dimen>
+    <dimen name="close_button_text_size">20sp</dimen>
+
+    <!-- Settings Title -->
+    <dimen name="settings_title_margin_bottom">40dp</dimen>
+    <dimen name="settings_title_text_size">48dp</dimen>
+
+    <!-- Action Button -->
+    <dimen name="action_button_width">0dp</dimen>
+    <dimen name="action_button_height">144dp</dimen>
+    <dimen name="action_button_margin_start">142dp</dimen>
+    <dimen name="action_button_margin_end">142dp</dimen>
+    <dimen name="action_button_margin_bottom">40dp</dimen>
+    <dimen name="action_button_text_size">48sp</dimen>
+
+    <!-- Version Text View -->
+    <dimen name="version_text_size">24sp</dimen>
 </resources>
