@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.ar.core.AugmentedFace
 import com.google.ar.core.Config
 import com.google.ar.core.Session
-import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.ux.ArFragment
 import java.util.*
 
 
 class FaceTrackFragment : ArFragment() {
 
-    private var oldVector: Vector3? = null
     private lateinit var viewModel: FaceTrackingViewModel
 
     override fun getSessionConfiguration(session: Session): Config {
