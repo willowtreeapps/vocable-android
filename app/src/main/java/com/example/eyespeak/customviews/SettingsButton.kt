@@ -1,8 +1,9 @@
-package com.example.eyespeak
+package com.example.eyespeak.customviews
 
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
+import com.example.eyespeak.settings.SettingsActivity
 
 /**
  * A subclass of VocableButton that will open SettingsActivity when interacted with

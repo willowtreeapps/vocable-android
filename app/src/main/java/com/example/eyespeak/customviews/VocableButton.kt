@@ -1,9 +1,10 @@
-package com.example.eyespeak
+package com.example.eyespeak.customviews
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
+import com.example.eyespeak.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 
 /**
@@ -15,7 +16,8 @@ open class VocableButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : AppCompatButton(context, attrs, defStyle), PointerListener {
+) : AppCompatButton(context, attrs, defStyle),
+    PointerListener {
 
     companion object {
         private const val DEFAULT_TTS_TIMEOUT = 2000L

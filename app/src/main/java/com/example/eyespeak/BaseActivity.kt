@@ -13,6 +13,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.eyespeak.customviews.PauseButton
+import com.example.eyespeak.customviews.PointerListener
+import com.example.eyespeak.customviews.PointerView
+import com.example.eyespeak.facetracking.FaceTrackingViewModel
 import com.google.ar.core.ArCoreApk
 
 abstract class BaseActivity : AppCompatActivity() {

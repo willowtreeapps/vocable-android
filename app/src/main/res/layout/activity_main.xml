@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/face_fragment"
-        android:name="com.example.eyespeak.FaceTrackFragment"
+        android:name="com.example.eyespeak.facetracking.FaceTrackFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark" />
 
-    <com.example.eyespeak.PauseButton
+    <com.example.eyespeak.customviews.PauseButton
         android:id="@+id/pause_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.eyespeak.SettingsButton
+    <com.example.eyespeak.customviews.SettingsButton
         android:id="@+id/settings_button"
         android:drawableStart="@drawable/ic_settings_light_48dp"
         android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:orientation="horizontal"
             android:weightSum="4">
 
-            <com.example.eyespeak.CategoryButton
+            <com.example.eyespeak.customviews.CategoryButton
                 android:id="@+id/basic_needs"
                 android:layout_width="0dp"
                 android:layout_height="104dp"
@@ -88,7 +88,7 @@
                 android:textColor="@color/category_button_text_colors"
                 android:textSize="20sp" />
 
-            <com.example.eyespeak.CategoryButton
+            <com.example.eyespeak.customviews.CategoryButton
                 android:layout_width="0dp"
                 android:layout_height="104dp"
                 android:layout_margin="10dp"
@@ -100,7 +100,7 @@
                 android:textColor="@color/category_button_text_colors"
                 android:textSize="20sp" />
 
-            <com.example.eyespeak.CategoryButton
+            <com.example.eyespeak.customviews.CategoryButton
                 android:layout_width="0dp"
                 android:layout_height="104dp"
                 android:layout_margin="10dp"
@@ -112,7 +112,7 @@
                 android:textColor="@color/category_button_text_colors"
                 android:textSize="20sp" />
 
-            <com.example.eyespeak.CategoryButton
+            <com.example.eyespeak.customviews.CategoryButton
                 android:layout_width="0dp"
                 android:layout_height="104dp"
                 android:layout_margin="10dp"
@@ -133,7 +133,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -146,7 +146,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -160,7 +160,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -183,7 +183,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -197,7 +197,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -211,7 +211,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -234,7 +234,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -248,7 +248,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -262,7 +262,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.VocableButton
+            <com.example.eyespeak.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:layout_width="0dp"
                 android:layout_height="128dp"
@@ -278,7 +278,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.example.eyespeak.PointerView
+    <com.example.eyespeak.customviews.PointerView
         android:id="@+id/pointer_view"
         android:layout_width="32dp"
         android:layout_height="32dp"

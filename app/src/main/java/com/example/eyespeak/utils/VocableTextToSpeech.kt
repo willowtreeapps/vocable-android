@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.example.eyespeak.utils
 
 import android.content.Context
 import android.speech.tts.TextToSpeech

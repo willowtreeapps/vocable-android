@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.example.eyespeak.facetracking
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

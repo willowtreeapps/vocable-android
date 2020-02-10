@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.example.eyespeak.customviews
 
 import android.content.Context
 import android.util.AttributeSet
