@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eyespeak</string>
+    <string name="app_name">Vocable</string>
 
     <!-- Category Buttons -->
     <string name="basic_needs">Basic Needs</string>
@@ -26,4 +26,9 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_developers">Contact Developers</string>
     <string name="version">V 0.0.0</string>
+
+    <!-- Button Text -->
+    <string name="button_close">Close</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
 </resources>

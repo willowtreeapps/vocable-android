@@ -3,6 +3,7 @@ package com.example.eyespeak.customviews
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.app.AppCompatActivity
+import com.example.eyespeak.R
 
 /**
  * A subclass of VocableButton that will close the current activity (if the button's context is an
@@ -15,7 +16,7 @@ class CloseButton @JvmOverloads constructor(
 ) : VocableButton(context, attrs, defStyle) {
 
     override fun onPointerEnter() {
-        text = "Close"
+        setText(R.string.button_close)
         super.onPointerEnter()
     }
 

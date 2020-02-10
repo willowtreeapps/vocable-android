@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.eyespeak.R
 
 /**
  * A subclass of VocableButton that will toggle the pause state for head tracking
@@ -21,7 +22,7 @@ class PauseButton @JvmOverloads constructor(
 
     override fun onPointerEnter() {
         if (isPaused.value == false) {
-            text = "Pause"
+            setText(R.string.button_pause)
         }
         super.onPointerEnter()
     }
@@ -37,10 +38,10 @@ class PauseButton @JvmOverloads constructor(
         liveIsPaused.value?.let {
             liveIsPaused.value = !it
         }
-        text = if (liveIsPaused.value == true) {
-            "Resume"
+        if (liveIsPaused.value == true) {
+            setText(R.string.button_resume)
         } else {
-            "Pause"
+            setText(R.string.button_pause)
         }
     }
 }
