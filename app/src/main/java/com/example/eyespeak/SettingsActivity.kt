@@ -1,23 +1,35 @@
 package com.example.eyespeak
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
+class SettingsActivity : BaseActivity() {
 
-class MainActivity : BaseActivity() {
+    companion object {
+        private const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
+        private const val MAIL_TO = "mailto:vocable@willowtreeapps.com"
+    }
+
     private val allViews = mutableListOf<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        VocableTextToSpeech.initialize(this)
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        VocableTextToSpeech.shutdown()
+        privacy_policy_button.action = {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY)))
+        }
+
+        contact_devs_button.action = {
+            val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse(MAIL_TO)
+            }
+            startActivity(sendEmail)
+        }
     }
 
     override fun getPointerView(): PointerView = pointer_view
@@ -29,9 +41,9 @@ class MainActivity : BaseActivity() {
         return allViews
     }
 
-    override fun getLayout(): Int = R.layout.activity_main
+    override fun getLayout(): Int = R.layout.activity_settings
 
-    override fun getPauseButton(): PauseButton? = pause_button
+    override fun getPauseButton(): PauseButton? = settings_pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {
