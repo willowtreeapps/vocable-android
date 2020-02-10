@@ -1,24 +1,12 @@
 package com.example.eyespeak
 
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
-
-class MainActivity : BaseActivity() {
+class SettingsActivity : BaseActivity() {
     private val allViews = mutableListOf<View>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        VocableTextToSpeech.initialize(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        VocableTextToSpeech.shutdown()
-    }
 
     override fun getPointerView(): PointerView = pointer_view
 
@@ -29,9 +17,9 @@ class MainActivity : BaseActivity() {
         return allViews
     }
 
-    override fun getLayout(): Int = R.layout.activity_main
+    override fun getLayout(): Int = R.layout.activity_settings
 
-    override fun getPauseButton(): PauseButton? = pause_button
+    override fun getPauseButton(): PauseButton? = settings_pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {

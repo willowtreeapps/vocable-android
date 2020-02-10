@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.ar.core.ArCoreApk
-import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class BaseActivity : AppCompatActivity() {
     private val minOpenGlVersion = 3.0
@@ -37,12 +36,6 @@ abstract class BaseActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
         subscribeToPauseButton()
-        VocableTextToSpeech.initialize(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        VocableTextToSpeech.shutdown()
     }
 
     protected abstract fun getPointerView(): PointerView
@@ -51,6 +44,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @LayoutRes
     protected abstract fun getLayout(): Int
+
+    protected abstract fun getPauseButton(): PauseButton?
 
     @CallSuper
     protected fun subscribeToViewModel() {
@@ -89,7 +84,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun subscribeToPauseButton() {
-        pause_button.isPaused.observe(this, Observer {
+        getPauseButton()?.isPaused?.observe(this, Observer {
             it.let {
                 paused = it
             }
