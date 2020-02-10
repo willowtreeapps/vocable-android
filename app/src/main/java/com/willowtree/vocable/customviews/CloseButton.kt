@@ -1,9 +1,9 @@
-package com.example.eyespeak.customviews
+package com.willowtree.vocable.customviews
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.app.AppCompatActivity
-import com.example.eyespeak.R
+import com.willowtree.vocable.R
 
 /**
  * A subclass of VocableButton that will close the current activity (if the button's context is an

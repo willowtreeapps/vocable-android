@@ -1,10 +1,10 @@
-package com.example.eyespeak.customviews
+package com.willowtree.vocable.customviews
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.eyespeak.R
+import com.willowtree.vocable.R
 
 /**
  * A subclass of VocableButton that will toggle the pause state for head tracking

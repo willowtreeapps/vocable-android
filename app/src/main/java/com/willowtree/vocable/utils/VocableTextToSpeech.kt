@@ -1,4 +1,4 @@
-package com.example.eyespeak.utils
+package com.willowtree.vocable.utils
 
 import android.content.Context
 import android.speech.tts.TextToSpeech

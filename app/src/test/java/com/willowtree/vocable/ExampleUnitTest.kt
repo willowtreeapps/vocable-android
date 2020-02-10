@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.willowtree.vocable
 
 import org.junit.Test
 

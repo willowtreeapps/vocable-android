@@ -1,4 +1,4 @@
-package com.example.eyespeak.settings
+package com.willowtree.vocable.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import com.example.eyespeak.BaseActivity
-import com.example.eyespeak.R
-import com.example.eyespeak.customviews.PauseButton
-import com.example.eyespeak.customviews.PointerListener
-import com.example.eyespeak.customviews.PointerView
+import com.willowtree.vocable.BaseActivity
+import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.PauseButton
+import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.customviews.PointerView
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity() {
