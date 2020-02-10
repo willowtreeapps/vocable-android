@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.example.eyespeak.EyeSpeakButton
+    <com.example.eyespeak.ActionButton
         android:id="@+id/privacy_policy_button"
         android:layout_width="0dp"
         android:layout_height="144dp"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/settings_title"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.example.eyespeak.EyeSpeakButton
+    <com.example.eyespeak.ActionButton
         android:id="@+id/contact_devs_button"
         android:layout_width="0dp"
         android:layout_height="144dp"
@@ -110,7 +110,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contact_devs_button"
         app:layout_constraintVertical_chainStyle="packed" />
-
 
     <com.example.eyespeak.PointerView
         android:id="@+id/pointer_view"
