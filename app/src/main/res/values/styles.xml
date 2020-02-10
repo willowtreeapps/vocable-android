@@ -14,13 +14,54 @@
     </style>
 
     <style name="SpeechButton" parent="VocableButton">
-        <item name="android:background">@color/colorPrimary</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">128dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="CategoryTheme" parent="VocableButton">
-        <item name="android:background">@color/categoryColor</item>
+        <item name="android:background">@drawable/radio_button_background</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/category_button_text_colors</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:layout_width">@dimen/category_button_layout_width</item>
+        <item name="android:layout_height">@dimen/category_button_layout_height</item>
+        <item name="android:layout_margin">@dimen/category_button_layout_margin</item>
+        <item name="android:layout_weight">@dimen/category_button_layout_weight</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="PauseButton" parent="VocableButton">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:drawableStart">@drawable/pause_light_48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@android:color/transparent</item>
+
+    </style>
+
+    <style name="SettingsButton" parent="VocableButton">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:drawableStart">@drawable/ic_settings_light_48dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="SpokenTextView" parent="TextAppearance.AppCompat">
+        <item name="android:layout_height">100dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
 </resources>

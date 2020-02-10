@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Category Button -->
+    <dimen name="category_button_layout_width">0dp</dimen>
+    <dimen name="category_button_layout_height">104dp</dimen>
+    <dimen name="category_button_layout_margin">8dp</dimen>
+    <dimen name="category_button_layout_weight">1</dimen>
+</resources>
