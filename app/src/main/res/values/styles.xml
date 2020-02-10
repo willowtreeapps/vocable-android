@@ -36,7 +36,7 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
-    <style name="PauseButton" parent="VocableButton">
+    <style name="PauseButton">
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:drawableStart">@drawable/pause_light_48dp</item>
@@ -48,7 +48,7 @@
 
     </style>
 
-    <style name="SettingsButton" parent="VocableButton">
+    <style name="SettingsButton">
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
@@ -56,7 +56,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="SpokenTextView" parent="TextAppearance.AppCompat">
+    <style name="SpokenTextView">
         <item name="android:layout_height">100dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">48sp</item>
