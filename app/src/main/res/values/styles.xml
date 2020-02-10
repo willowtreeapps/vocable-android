@@ -75,4 +75,11 @@
         <item name="android:weightSum">@dimen/category_group_weight_sum</item>
     </style>
 
+    <style name="SpeechButtonLinearLayout">
+        <item name="android:layout_weight">1</item>
+        <item name="android:weightSum">3</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
 </resources>
