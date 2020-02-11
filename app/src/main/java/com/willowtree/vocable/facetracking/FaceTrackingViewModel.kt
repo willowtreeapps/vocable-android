@@ -40,7 +40,7 @@ class FaceTrackingViewModel : ViewModel() {
                     Vector3(x, y, z)
                 }
                 else -> {
-                    val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), 0.5F)
+                    val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), 0.15F)
                     liveAdjustedVector.postValue(adjustedVector)
                     oldVector = adjustedVector
                 }
