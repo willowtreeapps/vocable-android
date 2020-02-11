@@ -9,7 +9,7 @@ import kotlinx.coroutines.*
 
 /**
  * A custom AppCompatButton that will delay for two seconds when a pointer enters and then will call
- * VocableTextToSpeech to say the button text allow and then perform an action based on the
+ * VocableTextToSpeech to say the button text aloud and then perform an action based on the
  * subclass's implementation
  */
 open class VocableButton @JvmOverloads constructor(
