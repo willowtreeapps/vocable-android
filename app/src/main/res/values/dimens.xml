@@ -7,13 +7,11 @@
 
     <!-- Speech Button -->
     <dimen name="speech_button_text_size">24sp</dimen>
-    <dimen name="speech_button_height">128dp</dimen>
     <dimen name="speech_button_margin">10dp</dimen>
 
     <!-- Pause Button -->
     <dimen name="pause_button_margin">8dp</dimen>
     <dimen name="pause_button_text_size">20sp</dimen>
-
 
     <!-- Settings Button -->
     <dimen name="settings_button_margin">8dp</dimen>
@@ -47,4 +45,9 @@
     <!-- Highlighted Background -->
     <dimen name="highlighted_background_radius">4dp</dimen>
     <dimen name="highlighted_background_width">4dp</dimen>
+
+    <!-- Main Activity -->
+    <dimen name="main_activity_side_margin">40dp</dimen>
+    <dimen name="main_activity_category_margin">16dp</dimen>
+    <dimen name="main_activity_bottom_margin">48dp</dimen>
 </resources>

@@ -52,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun getPauseButton(): PauseButton?
 
     @CallSuper
-    protected fun subscribeToViewModel() {
+    protected open fun subscribeToViewModel() {
         viewModel.pointerLocation.observe(this, Observer {
             it.let {
                 updatePointer(it.x, it.y)
