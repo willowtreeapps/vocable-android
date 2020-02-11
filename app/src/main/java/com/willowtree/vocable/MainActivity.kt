@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.lifecycle.Observer
 import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -22,6 +24,17 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         VocableTextToSpeech.shutdown()
+    }
+
+    override fun subscribeToViewModel() {
+        super.subscribeToViewModel()
+        SpokenText.observe(this, Observer {
+            current_text.text = if (it.isNullOrBlank()) {
+                getString(R.string.select_something)
+            } else {
+                it
+            }
+        })
     }
 
     override fun getPointerView(): PointerView = pointer_view

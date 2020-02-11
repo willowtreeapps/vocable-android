@@ -16,8 +16,6 @@
     <style name="SpeechButton" parent="VocableButton">
         <item name="android:textSize">@dimen/speech_button_text_size</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/speech_button_height</item>
-        <item name="android:layout_margin">@dimen/speech_button_margin</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
