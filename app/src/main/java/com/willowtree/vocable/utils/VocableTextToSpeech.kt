@@ -2,7 +2,6 @@ package com.willowtree.vocable.utils
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
-import java.util.*
 
 object VocableTextToSpeech {
 
@@ -11,14 +10,12 @@ object VocableTextToSpeech {
     fun initialize(context: Context) {
         if (textToSpeech == null) {
             textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener {
-                if (it != TextToSpeech.ERROR) {
-                    textToSpeech?.language = Locale.US
-                }
+                // No-op
             })
         }
     }
 
-    fun shutdown(){
+    fun shutdown() {
         with(textToSpeech) {
             this?.stop()
             this?.shutdown()

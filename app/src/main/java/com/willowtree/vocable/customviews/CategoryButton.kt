@@ -4,6 +4,7 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
+import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 

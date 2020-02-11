@@ -4,6 +4,7 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
+import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 
@@ -51,10 +52,11 @@ open class VocableButton @JvmOverloads constructor(
         }
     }
 
-    protected fun sayText(text: CharSequence?) {
+    protected open fun sayText(text: CharSequence?) {
         text?.let {
             VocableTextToSpeech.getTextToSpeech()
                 ?.speak(it, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+            SpokenText.postValue(it.toString())
         }
     }
 
