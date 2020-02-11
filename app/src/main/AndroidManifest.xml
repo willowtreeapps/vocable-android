@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.eyespeak">
+    package="com.willowtree.vocable">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -18,7 +18,7 @@
             android:value="required" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.willowtree.vocable.MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.willowtree.vocable.settings.SettingsActivity"
             android:screenOrientation="landscape" />
     </application>
 

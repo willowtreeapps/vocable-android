@@ -1,18 +1,25 @@
-package com.example.eyespeak
+package com.willowtree.vocable.customviews
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
-import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatRadioButton
+import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 
+/**
+ * A subclass of AppCompatRadioButton that represents a category on the main screen
+ */
 class CategoryButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : AppCompatRadioButton(context, attrs, defStyle), PointerListener {
+) : AppCompatRadioButton(context, attrs, defStyle),
+    PointerListener {
+
+    companion object {
+        private const val DEFAULT_TTS_TIMEOUT = 2000L
+    }
 
     private var buttonJob: Job? = null
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -20,7 +27,6 @@ class CategoryButton @JvmOverloads constructor(
 
     init {
         setOnClickListener {
-            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
             VocableTextToSpeech.getTextToSpeech()
                 ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
         }
@@ -33,12 +39,11 @@ class CategoryButton @JvmOverloads constructor(
                     isSelected = true
                 }
 
-                delay(2000)
+                delay(DEFAULT_TTS_TIMEOUT)
 
                 uiScope.launch {
                     isSelected = false
                     isChecked = true
-                    Toast.makeText(context, text, Toast.LENGTH_LONG).show()
                     VocableTextToSpeech.getTextToSpeech()
                         ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
                 }

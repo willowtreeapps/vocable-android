@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/face_fragment"
-        android:name="com.example.eyespeak.FaceTrackFragment"
+        android:name="com.willowtree.vocable.facetracking.FaceTrackFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark" />
 
-    <com.example.eyespeak.PauseButton
+    <com.willowtree.vocable.customviews.PauseButton
         android:id="@+id/pause_button"
         style="@style/PauseButton"
         android:layout_width="wrap_content"
@@ -26,13 +26,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.eyespeak.SettingsButton
+    <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/settings_button"
         style="@style/SettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/controller"
@@ -56,20 +56,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.eyespeak.CategoryButton
+            <com.willowtree.vocable.customviews.CategoryButton
                 android:id="@+id/basic_needs"
                 style="@style/CategoryTheme"
                 android:text="@string/basic_needs" />
 
-            <com.example.eyespeak.CategoryButton
+            <com.willowtree.vocable.customviews.CategoryButton
                 style="@style/CategoryTheme"
                 android:text="@string/personal_care" />
 
-            <com.example.eyespeak.CategoryButton
+            <com.willowtree.vocable.customviews.CategoryButton
                 style="@style/CategoryTheme"
                 android:text="@string/salutations" />
 
-            <com.example.eyespeak.CategoryButton
+            <com.willowtree.vocable.customviews.CategoryButton
                 style="@style/CategoryTheme"
                 android:text="@string/yes_no" />
         </RadioGroup>
@@ -79,21 +79,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/door_closed"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/door_open"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/bathroom"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -106,21 +106,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/lights_off"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/lights_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/pillow_fixed"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -133,21 +133,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/water"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/coffee"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.eyespeak.EyeSpeakButton
+            <com.willowtree.vocable.customviews.VocableButton
                 style="@style/SpeechButton"
                 android:text="@string/another_pillow"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -157,7 +157,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.example.eyespeak.PointerView
+    <com.willowtree.vocable.customviews.PointerView
         android:id="@+id/pointer_view"
         android:layout_width="32dp"
         android:layout_height="32dp"

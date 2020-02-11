@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.willowtree.vocable.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -6,6 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import com.willowtree.vocable.BaseActivity
+import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.PauseButton
+import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.customviews.PointerView
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity() {
@@ -41,7 +46,8 @@ class SettingsActivity : BaseActivity() {
         return allViews
     }
 
-    override fun getLayout(): Int = R.layout.activity_settings
+    override fun getLayout(): Int =
+        R.layout.activity_settings
 
     override fun getPauseButton(): PauseButton? = settings_pause_button
 

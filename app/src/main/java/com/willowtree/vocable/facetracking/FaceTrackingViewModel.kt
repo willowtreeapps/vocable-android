@@ -1,19 +1,18 @@
-package com.example.eyespeak
+package com.willowtree.vocable.facetracking
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.ar.core.AugmentedFace
 import com.google.ar.sceneform.math.Vector3
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class FaceTrackingViewModel : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+
+    private var faceTrackingJob: Job? = null
 
     private val liveAdjustedVector = MutableLiveData<Vector3>()
     val adjustedVector: LiveData<Vector3> = liveAdjustedVector
@@ -24,7 +23,10 @@ class FaceTrackingViewModel : ViewModel() {
     private var oldVector: Vector3? = null
 
     fun onFaceDetected(augmentedFace: AugmentedFace) {
-        backgroundScope.launch {
+        if (faceTrackingJob != null && faceTrackingJob?.isActive == true) {
+            return
+        }
+        faceTrackingJob = backgroundScope.launch {
             val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
             val zAxis = pose.zAxis
             val x = zAxis[0]

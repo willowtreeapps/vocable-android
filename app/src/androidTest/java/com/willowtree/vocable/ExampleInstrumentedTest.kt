@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.willowtree.vocable
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

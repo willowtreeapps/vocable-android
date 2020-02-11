@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.willowtree.vocable.customviews
 
 interface PointerListener {
 
