@@ -1,9 +1,13 @@
-package com.example.eyespeak
+package com.willowtree.vocable
 
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import com.willowtree.vocable.customviews.PauseButton
+import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.activity_main.*
 
 

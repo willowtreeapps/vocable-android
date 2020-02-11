@@ -1,4 +1,4 @@
-package com.example.eyespeak
+package com.willowtree.vocable
 
 import android.app.ActivityManager
 import android.content.Context
@@ -13,6 +13,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.willowtree.vocable.customviews.PauseButton
+import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.google.ar.core.ArCoreApk
 
 abstract class BaseActivity : AppCompatActivity() {

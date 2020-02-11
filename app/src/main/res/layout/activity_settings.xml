@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/face_fragment"
-        android:name="com.example.eyespeak.FaceTrackFragment"
+        android:name="com.willowtree.vocable.facetracking.FaceTrackFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark" />
 
-    <com.example.eyespeak.PauseButton
+    <com.willowtree.vocable.customviews.PauseButton
         android:id="@+id/settings_pause_button"
         style="@style/PauseButton"
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.eyespeak.CloseButton
+    <com.willowtree.vocable.customviews.CloseButton
         android:id="@+id/settings_close_button"
         style="@style/CloseButton"
         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.example.eyespeak.ActionButton
+    <com.willowtree.vocable.customviews.ActionButton
         android:id="@+id/privacy_policy_button"
         style="@style/ActionButton"
         android:text="@string/privacy_policy"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/settings_title"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.example.eyespeak.ActionButton
+    <com.willowtree.vocable.customviews.ActionButton
         android:id="@+id/contact_devs_button"
         style="@style/ActionButton"
         android:text="@string/contact_developers"
@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/contact_devs_button"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.example.eyespeak.PointerView
+    <com.willowtree.vocable.customviews.PointerView
         android:id="@+id/pointer_view"
         android:layout_width="32dp"
         android:layout_height="32dp"
