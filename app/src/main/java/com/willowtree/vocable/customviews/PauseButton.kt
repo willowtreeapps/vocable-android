@@ -74,11 +74,4 @@ class PauseButton @JvmOverloads constructor(
             }
         }
     }
-
-    override fun sayText(text: CharSequence?) {
-        text?.let {
-            VocableTextToSpeech.getTextToSpeech()
-                ?.speak(it, TextToSpeech.QUEUE_FLUSH, null, id.toString())
-        }
-    }
 }
