@@ -66,8 +66,8 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        style="@style/VersionTextView"
         android:id="@+id/version"
+        style="@style/VersionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/version"
@@ -84,5 +84,10 @@
         android:background="@drawable/pointer_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/error_view"
+        layout="@layout/error_layout"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

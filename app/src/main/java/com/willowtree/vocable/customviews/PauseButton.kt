@@ -21,6 +21,7 @@ class PauseButton @JvmOverloads constructor(
         value = false
     }
     var isPaused: LiveData<Boolean> = liveIsPaused
+    private var pausedIntentionally = false
 
     override fun onPointerEnter() {
         if (isPaused.value == false) {
@@ -40,10 +41,14 @@ class PauseButton @JvmOverloads constructor(
         liveIsPaused.value?.let {
             liveIsPaused.value = !it
         }
-        if (liveIsPaused.value == true) {
+        pausedIntentionally = if (liveIsPaused.value == true) {
             setText(R.string.button_resume)
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_resume, 0, 0, 0)
+            true
         } else {
             setText(R.string.button_pause)
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause, 0, 0, 0)
+            false
         }
     }
 
@@ -51,6 +56,22 @@ class PauseButton @JvmOverloads constructor(
         text?.let {
             VocableTextToSpeech.getTextToSpeech()
                 ?.speak(it, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+        }
+    }
+
+    /**
+     * Toggles the pause state if the user has not intentionally paused head tracking
+     */
+    fun togglePause(pause: Boolean) {
+        if (!pausedIntentionally && liveIsPaused.value != pause) {
+            liveIsPaused.postValue(pause)
+            if (pause) {
+                setText(R.string.button_resume)
+                setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_resume, 0, 0, 0)
+            } else {
+                text = null
+                setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause, 0, 0, 0)
+            }
         }
     }
 }

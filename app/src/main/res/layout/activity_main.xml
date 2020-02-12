@@ -37,11 +37,22 @@
     <TextView
         android:id="@+id/current_text"
         style="@style/SpokenTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:text="@string/select_something"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_button" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/speaker_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/speech_button_margin"
+        android:src="@drawable/ic_speaker"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/current_text"
+        app:layout_constraintStart_toEndOf="@+id/current_text"
+        app:layout_constraintTop_toTopOf="@+id/current_text" />
 
     <RadioGroup
         android:id="@+id/category_view"
@@ -166,5 +177,10 @@
         android:background="@drawable/pointer_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/error_view"
+        layout="@layout/error_layout"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

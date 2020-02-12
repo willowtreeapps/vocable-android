@@ -46,11 +46,7 @@ class FaceTrackFragment : ArFragment() {
     private fun attachFaceTracker() {
         val scene = arSceneView.scene
         scene.addOnUpdateListener {
-            arSceneView.session?.getAllTrackables(AugmentedFace::class.java)?.let { faces ->
-                faces.firstOrNull()?.let { augmentedFace ->
-                    viewModel.onFaceDetected(augmentedFace)
-                }
-            }
+            viewModel.onFaceDetected(arSceneView.session?.getAllTrackables(AugmentedFace::class.java))
         }
     }
 }

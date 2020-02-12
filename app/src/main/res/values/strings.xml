@@ -31,4 +31,7 @@
     <string name="button_close">Close</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Resume</string>
+
+    <!-- Errors -->
+    <string name="error_move_closer">Please move closer to the device.</string>
 </resources>
