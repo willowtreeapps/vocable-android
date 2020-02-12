@@ -50,6 +50,7 @@
     <dimen name="main_activity_side_margin">40dp</dimen>
     <dimen name="main_activity_category_margin">16dp</dimen>
     <dimen name="main_activity_bottom_margin">48dp</dimen>
+    <dimen name="main_activity_speaker_margin">8dp</dimen>
 
     <!-- Error Layout -->
     <dimen name="error_text_size">20sp</dimen>

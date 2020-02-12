@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -34,6 +35,9 @@ class MainActivity : BaseActivity() {
             } else {
                 it
             }
+        })
+        VocableTextToSpeech.isSpeaking.observe(this, Observer {
+            speaker_icon.isVisible = it ?: false
         })
     }
 
