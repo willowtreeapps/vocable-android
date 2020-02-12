@@ -31,7 +31,9 @@ class FaceTrackingViewModel : ViewModel() {
             liveShowError.postValue(true)
             return
         }
-        liveShowError.postValue(false)
+        if (liveShowError.value == true) {
+            liveShowError.postValue(false)
+        }
 
         if (faceTrackingJob != null && faceTrackingJob?.isActive == true) {
             return

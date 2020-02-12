@@ -37,7 +37,7 @@
     <style name="PauseButton">
         <item name="android:layout_marginStart">@dimen/pause_button_margin</item>
         <item name="android:layout_marginTop">@dimen/pause_button_margin</item>
-        <item name="android:drawableStart">@drawable/pause_light_48dp</item>
+        <item name="android:drawableStart">@drawable/ic_pause</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textSize">@dimen/pause_button_text_size</item>

@@ -63,6 +63,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
                 getErrorView().isVisible = it
                 getPointerView().isVisible = !it
+                getPauseButton()?.togglePause(it)
             }
         })
         viewModel.pointerLocation.observe(this, Observer {
