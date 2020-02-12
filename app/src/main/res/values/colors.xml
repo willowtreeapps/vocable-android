@@ -2,9 +2,11 @@
 <resources>
     <color name="colorPrimary">#3831A0</color>
     <color name="colorPrimaryDark">#201C5B</color>
+    <color name="overlayColor">#59201C5B</color>
     <color name="categoryColor">#504B93</color>
     <color name="pause_overlay">#41201C5B</color>
     <color name="textColor">#D1EEE9</color>
     <color name="colorAccent">#FEA430</color>
     <color name="selectedColor">#00FA9A</color>
+    <color name="errorColor">#AD006C</color>
 </resources>

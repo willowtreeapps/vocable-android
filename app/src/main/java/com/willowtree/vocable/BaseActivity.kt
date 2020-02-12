@@ -11,13 +11,14 @@ import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.ar.core.ArCoreApk
 import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
-import com.google.ar.core.ArCoreApk
 
 abstract class BaseActivity : AppCompatActivity() {
     private val minOpenGlVersion = 3.0
@@ -44,6 +45,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected abstract fun getPointerView(): PointerView
 
+    protected abstract fun getErrorView(): View
+
     protected abstract fun getAllViews(): List<View>
 
     @LayoutRes
@@ -53,6 +56,16 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @CallSuper
     protected open fun subscribeToViewModel() {
+        viewModel.showError.observe(this, Observer {
+            it?.let {
+                if (it) {
+                    (currentView as? PointerListener)?.onPointerExit()
+                }
+                getErrorView().isVisible = it
+                getPointerView().isVisible = !it
+                getPauseButton()?.togglePause(it)
+            }
+        })
         viewModel.pointerLocation.observe(this, Observer {
             it.let {
                 updatePointer(it.x, it.y)

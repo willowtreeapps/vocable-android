@@ -37,6 +37,8 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    override fun getErrorView(): View = error_view
+
     override fun getPointerView(): PointerView = pointer_view
 
     override fun getAllViews(): List<View> {

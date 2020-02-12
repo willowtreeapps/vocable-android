@@ -20,29 +20,43 @@ class FaceTrackingViewModel : ViewModel() {
     private val livePointerLocation = MutableLiveData<Vector3>()
     val pointerLocation: LiveData<Vector3> = livePointerLocation
 
+    private val liveShowError = MutableLiveData<Boolean>()
+    val showError: LiveData<Boolean> = liveShowError
+
+
     private var oldVector: Vector3? = null
 
-    fun onFaceDetected(augmentedFace: AugmentedFace) {
+    fun onFaceDetected(augmentedFaces: Collection<AugmentedFace>?) {
+        if (augmentedFaces?.firstOrNull() == null) {
+            liveShowError.postValue(true)
+            return
+        }
+        if (liveShowError.value == true) {
+            liveShowError.postValue(false)
+        }
+
         if (faceTrackingJob != null && faceTrackingJob?.isActive == true) {
             return
         }
-        faceTrackingJob = backgroundScope.launch {
-            val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
-            val zAxis = pose.zAxis
-            val x = zAxis[0]
-            val y = zAxis[1]
-            val z = -zAxis[2]
+        augmentedFaces.firstOrNull()?.let { augmentedFace ->
+            faceTrackingJob = backgroundScope.launch {
+                val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
+                val zAxis = pose.zAxis
+                val x = zAxis[0]
+                val y = zAxis[1]
+                val z = -zAxis[2]
 
-            when (oldVector) {
-                null -> {
-                    oldVector = Vector3(x, y, z)
-                    liveAdjustedVector.postValue(oldVector)
-                    Vector3(x, y, z)
-                }
-                else -> {
-                    val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), 0.15F)
-                    liveAdjustedVector.postValue(adjustedVector)
-                    oldVector = adjustedVector
+                when (oldVector) {
+                    null -> {
+                        oldVector = Vector3(x, y, z)
+                        liveAdjustedVector.postValue(oldVector)
+                        Vector3(x, y, z)
+                    }
+                    else -> {
+                        val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), 0.15F)
+                        liveAdjustedVector.postValue(adjustedVector)
+                        oldVector = adjustedVector
+                    }
                 }
             }
         }
