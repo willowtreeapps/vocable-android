@@ -101,7 +101,8 @@
                 android:layout_weight="3"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="Q     W     E"
+                android:letterSpacing="1.0"
+                android:text="QWE"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -113,7 +114,8 @@
                 android:layout_weight="3"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="R     T     Y"
+                android:letterSpacing="1.0"
+                android:text="RTY"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -124,7 +126,8 @@
                 android:layout_weight="4"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="U      I      O      P"
+                android:letterSpacing="1.0"
+                android:text="UIOP"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -150,7 +153,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="A     S     D"
+                android:letterSpacing="1.0"
+                android:text="ASD"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -162,7 +166,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="F     G     H"
+                android:letterSpacing="1.0"
+                android:text="FGH"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -173,7 +178,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="J     K     L"
+                android:letterSpacing="1.0"
+                android:text="JKL"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -198,7 +204,8 @@
                 android:layout_weight="30"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="Z     X     C"
+                android:letterSpacing="1.0"
+                android:text="ZXC"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
@@ -210,7 +217,8 @@
                 android:layout_weight="40"
                 android:background="@drawable/button_default_background"
                 android:gravity="center"
-                android:text="V     B     N     M"
+                android:letterSpacing="1.0"
+                android:text="VBNM"
                 android:textColor="@color/textColor"
                 android:textSize="48sp"
                 android:textStyle="bold" />
