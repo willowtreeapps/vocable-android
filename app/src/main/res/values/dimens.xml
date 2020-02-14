@@ -52,6 +52,12 @@
     <dimen name="main_activity_bottom_margin">48dp</dimen>
     <dimen name="main_activity_speaker_margin">8dp</dimen>
 
+    <!-- Top Bar -->
+    <dimen name="top_bar_button_height">64dp</dimen>
+    <dimen name="top_bar_button_width">116dp</dimen>
+    <dimen name="top_bar_button_padding">38dp</dimen>
+    <dimen name="top_bar_button_margin">8dp</dimen>
+
     <!-- Error Layout -->
     <dimen name="error_text_size">20sp</dimen>
     <dimen name="error_horizontal_padding">16dp</dimen>

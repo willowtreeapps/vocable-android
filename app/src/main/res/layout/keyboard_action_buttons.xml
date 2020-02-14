@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/presets_button"
+        style="@style/TopBarButton"
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:drawableStart="@drawable/ic_presets" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/undo_button"
+        style="@style/TopBarButton"
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:drawableStart="@drawable/ic_undo" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/delete_button"
+        style="@style/TopBarButton"
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:drawableStart="@drawable/ic_delete" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/add_phrase_button"
+        style="@style/TopBarButton"
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:drawableStart="@drawable/ic_add_phrase" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/repeat_button"
+        style="@style/TopBarButton"
+        android:drawableStart="@drawable/ic_speaker_blue" />
+
+</LinearLayout>
