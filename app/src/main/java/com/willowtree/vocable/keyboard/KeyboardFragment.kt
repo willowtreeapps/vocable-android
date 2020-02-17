@@ -1,20 +1,29 @@
 package com.willowtree.vocable.keyboard
 
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
+import androidx.lifecycle.Observer
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
+import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 
 class KeyboardFragment : BaseFragment() {
 
     companion object {
+        private const val TRASH = "TRASH"
+        private const val BACKSPACE = "BACKSPACE"
+        private const val SPACE = "SPACE"
+        private const val SPEAK = "SPEAK"
+
         private val KEYS = listOf(
             "Q",
             "W",
@@ -35,6 +44,8 @@ class KeyboardFragment : BaseFragment() {
             "J",
             "K",
             "L",
+            TRASH,
+            BACKSPACE,
             "Z",
             "X",
             "C",
@@ -42,8 +53,8 @@ class KeyboardFragment : BaseFragment() {
             "B",
             "N",
             "M",
-            "space",
-            "speak"
+            SPACE,
+            SPEAK
         )
     }
 
@@ -57,20 +68,78 @@ class KeyboardFragment : BaseFragment() {
         val gridLayout = view?.findViewById<GridLayout>(R.id.keyboard_key_holder)
 
         KEYS.withIndex().forEach {
-            layoutInflater.inflate(R.layout.keyboard_key_layout, gridLayout, true)
+            when (it.value) {
+                SPACE, SPEAK, TRASH, BACKSPACE -> {
+                    layoutInflater.inflate(R.layout.keyboard_action_layout, gridLayout, true)
+                }
+                else -> {
+                    layoutInflater.inflate(R.layout.keyboard_key_layout, gridLayout, true)
+                }
+            }
             val key = (gridLayout?.getChildAt(it.index) as VocableButton).apply {
                 text = it.value
             }
             when (it.value) {
-                "speak", "space" -> {
-                    key.layoutParams = (key.layoutParams as GridLayout.LayoutParams).apply {
-                        columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 2, 1.5f)
+                SPACE -> {
+                    with(key as ActionButton) {
+                        text = null
+                        setCompoundDrawablesWithIntrinsicBounds(
+                            R.drawable.ic_space_bar_56dp,
+                            0, 0, 0
+                        )
+                        action = {
+                            CurrentKeyboardText.spaceCharacter()
+                        }
+                    }
+                }
+
+                SPEAK -> {
+                    with(key as ActionButton) {
+                        text = null
+                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_speak_56dp, 0, 0, 0)
+                        action = {
+                            VocableTextToSpeech.getTextToSpeech()?.speak(
+                                keyboard_input.text,
+                                TextToSpeech.QUEUE_FLUSH,
+                                null,
+                                id.toString()
+                            )
+                        }
+                    }
+                }
+
+                TRASH -> {
+                    with(key as ActionButton) {
+                        text = null
+                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete_56dp, 0, 0, 0)
+                        action = {
+                            CurrentKeyboardText.clearTypedText()
+                        }
+                    }
+                }
+
+                BACKSPACE -> {
+                    with(key as ActionButton) {
+                        text = null
+                        setCompoundDrawablesWithIntrinsicBounds(
+                            R.drawable.ic_backpace_56dp, 0, 0, 0
+                        )
+                        action = {
+                            CurrentKeyboardText.backspaceCharacter()
+                        }
                     }
                 }
             }
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        CurrentKeyboardText.typedText.observe(viewLifecycleOwner, Observer {
+            keyboard_input.setText(it ?: getString(R.string.keyboard_select_letters))
+        })
     }
 
     private val allViews = mutableListOf<View>()

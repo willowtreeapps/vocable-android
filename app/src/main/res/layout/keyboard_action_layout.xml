@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.willowtree.vocable.customviews.KeyboardButton xmlns:android="http://schemas.android.com/apk/res/android"
+<com.willowtree.vocable.customviews.ActionButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:layout_rowWeight="1"
+    android:paddingStart="@dimen/keyboard_icon_padding"
+    android:paddingEnd="@dimen/keyboard_icon_padding"
     android:layout_columnWeight="1"
     android:background="@drawable/button_default_background"
     android:gravity="center"
