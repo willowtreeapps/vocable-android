@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
@@ -65,7 +66,16 @@ class KeyboardFragment : BaseFragment() {
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val gridLayout = view?.findViewById<GridLayout>(R.id.keyboard_key_holder)
+        view?.let {
+            it.findViewById<View>(R.id.predictive_text)?.isVisible = false
+            populateKeys(it)
+        }
+
+        return view
+    }
+
+    private fun populateKeys(baseView: View) {
+        val gridLayout = baseView.findViewById<GridLayout>(R.id.keyboard_key_holder)
 
         KEYS.withIndex().forEach {
             when (it.value) {
@@ -92,7 +102,6 @@ class KeyboardFragment : BaseFragment() {
                         }
                     }
                 }
-
                 SPEAK -> {
                     with(key as ActionButton) {
                         text = null
@@ -107,7 +116,6 @@ class KeyboardFragment : BaseFragment() {
                         }
                     }
                 }
-
                 TRASH -> {
                     with(key as ActionButton) {
                         text = null
@@ -117,7 +125,6 @@ class KeyboardFragment : BaseFragment() {
                         }
                     }
                 }
-
                 BACKSPACE -> {
                     with(key as ActionButton) {
                         text = null
@@ -131,8 +138,6 @@ class KeyboardFragment : BaseFragment() {
                 }
             }
         }
-
-        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -140,6 +145,11 @@ class KeyboardFragment : BaseFragment() {
         CurrentKeyboardText.typedText.observe(viewLifecycleOwner, Observer {
             keyboard_input.setText(it ?: getString(R.string.keyboard_select_letters))
         })
+    }
+
+    override fun onDestroy() {
+        CurrentKeyboardText.clearTypedText()
+        super.onDestroy()
     }
 
     private val allViews = mutableListOf<View>()
