@@ -57,6 +57,14 @@
     <dimen name="top_bar_button_width">116dp</dimen>
     <dimen name="top_bar_button_padding">38dp</dimen>
     <dimen name="top_bar_button_margin">8dp</dimen>
+    
+    <!-- Keyboard -->
+    <dimen name="keyboard_text_size">48sp</dimen>
+    <dimen name="keyboard_side_margin">40dp</dimen>
+    <dimen name="keyboard_predictive_height">120dp</dimen>
+    <dimen name="keyboard_margin_default">16dp</dimen>
+    <dimen name="keyboard_keys_top_margin">24dp</dimen>
+    <dimen name="keyboard_keys_bottom_margin">72dp</dimen>
 
     <!-- Error Layout -->
     <dimen name="error_text_size">20sp</dimen>

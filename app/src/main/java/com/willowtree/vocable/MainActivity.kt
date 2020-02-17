@@ -77,7 +77,9 @@ class MainActivity : BaseActivity() {
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
-        allViews.clear()
+        fragment_container.post {
+            allViews.clear()
+        }
 
         when (fragment) {
             is PresetsFragment -> {
