@@ -143,7 +143,11 @@ class KeyboardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CurrentKeyboardText.typedText.observe(viewLifecycleOwner, Observer {
-            keyboard_input.setText(it ?: getString(R.string.keyboard_select_letters))
+            if (it.isNullOrEmpty()) {
+                keyboard_input.setText(R.string.keyboard_select_letters)
+            } else {
+                keyboard_input.setText(it)
+            }
         })
     }
 

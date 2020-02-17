@@ -22,6 +22,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
         supportFragmentManager
             .beginTransaction()
