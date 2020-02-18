@@ -149,6 +149,9 @@ class KeyboardFragment : BaseFragment() {
                 keyboard_input.setText(it)
             }
         })
+        VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
+            speaker_icon.isVisible = it ?: false
+        })
     }
 
     override fun onDestroy() {
