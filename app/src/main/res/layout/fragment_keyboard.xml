@@ -5,251 +5,91 @@
     android:id="@+id/keyboard_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:background="@color/colorPrimaryDark">
 
     <EditText
         android:id="@+id/keyboard_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/keyboard_side_margin"
         android:background="@null"
         android:gravity="center"
-        android:text="Select letters below to start typing."
+        android:text="@string/keyboard_select_letters"
         android:textColor="@color/textColor"
-        android:textSize="48sp"
+        android:textSize="@dimen/keyboard_text_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        android:weightSum="4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_input">
+        android:id="@+id/predictive_text"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/keyboard_predictive_height"
+        android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:layout_marginTop="@dimen/keyboard_margin_default"
+        android:layout_marginEnd="@dimen/keyboard_side_margin"
+        android:background="@drawable/category_group_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyboard_input">
 
-        <LinearLayout
-            android:id="@+id/predictive_text"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
+        <com.willowtree.vocable.customviews.ActionButton
+            android:layout_width="0dp"
+            android:layout_height="104dp"
             android:layout_weight="1"
-            android:background="@drawable/category_group_background"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:background="@drawable/radio_button_default_background"
+            android:gravity="center" />
 
-            <com.willowtree.vocable.customviews.ActionButton
-                android:layout_width="0dp"
-                android:layout_height="104dp"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_default_background"
-                android:gravity="center" />
-
-            <com.willowtree.vocable.customviews.ActionButton
-                android:layout_width="0dp"
-                android:layout_height="104dp"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_default_background"
-                android:gravity="center" />
-
-            <com.willowtree.vocable.customviews.ActionButton
-                android:layout_width="0dp"
-                android:layout_height="104dp"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_default_background"
-                android:gravity="center" />
-
-            <com.willowtree.vocable.customviews.ActionButton
-                android:layout_width="0dp"
-                android:layout_height="104dp"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_default_background"
-                android:gravity="center" />
-
-            <com.willowtree.vocable.customviews.ActionButton
-                android:layout_width="0dp"
-                android:layout_height="104dp"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_default_background"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/keyboard_row_1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="40dp"
+        <com.willowtree.vocable.customviews.ActionButton
+            android:layout_width="0dp"
+            android:layout_height="104dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:background="@drawable/radio_button_default_background"
+            android:gravity="center" />
 
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="3"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="QWE"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="3"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="RTY"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="UIOP"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/keyboard_row_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="92dp"
+        <com.willowtree.vocable.customviews.ActionButton
+            android:layout_width="0dp"
+            android:layout_height="104dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:background="@drawable/radio_button_default_background"
+            android:gravity="center" />
 
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="ASD"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="FGH"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="JKL"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="72dp"
+        <com.willowtree.vocable.customviews.ActionButton
+            android:layout_width="0dp"
+            android:layout_height="104dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="100">
+            android:background="@drawable/radio_button_default_background"
+            android:gravity="center" />
 
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="30"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="ZXC"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="40"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:letterSpacing="1.0"
-                android:text="VBNM"
-                android:textColor="@color/textColor"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="15"
-                android:background="@drawable/button_default_background"
-                android:gravity="center"
-                android:text="space"
-                android:textColor="@color/textColor"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <com.willowtree.vocable.customviews.VocableButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="15"
-                android:background="@drawable/button_default_background"
-                android:drawableEnd="@drawable/ic_speaker_blue"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="speak"
-                android:textColor="@color/textColor"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <com.willowtree.vocable.customviews.ActionButton
+            android:layout_width="0dp"
+            android:layout_height="104dp"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_default_background"
+            android:gravity="center" />
 
     </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/keyboard_key_holder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:useDefaultMargins="true"
+        android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:layout_marginTop="@dimen/keyboard_keys_top_margin"
+        android:layout_marginEnd="@dimen/keyboard_side_margin"
+        android:layout_marginBottom="@dimen/keyboard_keys_bottom_margin"
+        android:columnCount="10"
+        android:rowCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/predictive_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

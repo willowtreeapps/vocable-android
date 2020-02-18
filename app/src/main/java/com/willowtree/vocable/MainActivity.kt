@@ -22,6 +22,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
         supportFragmentManager
             .beginTransaction()
@@ -77,7 +78,9 @@ class MainActivity : BaseActivity() {
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
-        allViews.clear()
+        fragment_container.post {
+            allViews.clear()
+        }
 
         when (fragment) {
             is PresetsFragment -> {

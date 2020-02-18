@@ -34,4 +34,7 @@
 
     <!-- Errors -->
     <string name="error_move_closer">Please move closer to the device.</string>
+
+    <!-- Keyboard Layout -->
+    <string name="keyboard_select_letters">Select letters below to start typing.</string>
 </resources>
