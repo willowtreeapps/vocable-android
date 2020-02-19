@@ -86,9 +86,5 @@ class PresetsFragment : BaseFragment() {
 
             return CategoriesFragment.newInstance(subList)
         }
-
-        fun onCategoryChanged(newCategory: String) {
-
-        }
     }
 }
