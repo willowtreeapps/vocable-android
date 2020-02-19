@@ -48,6 +48,7 @@ class CategoryButton @JvmOverloads constructor(
     }
 
     override fun onPointerExit() {
+        isPressed = false
         buttonJob?.cancel()
     }
 }
