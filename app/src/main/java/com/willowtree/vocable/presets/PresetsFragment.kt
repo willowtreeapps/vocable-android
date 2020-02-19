@@ -28,7 +28,8 @@ class PresetsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
+        presetsViewModel =
+            ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 
