@@ -28,4 +28,8 @@ class PresetsViewModel : ViewModel() {
     init {
         liveCategoryList.postValue(categories)
     }
+
+    fun onCategorySelected(category: String) {
+        liveSelectedCategory.postValue(category)
+    }
 }

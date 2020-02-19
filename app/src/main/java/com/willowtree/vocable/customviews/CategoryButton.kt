@@ -1,9 +1,7 @@
 package com.willowtree.vocable.customviews
 
 import android.content.Context
-import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
-import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 
 /**
@@ -13,7 +11,7 @@ class CategoryButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : VocableButton(context, attrs, defStyle),
+) : ActionButton(context, attrs, defStyle),
     PointerListener {
 
     companion object {
@@ -26,8 +24,9 @@ class CategoryButton @JvmOverloads constructor(
 
     init {
         setOnClickListener {
-            VocableTextToSpeech.getTextToSpeech()
-                ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+            isSelected = true
+            sayText(text)
+            performAction()
         }
     }
 
@@ -42,8 +41,8 @@ class CategoryButton @JvmOverloads constructor(
             uiScope.launch {
                 isPressed = false
                 isSelected = true
-                VocableTextToSpeech.getTextToSpeech()
-                    ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+                sayText(text)
+                performAction()
             }
         }
     }
