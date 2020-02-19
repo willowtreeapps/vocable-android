@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/current_text"
         app:layout_constraintTop_toTopOf="@+id/current_text" />
 
-    <RadioGroup
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/category_view"
         style="@style/CategoryRadioGroup"
         android:layout_width="match_parent"
@@ -36,23 +36,7 @@
         android:layout_marginEnd="@dimen/main_activity_side_margin"
         app:layout_constraintTop_toBottomOf="@+id/current_text">
 
-        <com.willowtree.vocable.customviews.CategoryButton
-            android:id="@+id/basic_needs"
-            style="@style/CategoryTheme"
-            android:text="@string/basic_needs" />
-
-        <com.willowtree.vocable.customviews.CategoryButton
-            style="@style/CategoryTheme"
-            android:text="@string/personal_care" />
-
-        <com.willowtree.vocable.customviews.CategoryButton
-            style="@style/CategoryTheme"
-            android:text="@string/salutations" />
-
-        <com.willowtree.vocable.customviews.CategoryButton
-            style="@style/CategoryTheme"
-            android:text="@string/yes_no" />
-    </RadioGroup>
+    </androidx.viewpager2.widget.ViewPager2>
 
     <GridLayout
         android:layout_width="match_parent"
