@@ -51,4 +51,8 @@ class CategoryButton @JvmOverloads constructor(
         isPressed = false
         buttonJob?.cancel()
     }
+
+    override fun sayText(text: CharSequence?) {
+        // No-op
+    }
 }

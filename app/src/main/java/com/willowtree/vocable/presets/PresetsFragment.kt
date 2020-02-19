@@ -31,9 +31,34 @@ class PresetsFragment : BaseFragment() {
     private val allViews = mutableListOf<View>()
 
     private lateinit var presetsViewModel: PresetsViewModel
+    private lateinit var categoriesAdapter: CategoriesPagerAdapter
+    private lateinit var phrasesAdapter: PhrasesPagerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        category_forward_button.action = {
+            when (val currentPosition = category_view.currentItem) {
+                categoriesAdapter.itemCount - 1 -> {
+                    category_view.setCurrentItem(0, true)
+                }
+                else -> {
+                    category_view.setCurrentItem(currentPosition + 1, true)
+                }
+            }
+        }
+
+        category_back_button.action = {
+            when (val currentPosition = category_view.currentItem) {
+                0 -> {
+                    category_view.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                }
+                else -> {
+                    category_view.setCurrentItem(currentPosition - 1, true)
+                }
+            }
+        }
+
         presetsViewModel =
             ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
         subscribeToViewModel()
@@ -56,7 +81,8 @@ class PresetsFragment : BaseFragment() {
             it?.let { categories ->
                 fragmentManager?.let { fragmentManager ->
                     with(category_view) {
-                        adapter = CategoriesPagerAdapter(fragmentManager, categories)
+                        categoriesAdapter = CategoriesPagerAdapter(fragmentManager, categories)
+                        adapter = categoriesAdapter
                         registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                             override fun onPageSelected(position: Int) {
                                 activity?.let { activity ->
@@ -77,7 +103,8 @@ class PresetsFragment : BaseFragment() {
                 fragmentManager?.let { fragmentManager ->
                     phrases_view.adapter = PhrasesPagerAdapter(fragmentManager, phrases)
                     with(phrases_view) {
-                        adapter = PhrasesPagerAdapter(fragmentManager, phrases)
+                        phrasesAdapter = PhrasesPagerAdapter(fragmentManager, phrases)
+                        adapter = phrasesAdapter
                         registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                             override fun onPageSelected(position: Int) {
                                 activity?.let { activity ->
