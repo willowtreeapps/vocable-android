@@ -67,6 +67,12 @@
     <dimen name="keyboard_keys_bottom_margin">72dp</dimen>
     <dimen name="keyboard_icon_padding">20dp</dimen>
 
+    <!-- Categories -->
+    <dimen name="categories_paging_button_width">104dp</dimen>
+    <dimen name="categories_paging_button_height">112dp</dimen>
+    <dimen name="categories_paging_button_padding">28dp</dimen>
+    <dimen name="categories_side_margin">16dp</dimen>
+
     <!-- Error Layout -->
     <dimen name="error_text_size">20sp</dimen>
     <dimen name="error_horizontal_padding">16dp</dimen>
