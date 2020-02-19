@@ -6,17 +6,30 @@ import androidx.lifecycle.ViewModel
 
 class PresetsViewModel : ViewModel() {
 
+    companion object {
+        private const val CATEGORY_GENERAL = "General"
+        private const val CATEGORY_BASIC_NEEDS = "Basic Needs"
+        private const val CATEGORY_PERSONAL_CARE = "Personal Care"
+        private const val CATEGORY_CONVERSATION = "Conversation"
+        private const val CATEGORY_ENVIRONMENT = "Environment"
+        private const val CATEGORY_FEELINGS = "Feelings"
+        private const val CATEGORY_QUESTIONS = "Questions"
+        private const val CATEGORY_TIME = "Time"
+        private const val CATEGORY_PEOPLE = "People"
+        private const val CATEGORY_NUMBERS = "Numbers"
+    }
+
     private val categories = listOf(
-        "General",
-        "Basic Needs",
-        "Personal Care",
-        "Conversation",
-        "Environment",
-        "Feelings",
-        "Questions",
-        "Time",
-        "People",
-        "Numbers"
+        CATEGORY_GENERAL,
+        CATEGORY_BASIC_NEEDS,
+        CATEGORY_PERSONAL_CARE,
+        CATEGORY_CONVERSATION,
+        CATEGORY_ENVIRONMENT,
+        CATEGORY_FEELINGS,
+        CATEGORY_QUESTIONS,
+        CATEGORY_TIME,
+        CATEGORY_PEOPLE,
+        CATEGORY_NUMBERS
     )
 
     private val generalPhrases = listOf(
@@ -195,17 +208,35 @@ class PresetsViewModel : ViewModel() {
         "Unsure"
     )
 
+    private val categoriesMap = mapOf(
+        Pair(CATEGORY_GENERAL, generalPhrases),
+        Pair(CATEGORY_BASIC_NEEDS, basicNeedsPhrases),
+        Pair(CATEGORY_PERSONAL_CARE, personalCarePhrases),
+        Pair(CATEGORY_CONVERSATION, conversationPhrases),
+        Pair(CATEGORY_ENVIRONMENT, environmentPhrases),
+        Pair(CATEGORY_FEELINGS, feelingsPhrases),
+        Pair(CATEGORY_QUESTIONS, questionsPhrases),
+        Pair(CATEGORY_TIME, timePhrases),
+        Pair(CATEGORY_PEOPLE, peoplePhrases),
+        Pair(CATEGORY_NUMBERS, numbersPhrases)
+    )
+
     private val liveCategoryList = MutableLiveData<List<String>>()
     val categoryList: LiveData<List<String>> = liveCategoryList
 
     private val liveSelectedCategory = MutableLiveData<String>()
     val selectedCategory: LiveData<String> = liveSelectedCategory
 
+    private val liveCurrentPhrases = MutableLiveData<List<String>>()
+    val currentPhrases: LiveData<List<String>> = liveCurrentPhrases
+
     init {
         liveCategoryList.postValue(categories)
+        onCategorySelected(CATEGORY_GENERAL)
     }
 
     fun onCategorySelected(category: String) {
         liveSelectedCategory.postValue(category)
+        liveCurrentPhrases.postValue(categoriesMap[category])
     }
 }
