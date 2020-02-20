@@ -26,16 +26,16 @@ class VocableSharedPreferences : KoinComponent {
     }
 
     fun getMySayings(): List<String> {
-        encryptedPrefs.getStringSet(KEY_MY_SAYINGS, emptySet())?.let {
+        encryptedPrefs.getStringSet(KEY_MY_SAYINGS, setOf())?.let {
             return it.toList()
         }
-        return emptyList()
+        return listOf()
     }
 
     fun addSaying(saying: String) {
-        encryptedPrefs.getStringSet(KEY_MY_SAYINGS, emptySet())?.let {
-            it.add(saying)
-            encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, it).apply()
+        encryptedPrefs.getStringSet(KEY_MY_SAYINGS, setOf())?.let { sayings ->
+            sayings.add(saying)
+            encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, sayings).apply()
         }
     }
 }
