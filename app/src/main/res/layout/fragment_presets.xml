@@ -27,120 +27,24 @@
         app:layout_constraintStart_toEndOf="@+id/current_text"
         app:layout_constraintTop_toTopOf="@+id/current_text" />
 
-    <RadioGroup
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/category_view"
         style="@style/CategoryRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/main_activity_side_margin"
         android:layout_marginEnd="@dimen/main_activity_side_margin"
-        app:layout_constraintTop_toBottomOf="@+id/current_text">
+        app:layout_constraintTop_toBottomOf="@+id/current_text" />
 
-        <com.willowtree.vocable.customviews.CategoryButton
-            android:id="@+id/basic_needs"
-            style="@style/CategoryTheme"
-            android:text="@string/basic_needs" />
-
-        <com.willowtree.vocable.customviews.CategoryButton
-            style="@style/CategoryTheme"
-            android:text="@string/personal_care" />
-
-        <com.willowtree.vocable.customviews.CategoryButton
-            style="@style/CategoryTheme"
-            android:text="@string/salutations" />
-
-        <com.willowtree.vocable.customviews.CategoryButton
-            style="@style/CategoryTheme"
-            android:text="@string/yes_no" />
-    </RadioGroup>
-
-    <GridLayout
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/phrases_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/main_activity_side_margin"
         android:layout_marginTop="@dimen/main_activity_category_margin"
         android:layout_marginEnd="@dimen/main_activity_side_margin"
         android:layout_marginBottom="@dimen/main_activity_bottom_margin"
-        android:columnCount="3"
-        android:rowCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/category_view">
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginEnd="@dimen/speech_button_margin"
-            android:layout_marginBottom="@dimen/speech_button_margin"
-            android:text="@string/door_closed" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginEnd="@dimen/speech_button_margin"
-            android:layout_marginBottom="@dimen/speech_button_margin"
-            android:text="@string/door_open" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginBottom="@dimen/speech_button_margin"
-            android:text="@string/bathroom" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginEnd="@dimen/speech_button_margin"
-            android:layout_marginBottom="@dimen/speech_button_margin"
-            android:text="@string/lights_off" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginEnd="@dimen/speech_button_margin"
-            android:layout_marginBottom="@dimen/speech_button_margin"
-            android:text="@string/lights_on" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginBottom="@dimen/speech_button_margin"
-            android:text="@string/pillow_fixed" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginEnd="@dimen/speech_button_margin"
-            android:text="@string/water" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_marginEnd="@dimen/speech_button_margin"
-            android:text="@string/coffee" />
-
-        <com.willowtree.vocable.customviews.VocableButton
-            style="@style/SpeechButton"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:text="@string/another_pillow" />
-
-    </GridLayout>
+        app:layout_constraintTop_toBottomOf="@+id/category_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
