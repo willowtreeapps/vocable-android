@@ -21,7 +21,7 @@ open class VocableButton @JvmOverloads constructor(
     PointerListener {
 
     companion object {
-        private const val DEFAULT_TTS_TIMEOUT = 2000L
+        private const val DEFAULT_TTS_TIMEOUT = 1500L
     }
 
     private var buttonJob: Job? = null

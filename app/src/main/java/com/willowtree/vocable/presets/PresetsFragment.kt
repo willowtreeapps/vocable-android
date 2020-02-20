@@ -59,10 +59,60 @@ class PresetsFragment : BaseFragment() {
             }
         }
 
+        phrases_forward_button.action = {
+            when (val currentPosition = phrases_view.currentItem) {
+                phrasesAdapter.itemCount - 1 -> {
+                    phrases_view.setCurrentItem(0, true)
+                }
+                else -> {
+                    phrases_view.setCurrentItem(currentPosition + 1, true)
+                }
+            }
+        }
+
+        phrases_back_button.action = {
+            when (val currentPosition = phrases_view.currentItem) {
+                0 -> {
+                    phrases_view.setCurrentItem(phrasesAdapter.itemCount - 1, true)
+                }
+                else -> {
+                    phrases_view.setCurrentItem(currentPosition - 1, true)
+                }
+            }
+        }
+
         fragmentManager?.let { fragmentManager ->
             categoriesAdapter = CategoriesPagerAdapter(fragmentManager)
             phrasesAdapter = PhrasesPagerAdapter(fragmentManager)
         }
+
+        category_view.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                activity?.let { activity ->
+                    allViews.clear()
+                    if (activity is MainActivity) {
+                        activity.resetAllViews()
+                    }
+                }
+            }
+        })
+
+        phrases_view.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val pageNum = position % phrasesAdapter.numPages + 1
+                phrases_page_number.text = getString(
+                    R.string.phrases_page_number,
+                    pageNum,
+                    phrasesAdapter.numPages
+                )
+                activity?.let { activity ->
+                    allViews.clear()
+                    if (activity is MainActivity) {
+                        activity.resetAllViews()
+                    }
+                }
+            }
+        })
 
         presetsViewModel =
             ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
@@ -98,16 +148,6 @@ class PresetsFragment : BaseFragment() {
                             false
                         )
                     }
-                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            activity?.let { activity ->
-                                allViews.clear()
-                                if (activity is MainActivity) {
-                                    activity.resetAllViews()
-                                }
-                            }
-                        }
-                    })
                 }
             }
         })
@@ -128,16 +168,6 @@ class PresetsFragment : BaseFragment() {
                             false
                         )
                     }
-                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            activity?.let { activity ->
-                                allViews.clear()
-                                if (activity is MainActivity) {
-                                    activity.resetAllViews()
-                                }
-                            }
-                        }
-                    })
                 }
             }
         })

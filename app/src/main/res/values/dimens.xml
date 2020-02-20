@@ -57,7 +57,7 @@
     <dimen name="top_bar_button_width">116dp</dimen>
     <dimen name="top_bar_button_padding">38dp</dimen>
     <dimen name="top_bar_button_margin">8dp</dimen>
-    
+
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">48sp</dimen>
     <dimen name="keyboard_side_margin">40dp</dimen>
@@ -72,6 +72,14 @@
     <dimen name="categories_paging_button_height">112dp</dimen>
     <dimen name="categories_paging_button_padding">28dp</dimen>
     <dimen name="categories_side_margin">16dp</dimen>
+
+    <!-- Phrases -->
+    <dimen name="phrases_paging_button_width">104dp</dimen>
+    <dimen name="phrases_paging_button_height">96dp</dimen>
+    <dimen name="phrases_paging_button_padding">32dp</dimen>
+    <dimen name="phrases_paging_margin_bottom">44dp</dimen>
+    <dimen name="phrases_page_number_text_size">24sp</dimen>
+    <dimen name="phrases_page_number_margin">40dp</dimen>
 
     <!-- Error Layout -->
     <dimen name="error_text_size">20sp</dimen>
