@@ -54,7 +54,7 @@ class CategoriesFragment : BaseFragment() {
             buttonContainer?.addView(categoryButton)
         }
         categories?.let {
-            for (i in 0 until 4 - it.size) {
+            for (i in 0 until PresetsFragment.MAX_CATEGORIES - it.size) {
                 val hiddenButton =
                     layoutInflater.inflate(R.layout.category_button, buttonContainer, false).apply {
                         isEnabled = false

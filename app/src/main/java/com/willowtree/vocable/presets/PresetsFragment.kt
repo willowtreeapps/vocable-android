@@ -24,8 +24,8 @@ import kotlin.math.min
 class PresetsFragment : BaseFragment() {
 
     companion object {
-        private const val MAX_CATEGORIES = 4
-        private const val MAX_PHRASES = 9
+        const val MAX_CATEGORIES = 4
+        const val MAX_PHRASES = 9
     }
 
     private val allViews = mutableListOf<View>()
