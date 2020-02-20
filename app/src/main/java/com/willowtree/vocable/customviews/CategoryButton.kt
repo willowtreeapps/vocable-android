@@ -1,7 +1,11 @@
 package com.willowtree.vocable.customviews
 
 import android.content.Context
+import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatRadioButton
+import com.willowtree.vocable.utils.SpokenText
+import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 
 /**
@@ -11,7 +15,7 @@ class CategoryButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ActionButton(context, attrs, defStyle),
+) : AppCompatRadioButton(context, attrs, defStyle),
     PointerListener {
 
     companion object {
@@ -24,31 +28,32 @@ class CategoryButton @JvmOverloads constructor(
 
     init {
         setOnClickListener {
-            isSelected = true
-            sayText(text)
-            performAction()
+            VocableTextToSpeech.getTextToSpeech()
+                ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
         }
     }
 
     override fun onPointerEnter() {
-        buttonJob = backgroundScope.launch {
-            uiScope.launch {
-                isPressed = true
-            }
+        if (!isChecked) {
+            buttonJob = backgroundScope.launch {
+                uiScope.launch {
+                    isSelected = true
+                }
 
-            delay(DEFAULT_TTS_TIMEOUT)
+                delay(DEFAULT_TTS_TIMEOUT)
 
-            uiScope.launch {
-                isPressed = false
-                isSelected = true
-                sayText(text)
-                performAction()
+                uiScope.launch {
+                    isSelected = false
+                    isChecked = true
+                    VocableTextToSpeech.getTextToSpeech()
+                        ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+                }
             }
         }
     }
 
     override fun onPointerExit() {
-        isPressed = false
+        isSelected = false
         buttonJob?.cancel()
     }
 }
