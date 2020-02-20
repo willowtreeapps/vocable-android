@@ -38,7 +38,8 @@ class CategoriesFragment : BaseFragment() {
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         val buttonContainer = view?.findViewById<LinearLayout>(R.id.category_button_container)
-        arguments?.getStringArray(KEY_CATEGORIES)?.forEach { category ->
+        val categories = arguments?.getStringArray(KEY_CATEGORIES)
+        categories?.forEach { category ->
             val categoryButton = layoutInflater.inflate(
                 R.layout.category_button,
                 buttonContainer,
@@ -51,6 +52,16 @@ class CategoriesFragment : BaseFragment() {
                 }
             }
             buttonContainer?.addView(categoryButton)
+        }
+        categories?.let {
+            for (i in 0 until PresetsFragment.MAX_CATEGORIES - it.size) {
+                val hiddenButton =
+                    layoutInflater.inflate(R.layout.category_button, buttonContainer, false).apply {
+                        isEnabled = false
+                        visibility = View.INVISIBLE
+                    }
+                buttonContainer?.addView(hiddenButton)
+            }
         }
         return view
     }
