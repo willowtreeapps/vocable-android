@@ -1,24 +1,9 @@
 <resources>
     <string name="app_name">Vocable</string>
 
-    <!-- Category Buttons -->
-    <string name="basic_needs">Basic Needs</string>
-    <string name="personal_care">Personal Care</string>
-    <string name="salutations">Salutations</string>
-    <string name="yes_no">Yes | No</string>
-
     <!-- Presets -->
-    <string name="door_closed">I want the door closed.</string>
-    <string name="door_open">I want the door open.</string>
-    <string name="bathroom">I would like to go to the bathroom.</string>
-    <string name="lights_off">I want the lights off.</string>
-    <string name="lights_on">I want the lights on.</string>
-    <string name="pillow_fixed">I want my pillow fixed.</string>
-    <string name="water">I would like some water.</string>
-    <string name="coffee">I would like some coffee.</string>
-    <string name="another_pillow">I want another pillow.</string>
-
     <string name="select_something">Select something below to speak.</string>
+    <string name="phrases_page_number">Page %1d of %2d</string>
 
 
     <!-- Settings Page -->
@@ -37,4 +22,5 @@
 
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Select letters below to start typing.</string>
+
 </resources>

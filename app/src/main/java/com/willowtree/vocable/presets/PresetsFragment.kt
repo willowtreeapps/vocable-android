@@ -24,16 +24,96 @@ import kotlin.math.min
 class PresetsFragment : BaseFragment() {
 
     companion object {
-        private const val MAX_CATEGORIES = 4
-        private const val MAX_PHRASES = 9
+        const val MAX_CATEGORIES = 4
+        const val MAX_PHRASES = 9
     }
 
     private val allViews = mutableListOf<View>()
 
     private lateinit var presetsViewModel: PresetsViewModel
+    private lateinit var categoriesAdapter: CategoriesPagerAdapter
+    private lateinit var phrasesAdapter: PhrasesPagerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        category_forward_button.action = {
+            when (val currentPosition = category_view.currentItem) {
+                categoriesAdapter.itemCount - 1 -> {
+                    category_view.setCurrentItem(0, true)
+                }
+                else -> {
+                    category_view.setCurrentItem(currentPosition + 1, true)
+                }
+            }
+        }
+
+        category_back_button.action = {
+            when (val currentPosition = category_view.currentItem) {
+                0 -> {
+                    category_view.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                }
+                else -> {
+                    category_view.setCurrentItem(currentPosition - 1, true)
+                }
+            }
+        }
+
+        phrases_forward_button.action = {
+            when (val currentPosition = phrases_view.currentItem) {
+                phrasesAdapter.itemCount - 1 -> {
+                    phrases_view.setCurrentItem(0, true)
+                }
+                else -> {
+                    phrases_view.setCurrentItem(currentPosition + 1, true)
+                }
+            }
+        }
+
+        phrases_back_button.action = {
+            when (val currentPosition = phrases_view.currentItem) {
+                0 -> {
+                    phrases_view.setCurrentItem(phrasesAdapter.itemCount - 1, true)
+                }
+                else -> {
+                    phrases_view.setCurrentItem(currentPosition - 1, true)
+                }
+            }
+        }
+
+        fragmentManager?.let { fragmentManager ->
+            categoriesAdapter = CategoriesPagerAdapter(fragmentManager)
+            phrasesAdapter = PhrasesPagerAdapter(fragmentManager)
+        }
+
+        category_view.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                activity?.let { activity ->
+                    allViews.clear()
+                    if (activity is MainActivity) {
+                        activity.resetAllViews()
+                    }
+                }
+            }
+        })
+
+        phrases_view.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val pageNum = position % phrasesAdapter.numPages + 1
+                phrases_page_number.text = getString(
+                    R.string.phrases_page_number,
+                    pageNum,
+                    phrasesAdapter.numPages
+                )
+                activity?.let { activity ->
+                    allViews.clear()
+                    if (activity is MainActivity) {
+                        activity.resetAllViews()
+                    }
+                }
+            }
+        })
+
         presetsViewModel =
             ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
         subscribeToViewModel()
@@ -54,19 +134,19 @@ class PresetsFragment : BaseFragment() {
 
         presetsViewModel.categoryList.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
-                fragmentManager?.let { fragmentManager ->
-                    with(category_view) {
-                        adapter = CategoriesPagerAdapter(fragmentManager, categories)
-                        registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                            override fun onPageSelected(position: Int) {
-                                activity?.let { activity ->
-                                    allViews.clear()
-                                    if (activity is MainActivity) {
-                                        activity.resetAllViews()
-                                    }
-                                }
-                            }
-                        })
+                with(category_view) {
+                    adapter = categoriesAdapter
+                    categoriesAdapter.setCategories(categories)
+                    // Move adapter to middle so user can scroll both directions
+                    val middle = categoriesAdapter.itemCount / 2
+                    if (middle % categoriesAdapter.numPages == 0) {
+                        category_view.setCurrentItem(middle, false)
+                    } else {
+                        val mod = middle % categoriesAdapter.numPages
+                        category_view.setCurrentItem(
+                            middle + (categoriesAdapter.numPages - mod),
+                            false
+                        )
                     }
                 }
             }
@@ -74,20 +154,19 @@ class PresetsFragment : BaseFragment() {
 
         presetsViewModel.currentPhrases.observe(viewLifecycleOwner, Observer {
             it?.let { phrases ->
-                fragmentManager?.let { fragmentManager ->
-                    phrases_view.adapter = PhrasesPagerAdapter(fragmentManager, phrases)
-                    with(phrases_view) {
-                        adapter = PhrasesPagerAdapter(fragmentManager, phrases)
-                        registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                            override fun onPageSelected(position: Int) {
-                                activity?.let { activity ->
-                                    allViews.clear()
-                                    if (activity is MainActivity) {
-                                        activity.resetAllViews()
-                                    }
-                                }
-                            }
-                        })
+                with(phrases_view) {
+                    adapter = phrasesAdapter
+                    phrasesAdapter.setPhrases(phrases)
+                    // Move adapter to middle so user can scroll both directions
+                    val middle = phrasesAdapter.itemCount / 2
+                    if (middle % phrasesAdapter.numPages == 0) {
+                        phrases_view.setCurrentItem(middle, false)
+                    } else {
+                        val mod = middle % phrasesAdapter.numPages
+                        phrases_view.setCurrentItem(
+                            middle + (phrasesAdapter.numPages - mod),
+                            false
+                        )
                     }
                 }
             }
@@ -113,15 +192,28 @@ class PresetsFragment : BaseFragment() {
         }
     }
 
-    inner class CategoriesPagerAdapter(fm: FragmentManager, private val categories: List<String>) :
+    inner class CategoriesPagerAdapter(fm: FragmentManager) :
         FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
 
+        private val categories = mutableListOf<String>()
+
+        var numPages = 0
+
+        fun setCategories(categories: List<String>) {
+            with(this.categories) {
+                clear()
+                addAll(categories)
+            }
+            numPages = ceil(categories.size / MAX_CATEGORIES.toDouble()).toInt()
+            notifyDataSetChanged()
+        }
+
         override fun getItemCount(): Int {
-            return ceil(categories.size / MAX_CATEGORIES.toDouble()).toInt()
+            return Int.MAX_VALUE
         }
 
         override fun createFragment(position: Int): Fragment {
-            val startPosition = position * MAX_CATEGORIES
+            val startPosition = (position % numPages) * MAX_CATEGORIES
             val subList = categories.subList(
                 startPosition,
                 min(categories.size, startPosition + MAX_CATEGORIES)
@@ -131,15 +223,27 @@ class PresetsFragment : BaseFragment() {
         }
     }
 
-    inner class PhrasesPagerAdapter(fm: FragmentManager, private val phrases: List<String>) :
+    inner class PhrasesPagerAdapter(fm: FragmentManager) :
         FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
 
+        private val phrases = mutableListOf<String>()
+        var numPages: Int = 0
+
+        fun setPhrases(phrases: List<String>) {
+            with(this.phrases) {
+                clear()
+                addAll(phrases)
+            }
+            numPages = ceil(phrases.size / MAX_PHRASES.toDouble()).toInt()
+            notifyDataSetChanged()
+        }
+
         override fun getItemCount(): Int {
-            return ceil(phrases.size / MAX_PHRASES.toDouble()).toInt()
+            return Int.MAX_VALUE
         }
 
         override fun createFragment(position: Int): Fragment {
-            val startPosition = position * MAX_PHRASES
+            val startPosition = (position % numPages) * MAX_PHRASES
             val sublist =
                 phrases.subList(startPosition, min(phrases.size, startPosition + MAX_PHRASES))
 

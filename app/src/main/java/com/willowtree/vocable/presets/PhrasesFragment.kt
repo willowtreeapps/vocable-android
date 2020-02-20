@@ -16,6 +16,7 @@ class PhrasesFragment : BaseFragment() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
+        private const val NUM_COLUMNS = 3
 
         fun newInstance(phrases: List<String>): PhrasesFragment {
             return PhrasesFragment().apply {
@@ -38,11 +39,32 @@ class PhrasesFragment : BaseFragment() {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         val phrasesContainer = view?.findViewById<GridLayout>(R.id.phrases_container)
-        arguments?.getStringArray(KEY_PHRASES)?.forEach { phrase ->
+        val phrases = arguments?.getStringArray(KEY_PHRASES)
+        phrases?.forEachIndexed { index, phrase ->
             val phraseButton =
                 inflater.inflate(R.layout.phrase_button, phrasesContainer, false) as VocableButton
+            with(phraseButton) {
+                text = phrase
+                // Remove end margin on last column
+                if (index % NUM_COLUMNS == NUM_COLUMNS - 1) {
+                    layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
+                        marginEnd = 0
+                    }
+                }
+            }
             phraseButton.text = phrase
             phrasesContainer?.addView(phraseButton)
+        }
+        phrases?.let {
+            // Add invisible views to fill out the rest of the space
+            for (i in 0 until PresetsFragment.MAX_PHRASES - it.size) {
+                val hiddenButton =
+                    inflater.inflate(R.layout.phrase_button, phrasesContainer, false).apply {
+                        isEnabled = false
+                        visibility = View.INVISIBLE
+                    }
+                phrasesContainer?.addView(hiddenButton)
+            }
         }
 
         return view
