@@ -51,10 +51,6 @@ class MainActivity : BaseActivity() {
         return allViews
     }
 
-    fun resetAllViews() {
-        allViews.clear()
-    }
-
     override fun getLayout(): Int = R.layout.activity_main
 
     override fun getPauseButton(): PauseButton? = pause_button
