@@ -1,7 +1,5 @@
 package com.willowtree.vocable
 
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.phrase_saved_success.*
 
 abstract class BaseFragment : Fragment() {
 
@@ -30,7 +27,13 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun getAllViews(): List<View>
 
-    protected fun buildTextWithIcon(vararg strings: String, iconCharStart: Int, iconCharEnd: Int, view: TextView, icon: Int ) {
+    protected fun buildTextWithIcon(
+        vararg strings: String,
+        iconCharStart: Int,
+        iconCharEnd: Int,
+        view: TextView,
+        icon: Int
+    ) {
         val sBuilder = SpannableStringBuilder()
 
         for (item in strings) {
