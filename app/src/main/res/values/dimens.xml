@@ -17,7 +17,7 @@
     <dimen name="settings_button_margin">8dp</dimen>
 
     <!-- Spoken Text View -->
-    <dimen name="spoken_text_view_height">100dp</dimen>
+    <dimen name="spoken_text_view_height">112dp</dimen>
     <dimen name="spoken_text_view_text_size">48sp</dimen>
 
     <!--  Category Radio Group -->
@@ -53,8 +53,8 @@
     <dimen name="main_activity_speaker_margin">8dp</dimen>
 
     <!-- Top Bar -->
-    <dimen name="top_bar_button_height">64dp</dimen>
-    <dimen name="top_bar_button_width">116dp</dimen>
+    <dimen name="top_bar_button_height">96dp</dimen>
+    <dimen name="top_bar_button_width">104dp</dimen>
     <dimen name="top_bar_button_padding">38dp</dimen>
     <dimen name="top_bar_button_margin">8dp</dimen>
 

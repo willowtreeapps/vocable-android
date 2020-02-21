@@ -11,26 +11,8 @@
         android:drawableStart="@drawable/ic_presets" />
 
     <com.willowtree.vocable.customviews.ActionButton
-        android:id="@+id/undo_button"
         style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin"
-        android:drawableStart="@drawable/ic_undo" />
-
-    <com.willowtree.vocable.customviews.ActionButton
-        android:id="@+id/delete_button"
-        style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin"
-        android:drawableStart="@drawable/ic_delete" />
-
-    <com.willowtree.vocable.customviews.ActionButton
-        android:id="@+id/add_phrase_button"
-        style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin"
-        android:drawableStart="@drawable/ic_add_phrase" />
-
-    <com.willowtree.vocable.customviews.ActionButton
-        android:id="@+id/repeat_button"
-        style="@style/TopBarButton"
-        android:drawableStart="@drawable/ic_speaker_blue" />
+        android:layout_width="wrap_content"
+        android:drawableStart="@drawable/ic_settings_light_48dp"/>
 
 </LinearLayout>
