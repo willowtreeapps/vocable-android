@@ -2,10 +2,13 @@ package com.willowtree.vocable.keyboard
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import android.widget.TextView
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -15,7 +18,11 @@ import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import io.github.inflationx.calligraphy3.CalligraphyTypefaceSpan
+import io.github.inflationx.calligraphy3.TypefaceUtils
 import kotlinx.android.synthetic.main.fragment_keyboard.*
+import kotlinx.android.synthetic.main.phrase_saved_success.*
+
 
 class KeyboardFragment : BaseFragment() {
 
@@ -65,12 +72,32 @@ class KeyboardFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        view?.let {
+        val let = view?.let {
             it.findViewById<View>(R.id.predictive_text)?.isVisible = false
             populateKeys(it)
         }
 
         return view
+    }
+
+    private fun buildTextWithIcon(vararg strings: String, iconCharStart: Int, iconCharEnd: Int) {
+        val sBuilder = SpannableStringBuilder()
+
+        for(item in strings){
+            sBuilder.append(item)
+        }
+
+        val typefaceSpan =
+            CalligraphyTypefaceSpan(
+                TypefaceUtils.load(
+                    requireContext().assets,
+                    "fonts/MaterialIcons-Regular.ttf"
+                )
+            )
+
+        sBuilder.setSpan(typefaceSpan, iconCharStart, iconCharEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        success_view.setText(sBuilder, TextView.BufferType.SPANNABLE)
     }
 
     private fun populateKeys(baseView: View) {
@@ -141,6 +168,15 @@ class KeyboardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        buildTextWithIcon(
+            getString(R.string.saved_successfully),
+            getString(R.string.favorite_icon),
+            getString(R.string.category_saved_to),
+            iconCharStart = 9,
+            iconCharEnd = 10
+        )
+
         CurrentKeyboardText.typedText.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrEmpty()) {
                 keyboard_input.setText(R.string.keyboard_select_letters)
