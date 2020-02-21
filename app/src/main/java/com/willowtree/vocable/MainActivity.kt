@@ -5,12 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.presets.PresetsFragment
+import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.presets_action_buttons.*
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.presets_action_buttons.*
 class MainActivity : BaseActivity() {
 
     private val allViews = mutableListOf<View>()
+    private lateinit var presetsViewModel: PresetsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,8 @@ class MainActivity : BaseActivity() {
         keyboard_button.action = {
             loadFragment(KeyboardFragment())
         }
+
+        presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
     }
 
     override fun onDestroy() {

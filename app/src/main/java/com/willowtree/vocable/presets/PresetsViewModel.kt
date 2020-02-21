@@ -3,8 +3,11 @@ package com.willowtree.vocable.presets
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.willowtree.vocable.utils.VocableSharedPreferences
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class PresetsViewModel : ViewModel() {
+class PresetsViewModel : ViewModel(), KoinComponent {
 
     companion object {
         private const val CATEGORY_GENERAL = "General"
@@ -17,9 +20,12 @@ class PresetsViewModel : ViewModel() {
         private const val CATEGORY_TIME = "Time"
         private const val CATEGORY_PEOPLE = "People"
         private const val CATEGORY_NUMBERS = "Numbers"
+        const val CATEGORY_MY_SAYINGS = "My Sayings"
     }
 
-    private val categories = listOf(
+    private val sharedPrefs: VocableSharedPreferences by inject()
+
+    private val categories = mutableListOf(
         CATEGORY_GENERAL,
         CATEGORY_BASIC_NEEDS,
         CATEGORY_PERSONAL_CARE,
@@ -208,7 +214,7 @@ class PresetsViewModel : ViewModel() {
         "Unsure"
     )
 
-    private val categoriesMap = mapOf(
+    private val categoriesMap = mutableMapOf(
         Pair(CATEGORY_GENERAL, generalPhrases),
         Pair(CATEGORY_BASIC_NEEDS, basicNeedsPhrases),
         Pair(CATEGORY_PERSONAL_CARE, personalCarePhrases),
@@ -231,6 +237,11 @@ class PresetsViewModel : ViewModel() {
     val currentPhrases: LiveData<List<String>> = liveCurrentPhrases
 
     init {
+        val mySayings = sharedPrefs.getMySayings()
+        if (mySayings.isNotEmpty()) {
+            categoriesMap[CATEGORY_MY_SAYINGS] = mySayings
+            categories.add(CATEGORY_MY_SAYINGS)
+        }
         liveCategoryList.postValue(categories)
         onCategorySelected(CATEGORY_GENERAL)
     }
@@ -238,5 +249,22 @@ class PresetsViewModel : ViewModel() {
     fun onCategorySelected(category: String) {
         liveSelectedCategory.postValue(category)
         liveCurrentPhrases.postValue(categoriesMap[category])
+    }
+
+    fun addSaying(saying: String) {
+        if (saying.isBlank()) {
+            return
+        }
+        sharedPrefs.addSaying(saying)
+        categoriesMap[CATEGORY_MY_SAYINGS] = sharedPrefs.getMySayings()
+        // Add My Sayings category if it doesn't exist
+        if (!categories.contains(CATEGORY_MY_SAYINGS)) {
+            categories.add(CATEGORY_MY_SAYINGS)
+            liveCategoryList.postValue(categories)
+        }
+        // Update phrases if My Sayings category is currently visible
+        if (liveSelectedCategory.value == CATEGORY_MY_SAYINGS) {
+            liveCurrentPhrases.postValue(categoriesMap[CATEGORY_MY_SAYINGS])
+        }
     }
 }
