@@ -22,5 +22,8 @@
 
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Select letters below to start typing.</string>
+    
+    <!-- Saved Phrase Success -->
+    <string name="saved_to_category">SAVED TO &#xe87d; MY SAYINGS</string>
 
 </resources>

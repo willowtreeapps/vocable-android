@@ -65,7 +65,6 @@ class KeyboardFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-
         view?.let {
             it.findViewById<View>(R.id.predictive_text)?.isVisible = false
             populateKeys(it)
