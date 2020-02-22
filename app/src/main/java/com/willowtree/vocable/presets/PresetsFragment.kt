@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,14 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.keyboard.KeyboardFragment
+import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.fragment_presets.*
+import kotlinx.android.synthetic.main.presets_action_buttons.*
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -79,6 +85,18 @@ class PresetsFragment : BaseFragment() {
                     phrases_view.setCurrentItem(currentPosition - 1, true)
                 }
             }
+        }
+
+        keyboard_button.action = {
+            fragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.fragment_container, KeyboardFragment())
+                ?.commit()
+        }
+
+        settings_button.action = {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         fragmentManager?.let { fragmentManager ->

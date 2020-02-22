@@ -1,11 +1,13 @@
 package com.willowtree.vocable.keyboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import android.widget.Space
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -14,8 +16,13 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
+import com.willowtree.vocable.presets.PresetsFragment
+import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.fragment_keyboard.*
+import kotlinx.android.synthetic.main.keyboard_action_buttons.*
+import kotlinx.android.synthetic.main.presets_action_buttons.*
+import kotlinx.android.synthetic.main.keyboard_action_buttons.settings_button as settings_button1
 
 class KeyboardFragment : BaseFragment() {
 
@@ -45,8 +52,7 @@ class KeyboardFragment : BaseFragment() {
             "J",
             "K",
             "L",
-            TRASH,
-            BACKSPACE,
+            "'",
             "Z",
             "X",
             "C",
@@ -54,7 +60,12 @@ class KeyboardFragment : BaseFragment() {
             "B",
             "N",
             "M",
+            ",",
+            ".",
+            "?",
+            TRASH,
             SPACE,
+            BACKSPACE,
             SPEAK
         )
     }
@@ -152,6 +163,18 @@ class KeyboardFragment : BaseFragment() {
         VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
             speaker_icon.isVisible = it ?: false
         })
+
+        presets_button.action = {
+            fragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.fragment_container, PresetsFragment())
+                ?.commit()
+        }
+
+        settings_button.action = {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {
