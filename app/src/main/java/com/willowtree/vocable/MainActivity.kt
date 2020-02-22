@@ -32,10 +32,6 @@ class MainActivity : BaseActivity() {
             .replace(R.id.fragment_container, PresetsFragment())
             .commit()
 
-//        keyboard_button.action = {
-//            loadFragment(KeyboardFragment())
-//        }
-
         presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
     }
 
@@ -81,42 +77,4 @@ class MainActivity : BaseActivity() {
             }
         }
     }
-
-    private fun loadFragment(fragment: BaseFragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .commit()
-        fragment_container.post {
-            allViews.clear()
-        }
-
-//        when (fragment) {
-//            is PresetsFragment -> {
-//                setUpActionButtons(R.layout.presets_action_buttons)
-//            }
-//            is KeyboardFragment -> {
-//                setUpActionButtons(R.layout.keyboard_action_buttons)
-//            }
-//        }
-    }
-
-//    private fun setUpActionButtons(@LayoutRes buttonLayout: Int) {
-//        with(action_button_container) {
-//            removeAllViews()
-//            layoutInflater.inflate(buttonLayout, action_button_container, true)
-//        }
-//        when (buttonLayout) {
-//            R.layout.presets_action_buttons -> {
-//                findViewById<ActionButton>(R.id.keyboard_button).action = {
-//                    loadFragment(KeyboardFragment())
-//                }
-//            }
-//            R.layout.keyboard_action_buttons -> {
-//                findViewById<ActionButton>(R.id.presets_button).action = {
-//                    loadFragment(PresetsFragment())
-//                }
-//            }
-//        }
-//    }
 }
