@@ -1,5 +1,6 @@
 package com.willowtree.vocable
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.presets.PresetsFragment
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.presets_action_buttons.*
 
@@ -37,6 +39,10 @@ class MainActivity : BaseActivity() {
         }
 
         presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     override fun onDestroy() {
