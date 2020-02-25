@@ -11,7 +11,14 @@
         android:id="@+id/current_text"
         style="@style/SpokenTextView"
         android:layout_width="wrap_content"
+        android:ellipsize="end"
+        android:gravity="start|center_vertical"
+        android:lines="1"
         android:text="@string/select_something"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@+id/speaker_icon"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +30,8 @@
         android:src="@drawable/ic_speaker"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/current_text"
+        app:layout_constraintEnd_toStartOf="@+id/action_button_container"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/current_text"
         app:layout_constraintTop_toTopOf="@+id/current_text" />
 
