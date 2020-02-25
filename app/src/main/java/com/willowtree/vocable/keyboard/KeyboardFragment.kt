@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
-import android.widget.Space
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.presets.PresetsFragment
@@ -21,17 +19,10 @@ import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import kotlinx.android.synthetic.main.keyboard_action_buttons.*
-import kotlinx.android.synthetic.main.presets_action_buttons.*
-import kotlinx.android.synthetic.main.keyboard_action_buttons.settings_button as settings_button1
 
 class KeyboardFragment : BaseFragment() {
 
     companion object {
-        private const val TRASH = "TRASH"
-        private const val BACKSPACE = "BACKSPACE"
-        private const val SPACE = "SPACE"
-        private const val SPEAK = "SPEAK"
-
         private val KEYS = listOf(
             "Q",
             "W",
@@ -62,11 +53,7 @@ class KeyboardFragment : BaseFragment() {
             "M",
             ",",
             ".",
-            "?",
-            TRASH,
-            SPACE,
-            BACKSPACE,
-            SPEAK
+            "?"
         )
     }
 
@@ -89,65 +76,8 @@ class KeyboardFragment : BaseFragment() {
         val gridLayout = baseView.findViewById<GridLayout>(R.id.keyboard_key_holder)
 
         KEYS.withIndex().forEach {
-            when (it.value) {
-                SPACE, SPEAK, TRASH, BACKSPACE -> {
-                    layoutInflater.inflate(R.layout.keyboard_action_layout, gridLayout, true)
-                }
-                else -> {
-                    layoutInflater.inflate(R.layout.keyboard_key_layout, gridLayout, true)
-                }
-            }
-            val key = (gridLayout?.getChildAt(it.index) as VocableButton).apply {
-                text = it.value
-            }
-            when (it.value) {
-                SPACE -> {
-                    with(key as ActionButton) {
-                        text = null
-                        setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.ic_space_bar_56dp,
-                            0, 0, 0
-                        )
-                        action = {
-                            CurrentKeyboardText.spaceCharacter()
-                        }
-                    }
-                }
-                SPEAK -> {
-                    with(key as ActionButton) {
-                        text = null
-                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_speak_56dp, 0, 0, 0)
-                        action = {
-                            VocableTextToSpeech.getTextToSpeech()?.speak(
-                                keyboard_input.text,
-                                TextToSpeech.QUEUE_FLUSH,
-                                null,
-                                id.toString()
-                            )
-                        }
-                    }
-                }
-                TRASH -> {
-                    with(key as ActionButton) {
-                        text = null
-                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete_56dp, 0, 0, 0)
-                        action = {
-                            CurrentKeyboardText.clearTypedText()
-                        }
-                    }
-                }
-                BACKSPACE -> {
-                    with(key as ActionButton) {
-                        text = null
-                        setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.ic_backpace_56dp, 0, 0, 0
-                        )
-                        action = {
-                            CurrentKeyboardText.backspaceCharacter()
-                        }
-                    }
-                }
-            }
+            layoutInflater.inflate(R.layout.keyboard_key_layout, gridLayout, true)
+            (gridLayout?.getChildAt(it.index) as VocableButton).text = it.value
         }
     }
 
@@ -174,6 +104,27 @@ class KeyboardFragment : BaseFragment() {
         settings_button.action = {
             val intent = Intent(activity, SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        keyboard_clear_button.action = {
+            CurrentKeyboardText.clearTypedText()
+        }
+
+        keyboard_space_button.action = {
+            CurrentKeyboardText.spaceCharacter()
+        }
+
+        keyboard_backspace_button.action = {
+            CurrentKeyboardText.backspaceCharacter()
+        }
+
+        keyboard_speak_button.action = {
+            VocableTextToSpeech.getTextToSpeech()?.speak(
+                keyboard_input.text,
+                TextToSpeech.QUEUE_FLUSH,
+                null,
+                id.toString()
+            )
         }
     }
 
