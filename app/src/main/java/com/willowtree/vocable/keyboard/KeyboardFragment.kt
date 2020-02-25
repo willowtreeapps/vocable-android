@@ -96,37 +96,55 @@ class KeyboardFragment : BaseFragment() {
             speaker_icon.isVisible = it ?: false
         })
 
-        presets_button.action = {
-            fragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.fragment_container, PresetsFragment())
-                ?.commit()
+        with(presets_button) {
+            setIconWithNoText(R.drawable.ic_presets)
+            action = {
+                fragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.fragment_container, PresetsFragment())
+                    ?.commit()
+            }
         }
 
-        settings_button.action = {
-            val intent = Intent(activity, SettingsActivity::class.java)
-            startActivity(intent)
+        with(settings_button) {
+            setIconWithNoText(R.drawable.ic_settings_light_48dp)
+            action = {
+                val intent = Intent(activity, SettingsActivity::class.java)
+                startActivity(intent)
+            }
         }
 
-        keyboard_clear_button.action = {
-            CurrentKeyboardText.clearTypedText()
+        with(keyboard_clear_button) {
+            setIconWithNoText(R.drawable.ic_delete)
+            action = {
+                CurrentKeyboardText.clearTypedText()
+            }
         }
 
-        keyboard_space_button.action = {
-            CurrentKeyboardText.spaceCharacter()
+        with(keyboard_space_button) {
+            setIconWithNoText(R.drawable.ic_space_bar_56dp)
+            action = {
+                CurrentKeyboardText.spaceCharacter()
+            }
         }
 
-        keyboard_backspace_button.action = {
-            CurrentKeyboardText.backspaceCharacter()
+        with(keyboard_backspace_button) {
+            setIconWithNoText(R.drawable.ic_backspace)
+            action = {
+                CurrentKeyboardText.backspaceCharacter()
+            }
         }
 
-        keyboard_speak_button.action = {
-            VocableTextToSpeech.getTextToSpeech()?.speak(
-                keyboard_input.text,
-                TextToSpeech.QUEUE_FLUSH,
-                null,
-                id.toString()
-            )
+        with(keyboard_speak_button) {
+            setIconWithNoText(R.drawable.ic_speak_40dp)
+            action = {
+                VocableTextToSpeech.getTextToSpeech()?.speak(
+                    keyboard_input.text,
+                    TextToSpeech.QUEUE_FLUSH,
+                    null,
+                    id.toString()
+                )
+            }
         }
     }
 

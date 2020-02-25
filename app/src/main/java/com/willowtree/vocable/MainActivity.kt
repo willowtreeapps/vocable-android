@@ -4,20 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
-import com.willowtree.vocable.customviews.ActionButton
-import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
-import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.presets.PresetsFragment
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.presets_action_buttons.*
 
 
 class MainActivity : BaseActivity() {
@@ -35,6 +30,10 @@ class MainActivity : BaseActivity() {
             .commit()
 
         presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
+
+        fragment_container.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            allViews.clear()
+        }
     }
 
     override fun attachBaseContext(newBase: Context) {
