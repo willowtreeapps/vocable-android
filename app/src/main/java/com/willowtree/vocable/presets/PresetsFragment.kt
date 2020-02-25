@@ -20,8 +20,6 @@ import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.fragment_presets.*
 import kotlinx.android.synthetic.main.presets_action_buttons.*
 import kotlin.math.ceil
@@ -87,16 +85,22 @@ class PresetsFragment : BaseFragment() {
             }
         }
 
-        keyboard_button.action = {
-            fragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.fragment_container, KeyboardFragment())
-                ?.commit()
+        with(keyboard_button) {
+            setIconWithNoText(R.drawable.ic_keyboard)
+            action = {
+                fragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.fragment_container, KeyboardFragment())
+                    ?.commit()
+            }
         }
 
-        settings_button.action = {
-            val intent = Intent(activity, SettingsActivity::class.java)
-            startActivity(intent)
+        with(settings_button) {
+            setIconWithNoText(R.drawable.ic_settings_light_48dp)
+            action = {
+                val intent = Intent(activity, SettingsActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         fragmentManager?.let { fragmentManager ->
@@ -131,6 +135,8 @@ class PresetsFragment : BaseFragment() {
                 }
             }
         })
+
+        SpokenText.postValue(null)
 
         presetsViewModel =
             ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)

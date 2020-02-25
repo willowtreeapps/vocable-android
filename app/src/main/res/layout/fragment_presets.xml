@@ -116,17 +116,14 @@
         app:layout_constraintTop_toTopOf="@+id/phrases_back_button"
         tools:text="Page 1 of 2" />
 
-    <FrameLayout
+    <include
         android:id="@+id/action_button_container"
+        layout="@layout/presets_action_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include layout="@layout/presets_action_buttons" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.PagingButton
         android:id="@+id/phrases_forward_button"

@@ -42,17 +42,14 @@
         app:layout_constraintStart_toEndOf="@+id/keyboard_input"
         app:layout_constraintTop_toTopOf="@+id/keyboard_input" />
 
-    <FrameLayout
+    <include
         android:id="@+id/action_button_container"
+        layout="@layout/keyboard_action_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include layout="@layout/keyboard_action_buttons" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/predictive_text"
@@ -142,7 +139,6 @@
             android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
             android:layout_weight="1"
             android:background="@drawable/button_default_background"
-            android:drawableStart="@drawable/ic_delete"
             android:gravity="center"
             android:paddingStart="@dimen/keyboard_icon_padding"
             android:paddingEnd="@dimen/keyboard_icon_padding"
@@ -157,7 +153,6 @@
             android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
             android:layout_weight="3"
             android:background="@drawable/button_default_background"
-            android:drawableStart="@drawable/ic_space_bar_56dp"
             android:gravity="center"
             android:paddingStart="@dimen/keyboard_icon_padding"
             android:paddingEnd="@dimen/keyboard_icon_padding"
@@ -172,7 +167,6 @@
             android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
             android:layout_weight="1"
             android:background="@drawable/button_default_background"
-            android:drawableStart="@drawable/ic_backspace"
             android:gravity="center"
             android:paddingStart="@dimen/keyboard_icon_padding"
             android:paddingEnd="@dimen/keyboard_icon_padding"
@@ -186,7 +180,6 @@
             android:layout_height="@dimen/keyboard_bottom_bar_height"
             android:layout_weight="1"
             android:background="@drawable/button_default_background"
-            android:drawableStart="@drawable/ic_speak_40dp"
             android:gravity="center"
             android:paddingStart="@dimen/keyboard_icon_padding"
             android:paddingEnd="@dimen/keyboard_icon_padding"

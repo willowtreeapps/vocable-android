@@ -2,7 +2,12 @@ package com.willowtree.vocable.customviews
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.DynamicDrawableSpan
+import android.text.style.ImageSpan
 import android.util.AttributeSet
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -22,6 +27,9 @@ open class VocableButton @JvmOverloads constructor(
 
     companion object {
         private const val DEFAULT_TTS_TIMEOUT = 1500L
+        private const val SINGLE_SPACE = " "
+        private const val NO_TEXT_START = 0
+        private const val NO_TEXT_END = 1
     }
 
     private var buttonJob: Job? = null
@@ -50,6 +58,19 @@ open class VocableButton @JvmOverloads constructor(
                 performAction()
             }
         }
+    }
+
+    fun setIconWithNoText(@DrawableRes icon: Int) {
+        val imageSpan = ImageSpan(
+            context,
+            icon,
+            DynamicDrawableSpan.ALIGN_BOTTOM
+        )
+        val stringBuilder = SpannableStringBuilder().apply {
+            append(SINGLE_SPACE)
+            setSpan(imageSpan, NO_TEXT_START, NO_TEXT_END, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        setText(stringBuilder, BufferType.SPANNABLE)
     }
 
     protected open fun sayText(text: CharSequence?) {

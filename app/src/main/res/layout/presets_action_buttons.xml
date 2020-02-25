@@ -6,16 +6,12 @@
 
     <com.willowtree.vocable.customviews.ActionButton
         android:id="@+id/keyboard_button"
-        android:layout_width="wrap_content"
         style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin"
-        android:drawableStart="@drawable/ic_keyboard" />
+        android:layout_marginEnd="@dimen/top_bar_button_margin" />
 
     <com.willowtree.vocable.customviews.ActionButton
         android:id="@+id/settings_button"
-        style="@style/TopBarButton"
-        android:layout_width="wrap_content"
-        android:drawableStart="@drawable/ic_settings_light_48dp"/>
+        style="@style/TopBarButton" />
 
 
 </LinearLayout>
