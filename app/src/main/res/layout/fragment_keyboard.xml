@@ -7,30 +7,38 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimaryDark">
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/keyboard_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/keyboard_side_margin"
-        android:layout_marginEnd="@dimen/keyboard_side_margin"
         android:background="@null"
-        android:gravity="center"
+        android:ellipsize="end"
+        android:gravity="start|center_vertical"
+        android:inputType="text"
+        android:maxLines="1"
         android:text="@string/keyboard_select_letters"
         android:textColor="@color/textColor"
         android:textSize="@dimen/keyboard_text_size"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/keyboard_key_holder"
+        app:layout_constraintEnd_toStartOf="@+id/speaker_icon"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/speaker_icon"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/speech_button_margin"
         android:src="@drawable/ic_speaker"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/keyboard_input"
+        app:layout_constraintEnd_toStartOf="@+id/action_button_container"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/keyboard_input"
         app:layout_constraintTop_toTopOf="@+id/keyboard_input" />
 
