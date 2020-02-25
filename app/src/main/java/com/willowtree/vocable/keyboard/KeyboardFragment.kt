@@ -20,6 +20,7 @@ import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import kotlinx.android.synthetic.main.keyboard_action_buttons.*
 
+
 class KeyboardFragment : BaseFragment() {
 
     companion object {
@@ -83,6 +84,7 @@ class KeyboardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         CurrentKeyboardText.typedText.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrEmpty()) {
                 keyboard_input.setText(R.string.keyboard_select_letters)

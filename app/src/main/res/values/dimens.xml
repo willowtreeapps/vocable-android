@@ -90,4 +90,9 @@
     <dimen name="error_vertical_padding">20dp</dimen>
     <dimen name="error_drawable_padding">8dp</dimen>
     <dimen name="error_height">64dp</dimen>
+
+    <!-- Saved Phrase Success -->
+    <dimen name="save_phrase_vertical_padding">12dp</dimen>
+    <dimen name="save_phrase_horizontal_padding">32dp</dimen>
+    <dimen name="save_phrase_text_size">48sp</dimen>
 </resources>
