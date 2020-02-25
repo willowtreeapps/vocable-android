@@ -66,6 +66,9 @@
     <dimen name="keyboard_keys_top_margin">24dp</dimen>
     <dimen name="keyboard_keys_bottom_margin">72dp</dimen>
     <dimen name="keyboard_icon_padding">20dp</dimen>
+    <dimen name="keyboard_bottom_bar_margin">52dp</dimen>
+    <dimen name="keyboard_bottom_bar_key_margin">8dp</dimen>
+    <dimen name="keyboard_bottom_bar_height">96dp</dimen>
 
     <!-- Categories -->
     <dimen name="categories_paging_button_width">104dp</dimen>

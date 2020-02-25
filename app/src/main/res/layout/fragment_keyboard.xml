@@ -42,6 +42,18 @@
         app:layout_constraintStart_toEndOf="@+id/keyboard_input"
         app:layout_constraintTop_toTopOf="@+id/keyboard_input" />
 
+    <FrameLayout
+        android:id="@+id/action_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/keyboard_action_buttons" />
+
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/predictive_text"
         android:layout_width="0dp"
@@ -52,6 +64,7 @@
         android:background="@drawable/category_group_background"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,18 +107,6 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/action_button_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include layout="@layout/keyboard_action_buttons" />
-
-    </FrameLayout>
-
     <GridLayout
         android:id="@+id/keyboard_key_holder"
         android:layout_width="0dp"
@@ -113,13 +114,85 @@
         android:layout_marginStart="@dimen/keyboard_side_margin"
         android:layout_marginTop="@dimen/keyboard_keys_top_margin"
         android:layout_marginEnd="@dimen/keyboard_side_margin"
-        android:layout_marginBottom="@dimen/keyboard_keys_bottom_margin"
+        android:layout_marginBottom="@dimen/keyboard_side_margin"
         android:columnCount="10"
         android:rowCount="4"
         android:useDefaultMargins="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
+
+    <LinearLayout
+        android:id="@+id/keyboard_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/keyboard_bottom_bar_margin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/keyboard_key_holder"
+        app:layout_constraintStart_toStartOf="@id/keyboard_key_holder">
+
+        <com.willowtree.vocable.customviews.ActionButton
+            android:id="@+id/keyboard_clear_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/keyboard_bottom_bar_height"
+            android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_default_background"
+            android:drawableStart="@drawable/ic_delete"
+            android:gravity="center"
+            android:paddingStart="@dimen/keyboard_icon_padding"
+            android:paddingEnd="@dimen/keyboard_icon_padding"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/keyboard_text_size"
+            android:textStyle="bold" />
+
+        <com.willowtree.vocable.customviews.ActionButton
+            android:id="@+id/keyboard_space_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/keyboard_bottom_bar_height"
+            android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
+            android:layout_weight="3"
+            android:background="@drawable/button_default_background"
+            android:drawableStart="@drawable/ic_space_bar_56dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/keyboard_icon_padding"
+            android:paddingEnd="@dimen/keyboard_icon_padding"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/keyboard_text_size"
+            android:textStyle="bold" />
+
+        <com.willowtree.vocable.customviews.ActionButton
+            android:id="@+id/keyboard_backspace_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/keyboard_bottom_bar_height"
+            android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_default_background"
+            android:drawableStart="@drawable/ic_backspace"
+            android:gravity="center"
+            android:paddingStart="@dimen/keyboard_icon_padding"
+            android:paddingEnd="@dimen/keyboard_icon_padding"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/keyboard_text_size"
+            android:textStyle="bold" />
+
+        <com.willowtree.vocable.customviews.ActionButton
+            android:id="@+id/keyboard_speak_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/keyboard_bottom_bar_height"
+            android:layout_weight="1"
+            android:background="@drawable/button_default_background"
+            android:drawableStart="@drawable/ic_speak_40dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/keyboard_icon_padding"
+            android:paddingEnd="@dimen/keyboard_icon_padding"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/keyboard_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
