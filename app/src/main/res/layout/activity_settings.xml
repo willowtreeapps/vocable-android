@@ -125,11 +125,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <include
+        android:id="@+id/settings_confirmation"
+        layout="@layout/vocable_confirmation_dialog"
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.willowtree.vocable.customviews.PointerView
         android:id="@+id/pointer_view"
         android:layout_width="@dimen/pointer_view_width_height"
         android:layout_height="@dimen/pointer_view_width_height"
         android:background="@drawable/pointer_background"
+        android:elevation="@dimen/settings_pointer_elevation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
