@@ -1,0 +1,15 @@
+package com.willowtree.vocable.room
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Phrase(
+    @PrimaryKey val identifier: Long,
+    @ColumnInfo(name = "creation_date") val creationDate: Long,
+    @ColumnInfo(name = "is_user_generated") val isUserGenerated: Boolean,
+    @ColumnInfo(name = "last_spoken_date") val lastSpokenDate: Long,
+    val utterance: String,
+    @ColumnInfo(name = "category_id") val categoryId: Long
+)
