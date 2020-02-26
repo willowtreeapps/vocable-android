@@ -60,7 +60,7 @@
 
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">48sp</dimen>
-    <dimen name="keyboard_side_margin">40dp</dimen>
+    <dimen name="keyboard_side_margin">44dp</dimen>
     <dimen name="keyboard_predictive_height">120dp</dimen>
     <dimen name="keyboard_margin_default">16dp</dimen>
     <dimen name="keyboard_keys_top_margin">24dp</dimen>
