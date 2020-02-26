@@ -12,6 +12,7 @@ class VocableSharedPreferences : KoinComponent {
         private const val PREFERENCES_NAME =
             "com.willowtree.vocable.utils.vocable-encrypted-preferences"
         private const val KEY_MY_SAYINGS = "KEY_MY_SAYINGS"
+        private const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
     }
 
     private val encryptedPrefs: EncryptedSharedPreferences by lazy {
@@ -37,5 +38,13 @@ class VocableSharedPreferences : KoinComponent {
             sayings.add(saying)
             encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, sayings).apply()
         }
+    }
+
+    fun setHeadTrackingEnabled(enabled: Boolean) {
+        encryptedPrefs.edit().putBoolean(KEY_HEAD_TRACKING_ENABLED, enabled).apply()
+    }
+
+    fun getHeadTrackingEnabled(): Boolean {
+        return encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
     }
 }

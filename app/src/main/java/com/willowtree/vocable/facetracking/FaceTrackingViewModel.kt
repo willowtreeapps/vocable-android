@@ -5,12 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.ar.core.AugmentedFace
 import com.google.ar.sceneform.math.Vector3
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.*
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class FaceTrackingViewModel : ViewModel() {
+class FaceTrackingViewModel : ViewModel(), KoinComponent {
 
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+
+    private val sharedPrefs: VocableSharedPreferences by inject()
 
     private var faceTrackingJob: Job? = null
 
@@ -27,6 +32,10 @@ class FaceTrackingViewModel : ViewModel() {
     private var oldVector: Vector3? = null
 
     fun onFaceDetected(augmentedFaces: Collection<AugmentedFace>?) {
+        if (!sharedPrefs.getHeadTrackingEnabled()) {
+            liveShowError.postValue(false)
+            return
+        }
         if (augmentedFaces?.firstOrNull() == null) {
             liveShowError.postValue(true)
             return

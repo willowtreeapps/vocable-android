@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.presets.PresetsFragment
-import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,18 +16,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivity() {
 
     private val allViews = mutableListOf<View>()
-    private lateinit var presetsViewModel: PresetsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, PresetsFragment())
             .commit()
-
-        presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
 
         fragment_container.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
@@ -62,8 +58,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun getLayout(): Int = R.layout.activity_main
-
-//    override fun getPauseButton(): PauseButton? = pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {

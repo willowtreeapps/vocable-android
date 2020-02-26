@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseActivity
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.facetracking.FaceTrackFragment
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity() {
@@ -21,8 +24,11 @@ class SettingsActivity : BaseActivity() {
     }
 
     private val allViews = mutableListOf<View>()
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+
         super.onCreate(savedInstanceState)
 
         privacy_policy_button.action = {
@@ -35,6 +41,35 @@ class SettingsActivity : BaseActivity() {
             }
             startActivity(sendEmail)
         }
+
+        with(settings_close_button) {
+            setIconWithNoText(R.drawable.ic_close)
+            action = {
+                finish()
+            }
+        }
+
+        head_tracking_container.action = {
+            head_tracking_switch.isChecked = !head_tracking_switch.isChecked
+        }
+
+        head_tracking_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onHeadTrackingChecked(isChecked)
+        }
+    }
+
+    override fun subscribeToViewModel() {
+        super.subscribeToViewModel()
+        viewModel.headTrackingEnabled.observe(this, Observer {
+            it?.let {
+                head_tracking_switch.isChecked = it
+                pointer_view.isVisible = it
+                val faceFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
+                if (faceFragment is FaceTrackFragment) {
+                    faceFragment.enableFaceTracking(it)
+                }
+            }
+        })
     }
 
     override fun getErrorView(): View = error_view
@@ -50,8 +85,6 @@ class SettingsActivity : BaseActivity() {
 
     override fun getLayout(): Int =
         R.layout.activity_settings
-
-//    override fun getPauseButton(): PauseButton? = settings_pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {

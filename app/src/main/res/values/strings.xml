@@ -11,6 +11,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_developers">Contact Developers</string>
     <string name="version">V 0.0.0</string>
+    <string name="settings_head_tracking">Head Tracking</string>
 
     <!-- Button Text -->
     <string name="button_close">Close</string>
