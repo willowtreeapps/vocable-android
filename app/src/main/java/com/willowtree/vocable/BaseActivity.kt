@@ -40,7 +40,6 @@ abstract class BaseActivity : AppCompatActivity() {
         if (!checkIsSupportedDeviceOrFinish()) {
             return
         }
-        setContentView(getLayout())
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()

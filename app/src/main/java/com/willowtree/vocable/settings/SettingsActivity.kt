@@ -13,9 +13,8 @@ import com.willowtree.vocable.BaseActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.databinding.ActivitySettingsBinding
 import com.willowtree.vocable.facetracking.FaceTrackFragment
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.vocable_confirmation_dialog.*
 
 class SettingsActivity : BaseActivity() {
 
@@ -24,6 +23,7 @@ class SettingsActivity : BaseActivity() {
         private const val MAIL_TO = "mailto:vocable@willowtreeapps.com"
     }
 
+    private lateinit var binding: ActivitySettingsBinding
     private val allViews = mutableListOf<View>()
     private lateinit var viewModel: SettingsViewModel
 
@@ -32,13 +32,16 @@ class SettingsActivity : BaseActivity() {
 
         super.onCreate(savedInstanceState)
 
-        privacy_policy_button.action = {
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.privacyPolicyButton.action = {
             showLeavingAppDialog {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY)))
             }
         }
 
-        contact_devs_button.action = {
+        binding.contactDevsButton.action = {
             showLeavingAppDialog {
                 val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse(MAIL_TO)
@@ -47,33 +50,33 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
-        with(settings_close_button) {
+        with(binding.settingsCloseButton) {
             setIconWithNoText(R.drawable.ic_close)
             action = {
                 finish()
             }
         }
 
-        head_tracking_container.action = {
-            head_tracking_switch.isChecked = !head_tracking_switch.isChecked
+        binding.headTrackingContainer.action = {
+            binding.headTrackingSwitch.isChecked = !binding.headTrackingSwitch.isChecked
         }
 
-        head_tracking_switch.setOnCheckedChangeListener { _, isChecked ->
+        binding.headTrackingSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onHeadTrackingChecked(isChecked)
         }
     }
 
     private fun showLeavingAppDialog(positiveAction: (() -> Unit)) {
-        dialog_title.setText(R.string.settings_dialog_title)
-        dialog_message.setText(R.string.settings_dialog_message)
-        with(dialog_positive_button) {
+        binding.settingsConfirmation.dialogTitle.setText(R.string.settings_dialog_title)
+        binding.settingsConfirmation.dialogMessage.setText(R.string.settings_dialog_message)
+        with(binding.settingsConfirmation.dialogPositiveButton) {
             setText(R.string.settings_dialog_continue)
             action = {
                 positiveAction.invoke()
                 toggleDialogVisibility(false)
             }
         }
-        with(dialog_negative_button) {
+        with(binding.settingsConfirmation.dialogNegativeButton) {
             setText(R.string.settings_dialog_cancel)
             action = {
                 toggleDialogVisibility(false)
@@ -83,7 +86,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {
-        with(settings_confirmation) {
+        with(binding.settingsConfirmation.root) {
             isVisible = visible
             post {
                 allViews.clear()
@@ -95,8 +98,8 @@ class SettingsActivity : BaseActivity() {
         super.subscribeToViewModel()
         viewModel.headTrackingEnabled.observe(this, Observer {
             it?.let {
-                head_tracking_switch.isChecked = it
-                pointer_view.isVisible = it
+                binding.headTrackingSwitch.isChecked = it
+                binding.pointerView.isVisible = it
                 val faceFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
                 if (faceFragment is FaceTrackFragment) {
                     faceFragment.enableFaceTracking(it)
@@ -105,16 +108,16 @@ class SettingsActivity : BaseActivity() {
         })
     }
 
-    override fun getErrorView(): View = error_view
+    override fun getErrorView(): View = binding.errorView.root
 
-    override fun getPointerView(): PointerView = pointer_view
+    override fun getPointerView(): PointerView = binding.pointerView
 
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            if (settings_confirmation.isVisible) {
-                getAllChildViews(settings_confirmation as ViewGroup)
+            if (binding.settingsConfirmation.root.isVisible) {
+                getAllChildViews(binding.settingsConfirmation.root as ViewGroup)
             } else {
-                getAllChildViews(parent_layout)
+                getAllChildViews(binding.parentLayout)
             }
         }
         return allViews
