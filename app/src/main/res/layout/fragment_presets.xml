@@ -53,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/categories_side_margin"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/categories_margin"
         android:layout_marginEnd="@dimen/categories_side_margin"
         app:layout_constraintBottom_toBottomOf="@+id/category_back_button"
         app:layout_constraintEnd_toStartOf="@+id/category_forward_button"
@@ -80,7 +80,7 @@
         android:layout_marginStart="@dimen/main_activity_side_margin"
         android:layout_marginTop="@dimen/main_activity_category_margin"
         android:layout_marginEnd="@dimen/main_activity_side_margin"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/phrases_margin"
         app:layout_constraintBottom_toTopOf="@+id/phrases_back_button"
         app:layout_constraintTop_toBottomOf="@+id/category_view" />
 

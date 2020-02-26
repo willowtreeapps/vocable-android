@@ -38,7 +38,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/keyboard_input"
         app:layout_constraintEnd_toStartOf="@+id/action_button_container"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/keyboard_input"
         app:layout_constraintTop_toTopOf="@+id/keyboard_input" />
 
