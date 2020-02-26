@@ -8,8 +8,11 @@ import android.widget.GridLayout
 import androidx.core.view.children
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
+import com.willowtree.vocable.keyboard.KeyboardFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_phrases.*
 
 class PhrasesFragment : BaseFragment() {

@@ -7,12 +7,11 @@
     <com.willowtree.vocable.customviews.ActionButton
         android:id="@+id/keyboard_button"
         style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin"
-        android:drawableStart="@drawable/ic_keyboard" />
+        android:layout_marginEnd="@dimen/top_bar_button_margin" />
 
     <com.willowtree.vocable.customviews.ActionButton
-        android:id="@+id/repeat_button"
-        style="@style/TopBarButton"
-        android:drawableStart="@drawable/ic_repeat" />
+        android:id="@+id/settings_button"
+        style="@style/TopBarButton" />
+
 
 </LinearLayout>

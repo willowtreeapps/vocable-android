@@ -42,7 +42,7 @@ abstract class BaseFragment : Fragment() {
         val imageSpan = ImageSpan(
             requireContext(),
             icon,
-            DynamicDrawableSpan.ALIGN_BASELINE
+            DynamicDrawableSpan.ALIGN_BOTTOM
         )
         sBuilder.setSpan(imageSpan, iconCharStart, iconCharEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 

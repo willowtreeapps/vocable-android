@@ -51,7 +51,7 @@ class SettingsActivity : BaseActivity() {
     override fun getLayout(): Int =
         R.layout.activity_settings
 
-    override fun getPauseButton(): PauseButton? = settings_pause_button
+//    override fun getPauseButton(): PauseButton? = settings_pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {

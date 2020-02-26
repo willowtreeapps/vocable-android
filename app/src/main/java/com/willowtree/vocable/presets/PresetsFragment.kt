@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,12 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.keyboard.KeyboardFragment
+import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.android.synthetic.main.fragment_presets.*
+import kotlinx.android.synthetic.main.presets_action_buttons.*
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -81,6 +85,24 @@ class PresetsFragment : BaseFragment() {
             }
         }
 
+        with(keyboard_button) {
+            setIconWithNoText(R.drawable.ic_keyboard)
+            action = {
+                fragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.fragment_container, KeyboardFragment())
+                    ?.commit()
+            }
+        }
+
+        with(settings_button) {
+            setIconWithNoText(R.drawable.ic_settings_light_48dp)
+            action = {
+                val intent = Intent(activity, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
         fragmentManager?.let { fragmentManager ->
             categoriesAdapter = CategoriesPagerAdapter(fragmentManager)
             phrasesAdapter = PhrasesPagerAdapter(fragmentManager)
@@ -113,6 +135,8 @@ class PresetsFragment : BaseFragment() {
                 }
             }
         })
+
+        SpokenText.postValue(null)
 
         presetsViewModel =
             ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)

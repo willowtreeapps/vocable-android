@@ -40,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
-        subscribeToPauseButton()
+//        subscribeToPauseButton()
     }
 
     protected abstract fun getPointerView(): PointerView
@@ -52,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
     @LayoutRes
     protected abstract fun getLayout(): Int
 
-    protected abstract fun getPauseButton(): PauseButton?
+//    protected abstract fun getPauseButton(): PauseButton?
 
     @CallSuper
     protected open fun subscribeToViewModel() {
@@ -63,7 +63,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
                 getErrorView().isVisible = it
                 getPointerView().isVisible = !it
-                getPauseButton()?.togglePause(it)
+//                getPauseButton()?.togglePause(it)
             }
         })
         viewModel.pointerLocation.observe(this, Observer {
@@ -100,13 +100,13 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun subscribeToPauseButton() {
-        getPauseButton()?.isPaused?.observe(this, Observer {
-            it.let {
-                paused = it
-            }
-        })
-    }
+//    private fun subscribeToPauseButton() {
+//        getPauseButton()?.isPaused?.observe(this, Observer {
+//            it.let {
+//                paused = it
+//            }
+//        })
+//    }
 
     private fun findIntersectingView() {
         currentView = null
