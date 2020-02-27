@@ -12,16 +12,17 @@ import com.willowtree.vocable.customviews.CategoryButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
+import com.willowtree.vocable.room.Category
 
 class CategoriesFragment : BaseFragment() {
 
     companion object {
         const val KEY_CATEGORIES = "KEY_CATEGORIES"
 
-        fun newInstance(categories: List<String>): CategoriesFragment {
+        fun newInstance(categories: List<Category>): CategoriesFragment {
             return CategoriesFragment().apply {
                 arguments = Bundle().apply {
-                    putStringArray(KEY_CATEGORIES, categories.toTypedArray())
+                    putParcelableArrayList(KEY_CATEGORIES, ArrayList(categories))
                 }
             }
         }
@@ -38,12 +39,13 @@ class CategoriesFragment : BaseFragment() {
     ): View? {
         binding = CategoriesFragmentBinding.inflate(inflater, container, false)
 
-        val categories = arguments?.getStringArray(KEY_CATEGORIES)
+        val categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
         categories?.forEach { category ->
             val categoryButton =
                 CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
-                text = category
+                tag = category
+                text = category.name
                 action = {
                     viewModel.onCategorySelected(category)
                 }
@@ -79,7 +81,7 @@ class CategoriesFragment : BaseFragment() {
             category?.let {
                 binding?.categoryButtonContainer?.children?.forEach {
                     if (it is CategoryButton) {
-                        it.isSelected = it.text?.toString() == category
+                        it.isSelected = (it.tag as? Category)?.identifier == category.identifier
                     }
                 }
             }

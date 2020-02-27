@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -56,7 +58,7 @@ dependencies {
     implementation 'org.koin:koin-android:2.0.1'
 
     implementation "androidx.room:room-runtime:2.2.4"
-    annotationProcessor "androidx.room:room-compiler:2.2.4"
+    kapt "androidx.room:room-compiler:2.2.4"
     implementation "androidx.room:room-ktx:2.2.4"
 
     implementation 'androidx.security:security-crypto:1.0.0-alpha02'
