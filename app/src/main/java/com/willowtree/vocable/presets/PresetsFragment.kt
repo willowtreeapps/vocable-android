@@ -108,9 +108,9 @@ class PresetsFragment : BaseFragment() {
             }
         }
 
-        with(binding?.actionButtonContainer?.keyboardButton) {
-            this?.setIconWithNoText(R.drawable.ic_keyboard)
-            this?.action = {
+        binding?.actionButtonContainer?.keyboardButton?.let {
+            it.setIconWithNoText(R.drawable.ic_keyboard)
+            it.action = {
                 fragmentManager
                     ?.beginTransaction()
                     ?.replace(R.id.fragment_container, KeyboardFragment())
@@ -118,9 +118,9 @@ class PresetsFragment : BaseFragment() {
             }
         }
 
-        with(binding?.actionButtonContainer?.settingsButton) {
-            this?.setIconWithNoText(R.drawable.ic_settings_light_48dp)
-            this?.action = {
+        binding?.actionButtonContainer?.settingsButton?.let {
+            it.setIconWithNoText(R.drawable.ic_settings_light_48dp)
+            it.action = {
                 val intent = Intent(activity, SettingsActivity::class.java)
                 startActivity(intent)
             }

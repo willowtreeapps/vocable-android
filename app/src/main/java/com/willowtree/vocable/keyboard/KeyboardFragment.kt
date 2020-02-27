@@ -91,9 +91,9 @@ class KeyboardFragment : BaseFragment() {
             binding?.speakerIcon?.isVisible = it ?: false
         })
 
-        with(binding?.actionButtonContainer?.presetsButton) {
-            this?.setIconWithNoText(R.drawable.ic_presets)
-            this?.action = {
+        binding?.actionButtonContainer?.presetsButton?.let {
+            it.setIconWithNoText(R.drawable.ic_presets)
+            it.action = {
                 fragmentManager
                     ?.beginTransaction()
                     ?.replace(R.id.fragment_container, PresetsFragment())
@@ -101,38 +101,38 @@ class KeyboardFragment : BaseFragment() {
             }
         }
 
-        with(binding?.actionButtonContainer?.settingsButton) {
-            this?.setIconWithNoText(R.drawable.ic_settings_light_48dp)
-            this?.action = {
+        binding?.actionButtonContainer?.settingsButton?.let {
+            it.setIconWithNoText(R.drawable.ic_settings_light_48dp)
+            it.action = {
                 val intent = Intent(activity, SettingsActivity::class.java)
                 startActivity(intent)
             }
         }
 
-        with(binding?.keyboardClearButton) {
-            this?.setIconWithNoText(R.drawable.ic_delete)
-            this?.action = {
+        binding?.keyboardClearButton?.let {
+            it.setIconWithNoText(R.drawable.ic_delete)
+            it.action = {
                 CurrentKeyboardText.clearTypedText()
             }
         }
 
-        with(binding?.keyboardSpaceButton) {
-            this?.setIconWithNoText(R.drawable.ic_space_bar_56dp)
-            this?.action = {
+        binding?.keyboardSpaceButton?.let {
+            it.setIconWithNoText(R.drawable.ic_space_bar_56dp)
+            it.action = {
                 CurrentKeyboardText.spaceCharacter()
             }
         }
 
-        with(binding?.keyboardBackspaceButton) {
-            this?.setIconWithNoText(R.drawable.ic_backspace)
-            this?.action = {
+        binding?.keyboardBackspaceButton?.let {
+            it.setIconWithNoText(R.drawable.ic_backspace)
+            it.action = {
                 CurrentKeyboardText.backspaceCharacter()
             }
         }
 
-        with(binding?.keyboardSpeakButton) {
-            this?.setIconWithNoText(R.drawable.ic_speak_40dp)
-            this?.action = {
+        binding?.keyboardSpeakButton?.let {
+            it.setIconWithNoText(R.drawable.ic_speak_40dp)
+            it.action = {
                 VocableTextToSpeech.getTextToSpeech()?.speak(
                     binding?.keyboardInput?.text,
                     TextToSpeech.QUEUE_FLUSH,
