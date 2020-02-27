@@ -113,14 +113,17 @@ class SettingsActivity : BaseActivity() {
     override fun getPointerView(): PointerView = binding.pointerView
 
     override fun getAllViews(): List<View> {
-        if (allViews.isEmpty()) {
-            if (binding.settingsConfirmation.root.isVisible) {
+        return when {
+            allViews.isNotEmpty() -> allViews
+            binding.settingsConfirmation.root.isVisible -> {
                 getAllChildViews(binding.settingsConfirmation.root as ViewGroup)
-            } else {
+                allViews
+            }
+            else -> {
                 getAllChildViews(binding.parentLayout)
+                allViews
             }
         }
-        return allViews
     }
 
     override fun getLayout(): Int =
