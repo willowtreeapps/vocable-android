@@ -11,6 +11,7 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
+import com.willowtree.vocable.room.Phrase
 
 class PhrasesFragment : BaseFragment() {
 
@@ -18,10 +19,10 @@ class PhrasesFragment : BaseFragment() {
         private const val KEY_PHRASES = "KEY_PHRASES"
         private const val NUM_COLUMNS = 3
 
-        fun newInstance(phrases: List<String>): PhrasesFragment {
+        fun newInstance(phrases: List<Phrase>): PhrasesFragment {
             return PhrasesFragment().apply {
                 arguments = Bundle().apply {
-                    putStringArray(KEY_PHRASES, phrases.toTypedArray())
+                    putParcelableArrayList(KEY_PHRASES, ArrayList(phrases))
                 }
             }
         }
@@ -37,12 +38,12 @@ class PhrasesFragment : BaseFragment() {
     ): View? {
         binding = FragmentPhrasesBinding.inflate(inflater, container, false)
 
-        val phrases = arguments?.getStringArray(KEY_PHRASES)
+        val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                text = phrase
+                text = phrase.utterance
                 // Remove end margin on last column
                 if (index % NUM_COLUMNS == NUM_COLUMNS - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
