@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Pointer View -->
+    <dimen name="pointer_view_width_height">32dp</dimen>
+
     <!-- Category Button -->
     <dimen name="category_button_height">104dp</dimen>
     <dimen name="category_button_margin">8dp</dimen>
@@ -13,9 +16,6 @@
     <dimen name="pause_button_margin">8dp</dimen>
     <dimen name="pause_button_text_size">20sp</dimen>
 
-    <!-- Settings Button -->
-    <dimen name="settings_button_margin">8dp</dimen>
-
     <!-- Spoken Text View -->
     <dimen name="spoken_text_view_height">112dp</dimen>
     <dimen name="spoken_text_view_text_size">48sp</dimen>
@@ -28,16 +28,28 @@
     <dimen name="close_button_margin">8dp</dimen>
     <dimen name="close_button_text_size">20sp</dimen>
 
-    <!-- Settings Title -->
+    <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
-    <dimen name="settings_title_text_size">48dp</dimen>
+    <dimen name="settings_title_text_size">48sp</dimen>
+    <dimen name="settings_margin_small">8dp</dimen>
+    <dimen name="settings_margin_default">16dp</dimen>
+    <dimen name="settings_action_button_margin">44dp</dimen>
+    <dimen name="settings_bottom_margin">52dp</dimen>
+    <dimen name="settings_action_button_bottom_margin">134dp</dimen>
+    <dimen name="settings_label_text_size">20sp</dimen>
+    <dimen name="settings_switch_width">48dp</dimen>
+    <dimen name="settings_switch_height">20dp</dimen>
+    <dimen name="settings_switch_top_margin">36dp</dimen>
+    <dimen name="settings_close_button_height">96dp</dimen>
+    <dimen name="settings_close_button_width">112dp</dimen>
+    <dimen name="settings_pointer_elevation">16dp</dimen>
 
     <!-- Action Button -->
     <dimen name="action_button_width">0dp</dimen>
-    <dimen name="action_button_height">144dp</dimen>
+    <dimen name="action_button_height">120dp</dimen>
     <dimen name="action_button_margin">142dp</dimen>
     <dimen name="action_button_margin_bottom">40dp</dimen>
-    <dimen name="action_button_text_size">48sp</dimen>
+    <dimen name="action_button_text_size">24sp</dimen>
 
     <!-- Version Text View -->
     <dimen name="version_text_size">24sp</dimen>
@@ -97,4 +109,14 @@
     <dimen name="save_phrase_vertical_padding">12dp</dimen>
     <dimen name="save_phrase_horizontal_padding">32dp</dimen>
     <dimen name="save_phrase_text_size">48sp</dimen>
+
+    <!-- Confirmation Dialog -->
+    <dimen name="dialog_width">688dp</dimen>
+    <dimen name="dialog_title_text_size">34sp</dimen>
+    <dimen name="dialog_text_margin">24dp</dimen>
+    <dimen name="dialog_button_width">232dp</dimen>
+    <dimen name="dialog_button_height">80dp</dimen>
+    <dimen name="dialog_button_end_margin">16dp</dimen>
+    <dimen name="dialog_button_text_size">20sp</dimen>
+    <dimen name="dialog_shadow">15dp</dimen>
 </resources>

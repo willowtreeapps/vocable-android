@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseActivity
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
-import kotlinx.android.synthetic.main.activity_settings.*
+import com.willowtree.vocable.databinding.ActivitySettingsBinding
+import com.willowtree.vocable.facetracking.FaceTrackFragment
 
 class SettingsActivity : BaseActivity() {
 
@@ -20,38 +23,111 @@ class SettingsActivity : BaseActivity() {
         private const val MAIL_TO = "mailto:vocable@willowtreeapps.com"
     }
 
+    private lateinit var binding: ActivitySettingsBinding
     private val allViews = mutableListOf<View>()
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+
         super.onCreate(savedInstanceState)
 
-        privacy_policy_button.action = {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY)))
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.privacyPolicyButton.action = {
+            showLeavingAppDialog {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY)))
+            }
         }
 
-        contact_devs_button.action = {
-            val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse(MAIL_TO)
+        binding.contactDevsButton.action = {
+            showLeavingAppDialog {
+                val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse(MAIL_TO)
+                }
+                startActivity(sendEmail)
             }
-            startActivity(sendEmail)
+        }
+
+        with(binding.settingsCloseButton) {
+            setIconWithNoText(R.drawable.ic_close)
+            action = {
+                finish()
+            }
+        }
+
+        binding.headTrackingContainer.action = {
+            binding.headTrackingSwitch.isChecked = !binding.headTrackingSwitch.isChecked
+        }
+
+        binding.headTrackingSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onHeadTrackingChecked(isChecked)
         }
     }
 
-    override fun getErrorView(): View = error_view
+    private fun showLeavingAppDialog(positiveAction: (() -> Unit)) {
+        binding.settingsConfirmation.dialogTitle.setText(R.string.settings_dialog_title)
+        binding.settingsConfirmation.dialogMessage.setText(R.string.settings_dialog_message)
+        with(binding.settingsConfirmation.dialogPositiveButton) {
+            setText(R.string.settings_dialog_continue)
+            action = {
+                positiveAction.invoke()
+                toggleDialogVisibility(false)
+            }
+        }
+        with(binding.settingsConfirmation.dialogNegativeButton) {
+            setText(R.string.settings_dialog_cancel)
+            action = {
+                toggleDialogVisibility(false)
+            }
+        }
+        toggleDialogVisibility(true)
+    }
 
-    override fun getPointerView(): PointerView = pointer_view
+    private fun toggleDialogVisibility(visible: Boolean) {
+        with(binding.settingsConfirmation.root) {
+            isVisible = visible
+            post {
+                allViews.clear()
+            }
+        }
+    }
+
+    override fun subscribeToViewModel() {
+        super.subscribeToViewModel()
+        viewModel.headTrackingEnabled.observe(this, Observer {
+            it?.let {
+                binding.headTrackingSwitch.isChecked = it
+                binding.pointerView.isVisible = it
+                val faceFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
+                if (faceFragment is FaceTrackFragment) {
+                    faceFragment.enableFaceTracking(it)
+                }
+            }
+        })
+    }
+
+    override fun getErrorView(): View = binding.errorView.root
+
+    override fun getPointerView(): PointerView = binding.pointerView
 
     override fun getAllViews(): List<View> {
-        if (allViews.isEmpty()) {
-            getAllChildViews(parent_layout)
+        return when {
+            allViews.isNotEmpty() -> allViews
+            binding.settingsConfirmation.root.isVisible -> {
+                getAllChildViews(binding.settingsConfirmation.root as ViewGroup)
+                allViews
+            }
+            else -> {
+                getAllChildViews(binding.parentLayout)
+                allViews
+            }
         }
-        return allViews
     }
 
     override fun getLayout(): Int =
         R.layout.activity_settings
-
-//    override fun getPauseButton(): PauseButton? = settings_pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {

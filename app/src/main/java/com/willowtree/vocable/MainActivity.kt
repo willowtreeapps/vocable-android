@@ -5,23 +5,25 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.databinding.ActivityMainBinding
 import com.willowtree.vocable.presets.PresetsFragment
-import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private val allViews = mutableListOf<View>()
-    private lateinit var presetsViewModel: PresetsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
         supportFragmentManager
@@ -29,9 +31,7 @@ class MainActivity : BaseActivity() {
             .replace(R.id.fragment_container, PresetsFragment())
             .commit()
 
-        presetsViewModel = ViewModelProviders.of(this).get(PresetsViewModel::class.java)
-
-        fragment_container.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        binding.fragmentContainer.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
         }
     }
@@ -45,13 +45,13 @@ class MainActivity : BaseActivity() {
         VocableTextToSpeech.shutdown()
     }
 
-    override fun getErrorView(): View = error_view
+    override fun getErrorView(): View = binding.errorView.root
 
-    override fun getPointerView(): PointerView = pointer_view
+    override fun getPointerView(): PointerView = binding.pointerView
 
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(parent_layout)
+            getAllChildViews(binding.parentLayout)
             getAllFragmentViews()
         }
         return allViews
@@ -62,8 +62,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun getLayout(): Int = R.layout.activity_main
-
-//    override fun getPauseButton(): PauseButton? = pause_button
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {

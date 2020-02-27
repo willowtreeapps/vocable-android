@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SettingsTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/textColor</item>
+        <item name="android:colorForeground">@color/textColor</item>
+        <item name="colorAccent">@color/selectedColor</item>
+    </style>
+
     <style name="VocableButton" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textAllCaps">false</item>
@@ -47,9 +53,9 @@
     </style>
 
     <style name="SettingsButton">
-        <item name="android:layout_marginTop">@dimen/settings_button_margin</item>
-        <item name="android:layout_marginStart">@dimen/settings_button_margin</item>
-        <item name="android:layout_marginEnd">@dimen/settings_button_margin</item>
+        <item name="android:layout_marginTop">@dimen/settings_margin_small</item>
+        <item name="android:layout_marginStart">@dimen/settings_margin_small</item>
+        <item name="android:layout_marginEnd">@dimen/settings_margin_small</item>
         <item name="android:drawableStart">@drawable/ic_settings_light_48dp</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -87,27 +93,22 @@
         <item name="android:textSize">@dimen/close_button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:drawableEnd">@drawable/ic_close</item>
+        <item name="android:background">@drawable/button_default_background</item>
     </style>
 
     <style name="SettingsTitle">
-        <item name="android:layout_marginBottom">@dimen/settings_title_margin_bottom</item>
         <item name="android:textSize">@dimen/settings_title_text_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/selectedColor</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="ActionButton">
-        <item name="android:layout_width">@dimen/action_button_width</item>
         <item name="android:layout_height">@dimen/action_button_height</item>
-        <item name="android:layout_marginStart">@dimen/action_button_margin</item>
-        <item name="android:layout_marginEnd">@dimen/action_button_margin</item>
-        <item name="android:layout_marginBottom">@dimen/action_button_margin_bottom</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textSize">@dimen/action_button_text_size</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="VersionTextView">
@@ -120,5 +121,26 @@
         <item name="android:layout_height">@dimen/top_bar_button_height</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ConfirmationDialogText">
+        <item name="android:textSize">@dimen/dialog_title_text_size</item>
+        <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_text_margin</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="ConfirmationDialogButton">
+        <item name="android:layout_width">@dimen/dialog_button_width</item>
+        <item name="android:layout_height">@dimen/dialog_button_height</item>
+        <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_button_end_margin</item>
+        <item name="android:layout_marginBottom">@dimen/dialog_button_end_margin</item>
+        <item name="android:background">@drawable/vocable_dialog_button_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/dialog_button_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 </resources>
