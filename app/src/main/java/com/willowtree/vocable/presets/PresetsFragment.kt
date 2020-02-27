@@ -19,6 +19,8 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.keyboard.KeyboardFragment
+import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -247,11 +249,11 @@ class PresetsFragment : BaseFragment() {
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
         FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
 
-        private val categories = mutableListOf<String>()
+        private val categories = mutableListOf<Category>()
 
         var numPages = 0
 
-        fun setCategories(categories: List<String>) {
+        fun setCategories(categories: List<Category>) {
             with(this.categories) {
                 clear()
                 addAll(categories)
@@ -278,10 +280,10 @@ class PresetsFragment : BaseFragment() {
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
         FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
 
-        private val phrases = mutableListOf<String>()
+        private val phrases = mutableListOf<Phrase>()
         var numPages: Int = 0
 
-        fun setPhrases(phrases: List<String>) {
+        fun setPhrases(phrases: List<Phrase>) {
             with(this.phrases) {
                 clear()
                 addAll(phrases)

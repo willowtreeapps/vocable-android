@@ -2,12 +2,14 @@ package com.willowtree.vocable.presets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.willowtree.vocable.utils.VocableSharedPreferences
+import com.willowtree.vocable.BaseViewModel
+import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.Phrase
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class PresetsViewModel : ViewModel(), KoinComponent {
+class PresetsViewModel : BaseViewModel(), KoinComponent {
 
     companion object {
         private const val CATEGORY_GENERAL = "General"
@@ -23,7 +25,7 @@ class PresetsViewModel : ViewModel(), KoinComponent {
         const val CATEGORY_MY_SAYINGS = "My Sayings"
     }
 
-    private val sharedPrefs: VocableSharedPreferences by inject()
+    private val presetsRepository: PresetsRepository by inject()
 
     private val categories = mutableListOf(
         CATEGORY_GENERAL,
@@ -227,44 +229,77 @@ class PresetsViewModel : ViewModel(), KoinComponent {
         Pair(CATEGORY_NUMBERS, numbersPhrases)
     )
 
-    private val liveCategoryList = MutableLiveData<List<String>>()
-    val categoryList: LiveData<List<String>> = liveCategoryList
+    private val liveCategoryList = MutableLiveData<List<Category>>()
+    val categoryList: LiveData<List<Category>> = liveCategoryList
 
-    private val liveSelectedCategory = MutableLiveData<String>()
-    val selectedCategory: LiveData<String> = liveSelectedCategory
+    private val liveSelectedCategory = MutableLiveData<Category>()
+    val selectedCategory: LiveData<Category> = liveSelectedCategory
 
-    private val liveCurrentPhrases = MutableLiveData<List<String>>()
-    val currentPhrases: LiveData<List<String>> = liveCurrentPhrases
+    private val liveCurrentPhrases = MutableLiveData<List<Phrase>>()
+    val currentPhrases: LiveData<List<Phrase>> = liveCurrentPhrases
 
     init {
-        val mySayings = sharedPrefs.getMySayings()
-        if (mySayings.isNotEmpty()) {
-            categoriesMap[CATEGORY_MY_SAYINGS] = mySayings
-            categories.add(CATEGORY_MY_SAYINGS)
-        }
-        liveCategoryList.postValue(categories)
-        onCategorySelected(CATEGORY_GENERAL)
+        populateCategories()
     }
 
-    fun onCategorySelected(category: String) {
+    private fun populateCategories() {
+        backgroundScope.launch {
+            val categories = presetsRepository.getAllCategories()
+            if (categories.isEmpty()) {
+                populateDatabase()
+            } else {
+                liveCategoryList.postValue(categories)
+                onCategorySelected(categories.first())
+            }
+        }
+    }
+
+    // This is a temporary solution for populating the database until we set up JSON sources
+    private fun populateDatabase() {
+        backgroundScope.launch {
+            val categoryObjects = mutableListOf<Category>()
+            categories.forEachIndexed { index, name ->
+                categoryObjects.add(
+                    Category(
+                        index.toLong() + 1,
+                        System.currentTimeMillis(),
+                        false,
+                        name
+                    )
+                )
+            }
+            presetsRepository.populateCategories(categoryObjects)
+
+            var phraseIndex = 1L
+            val phraseObjects = mutableListOf<Phrase>()
+            categoryObjects.forEach { category ->
+                val phraseStrings = categoriesMap[category.name]
+                phraseStrings?.forEach { phraseString ->
+                    phraseObjects.add(
+                        Phrase(
+                            phraseIndex,
+                            System.currentTimeMillis(),
+                            false,
+                            0L,
+                            phraseString,
+                            category.identifier
+                        )
+                    )
+                    phraseIndex++
+                }
+            }
+            presetsRepository.populatePhrases(phraseObjects)
+
+            liveCategoryList.postValue(categoryObjects)
+            onCategorySelected(categoryObjects.first())
+        }
+    }
+
+    fun onCategorySelected(category: Category) {
         liveSelectedCategory.postValue(category)
-        liveCurrentPhrases.postValue(categoriesMap[category])
-    }
-
-    fun addSaying(saying: String) {
-        if (saying.isBlank()) {
-            return
-        }
-        sharedPrefs.addSaying(saying)
-        categoriesMap[CATEGORY_MY_SAYINGS] = sharedPrefs.getMySayings()
-        // Add My Sayings category if it doesn't exist
-        if (!categories.contains(CATEGORY_MY_SAYINGS)) {
-            categories.add(CATEGORY_MY_SAYINGS)
-            liveCategoryList.postValue(categories)
-        }
-        // Update phrases if My Sayings category is currently visible
-        if (liveSelectedCategory.value == CATEGORY_MY_SAYINGS) {
-            liveCurrentPhrases.postValue(categoriesMap[CATEGORY_MY_SAYINGS])
+        backgroundScope.launch {
+            val phrases = presetsRepository.getPhrasesForCategory(category.identifier)
+            liveCurrentPhrases.postValue(phrases)
         }
     }
 }
