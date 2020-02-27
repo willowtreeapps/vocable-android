@@ -11,13 +11,13 @@ abstract class VocableDatabase : RoomDatabase() {
     companion object {
         private var vocableDatabase: VocableDatabase? = null
 
-        fun getVocableDatabase(context: Context): VocableDatabase? {
+        fun getVocableDatabase(context: Context): VocableDatabase {
             if (vocableDatabase == null) {
                 vocableDatabase =
                     Room.databaseBuilder(context, VocableDatabase::class.java, "VocableDatabase")
                         .build()
             }
-            return vocableDatabase
+            return vocableDatabase as VocableDatabase
         }
     }
 
