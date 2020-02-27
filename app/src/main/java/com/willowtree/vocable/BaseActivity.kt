@@ -15,12 +15,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.ar.core.ArCoreApk
-import com.willowtree.vocable.customviews.PauseButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
+import com.willowtree.vocable.utils.VocableSharedPreferences
+import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
+
     private val minOpenGlVersion = 3.0
 
     private val displayMetrics = DisplayMetrics()
@@ -29,6 +31,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FaceTrackingViewModel
 
+    private val sharedPrefs: VocableSharedPreferences by inject()
+
     private var paused = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +40,9 @@ abstract class BaseActivity : AppCompatActivity() {
         if (!checkIsSupportedDeviceOrFinish()) {
             return
         }
-        setContentView(getLayout())
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
-//        subscribeToPauseButton()
     }
 
     protected abstract fun getPointerView(): PointerView
@@ -52,18 +54,20 @@ abstract class BaseActivity : AppCompatActivity() {
     @LayoutRes
     protected abstract fun getLayout(): Int
 
-//    protected abstract fun getPauseButton(): PauseButton?
-
     @CallSuper
     protected open fun subscribeToViewModel() {
         viewModel.showError.observe(this, Observer {
+            if (!sharedPrefs.getHeadTrackingEnabled()) {
+                getPointerView().isVisible = false
+                getErrorView().isVisible = false
+                return@Observer
+            }
             it?.let {
                 if (it) {
                     (currentView as? PointerListener)?.onPointerExit()
                 }
                 getErrorView().isVisible = it
                 getPointerView().isVisible = !it
-//                getPauseButton()?.togglePause(it)
             }
         })
         viewModel.pointerLocation.observe(this, Observer {
@@ -100,14 +104,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-//    private fun subscribeToPauseButton() {
-//        getPauseButton()?.isPaused?.observe(this, Observer {
-//            it.let {
-//                paused = it
-//            }
-//        })
-//    }
-
     private fun findIntersectingView() {
         currentView = null
         if (!paused) {
@@ -115,17 +111,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 if (viewIntersects(it, getPointerView())) {
                     currentView = it
                     (currentView as PointerListener).onPointerEnter()
-                    return
-                }
-            }
-
-        } else {
-            getAllViews().forEach {
-                if (viewIntersects(it, getPointerView())) {
-                    currentView = it
-                    if (currentView is PauseButton) {
-                        (currentView as PauseButton).onPointerEnter()
-                    }
                     return
                 }
             }

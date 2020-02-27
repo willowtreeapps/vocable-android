@@ -11,6 +11,11 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_developers">Contact Developers</string>
     <string name="version">V 0.0.0</string>
+    <string name="settings_head_tracking">Head Tracking</string>
+    <string name="settings_dialog_title">Leaving the app</string>
+    <string name="settings_dialog_message">You\'re about to be taken outside the app. You may lose head tracking control.</string>
+    <string name="settings_dialog_continue">Continue</string>
+    <string name="settings_dialog_cancel">Cancel</string>
 
     <!-- Button Text -->
     <string name="button_close">Close</string>
@@ -22,7 +27,7 @@
 
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Select letters below to start typing.</string>
-    
+
     <!-- Saved Phrase Success -->
     <string name="saved_successfully">Saved to</string>
     <string name="favorite_icon">&#160;&#xe87d;</string>
