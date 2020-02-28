@@ -11,6 +11,7 @@
     <!-- Speech Button -->
     <dimen name="speech_button_text_size">24sp</dimen>
     <dimen name="speech_button_margin">10dp</dimen>
+    <dimen name="speech_button_padding">8dp</dimen>
 
     <!-- Pause Button -->
     <dimen name="pause_button_margin">8dp</dimen>
@@ -91,9 +92,9 @@
 
     <!-- Phrases -->
     <dimen name="phrases_paging_button_width">104dp</dimen>
-    <dimen name="phrases_paging_button_height">96dp</dimen>
+    <dimen name="phrases_paging_button_height">80dp</dimen>
     <dimen name="phrases_paging_button_padding">32dp</dimen>
-    <dimen name="phrases_paging_margin_bottom">44dp</dimen>
+    <dimen name="phrases_paging_margin_bottom">16dp</dimen>
     <dimen name="phrases_page_number_text_size">24sp</dimen>
     <dimen name="phrases_page_number_margin">40dp</dimen>
     <dimen name="phrases_margin">8dp</dimen>
