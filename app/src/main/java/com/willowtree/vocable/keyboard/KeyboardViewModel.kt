@@ -11,6 +11,10 @@ import org.koin.core.inject
 
 class KeyboardViewModel : BaseViewModel() {
 
+    companion object {
+        private const val PHRASE_ADDED_DELAY = 2000L
+    }
+
     private val presetsRepository: PresetsRepository by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
@@ -29,7 +33,7 @@ class KeyboardViewModel : BaseViewModel() {
                 )
             )
             liveShowPhraseAdded.postValue(true)
-            delay(2000)
+            delay(PHRASE_ADDED_DELAY)
             liveShowPhraseAdded.postValue(false)
         }
     }
