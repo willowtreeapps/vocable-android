@@ -253,8 +253,20 @@ class PresetsViewModel : BaseViewModel() {
                         it.name == CATEGORY_MY_SAYINGS
                     }
                 }
-                liveCategoryList.postValue(categories)
-                onCategorySelected(categories.first())
+                val currentCategoryList = liveCategoryList.value
+                val currentCategory = liveSelectedCategory.value
+                if (currentCategoryList?.size != categories.size || !currentCategoryList.containsAll(
+                        categories
+                    )
+                ) {
+                    liveCategoryList.postValue(categories)
+                }
+                if (currentCategory == null || !categories.contains(currentCategory)) {
+                    onCategorySelected(categories.first())
+                } else {
+                    // Update phrases for category if needed
+                    onCategorySelected(currentCategory)
+                }
             }
         }
     }
