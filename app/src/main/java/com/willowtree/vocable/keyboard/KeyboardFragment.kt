@@ -219,11 +219,6 @@ class KeyboardFragment : BaseFragment() {
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        CurrentKeyboardText.clearTypedText()
-        super.onDestroy()
-    }
-
     private val allViews = mutableListOf<View>()
 
     override fun getAllViews(): List<View> {
