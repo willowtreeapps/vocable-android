@@ -175,6 +175,11 @@ class PresetsFragment : BaseFragment() {
         super.onDestroyView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        presetsViewModel.populateCategories()
+    }
+
     private fun subscribeToViewModel() {
         SpokenText.observe(viewLifecycleOwner, Observer {
             binding?.currentText?.text = if (it.isNullOrBlank()) {

@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import org.koin.core.KoinComponent
 
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel : ViewModel(), KoinComponent {
 
     private val viewModelJob = SupervisorJob()
     protected val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)

@@ -17,6 +17,9 @@ interface CategoryDao {
     @Query("SELECT * FROM Category")
     suspend fun getAllCategories(): List<Category>
 
-    @Query("SELECT * FROM Category WHERE identifier == :categoryId")
+    @Query("SELECT * FROM Category WHERE identifier = :categoryId")
     suspend fun getCategoryById(categoryId: Long): Category
+
+    @Query("SELECT identifier FROM Category WHERE name = 'My Sayings'")
+    suspend fun getMySayingsId(): Long
 }

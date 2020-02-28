@@ -5,6 +5,11 @@
     android:orientation="horizontal">
 
     <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/save_button"
+        style="@style/TopBarButton"
+        android:layout_marginEnd="@dimen/top_bar_button_margin" />
+
+    <com.willowtree.vocable.customviews.ActionButton
         android:id="@+id/presets_button"
         style="@style/TopBarButton"
         android:layout_marginEnd="@dimen/top_bar_button_margin" />
