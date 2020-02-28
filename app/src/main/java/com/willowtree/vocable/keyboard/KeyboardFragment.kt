@@ -86,6 +86,8 @@ class KeyboardFragment : BaseFragment() {
             ) {
                 text = it.value
                 action = {
+                    //This action mimics sentence capitalization
+                    //Example: "This is what's going on in here. Do you get it? Some letters are capitalized."
                     val currentText = binding?.keyboardInput?.text?.toString() ?: ""
                     if (isDefaultTextVisible()) {
                         binding?.keyboardInput?.text = null
@@ -101,10 +103,7 @@ class KeyboardFragment : BaseFragment() {
     }
 
     private fun isDefaultTextVisible(): Boolean {
-        if (binding?.keyboardInput?.text.toString() == getString(R.string.keyboard_select_letters)) {
-            return true
-        }
-        return false
+        return binding?.keyboardInput?.text.toString() == getString(R.string.keyboard_select_letters)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
