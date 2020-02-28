@@ -13,12 +13,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
-import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
+import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.presets.PresetsFragment
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import java.util.*
 
 
 class KeyboardFragment : BaseFragment() {
@@ -75,21 +77,39 @@ class KeyboardFragment : BaseFragment() {
 
     private fun populateKeys() {
         KEYS.withIndex().forEach {
-            layoutInflater.inflate(R.layout.keyboard_key_layout, binding?.keyboardKeyHolder, true)
-            (binding?.keyboardKeyHolder?.getChildAt(it.index) as VocableButton).text = it.value
+            with(
+                KeyboardKeyLayoutBinding.inflate(
+                    layoutInflater,
+                    binding?.keyboardKeyHolder,
+                    true
+                ).root as ActionButton
+            ) {
+                text = it.value
+                action = {
+                    //This action mimics sentence capitalization
+                    //Example: "This is what's going on in here. Do you get it? Some letters are capitalized."
+                    val currentText = binding?.keyboardInput?.text?.toString() ?: ""
+                    if (isDefaultTextVisible()) {
+                        binding?.keyboardInput?.text = null
+                        binding?.keyboardInput?.append(text?.toString())
+                    } else if (currentText.endsWith(". ") || currentText.endsWith("? ")) {
+                        binding?.keyboardInput?.append(text?.toString())
+                    } else {
+                        binding?.keyboardInput?.append(text?.toString()?.toLowerCase(Locale.getDefault()))
+                    }
+                }
+            }
         }
+    }
+
+    private fun isDefaultTextVisible(): Boolean {
+        return binding?.keyboardInput?.text.toString() == getString(R.string.keyboard_select_letters)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CurrentKeyboardText.typedText.observe(viewLifecycleOwner, Observer {
-            if (it.isNullOrEmpty()) {
-                binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
-            } else {
-                binding?.keyboardInput?.setText(it)
-            }
-        })
+
         VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
             binding?.speakerIcon?.isVisible = it ?: false
         })
@@ -115,9 +135,11 @@ class KeyboardFragment : BaseFragment() {
         binding?.actionButtonContainer?.saveButton?.let {
             it.setIconWithNoText(R.drawable.ic_heart_border_blue)
             it.action = {
-                binding?.keyboardInput?.text?.let { text ->
-                    if (text.isNotBlank() && text.toString() != getString(R.string.keyboard_select_letters)) {
-                        viewModel.addNewPhrase(text.toString())
+                if (!isDefaultTextVisible()) {
+                    binding?.keyboardInput?.text?.let { text ->
+                        if (text.isNotBlank()) {
+                            viewModel.addNewPhrase(text.toString())
+                        }
                     }
                 }
             }
@@ -126,33 +148,47 @@ class KeyboardFragment : BaseFragment() {
         binding?.keyboardClearButton?.let {
             it.setIconWithNoText(R.drawable.ic_delete)
             it.action = {
-                CurrentKeyboardText.clearTypedText()
+                binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
             }
         }
 
         binding?.keyboardSpaceButton?.let {
             it.setIconWithNoText(R.drawable.ic_space_bar_56dp)
             it.action = {
-                CurrentKeyboardText.spaceCharacter()
+                if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
+                    binding?.keyboardInput?.append(" ")
+                }
             }
         }
 
         binding?.keyboardBackspaceButton?.let {
             it.setIconWithNoText(R.drawable.ic_backspace)
             it.action = {
-                CurrentKeyboardText.backspaceCharacter()
+                if (!isDefaultTextVisible()) {
+                    binding?.keyboardInput?.let { keyboardInput ->
+                        keyboardInput.setText(keyboardInput.text.toString().dropLast(1))
+                        keyboardInput.setSelection(
+                            keyboardInput.text?.length ?: 0
+                        )
+                        if (keyboardInput.text.isNullOrEmpty()) {
+                            keyboardInput.setText(R.string.keyboard_select_letters)
+                        }
+                    }
+                }
             }
         }
 
         binding?.keyboardSpeakButton?.let {
             it.setIconWithNoText(R.drawable.ic_speak_40dp)
             it.action = {
-                VocableTextToSpeech.getTextToSpeech()?.speak(
-                    binding?.keyboardInput?.text,
-                    TextToSpeech.QUEUE_FLUSH,
-                    null,
-                    id.toString()
-                )
+                if (!isDefaultTextVisible()) {
+                    VocableTextToSpeech.getTextToSpeech()?.speak(
+                        binding?.keyboardInput?.text,
+                        TextToSpeech.QUEUE_FLUSH,
+                        null,
+                        id.toString()
+                    )
+                }
             }
         }
 
@@ -180,11 +216,6 @@ class KeyboardFragment : BaseFragment() {
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        CurrentKeyboardText.clearTypedText()
-        super.onDestroy()
     }
 
     private val allViews = mutableListOf<View>()
