@@ -6,10 +6,9 @@ import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class PresetsViewModel : BaseViewModel(), KoinComponent {
+class PresetsViewModel : BaseViewModel() {
 
     companion object {
         private const val CATEGORY_GENERAL = "General"
@@ -22,7 +21,7 @@ class PresetsViewModel : BaseViewModel(), KoinComponent {
         private const val CATEGORY_TIME = "Time"
         private const val CATEGORY_PEOPLE = "People"
         private const val CATEGORY_NUMBERS = "Numbers"
-        const val CATEGORY_MY_SAYINGS = "My Sayings"
+        private const val CATEGORY_MY_SAYINGS = "My Sayings"
     }
 
     private val presetsRepository: PresetsRepository by inject()
@@ -37,7 +36,8 @@ class PresetsViewModel : BaseViewModel(), KoinComponent {
         CATEGORY_QUESTIONS,
         CATEGORY_TIME,
         CATEGORY_PEOPLE,
-        CATEGORY_NUMBERS
+        CATEGORY_NUMBERS,
+        CATEGORY_MY_SAYINGS
     )
 
     private val generalPhrases = listOf(
@@ -242,14 +242,31 @@ class PresetsViewModel : BaseViewModel(), KoinComponent {
         populateCategories()
     }
 
-    private fun populateCategories() {
+    fun populateCategories() {
         backgroundScope.launch {
-            val categories = presetsRepository.getAllCategories()
+            val categories = presetsRepository.getAllCategories().toMutableList()
             if (categories.isEmpty()) {
                 populateDatabase()
             } else {
-                liveCategoryList.postValue(categories)
-                onCategorySelected(categories.first())
+                if (presetsRepository.getUserGeneratedPhrases().isEmpty()) {
+                    categories.removeIf {
+                        it.name == CATEGORY_MY_SAYINGS
+                    }
+                }
+                val currentCategoryList = liveCategoryList.value
+                val currentCategory = liveSelectedCategory.value
+                if (currentCategoryList?.size != categories.size || !currentCategoryList.containsAll(
+                        categories
+                    )
+                ) {
+                    liveCategoryList.postValue(categories)
+                }
+                if (currentCategory == null || !categories.contains(currentCategory)) {
+                    onCategorySelected(categories.first())
+                } else {
+                    // Update phrases for category if needed
+                    onCategorySelected(currentCategory)
+                }
             }
         }
     }
@@ -298,7 +315,11 @@ class PresetsViewModel : BaseViewModel(), KoinComponent {
     fun onCategorySelected(category: Category) {
         liveSelectedCategory.postValue(category)
         backgroundScope.launch {
-            val phrases = presetsRepository.getPhrasesForCategory(category.identifier)
+            val phrases = if (category.name == CATEGORY_MY_SAYINGS) {
+                presetsRepository.getUserGeneratedPhrases()
+            } else {
+                presetsRepository.getPhrasesForCategory(category.identifier)
+            }
             liveCurrentPhrases.postValue(phrases)
         }
     }

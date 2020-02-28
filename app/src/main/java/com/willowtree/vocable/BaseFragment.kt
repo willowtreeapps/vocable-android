@@ -6,6 +6,7 @@ import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
@@ -17,7 +18,7 @@ abstract class BaseFragment : Fragment() {
         iconCharStart: Int,
         iconCharEnd: Int,
         view: TextView,
-        icon: Int
+        @DrawableRes icon: Int
     ) {
         val sBuilder = SpannableStringBuilder()
 
@@ -27,7 +28,7 @@ abstract class BaseFragment : Fragment() {
         val imageSpan = ImageSpan(
             requireContext(),
             icon,
-            DynamicDrawableSpan.ALIGN_BOTTOM
+            DynamicDrawableSpan.ALIGN_BASELINE
         )
         sBuilder.setSpan(imageSpan, iconCharStart, iconCharEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 

@@ -6,9 +6,11 @@ import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -21,6 +23,7 @@ import com.willowtree.vocable.utils.VocableTextToSpeech
 
 class KeyboardFragment : BaseFragment() {
 
+    private lateinit var viewModel: KeyboardViewModel
     private var binding: FragmentKeyboardBinding? = null
 
     companion object {
@@ -109,6 +112,17 @@ class KeyboardFragment : BaseFragment() {
             }
         }
 
+        binding?.actionButtonContainer?.saveButton?.let {
+            it.setIconWithNoText(R.drawable.ic_heart_border_blue)
+            it.action = {
+                binding?.keyboardInput?.text?.let { text ->
+                    if (text.isNotBlank() && text.toString() != getString(R.string.keyboard_select_letters)) {
+                        viewModel.addNewPhrase(text.toString())
+                    }
+                }
+            }
+        }
+
         binding?.keyboardClearButton?.let {
             it.setIconWithNoText(R.drawable.ic_delete)
             it.action = {
@@ -141,6 +155,26 @@ class KeyboardFragment : BaseFragment() {
                 )
             }
         }
+
+        binding?.phraseSavedView?.root?.let {
+            buildTextWithIcon(
+                getString(R.string.saved_successfully),
+                getString(R.string.category_saved_to),
+                iconCharStart = 9,
+                iconCharEnd = 10,
+                view = it as TextView,
+                icon = R.drawable.ic_heart_solid_blue
+            )
+        }
+
+        viewModel = ViewModelProviders.of(this).get(KeyboardViewModel::class.java)
+        subscribeToViewModel()
+    }
+
+    private fun subscribeToViewModel() {
+        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
+            binding?.phraseSavedView?.root?.isVisible = it ?: false
+        })
     }
 
     override fun onDestroyView() {
