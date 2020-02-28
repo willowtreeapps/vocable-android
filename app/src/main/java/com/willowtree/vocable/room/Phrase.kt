@@ -3,10 +3,11 @@ package com.willowtree.vocable.room
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity
+@Entity(indices = [Index(value = ["utterance"], unique = true)])
 @Parcelize
 data class Phrase(
     @PrimaryKey val identifier: Long,
