@@ -143,14 +143,15 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.8" />
 
-        <com.willowtree.vocable.customviews.ActionButton
+        <com.willowtree.vocable.customviews.VocableImageButton
             android:id="@+id/keyboard_clear_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/keyboard_bottom_bar_height"
             android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
             android:background="@drawable/button_default_background"
             android:gravity="center"
-            android:textColor="@color/textColor"
+            android:scaleType="center"
+            android:src="@drawable/keyboard_delete_button_icon"
             android:textSize="@dimen/keyboard_text_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/keyboard_space_button"
@@ -158,14 +159,15 @@
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.willowtree.vocable.customviews.ActionButton
+        <com.willowtree.vocable.customviews.VocableImageButton
             android:id="@+id/keyboard_space_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/keyboard_bottom_bar_height"
             android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
             android:background="@drawable/button_default_background"
             android:gravity="center"
-            android:textColor="@color/textColor"
+            android:scaleType="center"
+            android:src="@drawable/keyboard_space_button_icon"
             android:textSize="@dimen/keyboard_text_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/keyboard_backspace_button"
@@ -173,14 +175,15 @@
             app:layout_constraintStart_toEndOf="@+id/keyboard_clear_button"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.willowtree.vocable.customviews.ActionButton
+        <com.willowtree.vocable.customviews.VocableImageButton
             android:id="@+id/keyboard_backspace_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/keyboard_bottom_bar_height"
             android:layout_marginEnd="@dimen/keyboard_bottom_bar_key_margin"
             android:background="@drawable/button_default_background"
             android:gravity="center"
-            android:textColor="@color/textColor"
+            android:scaleType="center"
+            android:src="@drawable/keyboard_backspace_button_icon"
             android:textSize="@dimen/keyboard_text_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/keyboard_speak_button"
@@ -188,13 +191,14 @@
             app:layout_constraintStart_toEndOf="@+id/keyboard_space_button"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.willowtree.vocable.customviews.ActionButton
+        <com.willowtree.vocable.customviews.VocableImageButton
             android:id="@+id/keyboard_speak_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/keyboard_bottom_bar_height"
             android:background="@drawable/button_default_background"
             android:gravity="center"
-            android:textColor="@color/textColor"
+            android:scaleType="center"
+            android:src="@drawable/keyboard_speak_button_icon"
             android:textSize="@dimen/keyboard_text_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"

@@ -51,7 +51,6 @@ class SettingsActivity : BaseActivity() {
         }
 
         with(binding.settingsCloseButton) {
-            setIconWithNoText(R.drawable.ic_close)
             action = {
                 finish()
             }
