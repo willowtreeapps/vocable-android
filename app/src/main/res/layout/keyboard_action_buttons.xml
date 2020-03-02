@@ -4,18 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/save_button"
         style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin" />
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:scaleType="center"
+        android:src="@drawable/add_favorite_action_button_icon" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/presets_button"
         style="@style/TopBarButton"
-        android:layout_marginEnd="@dimen/top_bar_button_margin" />
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:scaleType="center"
+        android:src="@drawable/presets_action_button_icon" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/settings_button"
-        style="@style/TopBarButton" />
+        style="@style/TopBarButton"
+        android:scaleType="center"
+        android:src="@drawable/settings_action_button_icon" />
 
 </LinearLayout>

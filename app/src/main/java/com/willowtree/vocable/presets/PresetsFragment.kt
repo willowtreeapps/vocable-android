@@ -58,7 +58,6 @@ class PresetsFragment : BaseFragment() {
         }
 
         binding?.categoryForwardButton?.let {
-            it.setIconWithNoText(R.drawable.category_forward_button_icon)
             it.action = {
                 when (val currentPosition = binding?.categoryView?.currentItem) {
                     null -> {
@@ -75,7 +74,6 @@ class PresetsFragment : BaseFragment() {
         }
 
         binding?.categoryBackButton?.let {
-            it.setIconWithNoText(R.drawable.category_back_button_icon)
             it.action = {
                 when (val currentPosition = binding?.categoryView?.currentItem) {
                     null -> {
@@ -92,7 +90,6 @@ class PresetsFragment : BaseFragment() {
         }
 
         binding?.phrasesForwardButton?.let {
-            it.setIconWithNoText(R.drawable.phrases_forward_button_icon)
             it.action = {
                 when (val currentPosition = binding?.phrasesView?.currentItem) {
                     null -> {
@@ -109,7 +106,6 @@ class PresetsFragment : BaseFragment() {
         }
 
         binding?.phrasesBackButton?.let {
-            it.setIconWithNoText(R.drawable.phrases_back_button_icon)
             it.action = {
                 when (val currentPosition = binding?.phrasesView?.currentItem) {
                     null -> {
@@ -126,7 +122,6 @@ class PresetsFragment : BaseFragment() {
         }
 
         binding?.actionButtonContainer?.keyboardButton?.let {
-            it.setIconWithNoText(R.drawable.ic_keyboard)
             it.action = {
                 fragmentManager
                     ?.beginTransaction()
@@ -136,7 +131,6 @@ class PresetsFragment : BaseFragment() {
         }
 
         binding?.actionButtonContainer?.settingsButton?.let {
-            it.setIconWithNoText(R.drawable.ic_settings_light_48dp)
             it.action = {
                 val intent = Intent(activity, SettingsActivity::class.java)
                 startActivity(intent)
