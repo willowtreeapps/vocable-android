@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,6 +33,7 @@ class CategoriesFragment : BaseFragment() {
     private var binding: CategoriesFragmentBinding? = null
     private lateinit var viewModel: PresetsViewModel
     private val allViews = mutableListOf<View>()
+    private var maxCategories = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +42,11 @@ class CategoriesFragment : BaseFragment() {
     ): View? {
         binding = CategoriesFragmentBinding.inflate(inflater, container, false)
 
+        maxCategories = resources.getInteger(R.integer.max_categories)
+        val isTablet = resources.getBoolean(R.bool.is_tablet)
+
         val categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
-        categories?.forEach { category ->
+        categories?.forEachIndexed { index, category ->
             val categoryButton =
                 CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
@@ -50,11 +55,16 @@ class CategoriesFragment : BaseFragment() {
                 action = {
                     viewModel.onCategorySelected(category)
                 }
+                if (!isTablet && index + 1 == maxCategories) {
+                    layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
+                        marginStart = 0
+                    }
+                }
             }
             binding?.categoryButtonContainer?.addView(categoryButton.root)
         }
         categories?.let {
-            for (i in 0 until PresetsFragment.MAX_CATEGORIES - it.size) {
+            for (i in 0 until maxCategories - it.size) {
                 val hiddenButton =
                     CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
                 binding?.categoryButtonContainer?.addView(hiddenButton.root.apply {

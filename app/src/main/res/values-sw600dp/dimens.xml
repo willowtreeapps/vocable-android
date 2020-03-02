@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Spoken Text View -->
+    <dimen name="spoken_text_view_height">112dp</dimen>
+    <dimen name="spoken_text_view_text_size">48sp</dimen>
+
+    <!-- Top Bar -->
+    <dimen name="top_bar_button_height">96dp</dimen>
+    <dimen name="top_bar_button_width">104dp</dimen>
+
+    <!-- Categories -->
+    <dimen name="categories_paging_button_width">104dp</dimen>
+    <dimen name="categories_paging_button_height">112dp</dimen>
+    <dimen name="categories_side_margin">16dp</dimen>
+
+    <!-- Phrases -->
+    <dimen name="phrases_paging_button_width">104dp</dimen>
+    <dimen name="phrases_paging_button_height">80dp</dimen>
+
+    <!-- Main Activity -->
+    <dimen name="main_activity_category_margin">16dp</dimen>
+    <dimen name="main_activity_side_margin">32dp</dimen>
+    <dimen name="main_activity_top_bottom_margin">40dp</dimen>
+
+    <!-- Category Button -->
+    <dimen name="category_button_margin">8dp</dimen>
+</resources>

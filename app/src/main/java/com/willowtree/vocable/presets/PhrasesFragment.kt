@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
@@ -30,6 +31,7 @@ class PhrasesFragment : BaseFragment() {
 
     private var binding: FragmentPhrasesBinding? = null
     private val allViews = mutableListOf<View>()
+    private var maxPhrases = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +39,8 @@ class PhrasesFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPhrasesBinding.inflate(inflater, container, false)
+
+        maxPhrases = resources.getInteger(R.integer.max_phrases)
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
@@ -55,7 +59,7 @@ class PhrasesFragment : BaseFragment() {
         }
         phrases?.let {
             // Add invisible views to fill out the rest of the space
-            for (i in 0 until PresetsFragment.MAX_PHRASES - it.size) {
+            for (i in 0 until maxPhrases - it.size) {
                 val hiddenButton =
                     PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
                 binding?.phrasesContainer?.addView(hiddenButton.root.apply {

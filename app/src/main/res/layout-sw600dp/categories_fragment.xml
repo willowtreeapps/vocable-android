@@ -3,4 +3,5 @@
     android:id="@+id/category_button_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/category_group_background"
     android:orientation="horizontal" />

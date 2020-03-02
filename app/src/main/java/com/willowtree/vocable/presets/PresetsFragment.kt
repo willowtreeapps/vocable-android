@@ -29,13 +29,11 @@ import kotlin.math.min
 
 class PresetsFragment : BaseFragment() {
 
-    companion object {
-        const val MAX_CATEGORIES = 4
-        const val MAX_PHRASES = 9
-    }
-
     private var binding: FragmentPresetsBinding? = null
     private val allViews = mutableListOf<View>()
+
+    private var maxCategories = 1
+    private var maxPhrases = 1
 
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
@@ -54,58 +52,75 @@ class PresetsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.categoryForwardButton?.action = {
-            when (val currentPosition = binding?.categoryView?.currentItem) {
-                null -> {
-                    // No-op
-                }
-                categoriesAdapter.itemCount - 1 -> {
-                    binding?.categoryView?.setCurrentItem(0, true)
-                }
-                else -> {
-                    binding?.categoryView?.setCurrentItem(currentPosition + 1, true)
+        with(resources) {
+            maxCategories = getInteger(R.integer.max_categories)
+            maxPhrases = getInteger(R.integer.max_phrases)
+        }
+
+        binding?.categoryForwardButton?.let {
+            it.setIconWithNoText(R.drawable.category_forward_button_icon)
+            it.action = {
+                when (val currentPosition = binding?.categoryView?.currentItem) {
+                    null -> {
+                        // No-op
+                    }
+                    categoriesAdapter.itemCount - 1 -> {
+                        binding?.categoryView?.setCurrentItem(0, true)
+                    }
+                    else -> {
+                        binding?.categoryView?.setCurrentItem(currentPosition + 1, true)
+                    }
                 }
             }
         }
 
-        binding?.categoryBackButton?.action = {
-            when (val currentPosition = binding?.categoryView?.currentItem) {
-                null -> {
-                    // No-op
-                }
-                0 -> {
-                    binding?.categoryView?.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                }
-                else -> {
-                    binding?.categoryView?.setCurrentItem(currentPosition - 1, true)
-                }
-            }
-        }
-
-        binding?.phrasesForwardButton?.action = {
-            when (val currentPosition = binding?.phrasesView?.currentItem) {
-                null -> {
-                    // No-op
-                }
-                phrasesAdapter.itemCount - 1 -> {
-                    binding?.phrasesView?.setCurrentItem(0, true)
-                }
-                else -> {
-                    binding?.phrasesView?.setCurrentItem(currentPosition + 1, true)
+        binding?.categoryBackButton?.let {
+            it.setIconWithNoText(R.drawable.category_back_button_icon)
+            it.action = {
+                when (val currentPosition = binding?.categoryView?.currentItem) {
+                    null -> {
+                        // No-op
+                    }
+                    0 -> {
+                        binding?.categoryView?.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                    }
+                    else -> {
+                        binding?.categoryView?.setCurrentItem(currentPosition - 1, true)
+                    }
                 }
             }
         }
 
-        binding?.phrasesBackButton?.action = {
-            when (val currentPosition = binding?.phrasesView?.currentItem) {
-                null -> {
-                    // No-op
+        binding?.phrasesForwardButton?.let {
+            it.setIconWithNoText(R.drawable.phrases_forward_button_icon)
+            it.action = {
+                when (val currentPosition = binding?.phrasesView?.currentItem) {
+                    null -> {
+                        // No-op
+                    }
+                    phrasesAdapter.itemCount - 1 -> {
+                        binding?.phrasesView?.setCurrentItem(0, true)
+                    }
+                    else -> {
+                        binding?.phrasesView?.setCurrentItem(currentPosition + 1, true)
+                    }
                 }
-                0 -> {
-                    binding?.phrasesView?.setCurrentItem(phrasesAdapter.itemCount - 1, true)
-                }
-                else -> {
-                    binding?.phrasesView?.setCurrentItem(currentPosition - 1, true)
+            }
+        }
+
+        binding?.phrasesBackButton?.let {
+            it.setIconWithNoText(R.drawable.phrases_back_button_icon)
+            it.action = {
+                when (val currentPosition = binding?.phrasesView?.currentItem) {
+                    null -> {
+                        // No-op
+                    }
+                    0 -> {
+                        binding?.phrasesView?.setCurrentItem(phrasesAdapter.itemCount - 1, true)
+                    }
+                    else -> {
+                        binding?.phrasesView?.setCurrentItem(currentPosition - 1, true)
+                    }
                 }
             }
         }
@@ -263,7 +278,7 @@ class PresetsFragment : BaseFragment() {
                 clear()
                 addAll(categories)
             }
-            numPages = ceil(categories.size / MAX_CATEGORIES.toDouble()).toInt()
+            numPages = ceil(categories.size / maxCategories.toDouble()).toInt()
             notifyDataSetChanged()
         }
 
@@ -272,10 +287,10 @@ class PresetsFragment : BaseFragment() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            val startPosition = (position % numPages) * MAX_CATEGORIES
+            val startPosition = (position % numPages) * maxCategories
             val subList = categories.subList(
                 startPosition,
-                min(categories.size, startPosition + MAX_CATEGORIES)
+                min(categories.size, startPosition + maxCategories)
             )
 
             return CategoriesFragment.newInstance(subList)
@@ -293,7 +308,7 @@ class PresetsFragment : BaseFragment() {
                 clear()
                 addAll(phrases)
             }
-            numPages = ceil(phrases.size / MAX_PHRASES.toDouble()).toInt()
+            numPages = ceil(phrases.size / maxPhrases.toDouble()).toInt()
             notifyDataSetChanged()
         }
 
@@ -302,9 +317,9 @@ class PresetsFragment : BaseFragment() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            val startPosition = (position % numPages) * MAX_PHRASES
+            val startPosition = (position % numPages) * maxPhrases
             val sublist =
-                phrases.subList(startPosition, min(phrases.size, startPosition + MAX_PHRASES))
+                phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
 
             return PhrasesFragment.newInstance(sublist)
         }
