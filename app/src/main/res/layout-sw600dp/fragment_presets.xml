@@ -11,10 +11,9 @@
         android:id="@+id/current_text"
         style="@style/SpokenTextView"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
         android:ellipsize="end"
         android:gravity="start|center_vertical"
-        android:lines="2"
+        android:lines="1"
         android:text="@string/select_something"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@+id/speaker_icon"
@@ -45,18 +44,19 @@
         android:background="@drawable/category_button_background"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
+        app:layout_constraintTop_toBottomOf="@+id/current_text" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/category_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/categories_side_margin"
+        android:layout_marginTop="@dimen/categories_margin"
         android:layout_marginEnd="@dimen/categories_side_margin"
         app:layout_constraintBottom_toBottomOf="@+id/category_back_button"
         app:layout_constraintEnd_toStartOf="@+id/category_forward_button"
         app:layout_constraintStart_toEndOf="@+id/category_back_button"
-        app:layout_constraintTop_toTopOf="@+id/category_back_button" />
+        app:layout_constraintTop_toBottomOf="@+id/current_text" />
 
     <com.willowtree.vocable.customviews.PagingButton
         android:id="@+id/category_forward_button"
@@ -67,7 +67,7 @@
         android:background="@drawable/category_button_background"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
+        app:layout_constraintTop_toBottomOf="@+id/current_text" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/phrases_view"
@@ -115,7 +115,7 @@
         layout="@layout/presets_action_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/main_activity_side_margin"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
