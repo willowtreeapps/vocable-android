@@ -6,5 +6,7 @@
     android:layout_columnWeight="1"
     android:layout_marginEnd="@dimen/speech_button_margin"
     android:layout_marginBottom="@dimen/speech_button_margin"
+    android:ellipsize="end"
+    android:maxLines="2"
     android:paddingStart="@dimen/speech_button_padding"
     android:paddingEnd="@dimen/speech_button_padding" />
