@@ -115,7 +115,6 @@ class KeyboardFragment : BaseFragment() {
         })
 
         binding?.actionButtonContainer?.presetsButton?.let {
-            it.setIconWithNoText(R.drawable.ic_presets)
             it.action = {
                 fragmentManager
                     ?.beginTransaction()
@@ -125,7 +124,6 @@ class KeyboardFragment : BaseFragment() {
         }
 
         binding?.actionButtonContainer?.settingsButton?.let {
-            it.setIconWithNoText(R.drawable.ic_settings_light_48dp)
             it.action = {
                 val intent = Intent(activity, SettingsActivity::class.java)
                 startActivity(intent)
@@ -133,7 +131,6 @@ class KeyboardFragment : BaseFragment() {
         }
 
         binding?.actionButtonContainer?.saveButton?.let {
-            it.setIconWithNoText(R.drawable.ic_heart_border_blue)
             it.action = {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
@@ -146,14 +143,12 @@ class KeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardClearButton?.let {
-            it.setIconWithNoText(R.drawable.ic_delete)
             it.action = {
                 binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
             }
         }
 
         binding?.keyboardSpaceButton?.let {
-            it.setIconWithNoText(R.drawable.ic_space_bar_56dp)
             it.action = {
                 if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
                     binding?.keyboardInput?.append(" ")
@@ -162,7 +157,6 @@ class KeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardBackspaceButton?.let {
-            it.setIconWithNoText(R.drawable.ic_backspace)
             it.action = {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.let { keyboardInput ->
@@ -179,7 +173,6 @@ class KeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardSpeakButton?.let {
-            it.setIconWithNoText(R.drawable.ic_speak_40dp)
             it.action = {
                 if (!isDefaultTextVisible()) {
                     VocableTextToSpeech.getTextToSpeech()?.speak(

@@ -35,7 +35,6 @@
         <item name="android:button">@android:color/transparent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_margin">@dimen/category_button_margin</item>
         <item name="android:layout_weight">1</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
@@ -62,7 +61,7 @@
 
     <style name="SpokenTextView">
         <item name="android:layout_height">@dimen/spoken_text_view_height</item>
-        <item name="android:layout_marginStart">44dp</item>
+        <item name="android:layout_marginStart">@dimen/main_activity_side_margin</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/spoken_text_view_text_size</item>
         <item name="android:textStyle">bold</item>
