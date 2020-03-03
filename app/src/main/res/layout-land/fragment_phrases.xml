@@ -3,5 +3,5 @@
     android:id="@+id/phrases_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="2"
-    android:rowCount="4" />
+    android:columnCount="3"
+    android:rowCount="2" />

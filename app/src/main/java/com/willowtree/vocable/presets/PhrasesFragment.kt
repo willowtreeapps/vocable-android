@@ -20,7 +20,6 @@ class PhrasesFragment : BaseFragment() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
-        private const val NUM_COLUMNS = 3
 
         fun newInstance(phrases: List<Phrase>): PhrasesFragment {
             return PhrasesFragment().apply {
@@ -34,6 +33,7 @@ class PhrasesFragment : BaseFragment() {
     private var binding: FragmentPhrasesBinding? = null
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
+    private var numColumns = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +43,7 @@ class PhrasesFragment : BaseFragment() {
         binding = FragmentPhrasesBinding.inflate(inflater, container, false)
 
         maxPhrases = resources.getInteger(R.integer.max_phrases)
+        numColumns = resources.getInteger(R.integer.phrases_columns)
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
@@ -51,12 +52,12 @@ class PhrasesFragment : BaseFragment() {
             with(phraseButton.root as VocableButton) {
                 text = phrase.utterance
                 // Remove end margin on last column
-                if (index % NUM_COLUMNS == NUM_COLUMNS - 1) {
+                if (index % numColumns == numColumns - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
                         marginEnd = 0
                     }
                 }
-                if(index >= maxPhrases - NUM_COLUMNS){
+                if(index >= maxPhrases - numColumns){
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
                         updateMargins(bottom = 0)
                     }
