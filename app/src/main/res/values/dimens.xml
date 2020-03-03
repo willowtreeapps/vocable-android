@@ -57,7 +57,7 @@
     <dimen name="version_text_size">24sp</dimen>
 
     <!-- Highlighted Background -->
-    <dimen name="highlighted_background_radius">4dp</dimen>
+    <dimen name="highlighted_background_radius">8dp</dimen>
     <dimen name="highlighted_background_width">4dp</dimen>
 
     <!-- Main Activity -->

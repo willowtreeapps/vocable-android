@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
+import androidx.core.view.marginBottom
+import androidx.core.view.updateMargins
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -52,6 +54,11 @@ class PhrasesFragment : BaseFragment() {
                 if (index % NUM_COLUMNS == NUM_COLUMNS - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
                         marginEnd = 0
+                    }
+                }
+                if(index >= maxPhrases - NUM_COLUMNS){
+                    layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
+                        updateMargins(bottom = 0)
                     }
                 }
             }
