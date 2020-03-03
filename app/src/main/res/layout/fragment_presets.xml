@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@+id/current_text"
         app:layout_constraintTop_toTopOf="@+id/current_text" />
 
-    <com.willowtree.vocable.customviews.PagingButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/category_back_button"
         android:layout_width="@dimen/categories_paging_button_width"
         android:layout_height="@dimen/categories_paging_button_height"
@@ -44,6 +44,8 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/category_button_background"
         android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/category_back_button_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
 
@@ -58,7 +60,7 @@
         app:layout_constraintStart_toEndOf="@+id/category_back_button"
         app:layout_constraintTop_toTopOf="@+id/category_back_button" />
 
-    <com.willowtree.vocable.customviews.PagingButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/category_forward_button"
         android:layout_width="@dimen/categories_paging_button_width"
         android:layout_height="@dimen/categories_paging_button_height"
@@ -66,6 +68,8 @@
         android:layout_marginEnd="@dimen/main_activity_side_margin"
         android:background="@drawable/category_button_background"
         android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/category_forward_button_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
 
@@ -80,13 +84,15 @@
         app:layout_constraintBottom_toTopOf="@+id/phrases_back_button"
         app:layout_constraintTop_toBottomOf="@+id/category_view" />
 
-    <com.willowtree.vocable.customviews.PagingButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/phrases_back_button"
         android:layout_width="@dimen/phrases_paging_button_width"
         android:layout_height="@dimen/phrases_paging_button_height"
         android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
         android:background="@drawable/button_default_background"
         android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/phrases_back_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/phrases_page_number"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -119,13 +125,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.willowtree.vocable.customviews.PagingButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/phrases_forward_button"
         android:layout_width="@dimen/phrases_paging_button_width"
         android:layout_height="@dimen/phrases_paging_button_height"
         android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
         android:background="@drawable/button_default_background"
         android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/phrases_forward_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"

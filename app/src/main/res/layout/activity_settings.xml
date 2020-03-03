@@ -18,13 +18,15 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/settings_close_button"
         style="@style/CloseButton"
         android:layout_width="@dimen/settings_close_button_width"
         android:layout_height="@dimen/settings_close_button_height"
         android:layout_marginTop="@dimen/settings_bottom_margin"
         android:layout_marginEnd="@dimen/settings_action_button_margin"
+        android:scaleType="center"
+        android:src="@drawable/close_action_button_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
