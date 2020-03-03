@@ -12,12 +12,14 @@
     <!-- Categories -->
     <dimen name="categories_paging_button_width">104dp</dimen>
     <dimen name="categories_paging_button_height">112dp</dimen>
-    <dimen name="categories_side_margin">16dp</dimen>
     <dimen name="categories_margin">40dp</dimen>
+    <dimen name="categories_side_margin">8dp</dimen>
 
     <!-- Phrases -->
     <dimen name="phrases_paging_button_width">104dp</dimen>
     <dimen name="phrases_paging_button_height">80dp</dimen>
+    <dimen name="phrases_margin">48dp</dimen>
+    <dimen name="phrases_paging_margin_bottom">88dp</dimen>
 
     <!-- Main Activity -->
     <dimen name="main_activity_category_margin">16dp</dimen>

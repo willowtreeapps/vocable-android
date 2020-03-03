@@ -95,10 +95,10 @@
     <dimen name="phrases_paging_button_width">64dp</dimen>
     <dimen name="phrases_paging_button_height">64dp</dimen>
     <dimen name="phrases_paging_button_padding">32dp</dimen>
-    <dimen name="phrases_paging_margin_bottom">88dp</dimen>
+    <dimen name="phrases_paging_margin_bottom">16dp</dimen>
     <dimen name="phrases_page_number_text_size">24sp</dimen>
     <dimen name="phrases_page_number_margin">40dp</dimen>
-    <dimen name="phrases_margin">48dp</dimen>
+    <dimen name="phrases_margin">8dp</dimen>
 
     <!-- Error Layout -->
     <dimen name="error_text_size">20sp</dimen>
