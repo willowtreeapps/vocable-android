@@ -3,16 +3,17 @@
 
     <!-- Spoken Text View -->
     <dimen name="spoken_text_view_height">112dp</dimen>
-    <dimen name="spoken_text_view_text_size">48sp</dimen>
+    <dimen name="spoken_text_view_text_size">34sp</dimen>
 
     <!-- Top Bar -->
-    <dimen name="top_bar_button_height">96dp</dimen>
-    <dimen name="top_bar_button_width">104dp</dimen>
+    <dimen name="top_bar_button_height">72dp</dimen>
+    <dimen name="top_bar_button_width">72dp</dimen>
 
     <!-- Categories -->
     <dimen name="categories_paging_button_width">104dp</dimen>
     <dimen name="categories_paging_button_height">112dp</dimen>
     <dimen name="categories_side_margin">16dp</dimen>
+    <dimen name="categories_margin">40dp</dimen>
 
     <!-- Phrases -->
     <dimen name="phrases_paging_button_width">104dp</dimen>
