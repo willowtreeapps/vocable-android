@@ -17,6 +17,7 @@
         android:lines="2"
         android:text="@string/select_something"
         app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/action_button_container"
         app:layout_constraintEnd_toStartOf="@+id/speaker_icon"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintHorizontal_chainStyle="packed"
