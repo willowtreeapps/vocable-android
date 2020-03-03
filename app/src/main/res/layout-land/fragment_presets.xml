@@ -10,13 +10,14 @@
     <TextView
         android:id="@+id/current_text"
         style="@style/SpokenTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="start|center_vertical"
         android:lines="2"
         android:text="@string/select_something"
         app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/action_button_container"
         app:layout_constraintEnd_toStartOf="@+id/speaker_icon"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -28,15 +29,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/speech_button_margin"
-        android:layout_marginEnd="@dimen/main_activity_side_margin"
         android:src="@drawable/ic_speaker"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/current_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/action_button_container"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/current_text"
-        app:layout_constraintTop_toTopOf="@+id/current_text"
-        app:layout_goneMarginEnd="@dimen/main_activity_side_margin" />
+        app:layout_constraintTop_toTopOf="@+id/current_text" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/category_back_button"
@@ -96,7 +95,9 @@
         android:scaleType="center"
         android:src="@drawable/phrases_back_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/category_back_button" />
+        app:layout_constraintEnd_toStartOf="@+id/phrases_page_number"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/phrases_page_number"
@@ -111,6 +112,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/phrases_forward_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/phrases_back_button"
         app:layout_constraintTop_toTopOf="@+id/phrases_back_button"
         tools:text="Page 1 of 2" />
@@ -118,14 +120,11 @@
     <include
         android:id="@+id/action_button_container"
         layout="@layout/presets_action_buttons"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/main_activity_side_margin"
-        android:layout_marginTop="@dimen/main_activity_side_margin"
         android:layout_marginEnd="@dimen/main_activity_side_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_text" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/phrases_forward_button"
@@ -137,6 +136,8 @@
         android:scaleType="center"
         android:src="@drawable/phrases_forward_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/category_forward_button" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/phrases_page_number" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
