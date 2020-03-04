@@ -123,10 +123,10 @@ class PresetsFragment : BaseFragment() {
 
         binding?.actionButtonContainer?.keyboardButton?.let {
             it.action = {
-                fragmentManager
-                    ?.beginTransaction()
-                    ?.replace(R.id.fragment_container, KeyboardFragment())
-                    ?.commit()
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, KeyboardFragment())
+                    .commit()
             }
         }
 
@@ -137,10 +137,8 @@ class PresetsFragment : BaseFragment() {
             }
         }
 
-        fragmentManager?.let { fragmentManager ->
-            categoriesAdapter = CategoriesPagerAdapter(fragmentManager)
-            phrasesAdapter = PhrasesPagerAdapter(fragmentManager)
-        }
+        categoriesAdapter = CategoriesPagerAdapter(childFragmentManager)
+        phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
         binding?.categoryView?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
