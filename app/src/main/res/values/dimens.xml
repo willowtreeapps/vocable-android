@@ -3,6 +3,8 @@
     <!-- Pointer View -->
     <dimen name="pointer_view_width_height">32dp</dimen>
 
+    <dimen name="vocable_background_radius">8dp</dimen>
+
     <!-- Category Button -->
     <dimen name="category_button_height">104dp</dimen>
     <dimen name="category_button_margin">0dp</dimen>
