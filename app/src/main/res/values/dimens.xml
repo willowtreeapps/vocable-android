@@ -71,13 +71,13 @@
     <dimen name="main_activity_speaker_margin">8dp</dimen>
 
     <!-- Top Bar -->
-    <dimen name="top_bar_button_height">72dp</dimen>
+    <dimen name="top_bar_button_height">64dp</dimen>
     <dimen name="top_bar_button_width">72dp</dimen>
     <dimen name="top_bar_button_margin">8dp</dimen>
 
     <!-- Keyboard -->
-    <dimen name="keyboard_text_size">40sp</dimen>
-    <dimen name="keyboard_side_margin">44dp</dimen>
+    <dimen name="keyboard_text_size">48sp</dimen>
+    <dimen name="keyboard_side_margin">24dp</dimen>
     <dimen name="keyboard_predictive_height">120dp</dimen>
     <dimen name="keyboard_margin_default">16dp</dimen>
     <dimen name="keyboard_keys_top_margin">24dp</dimen>
@@ -85,7 +85,7 @@
     <dimen name="keyboard_icon_padding">20dp</dimen>
     <dimen name="keyboard_bottom_bar_margin">52dp</dimen>
     <dimen name="keyboard_bottom_bar_key_margin">8dp</dimen>
-    <dimen name="keyboard_bottom_bar_height">96dp</dimen>
+    <dimen name="keyboard_bottom_bar_height">72dp</dimen>
 
     <!-- Categories -->
     <dimen name="categories_paging_button_width">80dp</dimen>
@@ -113,7 +113,7 @@
     <!-- Saved Phrase Success -->
     <dimen name="save_phrase_vertical_padding">12dp</dimen>
     <dimen name="save_phrase_horizontal_padding">32dp</dimen>
-    <dimen name="save_phrase_text_size">48sp</dimen>
+    <dimen name="save_phrase_text_size">24sp</dimen>
 
     <!-- Confirmation Dialog -->
     <dimen name="dialog_width">688dp</dimen>
