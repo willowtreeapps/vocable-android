@@ -10,7 +10,6 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/keyboard_input"
         android:layout_width="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/keyboard_side_margin"
         android:background="@null"
@@ -46,7 +45,6 @@
     <include
         android:id="@+id/action_button_container"
         layout="@layout/keyboard_action_buttons"
-        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/keyboard_side_margin"
