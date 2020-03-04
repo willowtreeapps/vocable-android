@@ -32,4 +32,21 @@
     <!-- Saved Phrase Success -->
     <dimen name="save_phrase_text_size">48sp</dimen>
 
+    <!-- Settings -->
+    <dimen name="settings_title_margin_bottom">40dp</dimen>
+    <dimen name="settings_title_text_size">48sp</dimen>
+    <dimen name="settings_margin_small">8dp</dimen>
+    <dimen name="settings_margin_default">16dp</dimen>
+    <dimen name="settings_action_button_layout_height">120dp</dimen>
+    <dimen name="settings_action_button_margin">44dp</dimen>
+    <dimen name="settings_bottom_margin">52dp</dimen>
+    <dimen name="settings_action_button_bottom_margin">134dp</dimen>
+    <dimen name="settings_label_text_size">20sp</dimen>
+    <dimen name="settings_switch_width">48dp</dimen>
+    <dimen name="settings_switch_height">20dp</dimen>
+    <dimen name="settings_switch_top_margin">36dp</dimen>
+    <dimen name="settings_close_button_height">96dp</dimen>
+    <dimen name="settings_close_button_width">112dp</dimen>
+    <dimen name="settings_pointer_elevation">16dp</dimen>
+
 </resources>
