@@ -29,6 +29,9 @@
     <!-- Category Button -->
     <dimen name="category_button_margin">8dp</dimen>
 
+    <!-- Saved Phrase Success -->
+    <dimen name="save_phrase_text_size">48sp</dimen>
+
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
     <dimen name="settings_title_text_size">48sp</dimen>
