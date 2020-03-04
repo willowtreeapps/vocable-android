@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="max_categories">4</integer>
+    <integer name="max_phrases">9</integer>
+    <integer name="phrases_columns">3</integer>
+    <integer name="phrases_rows">3</integer>
+</resources>

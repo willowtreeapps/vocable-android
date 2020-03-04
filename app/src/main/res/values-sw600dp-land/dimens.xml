@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top Bar -->
+    <dimen name="top_bar_button_height">96dp</dimen>
+    <dimen name="top_bar_button_width">104dp</dimen>
+
+    <!-- Categories -->
+    <dimen name="categories_margin">8dp</dimen>
+
+    <!-- Spoken Text View -->
+    <dimen name="spoken_text_view_text_size">48sp</dimen>
+
+    <!-- Main Activity -->
+    <dimen name="main_activity_category_margin">16dp</dimen>
+
+    <!-- Phrases -->
+    <dimen name="phrases_margin">8dp</dimen>
+    <dimen name="phrases_paging_margin_bottom">44dp</dimen>
+
+</resources>
