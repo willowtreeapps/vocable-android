@@ -26,10 +26,13 @@ class MainActivity : BaseActivity() {
 
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container, PresetsFragment())
-            .commit()
+
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, PresetsFragment())
+                .commit()
+        }
 
         binding.fragmentContainer.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
