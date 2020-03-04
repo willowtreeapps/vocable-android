@@ -3,4 +3,10 @@
 
     <!-- Top Bar -->
     <dimen name="top_bar_button_height">72dp</dimen>
+
+    <!-- Settings -->
+    <dimen name="dialog_width">380dp</dimen>
+    <dimen name="settings_margin_small">8dp</dimen>
+    <dimen name="settings_action_button_bottom_margin">40dp</dimen>
+
 </resources>
