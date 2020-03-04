@@ -36,6 +36,9 @@
     <dimen name="keyboard_bottom_bar_height">80dp</dimen>
     <dimen name="keyboard_side_margin">24dp</dimen>
 
+    <!-- Saved Phrase Success -->
+    <dimen name="save_phrase_text_size">48sp</dimen>
+
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
     <dimen name="settings_title_text_size">48sp</dimen>
@@ -52,4 +55,5 @@
     <dimen name="settings_close_button_height">96dp</dimen>
     <dimen name="settings_close_button_width">112dp</dimen>
     <dimen name="settings_pointer_elevation">16dp</dimen>
+
 </resources>
