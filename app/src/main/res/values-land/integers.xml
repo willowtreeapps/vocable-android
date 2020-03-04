@@ -3,4 +3,5 @@
     <integer name="max_categories">2</integer>
     <integer name="max_phrases">6</integer>
     <integer name="phrases_columns">3</integer>
+    <integer name="phrases_rows">2</integer>
 </resources>
