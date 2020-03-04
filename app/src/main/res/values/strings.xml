@@ -26,7 +26,7 @@
     <string name="error_move_closer">Please move closer to the device.</string>
 
     <!-- Keyboard Layout -->
-    <string name="keyboard_select_letters">Select letters below to start typing.</string>
+    <string name="keyboard_select_letters">Start typing...</string>
 
     <!-- Saved Phrase Success -->
     <string name="saved_successfully">Saved to\u0020\u0020</string>
