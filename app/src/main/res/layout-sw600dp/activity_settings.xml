@@ -98,25 +98,24 @@
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:id="@+id/privacy_policy_button"
         style="@style/ActionButton"
-        android:layout_marginStart="@dimen/settings_margin_default"
-        android:layout_marginEnd="@dimen/settings_margin_default"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/settings_action_button_margin"
+        android:layout_marginEnd="@dimen/settings_margin_small"
+        android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
         android:text="@string/privacy_policy"
-        app:layout_constraintBottom_toTopOf="@+id/contact_devs_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/version"
+        app:layout_constraintEnd_toStartOf="@+id/contact_devs_button"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.willowtree.vocable.customviews.ActionButton
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:id="@+id/contact_devs_button"
         style="@style/ActionButton"
-        android:layout_marginStart="@dimen/settings_margin_default"
-        android:layout_marginEnd="@dimen/settings_margin_default"
+        android:layout_marginEnd="@dimen/settings_action_button_margin"
         android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
         android:text="@string/contact_developers"
         app:layout_constraintBottom_toTopOf="@+id/version"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/privacy_policy_button" />
 
     <TextView
         android:id="@+id/version"
@@ -134,7 +133,7 @@
         android:id="@+id/settings_confirmation"
         layout="@layout/vocable_confirmation_dialog"
         android:layout_width="@dimen/dialog_width"
-        android:layout_height="@dimen/dialog_height"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
