@@ -126,6 +126,7 @@ class PresetsFragment : BaseFragment() {
                 parentFragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, KeyboardFragment())
+                    .addToBackStack(null)
                     .commit()
             }
         }
