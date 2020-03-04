@@ -17,4 +17,10 @@
     <dimen name="phrases_margin">8dp</dimen>
     <dimen name="phrases_paging_margin_bottom">44dp</dimen>
 
+    <!-- Keyboard -->
+    <dimen name="keyboard_text_size">40sp</dimen>
+    <dimen name="keyboard_keys_top_margin">24dp</dimen>
+    <dimen name="keyboard_bottom_bar_margin">52dp</dimen>
+    <dimen name="keyboard_bottom_bar_height">96dp</dimen>
+    <dimen name="keyboard_side_margin">44dp</dimen>
 </resources>
