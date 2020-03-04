@@ -51,9 +51,12 @@
     <dimen name="settings_label_text_size">20sp</dimen>
     <dimen name="settings_switch_width">48dp</dimen>
     <dimen name="settings_switch_height">20dp</dimen>
-    <dimen name="settings_switch_top_margin">36dp</dimen>
-    <dimen name="settings_close_button_height">96dp</dimen>
-    <dimen name="settings_close_button_width">112dp</dimen>
+    <dimen name="settings_switch_top_margin">64dp</dimen>
+    <dimen name="settings_close_button_height">72dp</dimen>
+    <dimen name="settings_close_button_width">72dp</dimen>
     <dimen name="settings_pointer_elevation">16dp</dimen>
 
+    <!-- Confirmation Dialog -->
+    <dimen name="dialog_width">560dp</dimen>
+    <dimen name="dialog_height">225dp</dimen>
 </resources>
