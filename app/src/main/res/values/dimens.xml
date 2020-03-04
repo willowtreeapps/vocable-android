@@ -85,6 +85,7 @@
     <dimen name="keyboard_icon_padding">20dp</dimen>
     <dimen name="keyboard_bottom_bar_margin">52dp</dimen>
     <dimen name="keyboard_bottom_bar_key_margin">8dp</dimen>
+    <dimen name="keyboard_speaker_margin">8dp</dimen>
     <dimen name="keyboard_bottom_bar_height">72dp</dimen>
 
     <!-- Categories -->

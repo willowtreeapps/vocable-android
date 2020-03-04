@@ -29,6 +29,13 @@
     <!-- Category Button -->
     <dimen name="category_button_margin">8dp</dimen>
 
+    <!-- Keyboard -->
+    <dimen name="keyboard_text_size">34sp</dimen>
+    <dimen name="keyboard_keys_top_margin">144dp</dimen>
+    <dimen name="keyboard_bottom_bar_margin">464dp</dimen>
+    <dimen name="keyboard_bottom_bar_height">80dp</dimen>
+    <dimen name="keyboard_side_margin">24dp</dimen>
+
     <!-- Saved Phrase Success -->
     <dimen name="save_phrase_text_size">48sp</dimen>
 
