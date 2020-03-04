@@ -17,6 +17,15 @@
     <dimen name="phrases_margin">8dp</dimen>
     <dimen name="phrases_paging_margin_bottom">44dp</dimen>
 
+    <!-- Settings -->
+    <dimen name="settings_close_button_height">96dp</dimen>
+    <dimen name="settings_close_button_width">112dp</dimen>
+    <dimen name="settings_switch_top_margin">36dp</dimen>
+
+    <!-- Confirmation Dialog -->
+    <dimen name="dialog_width">688dp</dimen>
+    <dimen name="dialog_height">276dp</dimen>
+  
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">40sp</dimen>
     <dimen name="keyboard_keys_top_margin">24dp</dimen>

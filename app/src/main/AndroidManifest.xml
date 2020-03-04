@@ -27,8 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.willowtree.vocable.settings.SettingsActivity"
-            android:screenOrientation="landscape" />
+            android:name="com.willowtree.vocable.settings.SettingsActivity" />
     </application>
 
 </manifest>
