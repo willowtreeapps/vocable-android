@@ -55,7 +55,7 @@ class CategoriesFragment : BaseFragment() {
                 action = {
                     viewModel.onCategorySelected(category)
                 }
-                if (!isTablet && maxCategories != 1 && index + 1 == maxCategories) {
+                if (!isTablet && index > 0 && index + 1 == maxCategories) {
                     layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
                         marginStart = 0
                     }
