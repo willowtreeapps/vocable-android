@@ -29,6 +29,11 @@
     <!-- Category Button -->
     <dimen name="category_button_margin">8dp</dimen>
 
+    <!-- Keyboard -->
+    <dimen name="keyboard_text_size">34sp</dimen>
+    <dimen name="keyboard_keys_top_margin">144dp</dimen>
+    <dimen name="keyboard_bottom_bar_margin">512dp</dimen>
+
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
     <dimen name="settings_title_text_size">48sp</dimen>
