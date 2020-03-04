@@ -100,7 +100,7 @@
         style="@style/ActionButton"
         android:layout_marginStart="@dimen/settings_margin_default"
         android:layout_marginEnd="@dimen/settings_margin_default"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/settings_margin_small"
         android:text="@string/privacy_policy"
         app:layout_constraintBottom_toTopOf="@+id/contact_devs_button"
         app:layout_constraintEnd_toEndOf="parent"
