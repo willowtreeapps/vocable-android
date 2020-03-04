@@ -112,7 +112,7 @@
     <!-- Saved Phrase Success -->
     <dimen name="save_phrase_vertical_padding">12dp</dimen>
     <dimen name="save_phrase_horizontal_padding">32dp</dimen>
-    <dimen name="save_phrase_text_size">48sp</dimen>
+    <dimen name="save_phrase_text_size">24sp</dimen>
 
     <!-- Confirmation Dialog -->
     <dimen name="dialog_width">688dp</dimen>
