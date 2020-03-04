@@ -20,6 +20,6 @@
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">40sp</dimen>
     <dimen name="keyboard_side_margin">44dp</dimen>
-    <dimen name="keyboard_bottom_bar_height">72dp</dimen>
+    <dimen name="keyboard_bottom_bar_height">96dp</dimen>
 
 </resources>
