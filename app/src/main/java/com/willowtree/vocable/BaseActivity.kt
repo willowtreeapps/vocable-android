@@ -3,9 +3,11 @@ package com.willowtree.vocable
 import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Rect
+import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Surface
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.CallSuper
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.ar.core.ArCoreApk
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
+import com.willowtree.vocable.facetracking.FaceTrackFragment
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.android.ext.android.inject
@@ -43,6 +46,61 @@ abstract class BaseActivity : AppCompatActivity() {
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
+
+        val displayListener = object : DisplayManager.DisplayListener {
+
+            private var orientation = windowManager.defaultDisplay.rotation
+
+            override fun onDisplayChanged(displayId: Int) {
+                val newOrientation = windowManager.defaultDisplay.rotation
+                // Only reset FaceTrackFragment if device is rotated 180 degrees
+                when (orientation) {
+                    Surface.ROTATION_0 -> {
+                        if (newOrientation == Surface.ROTATION_180) {
+                            resetFaceTrackFragment("${Surface.ROTATION_180}")
+                        }
+                    }
+                    Surface.ROTATION_90 -> {
+                        if (newOrientation == Surface.ROTATION_270) {
+                            resetFaceTrackFragment("${Surface.ROTATION_270}")
+                        }
+                    }
+                    Surface.ROTATION_180 -> {
+                        if (newOrientation == Surface.ROTATION_0) {
+                            resetFaceTrackFragment("${Surface.ROTATION_0}")
+                        }
+                    }
+                    Surface.ROTATION_270 -> {
+                        if (newOrientation == Surface.ROTATION_90) {
+                            resetFaceTrackFragment("${Surface.ROTATION_90}")
+                        }
+                    }
+                }
+                orientation = newOrientation
+            }
+
+            override fun onDisplayAdded(displayId: Int) {}
+
+            override fun onDisplayRemoved(displayId: Int) {}
+        }
+        val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        displayManager.registerDisplayListener(displayListener, null)
+    }
+
+    /**
+     * If the device rotates 180 degrees (portrait to portrait/landscape to landscape), the
+     * activity won't be destroyed and recreated. This means that the FaceTrackFragment will not
+     * reset its camera positioning. The only way to reset it currently is to create a new
+     * instance of the fragment and add it to the activity.
+     * @param tag The tag to use for the FaceTrackFragment, should be unique to the orientation
+     */
+    private fun resetFaceTrackFragment(tag: String) {
+        if (!supportFragmentManager.isDestroyed && supportFragmentManager.findFragmentByTag(tag) == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.face_fragment, FaceTrackFragment(), tag)
+                .commit()
+        }
     }
 
     protected abstract fun getPointerView(): PointerView
