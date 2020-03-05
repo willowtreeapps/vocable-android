@@ -12,7 +12,7 @@ android {
         applicationId "com.willowtree.vocable"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 2
+        versionCode 3
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

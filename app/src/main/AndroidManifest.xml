@@ -17,8 +17,7 @@
             android:name="com.google.ar.core"
             android:value="required" />
 
-        <activity
-            android:name="com.willowtree.vocable.MainActivity">
+        <activity android:name="com.willowtree.vocable.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -26,8 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.willowtree.vocable.settings.SettingsActivity" />
+        <activity android:name="com.willowtree.vocable.settings.SettingsActivity" />
     </application>
 
 </manifest>
