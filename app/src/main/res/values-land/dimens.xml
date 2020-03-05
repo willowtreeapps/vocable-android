@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Keyboard -->
+    <dimen name="keyboard_keys_bottom_margin">8dp</dimen>
+    <dimen name="keyboard_bottom_bar_margin">24dp</dimen>
+    <dimen name="keyboard_input_text_size">34sp</dimen>
+    <dimen name="keyboard_text_size">48sp</dimen>
+    <dimen name="keyboard_keys_top_margin">8dp</dimen>
+
     <!-- Top Bar -->
-    <dimen name="top_bar_button_height">72dp</dimen>
+    <dimen name="top_bar_button_height">64dp</dimen>
+    <dimen name="top_bar_button_width">90dp</dimen>
 
     <!-- Settings -->
     <dimen name="dialog_width">380dp</dimen>

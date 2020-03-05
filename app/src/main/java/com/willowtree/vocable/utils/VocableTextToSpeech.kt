@@ -36,10 +36,11 @@ object VocableTextToSpeech {
     }
 
     fun shutdown() {
-        with(textToSpeech) {
-            this?.stop()
-            this?.shutdown()
+        textToSpeech?.let {
+            it.stop()
+            it.shutdown()
         }
+        textToSpeech = null
     }
 
     fun getTextToSpeech(): TextToSpeech? {

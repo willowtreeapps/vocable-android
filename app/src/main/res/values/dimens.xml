@@ -34,7 +34,7 @@
 
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
-    <dimen name="settings_title_text_size">48sp</dimen>
+    <dimen name="settings_title_text_size">34sp</dimen>
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_margin_default">24dp</dimen>
     <dimen name="settings_action_button_layout_height">80dp</dimen>
@@ -87,6 +87,7 @@
     <dimen name="keyboard_bottom_bar_key_margin">8dp</dimen>
     <dimen name="keyboard_speaker_margin">8dp</dimen>
     <dimen name="keyboard_bottom_bar_height">72dp</dimen>
+    <dimen name="keyboard_input_text_size">34sp</dimen>
 
     <!-- Categories -->
     <dimen name="categories_paging_button_width">80dp</dimen>
