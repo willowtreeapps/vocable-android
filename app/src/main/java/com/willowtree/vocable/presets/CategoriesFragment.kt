@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.children
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
@@ -69,7 +71,7 @@ class CategoriesFragment : BaseFragment() {
                     CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
                 binding?.categoryButtonContainer?.addView(hiddenButton.root.apply {
                     isEnabled = false
-                    visibility = View.INVISIBLE
+                    isInvisible = true
                 })
             }
         }
@@ -80,6 +82,24 @@ class CategoriesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
         subscribeToViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding?.categoryButtonContainer?.children?.forEach {
+            if (it is CategoryButton && it.isVisible) {
+                it.isEnabled = true
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding?.categoryButtonContainer?.children?.forEach {
+            if (it is CategoryButton) {
+                it.isEnabled = false
+            }
+        }
     }
 
     override fun onDestroyView() {

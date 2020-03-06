@@ -167,9 +167,11 @@ abstract class BaseActivity : AppCompatActivity() {
         if (!paused) {
             getAllViews().forEach {
                 if (viewIntersects(it, getPointerView())) {
-                    currentView = it
-                    (currentView as PointerListener).onPointerEnter()
-                    return
+                    if (it.isEnabled) {
+                        currentView = it
+                        (currentView as PointerListener).onPointerEnter()
+                        return
+                    }
                 }
             }
         }
