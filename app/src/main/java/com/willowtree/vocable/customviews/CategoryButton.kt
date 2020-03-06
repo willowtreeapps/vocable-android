@@ -15,7 +15,7 @@ class CategoryButton @JvmOverloads constructor(
     PointerListener {
 
     companion object {
-        private const val DEFAULT_TTS_TIMEOUT = 2000L
+        private const val DEFAULT_TTS_TIMEOUT = 1500L
     }
 
     private var buttonJob: Job? = null
@@ -23,6 +23,7 @@ class CategoryButton @JvmOverloads constructor(
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
     init {
+        isEnabled = false
         setOnClickListener {
             isSelected = true
             sayText(text)
@@ -31,6 +32,9 @@ class CategoryButton @JvmOverloads constructor(
     }
 
     override fun onPointerEnter() {
+        if (isSelected) {
+            return
+        }
         buttonJob = backgroundScope.launch {
             uiScope.launch {
                 isPressed = true
