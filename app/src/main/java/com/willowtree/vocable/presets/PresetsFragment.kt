@@ -204,6 +204,7 @@ class PresetsFragment : BaseFragment() {
         presetsViewModel.categoryList.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 with(binding?.categoryView) {
+                    this?.isSaveEnabled = false
                     this?.adapter = categoriesAdapter
                     categoriesAdapter.setCategories(categories)
                     // Move adapter to middle so user can scroll both directions
@@ -224,6 +225,7 @@ class PresetsFragment : BaseFragment() {
         presetsViewModel.currentPhrases.observe(viewLifecycleOwner, Observer {
             it?.let { phrases ->
                 with(binding?.phrasesView) {
+                    this?.isSaveEnabled = false
                     this?.adapter = phrasesAdapter
                     phrasesAdapter.setPhrases(phrases)
                     // Move adapter to middle so user can scroll both directions
