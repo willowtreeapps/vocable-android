@@ -12,9 +12,9 @@ class SettingsButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : VocableButton(context, attrs, defStyle) {
+) : ActionButton(context, attrs, defStyle) {
 
-    override fun performAction() {
-        context.startActivity(Intent(context, SettingsActivity::class.java))
+    override fun sayText(text: CharSequence?) {
+        //no-op
     }
 }
