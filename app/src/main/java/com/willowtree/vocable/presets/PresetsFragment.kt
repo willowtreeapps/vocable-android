@@ -162,6 +162,7 @@ class PresetsFragment : BaseFragment() {
                     pageNum,
                     phrasesAdapter.numPages
                 )
+
                 activity?.let { activity ->
                     allViews.clear()
                     if (activity is MainActivity) {
@@ -303,6 +304,19 @@ class PresetsFragment : BaseFragment() {
             }
             numPages = ceil(phrases.size / maxPhrases.toDouble()).toInt()
             notifyDataSetChanged()
+
+            if (phrasesAdapter.numPages == 1) {
+                setPagingButtonsEnabled(false)
+            } else {
+                setPagingButtonsEnabled(true)
+            }
+        }
+
+        private fun setPagingButtonsEnabled(enable: Boolean) {
+            binding.let {
+                it?.phrasesForwardButton?.isEnabled = enable
+                it?.phrasesBackButton?.isEnabled = enable
+            }
         }
 
         override fun getItemCount(): Int {
