@@ -29,17 +29,19 @@ class VocableImageButton @JvmOverloads constructor(
     }
 
     override fun onPointerEnter() {
-        buttonJob = backgroundScope.launch {
-            uiScope.launch {
-                isSelected = true
-            }
+        if (this.isEnabled) {
+            buttonJob = backgroundScope.launch {
+                uiScope.launch {
+                    isSelected = true
+                }
 
-            delay(DEFAULT_TTS_TIMEOUT)
+                delay(DEFAULT_TTS_TIMEOUT)
 
-            uiScope.launch {
-                isSelected = false
-                isPressed = true
-                performAction()
+                uiScope.launch {
+                    isSelected = false
+                    isPressed = true
+                    performAction()
+                }
             }
         }
     }
