@@ -94,7 +94,7 @@
 
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.SettingsButton
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:id="@+id/privacy_policy_button"
         style="@style/ActionButton"
@@ -106,7 +106,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.SettingsButton
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:id="@+id/contact_devs_button"
         style="@style/ActionButton"

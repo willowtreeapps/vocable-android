@@ -2,7 +2,6 @@ package com.willowtree.vocable.settings
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +69,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun showLeavingAppDialog(positiveAction: (() -> Unit)) {
+        setSettingsButtonsEnabled(false)
         binding.settingsConfirmation.dialogTitle.setText(R.string.settings_dialog_title)
         binding.settingsConfirmation.dialogMessage.setText(R.string.settings_dialog_message)
         with(binding.settingsConfirmation.dialogPositiveButton) {
@@ -77,15 +77,27 @@ class SettingsActivity : BaseActivity() {
             action = {
                 positiveAction.invoke()
                 toggleDialogVisibility(false)
+
+                setSettingsButtonsEnabled(true)
             }
         }
         with(binding.settingsConfirmation.dialogNegativeButton) {
             setText(R.string.settings_dialog_cancel)
             action = {
                 toggleDialogVisibility(false)
+                setSettingsButtonsEnabled(true)
             }
         }
         toggleDialogVisibility(true)
+    }
+
+    private fun setSettingsButtonsEnabled(enable: Boolean) {
+        with(binding) {
+            settingsCloseButton.isEnabled = enable
+            headTrackingContainer.isEnabled = enable
+            privacyPolicyButton.isEnabled = enable
+            contactDevsButton.isEnabled = enable
+        }
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {
