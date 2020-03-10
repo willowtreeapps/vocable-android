@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/dialog_title"
         tools:text="You're about to be taken outside of the app. You may lose head tracking control." />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/dialog_positive_button"
         style="@style/ConfirmationDialogButton"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/dialog_message"
         tools:text="Continue" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/dialog_negative_button"
         style="@style/ConfirmationDialogButton"
         app:layout_constraintBottom_toBottomOf="parent"
