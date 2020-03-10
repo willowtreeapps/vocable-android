@@ -307,17 +307,13 @@ class PresetsFragment : BaseFragment() {
             numPages = ceil(phrases.size / maxPhrases.toDouble()).toInt()
             notifyDataSetChanged()
 
-            if (phrasesAdapter.numPages == 1) {
-                setPagingButtonsEnabled(false)
-            } else {
-                setPagingButtonsEnabled(true)
-            }
+            setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
         }
 
         private fun setPagingButtonsEnabled(enable: Boolean) {
-            binding.let {
-                it?.phrasesForwardButton?.isEnabled = enable
-                it?.phrasesBackButton?.isEnabled = enable
+            binding?.let {
+                it.phrasesForwardButton.isEnabled = enable
+                it.phrasesBackButton.isEnabled = enable
             }
         }
 
