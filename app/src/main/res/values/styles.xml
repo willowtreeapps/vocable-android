@@ -142,4 +142,18 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="EditSayingsTextView">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_text_margin_start</item>
+        <item name="android:layout_marginTop">@dimen/edit_sayings_text_horizontal_margin</item>
+        <item name="android:layout_marginBottom">@dimen/edit_sayings_text_horizontal_margin</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="EditSayingsActionButtons">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_buttons_margin</item>
+        <item name="android:layout_marginEnd">@dimen/edit_sayings_buttons_margin</item>
+    </style>
 </resources>

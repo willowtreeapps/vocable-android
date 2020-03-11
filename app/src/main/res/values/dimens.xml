@@ -127,4 +127,10 @@
     <dimen name="dialog_button_end_margin">16dp</dimen>
     <dimen name="dialog_button_text_size">20sp</dimen>
     <dimen name="dialog_shadow">15dp</dimen>
+
+    <!-- Edit Sayings -->
+    <dimen name="edit_sayings_text_margin_start">24dp</dimen>
+    <dimen name="edit_sayings_text_horizontal_margin">16dp</dimen>
+    <dimen name="edit_sayings_text_size">24sp</dimen>
+    <dimen name="edit_sayings_buttons_margin">8dp</dimen>
 </resources>
