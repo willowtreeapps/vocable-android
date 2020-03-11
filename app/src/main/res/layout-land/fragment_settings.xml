@@ -51,7 +51,7 @@
         android:id="@+id/head_tracking_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/settings_switch_top_margin"
+        android:layout_marginTop="16dp"
         android:background="@drawable/settings_group_background"
         app:layout_constraintEnd_toEndOf="@+id/settings_close_button"
         app:layout_constraintStart_toStartOf="@+id/settings_title"
@@ -84,12 +84,24 @@
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
 
     <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/edit_sayings_button"
+        style="@style/ActionButton"
+        android:layout_height="@dimen/settings_action_button_layout_height"
+        android:layout_marginStart="@dimen/settings_action_button_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Edit Sayings"
+        app:layout_constraintBottom_toTopOf="@+id/privacy_policy_button"
+        app:layout_constraintEnd_toEndOf="@id/contact_devs_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/privacy_policy_button"
         style="@style/ActionButton"
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:layout_marginStart="@dimen/settings_action_button_margin"
         android:layout_marginEnd="@dimen/settings_margin_small"
-        android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
+        android:layout_marginBottom="8dp"
         android:text="@string/privacy_policy"
         app:layout_constraintBottom_toTopOf="@+id/version"
         app:layout_constraintEnd_toStartOf="@+id/contact_devs_button"
@@ -100,7 +112,7 @@
         style="@style/ActionButton"
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:layout_marginEnd="@dimen/settings_action_button_margin"
-        android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
+        android:layout_marginBottom="8dp"
         android:text="@string/contact_developers"
         app:layout_constraintBottom_toTopOf="@+id/version"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +123,7 @@
         style="@style/VersionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/settings_bottom_margin"
+        android:layout_marginBottom="8dp"
         android:text="@string/version"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
