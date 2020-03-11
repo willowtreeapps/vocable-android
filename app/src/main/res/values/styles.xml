@@ -156,4 +156,29 @@
         <item name="android:layout_marginStart">@dimen/edit_sayings_buttons_margin</item>
         <item name="android:layout_marginEnd">@dimen/edit_sayings_buttons_margin</item>
     </style>
+
+    <style name="EditSayingsBackButton">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_back_button_margin</item>
+        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EditSayingsTitle">
+        <item name="android:layout_marginTop">@dimen/edit_sayings_title_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/edit_sayings_title_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditSayingsAddButton">
+        <item name="android:layout_width">@dimen/edit_sayings_add_button_width</item>
+        <item name="android:layout_height">@dimen/edit_sayings_add_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
 </resources>
