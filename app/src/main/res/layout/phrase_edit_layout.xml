@@ -9,20 +9,25 @@
 
     <TextView
         android:id="@+id/phrase_edit_text"
+        style="@style/EditSayingsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_vertical"
         android:text="HELLO"
-        android:textColor="@color/textColor"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintEnd_toStartOf="@+id/action_button_container"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <include
+        android:id="@+id/action_button_container"
+        style="@style/EditSayingsActionButtons"
+        layout="@layout/edit_sayings_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/phrase_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
