@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:theme="@style/SettingsTheme">
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/face_fragment"
-        android:name="com.willowtree.vocable.facetracking.FaceTrackFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/settings_close_button"
@@ -95,9 +82,20 @@
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
 
     <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/edit_sayings_button"
+        style="@style/ActionButton"
         android:layout_height="@dimen/settings_action_button_layout_height"
+        android:layout_marginStart="@dimen/settings_action_button_margin"
+        android:layout_marginBottom="8dp"
+        android:text="Edit Sayings"
+        app:layout_constraintBottom_toTopOf="@+id/privacy_policy_button"
+        app:layout_constraintEnd_toEndOf="@id/contact_devs_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/privacy_policy_button"
         style="@style/ActionButton"
+        android:layout_height="@dimen/settings_action_button_layout_height"
         android:layout_marginStart="@dimen/settings_action_button_margin"
         android:layout_marginEnd="@dimen/settings_margin_small"
         android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
@@ -107,9 +105,9 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.willowtree.vocable.customviews.SettingsButton
-        android:layout_height="@dimen/settings_action_button_layout_height"
         android:id="@+id/contact_devs_button"
         style="@style/ActionButton"
+        android:layout_height="@dimen/settings_action_button_layout_height"
         android:layout_marginEnd="@dimen/settings_action_button_margin"
         android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
         android:text="@string/contact_developers"
@@ -139,19 +137,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.willowtree.vocable.customviews.PointerView
-        android:id="@+id/pointer_view"
-        android:layout_width="@dimen/pointer_view_width_height"
-        android:layout_height="@dimen/pointer_view_width_height"
-        android:background="@drawable/pointer_background"
-        android:elevation="@dimen/settings_pointer_elevation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <include
-        android:id="@+id/error_view"
-        layout="@layout/error_layout"
-        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
