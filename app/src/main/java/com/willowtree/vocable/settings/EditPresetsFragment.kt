@@ -90,9 +90,6 @@ class EditPresetsFragment : BaseFragment() {
 
         phrasesAdapter = EditPhrasesAdapter(childFragmentManager)
 
-        editPhrasesViewModel =
-            ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
-
         binding?.editSayingsViewPager?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -111,6 +108,11 @@ class EditPresetsFragment : BaseFragment() {
                 }
             }
         })
+
+        editPhrasesViewModel =
+            ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
+        subscribeToViewModel()
+
     }
 
     private fun subscribeToViewModel() {
@@ -133,8 +135,6 @@ class EditPresetsFragment : BaseFragment() {
                 }
             }
         })
-
-        subscribeToViewModel()
     }
 
     override fun getAllViews(): List<View> {
