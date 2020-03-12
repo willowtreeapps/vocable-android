@@ -80,7 +80,7 @@ class SettingsFragment : BaseFragment() {
         binding?.editSayingsButton?.action = {
             parentFragmentManager
                 .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditPhrasesFragment())
+                .replace(R.id.settings_fragment_container, EditPresetsFragment())
                 .addToBackStack(null)
                 .commit()
         }

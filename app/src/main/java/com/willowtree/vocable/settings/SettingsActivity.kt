@@ -61,6 +61,10 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    fun resetAllViews() {
+        allViews.clear()
+    }
+
     override fun getLayout(): Int =
         R.layout.activity_settings
 
