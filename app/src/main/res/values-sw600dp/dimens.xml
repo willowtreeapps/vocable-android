@@ -59,4 +59,16 @@
     <!-- Confirmation Dialog -->
     <dimen name="dialog_width">560dp</dimen>
     <dimen name="dialog_height">225dp</dimen>
+
+
+    <!-- Edit Sayings -->
+    <dimen name="edit_sayings_title_margin">103dp</dimen>
+    <dimen name="edit_sayings_title_text_size">34sp</dimen>
+    <dimen name="edit_sayings_add_button_width">72dp</dimen>
+    <dimen name="edit_sayings_add_button_margin">24dp</dimen>
+    <dimen name="edit_sayings_add_button_height">72dp</dimen>
+    <dimen name="edit_paging_button_bottom_margin">89dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">102dp</dimen>
+    <dimen name="edit_phrases_margin_top">80dp</dimen>
+
 </resources>

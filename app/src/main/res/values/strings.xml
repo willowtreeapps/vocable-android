@@ -33,4 +33,7 @@
     <string name="favorite_icon">&#160;&#xe87d;</string>
     <string name="category_saved_to">My Sayings</string>
 
+    <!-- Edit Sayings -->
+    <string name="edit_sayings_back_button">&lt; Settings</string>
+
 </resources>
