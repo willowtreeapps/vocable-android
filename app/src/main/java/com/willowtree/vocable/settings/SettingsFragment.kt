@@ -77,6 +77,14 @@ class SettingsFragment : BaseFragment() {
             viewModel.onHeadTrackingChecked(isChecked)
         }
 
+        binding?.editSayingsButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, EditPhrasesFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         viewModel = ViewModelProviders.of(requireActivity()).get(SettingsViewModel::class.java)
         subscribeToViewModel()
     }

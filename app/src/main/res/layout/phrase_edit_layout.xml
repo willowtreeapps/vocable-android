@@ -24,7 +24,7 @@
     <include
         android:id="@+id/action_button_container"
         style="@style/EditSayingsActionButtons"
-        layout="@layout/edit_sayings_action_button"
+        layout="@layout/edit_phrases_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
