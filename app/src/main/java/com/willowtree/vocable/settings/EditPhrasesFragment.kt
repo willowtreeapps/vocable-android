@@ -22,8 +22,8 @@ class EditPhrasesFragment: BaseFragment() {
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
 
-        fun newInstance(phrases: List<Phrase>): PhrasesFragment {
-            return PhrasesFragment().apply {
+        fun newInstance(phrases: List<Phrase>): EditPhrasesFragment {
+            return EditPhrasesFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList(KEY_PHRASES, ArrayList(phrases))
                 }
