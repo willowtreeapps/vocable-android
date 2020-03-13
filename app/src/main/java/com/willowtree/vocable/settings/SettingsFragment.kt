@@ -3,6 +3,7 @@ package com.willowtree.vocable.settings
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.system.Os
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -135,6 +136,12 @@ class SettingsFragment : BaseFragment() {
         viewModel.headTrackingEnabled.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding?.headTrackingSwitch?.isChecked = it
+            }
+        })
+
+        viewModel.mySayingsIsEmpty.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding?.editSayingsButton?.isEnabled = !it
             }
         })
     }
