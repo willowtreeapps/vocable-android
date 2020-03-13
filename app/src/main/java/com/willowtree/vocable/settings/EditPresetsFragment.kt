@@ -8,7 +8,7 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
 
-class EditPhrasesFragment: BaseFragment() {
+class EditPresetsFragment: BaseFragment() {
 
     private var binding: FragmentEditPhrasesBinding? = null
 

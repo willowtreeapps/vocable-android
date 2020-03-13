@@ -17,4 +17,9 @@
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_action_button_bottom_margin">40dp</dimen>
 
+    <!-- Edit Sayings -->
+    <dimen name="edit_sayings_title_margin">37dp</dimen>
+    <dimen name="edit_phrases_margin_top">16dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">16dp</dimen>
+
 </resources>

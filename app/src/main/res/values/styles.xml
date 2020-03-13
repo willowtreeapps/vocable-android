@@ -174,7 +174,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="EditSayingsAddButton">
+    <style name="EditSayingsActionButton">
         <item name="android:layout_width">@dimen/edit_sayings_add_button_width</item>
         <item name="android:layout_height">@dimen/edit_sayings_add_button_height</item>
         <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>

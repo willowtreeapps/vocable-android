@@ -22,14 +22,14 @@
         style="@style/EditSayingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Sayings"
+        android:text="@string/edit_sayings_title"
         app:layout_constraintEnd_toStartOf="@+id/add_sayings_button"
         app:layout_constraintStart_toEndOf="@+id/back_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/add_sayings_button"
-        style="@style/EditSayingsAddButton"
+        style="@style/EditSayingsActionButton"
         android:background="@drawable/button_default_background"
         android:src="@drawable/ic_add_40dp"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"

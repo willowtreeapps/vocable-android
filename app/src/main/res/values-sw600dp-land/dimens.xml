@@ -46,8 +46,6 @@
     <dimen name="edit_sayings_add_button_margin">44dp</dimen>
     <dimen name="edit_phrases_margin_bottom">20dp</dimen>
     <dimen name="edit_phrases_margin_top">44dp</dimen>
-    <dimen name="edit_paging_button_width">104dp</dimen>
-    <dimen name="edit_paging_button_height">96dp</dimen>
     <dimen name="edit_page_number_margin">96dp</dimen>
-    <dimen name="edit_paging_button_bottom_margin">89dp</dimen>
+
 </resources>
