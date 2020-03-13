@@ -38,4 +38,9 @@ class PresetsRepository(context: Context) : KoinComponent {
     suspend fun getMySayingsId(): Long {
         return database.categoryDao().getMySayingsId()
     }
+
+    suspend fun deletePhrase(phrase: Phrase) {
+        database.phraseDao().deletePhrase(phrase)
+    }
+
 }
