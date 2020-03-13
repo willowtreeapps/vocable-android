@@ -2,9 +2,9 @@
 <resources>
     <integer name="max_categories">1</integer>
     <integer name="max_phrases">8</integer>
-    <integer name="max_edit_phrases">6</integer>
+    <integer name="max_edit_phrases">4</integer>
     <integer name="phrases_columns">2</integer>
     <integer name="phrases_rows">4</integer>
-    <integer name="edit_phrases_columns">2</integer>
-    <integer name="edit_phrases_rows">3</integer>
+    <integer name="edit_phrases_columns">1</integer>
+    <integer name="edit_phrases_rows">4</integer>
 </resources>
