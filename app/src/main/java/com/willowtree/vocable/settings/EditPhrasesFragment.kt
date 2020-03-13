@@ -1,5 +1,6 @@
 package com.willowtree.vocable.settings
 
+import android.nfc.Tag
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.updateMargins
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -32,6 +34,7 @@ class EditPhrasesFragment: BaseFragment() {
     }
 
     private var binding: FragmentEditPhrasesBinding? = null
+    private lateinit var editPhrasesViewModel: EditPhrasesViewModel
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
     private var numColumns = 1
@@ -51,6 +54,7 @@ class EditPhrasesFragment: BaseFragment() {
             val phraseView = PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
             with(phraseView.root) {
                 phrase_edit_text.text = phrase.utterance
+                phrase_edit_text.tag = phrase
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
@@ -63,6 +67,11 @@ class EditPhrasesFragment: BaseFragment() {
                     }
                 }
             }
+
+            phraseView.actionButtonContainer.deleteSayingsButton.action = {
+                editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
+            }
+
             binding?.editPhrasesContainer?.addView(phraseView.root)
         }
 
@@ -79,6 +88,12 @@ class EditPhrasesFragment: BaseFragment() {
         }
 
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        editPhrasesViewModel = ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
     }
 
     override fun onDestroyView() {

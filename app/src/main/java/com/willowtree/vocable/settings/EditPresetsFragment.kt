@@ -14,13 +14,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.databinding.EditPhrasesActionButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
+import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
+import org.koin.android.ext.android.bind
 import java.lang.Math.ceil
 
 class EditPresetsFragment : BaseFragment() {
 
     private var binding: FragmentEditPresetsBinding? = null
+    private var bindingEditPhrases: PhraseEditLayoutBinding? = null
     private var allViews = mutableListOf<View>()
 
     private var maxPhrases = 1
@@ -34,7 +38,7 @@ class EditPresetsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditPresetsBinding.inflate(inflater, container, false)
-
+        bindingEditPhrases = PhraseEditLayoutBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
