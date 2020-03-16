@@ -24,7 +24,6 @@ import java.lang.Math.ceil
 class EditPresetsFragment : BaseFragment() {
 
     private var binding: FragmentEditPresetsBinding? = null
-    private var bindingEditPhrases: PhraseEditLayoutBinding? = null
     private var allViews = mutableListOf<View>()
 
     private var maxPhrases = 1
@@ -38,7 +37,6 @@ class EditPresetsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditPresetsBinding.inflate(inflater, container, false)
-        bindingEditPhrases = PhraseEditLayoutBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
