@@ -127,4 +127,26 @@
     <dimen name="dialog_button_end_margin">16dp</dimen>
     <dimen name="dialog_button_text_size">20sp</dimen>
     <dimen name="dialog_shadow">15dp</dimen>
+
+    <!-- Edit Sayings -->
+    <dimen name="edit_sayings_text_margin_start">24dp</dimen>
+    <dimen name="edit_sayings_text_horizontal_margin">16dp</dimen>
+    <dimen name="edit_sayings_text_size">24sp</dimen>
+    <dimen name="edit_sayings_buttons_margin">8dp</dimen>
+    <dimen name="edit_sayings_back_button_margin">44dp</dimen>
+    <dimen name="edit_sayings_back_button_margin_end">8dp</dimen>
+    <dimen name="edit_sayings_back_button_padding">0dp</dimen>
+    <dimen name="edit_sayings_title_margin">40dp</dimen>
+    <dimen name="edit_sayings_title_text_size">34sp</dimen>
+    <dimen name="edit_sayings_add_button_width">72dp</dimen>
+    <dimen name="edit_sayings_add_button_height">72dp</dimen>
+    <dimen name="edit_sayings_title_margin_start">24dp</dimen>
+    <dimen name="edit_sayings_add_button_margin">24dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">20dp</dimen>
+    <dimen name="edit_phrases_margin_top">33dp</dimen>
+    <dimen name="edit_paging_button_width">64dp</dimen>
+    <dimen name="edit_paging_button_height">64dp</dimen>
+    <dimen name="edit_page_number_margin">192dp</dimen>
+    <dimen name="edit_paging_button_bottom_margin">33dp</dimen>
+
 </resources>
