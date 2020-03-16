@@ -27,4 +27,11 @@ class EditPhrasesViewModel: BaseViewModel() {
             liveMySayingsList.postValue(phrases)
         }
     }
+
+    fun deletePhrase(phrase: Phrase) {
+        backgroundScope.launch {
+            presetsRepository.deletePhrase(phrase)
+            populateMySayings()
+        }
+    }
 }

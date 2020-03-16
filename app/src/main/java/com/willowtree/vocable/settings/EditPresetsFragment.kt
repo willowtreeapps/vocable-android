@@ -16,7 +16,9 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableImageButton
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
+import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
+import org.koin.android.ext.android.bind
 import java.lang.Math.ceil
 
 class EditPresetsFragment : BaseFragment() {
@@ -35,7 +37,6 @@ class EditPresetsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditPresetsBinding.inflate(inflater, container, false)
-
         return binding?.root
     }
 
