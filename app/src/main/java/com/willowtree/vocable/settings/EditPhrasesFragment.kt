@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
+import androidx.core.view.isInvisible
 import androidx.core.view.updateMargins
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
@@ -70,10 +71,10 @@ class EditPhrasesFragment: BaseFragment() {
             // Add invisible views to fill out the rest of the space
             for (i in 0 until maxPhrases - it.size) {
                 val hiddenView =
-                    PhraseButtonBinding.inflate(inflater, binding?.editPhrasesContainer, false)
+                    PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
                 binding?.editPhrasesContainer?.addView(hiddenView.root.apply {
                     isEnabled = false
-                    visibility = View.INVISIBLE
+                    isInvisible = true
                 })
             }
         }

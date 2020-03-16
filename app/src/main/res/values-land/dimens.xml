@@ -16,5 +16,6 @@
     <dimen name="dialog_width">380dp</dimen>
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_action_button_bottom_margin">40dp</dimen>
+    <dimen name="settings_switch_top_margin">16dp</dimen>
 
 </resources>

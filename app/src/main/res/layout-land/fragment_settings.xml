@@ -51,7 +51,7 @@
         android:id="@+id/head_tracking_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/settings_switch_top_margin"
         android:background="@drawable/settings_group_background"
         app:layout_constraintEnd_toEndOf="@+id/settings_close_button"
         app:layout_constraintStart_toStartOf="@+id/settings_title"
@@ -90,7 +90,7 @@
         android:layout_marginStart="@dimen/settings_action_button_margin"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Edit Sayings"
+        android:text="@string/edit_sayings"
         app:layout_constraintBottom_toTopOf="@+id/privacy_policy_button"
         app:layout_constraintEnd_toEndOf="@id/contact_devs_button"
         app:layout_constraintStart_toStartOf="parent" />

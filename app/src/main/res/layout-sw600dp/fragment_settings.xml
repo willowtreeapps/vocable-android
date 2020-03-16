@@ -86,8 +86,8 @@
         style="@style/ActionButton"
         android:layout_height="@dimen/settings_action_button_layout_height"
         android:layout_marginStart="@dimen/settings_action_button_margin"
-        android:layout_marginBottom="8dp"
-        android:text="Edit Sayings"
+        android:layout_marginBottom="@dimen/settings_margin_small"
+        android:text="@string/edit_sayings"
         app:layout_constraintBottom_toTopOf="@+id/privacy_policy_button"
         app:layout_constraintEnd_toEndOf="@id/contact_devs_button"
         app:layout_constraintStart_toStartOf="parent" />
