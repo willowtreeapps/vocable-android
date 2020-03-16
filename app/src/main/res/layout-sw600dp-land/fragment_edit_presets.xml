@@ -12,6 +12,7 @@
         style="@style/EditSayingsBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="24dp"
         android:text="@string/edit_sayings_back_button"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintStart_toStartOf="parent"
