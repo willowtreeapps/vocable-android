@@ -239,6 +239,7 @@ class PresetsViewModel : BaseViewModel() {
     val currentPhrases: LiveData<List<Phrase>> = liveCurrentPhrases
 
     init {
+        updateMySayingsCategory()
         populateCategories()
     }
 
@@ -309,6 +310,14 @@ class PresetsViewModel : BaseViewModel() {
 
             liveCategoryList.postValue(categoryObjects)
             onCategorySelected(categoryObjects.first())
+        }
+    }
+
+    fun updateMySayingsCategory() {
+        backgroundScope.launch {
+            presetsRepository.getPhrasesForCategory(-1).forEach {
+                presetsRepository.updatePhrase(it)
+            }
         }
     }
 

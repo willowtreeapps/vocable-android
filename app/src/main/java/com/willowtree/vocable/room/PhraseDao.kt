@@ -19,4 +19,8 @@ interface PhraseDao {
 
     @Query("SELECT * FROM Phrase WHERE category_id == :categoryId")
     suspend fun getPhrasesByCategory(categoryId: Long): List<Phrase>
+
+    @Update
+    suspend fun updatePhrase(phrase: Phrase)
+
 }

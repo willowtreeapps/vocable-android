@@ -16,5 +16,12 @@
     <dimen name="dialog_width">380dp</dimen>
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_action_button_bottom_margin">40dp</dimen>
+    <dimen name="settings_switch_top_margin">16dp</dimen>
+
+    <!-- Edit Sayings -->
+    <dimen name="edit_sayings_title_margin">37dp</dimen>
+    <dimen name="edit_phrases_margin_top">16dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">16dp</dimen>
+    <dimen name="edit_sayings_back_button_margin_end">8dp</dimen>
 
 </resources>
