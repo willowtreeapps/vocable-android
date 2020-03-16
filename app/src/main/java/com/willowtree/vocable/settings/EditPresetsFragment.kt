@@ -41,15 +41,12 @@ class EditPresetsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(resources) {
-            maxPhrases = getInteger(R.integer.max_edit_phrases)
-        }
+        maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
 
         binding?.backButton?.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SettingsFragment())
-                .addToBackStack(null)
                 .commit()
         }
 
