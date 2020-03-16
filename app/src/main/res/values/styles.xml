@@ -161,6 +161,8 @@
         <item name="android:layout_marginStart">@dimen/edit_sayings_back_button_margin</item>
         <item name="android:textSize">@dimen/edit_sayings_text_size</item>
         <item name="android:textColor">@color/textColor</item>
+        <item name="android:background">@drawable/vocable_dialog_button_background</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:scaleType">center</item>
     </style>
@@ -173,7 +175,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="EditSayingsAddButton">
+    <style name="EditSayingsActionButton">
         <item name="android:layout_width">@dimen/edit_sayings_add_button_width</item>
         <item name="android:layout_height">@dimen/edit_sayings_add_button_height</item>
         <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>
