@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
+import com.willowtree.vocable.customviews.VocableImageButton
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
 import com.willowtree.vocable.room.Phrase
 import java.lang.Math.ceil
@@ -44,6 +45,14 @@ class EditPresetsFragment : BaseFragment() {
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
 
         binding?.backButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, SettingsFragment())
+                .commit()
+        }
+
+        // Cast is required for successful build
+        (binding?.handsetBackButton as? VocableImageButton)?.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SettingsFragment())
