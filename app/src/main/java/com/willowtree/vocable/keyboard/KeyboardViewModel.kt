@@ -22,6 +22,7 @@ class KeyboardViewModel : BaseViewModel() {
 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
+            val categoryId = presetsRepository.getMySayingsId()
             presetsRepository.addPhrase(
                 Phrase(
                     System.currentTimeMillis(),
@@ -29,7 +30,7 @@ class KeyboardViewModel : BaseViewModel() {
                     true,
                     0L,
                     phraseStr,
-                    -1L
+                    categoryId
                 )
             )
             liveShowPhraseAdded.postValue(true)

@@ -34,4 +34,16 @@ class PresetsRepository(context: Context) : KoinComponent {
     suspend fun populatePhrases(phrases: List<Phrase>) {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
+
+    suspend fun getMySayingsId(): Long {
+        return database.categoryDao().getMySayingsId()
+    }
+
+    suspend fun deletePhrase(phrase: Phrase) {
+        database.phraseDao().deletePhrase(phrase)
+    }
+
+    suspend fun updatePhrase(phrase: Phrase) {
+        database.phraseDao().updatePhrase(phrase)
+    }
 }
