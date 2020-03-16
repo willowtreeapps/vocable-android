@@ -134,7 +134,8 @@
     <dimen name="edit_sayings_text_size">24sp</dimen>
     <dimen name="edit_sayings_buttons_margin">8dp</dimen>
     <dimen name="edit_sayings_back_button_margin">44dp</dimen>
-    <dimen name="edit_sayings_back_button_margin_end">32dp</dimen>
+    <dimen name="edit_sayings_back_button_margin_end">8dp</dimen>
+    <dimen name="edit_sayings_back_button_padding">0dp</dimen>
     <dimen name="edit_sayings_title_margin">40dp</dimen>
     <dimen name="edit_sayings_title_text_size">34sp</dimen>
     <dimen name="edit_sayings_add_button_width">72dp</dimen>
