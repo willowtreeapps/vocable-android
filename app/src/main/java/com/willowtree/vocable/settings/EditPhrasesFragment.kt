@@ -69,7 +69,9 @@ class EditPhrasesFragment: BaseFragment() {
             }
 
             phraseView.actionButtonContainer.deleteSayingsButton.action = {
-                editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
+                if (phraseView.phraseEditText.tag is Phrase) {
+                    editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
+                }
             }
 
             binding?.editPhrasesContainer?.addView(phraseView.root)
