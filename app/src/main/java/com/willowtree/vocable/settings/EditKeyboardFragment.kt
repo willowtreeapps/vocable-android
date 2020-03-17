@@ -90,11 +90,15 @@ class EditKeyboardFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.backButton?.action = {
-            parentFragmentManager
+            if (binding?.keyboardInput?.text.toString() == phrase.utterance) {
+                parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, EditPresetsFragment())
                 .addToBackStack(null)
                 .commit()
+            } else {
+                showConfirmationDialog()
+            }
         }
 
         binding?.saveButton?.let {
@@ -148,6 +152,51 @@ class EditKeyboardFragment : BaseFragment() {
 
         viewModel = ViewModelProviders.of(this).get(EditPhrasesViewModel::class.java)
         subscribeToViewModel()
+    }
+
+    private fun showConfirmationDialog() {
+        setSettingsButtonsEnabled(false)
+        binding?.editConfirmation?.dialogTitle?.text = getString(R.string.are_you_sure)
+        binding?.editConfirmation?.dialogMessage?.text = getString(R.string.back_warning)
+        binding?.editConfirmation?.dialogPositiveButton?.let {
+            it.text = getString(R.string.contiue_editing)
+            it.action = {
+                toggleDialogVisibility(false)
+                setSettingsButtonsEnabled(true)
+            }
+        }
+        binding?.editConfirmation?.dialogNegativeButton?.let {
+            it.text = getString(R.string.discard)
+            it.action = {
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+        toggleDialogVisibility(true)
+    }
+
+    private fun setSettingsButtonsEnabled(enable: Boolean) {
+        binding?.let {
+            it.backButton.isEnabled = enable
+            it.saveButton.isEnabled = enable
+            it.keyboardBackspaceButton.isEnabled = enable
+            it.keyboardSpaceButton.isEnabled = enable
+            it.keyboardClearButton.isEnabled = enable
+            it.keyboardInput.isEnabled = enable
+            it.keyboardKeyHolder.isEnabled = enable
+        }
+    }
+
+    private fun toggleDialogVisibility(visible: Boolean) {
+        binding?.editConfirmation?.root?.let {
+            it.isVisible = visible
+            it.post {
+                //allViews.clear()
+            }
+        }
     }
 
     private fun subscribeToViewModel() {

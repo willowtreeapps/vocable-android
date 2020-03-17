@@ -37,5 +37,9 @@
     <string name="edit_sayings_back_button">&lt; Settings</string>
     <string name="edit_sayings_title">My Sayings</string>
     <string name="new_phrase_saved">New phrase saved</string>
+    <string name="contiue_editing">Continue editing</string>
+    <string name="discard">Discard</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="back_warning">Going back before saving will clear any edits made.</string>
 
 </resources>
