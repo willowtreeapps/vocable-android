@@ -90,7 +90,7 @@ class PresetsViewModel : BaseViewModel() {
         "Hello",
         "Good morning",
         "Good evening",
-        "Please to meet you",
+        "Pleased to meet you",
         "How is your day?",
         "How are you?",
         "How's it going?",
