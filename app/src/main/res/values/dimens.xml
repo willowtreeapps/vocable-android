@@ -142,11 +142,14 @@
     <dimen name="edit_sayings_add_button_height">72dp</dimen>
     <dimen name="edit_sayings_title_margin_start">24dp</dimen>
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>
-    <dimen name="edit_phrases_margin_bottom">20dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">33dp</dimen>
     <dimen name="edit_phrases_margin_top">33dp</dimen>
     <dimen name="edit_paging_button_width">64dp</dimen>
     <dimen name="edit_paging_button_height">64dp</dimen>
     <dimen name="edit_page_number_margin">192dp</dimen>
     <dimen name="edit_paging_button_bottom_margin">33dp</dimen>
+    <dimen name="edit_action_delete_height">56dp</dimen>
+    <dimen name="edit_action_delete_width">56dp</dimen>
+
 
 </resources>

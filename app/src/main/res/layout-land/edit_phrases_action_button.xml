@@ -12,7 +12,7 @@
         android:background="@drawable/button_default_background"
         android:scaleType="center"
         android:src="@drawable/ic_edit_40dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/delete_sayings_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,12 +20,11 @@
         android:id="@+id/delete_sayings_button"
         android:layout_width="@dimen/edit_action_delete_width"
         android:layout_height="@dimen/edit_action_delete_height"
-        android:layout_marginTop="8dp"
         android:background="@drawable/button_default_background"
         android:scaleType="center"
         android:src="@drawable/ic_delete"
-        app:layout_constraintEnd_toEndOf="@id/edit_sayings_button"
-        app:layout_constraintStart_toStartOf="@id/edit_sayings_button"
-        app:layout_constraintTop_toBottomOf="@id/edit_sayings_button" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_sayings_button"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
