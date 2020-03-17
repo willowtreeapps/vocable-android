@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
+import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.presets.PhrasesFragment
@@ -35,6 +37,7 @@ class EditPhrasesFragment: BaseFragment() {
     }
 
     private var binding: FragmentEditPhrasesBinding? = null
+    private var bindingEditPresets: FragmentEditPresetsBinding? = null
     private lateinit var editPhrasesViewModel: EditPhrasesViewModel
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
@@ -46,6 +49,7 @@ class EditPhrasesFragment: BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditPhrasesBinding.inflate(inflater, container, false)
+        bindingEditPresets = FragmentEditPresetsBinding.inflate(inflater,container, false)
 
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
         numColumns = resources.getInteger(R.integer.edit_phrases_columns)
@@ -71,7 +75,7 @@ class EditPhrasesFragment: BaseFragment() {
 
             phraseView.actionButtonContainer.deleteSayingsButton.action = {
                 if (phraseView.phraseEditText.tag is Phrase) {
-                    editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
+                    showDeletePhraseDialog(phraseView)
                 }
             }
 
@@ -91,6 +95,47 @@ class EditPhrasesFragment: BaseFragment() {
         }
 
         return binding?.root
+    }
+
+    private fun showDeletePhraseDialog(phraseView: PhraseEditLayoutBinding) {
+        setSettingsButtonsEnabled(false)
+        binding?.deleteConfirmation?.dialogTitle?.text = getString(R.string.are_you_sure)
+        binding?.deleteConfirmation?.dialogMessage?.text = getString(R.string.delete_warning)
+        binding?.deleteConfirmation?.dialogPositiveButton?.let {
+            it.text = getString(R.string.delete)
+            it.action = {
+                editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
+                toggleDialogVisibility(false)
+                setSettingsButtonsEnabled(true)
+            }
+        }
+        binding?.deleteConfirmation?.dialogNegativeButton?.let {
+            it.text = getString(R.string.settings_dialog_cancel)
+            it.action = {
+                toggleDialogVisibility(false)
+                setSettingsButtonsEnabled(true)
+            }
+        }
+        toggleDialogVisibility(true)
+    }
+
+    private fun setSettingsButtonsEnabled(enable: Boolean) {
+        bindingEditPresets?.let {
+            it.backButton?.isEnabled = enable
+            it.addSayingsButton.isEnabled = enable
+            it.phrasesForwardButton.isEnabled = enable
+            it.phrasesBackButton.isEnabled = enable
+        }
+
+    }
+
+    private fun toggleDialogVisibility(visible: Boolean) {
+        binding?.deleteConfirmation?.root?.let {
+            it.isVisible = visible
+            it.post {
+                //allViews.clear()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
