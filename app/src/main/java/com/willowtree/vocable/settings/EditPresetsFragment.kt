@@ -130,6 +130,9 @@ class EditPresetsFragment : BaseFragment() {
                     phrasesAdapter.setPhrases(phrases)
                     // Move adapter to middle so user can scroll both directions
                     val middle = phrasesAdapter.itemCount / 2
+                    if(phrasesAdapter.numPages == 0) {
+                        phrasesAdapter.numPages = 1
+                    }
                     if (middle % phrasesAdapter.numPages == 0) {
                         binding?.editSayingsViewPager?.setCurrentItem(middle, false)
                     } else {
