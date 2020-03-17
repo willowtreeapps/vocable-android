@@ -1,8 +1,6 @@
-package com.willowtree.vocable.keyboard
+package com.willowtree.vocable.settings
 
-import android.content.Intent
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,27 +13,43 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
-import com.willowtree.vocable.databinding.FragmentKeyboardBinding
+import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
-import com.willowtree.vocable.presets.PresetsFragment
-import com.willowtree.vocable.settings.SettingsActivity
-import com.willowtree.vocable.utils.VocableTextToSpeech
+import com.willowtree.vocable.room.Phrase
 import java.util.*
 
+class EditKeyboardFragment : BaseFragment() {
 
-class KeyboardFragment : BaseFragment() {
+    companion object {
+        private const val KEY_PHRASE = "KEY_PHRASE"
 
-    private lateinit var viewModel: KeyboardViewModel
-    private var binding: FragmentKeyboardBinding? = null
+        fun newInstance(phrase: Phrase): EditKeyboardFragment {
+            return EditKeyboardFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_PHRASE, phrase)
+                }
+            }
+        }
+    }
+
+    private lateinit var viewModel: EditPhrasesViewModel
+    private var binding: FragmentEditKeyboardBinding? = null
     private lateinit var keys: Array<String>
+    private lateinit var phrase: Phrase
+
+    private val allViews = mutableListOf<View>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentKeyboardBinding.inflate(inflater, container, false)
+        binding = FragmentEditKeyboardBinding.inflate(inflater, container, false)
         keys = resources.getStringArray(R.array.keyboard_keys)
+        arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
+            phrase = it
+        }
+
         populateKeys()
 
         return binding?.root
@@ -75,49 +89,40 @@ class KeyboardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
-            binding?.speakerIcon?.isVisible = it ?: false
-        })
-
-        binding?.actionButtonContainer?.presetsButton?.let {
-            it.action = {
+        binding?.backButton?.action = {
+            if (binding?.keyboardInput?.text.toString() == phrase.utterance) {
                 parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, PresetsFragment())
-                    .commit()
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                .addToBackStack(null)
+                .commit()
+            } else {
+                showConfirmationDialog()
             }
         }
 
-        binding?.actionButtonContainer?.settingsButton?.let {
-            it.action = {
-                val intent = Intent(activity, SettingsActivity::class.java)
-                startActivity(intent)
-            }
-        }
-
-        binding?.actionButtonContainer?.saveButton?.let {
+        binding?.saveButton?.let {
             it.action = {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            viewModel.addNewPhrase(text.toString())
+                            phrase.utterance = text.toString()
+                            viewModel.updatePhrase(phrase)
                         }
                     }
                 }
             }
         }
 
-        binding?.keyboardClearButton?.let {
-            it.action = {
-                binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
-            }
+        binding?.keyboardInput?.setText(phrase.utterance)
+
+        binding?.keyboardClearButton?.action = {
+            binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
         }
 
-        binding?.keyboardSpaceButton?.let {
-            it.action = {
-                if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
-                    binding?.keyboardInput?.append(" ")
-                }
+        binding?.keyboardSpaceButton?.action = {
+            if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
+                binding?.keyboardInput?.append(" ")
             }
         }
 
@@ -137,32 +142,54 @@ class KeyboardFragment : BaseFragment() {
             }
         }
 
-        binding?.keyboardSpeakButton?.let {
+        binding?.phraseSavedView?.root?.let {
+            (it as TextView).text = getString(R.string.new_phrase_saved)
+        }
+
+        viewModel = ViewModelProviders.of(this).get(EditPhrasesViewModel::class.java)
+        subscribeToViewModel()
+    }
+
+    private fun showConfirmationDialog() {
+        setSettingsButtonsEnabled(false)
+        binding?.editConfirmation?.dialogTitle?.text = getString(R.string.are_you_sure)
+        binding?.editConfirmation?.dialogMessage?.text = getString(R.string.back_warning)
+        binding?.editConfirmation?.dialogPositiveButton?.let {
+            it.text = getString(R.string.contiue_editing)
             it.action = {
-                if (!isDefaultTextVisible()) {
-                    VocableTextToSpeech.getTextToSpeech()?.speak(
-                        binding?.keyboardInput?.text,
-                        TextToSpeech.QUEUE_FLUSH,
-                        null,
-                        id.toString()
-                    )
-                }
+                toggleDialogVisibility(false)
+                setSettingsButtonsEnabled(true)
             }
         }
-
-        binding?.phraseSavedView?.root?.let {
-            buildTextWithIcon(
-                getString(R.string.saved_successfully),
-                getString(R.string.category_saved_to),
-                iconCharStart = 9,
-                iconCharEnd = 10,
-                view = it as TextView,
-                icon = R.drawable.ic_heart_solid_blue
-            )
+        binding?.editConfirmation?.dialogNegativeButton?.let {
+            it.text = getString(R.string.discard)
+            it.action = {
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
+        toggleDialogVisibility(true)
+    }
 
-        viewModel = ViewModelProviders.of(this).get(KeyboardViewModel::class.java)
-        subscribeToViewModel()
+    private fun setSettingsButtonsEnabled(enable: Boolean) {
+        binding?.let {
+            it.backButton.isEnabled = enable
+            it.saveButton.isEnabled = enable
+            it.keyboardBackspaceButton.isEnabled = enable
+            it.keyboardSpaceButton.isEnabled = enable
+            it.keyboardClearButton.isEnabled = enable
+            it.keyboardInput.isEnabled = enable
+            it.keyboardKeyHolder.isEnabled = enable
+        }
+    }
+
+    private fun toggleDialogVisibility(visible: Boolean) {
+        binding?.editConfirmation?.root?.let {
+            it.isVisible = visible
+        }
     }
 
     private fun subscribeToViewModel() {
@@ -171,16 +198,9 @@ class KeyboardFragment : BaseFragment() {
         })
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
-    private val allViews = mutableListOf<View>()
-
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(binding?.keyboardParent)
+            getAllChildViews(binding?.editKeyboardParent)
         }
         return allViews
     }
@@ -194,4 +214,10 @@ class KeyboardFragment : BaseFragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
+    }
+
 }

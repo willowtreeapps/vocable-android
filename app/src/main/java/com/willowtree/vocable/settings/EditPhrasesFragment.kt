@@ -1,6 +1,5 @@
 package com.willowtree.vocable.settings
 
-import android.nfc.Tag
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +13,7 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
-import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
-import com.willowtree.vocable.presets.PhrasesFragment
 import com.willowtree.vocable.room.Phrase
 import kotlinx.android.synthetic.main.phrase_edit_layout.view.*
 
@@ -73,6 +70,14 @@ class EditPhrasesFragment: BaseFragment() {
                 if (phraseView.phraseEditText.tag is Phrase) {
                     editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
                 }
+            }
+
+            phraseView.actionButtonContainer.editSayingsButton.action = {
+                parentFragmentManager
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.settings_fragment_container, EditKeyboardFragment.newInstance(phrase))
+                    .commit()
             }
 
             binding?.editPhrasesContainer?.addView(phraseView.root)
