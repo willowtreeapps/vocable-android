@@ -124,6 +124,7 @@
     <dimen name="dialog_text_margin">16dp</dimen>
     <dimen name="dialog_button_width">142dp</dimen>
     <dimen name="dialog_button_height">44dp</dimen>
+    <dimen name="dialog_button_padding">24dp</dimen>
     <dimen name="dialog_button_end_margin">16dp</dimen>
     <dimen name="dialog_button_text_size">20sp</dimen>
     <dimen name="dialog_shadow">15dp</dimen>

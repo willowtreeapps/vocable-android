@@ -72,7 +72,7 @@
 
         <com.willowtree.vocable.customviews.ActionButton
             android:layout_width="0dp"
-            android:layout_height="104dp"
+            android:layout_height="@dimen/edit_keyboard_height"
             android:layout_weight="1"
             android:background="@drawable/radio_button_default_background"
             android:gravity="center" />
@@ -93,14 +93,14 @@
 
         <com.willowtree.vocable.customviews.ActionButton
             android:layout_width="0dp"
-            android:layout_height="104dp"
+            android:layout_height="@dimen/edit_keyboard_height"
             android:layout_weight="1"
             android:background="@drawable/radio_button_default_background"
             android:gravity="center" />
 
         <com.willowtree.vocable.customviews.ActionButton
             android:layout_width="0dp"
-            android:layout_height="104dp"
+            android:layout_height="@dimen/edit_keyboard_height"
             android:layout_weight="1"
             android:background="@drawable/radio_button_default_background"
             android:gravity="center" />
