@@ -32,6 +32,8 @@
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/dialog_positive_button"
         style="@style/ConfirmationDialogButton"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_message"
@@ -40,6 +42,8 @@
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/dialog_negative_button"
         style="@style/ConfirmationDialogButton"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dialog_positive_button"
         app:layout_constraintTop_toBottomOf="@+id/dialog_message"
