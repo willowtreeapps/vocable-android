@@ -15,6 +15,9 @@ class EditPhrasesViewModel: BaseViewModel() {
     private val liveMySayingsList = MutableLiveData<List<Phrase>>()
     val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList
 
+    private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
+    val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
+
     init {
         populateMySayings()
     }
@@ -33,5 +36,9 @@ class EditPhrasesViewModel: BaseViewModel() {
             presetsRepository.deletePhrase(phrase)
             populateMySayings()
         }
+    }
+
+    fun setEditButtonsEnabled(enabled: Boolean) {
+        liveSetButtonsEnabled.postValue(enabled)
     }
 }
