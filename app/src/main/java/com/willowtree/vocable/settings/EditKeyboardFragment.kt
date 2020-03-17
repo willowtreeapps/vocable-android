@@ -116,17 +116,13 @@ class EditKeyboardFragment : BaseFragment() {
 
         binding?.keyboardInput?.setText(phrase.utterance)
 
-        binding?.keyboardClearButton?.let {
-            it.action = {
-                binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
-            }
+        binding?.keyboardClearButton?.action = {
+            binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
         }
 
-        binding?.keyboardSpaceButton?.let {
-            it.action = {
-                if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
-                    binding?.keyboardInput?.append(" ")
-                }
+        binding?.keyboardSpaceButton?.action = {
+            if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
+                binding?.keyboardInput?.append(" ")
             }
         }
 
@@ -193,9 +189,6 @@ class EditKeyboardFragment : BaseFragment() {
     private fun toggleDialogVisibility(visible: Boolean) {
         binding?.editConfirmation?.root?.let {
             it.isVisible = visible
-            it.post {
-                //allViews.clear()
-            }
         }
     }
 

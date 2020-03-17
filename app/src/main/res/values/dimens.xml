@@ -151,6 +151,7 @@
 
     <!-- Edit Keyboard -->
     <dimen name="edit_keyboard_padding">24dp</dimen>
+    <dimen name="edit_keyboard_height">104dp</dimen>
     <dimen name="edit_keyboard_top_margin">52dp</dimen>
     <dimen name="edit_keyboard_horizontal_margin">44dp</dimen>
 
