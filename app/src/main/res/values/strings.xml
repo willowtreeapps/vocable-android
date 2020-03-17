@@ -36,5 +36,6 @@
     <!-- Edit Sayings -->
     <string name="edit_sayings_back_button">&lt; Settings</string>
     <string name="edit_sayings_title">My Sayings</string>
+    <string name="new_phrase_saved">New phrase saved</string>
 
 </resources>
