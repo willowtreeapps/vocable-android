@@ -145,6 +145,17 @@ class EditPresetsFragment : BaseFragment() {
                 }
             }
         })
+
+        editPhrasesViewModel.setButtonEnabled.observe(viewLifecycleOwner, Observer {
+            editPhrasesViewModel.setButtonEnabled?.value?.let { enable ->
+                binding?.let {
+                    it.backButton?.isEnabled = enable
+                    it.addSayingsButton.isEnabled = enable
+                    it.phrasesForwardButton.isEnabled = enable
+                    it.phrasesBackButton.isEnabled = enable
+                }
+            }
+        })
     }
 
     override fun getAllViews(): List<View> {

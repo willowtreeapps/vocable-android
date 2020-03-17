@@ -37,7 +37,6 @@ class EditPhrasesFragment: BaseFragment() {
     }
 
     private var binding: FragmentEditPhrasesBinding? = null
-    private var bindingEditPresets: FragmentEditPresetsBinding? = null
     private lateinit var editPhrasesViewModel: EditPhrasesViewModel
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
@@ -49,7 +48,6 @@ class EditPhrasesFragment: BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditPhrasesBinding.inflate(inflater, container, false)
-        bindingEditPresets = FragmentEditPresetsBinding.inflate(inflater,container, false)
 
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
         numColumns = resources.getInteger(R.integer.edit_phrases_columns)
@@ -120,12 +118,7 @@ class EditPhrasesFragment: BaseFragment() {
     }
 
     private fun setSettingsButtonsEnabled(enable: Boolean) {
-        bindingEditPresets?.let {
-            it.backButton?.isEnabled = enable
-            it.addSayingsButton.isEnabled = enable
-            it.phrasesForwardButton.isEnabled = enable
-            it.phrasesBackButton.isEnabled = enable
-        }
+        editPhrasesViewModel.setEditButtonsEnabled(enable)
 
     }
 
