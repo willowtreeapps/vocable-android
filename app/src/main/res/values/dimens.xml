@@ -149,4 +149,9 @@
     <dimen name="edit_page_number_margin">192dp</dimen>
     <dimen name="edit_paging_button_bottom_margin">33dp</dimen>
 
+    <!-- Edit Keyboard -->
+    <dimen name="edit_keyboard_padding">24dp</dimen>
+    <dimen name="edit_keyboard_top_margin">52dp</dimen>
+    <dimen name="edit_keyboard_horizontal_margin">44dp</dimen>
+
 </resources>
