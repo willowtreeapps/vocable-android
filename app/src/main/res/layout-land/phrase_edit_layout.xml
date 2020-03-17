@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="start"
-        android:maxLines="2"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/action_button_container"
         app:layout_constraintHorizontal_bias="0"
