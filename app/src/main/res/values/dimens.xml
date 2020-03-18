@@ -124,6 +124,7 @@
     <dimen name="dialog_text_margin">16dp</dimen>
     <dimen name="dialog_button_width">142dp</dimen>
     <dimen name="dialog_button_height">44dp</dimen>
+    <dimen name="dialog_button_padding">24dp</dimen>
     <dimen name="dialog_button_end_margin">16dp</dimen>
     <dimen name="dialog_button_text_size">20sp</dimen>
     <dimen name="dialog_shadow">15dp</dimen>
@@ -142,11 +143,20 @@
     <dimen name="edit_sayings_add_button_height">72dp</dimen>
     <dimen name="edit_sayings_title_margin_start">24dp</dimen>
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>
-    <dimen name="edit_phrases_margin_bottom">20dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">33dp</dimen>
     <dimen name="edit_phrases_margin_top">33dp</dimen>
     <dimen name="edit_paging_button_width">64dp</dimen>
     <dimen name="edit_paging_button_height">64dp</dimen>
     <dimen name="edit_page_number_margin">192dp</dimen>
     <dimen name="edit_paging_button_bottom_margin">33dp</dimen>
+    <dimen name="edit_action_delete_height">56dp</dimen>
+    <dimen name="edit_action_delete_width">56dp</dimen>
+
+
+    <!-- Edit Keyboard -->
+    <dimen name="edit_keyboard_padding">24dp</dimen>
+    <dimen name="edit_keyboard_height">104dp</dimen>
+    <dimen name="edit_keyboard_top_margin">52dp</dimen>
+    <dimen name="edit_keyboard_horizontal_margin">44dp</dimen>
 
 </resources>

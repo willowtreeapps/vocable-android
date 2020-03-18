@@ -5,10 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Phrase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
 class EditPhrasesViewModel: BaseViewModel() {
+
+    companion object {
+        private const val PHRASE_UPDATED_DELAY = 2000L
+    }
 
     private val presetsRepository: PresetsRepository by inject()
 
@@ -17,6 +22,9 @@ class EditPhrasesViewModel: BaseViewModel() {
 
     private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
     val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
+  
+    private val liveShowPhraseAdded = MutableLiveData<Boolean>()
+    val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
     init {
         populateMySayings()
@@ -37,8 +45,20 @@ class EditPhrasesViewModel: BaseViewModel() {
             populateMySayings()
         }
     }
-
+  
     fun setEditButtonsEnabled(enabled: Boolean) {
         liveSetButtonsEnabled.postValue(enabled)
     }
+  
+    fun updatePhrase(phrase: Phrase) {
+        backgroundScope.launch {
+            presetsRepository.updatePhrase(phrase)
+            populateMySayings()
+
+            liveShowPhraseAdded.postValue(true)
+            delay(PHRASE_UPDATED_DELAY)
+            liveShowPhraseAdded.postValue(false)
+        }
+    }
+  
 }

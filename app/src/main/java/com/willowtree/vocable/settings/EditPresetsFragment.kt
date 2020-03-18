@@ -95,7 +95,7 @@ class EditPresetsFragment : BaseFragment() {
             }
         }
 
-        phrasesAdapter = EditPhrasesAdapter(childFragmentManager)
+        phrasesAdapter = EditPhrasesAdapter(parentFragmentManager)
 
         binding?.editSayingsViewPager?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
