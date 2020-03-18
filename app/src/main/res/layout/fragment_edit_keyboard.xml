@@ -54,59 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/predictive_text"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/keyboard_predictive_height"
-        android:layout_marginStart="@dimen/keyboard_side_margin"
-        android:layout_marginTop="@dimen/keyboard_margin_default"
-        android:layout_marginEnd="@dimen/keyboard_side_margin"
-        android:background="@drawable/category_group_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:weightSum="4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/keyboard_input">
-
-        <com.willowtree.vocable.customviews.ActionButton
-            android:layout_width="0dp"
-            android:layout_height="@dimen/edit_keyboard_height"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_default_background"
-            android:gravity="center" />
-
-        <com.willowtree.vocable.customviews.ActionButton
-            android:layout_width="0dp"
-            android:layout_height="104dp"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_default_background"
-            android:gravity="center" />
-
-        <com.willowtree.vocable.customviews.ActionButton
-            android:layout_width="0dp"
-            android:layout_height="@dimen/edit_keyboard_height"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_default_background"
-            android:gravity="center" />
-
-        <com.willowtree.vocable.customviews.ActionButton
-            android:layout_width="0dp"
-            android:layout_height="@dimen/edit_keyboard_height"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_default_background"
-            android:gravity="center" />
-
-        <com.willowtree.vocable.customviews.ActionButton
-            android:layout_width="0dp"
-            android:layout_height="@dimen/edit_keyboard_height"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_default_background"
-            android:gravity="center" />
-
-    </LinearLayout>
-
     <GridLayout
         android:id="@+id/keyboard_key_holder"
         android:layout_width="0dp"

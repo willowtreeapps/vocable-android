@@ -3,6 +3,7 @@ package com.willowtree.vocable.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
+import com.willowtree.vocable.keyboard.KeyboardViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
@@ -13,6 +14,7 @@ class EditPhrasesViewModel: BaseViewModel() {
 
     companion object {
         private const val PHRASE_UPDATED_DELAY = 2000L
+        private const val PHRASE_ADDED_DELAY = 2000L
     }
 
     private val presetsRepository: PresetsRepository by inject()
@@ -57,6 +59,28 @@ class EditPhrasesViewModel: BaseViewModel() {
 
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)
+            liveShowPhraseAdded.postValue(false)
+        }
+    }
+
+    fun addNewPhrase(phraseStr: String) {
+        backgroundScope.launch {
+            val categoryId = presetsRepository.getMySayingsId()
+            presetsRepository.addPhrase(
+                Phrase(
+                    System.currentTimeMillis(),
+                    System.currentTimeMillis(),
+                    true,
+                    0L,
+                    phraseStr,
+                    categoryId
+                )
+            )
+
+            populateMySayings()
+
+            liveShowPhraseAdded.postValue(true)
+            delay(PHRASE_ADDED_DELAY)
             liveShowPhraseAdded.postValue(false)
         }
     }
