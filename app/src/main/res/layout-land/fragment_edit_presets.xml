@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/handset_back_button"
+        android:id="@+id/back_button"
         style="@style/EditSayingsActionButton"
         android:layout_marginEnd="@dimen/edit_sayings_back_button_margin_end"
         android:background="@drawable/button_default_background"
