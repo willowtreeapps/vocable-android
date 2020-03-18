@@ -60,9 +60,8 @@
         android:scaleType="center"
         android:src="@drawable/phrases_back_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/phrases_page_number"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/edit_sayings_view_pager" />
 
     <TextView
         android:id="@+id/phrases_page_number"
@@ -92,8 +91,8 @@
         android:scaleType="center"
         android:src="@drawable/phrases_forward_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/edit_sayings_view_pager"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/phrases_page_number" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
