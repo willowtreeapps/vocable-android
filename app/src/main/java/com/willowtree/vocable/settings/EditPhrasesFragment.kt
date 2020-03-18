@@ -72,9 +72,7 @@ class EditPhrasesFragment: BaseFragment() {
             }
 
             phraseView.actionButtonContainer.deleteSayingsButton.action = {
-                if (phraseView.phraseEditText.tag is Phrase) {
-                    showDeletePhraseDialog(phraseView)
-                }
+                showDeletePhraseDialog(phrase)
             }
 
             binding?.editPhrasesContainer?.addView(phraseView.root)
@@ -95,14 +93,14 @@ class EditPhrasesFragment: BaseFragment() {
         return binding?.root
     }
 
-    private fun showDeletePhraseDialog(phraseView: PhraseEditLayoutBinding) {
+    private fun showDeletePhraseDialog(phrase: Phrase) {
         setSettingsButtonsEnabled(false)
         binding?.deleteConfirmation?.dialogTitle?.text = getString(R.string.are_you_sure)
         binding?.deleteConfirmation?.dialogMessage?.text = getString(R.string.delete_warning)
         binding?.deleteConfirmation?.dialogPositiveButton?.let {
             it.text = getString(R.string.delete)
             it.action = {
-                editPhrasesViewModel.deletePhrase(phraseView.phraseEditText.tag as Phrase)
+                editPhrasesViewModel.deletePhrase(phrase)
                 toggleDialogVisibility(false)
                 setSettingsButtonsEnabled(true)
             }
@@ -123,12 +121,7 @@ class EditPhrasesFragment: BaseFragment() {
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {
-        binding?.deleteConfirmation?.root?.let {
-            it.isVisible = visible
-            it.post {
-                //allViews.clear()
-            }
-        }
+        binding?.deleteConfirmation?.root?.isVisible = visible
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
