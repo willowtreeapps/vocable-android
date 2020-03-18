@@ -20,6 +20,9 @@ class EditPhrasesViewModel: BaseViewModel() {
     private val liveMySayingsList = MutableLiveData<List<Phrase>>()
     val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList
 
+    private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
+    val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
+  
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
@@ -42,7 +45,11 @@ class EditPhrasesViewModel: BaseViewModel() {
             populateMySayings()
         }
     }
-
+  
+    fun setEditButtonsEnabled(enabled: Boolean) {
+        liveSetButtonsEnabled.postValue(enabled)
+    }
+  
     fun updatePhrase(phrase: Phrase) {
         backgroundScope.launch {
             presetsRepository.updatePhrase(phrase)
@@ -53,4 +60,5 @@ class EditPhrasesViewModel: BaseViewModel() {
             liveShowPhraseAdded.postValue(false)
         }
     }
+  
 }
