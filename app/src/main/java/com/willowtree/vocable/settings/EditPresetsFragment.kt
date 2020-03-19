@@ -50,14 +50,6 @@ class EditPresetsFragment : BaseFragment() {
                 .commit()
         }
 
-        // Cast is required for successful build
-        (binding?.handsetBackButton as? VocableImageButton)?.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
-                .commit()
-        }
-
         binding?.phrasesForwardButton?.let {
             it.action = {
                 when (val currentPosition = binding?.editSayingsViewPager?.currentItem) {
