@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -33,12 +34,8 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        fun newInstance(isEditing: Boolean): EditKeyboardFragment {
-            return EditKeyboardFragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean(KEY_IS_EDITING, isEditing)
-                }
-            }
+        fun newInstance(isEditing: Boolean) = EditKeyboardFragment(). apply {
+            arguments = bundleOf(KEY_IS_EDITING to isEditing)
         }
     }
 
@@ -128,11 +125,7 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        if (phrase == null) {
-            binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
-        } else{
-            binding?.keyboardInput?.setText(phrase?.utterance)
-        }
+        binding?.keyboardInput?.setText(phrase?.utterance ?: getString(R.string.keyboard_select_letters))
 
         binding?.keyboardClearButton?.action = {
             binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
