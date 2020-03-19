@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -22,20 +23,26 @@ class EditKeyboardFragment : BaseFragment() {
 
     companion object {
         private const val KEY_PHRASE = "KEY_PHRASE"
+        private const val KEY_IS_EDITING = "KEY_IS_EDITING"
 
         fun newInstance(phrase: Phrase): EditKeyboardFragment {
             return EditKeyboardFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_PHRASE, phrase)
+                    putBoolean(KEY_IS_EDITING, true)
                 }
             }
+        }
+
+        fun newInstance(isEditing: Boolean) = EditKeyboardFragment(). apply {
+            arguments = bundleOf(KEY_IS_EDITING to isEditing)
         }
     }
 
     private lateinit var viewModel: EditPhrasesViewModel
     private var binding: FragmentEditKeyboardBinding? = null
     private lateinit var keys: Array<String>
-    private lateinit var phrase: Phrase
+    private var phrase: Phrase? = null
 
     private val allViews = mutableListOf<View>()
 
@@ -90,7 +97,8 @@ class EditKeyboardFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.backButton?.action = {
-            if (binding?.keyboardInput?.text.toString() == phrase.utterance) {
+            if (binding?.keyboardInput?.text.toString() == phrase?.utterance || arguments?.getBoolean(
+                    KEY_IS_EDITING) == false) {
                 parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, EditPresetsFragment())
@@ -106,15 +114,17 @@ class EditKeyboardFragment : BaseFragment() {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            phrase.utterance = text.toString()
-                            viewModel.updatePhrase(phrase)
+                            phrase?.utterance = text.toString()
+                            phrase?.let {
+                                viewModel.updatePhrase(it)
+                            } ?: viewModel.addNewPhrase(text.toString())
                         }
                     }
                 }
             }
         }
 
-        binding?.keyboardInput?.setText(phrase.utterance)
+        binding?.keyboardInput?.setText(phrase?.utterance ?: getString(R.string.keyboard_select_letters))
 
         binding?.keyboardClearButton?.action = {
             binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
@@ -143,10 +153,14 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.phraseSavedView?.root?.let {
-            (it as TextView).text = getString(R.string.new_phrase_saved)
+            if (arguments?.getBoolean(KEY_IS_EDITING) == true) {
+                (it as TextView).setText(R.string.changes_saved)
+            } else {
+                (it as TextView).setText(R.string.new_phrase_saved)
+            }
         }
 
-        viewModel = ViewModelProviders.of(this).get(EditPhrasesViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
         subscribeToViewModel()
     }
 
