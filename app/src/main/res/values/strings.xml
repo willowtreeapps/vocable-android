@@ -44,4 +44,7 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="back_warning">Going back before saving will clear any edits made.</string>
 
+    <!-- Edit Keyboard -->
+    <string name="changes_saved">Changes Saved</string>
+
 </resources>
