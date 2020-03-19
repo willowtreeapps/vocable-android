@@ -15,6 +15,7 @@ abstract class VocableDatabase : RoomDatabase() {
 
         private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
+                // Phrases no longer have to have unique utterances
                 database.execSQL("DROP INDEX index_Phrase_utterance")
             }
         }
