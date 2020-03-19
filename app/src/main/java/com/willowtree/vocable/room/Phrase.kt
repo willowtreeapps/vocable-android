@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(indices = [Index(value = ["utterance"], unique = true)])
+@Entity
 @Parcelize
 data class Phrase(
     @PrimaryKey val identifier: Long,
