@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:columnCount="@integer/settings_options_columns"
+    android:rowCount="@integer/settings_options_rows">
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/edit_sayings_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/settings_option_button_margin"
+        android:layout_marginBottom="@dimen/settings_option_button_margin"
+        android:background="@drawable/button_background"
+        android:drawableEnd="@drawable/ic_arrow_right_32dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/settings_option_button_padding"
+        android:text="@string/settings_edit_saying"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/settings_button_text_size" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/edit_categories_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/settings_option_button_margin"
+        android:layout_marginBottom="@dimen/settings_option_button_margin"
+        android:background="@drawable/button_background"
+        android:drawableEnd="@drawable/ic_arrow_right_32dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/settings_option_button_padding"
+        android:text="@string/settings_edit_categories"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/settings_button_text_size" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/timing_sensitivity_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/settings_option_button_margin"
+        android:layout_marginBottom="@dimen/settings_option_button_margin"
+        android:background="@drawable/button_background"
+        android:drawableEnd="@drawable/ic_arrow_right_32dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/settings_option_button_padding"
+        android:text="@string/settings_timing_sensitivity"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/settings_button_text_size" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/selection_mode_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/settings_option_button_margin"
+        android:layout_marginBottom="@dimen/settings_option_button_margin"
+        android:background="@drawable/button_background"
+        android:drawableEnd="@drawable/ic_arrow_right_32dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/settings_option_button_padding"
+        android:text="@string/settings_selection_mode"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/settings_button_text_size" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/reset_app_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/settings_option_button_margin"
+        android:layout_marginBottom="@dimen/settings_option_button_margin"
+        android:background="@drawable/button_background"
+        android:drawableEnd="@drawable/ic_arrow_right_32dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/settings_option_button_padding"
+        android:text="@string/settings_reset_app"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/settings_button_text_size"/>
+</GridLayout>

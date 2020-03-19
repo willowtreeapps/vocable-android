@@ -115,6 +115,7 @@
     <style name="VersionTextView">
         <item name="android:textSize">@dimen/version_text_size</item>
         <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TopBarButton">
@@ -183,6 +184,18 @@
         <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="SettingsLinkOutButton">
+        <item name="android:layout_height">@dimen/settings_link_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/settings_link_button_end_margin</item>
+        <item name="android:layout_marginBottom">@dimen/settings_link_button_bottom_margin</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:drawableRight">@drawable/ic_launch_32dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/settings_link_button_padding</item>
+        <item name="android:paddingEnd">@dimen/settings_link_button_padding</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
 </resources>

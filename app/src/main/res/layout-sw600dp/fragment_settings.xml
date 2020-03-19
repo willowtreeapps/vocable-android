@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:theme="@style/SettingsTheme">
 
     <com.willowtree.vocable.customviews.VocableImageButton
@@ -10,11 +12,11 @@
         style="@style/CloseButton"
         android:layout_width="@dimen/settings_close_button_width"
         android:layout_height="@dimen/settings_close_button_height"
-        android:layout_marginTop="@dimen/settings_bottom_margin"
-        android:layout_marginEnd="@dimen/settings_action_button_margin"
+        android:layout_marginStart="@dimen/settings_close_button_start_margin"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
         android:scaleType="center"
         android:src="@drawable/close_action_button_icon"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -22,105 +24,51 @@
         style="@style/SettingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/settings_action_button_margin"
         android:text="@string/settings"
         app:layout_constraintBottom_toBottomOf="@+id/settings_close_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/settings_close_button"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/head_tracking_container"
-        app:layout_constraintEnd_toEndOf="@+id/head_tracking_container"
-        app:layout_constraintStart_toStartOf="@+id/head_tracking_container" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@+id/head_tracking_container"
-        app:layout_constraintStart_toStartOf="@+id/head_tracking_container"
-        app:layout_constraintTop_toBottomOf="@+id/head_tracking_container" />
-
-    <com.willowtree.vocable.customviews.VocableConstraintLayout
-        android:id="@+id/head_tracking_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/settings_switch_top_margin"
-        android:background="@drawable/settings_group_background"
-        app:layout_constraintEnd_toEndOf="@+id/settings_close_button"
-        app:layout_constraintStart_toStartOf="@+id/settings_title"
-        app:layout_constraintTop_toBottomOf="@+id/settings_close_button">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/settings_margin_default"
-            android:text="@string/settings_head_tracking"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/settings_label_text_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/head_tracking_switch" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/head_tracking_switch"
-            android:layout_width="@dimen/settings_switch_width"
-            android:layout_height="@dimen/settings_switch_height"
-            android:layout_marginTop="@dimen/settings_margin_default"
-            android:layout_marginEnd="@dimen/settings_margin_default"
-            android:layout_marginBottom="@dimen/settings_margin_default"
-            android:checked="true"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </com.willowtree.vocable.customviews.VocableConstraintLayout>
-
-    <com.willowtree.vocable.customviews.SettingsButton
-        android:id="@+id/edit_sayings_button"
-        style="@style/ActionButton"
-        android:layout_height="@dimen/settings_action_button_layout_height"
-        android:layout_marginStart="@dimen/settings_action_button_margin"
-        android:layout_marginBottom="@dimen/settings_margin_small"
-        android:text="@string/edit_sayings_title"
-        app:layout_constraintBottom_toTopOf="@+id/privacy_policy_button"
-        app:layout_constraintEnd_toEndOf="@id/contact_devs_button"
-        app:layout_constraintStart_toStartOf="parent" />
+    <include
+        android:id="@+id/settings_options_container"
+        layout="@layout/settings_options_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/setting_options_margin_horizontal"
+        android:layout_marginTop="@dimen/settings_options_margin_top"
+        android:layout_marginBottom="@dimen/settings_options_margin_bottom"
+        app:layout_constraintBottom_toTopOf="@id/privacy_policy_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_close_button" />
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/privacy_policy_button"
-        style="@style/ActionButton"
-        android:layout_height="@dimen/settings_action_button_layout_height"
-        android:layout_marginStart="@dimen/settings_action_button_margin"
-        android:layout_marginEnd="@dimen/settings_margin_small"
-        android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
+        style="@style/SettingsLinkOutButton"
+        android:layout_width="0dp"
         android:text="@string/privacy_policy"
-        app:layout_constraintBottom_toTopOf="@+id/version"
+        app:layout_constraintBottom_toTopOf="@id/version"
         app:layout_constraintEnd_toStartOf="@+id/contact_devs_button"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/settings_options_container"
+        app:layout_constraintTop_toBottomOf="@id/settings_options_container" />
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/contact_devs_button"
-        style="@style/ActionButton"
-        android:layout_height="@dimen/settings_action_button_layout_height"
-        android:layout_marginEnd="@dimen/settings_action_button_margin"
-        android:layout_marginBottom="@dimen/settings_action_button_bottom_margin"
+        style="@style/SettingsLinkOutButton"
+        android:layout_width="0dp"
+        android:layout_marginEnd="0dp"
         android:text="@string/contact_developers"
-        app:layout_constraintBottom_toTopOf="@+id/version"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/privacy_policy_button" />
+        app:layout_constraintEnd_toEndOf="@id/settings_options_container"
+        app:layout_constraintStart_toEndOf="@id/privacy_policy_button"
+        app:layout_constraintTop_toTopOf="@id/privacy_policy_button" />
 
     <TextView
         android:id="@+id/version"
         style="@style/VersionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/settings_bottom_margin"
+        android:layout_marginBottom="@dimen/settings_version_text_bottom_margin"
         android:text="@string/version"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
