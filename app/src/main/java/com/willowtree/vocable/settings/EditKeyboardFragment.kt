@@ -117,8 +117,7 @@ class EditKeyboardFragment : BaseFragment() {
                             phrase?.utterance = text.toString()
                             phrase?.let {
                                 viewModel.updatePhrase(it)
-                            }
-                            viewModel.addNewPhrase(text.toString())
+                            } ?: viewModel.addNewPhrase(text.toString())
                         }
                     }
                 }
