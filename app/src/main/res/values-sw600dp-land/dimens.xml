@@ -39,6 +39,8 @@
     <!-- Edit Sayings -->
     <dimen name="edit_sayings_text_margin_start">24dp</dimen>
     <dimen name="edit_sayings_back_button_padding">24dp</dimen>
+    <dimen name="edit_sayings_back_button_width">112dp</dimen>
+    <dimen name="edit_sayings_back_button_height">96dp</dimen>
     <dimen name="edit_sayings_text_horizontal_margin">16dp</dimen>
     <dimen name="edit_sayings_text_size">24sp</dimen>
     <dimen name="edit_sayings_buttons_margin">8dp</dimen>
@@ -51,4 +53,10 @@
     <dimen name="edit_phrases_margin_bottom">20dp</dimen>
     <dimen name="edit_phrases_margin_top">44dp</dimen>
     <dimen name="edit_page_number_margin">96dp</dimen>
+
+    <!-- Edit Keyboard -->
+    <dimen name="edit_keyboard_padding">24dp</dimen>
+    <dimen name="edit_keyboard_height">104dp</dimen>
+    <dimen name="edit_keyboard_top_margin">52dp</dimen>
+    <dimen name="edit_keyboard_horizontal_margin">44dp</dimen>
 </resources>

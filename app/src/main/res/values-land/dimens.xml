@@ -33,4 +33,15 @@
     <dimen name="settings_version_text_bottom_margin">32dp</dimen>
     <dimen name="settings_close_button_top_margin">19dp</dimen>
 
+    <!-- Edit Keyboard -->
+    <dimen name="edit_keyboard_text_size">34sp</dimen>
+    <dimen name="edit_keyboard_button_width">90dp</dimen>
+    <dimen name="edit_keyboard_button_height">64dp</dimen>
+    <dimen name="edit_keyboard_bottom_margin">8dp</dimen>
+    <dimen name="edit_keyboard_padding">12dp</dimen>
+    <dimen name="edit_keyboard_height">104dp</dimen>
+    <dimen name="edit_keyboard_top_margin">16dp</dimen>
+    <dimen name="edit_keyboard_horizontal_margin">24dp</dimen>
+
+
 </resources>

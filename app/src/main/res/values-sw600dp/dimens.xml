@@ -68,13 +68,21 @@
     <dimen name="setting_options_margin_horizontal">44dp</dimen>
 
     <!-- Edit Sayings -->
-    <dimen name="edit_sayings_title_margin">103dp</dimen>
+    <dimen name="edit_sayings_title_margin">84dp</dimen>
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>
-    <dimen name="edit_paging_button_bottom_margin">89dp</dimen>
+    <dimen name="edit_paging_button_bottom_margin">64dp</dimen>
     <dimen name="edit_sayings_back_button_padding">24dp</dimen>
     <dimen name="edit_phrases_margin_bottom">102dp</dimen>
-    <dimen name="edit_phrases_margin_top">80dp</dimen>
+    <dimen name="edit_phrases_margin_top">64dp</dimen>
     <dimen name="edit_paging_button_width">104dp</dimen>
     <dimen name="edit_paging_button_height">96dp</dimen>
+    <dimen name="edit_sayings_add_button_width">112dp</dimen>
+    <dimen name="edit_sayings_add_button_height">96dp</dimen>
+
+    <!-- Edit Keyboard -->
+    <dimen name="edit_keyboard_padding">24dp</dimen>
+    <dimen name="edit_keyboard_height">104dp</dimen>
+    <dimen name="edit_keyboard_top_margin">16dp</dimen>
+    <dimen name="edit_keyboard_horizontal_margin">24dp</dimen>
 
 </resources>
