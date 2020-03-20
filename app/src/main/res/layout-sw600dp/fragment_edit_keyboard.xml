@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_keyboard_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/colorPrimaryDark">
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/edit_keyboard_horizontal_margin"
+        android:layout_marginTop="@dimen/edit_keyboard_top_margin"
+        android:background="@drawable/button_default_background"
+        android:padding="@dimen/edit_keyboard_padding"
+        android:src="@drawable/category_back_button_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/keyboard_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:background="@null"
+        android:ellipsize="end"
+        android:gravity="start|center_vertical"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:text="@string/keyboard_select_letters"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/keyboard_text_size"
+        android:textStyle="bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@+id/save_button"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/back_button"
+        app:layout_constraintTop_toTopOf="@id/back_button"
+        app:layout_constraintBottom_toBottomOf="@id/back_button"/>
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_keyboard_top_margin"
+        android:layout_marginEnd="@dimen/edit_keyboard_horizontal_margin"
+        android:background="@drawable/button_default_background"
+        android:padding="@dimen/edit_keyboard_padding"
+        android:src="@drawable/ic_save_40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
+        android:id="@+id/keyboard_key_holder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:layout_marginTop="@dimen/keyboard_keys_top_margin"
+        android:layout_marginEnd="@dimen/keyboard_side_margin"
+        android:layout_marginBottom="@dimen/keyboard_side_margin"
+        android:columnCount="@integer/edit_keyboard_columns"
+        android:rowCount="@integer/edit_keyboard_rows"
+        android:useDefaultMargins="true"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard_bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_button" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/keyboard_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/keyboard_bottom_bar_margin"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/keyboard_key_holder"
+        app:layout_constraintStart_toStartOf="@id/keyboard_key_holder">
+
+        <com.willowtree.vocable.customviews.VocableImageButton
+            android:id="@+id/keyboard_clear_button"
+            android:layout_width="0dp"
+            style="@style/EditKeyboardBottomBarButtons"
+            android:src="@drawable/keyboard_delete_button_icon"
+            app:layout_constraintEnd_toStartOf="@+id/keyboard_space_button"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.willowtree.vocable.customviews.VocableImageButton
+            android:id="@+id/keyboard_space_button"
+            android:layout_width="0dp"
+            style="@style/EditKeyboardBottomBarButtons"
+            android:src="@drawable/keyboard_space_button_icon"
+            app:layout_constraintEnd_toStartOf="@+id/keyboard_backspace_button"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@+id/keyboard_clear_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.willowtree.vocable.customviews.VocableImageButton
+            android:id="@+id/keyboard_backspace_button"
+            android:layout_width="0dp"
+            style="@style/EditKeyboardBottomBarButtons"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/keyboard_backspace_button_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/keyboard_space_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/phrase_saved_view"
+        layout="@layout/phrase_saved_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/edit_confirmation"
+        layout="@layout/vocable_confirmation_dialog"
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="@dimen/dialog_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

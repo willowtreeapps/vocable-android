@@ -75,7 +75,6 @@ class KeyboardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
             binding?.speakerIcon?.isVisible = it ?: false
         })

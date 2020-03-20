@@ -9,4 +9,6 @@
     <integer name="edit_phrases_rows">4</integer>
     <integer name="settings_options_rows">5</integer>
     <integer name="settings_options_columns">1</integer>
+    <integer name="edit_keyboard_columns">5</integer>
+    <integer name="edit_keyboard_rows">6</integer>
 </resources>

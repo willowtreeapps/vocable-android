@@ -16,9 +16,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableImageButton
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
-import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
-import org.koin.android.ext.android.bind
 import java.lang.Math.ceil
 
 class EditPresetsFragment : BaseFragment() {
@@ -46,14 +44,6 @@ class EditPresetsFragment : BaseFragment() {
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
 
         binding?.backButton?.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
-                .commit()
-        }
-
-        // Cast is required for successful build
-        (binding?.handsetBackButton as? VocableImageButton)?.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SettingsFragment())
@@ -95,7 +85,7 @@ class EditPresetsFragment : BaseFragment() {
             }
         }
 
-        phrasesAdapter = EditPhrasesAdapter(childFragmentManager)
+        phrasesAdapter = EditPhrasesAdapter(parentFragmentManager)
 
         binding?.editSayingsViewPager?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
@@ -116,6 +106,16 @@ class EditPresetsFragment : BaseFragment() {
             }
         })
 
+        binding?.addSayingsButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.settings_fragment_container,
+                    EditKeyboardFragment.newInstance(false)
+                )
+                .commit()
+        }
+
         editPhrasesViewModel =
             ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
         subscribeToViewModel()
@@ -130,6 +130,9 @@ class EditPresetsFragment : BaseFragment() {
                     phrasesAdapter.setPhrases(phrases)
                     // Move adapter to middle so user can scroll both directions
                     val middle = phrasesAdapter.itemCount / 2
+                    if (phrasesAdapter.numPages == 0) {
+                        phrasesAdapter.numPages = 1
+                    }
                     if (middle % phrasesAdapter.numPages == 0) {
                         binding?.editSayingsViewPager?.setCurrentItem(middle, false)
                     } else {
@@ -139,6 +142,17 @@ class EditPresetsFragment : BaseFragment() {
                             false
                         )
                     }
+                }
+            }
+        })
+
+        editPhrasesViewModel.setButtonEnabled.observe(viewLifecycleOwner, Observer {
+            editPhrasesViewModel.setButtonEnabled?.value?.let { enable ->
+                binding?.let {
+                    it.backButton?.isEnabled = enable
+                    it.addSayingsButton.isEnabled = enable
+                    it.phrasesForwardButton.isEnabled = enable
+                    it.phrasesBackButton.isEnabled = enable
                 }
             }
         })
