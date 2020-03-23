@@ -33,6 +33,10 @@
     <dimen name="settings_version_text_bottom_margin">32dp</dimen>
     <dimen name="settings_close_button_top_margin">19dp</dimen>
 
+    <!-- Selection Mode -->
+    <dimen name="selection_mode_button_end_margin">8dp</dimen>
+    <dimen name="selection_mode_buttom_bottom_margin">0dp</dimen>
+
     <!-- Edit Keyboard -->
     <dimen name="edit_keyboard_text_size">34sp</dimen>
     <dimen name="edit_keyboard_button_width">90dp</dimen>
