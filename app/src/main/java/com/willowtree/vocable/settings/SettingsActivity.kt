@@ -33,6 +33,10 @@ class SettingsActivity : BaseActivity() {
                 .replace(R.id.settings_fragment_container, SettingsFragment())
                 .commit()
         }
+
+        binding.settingsFragmentContainer.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            allViews.clear()
+        }
     }
 
     override fun subscribeToViewModel() {
