@@ -196,7 +196,9 @@ class EditKeyboardFragment : BaseFragment() {
             it.keyboardSpaceButton.isEnabled = enable
             it.keyboardClearButton.isEnabled = enable
             it.keyboardInput.isEnabled = enable
-            it.keyboardKeyHolder.isEnabled = enable
+            it.keyboardKeyHolder.children.forEach {
+                it.isEnabled = enable
+            }
         }
     }
 
