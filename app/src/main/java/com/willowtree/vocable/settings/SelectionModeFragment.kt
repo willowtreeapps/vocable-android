@@ -5,67 +5,68 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
-import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
-import com.willowtree.vocable.room.Phrase
-import java.lang.Math.ceil
+import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
 
 class SelectionModeFragment : BaseFragment() {
 
-    //private var binding: FragmentSelectionModeBinding? = null
+    private var binding: FragmentSelectionModeBinding? = null
     private var allViews = mutableListOf<View>()
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //binding = FragmentEditPresetsBinding.inflate(inflater, container, false)
-        return null //binding?.root
+        binding = FragmentSelectionModeBinding.inflate(inflater, container, false)
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding?.backButton?.action = {
-//            parentFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.settings_fragment_container, SettingsFragment())
-//                .commit()
-//        }
+        binding?.selectionModeBackButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, SettingsFragment())
+                .commit()
+        }
 
+        binding?.selectionModeOptions?.let {
+            it.headTrackingContainer.action = {
+                it.headTrackingSwitch.isChecked = !it.headTrackingSwitch.isChecked
+            }
+        }
+
+        binding?.selectionModeOptions?.headTrackingSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onHeadTrackingChecked(isChecked)
+        }
+
+        viewModel = ViewModelProviders.of(requireActivity()).get(SettingsViewModel::class.java)
+        subscribeToViewModel()
     }
 
     private fun subscribeToViewModel() {
-
+        viewModel.headTrackingEnabled.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding?.selectionModeOptions?.headTrackingSwitch?.isChecked = it
+            }
+        })
     }
 
     override fun getAllViews(): List<View> {
-        if (allViews.isEmpty()) {
-            //getAllChildViews(binding?.presetsParent)
-        }
-        return allViews
+        return listOf()
     }
 
-    private fun getAllChildViews(viewGroup: ViewGroup?) {
-        viewGroup?.children?.forEach {
-            if (it is PointerListener) {
-                allViews.add(it)
-            } else if (it is ViewGroup) {
-                getAllChildViews(it)
-            }
-        }
-    }
 
     override fun onDestroyView() {
-        //binding = null
+        binding = null
         super.onDestroyView()
     }
 }

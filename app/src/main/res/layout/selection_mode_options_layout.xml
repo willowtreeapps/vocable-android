@@ -1,40 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/keyboard_key_holder"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:columnCount="2"
-    android:rowCount="3">
+    android:layout_height="wrap_content"
+    android:rowCount="@integer/selection_modes_rows"
+    android:columnCount="@integer/selection_modes_columns">
 
-    <com.willowtree.vocable.customviews.SettingsButton
-        android:id="@+id/selection_mode_head_tracking_button"
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/head_tracking_container"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/selection_mode_button_height"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_marginEnd="@dimen/settings_option_button_margin"
-        android:layout_marginBottom="@dimen/settings_option_button_margin"
+        android:layout_marginEnd="@dimen/selection_mode_button_end_margin"
+        android:layout_marginBottom="@dimen/selection_mode_buttom_bottom_margin"
         android:background="@drawable/button_background"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="@dimen/settings_option_button_padding"
-        android:text="@string/selection_mode_head_tracking"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/settings_button_text_size" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Additional Selection Modes will be enabled -->
-    <com.willowtree.vocable.customviews.SettingsButton
-        android:id="@+id/empty_button"
-        android:visibility="invisible"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/settings_margin_default"
+            android:text="@string/settings_head_tracking"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/settings_label_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/head_tracking_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/head_tracking_switch"
+            android:layout_width="@dimen/settings_switch_width"
+            android:layout_height="@dimen/settings_switch_height"
+            android:layout_marginTop="@dimen/settings_margin_default"
+            android:layout_marginEnd="@dimen/settings_margin_default"
+            android:layout_marginBottom="@dimen/settings_margin_default"
+            android:checked="true"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
+
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/placeholder_container"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/selection_mode_button_height"
+        android:visibility="visible"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_marginEnd="@dimen/settings_option_button_margin"
-        android:layout_marginBottom="@dimen/settings_option_button_margin"
         android:background="@drawable/button_background"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="@dimen/settings_option_button_padding"
-        android:text="@string/selection_mode_head_tracking"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/settings_button_text_size" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/settings_margin_default"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/settings_label_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/placeholder_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/placeholder_switch"
+            android:layout_width="@dimen/settings_switch_width"
+            android:layout_height="@dimen/settings_switch_height"
+            android:layout_marginTop="@dimen/settings_margin_default"
+            android:layout_marginEnd="@dimen/settings_margin_default"
+            android:layout_marginBottom="@dimen/settings_margin_default"
+            android:checked="true"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
 </GridLayout>
+
