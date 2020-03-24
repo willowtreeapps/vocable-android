@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/keyboard_key_holder"
+    android:id="@+id/selection_mode_options"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:rowCount="@integer/selection_modes_rows"
@@ -48,7 +48,7 @@
         android:id="@+id/placeholder_container"
         android:layout_width="0dp"
         android:layout_height="@dimen/selection_mode_button_height"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
         android:background="@drawable/button_background"
