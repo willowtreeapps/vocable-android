@@ -35,6 +35,7 @@
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/reset_app_button"
+        style="@style/SettingsOptionButtons"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/settings_reset_app" />
