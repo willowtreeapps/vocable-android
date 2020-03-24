@@ -9,4 +9,6 @@
     <integer name="settings_options_columns">2</integer>
     <integer name="edit_keyboard_columns">10</integer>
     <integer name="edit_keyboard_rows">3</integer>
+    <integer name="number_pad_columns">3</integer>
+    <integer name="number_pad_rows">4</integer>
 </resources>

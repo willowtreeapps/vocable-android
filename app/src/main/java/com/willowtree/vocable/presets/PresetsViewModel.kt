@@ -20,7 +20,7 @@ class PresetsViewModel : BaseViewModel() {
         private const val CATEGORY_QUESTIONS = "Questions"
         private const val CATEGORY_TIME = "Time"
         private const val CATEGORY_PEOPLE = "People"
-        private const val CATEGORY_NUMBERS = "Numbers"
+        const val CATEGORY_NUMBERS = "123"
         private const val CATEGORY_MY_SAYINGS = "My Sayings"
     }
 
@@ -212,8 +212,7 @@ class PresetsViewModel : BaseViewModel() {
         "8",
         "9",
         "Yes",
-        "No",
-        "Unsure"
+        "No"
     )
 
     private val categoriesMap = mutableMapOf(
@@ -248,26 +247,15 @@ class PresetsViewModel : BaseViewModel() {
             val categories = presetsRepository.getAllCategories().toMutableList()
             if (categories.isEmpty()) {
                 populateDatabase()
+            } else if (categories.none { it.name == CATEGORY_NUMBERS }) {
+                val numberCategory = categories.firstOrNull {
+                    it.name == CATEGORY_NUMBERS
+                }
+                numberCategory?.let {
+                    updateNumberCategory(it)
+                }
             } else {
-                if (presetsRepository.getUserGeneratedPhrases().isEmpty()) {
-                    categories.removeIf {
-                        it.name == CATEGORY_MY_SAYINGS
-                    }
-                }
-                val currentCategoryList = liveCategoryList.value
-                val currentCategory = liveSelectedCategory.value
-                if (currentCategoryList?.size != categories.size || !currentCategoryList.containsAll(
-                        categories
-                    )
-                ) {
-                    liveCategoryList.postValue(categories)
-                }
-                if (currentCategory == null || !categories.contains(currentCategory)) {
-                    onCategorySelected(categories.first())
-                } else {
-                    // Update phrases for category if needed
-                    onCategorySelected(currentCategory)
-                }
+               setInitialState()
             }
         }
     }
@@ -332,4 +320,47 @@ class PresetsViewModel : BaseViewModel() {
             liveCurrentPhrases.postValue(phrases)
         }
     }
+
+    private fun updateNumberCategory(numberCategory: Category) {
+        backgroundScope.launch {
+            presetsRepository.updateCategory(numberCategory)
+
+            val unsurePhrase =presetsRepository.getPhrasesForCategory(numberCategory.identifier).firstOrNull {
+                it.utterance ==  "Unsure"
+            }
+
+            unsurePhrase?.let {
+                presetsRepository.deletePhrase(unsurePhrase)
+            }
+
+            setInitialState()
+        }
+    }
+
+    private suspend fun setInitialState() {
+        val currentCategoryList = liveCategoryList.value
+        val currentCategory = liveSelectedCategory.value
+        val categories = presetsRepository.getAllCategories().toMutableList()
+
+        if (presetsRepository.getUserGeneratedPhrases().isEmpty()) {
+            categories.removeIf {
+                it.name == CATEGORY_MY_SAYINGS
+            }
+        }
+
+        if (currentCategoryList?.size != categories.size || !currentCategoryList.containsAll(
+                categories
+            )
+        ) {
+            liveCategoryList.postValue(categories)
+        }
+        if (currentCategory == null || !categories.contains(currentCategory)) {
+            onCategorySelected(categories.first())
+        } else {
+            // Update phrases for category if needed
+            onCategorySelected(currentCategory)
+        }
+    }
+
+
 }

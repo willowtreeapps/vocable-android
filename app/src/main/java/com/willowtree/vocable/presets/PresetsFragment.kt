@@ -2,6 +2,7 @@ package com.willowtree.vocable.presets
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,10 +53,7 @@ class PresetsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(resources) {
-            maxCategories = getInteger(R.integer.max_categories)
-            maxPhrases = getInteger(R.integer.max_phrases)
-        }
+        maxCategories = resources.getInteger(R.integer.max_categories)
 
         binding?.categoryForwardButton?.let {
             it.action = {
@@ -228,6 +226,13 @@ class PresetsFragment : BaseFragment() {
                 with(binding?.phrasesView) {
                     this?.isSaveEnabled = false
                     this?.adapter = phrasesAdapter
+
+                    maxPhrases = if (presetsViewModel.selectedCategory.value?.name == PresetsViewModel.CATEGORY_NUMBERS ){
+                        NumberPadFragment.MAX_PHRASES
+                    } else {
+                        resources.getInteger(R.integer.max_phrases)
+                    }
+
                     phrasesAdapter.setPhrases(phrases)
                     // Move adapter to middle so user can scroll both directions
                     val middle = phrasesAdapter.itemCount / 2
@@ -322,11 +327,16 @@ class PresetsFragment : BaseFragment() {
         }
 
         override fun createFragment(position: Int): Fragment {
+
             val startPosition = (position % numPages) * maxPhrases
             val sublist =
                 phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
 
-            return PhrasesFragment.newInstance(sublist)
+            return if (presetsViewModel.selectedCategory.value?.name == PresetsViewModel.CATEGORY_NUMBERS) {
+                NumberPadFragment.newInstance(sublist)
+            } else {
+                PhrasesFragment.newInstance(sublist)
+            }
         }
 
     }
