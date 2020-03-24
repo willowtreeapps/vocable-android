@@ -15,7 +15,7 @@
         android:layout_columnWeight="1"
         android:layout_marginEnd="@dimen/selection_mode_button_end_margin"
         android:layout_marginBottom="@dimen/selection_mode_buttom_bottom_margin"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_default_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -51,7 +51,7 @@
         android:visibility="invisible"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_default_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
