@@ -11,4 +11,6 @@
     <integer name="edit_keyboard_rows">3</integer>
     <integer name="number_pad_columns">6</integer>
     <integer name="number_pad_rows">2</integer>
+    <integer name="selection_modes_rows">2</integer>
+    <integer name="selection_modes_columns">2</integer>
 </resources>

@@ -168,6 +168,13 @@
     <dimen name="settings_option_button_padding">8dp</dimen>
     <dimen name="settings_contact_developers_top_margin">8dp</dimen>
 
+    <!-- Selection Mode -->
+    <dimen name="selection_mode_button_end_margin">0dp</dimen>
+    <dimen name="selection_mode_buttom_bottom_margin">8dp</dimen>
+    <dimen name="selection_mode_grid_horizontal_margin">24dp</dimen>
+    <dimen name="selection_mode_button_height">48dp</dimen>
+    <dimen name="selection_mode_settings_text_size">24sp</dimen>
+
     <!-- Edit Keyboard -->
     <dimen name="edit_keyboard_text_size">34sp</dimen>
     <dimen name="edit_keyboard_padding">16dp</dimen>
