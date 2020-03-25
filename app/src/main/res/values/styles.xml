@@ -222,4 +222,23 @@
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
+    <style name="SelectionModeButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/settings_margin_default</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/settings_label_text_size</item>
+    </style>
+
+    <style name="SelectionModeButtonSwitch">
+        <item name="android:layout_width">@dimen/settings_switch_width</item>
+        <item name="android:layout_height">@dimen/settings_switch_height</item>
+        <item name="android:layout_marginTop">@dimen/settings_margin_default</item>
+        <item name="android:layout_marginEnd">@dimen/settings_margin_default</item>
+        <item name="android:layout_marginBottom">@dimen/settings_margin_default</item>
+        <item name="android:checked">true</item>
+        <item name="android:scaleX">1.5</item>
+        <item name="android:scaleY">1.5</item>
+    </style>
+
 </resources>
