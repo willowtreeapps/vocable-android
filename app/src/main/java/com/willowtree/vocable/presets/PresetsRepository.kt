@@ -46,4 +46,8 @@ class PresetsRepository(context: Context) : KoinComponent {
     suspend fun updatePhrase(phrase: Phrase) {
         database.phraseDao().updatePhrase(phrase)
     }
+
+    suspend fun updateCategory(category: Category) {
+        database.categoryDao().updateCategory(category)
+    }
 }
