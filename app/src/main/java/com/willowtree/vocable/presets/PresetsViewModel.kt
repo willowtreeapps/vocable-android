@@ -21,6 +21,7 @@ class PresetsViewModel : BaseViewModel() {
         private const val CATEGORY_TIME = "Time"
         private const val CATEGORY_PEOPLE = "People"
         const val CATEGORY_NUMBERS = "123"
+        private const val CATEGORY_NUMBERS_OLD = "Numbers"
         private const val CATEGORY_MY_SAYINGS = "My Sayings"
 
         private const val UNSURE_PHRASE = "Unsure"
@@ -251,7 +252,7 @@ class PresetsViewModel : BaseViewModel() {
                 populateDatabase()
             } else if (categories.none { it.name == CATEGORY_NUMBERS }) {
                 val numberCategory = categories.firstOrNull {
-                    it.name == CATEGORY_NUMBERS
+                    it.name == CATEGORY_NUMBERS_OLD
                 }
                 numberCategory?.let {
                     updateNumberCategory(it)
@@ -325,7 +326,9 @@ class PresetsViewModel : BaseViewModel() {
 
     private fun updateNumberCategory(numberCategory: Category) {
         backgroundScope.launch {
-            presetsRepository.updateCategory(numberCategory)
+            presetsRepository.updateCategory(numberCategory.apply {
+                name = CATEGORY_NUMBERS
+            })
 
             val unsurePhrase = presetsRepository.getPhrasesForCategory(numberCategory.identifier).firstOrNull {
                 it.utterance ==  UNSURE_PHRASE
