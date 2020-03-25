@@ -12,5 +12,5 @@ data class Category(
     @PrimaryKey val identifier: Long,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
     @ColumnInfo(name = "is_user_generated") val isUserGenerated: Boolean,
-    val name: String
+    var name: String
 ) : Parcelable
