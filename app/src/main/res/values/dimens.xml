@@ -185,4 +185,8 @@
     <dimen name="edit_keyboard_button_width">117dp</dimen>
     <dimen name="edit_keyboard_button_height">64dp</dimen>
 
+    <!-- Timing Sensitivity -->
+    <dimen name="hover_time_button_height">88dp</dimen>
+    <dimen name="hover_time_button_width">88dp</dimen>
+
 </resources>

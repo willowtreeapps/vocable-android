@@ -1,0 +1,137 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/SettingsTheme">
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/timing_sensitivity_back_button"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/settings_close_button_width"
+        android:layout_height="@dimen/settings_close_button_height"
+        android:layout_marginStart="@dimen/settings_close_button_start_margin"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
+        android:scaleType="center"
+        android:src="@drawable/ic_arrow_back_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/settings_title"
+        style="@style/SettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timing and Sensitivity"
+        app:layout_constraintBottom_toBottomOf="@id/timing_sensitivity_back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/timing_sensitivity_back_button"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/hover_time_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Hover Time"
+        android:textColor="@color/textColor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@id/cursor_sensitivity_title"
+        app:layout_constraintStart_toStartOf="@id/timing_sensitivity_back_button"
+        app:layout_constraintTop_toBottomOf="@id/timing_sensitivity_back_button" />
+
+    <TextView
+        android:id="@+id/cursor_sensitivity_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:text="Cursor Sensitivity"
+        android:textColor="@color/textColor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/hover_time_title"
+        app:layout_constraintTop_toTopOf="@id/hover_time_title" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/decrease_hover_time"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/hover_time_button_width"
+        android:layout_height="@dimen/hover_time_button_height"
+        android:scaleType="center"
+        android:src="@drawable/ic_decrease_40dp"
+        app:layout_constraintStart_toStartOf="@id/hover_time_title"
+        app:layout_constraintTop_toBottomOf="@id/hover_time_title" />
+
+    <TextView
+        android:id="@+id/hover_time_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2 seconds"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/decrease_hover_time"
+        app:layout_constraintEnd_toStartOf="@id/increase_hover_time"
+        app:layout_constraintStart_toEndOf="@id/decrease_hover_time"
+        app:layout_constraintTop_toTopOf="@id/decrease_hover_time" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/increase_hover_time"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/hover_time_button_width"
+        android:layout_height="@dimen/hover_time_button_height"
+        android:layout_marginEnd="16dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_decrease_40dp"
+        app:layout_constraintEnd_toStartOf="@id/cursor_sensitivity_title"
+        app:layout_constraintStart_toEndOf="@id/hover_time_text"
+        app:layout_constraintTop_toBottomOf="@id/hover_time_title" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/low_sensitivity_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:text="Low"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/increase_hover_time"
+        app:layout_constraintEnd_toStartOf="@id/medium_sensitivity_button"
+        app:layout_constraintStart_toStartOf="@id/cursor_sensitivity_title"
+        app:layout_constraintTop_toTopOf="@id/decrease_hover_time" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/medium_sensitivity_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:text="Medium"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/increase_hover_time"
+        app:layout_constraintEnd_toStartOf="@id/high_sensitivity_button"
+        app:layout_constraintStart_toEndOf="@id/low_sensitivity_button"
+        app:layout_constraintTop_toBottomOf="@id/cursor_sensitivity_title"
+        app:layout_constraintTop_toTopOf="@id/low_sensitivity_button" />
+
+    <com.willowtree.vocable.customviews.ActionButton
+        android:id="@+id/high_sensitivity_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:text="High"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/increase_hover_time"
+        app:layout_constraintEnd_toEndOf="@id/cursor_sensitivity_title"
+        app:layout_constraintStart_toEndOf="@id/medium_sensitivity_button"
+        app:layout_constraintTop_toBottomOf="@id/cursor_sensitivity_title"
+        app:layout_constraintTop_toTopOf="@id/medium_sensitivity_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,7 +25,6 @@
     <dimen name="settings_options_margin_bottom">40dp</dimen>
     <dimen name="settings_version_text_bottom_margin">65dp</dimen>
 
-
     <!-- Confirmation Dialog -->
     <dimen name="dialog_width">688dp</dimen>
     <dimen name="dialog_height">276dp</dimen>
@@ -60,4 +59,9 @@
     <dimen name="edit_keyboard_height">104dp</dimen>
     <dimen name="edit_keyboard_top_margin">52dp</dimen>
     <dimen name="edit_keyboard_horizontal_margin">44dp</dimen>
+
+    <!-- Hover Time -->
+    <dimen name="hover_time_button_height">88dp</dimen>
+    <dimen name="hover_time_button_width">88dp</dimen>
+
 </resources>
