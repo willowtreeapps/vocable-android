@@ -1,6 +1,7 @@
 package com.willowtree.vocable.utils
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import org.koin.core.KoinComponent
@@ -12,7 +13,9 @@ class VocableSharedPreferences : KoinComponent {
         private const val PREFERENCES_NAME =
             "com.willowtree.vocable.utils.vocable-encrypted-preferences"
         private const val KEY_MY_SAYINGS = "KEY_MY_SAYINGS"
-        private const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
+        const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
+        const val KEY_SENSITIVITY = "KEY_SENSITIVITY"
+        const val DEFAULT_SENSITIVITY = 0.1F
     }
 
     private val encryptedPrefs: EncryptedSharedPreferences by lazy {
@@ -24,6 +27,18 @@ class VocableSharedPreferences : KoinComponent {
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         ) as EncryptedSharedPreferences
+    }
+
+    fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener){
+        listeners.forEach {
+            encryptedPrefs.registerOnSharedPreferenceChangeListener(it)
+        }
+    }
+
+    fun unregisterOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener){
+        listeners.forEach {
+            encryptedPrefs.unregisterOnSharedPreferenceChangeListener(it)
+        }
     }
 
     fun getMySayings(): List<String> {
@@ -38,6 +53,14 @@ class VocableSharedPreferences : KoinComponent {
             sayings.add(saying)
             encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, sayings).apply()
         }
+    }
+
+    fun getSensitivity(): Float =
+        encryptedPrefs.getFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
+
+
+    fun setSensitivity(sensitivity: Float) {
+        encryptedPrefs.edit().putFloat(KEY_SENSITIVITY, sensitivity).apply()
     }
 
     fun setHeadTrackingEnabled(enabled: Boolean) {
