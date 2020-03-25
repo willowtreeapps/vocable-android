@@ -96,6 +96,14 @@ class SettingsFragment : BaseFragment() {
                 .commit()
         }
 
+        binding?.settingsOptionsContainer?.selectionModeButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, SelectionModeFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         viewModel = ViewModelProviders.of(requireActivity()).get(SettingsViewModel::class.java)
         subscribeToViewModel()
     }
@@ -127,7 +135,6 @@ class SettingsFragment : BaseFragment() {
     private fun setSettingsButtonsEnabled(enable: Boolean) {
         binding?.let {
             it.settingsCloseButton.isEnabled = enable
-            //it.headTrackingContainer.isEnabled = enable
             it.privacyPolicyButton.isEnabled = enable
             it.contactDevsButton.isEnabled = enable
         }
@@ -136,20 +143,10 @@ class SettingsFragment : BaseFragment() {
     private fun toggleDialogVisibility(visible: Boolean) {
         binding?.settingsConfirmation?.root?.let {
             it.isVisible = visible
-            it.post {
-                //allViews.clear()
-            }
         }
     }
 
     private fun subscribeToViewModel() {
-        viewModel.headTrackingEnabled.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                //This setting has been removed from the main settings page
-                //binding?.headTrackingSwitch?.isChecked = it
-            }
-        })
-
         viewModel.mySayingsIsEmpty.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding?.settingsOptionsContainer?.editSayingsButton?.isEnabled = !it

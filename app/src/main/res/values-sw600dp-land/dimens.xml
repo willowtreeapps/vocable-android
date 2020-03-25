@@ -25,6 +25,7 @@
     <dimen name="settings_options_margin_bottom">40dp</dimen>
     <dimen name="settings_version_text_bottom_margin">65dp</dimen>
 
+
     <!-- Confirmation Dialog -->
     <dimen name="dialog_width">688dp</dimen>
     <dimen name="dialog_height">276dp</dimen>

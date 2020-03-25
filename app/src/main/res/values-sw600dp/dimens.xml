@@ -67,6 +67,12 @@
     <dimen name="settings_link_button_height">88dp</dimen>
     <dimen name="setting_options_margin_horizontal">44dp</dimen>
 
+    <!-- Selection Mode -->
+    <dimen name="selection_mode_grid_horizontal_margin">44dp</dimen>
+    <dimen name="selection_mode_button_height">88dp</dimen>
+    <dimen name="selection_mode_button_end_margin">8dp</dimen>
+    <dimen name="selection_mode_buttom_bottom_margin">0dp</dimen>
+
     <!-- Edit Sayings -->
     <dimen name="edit_sayings_title_margin">84dp</dimen>
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>

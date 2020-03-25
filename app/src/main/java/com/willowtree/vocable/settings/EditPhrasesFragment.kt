@@ -73,7 +73,7 @@ class EditPhrasesFragment : BaseFragment() {
             }
 
             phraseView.actionButtonContainer.editSayingsButton.action = {
-                parentFragmentManager
+                requireActivity().supportFragmentManager
                     .beginTransaction()
                     .addToBackStack(null)
                     .replace(
