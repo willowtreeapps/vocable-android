@@ -4,8 +4,8 @@
     android:id="@+id/selection_mode_options"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:rowCount="@integer/selection_modes_rows"
-    android:columnCount="@integer/selection_modes_columns">
+    android:columnCount="@integer/selection_modes_columns"
+    android:rowCount="@integer/selection_modes_rows">
 
     <com.willowtree.vocable.customviews.VocableConstraintLayout
         android:id="@+id/head_tracking_container"
@@ -20,60 +20,40 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/settings_margin_default"
+            style="@style/SelectionModeButton"
             android:text="@string/settings_head_tracking"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/settings_label_text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/head_tracking_switch" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/head_tracking_switch"
-            android:layout_width="@dimen/settings_switch_width"
-            android:layout_height="@dimen/settings_switch_height"
-            android:layout_marginTop="@dimen/settings_margin_default"
-            android:layout_marginEnd="@dimen/settings_margin_default"
-            android:layout_marginBottom="@dimen/settings_margin_default"
-            android:checked="true"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
+            style="@style/SelectionModeButtonSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
 
     <com.willowtree.vocable.customviews.VocableConstraintLayout
         android:id="@+id/placeholder_container"
         android:layout_width="0dp"
         android:layout_height="@dimen/selection_mode_button_height"
-        android:visibility="invisible"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
         android:background="@drawable/button_default_background"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/settings_margin_default"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/settings_label_text_size"
+            android:id="@+id/placeholder_text"
+            style="@style/SelectionModeButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/placeholder_switch" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/placeholder_switch"
-            android:layout_width="@dimen/settings_switch_width"
-            android:layout_height="@dimen/settings_switch_height"
-            android:layout_marginTop="@dimen/settings_margin_default"
-            android:layout_marginEnd="@dimen/settings_margin_default"
-            android:layout_marginBottom="@dimen/settings_margin_default"
-            android:checked="true"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
+            style="@style/SelectionModeButtonSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
