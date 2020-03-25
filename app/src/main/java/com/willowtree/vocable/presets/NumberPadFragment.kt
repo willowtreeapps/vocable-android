@@ -20,14 +20,11 @@ class NumberPadFragment: BaseFragment() {
         private const val KEY_PHRASES = "KEY_PHRASES"
         const val MAX_PHRASES = 12
 
-        fun newInstance(phrases: List<Phrase>): NumberPadFragment {
-            return NumberPadFragment().apply {
-                arguments = bundleOf(KEY_PHRASES to ArrayList(phrases))
-            }
+        fun newInstance(phrases: List<Phrase>) = NumberPadFragment().apply {
+            arguments = bundleOf(KEY_PHRASES to ArrayList(phrases))
         }
     }
 
-    private var binding: FragmentNumberPadBinding? = null
     private var numColumns = 1
 
     override fun onCreateView(
@@ -35,7 +32,7 @@ class NumberPadFragment: BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNumberPadBinding.inflate(inflater, container, false)
+        val binding = FragmentNumberPadBinding.inflate(inflater, container, false)
 
         numColumns = resources.getInteger(R.integer.number_pad_columns)
 
@@ -51,7 +48,7 @@ class NumberPadFragment: BaseFragment() {
                         marginEnd = 0
                     }
                 }
-                if(index >= MAX_PHRASES - numColumns){
+                if (index >= MAX_PHRASES - numColumns) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
                         updateMargins(bottom = 0)
                     }
@@ -63,12 +60,5 @@ class NumberPadFragment: BaseFragment() {
         return binding?.root
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
-    override fun getAllViews(): List<View> {
-        return emptyList()
-    }
+    override fun getAllViews() = emptyList<View>()
 }
