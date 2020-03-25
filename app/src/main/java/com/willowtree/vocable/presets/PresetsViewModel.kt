@@ -22,6 +22,8 @@ class PresetsViewModel : BaseViewModel() {
         private const val CATEGORY_PEOPLE = "People"
         const val CATEGORY_NUMBERS = "123"
         private const val CATEGORY_MY_SAYINGS = "My Sayings"
+
+        private const val UNSURE_PHRASE = "Unsure"
     }
 
     private val presetsRepository: PresetsRepository by inject()
@@ -325,8 +327,8 @@ class PresetsViewModel : BaseViewModel() {
         backgroundScope.launch {
             presetsRepository.updateCategory(numberCategory)
 
-            val unsurePhrase =presetsRepository.getPhrasesForCategory(numberCategory.identifier).firstOrNull {
-                it.utterance ==  "Unsure"
+            val unsurePhrase = presetsRepository.getPhrasesForCategory(numberCategory.identifier).firstOrNull {
+                it.utterance ==  UNSURE_PHRASE
             }
 
             unsurePhrase?.let {
