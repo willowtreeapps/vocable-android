@@ -254,4 +254,12 @@
         <item name="android:textSize">@dimen/hover_time_text_size</item>
     </style>
 
+    <style name="HoverTimeEditButtons">
+        <item name="android:layout_marginTop">@dimen/hover_time_button_margin</item>
+        <item name="android:layout_marginEnd">@dimen/hover_time_button_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:background">@drawable/button_default_background</item>
+    </style>
+
 </resources>
