@@ -241,4 +241,17 @@
         <item name="android:scaleY">1.5</item>
     </style>
 
+    <style name="TimingSensitivityTitle">
+        <item name="android:textSize">@dimen/timing_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="CursorSensitivityButton">
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/hover_time_text_size</item>
+    </style>
+
 </resources>

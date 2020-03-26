@@ -58,4 +58,13 @@
     <!-- Edit Keyboard -->
     <string name="changes_saved">Changes Saved</string>
 
+    <!-- Timing and Sensitivity -->
+    <string name="timing_sensitivity_title">Timing and Sensitivity</string>
+    <string name="hover_time_text">Hover Time</string>
+    <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
+    <string name="hover_time_amount_text">%s seconds</string>
+    <string name="cursor_sensitivity_low">Low</string>
+    <string name="cursor_sensitivity_medium">Medium</string>
+    <string name="cursor_sensitivity_high">High</string>
+
 </resources>
