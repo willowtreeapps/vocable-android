@@ -186,6 +186,7 @@
     <dimen name="edit_keyboard_button_height">64dp</dimen>
 
     <!-- Timing and Sensitivity -->
+    <dimen name="timing_title_start_margin">18dp</dimen>
     <dimen name="hover_time_button_height">48dp</dimen>
     <dimen name="hover_time_button_width">48dp</dimen>
     <dimen name="hover_time_text_top_margin">32dp</dimen>
