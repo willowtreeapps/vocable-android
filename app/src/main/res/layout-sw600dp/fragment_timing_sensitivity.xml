@@ -21,11 +21,12 @@
     <TextView
         android:id="@+id/settings_title"
         style="@style/TimingSensitivityTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
         android:text="@string/timing_sensitivity_title"
         app:layout_constraintBottom_toBottomOf="@id/timing_sensitivity_back_button"
-        app:layout_constraintStart_toEndOf="@id/timing_sensitivity_back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/timing_sensitivity_back_button"
         app:layout_constraintVertical_chainStyle="packed" />
 
