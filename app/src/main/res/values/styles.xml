@@ -66,6 +66,7 @@
         <item name="android:layout_marginStart">@dimen/main_activity_side_margin</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/spoken_text_view_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/spoken_text_view_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
     </style>

@@ -28,6 +28,7 @@
   
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">40sp</dimen>
+    <dimen name="keyboard_input_text_size">34sp</dimen>
     <dimen name="keyboard_keys_top_margin">24dp</dimen>
     <dimen name="keyboard_bottom_bar_margin">52dp</dimen>
     <dimen name="keyboard_bottom_bar_height">96dp</dimen>
