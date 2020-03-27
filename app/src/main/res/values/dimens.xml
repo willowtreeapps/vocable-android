@@ -22,7 +22,7 @@
 
     <!-- Spoken Text View -->
     <dimen name="spoken_text_view_height">66dp</dimen>
-    <dimen name="spoken_text_view_text_size">34sp</dimen>
+    <dimen name="spoken_text_view_text_size">32sp</dimen>
 
     <!--  Category Radio Group -->
     <dimen name="category_group_margin">10dp</dimen>
@@ -124,7 +124,8 @@
     <dimen name="dialog_text_margin">16dp</dimen>
     <dimen name="dialog_button_width">142dp</dimen>
     <dimen name="dialog_button_height">44dp</dimen>
-    <dimen name="dialog_button_padding">24dp</dimen>
+    <dimen name="dialog_button_padding_horizontal">24dp</dimen>
+    <dimen name="dialog_button_padding_vertical">16dp</dimen>
     <dimen name="dialog_button_end_margin">16dp</dimen>
     <dimen name="dialog_button_text_size">20sp</dimen>
     <dimen name="dialog_shadow">15dp</dimen>
