@@ -60,6 +60,8 @@
     <!-- Confirmation Dialog -->
     <dimen name="dialog_width">560dp</dimen>
     <dimen name="dialog_height">225dp</dimen>
+    <dimen name="dialog_button_padding_horizontal">24dp</dimen>
+    <dimen name="dialog_button_padding_vertical">16dp</dimen>
 
     <!-- Edit Sayings -->
     <dimen name="edit_sayings_title_margin">84dp</dimen>
