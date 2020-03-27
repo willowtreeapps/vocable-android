@@ -22,7 +22,7 @@
 
     <!-- Spoken Text View -->
     <dimen name="spoken_text_view_height">66dp</dimen>
-    <dimen name="spoken_text_view_text_size">34sp</dimen>
+    <dimen name="spoken_text_view_text_size">32sp</dimen>
 
     <!--  Category Radio Group -->
     <dimen name="category_group_margin">10dp</dimen>
