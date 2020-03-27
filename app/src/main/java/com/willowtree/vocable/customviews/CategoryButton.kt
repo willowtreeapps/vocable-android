@@ -14,10 +14,6 @@ class CategoryButton @JvmOverloads constructor(
 ) : ActionButton(context, attrs, defStyle),
     PointerListener {
 
-    companion object {
-        private const val DEFAULT_TTS_TIMEOUT = 1500L
-    }
-
     private var buttonJob: Job? = null
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
@@ -40,7 +36,7 @@ class CategoryButton @JvmOverloads constructor(
                 isPressed = true
             }
 
-            delay(DEFAULT_TTS_TIMEOUT)
+            delay(dwellTime)
 
             uiScope.launch {
                 isPressed = false

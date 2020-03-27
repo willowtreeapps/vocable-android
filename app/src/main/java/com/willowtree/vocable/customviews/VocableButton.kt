@@ -1,6 +1,7 @@
 package com.willowtree.vocable.customviews
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.speech.tts.TextToSpeech
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -10,8 +11,11 @@ import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
 import com.willowtree.vocable.utils.SpokenText
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 /**
  * A custom AppCompatButton that will delay for two seconds when a pointer enters and then will call
@@ -23,10 +27,10 @@ open class VocableButton @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : AppCompatButton(context, attrs, defStyle),
-    PointerListener {
+    PointerListener,
+    KoinComponent {
 
     companion object {
-        private const val DEFAULT_TTS_TIMEOUT = 1500L
         private const val SINGLE_SPACE = " "
         private const val NO_TEXT_START = 0
         private const val NO_TEXT_END = 1
@@ -36,7 +40,21 @@ open class VocableButton @JvmOverloads constructor(
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
+    private val sharedPrefs: VocableSharedPreferences by inject()
+    protected var dwellTime: Long
+
+    private val sharedPrefsListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            when (key) {
+                VocableSharedPreferences.DWELL_TIME -> {
+                    dwellTime = sharedPrefs.getDwellTime()
+                }
+            }
+        }
+
     init {
+        dwellTime = sharedPrefs.getDwellTime()
+        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
         setOnClickListener {
             sayText(text)
             performAction()
@@ -49,7 +67,7 @@ open class VocableButton @JvmOverloads constructor(
                 isSelected = true
             }
 
-            delay(DEFAULT_TTS_TIMEOUT)
+            delay(dwellTime)
 
             uiScope.launch {
                 isSelected = false
@@ -93,6 +111,7 @@ open class VocableButton @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         buttonJob?.cancel()
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
         super.onDetachedFromWindow()
     }
 }

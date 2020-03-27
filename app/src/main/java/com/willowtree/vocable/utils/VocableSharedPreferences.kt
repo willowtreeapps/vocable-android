@@ -16,6 +16,8 @@ class VocableSharedPreferences : KoinComponent {
         const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
         const val KEY_SENSITIVITY = "KEY_SENSITIVITY"
         const val DEFAULT_SENSITIVITY = 0.1F
+        const val DWELL_TIME = "DWELL_TIME"
+        const val DEFAULT_DWELL_TIME = 1000L
     }
 
     private val encryptedPrefs: EncryptedSharedPreferences by lazy {
@@ -29,13 +31,13 @@ class VocableSharedPreferences : KoinComponent {
         ) as EncryptedSharedPreferences
     }
 
-    fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener){
+    fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
         listeners.forEach {
             encryptedPrefs.registerOnSharedPreferenceChangeListener(it)
         }
     }
 
-    fun unregisterOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener){
+    fun unregisterOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
         listeners.forEach {
             encryptedPrefs.unregisterOnSharedPreferenceChangeListener(it)
         }
@@ -55,9 +57,13 @@ class VocableSharedPreferences : KoinComponent {
         }
     }
 
-    fun getSensitivity(): Float =
-        encryptedPrefs.getFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
+    fun getDwellTime(): Long = encryptedPrefs.getLong(DWELL_TIME, DEFAULT_DWELL_TIME)
 
+    fun setDwellTime(time: Long) {
+        encryptedPrefs.edit().putLong(DWELL_TIME, time).apply()
+    }
+
+    fun getSensitivity(): Float = encryptedPrefs.getFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
 
     fun setSensitivity(sensitivity: Float) {
         encryptedPrefs.edit().putFloat(KEY_SENSITIVITY, sensitivity).apply()
