@@ -63,6 +63,7 @@
     <string name="hover_time_text">Hover Time</string>
     <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
     <string name="hover_time_amount_text">%s seconds</string>
+    <string name="hover_time_one_text">1 second</string>
     <string name="cursor_sensitivity_low">Low</string>
     <string name="cursor_sensitivity_medium">Medium</string>
     <string name="cursor_sensitivity_high">High</string>
