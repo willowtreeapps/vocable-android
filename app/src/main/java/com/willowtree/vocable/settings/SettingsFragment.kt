@@ -96,6 +96,14 @@ class SettingsFragment : BaseFragment() {
                 .commit()
         }
 
+        binding?.settingsOptionsContainer?.timingSensitivityButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, SensitivityFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         binding?.settingsOptionsContainer?.selectionModeButton?.action = {
             parentFragmentManager
                 .beginTransaction()
