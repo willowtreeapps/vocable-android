@@ -140,7 +140,7 @@
         <item name="android:background">@drawable/vocable_dialog_button_background</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">@dimen/dialog_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/dialog_button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
     </style>
