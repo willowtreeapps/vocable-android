@@ -38,15 +38,11 @@
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_margin_default">24dp</dimen>
     <dimen name="settings_action_button_layout_height">80dp</dimen>
-    <dimen name="settings_action_button_margin">24dp</dimen>
-    <dimen name="settings_bottom_margin">24dp</dimen>
     <dimen name="settings_action_button_bottom_margin">64dp</dimen>
     <dimen name="settings_label_text_size">20sp</dimen>
     <dimen name="settings_switch_width">48dp</dimen>
     <dimen name="settings_switch_height">20dp</dimen>
     <dimen name="settings_switch_top_margin">36dp</dimen>
-    <dimen name="settings_close_button_height">72dp</dimen>
-    <dimen name="settings_close_button_width">72dp</dimen>
     <dimen name="settings_pointer_elevation">16dp</dimen>
 
     <!-- Action Button -->
@@ -155,6 +151,31 @@
     <dimen name="edit_action_delete_height">56dp</dimen>
     <dimen name="edit_action_delete_width">56dp</dimen>
 
+    <!-- Settings Options -->
+    <dimen name="settings_close_button_height">72dp</dimen>
+    <dimen name="settings_close_button_width">72dp</dimen>
+    <dimen name="settings_close_button_start_margin">24dp</dimen>
+    <dimen name="settings_close_button_top_margin">24dp</dimen>
+    <dimen name="settings_options_margin_top">32dp</dimen>
+    <dimen name="settings_options_margin_bottom">64dp</dimen>
+    <dimen name="setting_options_margin_horizontal">24dp</dimen>
+    <dimen name="settings_link_button_height">48dp</dimen>
+    <dimen name="settings_link_button_end_margin">8dp</dimen>
+    <dimen name="settings_link_button_bottom_margin">88dp</dimen>
+    <dimen name="settings_link_button_padding">8dp</dimen>
+    <dimen name="settings_button_text_size">24sp</dimen>
+    <dimen name="settings_version_text_bottom_margin">55dp</dimen>
+    <dimen name="settings_option_button_margin">8dp</dimen>
+    <dimen name="settings_option_button_padding">8dp</dimen>
+    <dimen name="settings_contact_developers_top_margin">8dp</dimen>
+
+    <!-- Selection Mode -->
+    <dimen name="selection_mode_button_end_margin">0dp</dimen>
+    <dimen name="selection_mode_buttom_bottom_margin">8dp</dimen>
+    <dimen name="selection_mode_grid_horizontal_margin">24dp</dimen>
+    <dimen name="selection_mode_button_height">48dp</dimen>
+    <dimen name="selection_mode_settings_text_size">24sp</dimen>
+
     <!-- Edit Keyboard -->
     <dimen name="edit_keyboard_text_size">34sp</dimen>
     <dimen name="edit_keyboard_padding">16dp</dimen>
@@ -164,5 +185,24 @@
     <dimen name="edit_keyboard_horizontal_margin">24dp</dimen>
     <dimen name="edit_keyboard_button_width">117dp</dimen>
     <dimen name="edit_keyboard_button_height">64dp</dimen>
+
+    <!-- Timing and Sensitivity -->
+    <dimen name="timing_title_start_margin">18dp</dimen>
+    <dimen name="hover_time_button_height">48dp</dimen>
+    <dimen name="hover_time_button_width">48dp</dimen>
+    <dimen name="hover_time_text_top_margin">32dp</dimen>
+    <dimen name="hover_time_end_margin">24dp</dimen>
+    <dimen name="cursor_sensitivity_end_margin">24dp</dimen>
+    <dimen name="hover_decrease_button_top_margin">16dp</dimen>
+    <dimen name="hover_decrease_button_end_margin">8dp</dimen>
+    <dimen name="hover_increase_margin_end">16dp</dimen>
+    <dimen name="timing_title_text_size">24sp</dimen>
+    <dimen name="timing_subtitle_text_size">24sp</dimen>
+    <dimen name="hover_time_text_size">24sp</dimen>
+    <dimen name="medium_button_horizontal_margin">8dp</dimen>
+    <dimen name="hover_time_button_margin">16dp</dimen>
+    <dimen name="cursor_button_margin_top">16dp</dimen>
+    <dimen name="cursor_button_height">48dp</dimen>
+    <dimen name="cursor_sensitivity_margin_top">32dp</dimen>
 
 </resources>

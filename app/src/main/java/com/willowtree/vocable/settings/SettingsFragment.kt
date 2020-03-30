@@ -3,11 +3,13 @@ package com.willowtree.vocable.settings
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.system.Os
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
+import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.core.view.updateMargins
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
@@ -20,10 +22,12 @@ class SettingsFragment : BaseFragment() {
     companion object {
         private const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
         private const val MAIL_TO = "mailto:vocable@willowtreeapps.com"
+        private const val SETTINGS_OPTION_COUNT = 5
     }
 
     private lateinit var viewModel: SettingsViewModel
     private var binding: FragmentSettingsBinding? = null
+    private var numColumns = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +35,22 @@ class SettingsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        numColumns = resources.getInteger(R.integer.settings_options_columns)
+
+        (binding?.settingsOptionsContainer?.root as? GridLayout)?.children?.forEachIndexed { index, child ->
+            if (index % numColumns == numColumns - 1) {
+                child.layoutParams = (child.layoutParams as GridLayout.LayoutParams).apply {
+                    marginEnd = 0
+                }
+            }
+            if (index > SETTINGS_OPTION_COUNT - numColumns) {
+                child.layoutParams = (child.layoutParams as GridLayout.LayoutParams).apply {
+                    updateMargins(bottom = 0)
+                }
+            }
+        }
+
         return binding?.root
     }
 
@@ -68,20 +88,26 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        binding?.headTrackingContainer?.action = {
-            binding?.headTrackingSwitch?.let {
-                it.isChecked = !it.isChecked
-            }
-        }
-
-        binding?.headTrackingSwitch?.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onHeadTrackingChecked(isChecked)
-        }
-
-        binding?.editSayingsButton?.action = {
+        binding?.settingsOptionsContainer?.editSayingsButton?.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding?.settingsOptionsContainer?.timingSensitivityButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, SensitivityFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding?.settingsOptionsContainer?.selectionModeButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, SelectionModeFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -117,7 +143,6 @@ class SettingsFragment : BaseFragment() {
     private fun setSettingsButtonsEnabled(enable: Boolean) {
         binding?.let {
             it.settingsCloseButton.isEnabled = enable
-            it.headTrackingContainer.isEnabled = enable
             it.privacyPolicyButton.isEnabled = enable
             it.contactDevsButton.isEnabled = enable
         }
@@ -126,22 +151,13 @@ class SettingsFragment : BaseFragment() {
     private fun toggleDialogVisibility(visible: Boolean) {
         binding?.settingsConfirmation?.root?.let {
             it.isVisible = visible
-            it.post {
-                //allViews.clear()
-            }
         }
     }
 
     private fun subscribeToViewModel() {
-        viewModel.headTrackingEnabled.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding?.headTrackingSwitch?.isChecked = it
-            }
-        })
-
         viewModel.mySayingsIsEmpty.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding?.editSayingsButton?.isEnabled = !it
+                binding?.settingsOptionsContainer?.editSayingsButton?.isEnabled = !it
             }
         })
     }
