@@ -196,11 +196,12 @@
         <item name="android:layout_marginEnd">@dimen/settings_link_button_end_margin</item>
         <item name="android:layout_marginBottom">@dimen/settings_link_button_bottom_margin</item>
         <item name="android:background">@drawable/button_default_background</item>
-        <item name="android:drawableRight">@drawable/ic_launch_32dp</item>
+        <item name="android:drawableRight">@drawable/launch_32dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_link_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_link_button_padding</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
     </style>
 
     <style name="EditKeyboardBottomBarButtons">

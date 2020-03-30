@@ -145,6 +145,11 @@ class SettingsFragment : BaseFragment() {
             it.settingsCloseButton.isEnabled = enable
             it.privacyPolicyButton.isEnabled = enable
             it.contactDevsButton.isEnabled = enable
+            it.settingsOptionsContainer.editCategoriesButton.isEnabled = enable
+            it.settingsOptionsContainer.editSayingsButton.isEnabled = enable
+            it.settingsOptionsContainer.resetAppButton.isEnabled = enable
+            it.settingsOptionsContainer.selectionModeButton.isEnabled = enable
+            it.settingsOptionsContainer.timingSensitivityButton.isEnabled = enable
         }
     }
 
