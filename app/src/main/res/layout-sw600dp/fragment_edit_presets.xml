@@ -26,7 +26,7 @@
         android:layout_height="96dp"
         android:background="@drawable/button_default_background"
         android:layout_marginEnd="@dimen/edit_sayings_back_button_margin_end"
-        android:src="@drawable/ic_arrow_back_40dp"
+        android:src="@drawable/arrow_back_40dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         android:id="@+id/add_sayings_button"
         style="@style/EditSayingsActionButton"
         android:background="@drawable/button_default_background"
-        android:src="@drawable/ic_add_40dp"
+        android:src="@drawable/add_40dp"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
