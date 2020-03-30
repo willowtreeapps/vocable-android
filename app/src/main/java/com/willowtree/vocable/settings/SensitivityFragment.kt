@@ -93,17 +93,17 @@ class SensitivityFragment : BaseFragment() {
         highActivated: Boolean = false
     ) {
         binding?.lowSensitivityButton?.let {
-            it.isActivated = lowActivated
+            it.isSelected = lowActivated
             it.isEnabled = !lowActivated
         }
 
         binding?.mediumSensitivityButton?.let {
-            it.isActivated = mediumActivated
+            it.isSelected = mediumActivated
             it.isEnabled = !mediumActivated
         }
 
         binding?.highSensitivityButton?.let {
-            it.isActivated = highActivated
+            it.isSelected = highActivated
             it.isEnabled = !highActivated
         }
 
