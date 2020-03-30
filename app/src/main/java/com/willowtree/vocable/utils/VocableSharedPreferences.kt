@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.willowtree.vocable.settings.SensitivityFragment
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
@@ -15,9 +16,9 @@ class VocableSharedPreferences : KoinComponent {
         private const val KEY_MY_SAYINGS = "KEY_MY_SAYINGS"
         const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
         const val KEY_SENSITIVITY = "KEY_SENSITIVITY"
-        const val DEFAULT_SENSITIVITY = 0.1F
-        const val DWELL_TIME = "DWELL_TIME"
-        const val DEFAULT_DWELL_TIME = 1000L
+        const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY
+        const val DWELL_TIME = "KEY_DWELL_TIME"
+        const val DEFAULT_DWELL_TIME = SensitivityFragment.DWELL_TIME_ONE_SECOND
     }
 
     private val encryptedPrefs: EncryptedSharedPreferences by lazy {

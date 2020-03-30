@@ -15,6 +15,7 @@ class VocableImageButton @JvmOverloads constructor(
     defStyle: Int = 0
 ) : AppCompatImageView(context, attrs, defStyle),
     PointerListener,
+    SharedPreferences.OnSharedPreferenceChangeListener,
     KoinComponent {
 
     private var buttonJob: Job? = null
@@ -24,20 +25,10 @@ class VocableImageButton @JvmOverloads constructor(
     private val sharedPrefs: VocableSharedPreferences by inject()
     private var dwellTime: Long
 
-    private val sharedPrefsListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            when (key) {
-                VocableSharedPreferences.DWELL_TIME -> {
-                    dwellTime = sharedPrefs.getDwellTime()
-                }
-            }
-        }
-
     var action: (() -> Unit)? = null
 
     init {
         dwellTime = sharedPrefs.getDwellTime()
-        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
         setOnClickListener {
             performAction()
         }
@@ -69,9 +60,22 @@ class VocableImageButton @JvmOverloads constructor(
         action?.invoke()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this)
+    }
+
     override fun onDetachedFromWindow() {
         buttonJob?.cancel()
-        sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            VocableSharedPreferences.DWELL_TIME -> {
+                dwellTime = sharedPrefs.getDwellTime()
+            }
+        }
     }
 }

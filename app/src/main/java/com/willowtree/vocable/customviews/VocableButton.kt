@@ -10,6 +10,7 @@ import android.text.style.ImageSpan
 import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
+import com.willowtree.vocable.settings.SensitivityFragment
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -28,6 +29,7 @@ open class VocableButton @JvmOverloads constructor(
     defStyle: Int = 0
 ) : AppCompatButton(context, attrs, defStyle),
     PointerListener,
+    SharedPreferences.OnSharedPreferenceChangeListener,
     KoinComponent {
 
     companion object {
@@ -43,18 +45,8 @@ open class VocableButton @JvmOverloads constructor(
     private val sharedPrefs: VocableSharedPreferences by inject()
     protected var dwellTime: Long
 
-    private val sharedPrefsListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            when (key) {
-                VocableSharedPreferences.DWELL_TIME -> {
-                    dwellTime = sharedPrefs.getDwellTime()
-                }
-            }
-        }
-
     init {
         dwellTime = sharedPrefs.getDwellTime()
-        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
         setOnClickListener {
             sayText(text)
             performAction()
@@ -109,9 +101,22 @@ open class VocableButton @JvmOverloads constructor(
         buttonJob?.cancel()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this)
+    }
+
     override fun onDetachedFromWindow() {
         buttonJob?.cancel()
-        sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            VocableSharedPreferences.DWELL_TIME -> {
+                dwellTime = sharedPrefs.getDwellTime()
+            }
+        }
     }
 }
