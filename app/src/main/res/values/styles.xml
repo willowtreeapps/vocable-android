@@ -219,11 +219,11 @@
         <item name="android:layout_marginEnd">@dimen/settings_option_button_margin</item>
         <item name="android:layout_marginBottom">@dimen/settings_option_button_margin</item>
         <item name="android:background">@drawable/button_default_background</item>
-        <item name="android:drawableEnd">@drawable/ic_arrow_right_32dp</item>
+        <item name="android:drawableEnd">@drawable/arrow_right_32dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
@@ -255,7 +255,7 @@
     <style name="CursorSensitivityButton">
         <item name="android:background">@drawable/sensitivity_button_background</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/category_button_text_colors</item>
         <item name="android:textSize">@dimen/hover_time_text_size</item>
     </style>
 

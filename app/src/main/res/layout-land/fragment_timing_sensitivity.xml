@@ -14,7 +14,7 @@
         android:layout_marginStart="@dimen/settings_close_button_start_margin"
         android:layout_marginTop="@dimen/settings_close_button_top_margin"
         android:scaleType="center"
-        android:src="@drawable/ic_arrow_back_blue"
+        android:src="@drawable/category_back_button_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +89,7 @@
         app:layout_constraintStart_toEndOf="@id/hover_time_text"
         app:layout_constraintTop_toBottomOf="@id/hover_time_title" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.CategoryButton
         android:id="@+id/low_sensitivity_button"
         style="@style/CursorSensitivityButton"
         android:layout_width="0dp"
@@ -100,7 +100,7 @@
         app:layout_constraintStart_toStartOf="@id/cursor_sensitivity_title"
         app:layout_constraintTop_toTopOf="@id/decrease_hover_time" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.CategoryButton
         android:id="@+id/medium_sensitivity_button"
         style="@style/CursorSensitivityButton"
         android:layout_width="0dp"
@@ -113,7 +113,7 @@
         app:layout_constraintTop_toBottomOf="@id/cursor_sensitivity_title"
         app:layout_constraintTop_toTopOf="@id/low_sensitivity_button" />
 
-    <com.willowtree.vocable.customviews.ActionButton
+    <com.willowtree.vocable.customviews.CategoryButton
         android:id="@+id/high_sensitivity_button"
         style="@style/CursorSensitivityButton"
         android:layout_width="0dp"
