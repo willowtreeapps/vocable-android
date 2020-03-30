@@ -60,7 +60,7 @@
         android:layout_width="@dimen/hover_time_button_width"
         android:layout_height="@dimen/hover_time_button_height"
         android:scaleType="center"
-        android:src="@drawable/ic_decrease_40dp"
+        android:src="@drawable/decrease_40dp"
         app:layout_constraintStart_toStartOf="@id/hover_time_title"
         app:layout_constraintTop_toBottomOf="@id/hover_time_title" />
 
@@ -84,7 +84,7 @@
         android:layout_height="@dimen/hover_time_button_height"
         android:layout_marginEnd="@dimen/hover_increase_margin_end"
         android:scaleType="center"
-        android:src="@drawable/ic_add_40dp"
+        android:src="@drawable/add_40dp"
         app:layout_constraintEnd_toStartOf="@id/cursor_sensitivity_title"
         app:layout_constraintStart_toEndOf="@id/hover_time_text"
         app:layout_constraintTop_toBottomOf="@id/hover_time_title" />
