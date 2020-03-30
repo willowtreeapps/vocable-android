@@ -20,7 +20,7 @@
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/back_button"
         style="@style/EditSayingsActionButton"
-        android:src="@drawable/ic_arrow_back_40dp"
+        android:src="@drawable/arrow_back_40dp"
         android:background="@drawable/button_default_background"
         android:layout_marginEnd="@dimen/edit_sayings_back_button_margin_end"
         android:padding="@dimen/edit_sayings_back_button_padding"
@@ -32,7 +32,7 @@
         android:id="@+id/add_sayings_button"
         style="@style/EditSayingsActionButton"
         android:background="@drawable/button_default_background"
-        android:src="@drawable/ic_add_40dp"
+        android:src="@drawable/add_40dp"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/my_sayings_title" />

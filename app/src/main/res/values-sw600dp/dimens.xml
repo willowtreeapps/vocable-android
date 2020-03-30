@@ -31,6 +31,7 @@
 
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">34sp</dimen>
+    <dimen name="keyboard_input_text_size">34sp</dimen>
     <dimen name="keyboard_keys_top_margin">144dp</dimen>
     <dimen name="keyboard_bottom_bar_margin">464dp</dimen>
     <dimen name="keyboard_bottom_bar_height">80dp</dimen>
@@ -38,10 +39,6 @@
 
     <!-- Saved Phrase Success -->
     <dimen name="save_phrase_text_size">48sp</dimen>
-
-    <!-- Confirmation Dialog -->
-    <dimen name="dialog_width">560dp</dimen>
-    <dimen name="dialog_height">225dp</dimen>
 
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
@@ -56,6 +53,12 @@
     <dimen name="settings_switch_top_margin">36dp</dimen>
     <dimen name="settings_pointer_elevation">16dp</dimen>
 
+    <!-- Confirmation Dialog -->
+    <dimen name="dialog_width">560dp</dimen>
+    <dimen name="dialog_height">225dp</dimen>
+    <dimen name="dialog_button_padding_horizontal">24dp</dimen>
+    <dimen name="dialog_button_padding_vertical">16dp</dimen>
+  
     <!-- Settings Options -->
     <dimen name="settings_close_button_height">80dp</dimen>
     <dimen name="settings_close_button_top_margin">52dp</dimen>
@@ -75,7 +78,7 @@
 
     <!-- Edit Sayings -->
     <dimen name="edit_sayings_title_margin">84dp</dimen>
-    <dimen name="edit_sayings_add_button_margin">24dp</dimen>
+    <dimen name="edit_sayings_add_button_margin">44dp</dimen>
     <dimen name="edit_paging_button_bottom_margin">64dp</dimen>
     <dimen name="edit_sayings_back_button_padding">24dp</dimen>
     <dimen name="edit_phrases_margin_bottom">102dp</dimen>

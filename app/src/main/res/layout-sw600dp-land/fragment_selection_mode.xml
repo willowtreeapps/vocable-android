@@ -15,7 +15,7 @@
         android:layout_marginStart="@dimen/settings_close_button_start_margin"
         android:layout_marginTop="@dimen/settings_close_button_top_margin"
         android:scaleType="center"
-        android:src="@drawable/ic_arrow_back_blue"
+        android:src="@drawable/category_back_button_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
