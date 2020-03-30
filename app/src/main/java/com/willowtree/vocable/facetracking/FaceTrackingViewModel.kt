@@ -1,5 +1,6 @@
 package com.willowtree.vocable.facetracking
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,19 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     private val sharedPrefs: VocableSharedPreferences by inject()
+    private var sensitivity = VocableSharedPreferences.DEFAULT_SENSITIVITY
+    private var headTrackingEnabled = true
+    private val sharedPrefsListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            when (key) {
+                VocableSharedPreferences.KEY_SENSITIVITY -> {
+                    sensitivity = sharedPrefs.getSensitivity()
+                }
+                VocableSharedPreferences.KEY_HEAD_TRACKING_ENABLED -> {
+                    headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
+                }
+            }
+        }
 
     private var faceTrackingJob: Job? = null
 
@@ -28,11 +42,14 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
     private val liveShowError = MutableLiveData<Boolean>()
     val showError: LiveData<Boolean> = liveShowError
 
-
     private var oldVector: Vector3? = null
 
+    init {
+        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
+    }
+
     fun onFaceDetected(augmentedFaces: Collection<AugmentedFace>?) {
-        if (!sharedPrefs.getHeadTrackingEnabled()) {
+        if (!headTrackingEnabled) {
             liveShowError.postValue(false)
             return
         }
@@ -59,10 +76,9 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
                     null -> {
                         oldVector = Vector3(x, y, z)
                         liveAdjustedVector.postValue(oldVector)
-                        Vector3(x, y, z)
                     }
                     else -> {
-                        val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), 0.15F)
+                        val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), sensitivity)
                         liveAdjustedVector.postValue(adjustedVector)
                         oldVector = adjustedVector
                     }
@@ -77,5 +93,6 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
 
     override fun onCleared() {
         viewModelJob.cancel()
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
     }
 }

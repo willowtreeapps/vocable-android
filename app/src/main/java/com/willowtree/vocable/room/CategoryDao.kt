@@ -22,4 +22,7 @@ interface CategoryDao {
 
     @Query("SELECT identifier FROM Category WHERE name = 'My Sayings'")
     suspend fun getMySayingsId(): Long
+
+    @Update
+    suspend fun updateCategory(category: Category)
 }

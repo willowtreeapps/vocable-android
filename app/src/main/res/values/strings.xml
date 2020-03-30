@@ -18,6 +18,17 @@
     <string name="settings_dialog_continue">Continue</string>
     <string name="settings_dialog_cancel">Cancel</string>
 
+    <!-- Settings Options -->
+    <string name="settings_edit_saying">Edit Phrases</string>
+    <string name="settings_edit_categories">Edit Categories</string>
+    <string name="settings_timing_sensitivity">Timing and Sensitivity</string>
+    <string name="settings_selection_mode">Selection Mode</string>
+    <string name="settings_reset_app">Reset App Settings</string>
+
+    <!-- Selection Mode -->
+    <string name="selection_mode_title">Selection Mode</string>
+    <string name="selection_mode_head_tracking">Head Tracking</string>
+
     <!-- Button Text -->
     <string name="button_close">Close</string>
     <string name="button_pause">Pause</string>
@@ -47,5 +58,14 @@
 
     <!-- Edit Keyboard -->
     <string name="changes_saved">Changes Saved</string>
+
+    <!-- Timing and Sensitivity -->
+    <string name="timing_sensitivity_title">Timing and Sensitivity</string>
+    <string name="hover_time_text">Hover Time</string>
+    <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
+    <string name="hover_time_amount_text">%s seconds</string>
+    <string name="cursor_sensitivity_low">Low</string>
+    <string name="cursor_sensitivity_medium">Medium</string>
+    <string name="cursor_sensitivity_high">High</string>
 
 </resources>

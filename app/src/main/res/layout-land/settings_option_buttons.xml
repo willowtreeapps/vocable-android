@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.willowtree.vocable.customviews.SettingsButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
+    android:layout_marginEnd="@dimen/settings_option_button_margin"
+    android:layout_marginBottom="@dimen/settings_option_button_margin"
+    android:background="@drawable/button_background"
+    android:drawableEnd="@drawable/ic_arrow_right_32dp"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="@dimen/settings_option_button_padding"
+    android:textColor="@color/textColor"
+    android:textSize="@dimen/settings_button_text_size"
+    tools:layout_width="match_parent" />
