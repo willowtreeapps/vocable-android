@@ -9,5 +9,6 @@ object AppKoinModule {
     fun getModule() = module {
         single { VocableSharedPreferences() }
         single { PresetsRepository(get()) }
+
     }
 }

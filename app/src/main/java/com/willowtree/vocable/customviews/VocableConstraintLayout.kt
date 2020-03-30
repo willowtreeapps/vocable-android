@@ -15,6 +15,7 @@ class VocableConstraintLayout @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ConstraintLayout(context, attrs, defStyle),
     PointerListener,
+    SharedPreferences.OnSharedPreferenceChangeListener,
     KoinComponent {
 
     private var buttonJob: Job? = null
@@ -24,20 +25,10 @@ class VocableConstraintLayout @JvmOverloads constructor(
     private val sharedPrefs: VocableSharedPreferences by inject()
     private var dwellTime: Long
 
-    private val sharedPrefsListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            when (key) {
-                VocableSharedPreferences.DWELL_TIME -> {
-                    dwellTime = sharedPrefs.getDwellTime()
-                }
-            }
-        }
-
     var action: (() -> Unit)? = null
 
     init {
         dwellTime = sharedPrefs.getDwellTime()
-        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
         setOnClickListener {
             action?.invoke()
         }
@@ -63,9 +54,22 @@ class VocableConstraintLayout @JvmOverloads constructor(
         buttonJob?.cancel()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this)
+    }
+
     override fun onDetachedFromWindow() {
         buttonJob?.cancel()
-        sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            VocableSharedPreferences.DWELL_TIME -> {
+                dwellTime = sharedPrefs.getDwellTime()
+            }
+        }
     }
 }

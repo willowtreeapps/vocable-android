@@ -15,10 +15,10 @@ class SensitivityFragment : BaseFragment() {
 
     companion object {
         private const val LOW_SENSITIVITY = 0.05F
-        private const val MEDIUM_SENSITIVITY = 0.1F
+        const val MEDIUM_SENSITIVITY = 0.1F
         private const val HIGH_SENSITIVITY = 0.15F
         private const val DWELL_TIME_CHANGE = 500L
-        private const val DWELL_TIME_ONE_SECOND = 1000L
+        const val DWELL_TIME_ONE_SECOND = 1000L
         private const val MIN_DWELL_TIME = 500L
         private const val MAX_DWELL_TIME = 4000L
     }
