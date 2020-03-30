@@ -40,10 +40,6 @@
     <!-- Saved Phrase Success -->
     <dimen name="save_phrase_text_size">48sp</dimen>
 
-    <!-- Confirmation Dialog -->
-    <dimen name="dialog_width">560dp</dimen>
-    <dimen name="dialog_height">225dp</dimen>
-
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
     <dimen name="settings_title_text_size">34sp</dimen>
