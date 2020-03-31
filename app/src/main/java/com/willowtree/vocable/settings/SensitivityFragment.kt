@@ -9,18 +9,24 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentTimingSensitivityBinding
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.android.ext.android.inject
+import java.text.DecimalFormat
 
 class SensitivityFragment : BaseFragment() {
 
     companion object {
         private const val LOW_SENSITIVITY = 0.05F
-        private const val MEDIUM_SENSITIVITY = 0.1F
+        const val MEDIUM_SENSITIVITY = 0.1F
         private const val HIGH_SENSITIVITY = 0.15F
+        private const val DWELL_TIME_CHANGE = 500L
+        const val DWELL_TIME_ONE_SECOND = 1000L
+        private const val MIN_DWELL_TIME = 500L
+        private const val MAX_DWELL_TIME = 4000L
     }
 
     private var binding: FragmentTimingSensitivityBinding? = null
 
     private val sharedPrefs: VocableSharedPreferences by inject()
+    private var dwellTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +34,8 @@ class SensitivityFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTimingSensitivityBinding.inflate(inflater, container, false)
+        dwellTime = sharedPrefs.getDwellTime()
+        setDwellTimeText()
         return binding?.root
     }
 
@@ -56,11 +64,11 @@ class SensitivityFragment : BaseFragment() {
         }
 
         binding?.decreaseHoverTime?.action = {
-
+            setDwellTime(false)
         }
 
         binding?.increaseHoverTime?.action = {
-
+            setDwellTime(true)
         }
 
         binding?.lowSensitivityButton?.action = {
@@ -93,19 +101,56 @@ class SensitivityFragment : BaseFragment() {
         highActivated: Boolean = false
     ) {
         binding?.lowSensitivityButton?.let {
-            it.isActivated = lowActivated
+            it.isSelected = lowActivated
             it.isEnabled = !lowActivated
         }
 
         binding?.mediumSensitivityButton?.let {
-            it.isActivated = mediumActivated
+            it.isSelected = mediumActivated
             it.isEnabled = !mediumActivated
         }
 
         binding?.highSensitivityButton?.let {
-            it.isActivated = highActivated
+            it.isSelected = highActivated
             it.isEnabled = !highActivated
         }
 
+    }
+
+    private fun setDwellTime(increase: Boolean) {
+        dwellTime = if (increase) {
+            dwellTime + DWELL_TIME_CHANGE
+        } else {
+            dwellTime - DWELL_TIME_CHANGE
+        }
+        sharedPrefs.setDwellTime(dwellTime)
+        setDwellTimeText()
+
+        when {
+            dwellTime >= MAX_DWELL_TIME -> {
+                binding?.increaseHoverTime?.isEnabled = false
+            }
+            dwellTime <= MIN_DWELL_TIME -> {
+                binding?.decreaseHoverTime?.isEnabled = false
+            }
+            else -> {
+                binding?.let {
+                    it.increaseHoverTime.isEnabled = true
+                    it.decreaseHoverTime.isEnabled = true
+                }
+            }
+        }
+    }
+
+    private fun setDwellTimeText() {
+        if (dwellTime == DWELL_TIME_ONE_SECOND) {
+            binding?.hoverTimeText?.text = getString(R.string.hover_time_one_text)
+        } else {
+            val df = DecimalFormat("#.#")
+            binding?.hoverTimeText?.text = getString(
+                R.string.hover_time_amount_text,
+                df.format(dwellTime.toDouble() / DWELL_TIME_ONE_SECOND)
+            )
+        }
     }
 }

@@ -6,7 +6,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/error_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/error_background"
         android:drawableStart="@drawable/ic_error"
         android:drawablePadding="@dimen/error_drawable_padding"
@@ -15,6 +15,7 @@
         android:paddingTop="@dimen/error_vertical_padding"
         android:paddingEnd="@dimen/error_horizontal_padding"
         android:paddingBottom="@dimen/error_vertical_padding"
+        android:maxLines="2"
         android:text="@string/error_move_closer"
         android:textColor="@color/textColor"
         android:textSize="@dimen/error_text_size"

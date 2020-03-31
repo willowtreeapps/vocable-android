@@ -10,6 +10,7 @@
     <string name="settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_developers">Contact Developers</string>
+    <string name="edit_phrases">Edit Phrases</string>
     <string name="version">V %s</string>
     <string name="settings_head_tracking">Head Tracking</string>
     <string name="settings_dialog_title">Leaving the app</string>
@@ -63,6 +64,7 @@
     <string name="hover_time_text">Hover Time</string>
     <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
     <string name="hover_time_amount_text">%s seconds</string>
+    <string name="hover_time_one_text">1 second</string>
     <string name="cursor_sensitivity_low">Low</string>
     <string name="cursor_sensitivity_medium">Medium</string>
     <string name="cursor_sensitivity_high">High</string>
