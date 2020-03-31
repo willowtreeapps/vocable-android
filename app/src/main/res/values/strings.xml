@@ -67,4 +67,8 @@
     <string name="cursor_sensitivity_medium">Medium</string>
     <string name="cursor_sensitivity_high">High</string>
 
+    <!-- Edit Categories -->
+    <string name="edit_categories_title">Edit Categories</string>
+    <string name="edit_categories_title_handset">Categories</string>
+
 </resources>
