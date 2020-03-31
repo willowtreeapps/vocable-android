@@ -50,7 +50,7 @@
         android:layout_marginEnd="@dimen/edit_keyboard_horizontal_margin"
         android:background="@drawable/button_default_background"
         android:padding="@dimen/edit_keyboard_padding"
-        android:src="@drawable/ic_save_40dp"
+        android:src="@drawable/save_40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,6 +117,7 @@
         <com.willowtree.vocable.customviews.VocableImageButton
             android:id="@+id/keyboard_backspace_button"
             style="@style/EditKeyboardBottomBarButtons"
+            android:layout_width="0dp"
             android:layout_marginEnd="0dp"
             android:src="@drawable/keyboard_backspace_button_icon"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"

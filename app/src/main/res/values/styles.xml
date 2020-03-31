@@ -66,6 +66,7 @@
         <item name="android:layout_marginStart">@dimen/main_activity_side_margin</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/spoken_text_view_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/spoken_text_view_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
@@ -108,7 +109,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/action_button_text_size</item>
     </style>
 
@@ -134,14 +135,18 @@
 
     <style name="ConfirmationDialogButton">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/dialog_button_height</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
         <item name="android:layout_marginEnd">@dimen/dialog_button_end_margin</item>
         <item name="android:layout_marginBottom">@dimen/dialog_button_end_margin</item>
+        <item name="android:paddingStart">@dimen/dialog_button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/dialog_button_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/dialog_button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/dialog_button_padding_vertical</item>
         <item name="android:background">@drawable/vocable_dialog_button_background</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">@dimen/dialog_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/dialog_button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
     </style>
@@ -198,12 +203,13 @@
         <item name="android:layout_height">@dimen/settings_link_button_height</item>
         <item name="android:layout_marginEnd">@dimen/settings_link_button_end_margin</item>
         <item name="android:layout_marginBottom">@dimen/settings_link_button_bottom_margin</item>
-        <item name="android:background">@drawable/button_background</item>
-        <item name="android:drawableRight">@drawable/ic_launch_32dp</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:drawableRight">@drawable/launch_32dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_link_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_link_button_padding</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
     </style>
 
     <style name="EditKeyboardBottomBarButtons">
@@ -222,11 +228,11 @@
         <item name="android:layout_marginEnd">@dimen/settings_option_button_margin</item>
         <item name="android:layout_marginBottom">@dimen/settings_option_button_margin</item>
         <item name="android:background">@drawable/button_default_background</item>
-        <item name="android:drawableEnd">@drawable/ic_arrow_right_32dp</item>
+        <item name="android:drawableEnd">@drawable/arrow_right_32dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
@@ -258,7 +264,7 @@
     <style name="CursorSensitivityButton">
         <item name="android:background">@drawable/sensitivity_button_background</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/category_button_text_colors</item>
         <item name="android:textSize">@dimen/hover_time_text_size</item>
     </style>
 
