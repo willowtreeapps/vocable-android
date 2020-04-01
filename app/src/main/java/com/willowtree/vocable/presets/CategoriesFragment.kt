@@ -17,6 +17,8 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
 import com.willowtree.vocable.room.Category
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoriesFragment : BaseFragment() {
 
@@ -53,7 +55,8 @@ class CategoriesFragment : BaseFragment() {
                 CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
                 tag = category
-                text = category.name
+                // TODO: Use currently set Locale
+                text = category.localizedName[Locale.US.language]
                 action = {
                     viewModel.onCategorySelected(category)
                 }
@@ -112,7 +115,7 @@ class CategoriesFragment : BaseFragment() {
             category?.let {
                 binding?.categoryButtonContainer?.children?.forEach {
                     if (it is CategoryButton) {
-                        it.isSelected = (it.tag as? Category)?.identifier == category.identifier
+                        it.isSelected = (it.tag as? Category)?.categoryId == category.categoryId
                     }
                 }
             }

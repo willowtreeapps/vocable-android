@@ -2,7 +2,6 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.utils.VocableSharedPreferences
@@ -34,7 +33,10 @@ class SettingsViewModel : BaseViewModel(), KoinComponent {
 
     private fun checkMySayingsIsEmpty() {
         backgroundScope.launch {
-            liveMySayingsIsEmpty.postValue(presetsRepository.getPhrasesForCategory(presetsRepository.getMySayingsId()).isEmpty())
+            liveMySayingsIsEmpty.postValue(
+                presetsRepository.getPhrasesForCategory(sharedPrefs.getMySayingsCategoryId())
+                    .isEmpty()
+            )
         }
     }
 

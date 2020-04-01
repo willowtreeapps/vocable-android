@@ -2,7 +2,6 @@ package com.willowtree.vocable.presets
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,9 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import org.koin.android.ext.android.inject
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -39,6 +40,8 @@ class PresetsFragment : BaseFragment() {
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
+
+    private val sharePrefs: VocableSharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -227,11 +230,12 @@ class PresetsFragment : BaseFragment() {
                     this?.isSaveEnabled = false
                     this?.adapter = phrasesAdapter
 
-                    maxPhrases = if (presetsViewModel.selectedCategory.value?.name == PresetsViewModel.CATEGORY_NUMBERS ){
-                        NumberPadFragment.MAX_PHRASES
-                    } else {
-                        resources.getInteger(R.integer.max_phrases)
-                    }
+                    maxPhrases =
+                        if (presetsViewModel.selectedCategory.value?.categoryId == sharePrefs.getNumbersCategoryId()) {
+                            NumberPadFragment.MAX_PHRASES
+                        } else {
+                            resources.getInteger(R.integer.max_phrases)
+                        }
 
                     phrasesAdapter.setPhrases(phrases)
                     // Move adapter to middle so user can scroll both directions
@@ -332,7 +336,7 @@ class PresetsFragment : BaseFragment() {
             val sublist =
                 phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
 
-            return if (presetsViewModel.selectedCategory.value?.name == PresetsViewModel.CATEGORY_NUMBERS) {
+            return if (presetsViewModel.selectedCategory.value?.categoryId == sharePrefs.getNumbersCategoryId()) {
                 NumberPadFragment.newInstance(sublist)
             } else {
                 PhrasesFragment.newInstance(sublist)

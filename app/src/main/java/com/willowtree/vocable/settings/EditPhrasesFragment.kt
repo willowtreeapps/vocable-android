@@ -17,6 +17,8 @@ import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
 import kotlinx.android.synthetic.main.phrase_edit_layout.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EditPhrasesFragment : BaseFragment() {
 
@@ -53,7 +55,8 @@ class EditPhrasesFragment : BaseFragment() {
             val phraseView =
                 PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
             with(phraseView.root) {
-                phrase_edit_text.text = phrase.utterance
+                // TODO: Use currently set Locale
+                phrase_edit_text.text = phrase.localizedUtterance[Locale.US.language]
                 phrase_edit_text.tag = phrase
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {

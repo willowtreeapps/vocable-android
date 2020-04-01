@@ -13,8 +13,10 @@ import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentNumberPadBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.room.Phrase
+import java.util.*
+import kotlin.collections.ArrayList
 
-class NumberPadFragment: BaseFragment() {
+class NumberPadFragment : BaseFragment() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -41,7 +43,8 @@ class NumberPadFragment: BaseFragment() {
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                text = phrase.utterance
+                // TODO: Use currently set Locale
+                text = phrase.localizedUtterance[Locale.US.language]
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
