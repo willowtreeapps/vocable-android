@@ -1,0 +1,667 @@
+{
+  "phrases" : [
+    {
+      "id" : "preset_629055A5-14EC-48D9-B6FD-CAA735D0AC7A",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Hallo",
+        "en" : "Hello"
+      }
+    },
+    {
+      "id" : "preset_21D23B64-91A2-4EDA-92B5-8BCBDD86EA7F",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Guten Morgen",
+        "en" : "Good morning"
+      }
+    },
+    {
+      "id" : "preset_E9F700AC-1295-4AD5-A439-3B5910BEB89B",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Guten Abend",
+        "en" : "Good evening"
+      }
+    },
+    {
+      "id" : "preset_92AA4F3A-B8DF-43C7-84CD-701960149933",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Freut mich dich zu sehen",
+        "en" : "Pleased to meet you"
+      }
+    },
+    {
+      "id" : "preset_58B224DB-A1D3-43CE-9545-4B85C1060E1F",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Wie läuft dein Tag?",
+        "en" : "How is your day?"
+      }
+    },
+    {
+      "id" : "preset_AC46EFB4-918D-49E9-8A47-78C100339E01",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Wie geht es dir?",
+        "en" : "How are you?"
+      }
+    },
+    {
+      "id" : "preset_54382730-93D8-4281-93F6-B2AB4BB00641",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Wie läuft's?",
+        "en" : "How's it going?"
+      }
+    },
+    {
+      "id" : "preset_E89C708B-73FB-4082-8B3F-CAE7C2CF90C6",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Wie war dein Wochenende?",
+        "en" : "How was your weekend?"
+      }
+    },
+    {
+      "id" : "preset_1B518B7E-4364-42E7-ACD8-22076163C8EA",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Tschüss",
+        "en" : "Goodbye"
+      }
+    },
+    {
+      "id" : "preset_30E4503E-6461-45A4-B7BA-2AAB28F0F1EB",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "OK",
+        "en" : "Okay"
+      }
+    },
+    {
+      "id" : "preset_E41BCFD9-94FE-4D0A-8776-20E1AB6BD1FB",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Schlecht",
+        "en" : "Bad"
+      }
+    },
+    {
+      "id" : "preset_D670EB93-D9D1-4E6F-A6BD-38E3AC62EC65",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Gut",
+        "en" : "Good"
+      }
+    },
+    {
+      "id" : "preset_30AAC04A-22D1-4E08-879B-2E097B297B29",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Das macht Sinn",
+        "en" : "That makes sense"
+      }
+    },
+    {
+      "id" : "preset_75FADC21-7D81-486B-A4A8-486B29AA69ED",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Das mag ich",
+        "en" : "I like it"
+      }
+    },
+    {
+      "id" : "preset_28E5C2D7-33F8-4A11-8EFF-ADF18AF69656",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte aufhören",
+        "en" : "Please stop"
+      }
+    },
+    {
+      "id" : "preset_5E166F9F-24CC-41A8-B0C4-025EBB2F4A24",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich stimme nicht zu",
+        "en" : "I do not agree"
+      }
+    },
+    {
+      "id" : "preset_4460A1C8-7A2E-4A98-B916-439C209DD00B",
+      "categoryIds" : [
+        "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8"
+      ],
+      "localizedUtterance" : {
+        "de" : "Wie bitte?",
+        "en" : "Please repeat what you said"
+      }
+    },
+    {
+      "id" : "preset_B49FE217-5F2D-481B-98B3-7C37717442B6",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte das Licht anschalten",
+        "en" : "Please turn the lights on"
+      }
+    },
+    {
+      "id" : "preset_C77AE2A9-5553-4A63-8C3B-DA05870BB8B4",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte das Licht ausschalten",
+        "en" : "Please turn the lights off"
+      }
+    },
+    {
+      "id" : "preset_2EF2BF58-D81D-4435-88EC-94E87C2DAAF1",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Kein Besuch bitte",
+        "en" : "No visitors please"
+      }
+    },
+    {
+      "id" : "preset_A47AB832-1144-45FF-B315-1D2461F4C404",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich hätte gerne Besuch",
+        "en" : "I would like visitors"
+      }
+    },
+    {
+      "id" : "preset_91F704A8-550F-44A2-B810-B4F714C153E5",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte leise sein",
+        "en" : "Please be quiet"
+      }
+    },
+    {
+      "id" : "preset_719D46ED-72BD-478A-BF3A-AAB5C47FB7BC",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte reden",
+        "en" : "I would like to talk"
+      }
+    },
+    {
+      "id" : "preset_8DEBCEA1-5805-4103-9405-251004C12C21",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte den Fernseher anschalten",
+        "en" : "Please turn the TV on"
+      }
+    },
+    {
+      "id" : "preset_30186FFA-4136-41E8-AEC7-6BE6EECEE8D0",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte den Fernseher ausschalten",
+        "en" : "Please turn the TV off"
+      }
+    },
+    {
+      "id" : "preset_94AA31FD-8845-4DDF-964A-5F93C2629DB4",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte lauter",
+        "en" : "Please turn the volume up"
+      }
+    },
+    {
+      "id" : "preset_990D661A-1ED0-4ED5-9C6F-BD3594C4B7DB",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte leiser",
+        "en" : "Please turn the volume down"
+      }
+    },
+    {
+      "id" : "preset_3ADE3EDF-2D5A-4C73-B99C-E89AEE903F4F",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte die Vorhänge öffnen",
+        "en" : "Please open the blinds"
+      }
+    },
+    {
+      "id" : "preset_5D038A81-8EE0-4331-B046-360BEF82527E",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte die Vorhänge schließen",
+        "en" : "Please close the blinds"
+      }
+    },
+    {
+      "id" : "preset_E72E9785-460C-48E4-8CE0-5B323CC499A8",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte das Fenster öffnen",
+        "en" : "Please open the window"
+      }
+    },
+    {
+      "id" : "preset_937FC63E-B83F-4362-BA72-FBAE33D3C0CB",
+      "categoryIds" : [
+        "preset_1EED300C-01A8-4884-8748-2B534445D0FE"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte das Fenster schließen",
+        "en" : "Please close the window"
+      }
+    },
+    {
+      "id" : "preset_9707FF99-7D1D-4725-8C68-62D5A84ED12B",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich brauche meine Medikamente",
+        "en" : "I need my medication"
+      }
+    },
+    {
+      "id" : "preset_AFD35031-7227-46EE-8F7F-EBD442C3F7E8",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte baden",
+        "en" : "I need a bath"
+      }
+    },
+    {
+      "id" : "preset_018020B0-C9C8-4022-AE50-A86174387DF5",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte duschen",
+        "en" : "I need a shower"
+      }
+    },
+    {
+      "id" : "preset_C409236B-0AB5-457F-9845-9F2BD2C134E1",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte mein Gesicht waschen",
+        "en" : "I need to wash my face"
+      }
+    },
+    {
+      "id" : "preset_4A1DF5D8-7747-452B-A4EE-004E7E664E25",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte mein Haar kämmen",
+        "en" : "I need to brush my hair"
+      }
+    },
+    {
+      "id" : "preset_52DF7FBC-777E-47AF-A2CA-BB88A4A2D181",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte mein Kissen aufschütteln",
+        "en" : "Please fix my pillow"
+      }
+    },
+    {
+      "id" : "preset_1513F29A-C43A-4028-BC30-71CCDCD1263E",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich muss spucken",
+        "en" : "I need to spit"
+      }
+    },
+    {
+      "id" : "preset_D89C4704-4846-45F1-B4C0-6778E644249B",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich habe Atembeschwerden",
+        "en" : "I am having trouble breathing"
+      }
+    },
+    {
+      "id" : "preset_EEABC182-9E9B-42BC-AB05-B20C0118827D",
+      "categoryIds" : [
+        "preset_6561790E-FF9C-4AED-8248-F32A7709B572"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich brauchen eine Jacke",
+        "en" : "I need a jacket"
+      }
+    },
+    {
+      "id" : "preset_B3B82C61-21B5-4B0C-9836-EA26C98C0C12",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich muss aufs Klo",
+        "en" : "I need to go to the restroom"
+      }
+    },
+    {
+      "id" : "preset_16B32A08-E9FA-4E77-B7BC-B458FDEF3009",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich bin durstig",
+        "en" : "I am thirsty"
+      }
+    },
+    {
+      "id" : "preset_B3F09ADC-2DC6-48AC-AAAF-9EF9CA6C6A6E",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich habe Hunger",
+        "en" : "I am hungry"
+      }
+    },
+    {
+      "id" : "preset_6188BAE7-7C1E-4A04-B5A5-47A5DE686E3C",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Mir ist kalt",
+        "en" : "I am cold"
+      }
+    },
+    {
+      "id" : "preset_DD000087-A23A-4201-8625-E9D20FA2812D",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Mir ist heiß",
+        "en" : "I am hot"
+      }
+    },
+    {
+      "id" : "preset_3C0307DB-7470-4072-A832-2D07253CBDA1",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich bin müde",
+        "en" : "I am tired"
+      }
+    },
+    {
+      "id" : "preset_D50C65FE-5901-474A-8EF2-CC83F728F53D",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Mir geht es gut",
+        "en" : "I am fine"
+      }
+    },
+    {
+      "id" : "preset_4843D285-04F0-4527-AE1F-EA778B4870B0",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Das reicht, danke",
+        "en" : "I am good"
+      }
+    },
+    {
+      "id" : "preset_6972979A-3F51-432F-A10C-4FC34263A3AC",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich fühle mich unwohl",
+        "en" : "I am uncomfortable"
+      }
+    },
+    {
+      "id" : "preset_07800F2D-6B01-4E61-9100-887169958F6E",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich habe Schmerzen",
+        "en" : "I am in pain"
+      }
+    },
+    {
+      "id" : "preset_A38A7F44-23AD-47FE-B4F1-C4E330AB9C18",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich bin fertig",
+        "en" : "I am finished"
+      }
+    },
+    {
+      "id" : "preset_04A82925-D9CB-4497-A6E6-F27D6F9EC998",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte mich hinlegen",
+        "en" : "I want to lie down"
+      }
+    },
+    {
+      "id" : "preset_13E9E168-6A28-43B0-A327-1E4B0F1CA3FC",
+      "categoryIds" : [
+        "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ich möchte mich aufsetzen",
+        "en" : "I want to sit up"
+      }
+    },
+    {
+      "id" : "preset_19E5C377-326C-4723-A705-D0033015E2CB",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Bitte",
+        "en" : "Please"
+      }
+    },
+    {
+      "id" : "preset_5BD0248A-4FDC-4411-A383-05A8A3AD173A",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Danke",
+        "en" : "Thank you"
+      }
+    },
+    {
+      "id" : "preset_BFD990D4-D764-4FE6-8092-B30C94F4A8AF",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Ja",
+        "en" : "Yes"
+      }
+    },
+    {
+      "id" : "preset_B3F09436-FF6D-44C2-879F-7CE38FDA393F",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Nein",
+        "en" : "No"
+      }
+    },
+    {
+      "id" : "preset_5606A859-FACF-41F9-B2EC-43F026E84E1B",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Vielleicht",
+        "en" : "Maybe"
+      }
+    },
+    {
+      "id" : "preset_1A52BA53-BB5F-43D8-A764-DFF4E77B4F0B",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Einen Moment, bitte",
+        "en" : "Please wait"
+      }
+    },
+    {
+      "id" : "preset_F568207C-3821-4A93-B50A-14DBBEDBF5D9",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Das weiß ich nicht",
+        "en" : "I don't know"
+      }
+    },
+    {
+      "id" : "preset_FA02CD28-9C2E-43EB-A57C-49837F6091C1",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Das wollte ich nicht sagen",
+        "en" : "I didn't mean to say that"
+      }
+    },
+    {
+      "id" : "preset_B8824366-5233-4901-AC31-0581ECC97D2E",
+      "categoryIds" : [
+        "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD"
+      ],
+      "localizedUtterance" : {
+        "de" : "Hab bitte Geduld",
+        "en" : "Please be patient"
+      }
+    }
+  ],
+  "schemaVersion" : 1,
+  "categories" : [
+    {
+      "id" : "preset_4FBDE74E-5E40-4C14-8C7B-E7F5D8C933CD",
+      "localizedName" : {
+        "de" : "Allgemeines",
+        "en" : "General"
+      },
+      "hidden" : false
+    },
+    {
+      "id" : "preset_CE327EF0-DBA5-4A10-BFDA-C38F2A33A39A",
+      "localizedName" : {
+        "de" : "Bedürfnisse",
+        "en" : "Basic Needs"
+      },
+      "hidden" : false
+    },
+    {
+      "id" : "preset_6561790E-FF9C-4AED-8248-F32A7709B572",
+      "localizedName" : {
+        "de" : "Hygiene",
+        "en" : "Personal Care"
+      },
+      "hidden" : false
+    },
+    {
+      "id" : "preset_88BBE98C-F8EA-49A0-BE3F-6E5C07E080D8",
+      "localizedName" : {
+        "de" : "Unterhaltung",
+        "en" : "Conversation"
+      },
+      "hidden" : false
+    },
+    {
+      "id" : "preset_1EED300C-01A8-4884-8748-2B534445D0FE",
+      "localizedName" : {
+        "de" : "Umgebung",
+        "en" : "Environment"
+      },
+      "hidden" : false
+    }
+  ]
+}
