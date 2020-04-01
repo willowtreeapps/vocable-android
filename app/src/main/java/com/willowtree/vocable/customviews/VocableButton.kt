@@ -10,7 +10,6 @@ import android.text.style.ImageSpan
 import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
-import com.willowtree.vocable.settings.SensitivityFragment
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -114,7 +113,7 @@ open class VocableButton @JvmOverloads constructor(
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            VocableSharedPreferences.DWELL_TIME -> {
+            VocableSharedPreferences.KEY_DWELL_TIME -> {
                 dwellTime = sharedPrefs.getDwellTime()
             }
         }

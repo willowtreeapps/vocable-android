@@ -34,7 +34,7 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        fun newInstance(isEditing: Boolean) = EditKeyboardFragment(). apply {
+        fun newInstance(isEditing: Boolean) = EditKeyboardFragment().apply {
             arguments = bundleOf(KEY_IS_EDITING to isEditing)
         }
     }
@@ -82,7 +82,9 @@ class EditKeyboardFragment : BaseFragment() {
                     } else if (currentText.endsWith(". ") || currentText.endsWith("? ")) {
                         binding?.keyboardInput?.append(text?.toString())
                     } else {
-                        binding?.keyboardInput?.append(text?.toString()?.toLowerCase(Locale.getDefault()))
+                        binding?.keyboardInput?.append(
+                            text?.toString()?.toLowerCase(Locale.getDefault())
+                        )
                     }
                 }
             }
@@ -97,13 +99,15 @@ class EditKeyboardFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.backButton?.action = {
-            if (binding?.keyboardInput?.text.toString() == phrase?.utterance || arguments?.getBoolean(
-                    KEY_IS_EDITING) == false) {
+            if (binding?.keyboardInput?.text.toString() == phrase?.localizedUtterance?.get(Locale.US.language) || arguments?.getBoolean(
+                    KEY_IS_EDITING
+                ) == false
+            ) {
                 parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                .addToBackStack(null)
-                .commit()
+                    .beginTransaction()
+                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                    .addToBackStack(null)
+                    .commit()
             } else {
                 showConfirmationDialog()
             }
@@ -114,9 +118,14 @@ class EditKeyboardFragment : BaseFragment() {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            phrase?.utterance = text.toString()
-                            phrase?.let {
-                                viewModel.updatePhrase(it)
+                            // TODO: Use currently set Locale
+                            val phraseUtterance =
+                                phrase?.localizedUtterance?.toMutableMap()?.apply {
+                                    put(Locale.US.language, text.toString())
+                                }
+                            phrase?.localizedUtterance = phraseUtterance ?: mapOf()
+                            phrase?.let { updatedPhrase ->
+                                viewModel.updatePhrase(updatedPhrase)
                             } ?: viewModel.addNewPhrase(text.toString())
                         }
                     }
@@ -124,7 +133,10 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        binding?.keyboardInput?.setText(phrase?.utterance ?: getString(R.string.keyboard_select_letters))
+        binding?.keyboardInput?.setText(
+            phrase?.localizedUtterance?.get(Locale.US.language)
+                ?: getString(R.string.keyboard_select_letters)
+        )
 
         binding?.keyboardClearButton?.action = {
             binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
