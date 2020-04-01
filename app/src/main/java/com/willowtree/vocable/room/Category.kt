@@ -9,8 +9,10 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 @Parcelize
 data class Category(
-    @PrimaryKey val identifier: Long,
+    @PrimaryKey @ColumnInfo(name = "category_id") val categoryId: String,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
     @ColumnInfo(name = "is_user_generated") val isUserGenerated: Boolean,
-    var name: String
+    @ColumnInfo(name = "localized_name") val localizedName: Map<String, String>,
+    var hidden: Boolean,
+    @ColumnInfo(name = "sort_order") var sortOrder: Int
 ) : Parcelable
