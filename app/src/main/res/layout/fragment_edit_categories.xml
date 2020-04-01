@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/edit_sayings_view_pager"
+        android:id="@+id/edit_categories_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/edit_category_pager_margin_top"
@@ -60,7 +60,7 @@
         android:src="@drawable/phrases_back_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/edit_sayings_view_pager" />
+        app:layout_constraintStart_toStartOf="@id/edit_categories_view_pager" />
 
     <TextView
         android:id="@+id/category_page_number"
@@ -90,7 +90,7 @@
         android:scaleType="center"
         android:src="@drawable/phrases_forward_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/edit_sayings_view_pager"
+        app:layout_constraintEnd_toEndOf="@id/edit_categories_view_pager"
         app:layout_constraintHorizontal_chainStyle="packed"
         />
 

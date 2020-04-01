@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/edit_sayings_view_pager"
+        android:id="@+id/edit_categories_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="26dp"

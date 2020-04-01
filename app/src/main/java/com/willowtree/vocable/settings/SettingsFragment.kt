@@ -112,6 +112,14 @@ class SettingsFragment : BaseFragment() {
                 .commit()
         }
 
+        binding?.settingsOptionsContainer?.editCategoriesButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_fragment_container, EditCategoriesFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         viewModel = ViewModelProviders.of(requireActivity()).get(SettingsViewModel::class.java)
         subscribeToViewModel()
     }
