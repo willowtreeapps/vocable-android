@@ -209,6 +209,7 @@
     <dimen name="category_back_button_margin_start">24dp</dimen>
     <dimen name="edit_categories_action_button_width">63dp</dimen>
     <dimen name="edit_categories_action_button_height">48dp</dimen>
+    <dimen name="edit_categories_action_button_margin">44dp</dimen>
     <dimen name="edit_categories_add_button_margin">25dp</dimen>
     <dimen name="paging_button_margin">28dp</dimen>
     <dimen name="edit_category_pager_margin_top">28dp</dimen>

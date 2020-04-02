@@ -9,12 +9,11 @@
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/back_button"
-        style="@style/EditSayingsBackButton"
+        android:layout_marginStart="@dimen/edit_categories_action_button_margin"
         android:padding="@dimen/edit_sayings_back_button_padding"
         android:layout_width="@dimen/edit_sayings_back_button_width"
         android:layout_height="@dimen/edit_sayings_back_button_height"
         android:background="@drawable/button_default_background"
-        android:layout_marginEnd="@dimen/edit_sayings_back_button_margin_end"
         android:src="@drawable/ic_arrow_back_40dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
@@ -30,6 +29,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/add_button"
+        android:layout_marginStart="0dp"
+        android:padding="@dimen/edit_sayings_back_button_padding"
+        android:layout_width="@dimen/edit_sayings_back_button_width"
+        android:layout_height="@dimen/edit_sayings_back_button_height"
+        android:background="@drawable/button_default_background"
+        android:layout_marginEnd="@dimen/edit_categories_action_button_margin"
+        android:src="@drawable/add_40dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
 
     <View
         android:id="@+id/top_view"
