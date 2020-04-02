@@ -41,6 +41,38 @@ class EditCategoriesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding?.categoryBackButton?.let {
+            it.action = {
+                when (val currentPosition = binding?.editCategoriesViewPager?.currentItem) {
+                    null -> {
+                        // No-op
+                    }
+                    0 -> {
+                        binding?.editCategoriesViewPager?.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                    }
+                    else -> {
+                        binding?.editCategoriesViewPager?.setCurrentItem(currentPosition - 1, true)
+                    }
+                }
+            }
+        }
+
+        binding?.categoryForwardButton?.let {
+            it.action = {
+                when (val currentPosition = binding?.editCategoriesViewPager?.currentItem) {
+                    null -> {
+                        // No-op
+                    }
+                    categoriesAdapter.itemCount - 1 -> {
+                        binding?.editCategoriesViewPager?.setCurrentItem(0, true)
+                    }
+                    else -> {
+                        binding?.editCategoriesViewPager?.setCurrentItem(currentPosition + 1, true)
+                    }
+                }
+            }
+        }
         categoriesAdapter = CategoriesPagerAdapter(childFragmentManager)
 
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
@@ -81,8 +113,20 @@ class EditCategoriesFragment : BaseFragment() {
         editCategoriesViewModel.categoryList.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 with(binding?.editCategoriesViewPager) {
+                    this?.isSaveEnabled = false
                     this?.adapter = categoriesAdapter
                     categoriesAdapter.setCategories(categories)
+                    // Move adapter to middle so user can scroll both directions
+                    val middle = categoriesAdapter.itemCount / 2
+                    if (middle % categoriesAdapter.numPages == 0) {
+                        binding?.editCategoriesViewPager?.setCurrentItem(middle, false)
+                    } else {
+                        val mod = middle % categoriesAdapter.numPages
+                        binding?.editCategoriesViewPager?.setCurrentItem(
+                            middle + (categoriesAdapter.numPages - mod),
+                            false
+                        )
+                    }
                 }
             }
         })
@@ -102,6 +146,8 @@ class EditCategoriesFragment : BaseFragment() {
             }
             numPages = ceil(categories.size / maxEditCategories.toDouble()).toInt()
             notifyDataSetChanged()
+
+            setPagingButtonsEnabled(categoriesAdapter.numPages > 1)
         }
 
         override fun getItemCount(): Int {
@@ -116,6 +162,13 @@ class EditCategoriesFragment : BaseFragment() {
             )
             return EditCategoriesListFragment.newInstance(subList)
         }
-
     }
+
+    private fun setPagingButtonsEnabled(enable: Boolean) {
+        binding?.let {
+            it.categoryForwardButton.isEnabled = enable
+            it.categoryBackButton.isEnabled = enable
+        }
+    }
+
 }
