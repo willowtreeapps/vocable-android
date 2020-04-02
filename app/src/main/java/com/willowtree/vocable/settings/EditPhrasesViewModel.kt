@@ -87,14 +87,13 @@ class EditPhrasesViewModel : BaseViewModel() {
             val categoryId = sharedPrefs.getMySayingsCategoryId()
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(categoryId)
             val phraseId = UUID.randomUUID().toString()
-            // TODO: Use currently set Locale
             presetsRepository.addPhrase(
                 Phrase(
                     phraseId,
                     System.currentTimeMillis(),
                     true,
                     System.currentTimeMillis(),
-                    mapOf(Pair(Locale.US.language, phraseStr)),
+                    mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                     mySayingsPhrases.size
                 )
             )

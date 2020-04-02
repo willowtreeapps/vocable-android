@@ -32,14 +32,13 @@ class KeyboardViewModel : BaseViewModel() {
             val mySayingsPhrases =
                 presetsRepository.getPhrasesForCategory(mySayingsCategory.categoryId)
             with(presetsRepository) {
-                // TODO: Use currently set Locale
                 addPhrase(
                     Phrase(
                         phraseId,
                         System.currentTimeMillis(),
                         true,
                         System.currentTimeMillis(),
-                        mapOf(Pair(Locale.US.language, phraseStr)),
+                        mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                         mySayingsPhrases.size
                     )
                 )

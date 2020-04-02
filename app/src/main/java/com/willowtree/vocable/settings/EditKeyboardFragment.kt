@@ -99,7 +99,7 @@ class EditKeyboardFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.backButton?.action = {
-            if (binding?.keyboardInput?.text.toString() == phrase?.localizedUtterance?.get(Locale.US.language) || arguments?.getBoolean(
+            if (binding?.keyboardInput?.text.toString() == phrase?.getLocalizedText() || arguments?.getBoolean(
                     KEY_IS_EDITING
                 ) == false
             ) {
@@ -118,10 +118,9 @@ class EditKeyboardFragment : BaseFragment() {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            // TODO: Use currently set Locale
                             val phraseUtterance =
                                 phrase?.localizedUtterance?.toMutableMap()?.apply {
-                                    put(Locale.US.language, text.toString())
+                                    put(Locale.getDefault().toString(), text.toString())
                                 }
                             phrase?.localizedUtterance = phraseUtterance ?: mapOf()
                             phrase?.let { updatedPhrase ->
@@ -134,8 +133,11 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardInput?.setText(
-            phrase?.localizedUtterance?.get(Locale.US.language)
-                ?: getString(R.string.keyboard_select_letters)
+            if (phrase?.getLocalizedText().isNullOrEmpty()) {
+                getString(R.string.keyboard_select_letters)
+            } else {
+                phrase?.getLocalizedText()
+            }
         )
 
         binding?.keyboardClearButton?.action = {
