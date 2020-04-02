@@ -141,7 +141,7 @@ class SplashViewModel : BaseViewModel() {
                 mySayingsCategory = mySayingsCategory.apply {
                     hidden = false
                 }
-                mySayings.forEach {
+                mySayings.forEachIndexed { index, saying ->
                     val phraseId = UUID.randomUUID().toString()
                     phraseObjects.add(
                         Phrase(
@@ -149,8 +149,8 @@ class SplashViewModel : BaseViewModel() {
                             System.currentTimeMillis(),
                             true,
                             System.currentTimeMillis(),
-                            mapOf(Pair(Locale.US.language, it)),
-                            phraseObjects.size
+                            mapOf(Pair(Locale.US.language, saying)),
+                            index
                         )
                     )
                     crossRefObjects.add(

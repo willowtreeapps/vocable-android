@@ -55,8 +55,7 @@ class EditPhrasesFragment : BaseFragment() {
             val phraseView =
                 PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
             with(phraseView.root) {
-                // TODO: Use currently set Locale
-                phrase_edit_text.text = phrase.localizedUtterance[Locale.US.language]
+                phrase_edit_text.text = phrase.getLocalizedText()
                 phrase_edit_text.tag = phrase
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
