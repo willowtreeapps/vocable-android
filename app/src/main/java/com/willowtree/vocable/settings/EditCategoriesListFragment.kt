@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.Category
@@ -14,8 +15,8 @@ class EditCategoriesListFragment : BaseFragment() {
     companion object {
         private const val KEY_CATEGORIES = "KEY_CATEGORIES"
 
-        fun newInstance(categories: List<Category>): EditCategoriesFragment {
-            return EditCategoriesFragment().apply {
+        fun newInstance(categories: List<Category>): EditCategoriesListFragment {
+            return EditCategoriesListFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList(KEY_CATEGORIES, ArrayList(categories))
                 }
@@ -24,6 +25,7 @@ class EditCategoriesListFragment : BaseFragment() {
     }
 
     private var binding: FragmentEditCategoriesListBinding? = null
+    private var maxEditCategories = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,7 @@ class EditCategoriesListFragment : BaseFragment() {
     ): View? {
 
         binding = FragmentEditCategoriesListBinding.inflate(inflater, container, false)
+        maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
         val categories =
             arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
@@ -44,6 +47,18 @@ class EditCategoriesListFragment : BaseFragment() {
                 )
             categoryView.categoryName.text = category.name
             binding?.categoryEditButtonContainer?.addView(categoryView.root)
+        }
+
+        categories?.let {
+            // Add invisible views to fill out the rest of the space
+            for (i in 0 until maxEditCategories - it.size) {
+                val hiddenButton =
+                    CategoryEditButtonBinding.inflate(inflater, binding?.categoryEditButtonContainer, false)
+                binding?.categoryEditButtonContainer?.addView(hiddenButton.root.apply {
+                    isEnabled = false
+                    visibility = View.INVISIBLE
+                })
+            }
         }
         return binding?.root
     }

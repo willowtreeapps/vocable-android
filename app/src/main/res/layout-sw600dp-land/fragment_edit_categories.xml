@@ -31,6 +31,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/top_view"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@id/edit_categories_view_pager"
+        app:layout_constraintStart_toStartOf="@id/edit_categories_view_pager"
+        app:layout_constraintTop_toTopOf="@id/edit_categories_view_pager" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/edit_categories_view_pager"
         android:layout_width="0dp"
