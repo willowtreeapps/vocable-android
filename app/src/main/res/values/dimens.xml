@@ -218,4 +218,14 @@
     <dimen name="edit_category_pager_margin_end">24dp</dimen>
     <dimen name="edit_category_pager_margin_bottom">64dp</dimen>
 
+    <!-- Edit Categories Options -->
+    <dimen name="edit_categories_options_text_size">48sp</dimen>
+    <dimen name="edit_options_button_width">48dp</dimen>
+    <dimen name="edit_options_button_height">48dp</dimen>
+    <dimen name="edit_category_title_margin_top">32dp</dimen>
+    <dimen name="edit_remove_category_margin_top">8dp</dimen>
+    <dimen name="edit_category_edit_options_margin_top">24dp</dimen>
+    <dimen name="edit_options_button_margin_start">16dp</dimen>
+    <dimen name="edit_category_options_remove_button_margin_start">8dp</dimen>
+
 </resources>
