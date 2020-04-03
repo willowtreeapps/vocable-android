@@ -1,14 +1,16 @@
 package com.willowtree.vocable.keyboard
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
+import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.get
 import org.koin.core.inject
 import java.util.*
 
@@ -19,7 +21,8 @@ class KeyboardViewModel : BaseViewModel() {
     }
 
     private val presetsRepository: PresetsRepository by inject()
-    private val sharedPreferences: VocableSharedPreferences by inject()
+    private val mySayingsCategoryId: String =
+        get<Context>().getString(R.string.category_my_sayings_id)
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
@@ -27,7 +30,7 @@ class KeyboardViewModel : BaseViewModel() {
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
             val mySayingsCategory =
-                presetsRepository.getCategoryById(sharedPreferences.getMySayingsCategoryId())
+                presetsRepository.getCategoryById(mySayingsCategoryId)
             val phraseId = UUID.randomUUID().toString()
             val mySayingsPhrases =
                 presetsRepository.getPhrasesForCategory(mySayingsCategory.categoryId)

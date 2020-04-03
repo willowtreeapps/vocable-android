@@ -26,6 +26,8 @@ class SplashViewModel : BaseViewModel() {
     private val presetsRepository: PresetsRepository by inject()
     private val moshi: Moshi by inject()
     private val sharedPrefs: VocableSharedPreferences by inject()
+    private val numbersCategoryId = get<Context>().getString(R.string.category_123_id)
+    private val mySayingsCategoryId = get<Context>().getString(R.string.category_my_sayings_id)
 
     private val liveExitSplash = MutableLiveData<Boolean>()
     val exitSplash: LiveData<Boolean> = liveExitSplash
@@ -98,17 +100,6 @@ class SplashViewModel : BaseViewModel() {
             }
 
             // Populate the numbers category from arrays.xml
-            val numbersCategoryTitle = get<Context>().getString(R.string.category_123)
-            val numbersCategory = Category(
-                UUID.randomUUID().toString(),
-                System.currentTimeMillis(),
-                false,
-                mapOf(Pair(Locale.US.language, numbersCategoryTitle)),
-                false,
-                categoryObjects.size
-            )
-            sharedPrefs.setNumbersCategoryId(numbersCategory.categoryId)
-            categoryObjects.add(numbersCategory)
             get<Context>().resources.getStringArray(R.array.category_123).forEach {
                 val phraseId = UUID.randomUUID().toString()
                 phraseObjects.add(
@@ -121,26 +112,14 @@ class SplashViewModel : BaseViewModel() {
                         phraseObjects.size
                     )
                 )
-                crossRefObjects.add(CategoryPhraseCrossRef(numbersCategory.categoryId, phraseId))
+                crossRefObjects.add(CategoryPhraseCrossRef(numbersCategoryId, phraseId))
             }
 
             // Create My Sayings category
-            val mySayingsTitle = get<Context>().getString(R.string.category_my_sayings)
-            var mySayingsCategory = Category(
-                UUID.randomUUID().toString(),
-                System.currentTimeMillis(),
-                false,
-                mapOf(Pair(Locale.US.language, mySayingsTitle)),
-                true,
-                categoryObjects.size
-            )
-            sharedPrefs.setMySayingsCategoryId(mySayingsCategory.categoryId)
-
+            val mySayingsCategory =
+                categoryObjects.first { it.categoryId == mySayingsCategoryId }
             val mySayings = sharedPrefs.getMySayings()
             if (mySayings.isNotEmpty()) {
-                mySayingsCategory = mySayingsCategory.apply {
-                    hidden = false
-                }
                 mySayings.forEach {
                     val phraseId = UUID.randomUUID().toString()
                     phraseObjects.add(
@@ -160,8 +139,13 @@ class SplashViewModel : BaseViewModel() {
                         )
                     )
                 }
+                sharedPrefs.setMySayings(emptySet())
+            } else {
+                val phrases = presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
+                if (phrases.isEmpty()) {
+                    mySayingsCategory.hidden = true
+                }
             }
-            categoryObjects.add(mySayingsCategory)
 
             with(presetsRepository) {
                 populateCategories(categoryObjects)
