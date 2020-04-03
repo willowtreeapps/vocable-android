@@ -23,9 +23,7 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
-import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import org.koin.android.ext.android.inject
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -40,8 +38,6 @@ class PresetsFragment : BaseFragment() {
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
-
-    private val sharePrefs: VocableSharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -231,7 +227,7 @@ class PresetsFragment : BaseFragment() {
                     this?.adapter = phrasesAdapter
 
                     maxPhrases =
-                        if (presetsViewModel.selectedCategory.value?.categoryId == sharePrefs.getNumbersCategoryId()) {
+                        if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                             NumberPadFragment.MAX_PHRASES
                         } else {
                             resources.getInteger(R.integer.max_phrases)
@@ -336,7 +332,7 @@ class PresetsFragment : BaseFragment() {
             val sublist =
                 phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
 
-            return if (presetsViewModel.selectedCategory.value?.categoryId == sharePrefs.getNumbersCategoryId()) {
+            return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                 NumberPadFragment.newInstance(sublist)
             } else {
                 PhrasesFragment.newInstance(sublist)

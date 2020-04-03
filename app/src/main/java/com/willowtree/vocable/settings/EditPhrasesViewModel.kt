@@ -1,14 +1,15 @@
 package com.willowtree.vocable.settings
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.get
 import org.koin.core.inject
 import java.util.*
 
@@ -20,7 +21,8 @@ class EditPhrasesViewModel : BaseViewModel() {
     }
 
     private val presetsRepository: PresetsRepository by inject()
-    private val sharedPrefs: VocableSharedPreferences by inject()
+    private val mySayingsCategoryId: String =
+        get<Context>().getString(com.willowtree.vocable.R.string.category_my_sayings_id)
 
     private val liveMySayingsList = MutableLiveData<List<Phrase>>()
     val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList
@@ -39,7 +41,7 @@ class EditPhrasesViewModel : BaseViewModel() {
         backgroundScope.launch {
 
             val phrases =
-                presetsRepository.getPhrasesForCategory(sharedPrefs.getMySayingsCategoryId())
+                presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
 
             liveMySayingsList.postValue(phrases)
         }
@@ -49,7 +51,7 @@ class EditPhrasesViewModel : BaseViewModel() {
         backgroundScope.launch {
             with(presetsRepository) {
                 deletePhrase(phrase)
-                val mySayingsCategory = getCategoryById(sharedPrefs.getMySayingsCategoryId())
+                val mySayingsCategory = getCategoryById(mySayingsCategoryId)
                 deleteCrossRef(
                     CategoryPhraseCrossRef(
                         mySayingsCategory.categoryId,
@@ -84,8 +86,7 @@ class EditPhrasesViewModel : BaseViewModel() {
 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
-            val categoryId = sharedPrefs.getMySayingsCategoryId()
-            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(categoryId)
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
             val phraseId = UUID.randomUUID().toString()
             // TODO: Use currently set Locale
             presetsRepository.addPhrase(
@@ -98,9 +99,9 @@ class EditPhrasesViewModel : BaseViewModel() {
                     mySayingsPhrases.size
                 )
             )
-            presetsRepository.addCrossRef(CategoryPhraseCrossRef(categoryId, phraseId))
+            presetsRepository.addCrossRef(CategoryPhraseCrossRef(mySayingsCategoryId, phraseId))
             val mySayingsCategory =
-                presetsRepository.getCategoryById(sharedPrefs.getMySayingsCategoryId())
+                presetsRepository.getCategoryById(mySayingsCategoryId)
             if (mySayingsCategory.hidden) {
                 presetsRepository.updateCategory(mySayingsCategory.apply {
                     hidden = false
