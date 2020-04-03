@@ -51,4 +51,13 @@
     <dimen name="hover_time_text_top_margin">24dp</dimen>
     <dimen name="timing_title_text_size">34sp</dimen>
 
+    <!-- Edit Categories -->
+    <dimen name="edit_categories_action_button_width">72dp</dimen>
+    <dimen name="edit_categories_action_button_height">72dp</dimen>
+    <dimen name="edit_category_pager_margin_top">16dp</dimen>
+    <dimen name="edit_category_pager_margin_end">24dp</dimen>
+    <dimen name="edit_category_pager_margin_bottom">42dp</dimen>
+    <dimen name="paging_button_margin">168dp</dimen>
+    <dimen name="edit_categories_title_margin">37dp</dimen>
+
 </resources>
