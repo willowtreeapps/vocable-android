@@ -47,6 +47,10 @@ class EditCategoriesListFragment : BaseFragment() {
                 )
             categoryView.categoryName.text = category.name
             binding?.categoryEditButtonContainer?.addView(categoryView.root)
+
+            categoryView.editCategorySelectButton.action = {
+
+            }
         }
 
         categories?.let {
@@ -62,7 +66,6 @@ class EditCategoriesListFragment : BaseFragment() {
         }
         return binding?.root
     }
-
 
     override fun onDestroyView() {
         binding = null

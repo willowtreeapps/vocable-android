@@ -60,4 +60,8 @@
     <dimen name="paging_button_margin">168dp</dimen>
     <dimen name="edit_categories_title_margin">37dp</dimen>
 
+    <!-- Edit Categories Options -->
+    <dimen name="edit_options_button_width">56dp</dimen>
+    <dimen name="edit_options_button_height">56dp</dimen>
+
 </resources>
