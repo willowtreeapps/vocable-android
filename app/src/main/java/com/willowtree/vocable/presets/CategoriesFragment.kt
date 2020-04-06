@@ -18,8 +18,6 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
 import com.willowtree.vocable.room.Category
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CategoriesFragment : BaseFragment() {
 
@@ -56,8 +54,7 @@ class CategoriesFragment : BaseFragment() {
                 CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
                 tag = category
-                // TODO: Use currently set Locale
-                text = category.localizedName[Locale.US.language]
+                text = category.getLocalizedText()
                 action = {
                     viewModel.onCategorySelected(category)
                 }

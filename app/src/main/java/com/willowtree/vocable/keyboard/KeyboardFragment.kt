@@ -2,7 +2,6 @@ package com.willowtree.vocable.keyboard
 
 import android.content.Intent
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -143,11 +142,9 @@ class KeyboardFragment : BaseFragment() {
         binding?.keyboardSpeakButton?.let {
             it.action = {
                 if (!isDefaultTextVisible()) {
-                    VocableTextToSpeech.getTextToSpeech()?.speak(
-                        binding?.keyboardInput?.text,
-                        TextToSpeech.QUEUE_FLUSH,
-                        null,
-                        id.toString()
+                    VocableTextToSpeech.speak(
+                        Locale.getDefault(),
+                        binding?.keyboardInput?.text?.toString() ?: ""
                     )
                 }
             }

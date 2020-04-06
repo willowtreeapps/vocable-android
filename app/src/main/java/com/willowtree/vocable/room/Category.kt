@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.willowtree.vocable.utils.LocaleUtils
 import kotlinx.android.parcel.Parcelize
 
 @Entity
@@ -15,4 +16,9 @@ data class Category(
     @ColumnInfo(name = "localized_name") val localizedName: Map<String, String>,
     var hidden: Boolean,
     @ColumnInfo(name = "sort_order") var sortOrder: Int
-) : Parcelable
+) : Parcelable {
+
+    fun getLocalizedText(): String {
+        return LocaleUtils.getTextForLocale(localizedName)
+    }
+}
