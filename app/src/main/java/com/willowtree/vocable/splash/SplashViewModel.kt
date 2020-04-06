@@ -7,10 +7,8 @@ import com.willowtree.vocable.presets.PresetsRepository
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
-class SplashViewModel(
-    private val numbersCategoryId: String,
-    private val mySayingsCategoryId: String
-) : BaseViewModel() {
+class SplashViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
+    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
 
     private val presetsRepository: PresetsRepository by inject()
 

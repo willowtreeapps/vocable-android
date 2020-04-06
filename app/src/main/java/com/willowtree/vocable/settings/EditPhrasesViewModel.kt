@@ -1,6 +1,5 @@
 package com.willowtree.vocable.settings
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -9,11 +8,11 @@ import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.get
 import org.koin.core.inject
 import java.util.*
 
-class EditPhrasesViewModel : BaseViewModel() {
+class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
+    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
 
     companion object {
         private const val PHRASE_UPDATED_DELAY = 2000L
@@ -21,8 +20,6 @@ class EditPhrasesViewModel : BaseViewModel() {
     }
 
     private val presetsRepository: PresetsRepository by inject()
-    private val mySayingsCategoryId: String =
-        get<Context>().getString(com.willowtree.vocable.R.string.category_my_sayings_id)
 
     private val liveMySayingsList = MutableLiveData<List<Phrase>>()
     val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList

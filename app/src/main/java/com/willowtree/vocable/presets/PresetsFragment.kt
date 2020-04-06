@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -172,7 +173,13 @@ class PresetsFragment : BaseFragment() {
         SpokenText.postValue(null)
 
         presetsViewModel =
-            ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 
