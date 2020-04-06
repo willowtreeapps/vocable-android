@@ -1,15 +1,19 @@
 package com.willowtree.vocable.facetracking
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.ar.core.AugmentedFace
 import com.google.ar.sceneform.math.Vector3
+import com.willowtree.vocable.R
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
+import org.koin.core.get
 import org.koin.core.inject
+import java.util.*
 
 class FaceTrackingViewModel : ViewModel(), KoinComponent {
 
@@ -69,7 +73,7 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
                 val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
                 val zAxis = pose.zAxis
                 val x = zAxis[0]
-                val y = zAxis[1]
+                var y = zAxis[1]
                 val z = -zAxis[2]
 
                 when (oldVector) {
@@ -78,6 +82,10 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
                         liveAdjustedVector.postValue(oldVector)
                     }
                     else -> {
+                        val isTablet = get<Context>().resources.getBoolean(R.bool.is_tablet)
+                        if (!isTablet) {
+                            y *= 2f
+                        }
                         val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), sensitivity)
                         liveAdjustedVector.postValue(adjustedVector)
                         oldVector = adjustedVector
