@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 
@@ -15,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProviders.of(
             this,
-            SplashViewModelFactory(
+            BaseViewModelFactory(
                 getString(R.string.category_123_id),
                 getString(R.string.category_my_sayings_id)
             )

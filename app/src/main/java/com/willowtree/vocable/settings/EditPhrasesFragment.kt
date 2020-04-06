@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
@@ -139,7 +140,13 @@ class EditPhrasesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         editPhrasesViewModel =
-            ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(EditPhrasesViewModel::class.java)
     }
 
     override fun onDestroyView() {
