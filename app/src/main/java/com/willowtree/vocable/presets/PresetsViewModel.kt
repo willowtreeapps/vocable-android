@@ -30,7 +30,8 @@ class PresetsViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
         backgroundScope.launch {
             val categories = presetsRepository.getAllCategories().filter { !it.hidden }
             liveCategoryList.postValue(categories)
-            onCategorySelected(categories.first())
+            val currentCategory = liveSelectedCategory.value ?: categories.first()
+            onCategorySelected(currentCategory)
         }
     }
 
