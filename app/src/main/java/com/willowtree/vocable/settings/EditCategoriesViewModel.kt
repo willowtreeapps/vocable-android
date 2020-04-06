@@ -21,6 +21,9 @@ class EditCategoriesViewModel: BaseViewModel() {
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList
 
+    private val liveCategoryUserGenerated = MutableLiveData<Boolean>()
+    val categoryIsUserGenerated: LiveData<Boolean> = liveCategoryUserGenerated
+
     private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
     val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
 
@@ -37,6 +40,14 @@ class EditCategoriesViewModel: BaseViewModel() {
             val categories = presetsRepository.getAllCategories()
 
             liveCategoryList.postValue(categories)
+        }
+    }
+
+    fun userGeneratedStatus(category: String){
+        backgroundScope.launch {
+            val userGenerated = presetsRepository.getUserGeneratedStatus(category)
+
+            liveCategoryUserGenerated.postValue(userGenerated)
         }
     }
 
