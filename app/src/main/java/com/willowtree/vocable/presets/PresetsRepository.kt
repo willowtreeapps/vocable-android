@@ -24,10 +24,6 @@ class PresetsRepository(context: Context) : KoinComponent {
         return database.phraseDao().getUserGeneratedPhrases()
     }
 
-    suspend fun getUserGeneratedStatus(category: String): Boolean {
-        return database.categoryDao().getUserGeneratedStatus(category)
-    }
-
     suspend fun addPhrase(phrase: Phrase) {
         database.phraseDao().insertPhrase(phrase)
     }
