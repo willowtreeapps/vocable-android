@@ -100,10 +100,9 @@ class EditKeyboardFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.backButton?.action = {
-            if (binding?.keyboardInput?.text.toString() == phrase?.getLocalizedText() || arguments?.getBoolean(
-                    KEY_IS_EDITING
-                ) == false
-            ) {
+            val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
+            val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
+            if (isEditing && !textChanged) {
                 parentFragmentManager
                     .beginTransaction()
                     .replace(R.id.settings_fragment_container, EditPresetsFragment())
