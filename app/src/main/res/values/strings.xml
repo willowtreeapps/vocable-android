@@ -69,4 +69,12 @@
     <string name="cursor_sensitivity_medium">Medium</string>
     <string name="cursor_sensitivity_high">High</string>
 
+    <!-- Categories -->
+    <string name="category_my_sayings">My Sayings</string>
+    <string name="category_my_sayings_id" translatable="false">preset_user_favorites</string>
+    <string name="category_123">123</string>
+    <string name="category_123_id" translatable="false">preset_user_keypad</string>
+    <string name="category_123_yes">Yes</string>
+    <string name="category_123_no">No</string>
+
 </resources>

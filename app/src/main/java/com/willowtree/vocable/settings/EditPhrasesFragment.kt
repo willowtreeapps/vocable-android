@@ -11,12 +11,15 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
 import kotlinx.android.synthetic.main.phrase_edit_layout.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EditPhrasesFragment : BaseFragment() {
 
@@ -53,7 +56,8 @@ class EditPhrasesFragment : BaseFragment() {
             val phraseView =
                 PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
             with(phraseView.root) {
-                phrase_edit_text.text = phrase.utterance
+                // TODO: Use currently set Locale
+                phrase_edit_text.text = phrase.localizedUtterance[Locale.US.language]
                 phrase_edit_text.tag = phrase
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
@@ -136,7 +140,13 @@ class EditPhrasesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         editPhrasesViewModel =
-            ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(EditPhrasesViewModel::class.java)
     }
 
     override fun onDestroyView() {

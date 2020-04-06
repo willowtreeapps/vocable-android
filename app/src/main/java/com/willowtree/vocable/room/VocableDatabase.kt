@@ -4,27 +4,24 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.TypeConverters
 
-@Database(entities = [Category::class, Phrase::class], version = 2)
+@Database(entities = [Category::class, Phrase::class, CategoryPhraseCrossRef::class], version = 3)
+@TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
 
     companion object {
         private var vocableDatabase: VocableDatabase? = null
-
-        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Phrases no longer have to have unique utterances
-                database.execSQL("DROP INDEX index_Phrase_utterance")
-            }
-        }
+        private const val DATABASE_NAME = "VocableDatabase"
 
         fun getVocableDatabase(context: Context): VocableDatabase {
             if (vocableDatabase == null) {
                 vocableDatabase =
-                    Room.databaseBuilder(context, VocableDatabase::class.java, "VocableDatabase")
-                        .addMigrations(MIGRATION_1_2)
+                    Room.databaseBuilder(context, VocableDatabase::class.java, DATABASE_NAME)
+                        .addMigrations(
+                            VocableDatabaseMigrations.MIGRATION_1_2,
+                            VocableDatabaseMigrations.MIGRATION_2_3
+                        )
                         .build()
             }
             return vocableDatabase as VocableDatabase
@@ -34,5 +31,7 @@ abstract class VocableDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
     abstract fun phraseDao(): PhraseDao
+
+    abstract fun categoryPhraseCrossRefDao(): CategoryPhraseCrossRefDao
 }
 
