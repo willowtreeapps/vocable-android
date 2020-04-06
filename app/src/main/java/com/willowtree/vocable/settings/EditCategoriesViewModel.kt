@@ -43,14 +43,6 @@ class EditCategoriesViewModel: BaseViewModel() {
         }
     }
 
-    fun userGeneratedStatus(category: String){
-        backgroundScope.launch {
-            val userGenerated = presetsRepository.getUserGeneratedStatus(category)
-
-            liveCategoryUserGenerated.postValue(userGenerated)
-        }
-    }
-
     fun deleteCategory(category: Category) {
         backgroundScope.launch {
             presetsRepository.deleteCategory(category)
