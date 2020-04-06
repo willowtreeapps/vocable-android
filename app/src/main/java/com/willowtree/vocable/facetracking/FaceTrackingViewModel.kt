@@ -13,7 +13,6 @@ import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.inject
-import java.util.*
 
 class FaceTrackingViewModel : ViewModel(), KoinComponent {
 
@@ -46,10 +45,13 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
     private val liveShowError = MutableLiveData<Boolean>()
     val showError: LiveData<Boolean> = liveShowError
 
+    private var isTablet = false
+
     private var oldVector: Vector3? = null
 
     init {
         sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
+        isTablet = get<Context>().resources.getBoolean(R.bool.is_tablet)
     }
 
     fun onFaceDetected(augmentedFaces: Collection<AugmentedFace>?) {
@@ -82,7 +84,6 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
                         liveAdjustedVector.postValue(oldVector)
                     }
                     else -> {
-                        val isTablet = get<Context>().resources.getBoolean(R.bool.is_tablet)
                         if (!isTablet) {
                             y *= 2f
                         }
