@@ -19,8 +19,6 @@ class VocableSharedPreferences : KoinComponent {
         const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = SensitivityFragment.DWELL_TIME_ONE_SECOND
-        private const val KEY_MY_SAYINGS_CATEGORY_ID = "KEY_MY_SAYINGS_CATEGORY_ID"
-        private const val KEY_NUMBERS_CATEGORY_ID = "KEY_NUMBERS_CATEGORY_ID"
     }
 
     private val encryptedPrefs: EncryptedSharedPreferences by lazy {
@@ -75,17 +73,4 @@ class VocableSharedPreferences : KoinComponent {
 
     fun getHeadTrackingEnabled(): Boolean =
         encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
-
-    fun setMySayingsCategoryId(categoryId: String) {
-        encryptedPrefs.edit().putString(KEY_MY_SAYINGS_CATEGORY_ID, categoryId).apply()
-    }
-
-    fun getMySayingsCategoryId(): String =
-        encryptedPrefs.getString(KEY_MY_SAYINGS_CATEGORY_ID, "") ?: ""
-
-    fun setNumbersCategoryId(categoryId: String) {
-        encryptedPrefs.edit().putString(KEY_NUMBERS_CATEGORY_ID, categoryId).apply()
-    }
-
-    fun getNumbersCategoryId(): String = encryptedPrefs.getString(KEY_NUMBERS_CATEGORY_ID, "") ?: ""
 }

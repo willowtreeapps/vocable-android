@@ -1,15 +1,24 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
-import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
-import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.room.VocableDatabase
+import android.util.Log
+import com.squareup.moshi.Moshi
+import com.willowtree.vocable.R
+import com.willowtree.vocable.room.*
+import com.willowtree.vocable.utils.VocableSharedPreferences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.koin.core.KoinComponent
+import org.koin.core.get
+import org.koin.core.inject
+import java.nio.charset.Charset
+import java.util.*
 
 class PresetsRepository(context: Context) : KoinComponent {
 
     private val database = VocableDatabase.getVocableDatabase(context)
+    private val sharedPrefs: VocableSharedPreferences by inject()
+    private val moshi: Moshi by inject()
 
     suspend fun getAllCategories(): List<Category> {
         return database.categoryDao().getAllCategories()
@@ -59,5 +68,119 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun getCategoryById(categoryId: String): Category {
         return database.categoryDao().getCategoryById(categoryId)
+    }
+
+    suspend fun populateDatabase(numbersCategoryId: String, mySayingsCategoryId: String) {
+        val categories = getAllCategories()
+        if (categories.isNotEmpty()) {
+            return
+        }
+        val presets = withContext(Dispatchers.IO) {
+            var json = ""
+            try {
+                val inputStream = get<Context>().assets.open("json/presets.json")
+                val size = inputStream.available()
+                val buffer = ByteArray(size)
+                inputStream.read(buffer)
+                inputStream.close()
+                json = String(buffer, Charset.forName("UTF-8"))
+            } catch (e: Exception) {
+                Log.e("populateDatabase", e.message ?: "Error reading JSON")
+            }
+
+            var presetsObject: PresetsObject? = null
+            try {
+                presetsObject = moshi.adapter(PresetsObject::class.java).fromJson(json)
+            } catch (e: Exception) {
+                Log.e("populateDatabase", e.message ?: "Error parsing JSON")
+            }
+            return@withContext presetsObject
+        }
+
+        val categoryObjects = mutableListOf<Category>()
+        val phraseObjects = mutableListOf<Phrase>()
+        val crossRefObjects = mutableListOf<CategoryPhraseCrossRef>()
+
+        // Populate the presets from JSON
+        presets?.categories?.forEach {
+            categoryObjects.add(
+                Category(
+                    it.id,
+                    System.currentTimeMillis(),
+                    false,
+                    it.localizedName,
+                    it.hidden,
+                    categoryObjects.size
+                )
+            )
+        }
+
+        presets?.phrases?.forEach { presetPhrase ->
+            phraseObjects.add(
+                Phrase(
+                    presetPhrase.id,
+                    System.currentTimeMillis(),
+                    false,
+                    System.currentTimeMillis(),
+                    presetPhrase.localizedUtterance,
+                    phraseObjects.size
+                )
+            )
+            presetPhrase.categoryIds.forEach { categoryId ->
+                crossRefObjects.add(CategoryPhraseCrossRef(categoryId, presetPhrase.id))
+            }
+        }
+
+        // Populate the numbers category from arrays.xml
+        get<Context>().resources.getStringArray(R.array.category_123).forEach {
+            val phraseId = UUID.randomUUID().toString()
+            phraseObjects.add(
+                Phrase(
+                    phraseId,
+                    System.currentTimeMillis(),
+                    false,
+                    System.currentTimeMillis(),
+                    mapOf(Pair(Locale.US.language, it)),
+                    phraseObjects.size
+                )
+            )
+            crossRefObjects.add(CategoryPhraseCrossRef(numbersCategoryId, phraseId))
+        }
+
+        // Create My Sayings category
+        val mySayingsCategory =
+            categoryObjects.first { it.categoryId == mySayingsCategoryId }
+        val mySayings = sharedPrefs.getMySayings()
+        if (mySayings.isNotEmpty()) {
+            mySayings.forEach {
+                val phraseId = UUID.randomUUID().toString()
+                phraseObjects.add(
+                    Phrase(
+                        phraseId,
+                        System.currentTimeMillis(),
+                        true,
+                        System.currentTimeMillis(),
+                        mapOf(Pair(Locale.US.language, it)),
+                        phraseObjects.size
+                    )
+                )
+                crossRefObjects.add(
+                    CategoryPhraseCrossRef(
+                        mySayingsCategory.categoryId,
+                        phraseId
+                    )
+                )
+            }
+            sharedPrefs.setMySayings(emptySet())
+        } else {
+            val phrases = getPhrasesForCategory(mySayingsCategoryId)
+            if (phrases.isEmpty()) {
+                mySayingsCategory.hidden = true
+            }
+        }
+
+        populateCategories(categoryObjects)
+        populatePhrases(phraseObjects)
+        populateCrossRefs(crossRefObjects)
     }
 }

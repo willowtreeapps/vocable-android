@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
-class PresetsViewModel : BaseViewModel() {
+class PresetsViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
+    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
 
     private val presetsRepository: PresetsRepository by inject()
-    private val sharedPrefs: VocableSharedPreferences by inject()
 
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList

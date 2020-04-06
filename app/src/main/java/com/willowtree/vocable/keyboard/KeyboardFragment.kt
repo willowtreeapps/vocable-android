@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -160,7 +161,13 @@ class KeyboardFragment : BaseFragment() {
             )
         }
 
-        viewModel = ViewModelProviders.of(this).get(KeyboardViewModel::class.java)
+        viewModel = ViewModelProviders.of(
+            this,
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
+            )
+        ).get(KeyboardViewModel::class.java)
         subscribeToViewModel()
     }
 
