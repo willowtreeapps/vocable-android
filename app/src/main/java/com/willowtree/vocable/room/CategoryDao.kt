@@ -26,6 +26,9 @@ interface CategoryDao {
     @Query("SELECT identifier FROM Category WHERE name = :categoryName")
     suspend fun getCategoryId(categoryName: String): Long
 
+    @Query("SELECT is_user_generated FROM Category WHERE name = :categoryName")
+    suspend fun getUserGeneratedStatus(categoryName: String): Boolean
+
     @Update
     suspend fun updateCategory(category: Category)
 }

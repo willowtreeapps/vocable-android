@@ -110,6 +110,10 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     private fun subscribeToViewModel() {
+        editCategoriesViewModel.categoryIsUserGenerated.observe(viewLifecycleOwner, Observer {
+
+        })
+
         editCategoriesViewModel.categoryList.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 with(binding?.editCategoriesViewPager) {

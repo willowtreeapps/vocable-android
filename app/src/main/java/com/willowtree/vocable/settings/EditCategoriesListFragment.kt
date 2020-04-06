@@ -49,7 +49,12 @@ class EditCategoriesListFragment : BaseFragment() {
             binding?.categoryEditButtonContainer?.addView(categoryView.root)
 
             categoryView.editCategorySelectButton.action = {
-
+                requireActivity()
+                    .supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.settings_fragment_container, EditCategoryOptionsFragment.newInstance(category))
+                    .addToBackStack(null)
+                    .commit()
             }
         }
 
@@ -57,7 +62,11 @@ class EditCategoriesListFragment : BaseFragment() {
             // Add invisible views to fill out the rest of the space
             for (i in 0 until maxEditCategories - it.size) {
                 val hiddenButton =
-                    CategoryEditButtonBinding.inflate(inflater, binding?.categoryEditButtonContainer, false)
+                    CategoryEditButtonBinding.inflate(
+                        inflater,
+                        binding?.categoryEditButtonContainer,
+                        false
+                    )
                 binding?.categoryEditButtonContainer?.addView(hiddenButton.root.apply {
                     isEnabled = false
                     visibility = View.INVISIBLE

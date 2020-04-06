@@ -62,10 +62,10 @@
             style="@style/SelectionModeButton"
             android:text="@string/edit_category_show_category_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/head_tracking_switch" />
+            app:layout_constraintTop_toTopOf="@id/category_show_switch" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/head_tracking_switch"
+            android:id="@+id/category_show_switch"
             style="@style/SelectionModeButtonSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
