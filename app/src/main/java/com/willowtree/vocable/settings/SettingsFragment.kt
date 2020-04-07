@@ -3,7 +3,6 @@ package com.willowtree.vocable.settings
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.system.Os
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,8 @@ class SettingsFragment : BaseFragment() {
 
     companion object {
         private const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
-        private const val MAIL_TO = "mailto:vocable@willowtreeapps.com"
+        private const val MAIL_TO =
+            "mailto:vocable@willowtreeapps.com?subject=Feedback for Android Vocable "
     }
 
     private lateinit var viewModel: SettingsViewModel
@@ -56,7 +56,8 @@ class SettingsFragment : BaseFragment() {
         binding?.contactDevsButton?.action = {
             showLeavingAppDialog {
                 val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse(MAIL_TO)
+                    data =
+                        Uri.parse("$MAIL_TO${BuildConfig.VERSION_NAME}-${BuildConfig.VERSION_CODE}")
                 }
                 startActivity(sendEmail)
             }
