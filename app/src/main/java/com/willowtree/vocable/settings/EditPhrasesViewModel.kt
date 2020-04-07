@@ -3,14 +3,16 @@ package com.willowtree.vocable.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
-import com.willowtree.vocable.keyboard.KeyboardViewModel
 import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
+import java.util.*
 
-class EditPhrasesViewModel: BaseViewModel() {
+class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
+    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
 
     companion object {
         private const val PHRASE_UPDATED_DELAY = 2000L
@@ -24,7 +26,7 @@ class EditPhrasesViewModel: BaseViewModel() {
 
     private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
     val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
-  
+
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
@@ -35,7 +37,8 @@ class EditPhrasesViewModel: BaseViewModel() {
     private fun populateMySayings() {
         backgroundScope.launch {
 
-            val phrases = presetsRepository.getPhrasesForCategory(presetsRepository.getMySayingsId())
+            val phrases =
+                presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
 
             liveMySayingsList.postValue(phrases)
         }
@@ -43,15 +46,30 @@ class EditPhrasesViewModel: BaseViewModel() {
 
     fun deletePhrase(phrase: Phrase) {
         backgroundScope.launch {
-            presetsRepository.deletePhrase(phrase)
+            with(presetsRepository) {
+                deletePhrase(phrase)
+                val mySayingsCategory = getCategoryById(mySayingsCategoryId)
+                deleteCrossRef(
+                    CategoryPhraseCrossRef(
+                        mySayingsCategory.categoryId,
+                        phrase.phraseId
+                    )
+                )
+                val catPhraseList = getPhrasesForCategory(mySayingsCategory.categoryId)
+                if (catPhraseList.isEmpty()) {
+                    updateCategory(mySayingsCategory.apply {
+                        hidden = true
+                    })
+                }
+            }
             populateMySayings()
         }
     }
-  
+
     fun setEditButtonsEnabled(enabled: Boolean) {
         liveSetButtonsEnabled.postValue(enabled)
     }
-  
+
     fun updatePhrase(phrase: Phrase) {
         backgroundScope.launch {
             presetsRepository.updatePhrase(phrase)
@@ -65,17 +83,26 @@ class EditPhrasesViewModel: BaseViewModel() {
 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
-            val categoryId = presetsRepository.getMySayingsId()
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
+            val phraseId = UUID.randomUUID().toString()
             presetsRepository.addPhrase(
                 Phrase(
-                    System.currentTimeMillis(),
+                    phraseId,
                     System.currentTimeMillis(),
                     true,
-                    0L,
-                    phraseStr,
-                    categoryId
+                    System.currentTimeMillis(),
+                    mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
+                    mySayingsPhrases.size
                 )
             )
+            presetsRepository.addCrossRef(CategoryPhraseCrossRef(mySayingsCategoryId, phraseId))
+            val mySayingsCategory =
+                presetsRepository.getCategoryById(mySayingsCategoryId)
+            if (mySayingsCategory.hidden) {
+                presetsRepository.updateCategory(mySayingsCategory.apply {
+                    hidden = false
+                })
+            }
 
             populateMySayings()
 
@@ -84,5 +111,5 @@ class EditPhrasesViewModel: BaseViewModel() {
             liveShowPhraseAdded.postValue(false)
         }
     }
-  
+
 }

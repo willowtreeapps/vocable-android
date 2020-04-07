@@ -17,7 +17,7 @@ class VocableSharedPreferences : KoinComponent {
         const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
         const val KEY_SENSITIVITY = "KEY_SENSITIVITY"
         const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY
-        const val DWELL_TIME = "KEY_DWELL_TIME"
+        const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = SensitivityFragment.DWELL_TIME_ONE_SECOND
     }
 
@@ -51,17 +51,14 @@ class VocableSharedPreferences : KoinComponent {
         return listOf()
     }
 
-    fun addSaying(saying: String) {
-        encryptedPrefs.getStringSet(KEY_MY_SAYINGS, setOf())?.let { sayings ->
-            sayings.add(saying)
-            encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, sayings).apply()
-        }
+    fun setMySayings(mySayings: Set<String>) {
+        encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, mySayings).apply()
     }
 
-    fun getDwellTime(): Long = encryptedPrefs.getLong(DWELL_TIME, DEFAULT_DWELL_TIME)
+    fun getDwellTime(): Long = encryptedPrefs.getLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
 
     fun setDwellTime(time: Long) {
-        encryptedPrefs.edit().putLong(DWELL_TIME, time).apply()
+        encryptedPrefs.edit().putLong(KEY_DWELL_TIME, time).apply()
     }
 
     fun getSensitivity(): Float = encryptedPrefs.getFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)

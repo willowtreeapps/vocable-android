@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.CategoryButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -53,7 +54,7 @@ class CategoriesFragment : BaseFragment() {
                 CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
                 tag = category
-                text = category.name
+                text = category.getLocalizedText()
                 action = {
                     viewModel.onCategorySelected(category)
                 }
@@ -80,7 +81,13 @@ class CategoriesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
+            )
+        ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 
@@ -112,7 +119,7 @@ class CategoriesFragment : BaseFragment() {
             category?.let {
                 binding?.categoryButtonContainer?.children?.forEach {
                     if (it is CategoryButton) {
-                        it.isSelected = (it.tag as? Category)?.identifier == category.identifier
+                        it.isSelected = (it.tag as? Category)?.categoryId == category.categoryId
                     }
                 }
             }

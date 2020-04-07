@@ -45,7 +45,7 @@ class EditCategoriesListFragment : BaseFragment() {
                     binding?.categoryEditButtonContainer,
                     false
                 )
-            categoryView.categoryName.text = category.name
+            categoryView.categoryName.text = category.getLocalizedText()
             binding?.categoryEditButtonContainer?.addView(categoryView.root)
 
             categoryView.editCategorySelectButton.action = {
