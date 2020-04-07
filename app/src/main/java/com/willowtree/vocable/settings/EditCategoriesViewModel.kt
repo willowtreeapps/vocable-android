@@ -14,16 +14,12 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
 
     companion object {
         private const val CATEGORY_UPDATED_DELAY = 2000L
-        private const val CATEGORY_ADDED_DELAY = 2000L
     }
 
     private val presetsRepository: PresetsRepository by inject()
 
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList
-
-    private val liveCategoryUserGenerated = MutableLiveData<Boolean>()
-    val categoryIsUserGenerated: LiveData<Boolean> = liveCategoryUserGenerated
 
     private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
     val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
