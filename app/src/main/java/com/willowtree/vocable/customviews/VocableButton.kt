@@ -2,7 +2,6 @@ package com.willowtree.vocable.customviews
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.speech.tts.TextToSpeech
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.DynamicDrawableSpan
@@ -10,13 +9,13 @@ import android.text.style.ImageSpan
 import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
-import com.willowtree.vocable.settings.SensitivityFragment
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import java.util.*
 
 /**
  * A custom AppCompatButton that will delay for two seconds when a pointer enters and then will call
@@ -44,6 +43,7 @@ open class VocableButton @JvmOverloads constructor(
 
     private val sharedPrefs: VocableSharedPreferences by inject()
     protected var dwellTime: Long
+    protected var locale: Locale = Locale.ENGLISH
 
     init {
         dwellTime = sharedPrefs.getDwellTime()
@@ -83,10 +83,20 @@ open class VocableButton @JvmOverloads constructor(
         setText(stringBuilder, BufferType.SPANNABLE)
     }
 
+    /**
+     * Sets the text and the language of the text to use for the text-to-speech engine
+     *
+     * @param text The user-visible text to set on the button
+     * @param locale The locale to be used for text-to-speech
+     */
+    fun setText(text: String, locale: Locale) {
+        this.locale = locale
+        setText(text)
+    }
+
     protected open fun sayText(text: CharSequence?) {
         text?.let {
-            VocableTextToSpeech.getTextToSpeech()
-                ?.speak(it, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+            VocableTextToSpeech.speak(locale, it.toString())
             SpokenText.postValue(it.toString())
         }
     }
@@ -114,7 +124,7 @@ open class VocableButton @JvmOverloads constructor(
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            VocableSharedPreferences.DWELL_TIME -> {
+            VocableSharedPreferences.KEY_DWELL_TIME -> {
                 dwellTime = sharedPrefs.getDwellTime()
             }
         }

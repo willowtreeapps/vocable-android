@@ -45,7 +45,7 @@ class EditCategoryOptionsFragment : BaseFragment() {
             binding?.removeCategoryButton?.isInvisible = false
         }
 
-        binding?.categoryTitle?.text = category?.name
+        binding?.categoryTitle?.text = category?.getLocalizedText()
 
         binding?.editOptionsButton?.action = {
             parentFragmentManager

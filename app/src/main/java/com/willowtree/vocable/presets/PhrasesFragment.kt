@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
-import androidx.core.view.marginBottom
 import androidx.core.view.updateMargins
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
@@ -50,14 +49,15 @@ class PhrasesFragment : BaseFragment() {
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                text = phrase.utterance
+                val (phraseStr, locale) = phrase.getLocalizedPair()
+                setText(phraseStr, locale)
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
                         marginEnd = 0
                     }
                 }
-                if(index >= maxPhrases - numColumns){
+                if (index >= maxPhrases - numColumns) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
                         updateMargins(bottom = 0)
                     }

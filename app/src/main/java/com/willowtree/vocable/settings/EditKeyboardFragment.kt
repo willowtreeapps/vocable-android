@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -34,7 +35,7 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        fun newInstance(isEditing: Boolean) = EditKeyboardFragment(). apply {
+        fun newInstance(isEditing: Boolean) = EditKeyboardFragment().apply {
             arguments = bundleOf(KEY_IS_EDITING to isEditing)
         }
     }
@@ -82,7 +83,9 @@ class EditKeyboardFragment : BaseFragment() {
                     } else if (currentText.endsWith(". ") || currentText.endsWith("? ")) {
                         binding?.keyboardInput?.append(text?.toString())
                     } else {
-                        binding?.keyboardInput?.append(text?.toString()?.toLowerCase(Locale.getDefault()))
+                        binding?.keyboardInput?.append(
+                            text?.toString()?.toLowerCase(Locale.getDefault())
+                        )
                     }
                 }
             }
@@ -97,13 +100,14 @@ class EditKeyboardFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.backButton?.action = {
-            if (binding?.keyboardInput?.text.toString() == phrase?.utterance || arguments?.getBoolean(
-                    KEY_IS_EDITING) == false) {
+            val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
+            val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
+            if (isEditing && !textChanged) {
                 parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                .addToBackStack(null)
-                .commit()
+                    .beginTransaction()
+                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                    .addToBackStack(null)
+                    .commit()
             } else {
                 showConfirmationDialog()
             }
@@ -114,9 +118,13 @@ class EditKeyboardFragment : BaseFragment() {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            phrase?.utterance = text.toString()
-                            phrase?.let {
-                                viewModel.updatePhrase(it)
+                            val phraseUtterance =
+                                phrase?.localizedUtterance?.toMutableMap()?.apply {
+                                    put(Locale.getDefault().toString(), text.toString())
+                                }
+                            phrase?.localizedUtterance = phraseUtterance ?: mapOf()
+                            phrase?.let { updatedPhrase ->
+                                viewModel.updatePhrase(updatedPhrase)
                             } ?: viewModel.addNewPhrase(text.toString())
                         }
                     }
@@ -124,7 +132,13 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        binding?.keyboardInput?.setText(phrase?.utterance ?: getString(R.string.keyboard_select_letters))
+        binding?.keyboardInput?.setText(
+            if (phrase?.getLocalizedText().isNullOrEmpty()) {
+                getString(R.string.keyboard_select_letters)
+            } else {
+                phrase?.getLocalizedText()
+            }
+        )
 
         binding?.keyboardClearButton?.action = {
             binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
@@ -160,7 +174,13 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        viewModel = ViewModelProviders.of(requireActivity()).get(EditPhrasesViewModel::class.java)
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
+            )
+        ).get(EditPhrasesViewModel::class.java)
         subscribeToViewModel()
     }
 

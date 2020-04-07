@@ -9,7 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
-class EditCategoriesViewModel: BaseViewModel() {
+class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
+    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
 
     companion object {
         private const val CATEGORY_UPDATED_DELAY = 2000L
@@ -65,24 +66,24 @@ class EditCategoriesViewModel: BaseViewModel() {
         }
     }
 
-    fun addNewCategory(categoryStr: String) {
-        backgroundScope.launch {
-            val categoryId = presetsRepository.getCategoryId(categoryStr)
-            presetsRepository.addCategory(
-                Category(
-                    System.currentTimeMillis(),
-                    System.currentTimeMillis(),
-                    true,
-                    categoryStr
-                )
-            )
-
-            populateCategories()
-
-            liveShowCategoryAdded.postValue(true)
-            delay(CATEGORY_ADDED_DELAY)
-            liveShowCategoryAdded.postValue(false)
-        }
-    }
+//    fun addNewCategory(categoryStr: String) {
+//        backgroundScope.launch {
+//            val categoryId = presetsRepository.getCategoryId(categoryStr)
+//            presetsRepository.addCategory(
+//                Category(
+//                    System.currentTimeMillis(),
+//                    System.currentTimeMillis(),
+//                    true,
+//                    categoryStr
+//                )
+//            )
+//
+//            populateCategories()
+//
+//            liveShowCategoryAdded.postValue(true)
+//            delay(CATEGORY_ADDED_DELAY)
+//            liveShowCategoryAdded.postValue(false)
+//        }
+//    }
 
 }

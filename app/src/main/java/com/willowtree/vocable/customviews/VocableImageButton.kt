@@ -73,7 +73,7 @@ class VocableImageButton @JvmOverloads constructor(
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            VocableSharedPreferences.DWELL_TIME -> {
+            VocableSharedPreferences.KEY_DWELL_TIME -> {
                 dwellTime = sharedPrefs.getDwellTime()
             }
         }

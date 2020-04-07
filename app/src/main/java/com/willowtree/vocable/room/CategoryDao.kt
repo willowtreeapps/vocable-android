@@ -6,26 +6,24 @@ import androidx.room.*
 interface CategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCategory(category: Category)
+    suspend fun insertCategories(vararg categories: Category)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCategories(vararg categories: Category)
+    suspend fun insertCategory(category: Category)
+
+    @Query("SELECT * FROM Category ORDER BY sort_order ASC")
+    suspend fun getAllCategories(): List<Category>
+
+    @Query("SELECT * FROM Category WHERE category_id = :categoryId")
+    suspend fun getCategoryById(categoryId: String): Category
 
     @Delete
     suspend fun deleteCategory(category: Category)
 
-    @Query("SELECT * FROM Category")
-    suspend fun getAllCategories(): List<Category>
-
-    @Query("SELECT * FROM Category WHERE identifier = :categoryId")
-    suspend fun getCategoryById(categoryId: Long): Category
-
-    @Query("SELECT identifier FROM Category WHERE name = 'My Sayings'")
-    suspend fun getMySayingsId(): Long
-
-    @Query("SELECT identifier FROM Category WHERE name = :categoryName")
-    suspend fun getCategoryId(categoryName: String): Long
-
     @Update
     suspend fun updateCategory(category: Category)
+
+    @Transaction
+    @Query("SELECT * FROM Category WHERE category_id == :categoryId")
+    suspend fun getCategoryWithPhrases(categoryId: String): List<CategoryWithPhrases>
 }

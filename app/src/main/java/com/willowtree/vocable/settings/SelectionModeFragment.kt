@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
 
 class SelectionModeFragment : BaseFragment() {
@@ -48,7 +47,13 @@ class SelectionModeFragment : BaseFragment() {
             viewModel.onHeadTrackingChecked(isChecked)
         }
 
-        viewModel = ViewModelProviders.of(requireActivity()).get(SettingsViewModel::class.java)
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
+            )
+        ).get(SettingsViewModel::class.java)
         subscribeToViewModel()
     }
 

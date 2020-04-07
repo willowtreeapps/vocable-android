@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
@@ -49,7 +50,10 @@ class EditCategoriesFragment : BaseFragment() {
                         // No-op
                     }
                     0 -> {
-                        binding?.editCategoriesViewPager?.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                        binding?.editCategoriesViewPager?.setCurrentItem(
+                            categoriesAdapter.itemCount - 1,
+                            true
+                        )
                     }
                     else -> {
                         binding?.editCategoriesViewPager?.setCurrentItem(currentPosition - 1, true)
@@ -96,7 +100,13 @@ class EditCategoriesFragment : BaseFragment() {
             }
         })
         editCategoriesViewModel =
-            ViewModelProviders.of(requireActivity()).get(EditCategoriesViewModel::class.java)
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
     }
 

@@ -2,7 +2,6 @@ package com.willowtree.vocable.presets
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -173,7 +173,13 @@ class PresetsFragment : BaseFragment() {
         SpokenText.postValue(null)
 
         presetsViewModel =
-            ViewModelProviders.of(requireActivity()).get(PresetsViewModel::class.java)
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 
@@ -227,11 +233,12 @@ class PresetsFragment : BaseFragment() {
                     this?.isSaveEnabled = false
                     this?.adapter = phrasesAdapter
 
-                    maxPhrases = if (presetsViewModel.selectedCategory.value?.name == PresetsViewModel.CATEGORY_NUMBERS ){
-                        NumberPadFragment.MAX_PHRASES
-                    } else {
-                        resources.getInteger(R.integer.max_phrases)
-                    }
+                    maxPhrases =
+                        if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
+                            NumberPadFragment.MAX_PHRASES
+                        } else {
+                            resources.getInteger(R.integer.max_phrases)
+                        }
 
                     phrasesAdapter.setPhrases(phrases)
                     // Move adapter to middle so user can scroll both directions
@@ -332,7 +339,7 @@ class PresetsFragment : BaseFragment() {
             val sublist =
                 phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
 
-            return if (presetsViewModel.selectedCategory.value?.name == PresetsViewModel.CATEGORY_NUMBERS) {
+            return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                 NumberPadFragment.newInstance(sublist)
             } else {
                 PhrasesFragment.newInstance(sublist)
