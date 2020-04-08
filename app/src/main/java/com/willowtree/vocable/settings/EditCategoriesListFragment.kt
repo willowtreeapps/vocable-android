@@ -38,6 +38,11 @@ class EditCategoriesListFragment : BaseFragment() {
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var maxEditCategories = 1
 
+    private var startPosition = 0
+    private var endPosition = 0
+
+    private val editButtonList = mutableListOf<CategoryEditButtonBinding>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,46 +52,37 @@ class EditCategoriesListFragment : BaseFragment() {
         binding = FragmentEditCategoriesListBinding.inflate(inflater, container, false)
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
-        val categories =
-            arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES_SUBLIST)
-        categories?.forEachIndexed { _, category ->
+        startPosition = arguments?.getInt(KEY_START_POSITION, 0) ?: 0
+        endPosition = arguments?.getInt(KEY_END_POSITION, 0) ?: 0
+
+        val numberOfButtons = endPosition - startPosition
+
+        for (i in 0 until numberOfButtons) {
             val categoryView =
                 CategoryEditButtonBinding.inflate(
                     inflater,
                     binding?.categoryEditButtonContainer,
                     false
                 )
-            categoryView.categoryName.text = category.getLocalizedText()
             binding?.categoryEditButtonContainer?.addView(categoryView.root)
 
-            categoryView.editCategorySelectButton.action = {
-                requireActivity()
-                    .supportFragmentManager
-                    .beginTransaction()
-                    .replace(
-                        R.id.settings_fragment_container,
-                        EditCategoryOptionsFragment.newInstance(category)
-                    )
-                    .addToBackStack(null)
-                    .commit()
-            }
+            editButtonList.add(categoryView)
         }
 
-        categories?.let {
-            // Add invisible views to fill out the rest of the space
-            for (i in 0 until maxEditCategories - it.size) {
-                val hiddenButton =
-                    CategoryEditButtonBinding.inflate(
-                        inflater,
-                        binding?.categoryEditButtonContainer,
-                        false
-                    )
-                binding?.categoryEditButtonContainer?.addView(hiddenButton.root.apply {
-                    isEnabled = false
-                    visibility = View.INVISIBLE
-                })
-            }
+        // Add invisible views to fill out the rest of the space
+        for (i in 0 until maxEditCategories - numberOfButtons) {
+            val hiddenButton =
+                CategoryEditButtonBinding.inflate(
+                    inflater,
+                    binding?.categoryEditButtonContainer,
+                    false
+                )
+            binding?.categoryEditButtonContainer?.addView(hiddenButton.root.apply {
+                isEnabled = false
+                visibility = View.INVISIBLE
+            })
         }
+
         return binding?.root
     }
 
@@ -115,6 +111,11 @@ class EditCategoriesListFragment : BaseFragment() {
 
     private fun subscribeToViewModel() {
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
+            it?.subList(startPosition, endPosition)?.forEachIndexed { index, category ->
+               with(editButtonList[index]){
+                   categoryName.text = getString(R.string.edit_categories_button_number, startPosition + index + 1, category.getLocalizedText())
+               }
+            }
 
         })
     }

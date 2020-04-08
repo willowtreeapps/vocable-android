@@ -39,7 +39,8 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
 
             val categories = presetsRepository.getAllCategories()
 
-            liveCategoryList.postValue(categories)
+            liveOrderCategoryList.postValue(categories)
+            liveAddRemoveCategoryList.postValue(categories)
         }
     }
 
