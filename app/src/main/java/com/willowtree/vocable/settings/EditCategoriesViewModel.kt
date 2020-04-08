@@ -21,8 +21,11 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList
 
-    private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
-    val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
+    private val liveOrderCategoryList = MutableLiveData<List<Category>>()
+    val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList
+
+    private val liveAddRemoveCategoryList = MutableLiveData<List<Category>>()
+    val addRemoveCategoryList: LiveData<List<Category>> = liveAddRemoveCategoryList
 
     private val liveShowCategoryAdded = MutableLiveData<Boolean>()
     val showCategoryAdded: LiveData<Boolean> = liveShowCategoryAdded
@@ -45,10 +48,6 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
             presetsRepository.deleteCategory(category)
             populateCategories()
         }
-    }
-
-    fun setEditButtonsEnabled(enabled: Boolean) {
-        liveSetButtonsEnabled.postValue(enabled)
     }
 
     fun updateCategory(category: Category) {

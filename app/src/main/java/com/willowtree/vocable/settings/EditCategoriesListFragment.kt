@@ -4,27 +4,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.Category
+import kotlin.math.min
 
 class EditCategoriesListFragment : BaseFragment() {
 
     companion object {
-        private const val KEY_CATEGORIES = "KEY_CATEGORIES"
+        private const val KEY_START_POSITION = "KEY_START_POSITION"
+        private const val KEY_END_POSITION = "KEY_END_POSITION"
+        private const val KEY_CATEGORIES_SUBLIST = "KEY_CATEGORIES_SUBLIST"
 
-        fun newInstance(categories: List<Category>): EditCategoriesListFragment {
+        fun newInstance(
+            startPosition: Int,
+            endPosition: Int
+        ): EditCategoriesListFragment {
             return EditCategoriesListFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(KEY_CATEGORIES, ArrayList(categories))
+                    putInt(KEY_START_POSITION, startPosition)
+                    putInt(KEY_END_POSITION, endPosition)
                 }
             }
         }
     }
 
     private var binding: FragmentEditCategoriesListBinding? = null
+    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var maxEditCategories = 1
 
     override fun onCreateView(
@@ -37,7 +48,7 @@ class EditCategoriesListFragment : BaseFragment() {
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
         val categories =
-            arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
+            arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES_SUBLIST)
         categories?.forEachIndexed { _, category ->
             val categoryView =
                 CategoryEditButtonBinding.inflate(
@@ -52,7 +63,10 @@ class EditCategoriesListFragment : BaseFragment() {
                 requireActivity()
                     .supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.settings_fragment_container, EditCategoryOptionsFragment.newInstance(category))
+                    .replace(
+                        R.id.settings_fragment_container,
+                        EditCategoryOptionsFragment.newInstance(category)
+                    )
                     .addToBackStack(null)
                     .commit()
             }
@@ -76,6 +90,20 @@ class EditCategoriesListFragment : BaseFragment() {
         return binding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        editCategoriesViewModel =
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(EditCategoriesViewModel::class.java)
+        subscribeToViewModel()
+    }
+
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
@@ -83,5 +111,11 @@ class EditCategoriesListFragment : BaseFragment() {
 
     override fun getAllViews(): List<View> {
         return emptyList()
+    }
+
+    private fun subscribeToViewModel() {
+        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
+
+        })
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -120,6 +121,10 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     private fun subscribeToViewModel() {
+        editCategoriesViewModel.addRemoveCategoryList.observe(viewLifecycleOwner, Observer {
+
+        })
+
         editCategoriesViewModel.categoryList.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 with(binding?.editCategoriesViewPager) {
@@ -166,11 +171,9 @@ class EditCategoriesFragment : BaseFragment() {
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxEditCategories
-            val subList = categories.subList(
-                startPosition,
-                min(categories.size, startPosition + maxEditCategories)
-            )
-            return EditCategoriesListFragment.newInstance(subList)
+            val endPosition = min(categories.size, startPosition + maxEditCategories)
+
+            return EditCategoriesListFragment.newInstance(startPosition, endPosition)
         }
     }
 
