@@ -42,7 +42,7 @@
 
     <!-- Settings -->
     <dimen name="settings_title_margin_bottom">40dp</dimen>
-    <dimen name="settings_title_text_size">34sp</dimen>
+    <dimen name="settings_title_text_size">48sp</dimen>
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_margin_default">24dp</dimen>
     <dimen name="settings_action_button_layout_height">80dp</dimen>
@@ -58,7 +58,7 @@
     <dimen name="dialog_height">225dp</dimen>
     <dimen name="dialog_button_padding_horizontal">24dp</dimen>
     <dimen name="dialog_button_padding_vertical">16dp</dimen>
-  
+
     <!-- Settings Options -->
     <dimen name="settings_close_button_height">80dp</dimen>
     <dimen name="settings_close_button_top_margin">52dp</dimen>
@@ -104,5 +104,19 @@
     <dimen name="cursor_button_height">88dp</dimen>
     <dimen name="cursor_sensitivity_margin_top">44dp</dimen>
 
+    <!-- Edit Categories -->
+    <dimen name="edit_categories_action_button_width">72dp</dimen>
+    <dimen name="edit_categories_action_button_height">80dp</dimen>
+    <dimen name="edit_category_pager_margin_top">42dp</dimen>
+    <dimen name="edit_category_pager_margin_end">44dp</dimen>
+    <dimen name="edit_category_pager_margin_bottom">111dp</dimen>
+    <dimen name="paging_button_margin">105dp</dimen>
+    <dimen name="category_back_button_margin_start">44dp</dimen>
+    <dimen name="edit_categories_title_text_size">48sp</dimen>
+    <dimen name="edit_categories_title_margin">76dp</dimen>
+
+    <!-- Edit Categories Options -->
+    <dimen name="edit_options_button_width">56dp</dimen>
+    <dimen name="edit_options_button_height">56dp</dimen>
 
 </resources>

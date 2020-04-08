@@ -191,9 +191,25 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="EditCategoriesTitle">
+        <item name="android:layout_marginTop">@dimen/edit_categories_title_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/edit_categories_title_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="EditSayingsActionButton">
         <item name="android:layout_width">@dimen/edit_sayings_add_button_width</item>
         <item name="android:layout_height">@dimen/edit_sayings_add_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/edit_categories_add_button_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EditCategoriesActionButton">
+        <item name="android:layout_width">@dimen/edit_categories_action_button_width</item>
+        <item name="android:layout_height">@dimen/edit_categories_action_button_height</item>
         <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:scaleType">center</item>
