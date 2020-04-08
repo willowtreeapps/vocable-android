@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/SettingsTheme">
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/edit_options_back_button"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/settings_close_button_width"
+        android:layout_height="@dimen/settings_close_button_height"
+        android:layout_marginStart="@dimen/settings_close_button_start_margin"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
+        android:scaleType="center"
+        android:src="@drawable/category_back_button_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/category_title"
+        style="@style/SettingsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_category_title_margin_top"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintBottom_toTopOf="@id/show_category_switch"
+        app:layout_constraintEnd_toStartOf="@id/edit_options_button"
+        app:layout_constraintStart_toStartOf="@id/edit_options_back_button"
+        app:layout_constraintTop_toBottomOf="@id/edit_options_back_button"
+        tools:text="My Jokes" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/edit_options_button"
+        android:layout_width="@dimen/edit_options_button_width"
+        android:layout_height="@dimen/edit_options_button_height"
+        android:background="@drawable/button_default_background"
+        android:scaleType="center"
+        android:src="@drawable/edit_40dp"
+        app:layout_constraintBottom_toBottomOf="@id/category_title"
+        app:layout_constraintEnd_toEndOf="@id/show_category_switch"
+        app:layout_constraintTop_toTopOf="@id/category_title" />
+
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/show_category_switch"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/selection_mode_button_height"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginHorizontal="@dimen/selection_mode_grid_horizontal_margin"
+        android:layout_marginTop="@dimen/edit_category_edit_options_margin_top"
+        android:background="@drawable/settings_group_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category_title">
+
+        <TextView
+            style="@style/SelectionModeButton"
+            android:text="@string/edit_category_show_category_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/category_show_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/category_show_switch"
+            style="@style/SelectionModeButtonSwitch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
+
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/remove_category_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/selection_mode_button_height"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginTop="@dimen/edit_remove_category_margin_top"
+        android:background="@drawable/button_default_background"
+        app:layout_constraintEnd_toEndOf="@id/show_category_switch"
+        app:layout_constraintStart_toStartOf="@id/show_category_switch"
+        app:layout_constraintTop_toBottomOf="@id/show_category_switch">
+
+        <TextView
+            android:id="@+id/placeholder_text"
+            style="@style/SelectionModeButton"
+            android:text="@string/edit_category_remove_category_text"
+            app:layout_constraintBottom_toBottomOf="@id/remove_category_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/remove_category_button" />
+
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

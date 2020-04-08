@@ -77,4 +77,12 @@
     <string name="category_123_yes">Yes</string>
     <string name="category_123_no">No</string>
 
+    <!-- Edit Categories -->
+    <string name="edit_categories_title">Edit Categories</string>
+    <string name="edit_categories_title_handset">Categories</string>
+
+    <!-- Edit Category Options -->
+    <string name="edit_category_show_category_text">Show Category</string>
+    <string name="edit_category_remove_category_text">Remove Category</string>
+
 </resources>

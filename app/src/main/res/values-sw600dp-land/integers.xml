@@ -9,5 +9,5 @@
     <integer name="edit_phrases_rows">3</integer>
     <integer name="selection_modes_rows">2</integer>
     <integer name="selection_modes_columns">2</integer>
-
+    <integer name="max_edit_categories">5</integer>
 </resources>

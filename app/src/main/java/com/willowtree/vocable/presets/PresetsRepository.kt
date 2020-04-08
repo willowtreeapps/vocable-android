@@ -33,6 +33,10 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.phraseDao().insertPhrase(phrase)
     }
 
+    suspend fun addCategory(category: Category) {
+        database.categoryDao().insertCategory(category)
+    }
+
     suspend fun populateCategories(categories: List<Category>) {
         database.categoryDao().insertCategories(*categories.toTypedArray())
     }
@@ -56,6 +60,10 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun deletePhrase(phrase: Phrase) {
         database.phraseDao().deletePhrase(phrase)
+    }
+
+    suspend fun deleteCategory(category: Category) {
+        database.categoryDao().deleteCategory(category)
     }
 
     suspend fun updatePhrase(phrase: Phrase) {

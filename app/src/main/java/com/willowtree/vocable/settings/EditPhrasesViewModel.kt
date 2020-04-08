@@ -16,7 +16,6 @@ class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: Strin
 
     companion object {
         private const val PHRASE_UPDATED_DELAY = 2000L
-        private const val PHRASE_ADDED_DELAY = 2000L
     }
 
     private val presetsRepository: PresetsRepository by inject()
@@ -107,7 +106,7 @@ class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: Strin
             populateMySayings()
 
             liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_ADDED_DELAY)
+            delay(PHRASE_UPDATED_DELAY)
             liveShowPhraseAdded.postValue(false)
         }
     }
