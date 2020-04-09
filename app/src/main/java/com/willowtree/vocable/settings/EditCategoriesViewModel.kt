@@ -7,6 +7,7 @@ import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
 import kotlinx.coroutines.launch
 import org.koin.core.inject
+import java.util.*
 
 class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
     BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
@@ -154,24 +155,38 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
         }
     }
 
-//    fun addNewCategory(categoryStr: String) {
-//        backgroundScope.launch {
-//            val categoryId = presetsRepository.getCategoryId(categoryStr)
-//            presetsRepository.addCategory(
-//                Category(
-//                    System.currentTimeMillis(),
-//                    System.currentTimeMillis(),
-//                    true,
-//                    categoryStr
-//                )
-//            )
-//
-//            populateCategories()
-//
-//            liveShowCategoryAdded.postValue(true)
-//            delay(CATEGORY_ADDED_DELAY)
-//            liveShowCategoryAdded.postValue(false)
-//        }
-//    }
+    fun addNewCategory(categoryStr: String) {
+        backgroundScope.launch {
+            var firstHiddenIndex = overallCategories.indexOfFirst { it.hidden }
+            if (firstHiddenIndex == -1) {
+                firstHiddenIndex = overallCategories.size - 1
+            }
+            val listToUpdate = overallCategories.filter { it.hidden }
+            listToUpdate.forEach {
+                it.sortOrder++
+            }
+            val newCategory = Category(
+                UUID.randomUUID().toString(),
+                System.currentTimeMillis(),
+                true,
+                mapOf(Pair(Locale.getDefault().toString(), categoryStr)),
+                false,
+                firstHiddenIndex
+            )
+
+            overallCategories = overallCategories
+                .toMutableList()
+                .apply { add(newCategory) }
+                .sortedBy { it.sortOrder }
+            liveAddRemoveCategoryList.postValue(overallCategories)
+            liveLastViewedIndex.postValue(firstHiddenIndex)
+            liveOrderCategoryList.postValue(overallCategories)
+
+            with(presetsRepository) {
+                addCategory(newCategory)
+                updateCategories(listToUpdate)
+            }
+        }
+    }
 
 }

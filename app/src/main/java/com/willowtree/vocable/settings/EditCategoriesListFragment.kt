@@ -18,7 +18,6 @@ class EditCategoriesListFragment : BaseFragment() {
     companion object {
         private const val KEY_START_POSITION = "KEY_START_POSITION"
         private const val KEY_END_POSITION = "KEY_END_POSITION"
-        private const val KEY_CATEGORIES_SUBLIST = "KEY_CATEGORIES_SUBLIST"
 
         fun newInstance(
             startPosition: Int,
