@@ -73,6 +73,14 @@ class EditCategoryOptionsFragment : BaseFragment() {
             }
         }
 
+        binding?.removeCategoryButton?.action = {
+            category?.let {
+                editCategoriesViewModel.deleteCategory(category)
+            }
+
+            parentFragmentManager.popBackStack()
+        }
+
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory(
