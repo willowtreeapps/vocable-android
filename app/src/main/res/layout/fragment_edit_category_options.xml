@@ -81,6 +81,7 @@
         android:layout_columnWeight="1"
         android:layout_marginTop="@dimen/edit_remove_category_margin_top"
         android:background="@drawable/button_default_background"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/show_category_switch"
         app:layout_constraintStart_toStartOf="@id/show_category_switch"
         app:layout_constraintTop_toBottomOf="@id/show_category_switch">

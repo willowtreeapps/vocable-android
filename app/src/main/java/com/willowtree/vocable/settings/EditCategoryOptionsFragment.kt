@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
@@ -24,6 +26,7 @@ class EditCategoryOptionsFragment : BaseFragment() {
         }
     }
 
+    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var binding: FragmentEditCategoryOptionsBinding? = null
 
     override fun onCreateView(
@@ -41,7 +44,7 @@ class EditCategoryOptionsFragment : BaseFragment() {
 
         val category = arguments?.getParcelable<Category>(KEY_CATEGORY)
 
-        if(category?.isUserGenerated == true) {
+        if (category?.isUserGenerated == true) {
             binding?.removeCategoryButton?.isInvisible = false
         }
 
@@ -58,12 +61,25 @@ class EditCategoryOptionsFragment : BaseFragment() {
         }
 
         binding?.editOptionsBackButton?.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditCategoriesListFragment())
-                .addToBackStack(null)
-                .commit()
+            parentFragmentManager.popBackStack()
         }
+
+        binding?.categoryShowSwitch?.let {
+            it.isChecked = category?.hidden?.not() ?: false
+            it.setOnCheckedChangeListener { _, isChecked ->
+                category?.let { category ->
+                    editCategoriesViewModel.hideShowCategory(category, !isChecked)
+                }
+            }
+        }
+
+        editCategoriesViewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
+            )
+        ).get(EditCategoriesViewModel::class.java)
     }
 
     override fun getAllViews(): List<View> {
