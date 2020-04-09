@@ -115,6 +115,11 @@ class EditCategoriesListFragment : BaseFragment() {
                 if (firstHiddenIndex == -1) {
                     firstHiddenIndex = overallList.size
                 }
+
+                if (endPosition > overallList.size) {
+                    endPosition -=1
+                }
+
                 overallList.subList(startPosition, endPosition).forEachIndexed { index, category ->
                     bindCategoryEditButton(
                         editButtonList[index],
