@@ -23,6 +23,9 @@ interface CategoryDao {
     @Update
     suspend fun updateCategory(category: Category)
 
+    @Update
+    suspend fun updateCategories(vararg categories: Category)
+
     @Transaction
     @Query("SELECT * FROM Category WHERE category_id == :categoryId")
     suspend fun getCategoryWithPhrases(categoryId: String): List<CategoryWithPhrases>

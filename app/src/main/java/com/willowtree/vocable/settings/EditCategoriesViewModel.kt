@@ -30,6 +30,8 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
     private val liveShowCategoryAdded = MutableLiveData<Boolean>()
     val showCategoryAdded: LiveData<Boolean> = liveShowCategoryAdded
 
+    private var overallCategories = listOf<Category>()
+
     init {
         populateCategories()
     }
@@ -37,10 +39,10 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
     private fun populateCategories() {
         backgroundScope.launch {
 
-            val categories = presetsRepository.getAllCategories()
+            overallCategories = presetsRepository.getAllCategories()
 
-            liveOrderCategoryList.postValue(categories)
-            liveAddRemoveCategoryList.postValue(categories)
+            liveOrderCategoryList.postValue(overallCategories)
+            liveAddRemoveCategoryList.postValue(overallCategories)
         }
     }
 
@@ -59,6 +61,38 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
             liveShowCategoryAdded.postValue(true)
             delay(CATEGORY_UPDATED_DELAY)
             liveShowCategoryAdded.postValue(false)
+        }
+    }
+
+    fun moveCategoryUp(category: Category) {
+        backgroundScope.launch {
+            val catIndex = overallCategories.indexOf(category)
+            if (catIndex > 0) {
+                val previousCat = overallCategories[catIndex - 1]
+                category.sortOrder--
+                previousCat.sortOrder++
+
+                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                liveOrderCategoryList.postValue(overallCategories)
+
+                presetsRepository.updateCategories(listOf(category, previousCat))
+            }
+        }
+    }
+
+    fun moveCategoryDown(category: Category) {
+        backgroundScope.launch {
+            val catIndex = overallCategories.indexOf(category)
+            if (catIndex > -1) {
+                val nextCat = overallCategories[catIndex + 1]
+                category.sortOrder++
+                nextCat.sortOrder--
+
+                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                liveOrderCategoryList.postValue(overallCategories)
+
+                presetsRepository.updateCategories(listOf(category, nextCat))
+            }
         }
     }
 

@@ -12,7 +12,6 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.Category
-import kotlin.math.min
 
 class EditCategoriesListFragment : BaseFragment() {
 
@@ -111,12 +110,47 @@ class EditCategoriesListFragment : BaseFragment() {
 
     private fun subscribeToViewModel() {
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
-            it?.subList(startPosition, endPosition)?.forEachIndexed { index, category ->
-               with(editButtonList[index]){
-                   categoryName.text = getString(R.string.edit_categories_button_number, startPosition + index + 1, category.getLocalizedText())
-               }
+            it?.let { overallList ->
+                var firstHiddenIndex = overallList.indexOfFirst { category -> category.hidden }
+                // Just default to list size if no categories are hidden
+                if (firstHiddenIndex == -1) {
+                    firstHiddenIndex = overallList.size
+                }
+                overallList.subList(startPosition, endPosition).forEachIndexed { index, category ->
+                    bindCategoryEditButton(
+                        editButtonList[index],
+                        category,
+                        startPosition + index,
+                        firstHiddenIndex
+                    )
+                }
             }
-
         })
+    }
+
+    private fun bindCategoryEditButton(
+        editButtonBinding: CategoryEditButtonBinding,
+        category: Category,
+        overallIndex: Int,
+        firstHiddenIndex: Int
+    ) {
+        with(editButtonBinding) {
+            categoryName.text = getString(
+                R.string.edit_categories_button_number,
+                overallIndex + 1,
+                category.getLocalizedText()
+            )
+
+            moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
+            moveCategoryDownButton.isEnabled =
+                !category.hidden && overallIndex + 1 < firstHiddenIndex
+
+            moveCategoryUpButton.action = {
+                editCategoriesViewModel.moveCategoryUp(category)
+            }
+            moveCategoryDownButton.action = {
+                editCategoriesViewModel.moveCategoryDown(category)
+            }
+        }
     }
 }

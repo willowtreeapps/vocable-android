@@ -74,6 +74,10 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.categoryDao().updateCategory(category)
     }
 
+    suspend fun updateCategories(categories: List<Category>) {
+        database.categoryDao().updateCategories(*categories.toTypedArray())
+    }
+
     suspend fun getCategoryById(categoryId: String): Category {
         return database.categoryDao().getCategoryById(categoryId)
     }
