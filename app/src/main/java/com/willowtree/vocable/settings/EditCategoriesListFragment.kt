@@ -110,23 +110,22 @@ class EditCategoriesListFragment : BaseFragment() {
     private fun subscribeToViewModel() {
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
             it?.let { overallList ->
-                var firstHiddenIndex = overallList.indexOfFirst { category -> category.hidden }
-                // Just default to list size if no categories are hidden
-                if (firstHiddenIndex == -1) {
-                    firstHiddenIndex = overallList.size
-                }
+                if (startPosition >= 0 && endPosition <= overallList.size) {
+                    var firstHiddenIndex = overallList.indexOfFirst { category -> category.hidden }
+                    // Just default to list size if no categories are hidden
+                    if (firstHiddenIndex == -1) {
+                        firstHiddenIndex = overallList.size
+                    }
 
-                if (endPosition > overallList.size) {
-                    endPosition -=1
-                }
-
-                overallList.subList(startPosition, endPosition).forEachIndexed { index, category ->
-                    bindCategoryEditButton(
-                        editButtonList[index],
-                        category,
-                        startPosition + index,
-                        firstHiddenIndex
-                    )
+                    overallList.subList(startPosition, endPosition)
+                        .forEachIndexed { index, category ->
+                            bindCategoryEditButton(
+                                editButtonList[index],
+                                category,
+                                startPosition + index,
+                                firstHiddenIndex
+                            )
+                        }
                 }
             }
         })
