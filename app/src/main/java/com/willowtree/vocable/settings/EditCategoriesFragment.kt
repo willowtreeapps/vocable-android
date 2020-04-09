@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -100,6 +99,11 @@ class EditCategoriesFragment : BaseFragment() {
                 }
             }
         })
+
+        binding?.backButton?.action = {
+            parentFragmentManager.popBackStack()
+        }
+
         editCategoriesViewModel =
             ViewModelProviders.of(
                 requireActivity(),
