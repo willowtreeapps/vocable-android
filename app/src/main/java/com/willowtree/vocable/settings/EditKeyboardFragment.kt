@@ -25,6 +25,8 @@ class EditKeyboardFragment : BaseFragment() {
     companion object {
         private const val KEY_PHRASE = "KEY_PHRASE"
         private const val KEY_IS_EDITING = "KEY_IS_EDITING"
+        private const val KEY_CATEGORY = "KEY_CATEGORY"
+        private const val KEY_IS_CATEGORY = "KEY_IS_CATEGORY"
 
         fun newInstance(phrase: Phrase): EditKeyboardFragment {
             return EditKeyboardFragment().apply {
@@ -38,12 +40,18 @@ class EditKeyboardFragment : BaseFragment() {
         fun newInstance(isEditing: Boolean) = EditKeyboardFragment().apply {
             arguments = bundleOf(KEY_IS_EDITING to isEditing)
         }
+
+        fun newCreateCategoryInstance(): EditKeyboardFragment = EditKeyboardFragment().apply {
+            arguments = bundleOf(KEY_IS_CATEGORY to true)
+        }
     }
 
     private lateinit var viewModel: EditPhrasesViewModel
+    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var binding: FragmentEditKeyboardBinding? = null
     private lateinit var keys: Array<String>
     private var phrase: Phrase? = null
+    private var isCategory = false
 
     private val allViews = mutableListOf<View>()
 
@@ -57,6 +65,7 @@ class EditKeyboardFragment : BaseFragment() {
         arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
             phrase = it
         }
+        isCategory = arguments?.getBoolean(KEY_IS_CATEGORY) ?: false
 
         populateKeys()
 
@@ -102,7 +111,9 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.backButton?.action = {
             val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
             val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
-            if (isEditing && !textChanged) {
+            if (isCategory) {
+                parentFragmentManager.popBackStack()
+            } else if (isEditing && !textChanged) {
                 parentFragmentManager
                     .beginTransaction()
                     .replace(R.id.settings_fragment_container, EditPresetsFragment())
@@ -114,8 +125,16 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.saveButton?.let {
+            val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
             it.action = {
-                if (!isDefaultTextVisible()) {
+                if (isCategory && !isEditing && !isDefaultTextVisible()) {
+                    binding?.keyboardInput?.text?.let { text ->
+                        if (text.isNotBlank()) {
+                            editCategoriesViewModel.addNewCategory(text.toString())
+                            parentFragmentManager.popBackStack()
+                        }
+                    }
+                } else if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
                             val phraseUtterance =
@@ -174,13 +193,23 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
-        viewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
-        ).get(EditPhrasesViewModel::class.java)
+        if (isCategory) {
+            editCategoriesViewModel = ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(EditCategoriesViewModel::class.java)
+        } else {
+            viewModel = ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory(
+                    getString(R.string.category_123_id),
+                    getString(R.string.category_my_sayings_id)
+                )
+            ).get(EditPhrasesViewModel::class.java)
+        }
         subscribeToViewModel()
     }
 
@@ -229,27 +258,14 @@ class EditKeyboardFragment : BaseFragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding?.phraseSavedView?.root?.isVisible = it ?: false
-        })
-    }
-
-    override fun getAllViews(): List<View> {
-        if (allViews.isEmpty()) {
-            getAllChildViews(binding?.editKeyboardParent)
-        }
-        return allViews
-    }
-
-    private fun getAllChildViews(viewGroup: ViewGroup?) {
-        viewGroup?.children?.forEach {
-            if (it is PointerListener) {
-                allViews.add(it)
-            } else if (it is ViewGroup) {
-                getAllChildViews(it)
-            }
+        if (!isCategory) {
+            viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
+                binding?.phraseSavedView?.root?.isVisible = it ?: false
+            })
         }
     }
+
+    override fun getAllViews(): List<View> = emptyList()
 
     override fun onDestroyView() {
         binding = null

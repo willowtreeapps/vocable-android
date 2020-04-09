@@ -104,6 +104,17 @@ class EditCategoriesFragment : BaseFragment() {
             parentFragmentManager.popBackStack()
         }
 
+        binding?.addCategoryButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.settings_fragment_container,
+                    EditKeyboardFragment.newCreateCategoryInstance()
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+
         editCategoriesViewModel =
             ViewModelProviders.of(
                 requireActivity(),

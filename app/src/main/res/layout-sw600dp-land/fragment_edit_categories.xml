@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/add_button"
+        android:id="@+id/add_category_button"
         style="@style/EditCategoriesActionButton"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="@dimen/edit_categories_action_button_margin"
