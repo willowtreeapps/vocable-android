@@ -151,6 +151,16 @@ class EditCategoriesListFragment : BaseFragment() {
             moveCategoryDownButton.action = {
                 editCategoriesViewModel.moveCategoryDown(category)
             }
+            editCategorySelectButton.action = {
+                requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.settings_fragment_container,
+                        EditCategoryOptionsFragment.newInstance(category)
+                    )
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
     }
 }
