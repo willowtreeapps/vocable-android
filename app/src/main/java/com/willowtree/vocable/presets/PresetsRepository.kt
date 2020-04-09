@@ -184,11 +184,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                 )
             }
             sharedPrefs.setMySayings(emptySet())
-        } else {
-            val phrases = getPhrasesForCategory(mySayingsCategoryId)
-            if (phrases.isEmpty()) {
-                mySayingsCategory.hidden = true
-            }
         }
 
         populateCategories(categoryObjects)

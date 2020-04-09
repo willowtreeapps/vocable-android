@@ -125,7 +125,7 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.addRemoveCategoryList.observe(viewLifecycleOwner, Observer {
+        editCategoriesViewModel.addRemoveCategoryList.observe(requireActivity(), Observer {
             it?.let { categories ->
                 with(binding?.editCategoriesViewPager) {
                     this?.isSaveEnabled = false
@@ -142,6 +142,22 @@ class EditCategoriesFragment : BaseFragment() {
                             false
                         )
                     }
+                }
+            }
+        })
+
+        editCategoriesViewModel.lastViewedIndex.observe(requireActivity(), Observer {
+            it?.let { index ->
+                val pageNum = index / maxEditCategories
+                val middle = categoriesAdapter.itemCount / 2
+                val toScrollTo = if (middle % categoriesAdapter.numPages == 0) {
+                    middle + pageNum
+                } else {
+                    val mod = middle % categoriesAdapter.numPages
+                    middle + (categoriesAdapter.numPages - mod) + pageNum
+                }
+                if (binding?.editCategoriesViewPager?.currentItem != toScrollTo) {
+                    binding?.editCategoriesViewPager?.setCurrentItem(toScrollTo, false)
                 }
             }
         })

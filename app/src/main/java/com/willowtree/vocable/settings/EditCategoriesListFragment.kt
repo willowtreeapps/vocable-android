@@ -160,6 +160,7 @@ class EditCategoriesListFragment : BaseFragment() {
                     )
                     .addToBackStack(null)
                     .commit()
+                editCategoriesViewModel.onCategorySelected(category)
             }
         }
     }

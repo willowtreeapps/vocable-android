@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
@@ -29,6 +28,9 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
 
     private val liveShowCategoryAdded = MutableLiveData<Boolean>()
     val showCategoryAdded: LiveData<Boolean> = liveShowCategoryAdded
+
+    private val liveLastViewedIndex = MutableLiveData<Int>()
+    val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
 
     private var overallCategories = listOf<Category>()
 
@@ -56,11 +58,67 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
     fun updateCategory(category: Category) {
         backgroundScope.launch {
             presetsRepository.updateCategory(category)
-            populateCategories()
+        }
+    }
 
-            liveShowCategoryAdded.postValue(true)
-            delay(CATEGORY_UPDATED_DELAY)
-            liveShowCategoryAdded.postValue(false)
+    fun onCategorySelected(category: Category) {
+        val index = overallCategories.indexOf(category)
+        if (index > -1) {
+            liveLastViewedIndex.postValue(index)
+        }
+    }
+
+    fun hideShowCategory(category: Category, hide: Boolean) {
+        backgroundScope.launch {
+            if (hide) {
+                hideCategory(category)
+            } else {
+                showCategory(category)
+            }
+        }
+    }
+
+    private suspend fun hideCategory(category: Category) {
+        val catIndex = overallCategories.indexOf(category)
+        if (catIndex > -1) {
+            val listToUpdate = overallCategories.filter { it.sortOrder >= category.sortOrder }
+            listToUpdate.forEach {
+                if (it.categoryId == category.categoryId) {
+                    it.sortOrder = overallCategories.size - 1
+                    it.hidden = true
+                } else {
+                    it.sortOrder--
+                }
+            }
+
+            overallCategories = overallCategories.sortedBy { it.sortOrder }
+            liveOrderCategoryList.postValue(overallCategories)
+
+            presetsRepository.updateCategories(listToUpdate)
+        }
+    }
+
+    private suspend fun showCategory(category: Category) {
+        val catIndex = overallCategories.indexOf(category)
+        if (catIndex > -1) {
+            var firstHiddenIndex = overallCategories.indexOfFirst { it.hidden }
+            if (firstHiddenIndex == -1) {
+                firstHiddenIndex = overallCategories.size - 1
+            }
+            val listToUpdate = overallCategories.filter { it.hidden }
+            listToUpdate.forEach {
+                if (it.categoryId == category.categoryId) {
+                    it.sortOrder = firstHiddenIndex
+                    it.hidden = false
+                } else {
+                    it.sortOrder++
+                }
+            }
+
+            overallCategories = overallCategories.sortedBy { it.sortOrder }
+            liveOrderCategoryList.postValue(overallCategories)
+
+            presetsRepository.updateCategories(listToUpdate)
         }
     }
 
