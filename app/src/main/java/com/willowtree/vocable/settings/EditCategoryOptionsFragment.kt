@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
+import kotlinx.android.synthetic.main.fragment_edit_categories.*
+import kotlinx.android.synthetic.main.vocable_confirmation_dialog.*
 
 class EditCategoryOptionsFragment : BaseFragment() {
 
@@ -77,12 +80,27 @@ class EditCategoryOptionsFragment : BaseFragment() {
         }
 
         binding?.removeCategoryButton?.action = {
-            category?.let {
-                editCategoriesViewModel.deleteCategory(category)
-            }
+            setEditButtonsEnabled(false)
+            toggleDialogVisibility(true)
+            binding?.confirmationDialog?.let {
+                dialog_title.text = resources.getString(R.string.are_you_sure)
+                dialog_message.text = "Removed categories can not be restored."
+                dialog_positive_button.text = resources.getString(R.string.settings_dialog_continue)
+                dialog_positive_button.action = {
+                    category?.let {
+                        editCategoriesViewModel.deleteCategory(category)
+                    }
 
-            parentFragmentManager.popBackStack()
+                    parentFragmentManager.popBackStack()
+                }
+                dialog_negative_button.text = resources.getString(R.string.settings_dialog_cancel)
+                dialog_negative_button.action = {
+                    toggleDialogVisibility(false)
+                    setEditButtonsEnabled(true)
+                }
+            }
         }
+
 
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
@@ -91,6 +109,21 @@ class EditCategoryOptionsFragment : BaseFragment() {
                 getString(R.string.category_my_sayings_id)
             )
         ).get(EditCategoriesViewModel::class.java)
+    }
+
+    private fun toggleDialogVisibility(visible: Boolean) {
+        binding?.confirmationDialog?.root?.let {
+            it.isVisible = visible
+        }
+    }
+
+    private fun setEditButtonsEnabled(enabled: Boolean) {
+        binding?.let {
+            it.showCategorySwitch.isEnabled = enabled
+            it.editOptionsButton?.isEnabled = enabled
+            it.editOptionsBackButton.isEnabled = enabled
+            it.removeCategoryButton.isEnabled = enabled
+        }
     }
 
     override fun getAllViews(): List<View> {
