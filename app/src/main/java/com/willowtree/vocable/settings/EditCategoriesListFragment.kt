@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
@@ -138,11 +139,17 @@ class EditCategoriesListFragment : BaseFragment() {
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
-            categoryName.text = getString(
-                R.string.edit_categories_button_number,
-                overallIndex + 1,
-                category.getLocalizedText()
-            )
+            if (category.hidden) {
+                categoryName.text = category.getLocalizedText()
+            } else {
+                categoryName.text = getString(
+                    R.string.edit_categories_button_number,
+                    overallIndex + 1,
+                    category.getLocalizedText()
+                )
+            }
+
+            hiddenView.isVisible = category.hidden
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
