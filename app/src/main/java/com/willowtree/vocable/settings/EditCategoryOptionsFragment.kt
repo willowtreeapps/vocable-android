@@ -46,18 +46,21 @@ class EditCategoryOptionsFragment : BaseFragment() {
 
         if (category?.isUserGenerated == true) {
             binding?.removeCategoryButton?.isInvisible = false
+            binding?.editOptionsButton?.isInvisible = false
         }
 
         binding?.categoryTitle?.text = category?.getLocalizedText()
 
-        binding?.editOptionsButton?.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.settings_fragment_container,
-                    EditKeyboardFragment()
-                ).addToBackStack(null)
-                .commit()
+        category?.let {
+            binding?.editOptionsButton?.action = {
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.settings_fragment_container,
+                        EditKeyboardFragment.newInstance(category)
+                    ).addToBackStack(null)
+                    .commit()
+            }
         }
 
         binding?.editOptionsBackButton?.action = {
