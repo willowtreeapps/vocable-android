@@ -182,7 +182,7 @@
             android:id="@+id/keyboard_speak_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/keyboard_bottom_bar_height"
-            android:background="@drawable/button_default_background"
+            android:background="@drawable/button_speaker_background"
             android:gravity="center"
             android:scaleType="center"
             android:src="@drawable/keyboard_speak_button_icon"
