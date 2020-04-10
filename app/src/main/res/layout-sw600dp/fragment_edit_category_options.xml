@@ -40,6 +40,7 @@
         android:background="@drawable/button_default_background"
         android:scaleType="center"
         android:src="@drawable/edit_40dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/category_title"
         app:layout_constraintStart_toEndOf="@id/category_title"
         app:layout_constraintTop_toTopOf="@id/category_title" />

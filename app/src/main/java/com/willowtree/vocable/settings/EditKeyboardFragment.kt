@@ -14,9 +14,9 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
-import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import java.util.*
 
@@ -33,12 +33,21 @@ class EditKeyboardFragment : BaseFragment() {
                 arguments = Bundle().apply {
                     putParcelable(KEY_PHRASE, phrase)
                     putBoolean(KEY_IS_EDITING, true)
+                    putBoolean(KEY_IS_CATEGORY, false)
                 }
             }
         }
 
         fun newInstance(isEditing: Boolean) = EditKeyboardFragment().apply {
             arguments = bundleOf(KEY_IS_EDITING to isEditing)
+        }
+
+        fun newInstance(category: Category) = EditKeyboardFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(KEY_CATEGORY, category)
+                putBoolean(KEY_IS_EDITING, true)
+                putBoolean(KEY_IS_CATEGORY, true)
+            }
         }
 
         fun newCreateCategoryInstance(): EditKeyboardFragment = EditKeyboardFragment().apply {
@@ -51,6 +60,7 @@ class EditKeyboardFragment : BaseFragment() {
     private var binding: FragmentEditKeyboardBinding? = null
     private lateinit var keys: Array<String>
     private var phrase: Phrase? = null
+    private var category: Category? = null
     private var isCategory = false
 
     private val allViews = mutableListOf<View>()
@@ -64,6 +74,9 @@ class EditKeyboardFragment : BaseFragment() {
         keys = resources.getStringArray(R.array.keyboard_keys)
         arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
             phrase = it
+        }
+        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
+            category = it
         }
         isCategory = arguments?.getBoolean(KEY_IS_CATEGORY) ?: false
 
@@ -133,6 +146,16 @@ class EditKeyboardFragment : BaseFragment() {
                             editCategoriesViewModel.addNewCategory(text.toString())
                             parentFragmentManager.popBackStack()
                         }
+                    }
+                } else if (isCategory && isEditing && !isDefaultTextVisible()) {
+                    binding?.keyboardInput?.text?.let { text ->
+                        val categoryName = category?.localizedName?.toMutableMap()?.apply {
+                            put(Locale.getDefault().toString(), text.toString())
+                        }
+                        category?.localizedName = categoryName ?: mapOf()
+                        category?.let { updatedCategory ->
+                            editCategoriesViewModel.updateCategory(updatedCategory)
+                        } ?: editCategoriesViewModel.addNewCategory(text.toString())
                     }
                 } else if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
