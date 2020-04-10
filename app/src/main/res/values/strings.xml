@@ -41,9 +41,7 @@
     <string name="keyboard_select_letters">Start typing…</string>
 
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Saved to\u0020\u0020</string>
-    <string name="favorite_icon">&#160;&#xe87d;</string>
-    <string name="category_saved_to">My Sayings</string>
+    <string name="saved_successfully">Saved to My Sayings</string>
 
     <!-- Edit Sayings -->
     <string name="edit_sayings_back_button">&lt; Settings</string>
