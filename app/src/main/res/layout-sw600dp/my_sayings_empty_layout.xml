@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/star"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/empty_my_sayings_star_margin_top"
         android:src="@drawable/ic_star_blue_56dp"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/empty_my_sayings_text"
-        android:layout_width="445dp"
+        android:layout_width="@dimen/empty_my_sayings_text_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/empty_my_sayings_text_margin_top"
         android:text="@string/my_sayings_empty"
         android:textAlignment="center"
         android:textColor="@color/textColor"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/star"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/empty_my_sayings_text_size"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/star"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

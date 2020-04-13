@@ -238,6 +238,10 @@
     <dimen name="edit_category_options_remove_button_margin_start">8dp</dimen>
 
     <!-- Empty My Sayings -->
+    <dimen name="empty_my_sayings_text_width">wrap_content</dimen>
     <dimen name="empty_my_sayings_text_margin_top">32dp</dimen>
+    <dimen name="empty_my_sayings_text_size">24sp</dimen>
+    <dimen name="empty_my_sayings_star_margin_top">40dp</dimen>
+
 
 </resources>
