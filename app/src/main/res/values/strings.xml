@@ -9,7 +9,6 @@
     <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
     <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
 
-
     <!-- Settings Page -->
     <string name="settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
