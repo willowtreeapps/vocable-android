@@ -16,13 +16,13 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/empty_my_sayings_text"
-        android:layout_width="516dp"
+        android:layout_width="@dimen/empty_my_sayings_text_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/empty_my_sayings_text_margin_top"
         android:text="@string/my_sayings_empty_handset_land"
         android:textAlignment="center"
         android:textColor="@color/textColor"
-        android:textSize="24sp"
+        android:textSize="@dimen/empty_my_sayings_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/star" />
