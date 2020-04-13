@@ -83,18 +83,18 @@ class EditCategoryOptionsFragment : BaseFragment() {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding?.confirmationDialog?.let {
-                dialog_title.text = resources.getString(R.string.are_you_sure)
-                dialog_message.text = "Removed categories can not be restored."
-                dialog_positive_button.text = resources.getString(R.string.settings_dialog_continue)
-                dialog_positive_button.action = {
+                it.dialogTitle.text = resources.getString(R.string.are_you_sure)
+                it.dialogMessage.text = getString(R.string.removed_cant_be_restored)
+                it.dialogPositiveButton.text = resources.getString(R.string.settings_dialog_continue)
+                it.dialogPositiveButton.action = {
                     category?.let {
                         editCategoriesViewModel.deleteCategory(category)
                     }
 
                     parentFragmentManager.popBackStack()
                 }
-                dialog_negative_button.text = resources.getString(R.string.settings_dialog_cancel)
-                dialog_negative_button.action = {
+                it.dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
+                it.dialogNegativeButton.action = {
                     toggleDialogVisibility(false)
                     setEditButtonsEnabled(true)
                 }
@@ -123,6 +123,7 @@ class EditCategoryOptionsFragment : BaseFragment() {
             it.editOptionsButton?.isEnabled = enabled
             it.editOptionsBackButton.isEnabled = enabled
             it.removeCategoryButton.isEnabled = enabled
+            it.categoryShowSwitch.isEnabled = enabled
         }
     }
 
