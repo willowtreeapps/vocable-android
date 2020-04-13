@@ -85,5 +85,6 @@
     <!-- Edit Category Options -->
     <string name="edit_category_show_category_text">Show Category</string>
     <string name="edit_category_remove_category_text">Remove Category</string>
+    <string name="removed_cant_be_restored">Removed categories can not be restored.</string>
 
 </resources>
