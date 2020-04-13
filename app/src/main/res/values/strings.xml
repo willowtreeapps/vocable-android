@@ -5,8 +5,10 @@
     <string name="select_something">Select something below to speak.</string>
     <string name="phrases_page_number">Page %1d of %2d</string>
     <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_portrait_handset"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type\nsomething then select the \"☆\"\nto save it here.</string>
-    <string name="my_sayings_empty_landscape_handset"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
+
 
     <!-- Settings Page -->
     <string name="settings">Settings</string>

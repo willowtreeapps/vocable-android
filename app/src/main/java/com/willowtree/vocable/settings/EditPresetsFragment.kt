@@ -16,8 +16,9 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
+import com.willowtree.vocable.presets.MySayingsEmptyFragment
 import com.willowtree.vocable.room.Phrase
-import java.lang.Math.ceil
+import kotlin.math.ceil
 
 class EditPresetsFragment : BaseFragment() {
 
@@ -197,7 +198,11 @@ class EditPresetsFragment : BaseFragment() {
                 clear()
                 addAll(phrases)
             }
-            numPages = ceil(phrases.size / maxPhrases.toDouble()).toInt()
+            numPages = if (phrases.isEmpty()) {
+                1
+            } else {
+                ceil(phrases.size / maxPhrases.toDouble()).toInt()
+            }
             notifyDataSetChanged()
 
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
@@ -221,7 +226,12 @@ class EditPresetsFragment : BaseFragment() {
                 phrases.size.coerceAtMost(startPosition + maxPhrases)
             )
 
-            return EditPhrasesFragment.newInstance(sublist)
+            return if( phrases.isEmpty() ){
+                MySayingsEmptyFragment.newInstance(true)
+            } else {
+                EditPhrasesFragment.newInstance(sublist)
+            }
+
         }
 
     }
