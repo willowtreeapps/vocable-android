@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/empty_my_sayings_text"
         style="@style/EmptyMySayingsTextView"
         android:layout_width="@dimen/empty_my_sayings_text_width"
         android:layout_height="wrap_content"
