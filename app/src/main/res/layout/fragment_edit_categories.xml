@@ -24,7 +24,7 @@
         android:layout_marginStart="@dimen/category_back_button_margin_start"
         android:background="@drawable/button_default_background"
         android:padding="@dimen/edit_sayings_back_button_padding"
-        android:src="@drawable/ic_arrow_back_40dp"
+        android:src="@drawable/arrow_back_40dp"
         app:layout_constraintBottom_toBottomOf="@id/add_category_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/add_category_button"
@@ -34,7 +34,7 @@
         android:id="@+id/add_category_button"
         style="@style/EditCategoriesActionButton"
         android:background="@drawable/button_default_background"
-        android:src="@drawable/ic_add_40dp"
+        android:src="@drawable/add_40dp"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
