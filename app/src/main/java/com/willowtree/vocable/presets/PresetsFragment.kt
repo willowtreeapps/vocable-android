@@ -347,7 +347,7 @@ class PresetsFragment : BaseFragment() {
             return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                 NumberPadFragment.newInstance(sublist)
             } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && phrases.isEmpty()) {
-                MySayingsEmptyFragment()
+                MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(sublist)
             }
