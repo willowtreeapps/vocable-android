@@ -47,11 +47,6 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
                         phraseId
                     )
                 )
-                if (mySayingsCategory.hidden) {
-                    updateCategory(mySayingsCategory.apply {
-                        hidden = false
-                    })
-                }
             }
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_ADDED_DELAY)
