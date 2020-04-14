@@ -91,12 +91,14 @@ class EditPresetsFragment : BaseFragment() {
         binding?.editSayingsViewPager?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                val pageNum = position % phrasesAdapter.numPages + 1
-                binding?.phrasesPageNumber?.text = getString(
-                    R.string.phrases_page_number,
-                    pageNum,
-                    phrasesAdapter.numPages
-                )
+                binding?.phrasesPageNumber?.post {
+                    val pageNum = position % phrasesAdapter.numPages + 1
+                    binding?.phrasesPageNumber?.text = getString(
+                        R.string.phrases_page_number,
+                        pageNum,
+                        phrasesAdapter.numPages
+                    )
+                }
 
                 activity?.let { activity ->
                     allViews.clear()
@@ -227,7 +229,7 @@ class EditPresetsFragment : BaseFragment() {
                 phrases.size.coerceAtMost(startPosition + maxPhrases)
             )
 
-            return if( phrases.isEmpty() ){
+            return if (phrases.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(true)
             } else {
                 EditPhrasesFragment.newInstance(sublist)
