@@ -124,14 +124,11 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.backButton?.action = {
             val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
             val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
-            if (isCategory) {
+            val categoryTextChanged = binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
+            if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
-            } else if (isEditing && !textChanged) {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                    .addToBackStack(null)
-                    .commit()
+            } else if (isEditing && !textChanged || isDefaultTextVisible()) {
+                parentFragmentManager.popBackStack()
             } else {
                 showConfirmationDialog()
             }
@@ -175,8 +172,12 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardInput?.setText(
-            if (phrase?.getLocalizedText().isNullOrEmpty()) {
+            if ( !isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
                 getString(R.string.keyboard_select_letters)
+            } else if (isCategory && category?.getLocalizedText().isNullOrEmpty() ) {
+                getString(R.string.keyboard_select_letters)
+            }  else if (isCategory) {
+                category?.getLocalizedText()
             } else {
                 phrase?.getLocalizedText()
             }
@@ -250,11 +251,15 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.editConfirmation?.dialogNegativeButton?.let {
             it.text = getString(R.string.discard)
             it.action = {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                    .addToBackStack(null)
-                    .commit()
+                if (isCategory) {
+                    parentFragmentManager.popBackStack()
+                } else {
+                    parentFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.settings_fragment_container, EditPresetsFragment())
+                        .addToBackStack(null)
+                        .commit()
+                }
             }
         }
         toggleDialogVisibility(true)
