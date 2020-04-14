@@ -99,6 +99,22 @@ class EditCategoriesFragment : BaseFragment() {
                 }
             }
         })
+
+        binding?.backButton?.action = {
+            parentFragmentManager.popBackStack()
+        }
+
+        binding?.addCategoryButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.settings_fragment_container,
+                    EditKeyboardFragment.newCreateCategoryInstance()
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+
         editCategoriesViewModel =
             ViewModelProviders.of(
                 requireActivity(),
@@ -120,7 +136,7 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.categoryList.observe(viewLifecycleOwner, Observer {
+        editCategoriesViewModel.addRemoveCategoryList.observe(requireActivity(), Observer {
             it?.let { categories ->
                 with(binding?.editCategoriesViewPager) {
                     this?.isSaveEnabled = false
@@ -137,6 +153,22 @@ class EditCategoriesFragment : BaseFragment() {
                             false
                         )
                     }
+                }
+            }
+        })
+
+        editCategoriesViewModel.lastViewedIndex.observe(requireActivity(), Observer {
+            it?.let { index ->
+                val pageNum = index / maxEditCategories
+                val middle = categoriesAdapter.itemCount / 2
+                val toScrollTo = if (middle % categoriesAdapter.numPages == 0) {
+                    middle + pageNum
+                } else {
+                    val mod = middle % categoriesAdapter.numPages
+                    middle + (categoriesAdapter.numPages - mod) + pageNum
+                }
+                if (binding?.editCategoriesViewPager?.currentItem != toScrollTo) {
+                    binding?.editCategoriesViewPager?.setCurrentItem(toScrollTo, false)
                 }
             }
         })
@@ -166,11 +198,9 @@ class EditCategoriesFragment : BaseFragment() {
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxEditCategories
-            val subList = categories.subList(
-                startPosition,
-                min(categories.size, startPosition + maxEditCategories)
-            )
-            return EditCategoriesListFragment.newInstance(subList)
+            val endPosition = min(categories.size, startPosition + maxEditCategories)
+
+            return EditCategoriesListFragment.newInstance(startPosition, endPosition)
         }
     }
 

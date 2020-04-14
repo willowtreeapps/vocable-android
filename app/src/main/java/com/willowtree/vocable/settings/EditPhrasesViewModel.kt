@@ -54,12 +54,6 @@ class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: Strin
                         phrase.phraseId
                     )
                 )
-                val catPhraseList = getPhrasesForCategory(mySayingsCategory.categoryId)
-                if (catPhraseList.isEmpty()) {
-                    updateCategory(mySayingsCategory.apply {
-                        hidden = true
-                    })
-                }
             }
             populateMySayings()
         }
@@ -95,13 +89,6 @@ class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: Strin
                 )
             )
             presetsRepository.addCrossRef(CategoryPhraseCrossRef(mySayingsCategoryId, phraseId))
-            val mySayingsCategory =
-                presetsRepository.getCategoryById(mySayingsCategoryId)
-            if (mySayingsCategory.hidden) {
-                presetsRepository.updateCategory(mySayingsCategory.apply {
-                    hidden = false
-                })
-            }
 
             populateMySayings()
 

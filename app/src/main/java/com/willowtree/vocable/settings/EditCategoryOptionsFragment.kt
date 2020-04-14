@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
@@ -24,6 +27,7 @@ class EditCategoryOptionsFragment : BaseFragment() {
         }
     }
 
+    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var binding: FragmentEditCategoryOptionsBinding? = null
 
     override fun onCreateView(
@@ -41,28 +45,84 @@ class EditCategoryOptionsFragment : BaseFragment() {
 
         val category = arguments?.getParcelable<Category>(KEY_CATEGORY)
 
-        if(category?.isUserGenerated == true) {
+        if (category?.isUserGenerated == true) {
             binding?.removeCategoryButton?.isInvisible = false
+            binding?.editOptionsButton?.isInvisible = false
         }
 
         binding?.categoryTitle?.text = category?.getLocalizedText()
 
-        binding?.editOptionsButton?.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.settings_fragment_container,
-                    EditKeyboardFragment()
-                ).addToBackStack(null)
-                .commit()
+        category?.let {
+            binding?.editOptionsButton?.action = {
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.settings_fragment_container,
+                        EditKeyboardFragment.newInstance(category)
+                    ).addToBackStack(null)
+                    .commit()
+            }
         }
 
         binding?.editOptionsBackButton?.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditCategoriesListFragment())
-                .addToBackStack(null)
-                .commit()
+            parentFragmentManager.popBackStack()
+        }
+
+        binding?.categoryShowSwitch?.let {
+            it.isChecked = category?.hidden?.not() ?: false
+            it.setOnCheckedChangeListener { _, isChecked ->
+                category?.let { category ->
+                    editCategoriesViewModel.hideShowCategory(category, !isChecked)
+                }
+            }
+        }
+
+        binding?.removeCategoryButton?.action = {
+            setEditButtonsEnabled(false)
+            toggleDialogVisibility(true)
+            binding?.confirmationDialog?.let {
+                it.dialogTitle.text = resources.getString(R.string.are_you_sure)
+                it.dialogMessage.text = getString(R.string.removed_cant_be_restored)
+                it.dialogPositiveButton.text =
+                    resources.getString(R.string.settings_dialog_continue)
+                it.dialogPositiveButton.action = {
+                    category?.let {
+                        editCategoriesViewModel.deleteCategory(category)
+                    }
+
+                    parentFragmentManager.popBackStack()
+                }
+                it.dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
+                it.dialogNegativeButton.action = {
+                    toggleDialogVisibility(false)
+                    setEditButtonsEnabled(true)
+                }
+            }
+        }
+
+
+        editCategoriesViewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
+            )
+        ).get(EditCategoriesViewModel::class.java)
+    }
+
+    private fun toggleDialogVisibility(visible: Boolean) {
+        binding?.confirmationDialog?.root?.let {
+            it.isVisible = visible
+        }
+    }
+
+    private fun setEditButtonsEnabled(enabled: Boolean) {
+        binding?.let {
+            it.showCategorySwitch.isEnabled = enabled
+            it.editOptionsButton?.isEnabled = enabled
+            it.editOptionsBackButton.isEnabled = enabled
+            it.removeCategoryButton.isEnabled = enabled
+            it.categoryShowSwitch.isEnabled = enabled
         }
     }
 
