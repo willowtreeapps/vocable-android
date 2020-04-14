@@ -128,7 +128,6 @@ class SettingsFragment : BaseFragment() {
                 getString(R.string.category_my_sayings_id)
             )
         ).get(SettingsViewModel::class.java)
-        subscribeToViewModel()
     }
 
 
@@ -172,13 +171,5 @@ class SettingsFragment : BaseFragment() {
         binding?.settingsConfirmation?.root?.let {
             it.isVisible = visible
         }
-    }
-
-    private fun subscribeToViewModel() {
-        viewModel.mySayingsIsEmpty.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding?.settingsOptionsContainer?.editSayingsButton?.isEnabled = !it
-            }
-        })
     }
 }

@@ -150,16 +150,7 @@ class KeyboardFragment : BaseFragment() {
             }
         }
 
-        binding?.phraseSavedView?.root?.let {
-            buildTextWithIcon(
-                getString(R.string.saved_successfully),
-                getString(R.string.category_saved_to),
-                iconCharStart = 9,
-                iconCharEnd = 10,
-                view = it as TextView,
-                icon = R.drawable.ic_heart_solid_blue
-            )
-        }
+        (binding?.phraseSavedView?.root as? TextView)?.setText(R.string.saved_successfully)
 
         viewModel = ViewModelProviders.of(
             this,

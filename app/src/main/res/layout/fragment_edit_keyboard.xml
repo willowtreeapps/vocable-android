@@ -61,7 +61,7 @@
             android:gravity="center"
             android:padding="@dimen/edit_keyboard_padding"
             android:scaleType="center"
-            android:src="@drawable/save_40dp"
+            android:src="@drawable/checkmark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/back_button"
             app:layout_constraintTop_toTopOf="parent" />

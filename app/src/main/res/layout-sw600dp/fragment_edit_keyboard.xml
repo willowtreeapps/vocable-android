@@ -49,7 +49,7 @@
         android:layout_marginEnd="@dimen/edit_keyboard_horizontal_margin"
         android:background="@drawable/button_default_background"
         android:padding="@dimen/edit_keyboard_padding"
-        android:src="@drawable/save_40dp"
+        android:src="@drawable/checkmark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

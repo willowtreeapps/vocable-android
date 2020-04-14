@@ -18,26 +18,13 @@ class SettingsViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
     private val liveHeadTrackingEnabled = MutableLiveData<Boolean>()
     val headTrackingEnabled: LiveData<Boolean> = liveHeadTrackingEnabled
 
-    private val liveMySayingsIsEmpty = MutableLiveData<Boolean>()
-    val mySayingsIsEmpty: LiveData<Boolean> = liveMySayingsIsEmpty
-
     init {
         liveHeadTrackingEnabled.postValue(sharedPrefs.getHeadTrackingEnabled())
-        checkMySayingsIsEmpty()
     }
 
     fun onHeadTrackingChecked(isChecked: Boolean) {
         sharedPrefs.setHeadTrackingEnabled(isChecked)
         liveHeadTrackingEnabled.postValue(isChecked)
-    }
-
-    private fun checkMySayingsIsEmpty() {
-        backgroundScope.launch {
-            liveMySayingsIsEmpty.postValue(
-                presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
-                    .isEmpty()
-            )
-        }
     }
 
 }

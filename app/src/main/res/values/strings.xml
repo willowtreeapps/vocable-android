@@ -4,7 +4,10 @@
     <!-- Presets -->
     <string name="select_something">Select something below to speak.</string>
     <string name="phrases_page_number">Page %1d of %2d</string>
-
+    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
 
     <!-- Settings Page -->
     <string name="settings">Settings</string>
@@ -41,9 +44,7 @@
     <string name="keyboard_select_letters">Start typing…</string>
 
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Saved to\u0020\u0020</string>
-    <string name="favorite_icon">&#160;&#xe87d;</string>
-    <string name="category_saved_to">My Sayings</string>
+    <string name="saved_successfully">Saved to My Sayings</string>
 
     <!-- Edit Sayings -->
     <string name="edit_sayings_back_button">&lt; Settings</string>

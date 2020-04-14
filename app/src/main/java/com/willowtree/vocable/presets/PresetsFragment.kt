@@ -316,7 +316,12 @@ class PresetsFragment : BaseFragment() {
                 clear()
                 addAll(phrases)
             }
-            numPages = ceil(phrases.size / maxPhrases.toDouble()).toInt()
+
+            numPages = if (phrases.isEmpty()) {
+                1
+            } else {
+                ceil(phrases.size / maxPhrases.toDouble()).toInt()
+            }
             notifyDataSetChanged()
 
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
@@ -341,6 +346,8 @@ class PresetsFragment : BaseFragment() {
 
             return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                 NumberPadFragment.newInstance(sublist)
+            } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && phrases.isEmpty()) {
+                MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(sublist)
             }
