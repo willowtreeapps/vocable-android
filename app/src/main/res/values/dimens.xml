@@ -243,5 +243,7 @@
     <dimen name="empty_my_sayings_text_size">24sp</dimen>
     <dimen name="empty_my_sayings_star_margin_top">40dp</dimen>
 
-
+    <!-- Category Edit Button -->
+    <dimen name="category_edit_button_hidden_margin_start">16dp</dimen>
+    <dimen name="category_edit_button_hidden_margin_end">8dp</dimen>
 </resources>

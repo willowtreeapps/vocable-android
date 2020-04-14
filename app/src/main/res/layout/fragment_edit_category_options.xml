@@ -41,6 +41,7 @@
         android:background="@drawable/button_default_background"
         android:scaleType="center"
         android:src="@drawable/edit_40dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/category_title"
         app:layout_constraintEnd_toEndOf="@id/show_category_switch"
         app:layout_constraintTop_toTopOf="@id/category_title" />
@@ -81,6 +82,7 @@
         android:layout_columnWeight="1"
         android:layout_marginTop="@dimen/edit_remove_category_margin_top"
         android:background="@drawable/button_default_background"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/show_category_switch"
         app:layout_constraintStart_toStartOf="@id/show_category_switch"
         app:layout_constraintTop_toBottomOf="@id/show_category_switch">
@@ -95,5 +97,16 @@
             app:layout_constraintTop_toTopOf="@+id/remove_category_button" />
 
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
+
+    <include
+        android:id="@+id/confirmation_dialog"
+        layout="@layout/vocable_confirmation_dialog"
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

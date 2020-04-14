@@ -256,7 +256,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/settings_margin_default</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_label_text_size</item>
     </style>
 
