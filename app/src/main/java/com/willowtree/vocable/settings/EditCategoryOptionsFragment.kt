@@ -12,8 +12,6 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
-import kotlinx.android.synthetic.main.fragment_edit_categories.*
-import kotlinx.android.synthetic.main.vocable_confirmation_dialog.*
 
 class EditCategoryOptionsFragment : BaseFragment() {
 
@@ -85,7 +83,8 @@ class EditCategoryOptionsFragment : BaseFragment() {
             binding?.confirmationDialog?.let {
                 it.dialogTitle.text = resources.getString(R.string.are_you_sure)
                 it.dialogMessage.text = getString(R.string.removed_cant_be_restored)
-                it.dialogPositiveButton.text = resources.getString(R.string.settings_dialog_continue)
+                it.dialogPositiveButton.text =
+                    resources.getString(R.string.settings_dialog_continue)
                 it.dialogPositiveButton.action = {
                     category?.let {
                         editCategoriesViewModel.deleteCategory(category)
