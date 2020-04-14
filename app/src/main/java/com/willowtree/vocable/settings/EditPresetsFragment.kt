@@ -114,6 +114,7 @@ class EditPresetsFragment : BaseFragment() {
                     R.id.settings_fragment_container,
                     EditKeyboardFragment.newInstance(false)
                 )
+                .addToBackStack(null)
                 .commit()
         }
 
