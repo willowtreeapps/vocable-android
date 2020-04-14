@@ -163,26 +163,24 @@ class PresetsRepository(context: Context) : KoinComponent {
         val mySayingsCategory =
             categoryObjects.first { it.categoryId == mySayingsCategoryId }
         val mySayings = sharedPrefs.getMySayings()
-        if (mySayings.isNotEmpty()) {
-            mySayings.forEach {
-                val phraseId = UUID.randomUUID().toString()
-                phraseObjects.add(
-                    Phrase(
-                        phraseId,
-                        System.currentTimeMillis(),
-                        true,
-                        System.currentTimeMillis(),
-                        mapOf(Pair(Locale.US.language, it)),
-                        phraseObjects.size
-                    )
+        mySayings.forEach {
+            val phraseId = UUID.randomUUID().toString()
+            phraseObjects.add(
+                Phrase(
+                    phraseId,
+                    System.currentTimeMillis(),
+                    true,
+                    System.currentTimeMillis(),
+                    mapOf(Pair(Locale.US.language, it)),
+                    phraseObjects.size
                 )
-                crossRefObjects.add(
-                    CategoryPhraseCrossRef(
-                        mySayingsCategory.categoryId,
-                        phraseId
-                    )
+            )
+            crossRefObjects.add(
+                CategoryPhraseCrossRef(
+                    mySayingsCategory.categoryId,
+                    phraseId
                 )
-            }
+            )
             sharedPrefs.setMySayings(emptySet())
         }
 
