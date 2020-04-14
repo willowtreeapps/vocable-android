@@ -80,9 +80,11 @@
     <!-- Edit Categories -->
     <string name="edit_categories_title">Edit Categories</string>
     <string name="edit_categories_title_handset">Categories</string>
+    <string name="edit_categories_button_number">%1d. %2s</string>
 
     <!-- Edit Category Options -->
     <string name="edit_category_show_category_text">Show Category</string>
     <string name="edit_category_remove_category_text">Remove Category</string>
+    <string name="removed_cant_be_restored">Removed categories can not be restored.</string>
 
 </resources>
