@@ -273,11 +273,7 @@ class EditKeyboardFragment : BaseFragment() {
                 if (isCategory) {
                     parentFragmentManager.popBackStack()
                 } else {
-                    parentFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                        .addToBackStack(null)
-                        .commit()
+                    parentFragmentManager.popBackStack()
                 }
             }
         }
