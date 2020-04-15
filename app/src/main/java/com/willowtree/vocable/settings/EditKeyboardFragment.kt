@@ -1,6 +1,8 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -182,6 +184,23 @@ class EditKeyboardFragment : BaseFragment() {
                 phrase?.getLocalizedText()
             }
         )
+
+        binding?.keyboardInput?.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                // no-op
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // no-op
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding?.saveButton?.isEnabled = !isDefaultTextVisible()
+            }
+
+        })
+
+        binding?.saveButton?.isEnabled = false
 
         binding?.keyboardClearButton?.action = {
             binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
