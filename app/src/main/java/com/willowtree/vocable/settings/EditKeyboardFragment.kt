@@ -270,11 +270,7 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.editConfirmation?.dialogNegativeButton?.let {
             it.text = getString(R.string.discard)
             it.action = {
-                if (isCategory) {
-                    parentFragmentManager.popBackStack()
-                } else {
-                    parentFragmentManager.popBackStack()
-                }
+               parentFragmentManager.popBackStack()
             }
         }
         toggleDialogVisibility(true)
