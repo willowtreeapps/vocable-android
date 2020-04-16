@@ -161,6 +161,11 @@ class EditCategoriesListFragment : BaseFragment() {
             moveCategoryDownButton.action = {
                 editCategoriesViewModel.moveCategoryDown(category)
             }
+
+            if (category?.categoryId == getString(R.string.category_my_sayings_id)) {
+                editCategorySelectButton.isEnabled = false
+            }
+
             editCategorySelectButton.action = {
                 requireActivity().supportFragmentManager
                     .beginTransaction()
