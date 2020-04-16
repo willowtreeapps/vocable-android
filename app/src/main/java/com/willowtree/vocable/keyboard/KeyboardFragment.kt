@@ -127,10 +127,7 @@ class KeyboardFragment : BaseFragment() {
             it.action = {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.let { keyboardInput ->
-                        keyboardInput.setText(keyboardInput.text.toString().dropLast(1))
-                        keyboardInput.setSelection(
-                            keyboardInput.text?.length ?: 0
-                        )
+                        keyboardInput.text = keyboardInput.text.toString().dropLast(1)
                         if (keyboardInput.text.isNullOrEmpty()) {
                             keyboardInput.setText(R.string.keyboard_select_letters)
                         }
