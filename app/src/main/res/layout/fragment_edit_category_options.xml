@@ -89,7 +89,10 @@
 
         <TextView
             android:id="@+id/placeholder_text"
-            style="@style/SelectionModeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/vocable_button_text_color"
+            android:textSize="@dimen/settings_label_text_size"
             android:text="@string/edit_category_remove_category_text"
             app:layout_constraintBottom_toBottomOf="@id/remove_category_button"
             app:layout_constraintEnd_toEndOf="parent"

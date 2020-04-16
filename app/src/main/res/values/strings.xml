@@ -22,8 +22,8 @@
     <string name="settings_dialog_cancel">Cancel</string>
 
     <!-- Settings Options -->
-    <string name="settings_edit_saying">Edit Phrases</string>
-    <string name="settings_edit_categories">Edit Categories</string>
+    <string name="settings_edit_saying">My Sayings</string>
+    <string name="settings_edit_categories">Categories</string>
     <string name="settings_timing_sensitivity">Timing and Sensitivity</string>
     <string name="settings_selection_mode">Selection Mode</string>
     <string name="settings_reset_app">Reset App Settings</string>
@@ -79,7 +79,7 @@
     <string name="category_123_no">No</string>
 
     <!-- Edit Categories -->
-    <string name="edit_categories_title">Edit Categories</string>
+    <string name="edit_categories_title">Categories</string>
     <string name="edit_categories_title_handset">Categories</string>
     <string name="edit_categories_button_number">%1d. %2s</string>
 
