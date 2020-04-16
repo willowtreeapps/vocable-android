@@ -1,6 +1,8 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,14 +126,11 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.backButton?.action = {
             val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
             val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
-            if (isCategory) {
+            val categoryTextChanged = binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
+            if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
-            } else if (isEditing && !textChanged) {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                    .addToBackStack(null)
-                    .commit()
+            } else if (isEditing && !textChanged || isDefaultTextVisible()) {
+                parentFragmentManager.popBackStack()
             } else {
                 showConfirmationDialog()
             }
@@ -175,12 +174,33 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardInput?.setText(
-            if (phrase?.getLocalizedText().isNullOrEmpty()) {
+            if ( !isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
                 getString(R.string.keyboard_select_letters)
+            } else if (isCategory && category?.getLocalizedText().isNullOrEmpty() ) {
+                getString(R.string.keyboard_select_letters)
+            }  else if (isCategory) {
+                category?.getLocalizedText()
             } else {
                 phrase?.getLocalizedText()
             }
         )
+
+        binding?.keyboardInput?.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                // no-op
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // no-op
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding?.saveButton?.isEnabled = !isDefaultTextVisible()
+            }
+
+        })
+
+        binding?.saveButton?.isEnabled = false
 
         binding?.keyboardClearButton?.action = {
             binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
@@ -247,11 +267,7 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.editConfirmation?.dialogNegativeButton?.let {
             it.text = getString(R.string.discard)
             it.action = {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                    .addToBackStack(null)
-                    .commit()
+               parentFragmentManager.popBackStack()
             }
         }
         toggleDialogVisibility(true)
