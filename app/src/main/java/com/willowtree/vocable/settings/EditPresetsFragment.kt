@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -18,7 +17,7 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
 import com.willowtree.vocable.presets.MySayingsEmptyFragment
 import com.willowtree.vocable.room.Phrase
-import kotlin.math.ceil
+import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 
 class EditPresetsFragment : BaseFragment() {
 
@@ -137,7 +136,7 @@ class EditPresetsFragment : BaseFragment() {
             it?.let { phrases ->
                 with(binding?.editSayingsViewPager) {
                     this?.adapter = phrasesAdapter
-                    phrasesAdapter.setPhrases(phrases)
+                    phrasesAdapter.setItems(phrases)
                     // Move adapter to middle so user can scroll both directions
                     val middle = phrasesAdapter.itemCount / 2
                     if (phrasesAdapter.numPages == 0) {
@@ -191,35 +190,32 @@ class EditPresetsFragment : BaseFragment() {
     }
 
     inner class EditPhrasesAdapter(fm: FragmentManager) :
-        FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
 
         private val phrases = mutableListOf<Phrase>()
-        var numPages: Int = 0
 
-        fun setPhrases(phrases: List<Phrase>) {
-            with(this.phrases) {
+        override fun setItems(items: List<Any>) {
+            super.setItems(items)
+
+            with(phrases) {
                 clear()
-                addAll(phrases)
+                items.forEach {
+                    if (it is Phrase) {
+                        add(it)
+                    }
+                }
             }
-            numPages = if (phrases.isEmpty()) {
-                1
-            } else {
-                ceil(phrases.size / maxPhrases.toDouble()).toInt()
-            }
-            notifyDataSetChanged()
-
-            setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
+            setPagingButtonsEnabled(numPages > 1)
         }
+
+        override fun getMaxItemsPerPage(): Int = maxPhrases
 
         private fun setPagingButtonsEnabled(enable: Boolean) {
             binding?.let {
                 it.phrasesForwardButton.isEnabled = enable
                 it.phrasesBackButton.isEnabled = enable
+                it.editSayingsViewPager.isUserInputEnabled = enable
             }
-        }
-
-        override fun getItemCount(): Int {
-            return Int.MAX_VALUE
         }
 
         override fun createFragment(position: Int): Fragment {
