@@ -22,7 +22,8 @@ class SettingsFragment : BaseFragment() {
 
     companion object {
         private const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
-        private const val MAIL_TO = "mailto:vocable@willowtreeapps.com"
+        private const val MAIL_TO =
+            "mailto:vocable@willowtreeapps.com?subject=Feedback for Android Vocable "
         private const val SETTINGS_OPTION_COUNT = 5
     }
 
@@ -77,7 +78,8 @@ class SettingsFragment : BaseFragment() {
         binding?.contactDevsButton?.action = {
             showLeavingAppDialog {
                 val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse(MAIL_TO)
+                    data =
+                        Uri.parse("$MAIL_TO${BuildConfig.VERSION_NAME}-${BuildConfig.VERSION_CODE}")
                 }
                 startActivity(sendEmail)
             }
