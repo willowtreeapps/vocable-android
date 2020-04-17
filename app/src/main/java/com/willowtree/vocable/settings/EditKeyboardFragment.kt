@@ -64,6 +64,7 @@ class EditKeyboardFragment : BaseFragment() {
     private var phrase: Phrase? = null
     private var category: Category? = null
     private var isCategory = false
+    private var addNewPhrase = false
 
     private val allViews = mutableListOf<View>()
 
@@ -129,8 +130,12 @@ class EditKeyboardFragment : BaseFragment() {
             val categoryTextChanged = binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
             if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
-            } else if (isEditing && !textChanged || isDefaultTextVisible()) {
-                parentFragmentManager.popBackStack()
+            } else if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
+                if (isCategory) {
+                    parentFragmentManager.popBackStack()
+                } else {
+                    parentFragmentManager.popBackStack()
+                }
             } else {
                 showConfirmationDialog()
             }
@@ -159,14 +164,20 @@ class EditKeyboardFragment : BaseFragment() {
                 } else if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            val phraseUtterance =
-                                phrase?.localizedUtterance?.toMutableMap()?.apply {
+                            val phraseUtterance = phrase?.localizedUtterance?.toMutableMap()?.apply {
                                     put(Locale.getDefault().toString(), text.toString())
                                 }
                             phrase?.localizedUtterance = phraseUtterance ?: mapOf()
-                            phrase?.let { updatedPhrase ->
-                                viewModel.updatePhrase(updatedPhrase)
-                            } ?: viewModel.addNewPhrase(text.toString())
+                            if (phrase == null) {
+                                viewModel.addNewPhrase(text.toString())
+                                addNewPhrase = true
+                            } else {
+                                phrase?.let { updatedPhrase ->
+                                    viewModel.updatePhrase(updatedPhrase)
+                                    addNewPhrase = false
+                                }
+                            }
+
                         }
                     }
                 }
@@ -267,7 +278,7 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.editConfirmation?.dialogNegativeButton?.let {
             it.text = getString(R.string.discard)
             it.action = {
-               parentFragmentManager.popBackStack()
+                parentFragmentManager.popBackStack()
             }
         }
         toggleDialogVisibility(true)
