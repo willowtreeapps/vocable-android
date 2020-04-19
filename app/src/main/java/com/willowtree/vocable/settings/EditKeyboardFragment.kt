@@ -127,15 +127,12 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.backButton?.action = {
             val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
             val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
-            val categoryTextChanged = binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
+            val categoryTextChanged =
+                binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
             if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
             } else if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
-                if (isCategory) {
-                    parentFragmentManager.popBackStack()
-                } else {
-                    parentFragmentManager.popBackStack()
-                }
+                parentFragmentManager.popBackStack()
             } else {
                 showConfirmationDialog()
             }
@@ -164,7 +161,8 @@ class EditKeyboardFragment : BaseFragment() {
                 } else if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.text?.let { text ->
                         if (text.isNotBlank()) {
-                            val phraseUtterance = phrase?.localizedUtterance?.toMutableMap()?.apply {
+                            val phraseUtterance =
+                                phrase?.localizedUtterance?.toMutableMap()?.apply {
                                     put(Locale.getDefault().toString(), text.toString())
                                 }
                             phrase?.localizedUtterance = phraseUtterance ?: mapOf()
@@ -185,18 +183,18 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardInput?.setText(
-            if ( !isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
+            if (!isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
                 getString(R.string.keyboard_select_letters)
-            } else if (isCategory && category?.getLocalizedText().isNullOrEmpty() ) {
+            } else if (isCategory && category?.getLocalizedText().isNullOrEmpty()) {
                 getString(R.string.keyboard_select_letters)
-            }  else if (isCategory) {
+            } else if (isCategory) {
                 category?.getLocalizedText()
             } else {
                 phrase?.getLocalizedText()
             }
         )
 
-        binding?.keyboardInput?.addTextChangedListener(object: TextWatcher {
+        binding?.keyboardInput?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // no-op
             }
