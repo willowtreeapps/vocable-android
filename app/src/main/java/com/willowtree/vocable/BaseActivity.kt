@@ -43,6 +43,22 @@ abstract class BaseActivity : AppCompatActivity() {
         if (!checkIsSupportedDeviceOrFinish()) {
             return
         }
+
+        if (supportFragmentManager.findFragmentById(R.id.face_fragment) == null && BuildConfig.USE_HEAD_TRACKING) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.face_fragment, FaceTrackFragment())
+                .commit()
+        } else {
+            window
+                .decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                .or(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+                .or(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                .or(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                .or(View.SYSTEM_UI_FLAG_FULLSCREEN)
+                .or(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
+
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
@@ -129,7 +145,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         })
         viewModel.pointerLocation.observe(this, Observer {
-            it.let {
+            it?.let {
                 updatePointer(it.x, it.y)
             }
         })
