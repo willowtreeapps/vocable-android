@@ -25,7 +25,7 @@ jobs:
           command: echo no | android create avd -n circleci-android24-googleapis -t || echo "The emulator is already there."
       - run:
           name: Boot Emulator
-          command: emulator -avd circleci-android24 -no-audio -no-window
+          command: emulator -avd circleci-android24-googleapis -no-audio -no-window
           background: true
           parallel: true
       - run:
