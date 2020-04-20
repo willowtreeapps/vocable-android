@@ -190,21 +190,10 @@ class EditPresetsFragment : BaseFragment() {
     }
 
     inner class EditPhrasesAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
 
-        private val phrases = mutableListOf<Phrase>()
-
-        override fun setItems(items: List<Any>) {
+        override fun setItems(items: List<Phrase>) {
             super.setItems(items)
-
-            with(phrases) {
-                clear()
-                items.forEach {
-                    if (it is Phrase) {
-                        add(it)
-                    }
-                }
-            }
             setPagingButtonsEnabled(numPages > 1)
         }
 
@@ -220,12 +209,12 @@ class EditPresetsFragment : BaseFragment() {
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxPhrases
-            val sublist = phrases.subList(
+            val sublist = items.subList(
                 startPosition,
-                phrases.size.coerceAtMost(startPosition + maxPhrases)
+                items.size.coerceAtMost(startPosition + maxPhrases)
             )
 
-            return if (phrases.isEmpty()) {
+            return if (items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(true)
             } else {
                 EditPhrasesFragment.newInstance(sublist)

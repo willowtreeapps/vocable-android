@@ -13,10 +13,10 @@ import kotlin.math.ceil
  * with new data. This custom class solves this issue by giving unique ids to each fragment and
  * updating the ids every time the data set is changed with setItems().
  */
-abstract class VocableFragmentStateAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
+abstract class VocableFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fm, lifecycle) {
 
-    private val items = mutableListOf<Any>()
+    protected val items = mutableListOf<T>()
     private var baseId = 0L
     var numPages = 0
 
@@ -29,7 +29,7 @@ abstract class VocableFragmentStateAdapter(fm: FragmentManager, lifecycle: Lifec
     }
 
     @CallSuper
-    open fun setItems(items: List<Any>) {
+    open fun setItems(items: List<T>) {
         baseId = System.currentTimeMillis()
         with(this.items) {
             clear()
