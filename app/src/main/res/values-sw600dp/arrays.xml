@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="keyboard_keys">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="keyboard_keys" tools:ignore="InconsistentArrays">
         <item>Q</item>
         <item>W</item>
         <item>E</item>
@@ -32,4 +32,5 @@
         <item>.</item>
         <item>\?</item>
     </string-array>
+
 </resources>
