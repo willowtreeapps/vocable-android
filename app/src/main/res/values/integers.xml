@@ -18,6 +18,4 @@
     <integer name="max_edit_categories">4</integer>
     <integer name="keyboard_columns">5</integer>
     <integer name="keyboard_rows">6</integer>
-    <integer name="keyboard_german_columns">5</integer>
-    <integer name="keyboard_german_rows">7</integer>
 </resources>
