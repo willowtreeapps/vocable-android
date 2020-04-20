@@ -1,5 +1,6 @@
 package com.willowtree.vocable.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,6 +21,7 @@ import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import org.koin.android.ext.android.get
 import java.util.*
 
 class EditKeyboardFragment : BaseFragment() {
@@ -66,8 +68,6 @@ class EditKeyboardFragment : BaseFragment() {
     private var isCategory = false
     private var addNewPhrase = false
 
-    private val allViews = mutableListOf<View>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,7 +81,10 @@ class EditKeyboardFragment : BaseFragment() {
         arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
             category = it
         }
+
         isCategory = arguments?.getBoolean(KEY_IS_CATEGORY) ?: false
+
+        keys = resources.getStringArray(R.array.keyboard_keys)
 
         populateKeys()
 

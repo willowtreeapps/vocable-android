@@ -6,11 +6,12 @@
         <item>E</item>
         <item>R</item>
         <item>T</item>
-        <item>Y</item>
+        <item>Z</item>
         <item>U</item>
         <item>I</item>
         <item>O</item>
         <item>P</item>
+        <item>Ü</item>
         <item>A</item>
         <item>S</item>
         <item>D</item>
@@ -20,17 +21,18 @@
         <item>J</item>
         <item>K</item>
         <item>L</item>
-        <item>\'</item>
-        <item>Z</item>
+        <item>Ö</item>
+        <item>Ä</item>
+        <item>Y</item>
         <item>X</item>
         <item>C</item>
         <item>V</item>
         <item>B</item>
         <item>N</item>
         <item>M</item>
-        <item>,</item>
+        <item>ß</item>
+        <item>\'</item>
         <item>.</item>
         <item>\?</item>
     </string-array>
-
 </resources>
