@@ -22,7 +22,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Create Emulator
-          command: echo no | android create avd -n circleci-android24-googleapis -t || echo "The emulator is already there."
+          command: sdkmanager --list --verbose | grep system-images
       - run:
           name: Boot Emulator
           command: emulator -avd circleci-android24-googleapis -no-audio -no-window
