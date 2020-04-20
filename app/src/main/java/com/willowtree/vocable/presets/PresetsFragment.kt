@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -24,8 +23,8 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
+import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import kotlin.math.ceil
 import kotlin.math.min
 
 class PresetsFragment : BaseFragment() {
@@ -211,7 +210,7 @@ class PresetsFragment : BaseFragment() {
                 with(binding?.categoryView) {
                     this?.isSaveEnabled = false
                     this?.adapter = categoriesAdapter
-                    categoriesAdapter.setCategories(categories)
+                    categoriesAdapter.setItems(categories)
                     // Move adapter to middle so user can scroll both directions
                     val middle = categoriesAdapter.itemCount / 2
                     if (middle % categoriesAdapter.numPages == 0) {
@@ -240,7 +239,7 @@ class PresetsFragment : BaseFragment() {
                             resources.getInteger(R.integer.max_phrases)
                         }
 
-                    phrasesAdapter.setPhrases(phrases)
+                    phrasesAdapter.setItems(phrases)
                     // Move adapter to middle so user can scroll both directions
                     val middle = phrasesAdapter.itemCount / 2
                     if (middle % phrasesAdapter.numPages == 0) {
@@ -275,30 +274,15 @@ class PresetsFragment : BaseFragment() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
-        private val categories = mutableListOf<Category>()
-
-        var numPages = 0
-
-        fun setCategories(categories: List<Category>) {
-            with(this.categories) {
-                clear()
-                addAll(categories)
-            }
-            numPages = ceil(categories.size / maxCategories.toDouble()).toInt()
-            notifyDataSetChanged()
-        }
-
-        override fun getItemCount(): Int {
-            return Int.MAX_VALUE
-        }
+        override fun getMaxItemsPerPage(): Int = maxCategories
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxCategories
-            val subList = categories.subList(
+            val subList = items.subList(
                 startPosition,
-                min(categories.size, startPosition + maxCategories)
+                min(items.size, startPosition + maxCategories)
             )
 
             return CategoriesFragment.newInstance(subList)
@@ -306,24 +290,10 @@ class PresetsFragment : BaseFragment() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
 
-        private val phrases = mutableListOf<Phrase>()
-        var numPages: Int = 0
-
-        fun setPhrases(phrases: List<Phrase>) {
-            with(this.phrases) {
-                clear()
-                addAll(phrases)
-            }
-
-            numPages = if (phrases.isEmpty()) {
-                1
-            } else {
-                ceil(phrases.size / maxPhrases.toDouble()).toInt()
-            }
-            notifyDataSetChanged()
-
+        override fun setItems(items: List<Phrase>) {
+            super.setItems(items)
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
         }
 
@@ -331,22 +301,21 @@ class PresetsFragment : BaseFragment() {
             binding?.let {
                 it.phrasesForwardButton.isEnabled = enable
                 it.phrasesBackButton.isEnabled = enable
+                it.phrasesView.isUserInputEnabled = enable
             }
         }
 
-        override fun getItemCount(): Int {
-            return Int.MAX_VALUE
-        }
+        override fun getMaxItemsPerPage(): Int = maxPhrases
 
         override fun createFragment(position: Int): Fragment {
 
             val startPosition = (position % numPages) * maxPhrases
             val sublist =
-                phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
+                items.subList(startPosition, min(items.size, startPosition + maxPhrases))
 
             return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                 NumberPadFragment.newInstance(sublist)
-            } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && phrases.isEmpty()) {
+            } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(sublist)

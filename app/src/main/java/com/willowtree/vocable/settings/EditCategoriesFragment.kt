@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -16,7 +15,7 @@ import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.room.Category
-import kotlin.math.ceil
+import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import kotlin.math.min
 
 class EditCategoriesFragment : BaseFragment() {
@@ -141,7 +140,7 @@ class EditCategoriesFragment : BaseFragment() {
                 with(binding?.editCategoriesViewPager) {
                     this?.isSaveEnabled = false
                     this?.adapter = categoriesAdapter
-                    categoriesAdapter.setCategories(categories)
+                    categoriesAdapter.setItems(categories)
                     // Move adapter to middle so user can scroll both directions
                     val middle = categoriesAdapter.itemCount / 2
                     if (middle % categoriesAdapter.numPages == 0) {
@@ -175,30 +174,18 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        FragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
-        private val categories = mutableListOf<Category>()
-
-        var numPages = 0
-
-        fun setCategories(categories: List<Category>) {
-            with(this.categories) {
-                clear()
-                addAll(categories)
-            }
-            numPages = ceil(categories.size / maxEditCategories.toDouble()).toInt()
-            notifyDataSetChanged()
-
+        override fun setItems(items: List<Category>) {
+            super.setItems(items)
             setPagingButtonsEnabled(categoriesAdapter.numPages > 1)
         }
 
-        override fun getItemCount(): Int {
-            return Int.MAX_VALUE
-        }
+        override fun getMaxItemsPerPage(): Int = maxEditCategories
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxEditCategories
-            val endPosition = min(categories.size, startPosition + maxEditCategories)
+            val endPosition = min(items.size, startPosition + maxEditCategories)
 
             return EditCategoriesListFragment.newInstance(startPosition, endPosition)
         }
@@ -208,6 +195,7 @@ class EditCategoriesFragment : BaseFragment() {
         binding?.let {
             it.categoryForwardButton.isEnabled = enable
             it.categoryBackButton.isEnabled = enable
+            it.editCategoriesViewPager.isUserInputEnabled = enable
         }
     }
 

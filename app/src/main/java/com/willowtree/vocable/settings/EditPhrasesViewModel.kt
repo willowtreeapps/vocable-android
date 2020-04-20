@@ -37,7 +37,7 @@ class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: Strin
         backgroundScope.launch {
 
             val phrases =
-                presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
+                presetsRepository.getPhrasesForCategory(mySayingsCategoryId).sortedBy { it.sortOrder }
 
             liveMySayingsList.postValue(phrases)
         }

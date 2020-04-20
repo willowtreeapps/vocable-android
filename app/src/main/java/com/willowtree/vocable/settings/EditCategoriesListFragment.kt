@@ -162,7 +162,7 @@ class EditCategoriesListFragment : BaseFragment() {
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category?.categoryId == getString(R.string.category_my_sayings_id)) {
+            if (category.categoryId == getString(R.string.category_my_sayings_id)) {
                 editCategorySelectButton.isEnabled = false
             }
 
