@@ -274,30 +274,15 @@ class PresetsFragment : BaseFragment() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
-
-        private val categories = mutableListOf<Category>()
-
-        override fun setItems(items: List<Any>) {
-            super.setItems(items)
-
-            with(categories) {
-                clear()
-                items.forEach {
-                    if (it is Category) {
-                        add(it)
-                    }
-                }
-            }
-        }
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun getMaxItemsPerPage(): Int = maxCategories
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxCategories
-            val subList = categories.subList(
+            val subList = items.subList(
                 startPosition,
-                min(categories.size, startPosition + maxCategories)
+                min(items.size, startPosition + maxCategories)
             )
 
             return CategoriesFragment.newInstance(subList)
@@ -305,21 +290,10 @@ class PresetsFragment : BaseFragment() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
 
-        private val phrases = mutableListOf<Phrase>()
-
-        override fun setItems(items: List<Any>) {
+        override fun setItems(items: List<Phrase>) {
             super.setItems(items)
-            with(phrases) {
-                clear()
-                items.forEach {
-                    if (it is Phrase) {
-                        add(it)
-                    }
-                }
-            }
-
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
         }
 
@@ -337,11 +311,11 @@ class PresetsFragment : BaseFragment() {
 
             val startPosition = (position % numPages) * maxPhrases
             val sublist =
-                phrases.subList(startPosition, min(phrases.size, startPosition + maxPhrases))
+                items.subList(startPosition, min(items.size, startPosition + maxPhrases))
 
             return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
                 NumberPadFragment.newInstance(sublist)
-            } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && phrases.isEmpty()) {
+            } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(sublist)

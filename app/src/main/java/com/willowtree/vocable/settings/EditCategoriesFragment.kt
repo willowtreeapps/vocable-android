@@ -174,21 +174,10 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
-        private val categories = mutableListOf<Category>()
-
-        override fun setItems(items: List<Any>) {
+        override fun setItems(items: List<Category>) {
             super.setItems(items)
-
-            with(categories) {
-                clear()
-                items.forEach {
-                    if (it is Category) {
-                        add(it)
-                    }
-                }
-            }
             setPagingButtonsEnabled(categoriesAdapter.numPages > 1)
         }
 
@@ -196,7 +185,7 @@ class EditCategoriesFragment : BaseFragment() {
 
         override fun createFragment(position: Int): Fragment {
             val startPosition = (position % numPages) * maxEditCategories
-            val endPosition = min(categories.size, startPosition + maxEditCategories)
+            val endPosition = min(items.size, startPosition + maxEditCategories)
 
             return EditCategoriesListFragment.newInstance(startPosition, endPosition)
         }
