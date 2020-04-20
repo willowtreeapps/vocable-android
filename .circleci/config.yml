@@ -22,10 +22,13 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Create Emulator
-          command: avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+          commands: cd $ANDROID_HOME/tools/bin
+          ./sdkmanager "system-images;android-24;default;armeabi-v7a"
+          ./sdkmanager --licenses
+          avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
       - run:
           name: Boot Emulator
-          command: emulator -avd test -no-audio -no-window
+          command: emulator -avd circleci-android24-googleapis -no-audio -no-window
           background: true
           parallel: true
       - run:
