@@ -39,11 +39,7 @@ class KeyboardFragment : BaseFragment() {
     ): View? {
         binding = FragmentKeyboardBinding.inflate(inflater, container, false)
 
-        keys = if (currentLocale == Locale.GERMANY) {
-            resources.getStringArray(R.array.keyboard_keys_german)
-        } else {
-            resources.getStringArray(R.array.keyboard_keys)
-        }
+        keys =  resources.getStringArray(R.array.keyboard_keys)
 
         populateKeys()
 
@@ -157,17 +153,6 @@ class KeyboardFragment : BaseFragment() {
         }
 
         (binding?.phraseSavedView?.root as? TextView)?.setText(R.string.saved_successfully)
-
-        binding?.keyboardKeyHolder?.columnCount = if (currentLocale == Locale.GERMANY) {
-            resources.getInteger(R.integer.keyboard_german_columns)
-        } else {
-            resources.getInteger(R.integer.keyboard_columns)
-        }
-        binding?.keyboardKeyHolder?.rowCount = if (currentLocale == Locale.GERMANY) {
-            resources.getInteger(R.integer.keyboard_german_rows)
-        } else {
-            resources.getInteger(R.integer.keyboard_rows)
-        }
 
         viewModel = ViewModelProviders.of(
             this,

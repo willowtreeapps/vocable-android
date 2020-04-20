@@ -84,11 +84,7 @@ class EditKeyboardFragment : BaseFragment() {
 
         isCategory = arguments?.getBoolean(KEY_IS_CATEGORY) ?: false
 
-        keys = if (currentLocale == Locale.GERMANY) {
-            resources.getStringArray(R.array.keyboard_keys_german)
-        } else {
-            resources.getStringArray(R.array.keyboard_keys)
-        }
+        keys = resources.getStringArray(R.array.keyboard_keys)
 
         populateKeys()
 
@@ -239,17 +235,6 @@ class EditKeyboardFragment : BaseFragment() {
             } else {
                 (it as TextView).setText(R.string.new_phrase_saved)
             }
-        }
-
-        binding?.keyboardKeyHolder?.columnCount = if (currentLocale == Locale.GERMANY) {
-            resources.getInteger(R.integer.keyboard_german_columns)
-        } else {
-            resources.getInteger(R.integer.keyboard_columns)
-        }
-        binding?.keyboardKeyHolder?.rowCount = if (currentLocale == Locale.GERMANY) {
-            resources.getInteger(R.integer.keyboard_german_rows)
-        } else {
-            resources.getInteger(R.integer.keyboard_rows)
         }
 
         if (isCategory) {

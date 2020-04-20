@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string-array name="keyboard_keys">
+    <string-array name="keyboard_keys" tools:ignore="InconsistentArrays">
         <item>Q</item>
         <item>W</item>
         <item>E</item>
@@ -33,39 +33,4 @@
         <item>\?</item>
     </string-array>
 
-    <string-array name="keyboard_keys_german" tools:ignore="InconsistentArrays">
-        <item>Q</item>
-        <item>W</item>
-        <item>E</item>
-        <item>R</item>
-        <item>T</item>
-        <item>Z</item>
-        <item>U</item>
-        <item>I</item>
-        <item>O</item>
-        <item>P</item>
-        <item>Ü</item>
-        <item>A</item>
-        <item>S</item>
-        <item>D</item>
-        <item>F</item>
-        <item>G</item>
-        <item>H</item>
-        <item>J</item>
-        <item>K</item>
-        <item>L</item>
-        <item>Ö</item>
-        <item>Ä</item>
-        <item>Y</item>
-        <item>X</item>
-        <item>C</item>
-        <item>V</item>
-        <item>B</item>
-        <item>N</item>
-        <item>M</item>
-        <item>ß</item>
-        <item>\'</item>
-        <item>.</item>
-        <item>\?</item>
-    </string-array>
 </resources>
