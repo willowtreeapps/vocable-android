@@ -116,13 +116,15 @@
         android:layout_marginTop="@dimen/keyboard_keys_top_margin"
         android:layout_marginEnd="@dimen/keyboard_side_margin"
         android:layout_marginBottom="@dimen/keyboard_side_margin"
-        android:columnCount="5"
-        android:rowCount="6"
+        android:columnCount="@integer/keyboard_columns"
+        android:rowCount="@integer/keyboard_rows"
         android:useDefaultMargins="true"
         app:layout_constraintBottom_toTopOf="@+id/keyboard_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
+        app:layout_constraintTop_toBottomOf="@+id/action_button_container"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/keyboard_bottom_bar"
