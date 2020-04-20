@@ -66,7 +66,7 @@ class EditKeyboardFragment : BaseFragment() {
     private var phrase: Phrase? = null
     private var category: Category? = null
     private var isCategory = false
-    private val currentLocale = get<Context>().resources.configuration?.locales?.get(0)
+    private var addNewPhrase = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -130,10 +130,11 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.backButton?.action = {
             val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
             val textChanged = binding?.keyboardInput?.text.toString() != phrase?.getLocalizedText()
-            val categoryTextChanged = binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
+            val categoryTextChanged =
+                binding?.keyboardInput?.text.toString() != category?.getLocalizedText()
             if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
-            } else if (isEditing && !textChanged || isDefaultTextVisible()) {
+            } else if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
                 parentFragmentManager.popBackStack()
             } else {
                 showConfirmationDialog()
@@ -168,9 +169,16 @@ class EditKeyboardFragment : BaseFragment() {
                                     put(Locale.getDefault().toString(), text.toString())
                                 }
                             phrase?.localizedUtterance = phraseUtterance ?: mapOf()
-                            phrase?.let { updatedPhrase ->
-                                viewModel.updatePhrase(updatedPhrase)
-                            } ?: viewModel.addNewPhrase(text.toString())
+                            if (phrase == null) {
+                                viewModel.addNewPhrase(text.toString())
+                                addNewPhrase = true
+                            } else {
+                                phrase?.let { updatedPhrase ->
+                                    viewModel.updatePhrase(updatedPhrase)
+                                    addNewPhrase = false
+                                }
+                            }
+
                         }
                     }
                 }
@@ -178,18 +186,18 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         binding?.keyboardInput?.setText(
-            if ( !isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
+            if (!isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
                 getString(R.string.keyboard_select_letters)
-            } else if (isCategory && category?.getLocalizedText().isNullOrEmpty() ) {
+            } else if (isCategory && category?.getLocalizedText().isNullOrEmpty()) {
                 getString(R.string.keyboard_select_letters)
-            }  else if (isCategory) {
+            } else if (isCategory) {
                 category?.getLocalizedText()
             } else {
                 phrase?.getLocalizedText()
             }
         )
 
-        binding?.keyboardInput?.addTextChangedListener(object: TextWatcher {
+        binding?.keyboardInput?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // no-op
             }
@@ -271,7 +279,7 @@ class EditKeyboardFragment : BaseFragment() {
         binding?.editConfirmation?.dialogNegativeButton?.let {
             it.text = getString(R.string.discard)
             it.action = {
-               parentFragmentManager.popBackStack()
+                parentFragmentManager.popBackStack()
             }
         }
         toggleDialogVisibility(true)
