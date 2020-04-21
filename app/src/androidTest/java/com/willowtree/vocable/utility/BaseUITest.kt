@@ -1,17 +1,18 @@
 package com.willowtree.vocable.utility
 
 import android.app.Activity
-import android.app.KeyguardManager
-import android.content.Context.KEYGUARD_SERVICE
 import android.content.Intent
-import android.view.WindowManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 
 
 abstract class BaseUITest<T : Activity> {
+
+    private val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @Rule
     lateinit var activityRule: IntentsTestRule<T>
@@ -20,23 +21,9 @@ abstract class BaseUITest<T : Activity> {
     fun setup() {
         println("setup")
         activityRule = getActivityTestRule()
-        val activity = activityRule.activity
 
-        activityRule.runOnUiThread {
-            val kg =
-                activity.getSystemService(KEYGUARD_SERVICE) as KeyguardManager
-            val lock =
-                kg.newKeyguardLock(KEYGUARD_SERVICE)
-            lock.disableKeyguard()
-            //turn the screen on
-            activity.window.addFlags(
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                        or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                        or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                        or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                        or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
-            )
-        }
+        device.wakeUp()
+
         if (shouldAutoLaunchActivity()) {
             activityRule.launchActivity(Intent())
         }
