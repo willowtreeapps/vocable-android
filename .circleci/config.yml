@@ -21,24 +21,36 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Setup emulator
+          name: set ANDROID_SDK_ROOT
           command: |
-            sdkmanager --list --verbose
-            sdkmanager "system-images;android-24;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;google_apis;armeabi-v7a"
+            echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
+
+      - restore_cache:
+          key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
       - run:
-          name: Launch emulator
+          name: install android tools
           command: |
-            cd ${ANDROID_HOME}/emulator;ls
-            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-            emulator -list-avds
-            emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+            sh install-android-tools.sh
+            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
+            source $BASH_ENV
+            sdkmanager --list
+      - save_cache:
+          key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
+          paths:
+            - /Users/distiller/android-tools
+      - run:
+          name: create AVD
+          command: make create-avd
+      - run:
+          name: start AVD
+          command: emulator-headless -avd android-tablet
           background: true
       - run:
-          name: Wait emulator
-          command: |
-            circle-android wait-for-boot
-            sleep 30
-            adb shell input keyevent 82
+          name: wait for emulator
+          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
       - run:
           name: Run EspressoTests
           command: |
