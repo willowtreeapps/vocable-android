@@ -43,10 +43,10 @@ jobs:
             - /Users/distiller/android-tools
       - run:
           name: create AVD
-          command: avdmanager create avd -n test -k "system-images;android-24;google_apis;x86_64"
+          command: echo no | avdmanager create avd -n test -k "system-images;android-24;google_apis;x86_64" --force
       - run:
           name: start AVD
-          command: echo no | emulator-headless -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose -force | echo no
+          command: emulator-headless -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
       - run:
           name: wait for emulator
