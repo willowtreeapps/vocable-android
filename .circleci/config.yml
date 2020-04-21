@@ -20,43 +20,36 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Create Emulator
-          commands: cd $ANDROID_HOME/tools/bin
-          ./sdkmanager "system-images;android-24;default;armeabi-v7a"
-          ./sdkmanager --licenses
-          avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-      - run:
-          name: Boot Emulator
-          command: emulator -avd circleci-android24-googleapis -no-audio -no-window
+      run:
+        name: Setup emulator
+        command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
+      run:
+        name: Launch emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
-          parallel: true
-      - run:
-          name: Wait for boot
-          command: circle-android wait-for-boot
-      - run:
-          name: Additional Sleep
-          command: sleep 30
-      - run:
-          name: Unlock the emulator screen
-          command: adb shell input keyevent 82
-      - run:
-          name: Run UI automation tests
-          command: ./gradlew lint test connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
-      - run:
-          name: Build Debug Apk
-          command: ./gradlew assembleDebug
-      - run:
-          name: Install AppCenter CLI
-          command: sudo npm install -g appcenter-cli
-      - run:
-          name: Publish to AppCenter
+      run:
+        name: Wait emulator
           command: |
-            appcenter login --token ${APP_CENTER_TOKEN}
-            export apk="$(find ./app/build/outputs/apk/debug -regex '.*.apk')"
-            appcenter distribute release -f ${apk} -g ${APP_CENTER_DISTRIBUTION_LIST} --app ${APP_CENTER_APP_NAME} -r "Android" --silent
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
-          path: app/build/reports
-          destination: reports
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
+            circle-android wait-for-boot
+            sleep 30
+            adb shell input keyevent 82
+          - run:
+              name: Run EspressoTests
+              command: ./gradlew connectedDemoDebugAndroidTest -PUSE_HEAD_TRACKING="false"
+          - run:
+              name: Build Debug Apk
+              command: ./gradlew assembleDebug
+          - run:
+              name: Install AppCenter CLI
+              command: sudo npm install -g appcenter-cli
+          - run:
+              name: Publish to AppCenter
+              command: |
+                appcenter login --token ${APP_CENTER_TOKEN}
+                export apk="$(find ./app/build/outputs/apk/debug -regex '.*.apk')"
+                appcenter distribute release -f ${apk} -g ${APP_CENTER_DISTRIBUTION_LIST} --app ${APP_CENTER_APP_NAME} -r "Android" --silent
+          - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+              path: app/build/reports
+              destination: reports
+          - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+              path: app/build/test-results
