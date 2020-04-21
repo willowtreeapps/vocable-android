@@ -22,6 +22,7 @@ abstract class BaseUITest<T : Activity> {
         println("setup")
         activityRule = getActivityTestRule()
 
+        // Wake up sleeping device
         device.wakeUp()
 
         if (shouldAutoLaunchActivity()) {
