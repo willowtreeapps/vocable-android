@@ -1,13 +1,17 @@
 package com.willowtree.vocable.utility
 
 import android.app.Activity
+import android.app.KeyguardManager
+import android.content.Context.KEYGUARD_SERVICE
 import android.content.Intent
+import android.view.WindowManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 
-abstract class BaseUITest<T : Activity>{
+
+abstract class BaseUITest<T : Activity> {
 
     @Rule
     lateinit var activityRule: IntentsTestRule<T>

@@ -40,9 +40,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            if (BuildConfig.USE_HEAD_TRACKING && !checkIsSupportedDeviceOrFinish()) {
-                return
-            }
+        if (BuildConfig.USE_HEAD_TRACKING && !checkIsSupportedDeviceOrFinish()) {
+            return
+        }
 
         if (supportFragmentManager.findFragmentById(R.id.face_fragment) == null && BuildConfig.USE_HEAD_TRACKING) {
             supportFragmentManager
