@@ -46,7 +46,7 @@ jobs:
           command: avdmanager create avd -n test -k "system-images;android-24;google_apis;x86_64"
       - run:
           name: start AVD
-          command: emulator-headless -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+          command: emulator-headless -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose -force
           background: true
       - run:
           name: wait for emulator
