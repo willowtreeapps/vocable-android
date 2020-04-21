@@ -2,6 +2,7 @@ package com.willowtree.vocable.presets
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,10 @@ import kotlin.math.min
 
 class PresetsFragment : BaseFragment() {
 
+    companion object {
+        private const val KEY_CATEGORY_POSITION = "KEY_CATEGORY_POSITION"
+    }
+
     private var binding: FragmentPresetsBinding? = null
     private val allViews = mutableListOf<View>()
 
@@ -38,6 +43,8 @@ class PresetsFragment : BaseFragment() {
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
+
+    private var categoryPosition: Int? = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -169,6 +176,8 @@ class PresetsFragment : BaseFragment() {
             }
         })
 
+        categoryPosition = savedInstanceState?.getInt(KEY_CATEGORY_POSITION)
+
         SpokenText.postValue(null)
 
         presetsViewModel =
@@ -192,6 +201,11 @@ class PresetsFragment : BaseFragment() {
         presetsViewModel.populateCategories()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_CATEGORY_POSITION, binding?.categoryView?.currentItem ?: 0)
+    }
+
     private fun subscribeToViewModel() {
         SpokenText.observe(viewLifecycleOwner, Observer {
             binding?.currentText?.text = if (it.isNullOrBlank()) {
@@ -211,16 +225,24 @@ class PresetsFragment : BaseFragment() {
                     this?.isSaveEnabled = false
                     this?.adapter = categoriesAdapter
                     categoriesAdapter.setItems(categories)
-                    // Move adapter to middle so user can scroll both directions
-                    val middle = categoriesAdapter.itemCount / 2
-                    if (middle % categoriesAdapter.numPages == 0) {
-                        binding?.categoryView?.setCurrentItem(middle, false)
+
+                    // Restore saved position if it exists, otherwise jump to middle
+                    if (categoryPosition != null ) {
+                        Log.e("JS", "Restoring categoryPosition: $categoryPosition")
+                        categoryPosition?.let { categoryPosition -> binding?.categoryView?.currentItem = categoryPosition }
                     } else {
-                        val mod = middle % categoriesAdapter.numPages
-                        binding?.categoryView?.setCurrentItem(
-                            middle + (categoriesAdapter.numPages - mod),
-                            false
-                        )
+                        Log.e("JS", "Selecting center item")
+                        // Move adapter to middle so user can scroll both directions
+                        val middle = categoriesAdapter.itemCount / 2
+                        if (middle % categoriesAdapter.numPages == 0) {
+                            binding?.categoryView?.setCurrentItem(middle, false)
+                        } else {
+                            val mod = middle % categoriesAdapter.numPages
+                            binding?.categoryView?.setCurrentItem(
+                                middle + (categoriesAdapter.numPages - mod),
+                                false
+                            )
+                        }
                     }
                 }
             }
