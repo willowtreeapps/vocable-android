@@ -68,6 +68,14 @@ class EditCategoryOptionsFragment : BaseFragment() {
             parentFragmentManager.popBackStack()
         }
 
+        binding?.showCategorySwitch?.let {
+            it.action = {
+                binding?.categoryShowSwitch?.let { switch ->
+                    switch.isChecked = !switch.isChecked
+                }
+            }
+        }
+
         binding?.categoryShowSwitch?.let {
             it.isChecked = category?.hidden?.not() ?: false
             it.setOnCheckedChangeListener { _, isChecked ->
