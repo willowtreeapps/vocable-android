@@ -44,19 +44,17 @@ jobs:
   test:
     macos:
       xcode: "11.4.1"
-    working_directory: ~/repo/App
+    working_directory: ~/code
 
     steps:
-      - checkout:
-          path: ~/repo
-
+      - checkout
       - run:
           name: set ANDROID_SDK_ROOT
           command: |
             echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
 
       - restore_cache:
-          key: android=tools-v1-{{ checksum "scripts/install-android-tools.sh" }}-{{ arch }}
+          key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
 
       - run:
           name: install android tools
@@ -70,7 +68,7 @@ jobs:
             sdkmanager --list
 
       - save_cache:
-          key: android=tools-v1-{{ checksum "scripts/install-android-tools.sh" }}-{{ arch }}
+          key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
           paths:
             - /Users/distiller/android-tools
 
