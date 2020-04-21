@@ -26,7 +26,7 @@ class PresetsPageTest : BaseUITest<SplashActivity>(){
     fun verifyClickingPhraseUpdatesCurrentText() {
 
         // Wait for Splash Screen, we will want to make this wait more dynamic in the future and probably put it in the base test class
-        Thread.sleep(5000)
+        Thread.sleep(10000)
         presetsPage.apply {
             firstPhrase.tap()
             currentText.assertTextMatches("Please")
