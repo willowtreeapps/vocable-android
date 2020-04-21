@@ -24,7 +24,7 @@ jobs:
           name: Setup emulator
           command: |
             sdkmanager --list --verbose
-            sdkmanager "system-images;android-24;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+            sdkmanager "system-images;android-27;default;x86_64" && echo "no" | avdmanager create avd -n test -k "system-images;android-27;default;x86_64"
       - run:
           name: Launch emulator
           command: |
