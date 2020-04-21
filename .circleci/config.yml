@@ -38,7 +38,7 @@ jobs:
             adb shell input keyevent 82
       - run:
           name: Run EspressoTests
-          command: ./gradlew connectedDemoDebugAndroidTest -PUSE_HEAD_TRACKING="false"
+          command: ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
       - run:
           name: Build Debug Apk
           command: ./gradlew assembleDebug
