@@ -40,9 +40,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!checkIsSupportedDeviceOrFinish()) {
-            return
-        }
+            if (BuildConfig.USE_HEAD_TRACKING && !checkIsSupportedDeviceOrFinish()) {
+                return
+            }
 
         if (supportFragmentManager.findFragmentById(R.id.face_fragment) == null && BuildConfig.USE_HEAD_TRACKING) {
             supportFragmentManager
@@ -102,6 +102,7 @@ abstract class BaseActivity : AppCompatActivity() {
         val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
         displayManager.registerDisplayListener(displayListener, null)
     }
+
 
     /**
      * If the device rotates 180 degrees (portrait to portrait/landscape to landscape), the
