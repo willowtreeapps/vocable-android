@@ -1,5 +1,46 @@
 version: 2
 jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-29-node
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      #      - run:
+      #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+      #         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Run Tests
+          command: ./gradlew lint test
+      - run:
+          name: Build Debug Apk
+          command: ./gradlew assembleDebug
+      - run:
+          name: Install AppCenter CLI
+          command: sudo npm install -g appcenter-cli
+      - run:
+          name: Publish to AppCenter
+          command: |
+            appcenter login --token ${APP_CENTER_TOKEN}
+            export apk="$(find ./app/build/outputs/apk/debug -regex '.*.apk')"
+            appcenter distribute release -f ${apk} -g ${APP_CENTER_DISTRIBUTION_LIST} --app ${APP_CENTER_APP_NAME} -r "Android" --silent
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path: app/build/reports
+          destination: reports
+      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: app/build/test-results
+
   test:
     macos:
       xcode: "11.4.1"
@@ -52,52 +93,12 @@ jobs:
             ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
             sleep 30
             adb shell input keyevent 82
-  build:
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-29-node
-    environment:
-      JVM_OPTS: -Xmx3200m
-    steps:
-      - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#         command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - run:
-          name: Build Debug Apk
-          command: ./gradlew assembleDebug
-      - run:
-          name: Install AppCenter CLI
-          command: sudo npm install -g appcenter-cli
-      - run:
-          name: Publish to AppCenter
-          command: |
-            appcenter login --token ${APP_CENTER_TOKEN}
-            export apk="$(find ./app/build/outputs/apk/debug -regex '.*.apk')"
-            appcenter distribute release -f ${apk} -g ${APP_CENTER_DISTRIBUTION_LIST} --app ${APP_CENTER_APP_NAME} -r "Android" --silent
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: app/build/reports
-          destination: reports
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
 
-  workflows:
-    version: 2
-    build-test-android:
-      jobs:
-        - build:
-        - test:
-            requires:
-              - build
+workflows:
+  version: 2
+  build-test-android:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
