@@ -59,7 +59,7 @@ jobs:
       - run:
           name: install android tools
           command: |
-            sh scripts/install-android-tools.sh
+            sh install-android-tools.sh
             echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
