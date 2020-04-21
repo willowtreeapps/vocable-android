@@ -20,7 +20,23 @@ abstract class BaseUITest<T : Activity> {
     fun setup() {
         println("setup")
         activityRule = getActivityTestRule()
+        val activity = activityRule.activity
 
+        activityRule.runOnUiThread {
+            val kg =
+                activity.getSystemService(KEYGUARD_SERVICE) as KeyguardManager
+            val lock =
+                kg.newKeyguardLock(KEYGUARD_SERVICE)
+            lock.disableKeyguard()
+            //turn the screen on
+            activity.window.addFlags(
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                        or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                        or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                        or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                        or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+            )
+        }
         if (shouldAutoLaunchActivity()) {
             activityRule.launchActivity(Intent())
         }
