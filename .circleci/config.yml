@@ -1,9 +1,10 @@
 version: 2
 jobs:
-  android-test:
+  test:
     macos:
       xcode: "11.4.1"
     working_directory: ~/repo/App
+
     steps:
       - checkout:
           path: ~/repo
@@ -51,7 +52,6 @@ jobs:
             ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
             sleep 30
             adb shell input keyevent 82
-
   build:
     working_directory: ~/code
     docker:
@@ -92,3 +92,12 @@ jobs:
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
+
+workflows:
+  version: 2
+  build-test-android:
+    jobs:
+      - build:
+      - test:
+          requires:
+            - build
