@@ -21,22 +21,6 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Setup emulator
-          command: sdkmanager "system-images;android-24;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-      - run:
-          name: Launch emulator
-          command: |
-            cd ${ANDROID_HOME}/emulator;ls
-            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-            emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-          background: true
-      - run:
-          name: Wait emulator
-          command: |
-            circle-android wait-for-boot
-            sleep 30
-            adb shell input keyevent 82
-      - run:
           name: Run EspressoTests
           command: emulator -list-avds
       - run:
