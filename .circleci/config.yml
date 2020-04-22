@@ -90,11 +90,19 @@ jobs:
           command: |
             ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
 
+      - store_test_results:
+          path: ui-tests
+
 workflows:
   version: 2
   build-test-android:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - /develop.*/
+                - /release.*/
       - test:
           requires:
             - build
