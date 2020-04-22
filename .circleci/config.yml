@@ -89,8 +89,6 @@ jobs:
           name: Run EspressoTests
           command: |
             ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
-            sleep 30
-            adb shell input keyevent 82
 
 workflows:
   version: 2
