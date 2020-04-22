@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import kotlin.math.ceil
+import kotlin.math.min
 
 /**
  * A custom implementation of FragmentStateAdapter to solve an issue with fragments not being
@@ -52,6 +53,21 @@ abstract class VocableFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Li
     override fun containsItem(itemId: Long): Boolean {
         val position = baseId - itemId
         return position in 0 until itemCount
+    }
+
+    /**
+     * Returns the list of items held by the page at the provided position.
+     */
+    fun getItemsByPosition(position: Int): List<T> {
+        val pageItems = mutableListOf<T>()
+        val startPosition = (position % numPages) * getMaxItemsPerPage()
+
+        pageItems.addAll(items.subList(
+            startPosition,
+            min(items.size, startPosition + getMaxItemsPerPage())
+        ))
+
+        return pageItems
     }
 
     abstract fun getMaxItemsPerPage(): Int
