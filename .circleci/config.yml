@@ -78,7 +78,7 @@ jobs:
 
       - run:
           name: start AVD
-          command: emulator -avd test
+          command: emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
 
       - run:

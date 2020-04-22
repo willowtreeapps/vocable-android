@@ -21,6 +21,6 @@ SDKMANAGER=$ANDROID_SDK_ROOT/tools/bin/sdkmanager
 $SDKMANAGER "platform-tools"
 $SDKMANAGER "platforms;android-29"
 $SDKMANAGER "build-tools;29.0.2"
-$SDKMANAGER "ndk-bundle"
+$SDKMANAGER "ndk-bundle;20.0.5594570"
 $SDKMANAGER "system-images;android-29;google_apis;x86_64"
 $SDKMANAGER "emulator"
