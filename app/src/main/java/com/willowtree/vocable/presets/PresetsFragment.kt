@@ -229,9 +229,9 @@ class PresetsFragment : BaseFragment() {
     }
 
     private fun handleCategories(categories: List<Category>) {
-        with(binding?.categoryView) {
-            this?.isSaveEnabled = false
-            this?.adapter = categoriesAdapter
+        binding?.categoryView?.apply {
+            isSaveEnabled = false
+            adapter = categoriesAdapter
             categoriesAdapter.setItems(categories)
 
             // The categories ViewPager position will initially be set to the middle so that the
@@ -247,21 +247,21 @@ class PresetsFragment : BaseFragment() {
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
                     val pageCategories = categoriesAdapter.getItemsByPosition(i)
 
-                    if (pageCategories.find { pageCategory -> pageCategory.categoryId == selectedCategory.categoryId } != null) {
+                    if (pageCategories.find { it.categoryId == selectedCategory.categoryId } != null) {
                         targetPosition = i
                         break
                     }
                 }
             }
 
-            this?.setCurrentItem(targetPosition, false)
+            setCurrentItem(targetPosition, false)
         }
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        with(binding?.phrasesView) {
-            this?.isSaveEnabled = false
-            this?.adapter = phrasesAdapter
+        binding?.phrasesView?.apply {
+            isSaveEnabled = false
+            adapter = phrasesAdapter
 
             maxPhrases =
                 if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
@@ -274,10 +274,10 @@ class PresetsFragment : BaseFragment() {
             // Move adapter to middle so user can scroll both directions
             val middle = phrasesAdapter.itemCount / 2
             if (middle % phrasesAdapter.numPages == 0) {
-                this?.setCurrentItem(middle, false)
+                setCurrentItem(middle, false)
             } else {
                 val mod = middle % phrasesAdapter.numPages
-                this?.setCurrentItem(
+                setCurrentItem(
                     middle + (phrasesAdapter.numPages - mod),
                     false
                 )
