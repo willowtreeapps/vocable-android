@@ -103,6 +103,4 @@ workflows:
               only:
                 - /develop.*/
                 - /release.*/
-      - test:
-          requires:
-            - build
+      - test
