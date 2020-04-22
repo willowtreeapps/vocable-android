@@ -74,7 +74,7 @@ jobs:
 
       - run:
           name: create AVD
-          command: echo no | avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" --force
+          command: echo no | avdmanager create avd -d "pixel_xl" -n test -k "system-images;android-29;google_apis;x86_64" --force
 
       - run:
           name: start AVD
