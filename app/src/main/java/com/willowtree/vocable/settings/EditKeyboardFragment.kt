@@ -1,6 +1,5 @@
 package com.willowtree.vocable.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,7 +20,6 @@ import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import org.koin.android.ext.android.get
 import java.util.*
 
 class EditKeyboardFragment : BaseFragment() {
@@ -31,6 +29,7 @@ class EditKeyboardFragment : BaseFragment() {
         private const val KEY_IS_EDITING = "KEY_IS_EDITING"
         private const val KEY_CATEGORY = "KEY_CATEGORY"
         private const val KEY_IS_CATEGORY = "KEY_IS_CATEGORY"
+        private const val KEY_USER_INPUT = "KEY_USER_INPUT"
 
         fun newInstance(phrase: Phrase): EditKeyboardFragment {
             return EditKeyboardFragment().apply {
@@ -245,6 +244,9 @@ class EditKeyboardFragment : BaseFragment() {
             }
         }
 
+        // Restore user input on config change
+        savedInstanceState?.apply { binding?.keyboardInput?.text = getString(KEY_USER_INPUT) }
+
         if (isCategory) {
             editCategoriesViewModel = ViewModelProviders.of(
                 requireActivity(),
@@ -263,6 +265,11 @@ class EditKeyboardFragment : BaseFragment() {
             ).get(EditPhrasesViewModel::class.java)
         }
         subscribeToViewModel()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_USER_INPUT, binding?.keyboardInput?.text?.toString())
     }
 
     private fun showConfirmationDialog() {
