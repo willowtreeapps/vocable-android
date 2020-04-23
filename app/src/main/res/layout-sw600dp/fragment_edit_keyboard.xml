@@ -29,7 +29,7 @@
         android:ellipsize="end"
         android:enabled="false"
         android:gravity="start|center_vertical"
-        android:inputType="textCapSentences|none"
+        android:inputType="textCapSentences"
         android:maxLines="1"
         android:text="@string/keyboard_select_letters"
         android:textColor="@color/textColor"
