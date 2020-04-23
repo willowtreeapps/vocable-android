@@ -7,13 +7,14 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimaryDark">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <EditText
         android:id="@+id/keyboard_input"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/keyboard_side_margin"
         android:background="@null"
         android:ellipsize="end"
+        android:enabled="false"
         android:gravity="start|center_vertical"
         android:inputType="textCapSentences"
         android:maxLines="2"
@@ -23,7 +24,7 @@
         android:textStyle="bold"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/action_button_container"
-        app:layout_constraintEnd_toEndOf="@id/speaker_icon"
+        app:layout_constraintEnd_toStartOf="@id/speaker_icon"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
