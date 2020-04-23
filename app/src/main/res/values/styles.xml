@@ -185,7 +185,7 @@
 
     <style name="EditSayingsTitle">
         <item name="android:layout_marginTop">@dimen/edit_sayings_title_margin</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/edit_sayings_title_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
@@ -193,7 +193,7 @@
 
     <style name="EditCategoriesTitle">
         <item name="android:layout_marginTop">@dimen/edit_categories_title_margin</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/edit_categories_title_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
