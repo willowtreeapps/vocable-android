@@ -17,12 +17,12 @@ abstract class BaseFragment<out T : ViewBinding> : Fragment() {
 
     @Suppress("UNCHECKED_CAST")
     protected val binding: T
-        get() = _binding as T
+        get() = _binding ?: throw Exception("View binding has been accessed after the view has been destroyed")
 
-    private var _binding: ViewBinding? = null
+    private var _binding: T? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = bindingInflater(inflater)
+        _binding = bindingInflater(inflater, container, false)
         return binding.root
     }
 
@@ -31,7 +31,7 @@ abstract class BaseFragment<out T : ViewBinding> : Fragment() {
         _binding = null
     }
 
-    protected abstract val bindingInflater: (LayoutInflater) -> ViewBinding
+    protected abstract val bindingInflater: BindingInflater<T>
 
     abstract fun getAllViews(): List<View>
 
@@ -57,3 +57,5 @@ abstract class BaseFragment<out T : ViewBinding> : Fragment() {
         view.setText(sBuilder, TextView.BufferType.SPANNABLE)
     }
 }
+
+typealias BindingInflater<B> = (LayoutInflater, ViewGroup?, Boolean) -> B

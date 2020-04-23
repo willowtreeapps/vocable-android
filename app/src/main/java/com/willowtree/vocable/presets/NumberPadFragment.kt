@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.updateMargins
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentNumberPadBinding
@@ -28,7 +28,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
         }
     }
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentNumberPadBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentNumberPadBinding> = FragmentNumberPadBinding::inflate
     private var numColumns = 1
 
     override fun onCreateView(

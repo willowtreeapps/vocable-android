@@ -12,9 +12,9 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
@@ -59,7 +59,7 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
         }
     }
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentEditKeyboardBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> = FragmentEditKeyboardBinding::inflate
     private lateinit var viewModel: EditPhrasesViewModel
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private lateinit var keys: Array<String>

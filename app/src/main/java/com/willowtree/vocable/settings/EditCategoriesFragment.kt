@@ -1,19 +1,13 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.MainActivity
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
@@ -21,7 +15,7 @@ import kotlin.math.min
 
 class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentEditCategoriesBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditCategoriesBinding> = FragmentEditCategoriesBinding::inflate
 
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel

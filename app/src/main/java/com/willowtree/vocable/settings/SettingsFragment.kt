@@ -10,13 +10,8 @@ import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.BuildConfig
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentSettingsBinding
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -28,7 +23,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         private const val SETTINGS_OPTION_COUNT = 5
     }
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentSettingsBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentSettingsBinding> = FragmentSettingsBinding::inflate
     private lateinit var viewModel: SettingsViewModel
     private var numColumns = 1
 
