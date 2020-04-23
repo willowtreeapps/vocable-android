@@ -142,7 +142,7 @@
     <dimen name="edit_sayings_title_text_size">34sp</dimen>
     <dimen name="edit_sayings_add_button_width">72dp</dimen>
     <dimen name="edit_sayings_add_button_height">72dp</dimen>
-    <dimen name="edit_sayings_title_margin_start">20dp</dimen>
+    <dimen name="edit_sayings_title_margin_horizontal">8dp</dimen>
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>
     <dimen name="edit_phrases_margin_bottom">33dp</dimen>
     <dimen name="edit_phrases_margin_top">33dp</dimen>
@@ -218,6 +218,7 @@
     <dimen name="edit_category_pager_margin_top">32dp</dimen>
     <dimen name="edit_categories_title_text_size">34sp</dimen>
     <dimen name="edit_categories_title_margin">30dp</dimen>
+    <dimen name="edit_categories_title_margin_horizontal">8dp</dimen>
     <dimen name="edit_category_pager_margin_end">24dp</dimen>
     <dimen name="edit_category_pager_margin_bottom">64dp</dimen>
 
