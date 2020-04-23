@@ -19,15 +19,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <EditText
         android:id="@+id/keyboard_input"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:layout_marginEnd="@dimen/keyboard_side_margin"
         android:background="@null"
         android:ellipsize="end"
+        android:enabled="false"
         android:gravity="start|center_vertical"
-        android:inputType="textCapSentences"
+        android:inputType="textCapSentences|none"
         android:maxLines="1"
         android:text="@string/keyboard_select_letters"
         android:textColor="@color/textColor"
