@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
@@ -28,8 +29,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
     }
 
-
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentEditCategoryOptionsBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> = FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

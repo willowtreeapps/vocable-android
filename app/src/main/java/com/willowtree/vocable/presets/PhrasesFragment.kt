@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.updateMargins
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.VocableButton
@@ -30,7 +30,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         }
     }
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentPhrasesBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentPhrasesBinding> = FragmentPhrasesBinding::inflate
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
     private var numColumns = 1

@@ -10,9 +10,9 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.CategoryButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -34,7 +34,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
         }
     }
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = CategoriesFragmentBinding::inflate
+    override val bindingInflater: BindingInflater<CategoriesFragmentBinding> = CategoriesFragmentBinding::inflate
 
     private lateinit var viewModel: PresetsViewModel
     private val allViews = mutableListOf<View>()

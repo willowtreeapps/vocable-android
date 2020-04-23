@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentTimingSensitivityBinding
 import com.willowtree.vocable.utils.VocableSharedPreferences
@@ -24,7 +24,7 @@ class SensitivityFragment : BaseFragment<FragmentTimingSensitivityBinding>() {
         private const val MAX_DWELL_TIME = 4000L
     }
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentTimingSensitivityBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentTimingSensitivityBinding> = FragmentTimingSensitivityBinding::inflate
 
     private val sharedPrefs: VocableSharedPreferences by inject()
     private var dwellTime: Long = 0

@@ -2,7 +2,6 @@ package com.willowtree.vocable.presets
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -12,12 +11,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
-import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.MainActivity
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.keyboard.KeyboardFragment
@@ -30,7 +25,7 @@ import com.willowtree.vocable.utils.VocableTextToSpeech
 
 class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentPresetsBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentPresetsBinding> = FragmentPresetsBinding::inflate
     private val allViews = mutableListOf<View>()
 
     private var maxCategories = 1

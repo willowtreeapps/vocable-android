@@ -7,16 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.MySayingsEmptyLayoutBinding
-import org.koin.android.ext.android.bind
 
 class MySayingsEmptyFragment : BaseFragment<MySayingsEmptyLayoutBinding>() {
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = MySayingsEmptyLayoutBinding::inflate
+    override val bindingInflater: BindingInflater<MySayingsEmptyLayoutBinding> = MySayingsEmptyLayoutBinding::inflate
 
     companion object {
         private const val KEY_IS_SETTINGS = "KEY_IS_SETTINGS"

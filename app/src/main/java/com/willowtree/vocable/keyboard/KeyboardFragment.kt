@@ -11,9 +11,9 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -27,7 +27,7 @@ import java.util.*
 
 class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
-    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentKeyboardBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentKeyboardBinding> = FragmentKeyboardBinding::inflate
     private lateinit var viewModel: KeyboardViewModel
     private lateinit var keys: Array<String>
     private val currentLocale = get<Context>().resources.configuration?.locales?.get(0)
