@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -27,9 +28,9 @@ import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
 
-class PresetsFragment : BaseFragment() {
+class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
-    private var binding: FragmentPresetsBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentPresetsBinding::inflate
     private val allViews = mutableListOf<View>()
 
     private var maxCategories = 1
@@ -39,106 +40,72 @@ class PresetsFragment : BaseFragment() {
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentPresetsBinding.inflate(inflater, container, false)
-
-        return binding?.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         maxCategories = resources.getInteger(R.integer.max_categories)
 
-        binding?.categoryForwardButton?.let {
-            it.action = {
-                when (val currentPosition = binding?.categoryView?.currentItem) {
-                    null -> {
-                        // No-op
-                    }
-                    categoriesAdapter.itemCount - 1 -> {
-                        binding?.categoryView?.setCurrentItem(0, true)
-                    }
-                    else -> {
-                        binding?.categoryView?.setCurrentItem(currentPosition + 1, true)
-                    }
+        binding.categoryForwardButton.action = {
+            when (val currentPosition = binding.categoryView.currentItem) {
+                categoriesAdapter.itemCount - 1 -> {
+                    binding.categoryView.setCurrentItem(0, true)
+                }
+                else -> {
+                    binding.categoryView.setCurrentItem(currentPosition + 1, true)
                 }
             }
         }
 
-        binding?.categoryBackButton?.let {
-            it.action = {
-                when (val currentPosition = binding?.categoryView?.currentItem) {
-                    null -> {
-                        // No-op
-                    }
-                    0 -> {
-                        binding?.categoryView?.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                    }
-                    else -> {
-                        binding?.categoryView?.setCurrentItem(currentPosition - 1, true)
-                    }
+        binding.categoryBackButton.action = {
+            when (val currentPosition = binding.categoryView.currentItem) {
+                0 -> {
+                    binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                }
+                else -> {
+                    binding.categoryView.setCurrentItem(currentPosition - 1, true)
                 }
             }
         }
 
-        binding?.phrasesForwardButton?.let {
-            it.action = {
-                when (val currentPosition = binding?.phrasesView?.currentItem) {
-                    null -> {
-                        // No-op
-                    }
-                    phrasesAdapter.itemCount - 1 -> {
-                        binding?.phrasesView?.setCurrentItem(0, true)
-                    }
-                    else -> {
-                        binding?.phrasesView?.setCurrentItem(currentPosition + 1, true)
-                    }
+        binding.phrasesForwardButton.action = {
+            when (val currentPosition = binding.phrasesView.currentItem) {
+                phrasesAdapter.itemCount - 1 -> {
+                    binding.phrasesView.setCurrentItem(0, true)
+                }
+                else -> {
+                    binding.phrasesView.setCurrentItem(currentPosition + 1, true)
                 }
             }
         }
 
-        binding?.phrasesBackButton?.let {
-            it.action = {
-                when (val currentPosition = binding?.phrasesView?.currentItem) {
-                    null -> {
-                        // No-op
-                    }
-                    0 -> {
-                        binding?.phrasesView?.setCurrentItem(phrasesAdapter.itemCount - 1, true)
-                    }
-                    else -> {
-                        binding?.phrasesView?.setCurrentItem(currentPosition - 1, true)
-                    }
+        binding.phrasesBackButton.action = {
+            when (val currentPosition = binding.phrasesView.currentItem) {
+                0 -> {
+                    binding.phrasesView.setCurrentItem(phrasesAdapter.itemCount - 1, true)
+                }
+                else -> {
+                    binding.phrasesView.setCurrentItem(currentPosition - 1, true)
                 }
             }
         }
 
-        binding?.actionButtonContainer?.keyboardButton?.let {
-            it.action = {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, KeyboardFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
+        binding.actionButtonContainer.keyboardButton.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, KeyboardFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
-        binding?.actionButtonContainer?.settingsButton?.let {
-            it.action = {
-                val intent = Intent(activity, SettingsActivity::class.java)
-                startActivity(intent)
-            }
+        binding.actionButtonContainer.settingsButton.action = {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         categoriesAdapter = CategoriesPagerAdapter(childFragmentManager)
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
-        binding?.categoryView?.registerOnPageChangeCallback(object :
+        binding.categoryView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 activity?.let { activity ->
@@ -150,11 +117,11 @@ class PresetsFragment : BaseFragment() {
             }
         })
 
-        binding?.phrasesView?.registerOnPageChangeCallback(object :
+        binding.phrasesView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 val pageNum = position % phrasesAdapter.numPages + 1
-                binding?.phrasesPageNumber?.text = getString(
+                binding.phrasesPageNumber.text = getString(
                     R.string.phrases_page_number,
                     pageNum,
                     phrasesAdapter.numPages
@@ -182,11 +149,6 @@ class PresetsFragment : BaseFragment() {
         subscribeToViewModel()
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
     override fun onResume() {
         super.onResume()
         presetsViewModel.populateCategories()
@@ -194,7 +156,7 @@ class PresetsFragment : BaseFragment() {
 
     private fun subscribeToViewModel() {
         SpokenText.observe(viewLifecycleOwner, Observer {
-            binding?.currentText?.text = if (it.isNullOrBlank()) {
+            binding.currentText.text = if (it.isNullOrBlank()) {
                 getString(R.string.select_something)
             } else {
                 it
@@ -202,7 +164,7 @@ class PresetsFragment : BaseFragment() {
         })
 
         VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
-            binding?.speakerIcon?.isVisible = it ?: false
+            binding.speakerIcon.isVisible = it
         })
 
         presetsViewModel.apply {
@@ -213,7 +175,7 @@ class PresetsFragment : BaseFragment() {
 
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(binding?.presetsParent)
+            getAllChildViews(binding.presetsParent)
         }
         return allViews
     }
@@ -229,7 +191,7 @@ class PresetsFragment : BaseFragment() {
     }
 
     private fun handleCategories(categories: List<Category>) {
-        binding?.categoryView?.apply {
+        binding.categoryView.apply {
             isSaveEnabled = false
             adapter = categoriesAdapter
             categoriesAdapter.setItems(categories)
@@ -259,7 +221,7 @@ class PresetsFragment : BaseFragment() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        binding?.phrasesView?.apply {
+        binding.phrasesView.apply {
             isSaveEnabled = false
             adapter = phrasesAdapter
 
@@ -302,10 +264,10 @@ class PresetsFragment : BaseFragment() {
         }
 
         private fun setPagingButtonsEnabled(enable: Boolean) {
-            binding?.let {
-                it.phrasesForwardButton.isEnabled = enable
-                it.phrasesBackButton.isEnabled = enable
-                it.phrasesView.isUserInputEnabled = enable
+            binding.apply {
+                phrasesForwardButton.isEnabled = enable
+                phrasesBackButton.isEnabled = enable
+                phrasesView.isUserInputEnabled = enable
             }
         }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.updateMargins
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -15,7 +16,7 @@ import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.room.Phrase
 
-class PhrasesFragment : BaseFragment() {
+class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -29,7 +30,7 @@ class PhrasesFragment : BaseFragment() {
         }
     }
 
-    private var binding: FragmentPhrasesBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentPhrasesBinding::inflate
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
     private var numColumns = 1
@@ -39,15 +40,14 @@ class PhrasesFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPhrasesBinding.inflate(inflater, container, false)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         maxPhrases = resources.getInteger(R.integer.max_phrases)
         numColumns = resources.getInteger(R.integer.phrases_columns)
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
             val phraseButton =
-                PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
+                PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
                 val (phraseStr, locale) = phrase.getLocalizedPair()
                 setText(phraseStr, locale)
@@ -63,31 +63,26 @@ class PhrasesFragment : BaseFragment() {
                     }
                 }
             }
-            binding?.phrasesContainer?.addView(phraseButton.root)
+            binding.phrasesContainer.addView(phraseButton.root)
         }
         phrases?.let {
             // Add invisible views to fill out the rest of the space
             for (i in 0 until maxPhrases - it.size) {
                 val hiddenButton =
-                    PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
-                binding?.phrasesContainer?.addView(hiddenButton.root.apply {
+                    PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
+                binding.phrasesContainer.addView(hiddenButton.root.apply {
                     isEnabled = false
                     visibility = View.INVISIBLE
                 })
             }
         }
 
-        return binding?.root
-    }
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
+        return binding.root
     }
 
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(binding?.phrasesContainer)
+            getAllChildViews(binding.phrasesContainer)
         }
         return allViews
     }

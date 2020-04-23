@@ -6,44 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
 
-class SelectionModeFragment : BaseFragment() {
+class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
-    private var binding: FragmentSelectionModeBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentSelectionModeBinding::inflate
     private var allViews = mutableListOf<View>()
     private lateinit var viewModel: SettingsViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSelectionModeBinding.inflate(inflater, container, false)
-
-        return binding?.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.selectionModeBackButton?.action = {
+        binding.selectionModeBackButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SettingsFragment())
                 .commit()
         }
 
-        binding?.selectionModeOptions?.let {
-            it.headTrackingContainer.action = {
-                it.headTrackingSwitch.isChecked = !it.headTrackingSwitch.isChecked
+        binding.selectionModeOptions.apply {
+            headTrackingContainer.action = {
+                headTrackingSwitch.isChecked = !headTrackingSwitch.isChecked
             }
         }
 
-        binding?.selectionModeOptions?.headTrackingSwitch?.setOnCheckedChangeListener { _, isChecked ->
+        binding.selectionModeOptions.headTrackingSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onHeadTrackingChecked(isChecked)
         }
 
@@ -59,19 +50,11 @@ class SelectionModeFragment : BaseFragment() {
 
     private fun subscribeToViewModel() {
         viewModel.headTrackingEnabled.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding?.selectionModeOptions?.headTrackingSwitch?.isChecked = it
-            }
+            binding.selectionModeOptions.headTrackingSwitch.isChecked = it
         })
     }
 
     override fun getAllViews(): List<View> {
         return listOf()
-    }
-
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
     }
 }
