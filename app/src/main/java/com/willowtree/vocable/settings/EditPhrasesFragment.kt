@@ -10,6 +10,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
@@ -18,7 +19,7 @@ import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
 
-class EditPhrasesFragment : BaseFragment() {
+class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -32,7 +33,7 @@ class EditPhrasesFragment : BaseFragment() {
         }
     }
 
-    private var binding: FragmentEditPhrasesBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentEditPhrasesBinding::inflate
     private lateinit var editPhrasesViewModel: EditPhrasesViewModel
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
@@ -43,15 +44,14 @@ class EditPhrasesFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentEditPhrasesBinding.inflate(inflater, container, false)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
         numColumns = resources.getInteger(R.integer.edit_phrases_columns)
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
             val phraseView =
-                PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
+                PhraseEditLayoutBinding.inflate(inflater, binding.editPhrasesContainer, false)
             with(phraseView) {
                 phraseEditText.text = phrase.getLocalizedText()
                 phraseEditText.tag = phrase
@@ -85,43 +85,47 @@ class EditPhrasesFragment : BaseFragment() {
                     .commit()
             }
 
-            binding?.editPhrasesContainer?.addView(phraseView.root)
+            binding.editPhrasesContainer.addView(phraseView.root)
         }
 
         phrases?.let {
             // Add invisible views to fill out the rest of the space
             for (i in 0 until maxPhrases - it.size) {
                 val hiddenView =
-                    PhraseEditLayoutBinding.inflate(inflater, binding?.editPhrasesContainer, false)
-                binding?.editPhrasesContainer?.addView(hiddenView.root.apply {
+                    PhraseEditLayoutBinding.inflate(inflater, binding.editPhrasesContainer, false)
+                binding.editPhrasesContainer.addView(hiddenView.root.apply {
                     isEnabled = false
                     isInvisible = true
                 })
             }
         }
 
-        return binding?.root
+        return binding.root
     }
 
     private fun showDeletePhraseDialog(phrase: Phrase) {
         setSettingsButtonsEnabled(false)
-        binding?.deleteConfirmation?.dialogTitle?.text = getString(R.string.are_you_sure)
-        binding?.deleteConfirmation?.dialogMessage?.text = getString(R.string.delete_warning)
-        binding?.deleteConfirmation?.dialogPositiveButton?.let {
-            it.text = getString(R.string.delete)
-            it.action = {
-                editPhrasesViewModel.deletePhrase(phrase)
-                toggleDialogVisibility(false)
-                setSettingsButtonsEnabled(true)
+
+        binding.deleteConfirmation.apply {
+            dialogTitle.text = getString(R.string.are_you_sure)
+            dialogMessage.text = getString(R.string.delete_warning)
+            dialogPositiveButton.apply {
+                text = getString(R.string.delete)
+                action = {
+                    editPhrasesViewModel.deletePhrase(phrase)
+                    toggleDialogVisibility(false)
+                    setSettingsButtonsEnabled(true)
+                }
+            }
+            dialogNegativeButton.apply {
+                text = getString(R.string.settings_dialog_cancel)
+                action = {
+                    toggleDialogVisibility(false)
+                    setSettingsButtonsEnabled(true)
+                }
             }
         }
-        binding?.deleteConfirmation?.dialogNegativeButton?.let {
-            it.text = getString(R.string.settings_dialog_cancel)
-            it.action = {
-                toggleDialogVisibility(false)
-                setSettingsButtonsEnabled(true)
-            }
-        }
+
         toggleDialogVisibility(true)
     }
 
@@ -131,7 +135,7 @@ class EditPhrasesFragment : BaseFragment() {
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {
-        binding?.deleteConfirmation?.root?.isVisible = visible
+        binding.deleteConfirmation.root.isVisible = visible
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -147,14 +151,9 @@ class EditPhrasesFragment : BaseFragment() {
             ).get(EditPhrasesViewModel::class.java)
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(binding?.editPhrasesContainer)
+            getAllChildViews(binding.editPhrasesContainer)
         }
         return allViews
     }

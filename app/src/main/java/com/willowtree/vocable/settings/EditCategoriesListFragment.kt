@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
@@ -14,7 +15,7 @@ import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.Category
 
-class EditCategoriesListFragment : BaseFragment() {
+class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBinding>() {
 
     companion object {
         private const val KEY_START_POSITION = "KEY_START_POSITION"
@@ -33,7 +34,7 @@ class EditCategoriesListFragment : BaseFragment() {
         }
     }
 
-    private var binding: FragmentEditCategoriesListBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentEditCategoriesListBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var maxEditCategories = 1
 
@@ -47,8 +48,7 @@ class EditCategoriesListFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = FragmentEditCategoriesListBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
         startPosition = arguments?.getInt(KEY_START_POSITION, 0) ?: 0
@@ -60,10 +60,10 @@ class EditCategoriesListFragment : BaseFragment() {
             val categoryView =
                 CategoryEditButtonBinding.inflate(
                     inflater,
-                    binding?.categoryEditButtonContainer,
+                    binding.categoryEditButtonContainer,
                     false
                 )
-            binding?.categoryEditButtonContainer?.addView(categoryView.root)
+            binding.categoryEditButtonContainer.addView(categoryView.root)
 
             editButtonList.add(categoryView)
         }
@@ -73,16 +73,16 @@ class EditCategoriesListFragment : BaseFragment() {
             val hiddenButton =
                 CategoryEditButtonBinding.inflate(
                     inflater,
-                    binding?.categoryEditButtonContainer,
+                    binding.categoryEditButtonContainer,
                     false
                 )
-            binding?.categoryEditButtonContainer?.addView(hiddenButton.root.apply {
+            binding.categoryEditButtonContainer.addView(hiddenButton.root.apply {
                 isEnabled = false
                 visibility = View.INVISIBLE
             })
         }
 
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,11 +97,6 @@ class EditCategoriesListFragment : BaseFragment() {
                 )
             ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
-    }
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
     }
 
     override fun getAllViews(): List<View> {

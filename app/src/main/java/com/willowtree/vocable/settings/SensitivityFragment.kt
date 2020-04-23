@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentTimingSensitivityBinding
@@ -11,7 +12,7 @@ import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.android.ext.android.inject
 import java.text.DecimalFormat
 
-class SensitivityFragment : BaseFragment() {
+class SensitivityFragment : BaseFragment<FragmentTimingSensitivityBinding>() {
 
     companion object {
         private const val LOW_SENSITIVITY = 0.05F
@@ -23,7 +24,7 @@ class SensitivityFragment : BaseFragment() {
         private const val MAX_DWELL_TIME = 4000L
     }
 
-    private var binding: FragmentTimingSensitivityBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentTimingSensitivityBinding::inflate
 
     private val sharedPrefs: VocableSharedPreferences by inject()
     private var dwellTime: Long = 0
@@ -33,10 +34,10 @@ class SensitivityFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTimingSensitivityBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
         dwellTime = sharedPrefs.getDwellTime()
         setDwellTimeText()
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,32 +57,32 @@ class SensitivityFragment : BaseFragment() {
             }
         }
 
-        binding?.timingSensitivityBackButton?.action = {
+        binding.timingSensitivityBackButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SettingsFragment())
                 .commit()
         }
 
-        binding?.decreaseHoverTime?.action = {
+        binding.decreaseHoverTime.action = {
             setDwellTime(false)
         }
 
-        binding?.increaseHoverTime?.action = {
+        binding.increaseHoverTime.action = {
             setDwellTime(true)
         }
 
-        binding?.lowSensitivityButton?.action = {
+        binding.lowSensitivityButton.action = {
             sharedPrefs.setSensitivity(LOW_SENSITIVITY)
             toggleSensitivityButtons(lowActivated = true)
         }
 
-        binding?.mediumSensitivityButton?.action = {
+        binding.mediumSensitivityButton.action = {
             sharedPrefs.setSensitivity(MEDIUM_SENSITIVITY)
             toggleSensitivityButtons(mediumActivated = true)
         }
 
-        binding?.highSensitivityButton?.action = {
+        binding.highSensitivityButton.action = {
             sharedPrefs.setSensitivity(HIGH_SENSITIVITY)
             toggleSensitivityButtons(highActivated = true)
         }
@@ -90,29 +91,24 @@ class SensitivityFragment : BaseFragment() {
 
     override fun getAllViews(): List<View> = emptyList()
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
     private fun toggleSensitivityButtons(
         lowActivated: Boolean = false,
         mediumActivated: Boolean = false,
         highActivated: Boolean = false
     ) {
-        binding?.lowSensitivityButton?.let {
-            it.isSelected = lowActivated
-            it.isEnabled = !lowActivated
+        binding.lowSensitivityButton.apply {
+            isSelected = lowActivated
+            isEnabled = !lowActivated
         }
 
-        binding?.mediumSensitivityButton?.let {
-            it.isSelected = mediumActivated
-            it.isEnabled = !mediumActivated
+        binding.mediumSensitivityButton.apply {
+            isSelected = mediumActivated
+            isEnabled = !mediumActivated
         }
 
-        binding?.highSensitivityButton?.let {
-            it.isSelected = highActivated
-            it.isEnabled = !highActivated
+        binding.highSensitivityButton.apply {
+            isSelected = highActivated
+            isEnabled = !highActivated
         }
 
     }
@@ -128,15 +124,15 @@ class SensitivityFragment : BaseFragment() {
 
         when {
             dwellTime >= MAX_DWELL_TIME -> {
-                binding?.increaseHoverTime?.isEnabled = false
+                binding.increaseHoverTime.isEnabled = false
             }
             dwellTime <= MIN_DWELL_TIME -> {
-                binding?.decreaseHoverTime?.isEnabled = false
+                binding.decreaseHoverTime.isEnabled = false
             }
             else -> {
-                binding?.let {
-                    it.increaseHoverTime.isEnabled = true
-                    it.decreaseHoverTime.isEnabled = true
+                binding.apply {
+                    increaseHoverTime.isEnabled = true
+                    decreaseHoverTime.isEnabled = true
                 }
             }
         }
@@ -144,10 +140,10 @@ class SensitivityFragment : BaseFragment() {
 
     private fun setDwellTimeText() {
         if (dwellTime == DWELL_TIME_ONE_SECOND) {
-            binding?.hoverTimeText?.text = getString(R.string.hover_time_one_text)
+            binding.hoverTimeText.text = getString(R.string.hover_time_one_text)
         } else {
             val df = DecimalFormat("#.#")
-            binding?.hoverTimeText?.text = getString(
+            binding.hoverTimeText.text = getString(
                 R.string.hover_time_amount_text,
                 df.format(dwellTime.toDouble() / DWELL_TIME_ONE_SECOND)
             )

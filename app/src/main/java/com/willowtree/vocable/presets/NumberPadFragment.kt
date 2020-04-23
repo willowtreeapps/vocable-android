@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.updateMargins
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.VocableButton
@@ -16,7 +17,7 @@ import com.willowtree.vocable.room.Phrase
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NumberPadFragment : BaseFragment() {
+class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -27,6 +28,7 @@ class NumberPadFragment : BaseFragment() {
         }
     }
 
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = FragmentNumberPadBinding::inflate
     private var numColumns = 1
 
     override fun onCreateView(
@@ -34,14 +36,13 @@ class NumberPadFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentNumberPadBinding.inflate(inflater, container, false)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         numColumns = resources.getInteger(R.integer.number_pad_columns)
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
             val phraseButton =
-                PhraseButtonBinding.inflate(inflater, binding?.phrasesContainer, false)
+                PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
                 val pair = phrase.getLocalizedPair()
                 setText(pair.first, Locale.getDefault())
@@ -57,10 +58,10 @@ class NumberPadFragment : BaseFragment() {
                     }
                 }
             }
-            binding?.phrasesContainer?.addView(phraseButton.root)
+            binding.phrasesContainer.addView(phraseButton.root)
         }
 
-        return binding?.root
+        return binding.root
     }
 
     override fun getAllViews() = emptyList<View>()

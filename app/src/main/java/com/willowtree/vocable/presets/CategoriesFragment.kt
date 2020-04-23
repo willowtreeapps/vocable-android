@@ -10,6 +10,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewbinding.ViewBinding
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
@@ -19,7 +20,7 @@ import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
 import com.willowtree.vocable.room.Category
 
-class CategoriesFragment : BaseFragment() {
+class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
     companion object {
         const val KEY_CATEGORIES = "KEY_CATEGORIES"
@@ -33,7 +34,8 @@ class CategoriesFragment : BaseFragment() {
         }
     }
 
-    private var binding: CategoriesFragmentBinding? = null
+    override val bindingInflater: (LayoutInflater) -> ViewBinding = CategoriesFragmentBinding::inflate
+
     private lateinit var viewModel: PresetsViewModel
     private val allViews = mutableListOf<View>()
     private var maxCategories = 1
@@ -43,15 +45,14 @@ class CategoriesFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = CategoriesFragmentBinding.inflate(inflater, container, false)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         maxCategories = resources.getInteger(R.integer.max_categories)
         val isTablet = resources.getBoolean(R.bool.is_tablet)
 
         val categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
         categories?.forEachIndexed { index, category ->
             val categoryButton =
-                CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
+                CategoryButtonBinding.inflate(inflater, binding.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
                 tag = category
                 text = category.getLocalizedText()
@@ -64,19 +65,19 @@ class CategoriesFragment : BaseFragment() {
                     }
                 }
             }
-            binding?.categoryButtonContainer?.addView(categoryButton.root)
+            binding.categoryButtonContainer.addView(categoryButton.root)
         }
         categories?.let {
             for (i in 0 until maxCategories - it.size) {
                 val hiddenButton =
-                    CategoryButtonBinding.inflate(inflater, binding?.categoryButtonContainer, false)
-                binding?.categoryButtonContainer?.addView(hiddenButton.root.apply {
+                    CategoryButtonBinding.inflate(inflater, binding.categoryButtonContainer, false)
+                binding.categoryButtonContainer.addView(hiddenButton.root.apply {
                     isEnabled = false
                     isInvisible = true
                 })
             }
         }
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,7 +94,7 @@ class CategoriesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        binding?.categoryButtonContainer?.children?.forEach {
+        binding.categoryButtonContainer.children.forEach {
             if (it is CategoryButton && it.isVisible) {
                 it.isEnabled = true
             }
@@ -102,22 +103,17 @@ class CategoriesFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        binding?.categoryButtonContainer?.children?.forEach {
+        binding.categoryButtonContainer.children.forEach {
             if (it is CategoryButton) {
                 it.isEnabled = false
             }
         }
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
     private fun subscribeToViewModel() {
         viewModel.selectedCategory.observe(viewLifecycleOwner, Observer { category ->
             category?.let {
-                binding?.categoryButtonContainer?.children?.forEach {
+                binding.categoryButtonContainer.children.forEach {
                     if (it is CategoryButton) {
                         it.isSelected = (it.tag as? Category)?.categoryId == category.categoryId
                     }
@@ -128,7 +124,7 @@ class CategoriesFragment : BaseFragment() {
 
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(binding?.categoryButtonContainer)
+            getAllChildViews(binding.categoryButtonContainer)
         }
         return allViews
     }
