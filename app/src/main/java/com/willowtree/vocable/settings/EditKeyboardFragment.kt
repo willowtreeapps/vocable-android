@@ -227,7 +227,7 @@ class EditKeyboardFragment : BaseFragment() {
             it.action = {
                 if (!isDefaultTextVisible()) {
                     binding?.keyboardInput?.let { keyboardInput ->
-                        keyboardInput.text = keyboardInput.text.toString().dropLast(1)
+                        keyboardInput.setText(keyboardInput.text.toString().dropLast(1))
                         if (keyboardInput.text.isNullOrEmpty()) {
                             keyboardInput.setText(R.string.keyboard_select_letters)
                         }
@@ -245,7 +245,7 @@ class EditKeyboardFragment : BaseFragment() {
         }
 
         // Restore user input on config change
-        savedInstanceState?.apply { binding?.keyboardInput?.text = getString(KEY_USER_INPUT) }
+        savedInstanceState?.apply { binding?.keyboardInput?.setText(getString(KEY_USER_INPUT)) }
 
         if (isCategory) {
             editCategoriesViewModel = ViewModelProviders.of(

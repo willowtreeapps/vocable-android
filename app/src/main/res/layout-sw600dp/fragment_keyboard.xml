@@ -7,13 +7,15 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimaryDark">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <EditText
         android:id="@+id/keyboard_input"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/keyboard_side_margin"
+        android:layout_marginEnd="@dimen/speech_button_margin"
         android:background="@null"
         android:ellipsize="end"
+        android:enabled="false"
         android:gravity="start|center_vertical"
         android:inputType="textCapSentences|textMultiLine"
         android:maxLines="2"
@@ -33,8 +35,7 @@
         android:id="@+id/speaker_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/speech_button_margin"
-        android:layout_marginEnd="@dimen/keyboard_speaker_margin"
+        android:layout_marginEnd="@dimen/speech_button_margin"
         android:src="@drawable/ic_speaker"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/keyboard_input"
