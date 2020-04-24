@@ -1,8 +1,8 @@
 package com.willowtree.vocable.keyboard
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
+import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
@@ -20,25 +22,25 @@ import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.presets.PresetsFragment
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import org.koin.android.ext.android.get
 import java.util.*
 
+class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
-class KeyboardFragment : BaseFragment() {
-
+    override val bindingInflater: BindingInflater<FragmentKeyboardBinding> = FragmentKeyboardBinding::inflate
     private lateinit var viewModel: KeyboardViewModel
-    private var binding: FragmentKeyboardBinding? = null
     private lateinit var keys: Array<String>
+    private val currentLocale = get<Context>().resources.configuration?.locales?.get(0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentKeyboardBinding.inflate(inflater, container, false)
-        keys = resources.getStringArray(R.array.keyboard_keys)
+        super.onCreateView(inflater, container, savedInstanceState)
+        keys =  resources.getStringArray(R.array.keyboard_keys)
         populateKeys()
-
-        return binding?.root
+        return binding.root
     }
 
     private fun populateKeys() {
@@ -46,7 +48,7 @@ class KeyboardFragment : BaseFragment() {
             with(
                 KeyboardKeyLayoutBinding.inflate(
                     layoutInflater,
-                    binding?.keyboardKeyHolder,
+                    binding.keyboardKeyHolder,
                     true
                 ).root as ActionButton
             ) {
@@ -54,14 +56,16 @@ class KeyboardFragment : BaseFragment() {
                 action = {
                     //This action mimics sentence capitalization
                     //Example: "This is what's going on in here. Do you get it? Some letters are capitalized."
-                    val currentText = binding?.keyboardInput?.text?.toString() ?: ""
+                    val currentText = binding.keyboardInput.text?.toString() ?: ""
                     if (isDefaultTextVisible()) {
-                        binding?.keyboardInput?.text = null
-                        binding?.keyboardInput?.append(text?.toString())
+                        binding.keyboardInput.text = null
+                        binding.keyboardInput.append(text?.toString())
                     } else if (currentText.endsWith(". ") || currentText.endsWith("? ")) {
-                        binding?.keyboardInput?.append(text?.toString())
+                        binding.keyboardInput.append(text?.toString())
                     } else {
-                        binding?.keyboardInput?.append(text?.toString()?.toLowerCase(Locale.getDefault()))
+                        binding.keyboardInput.append(
+                            text?.toString()?.toLowerCase(Locale.getDefault())
+                        )
                     }
                 }
             }
@@ -69,118 +73,91 @@ class KeyboardFragment : BaseFragment() {
     }
 
     private fun isDefaultTextVisible(): Boolean {
-        return binding?.keyboardInput?.text.toString() == getString(R.string.keyboard_select_letters)
+        return binding.keyboardInput.text.toString() == getString(R.string.keyboard_select_letters)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
-            binding?.speakerIcon?.isVisible = it ?: false
+            binding.speakerIcon.isVisible = it
         })
 
-        binding?.actionButtonContainer?.presetsButton?.let {
-            it.action = {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, PresetsFragment())
-                    .commit()
-            }
+        binding.actionButtonContainer.presetsButton.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, PresetsFragment())
+                .commit()
         }
 
-        binding?.actionButtonContainer?.settingsButton?.let {
-            it.action = {
-                val intent = Intent(activity, SettingsActivity::class.java)
-                startActivity(intent)
-            }
+        binding.actionButtonContainer.settingsButton.action = {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
-        binding?.actionButtonContainer?.saveButton?.let {
-            it.action = {
-                if (!isDefaultTextVisible()) {
-                    binding?.keyboardInput?.text?.let { text ->
-                        if (text.isNotBlank()) {
-                            viewModel.addNewPhrase(text.toString())
-                        }
+        binding.actionButtonContainer.saveButton.action = {
+            if (!isDefaultTextVisible()) {
+                binding.keyboardInput.text?.let { text ->
+                    if (text.isNotBlank()) {
+                        viewModel.addNewPhrase(text.toString())
                     }
                 }
             }
         }
 
-        binding?.keyboardClearButton?.let {
-            it.action = {
-                binding?.keyboardInput?.setText(R.string.keyboard_select_letters)
+        binding.keyboardClearButton.action = {
+            binding.keyboardInput.setText(R.string.keyboard_select_letters)
+        }
+
+        binding.keyboardSpaceButton.action = {
+            if (!isDefaultTextVisible() && binding.keyboardInput.text?.endsWith(' ') == false) {
+                binding.keyboardInput.append(" ")
             }
         }
 
-        binding?.keyboardSpaceButton?.let {
-            it.action = {
-                if (!isDefaultTextVisible() && binding?.keyboardInput?.text?.endsWith(' ') == false) {
-                    binding?.keyboardInput?.append(" ")
-                }
-            }
-        }
-
-        binding?.keyboardBackspaceButton?.let {
-            it.action = {
-                if (!isDefaultTextVisible()) {
-                    binding?.keyboardInput?.let { keyboardInput ->
-                        keyboardInput.setText(keyboardInput.text.toString().dropLast(1))
-                        keyboardInput.setSelection(
-                            keyboardInput.text?.length ?: 0
-                        )
-                        if (keyboardInput.text.isNullOrEmpty()) {
-                            keyboardInput.setText(R.string.keyboard_select_letters)
-                        }
+        binding.keyboardBackspaceButton.action = {
+            if (!isDefaultTextVisible()) {
+                binding.keyboardInput.apply {
+                    setText(text.toString().dropLast(1))
+                    if (text.isNullOrEmpty()) {
+                        setText(R.string.keyboard_select_letters)
                     }
                 }
             }
         }
 
-        binding?.keyboardSpeakButton?.let {
-            it.action = {
-                if (!isDefaultTextVisible()) {
-                    VocableTextToSpeech.getTextToSpeech()?.speak(
-                        binding?.keyboardInput?.text,
-                        TextToSpeech.QUEUE_FLUSH,
-                        null,
-                        id.toString()
-                    )
-                }
+        binding.keyboardSpeakButton.action = {
+            if (!isDefaultTextVisible()) {
+                VocableTextToSpeech.speak(
+                    Locale.getDefault(),
+                    binding.keyboardInput.text?.toString() ?: ""
+                )
             }
         }
 
-        binding?.phraseSavedView?.root?.let {
-            buildTextWithIcon(
-                getString(R.string.saved_successfully),
-                getString(R.string.category_saved_to),
-                iconCharStart = 9,
-                iconCharEnd = 10,
-                view = it as TextView,
-                icon = R.drawable.ic_heart_solid_blue
+        (binding.phraseSavedView.root as TextView).setText(R.string.saved_successfully)
+
+        viewModel = ViewModelProviders.of(
+            this,
+            BaseViewModelFactory(
+                getString(R.string.category_123_id),
+                getString(R.string.category_my_sayings_id)
             )
-        }
-
-        viewModel = ViewModelProviders.of(this).get(KeyboardViewModel::class.java)
+        ).get(KeyboardViewModel::class.java)
         subscribeToViewModel()
     }
 
     private fun subscribeToViewModel() {
         viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding?.phraseSavedView?.root?.isVisible = it ?: false
+            binding.phraseSavedView.root.isVisible = it
         })
-    }
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
     }
 
     private val allViews = mutableListOf<View>()
 
     override fun getAllViews(): List<View> {
         if (allViews.isEmpty()) {
-            getAllChildViews(binding?.keyboardParent)
+            getAllChildViews(binding.keyboardParent)
         }
         return allViews
     }

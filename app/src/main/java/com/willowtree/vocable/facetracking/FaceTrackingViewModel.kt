@@ -1,7 +1,7 @@
 package com.willowtree.vocable.facetracking
 
-import android.content.Context
 import android.content.SharedPreferences
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -85,7 +85,7 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
                     }
                     else -> {
                         if (!isTablet) {
-                            y *= 2f
+                            y *= 2F
                         }
                         val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), sensitivity)
                         liveAdjustedVector.postValue(adjustedVector)

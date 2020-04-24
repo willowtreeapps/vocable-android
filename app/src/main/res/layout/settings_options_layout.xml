@@ -17,14 +17,22 @@
         style="@style/SettingsOptionButtons"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/settings_edit_categories" />
+        android:text="@string/edit_categories_title" />
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/timing_sensitivity_button"
         style="@style/SettingsOptionButtons"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/settings_timing_sensitivity" />
+        android:text="@string/timing_sensitivity_title" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/reset_app_button"
+        style="@style/SettingsOptionButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:text="@string/settings_reset_app" />
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/selection_mode_button"
@@ -32,11 +40,5 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/settings_selection_mode" />
-
-    <com.willowtree.vocable.customviews.SettingsButton
-        android:id="@+id/reset_app_button"
-        style="@style/SettingsOptionButtons"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/settings_reset_app" />
+  
 </GridLayout>

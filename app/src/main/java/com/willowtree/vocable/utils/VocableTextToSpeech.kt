@@ -5,6 +5,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import java.util.*
 
 object VocableTextToSpeech {
 
@@ -43,7 +44,10 @@ object VocableTextToSpeech {
         textToSpeech = null
     }
 
-    fun getTextToSpeech(): TextToSpeech? {
-        return textToSpeech
+    fun speak(locale: Locale, text: String) {
+        textToSpeech?.let {
+            it.language = locale
+            it.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)
+        }
     }
 }
