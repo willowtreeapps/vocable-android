@@ -12,7 +12,7 @@
         style="@style/EditCategoriesTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/edit_categories_title_margin_horizontal"
         android:text="@string/edit_categories_title"
         app:layout_constraintEnd_toStartOf="@id/add_category_button"
         app:layout_constraintStart_toEndOf="@id/back_button"
