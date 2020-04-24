@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/edit_sayings_title_margin_start"
         android:layout_marginEnd="@dimen/edit_sayings_title_margin_start"
-        android:text="@string/edit_sayings_title"
+        android:text="@string/settings_edit_saying"
         app:layout_constraintStart_toEndOf="@id/back_button"
         app:layout_constraintEnd_toStartOf="@id/add_sayings_button"
         app:layout_constraintTop_toTopOf="parent" />

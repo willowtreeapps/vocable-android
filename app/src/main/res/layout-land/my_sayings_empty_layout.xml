@@ -19,6 +19,7 @@
         style="@style/EmptyMySayingsTextView"
         android:layout_width="@dimen/empty_my_sayings_text_width"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/empty_my_sayings_text_margin_horizontal"
         android:text="@string/my_sayings_empty_handset_land"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

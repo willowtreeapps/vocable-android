@@ -674,7 +674,7 @@
     {
       "id" : "preset_user_favorites",
       "localizedName" : {
-        "de" : "Meine Sätze",
+        "de" : "Meine Redewendung",
         "en" : "My Sayings"
       },
       "hidden" : false
