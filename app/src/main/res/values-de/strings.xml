@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vocable</string>
+
+    <!-- Presets -->
+    <string name="select_something">Wähle unten etwas aus, um zu sprechen</string>
+    <string name="phrases_page_number">Seite %1d von %2d</string>
+    <string name="my_sayings_empty"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und\n wählen Sie dann den \"☆\", um es zu speichern.</string>
+    <string name="my_sayings_empty_handset_port"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und\n wählen Sie dann den \"☆\", um es zu speichern.</string>
+    <string name="my_sayings_empty_handset_land"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und wählen Sie dann den \"☆\", um es zu speichern.</string>
+    <string name="my_sayings_empty_settings"><b>Sie haben noch keine Redewendungen gespeichert. Wählen Sie das "+" oben rechts, um etwas hinzuzufügen.</b></string>
+
+    <!-- Settings Page -->
+    <string name="settings">Einstellungen</string>
+    <string name="privacy_policy">Datenschutz</string>
+    <string name="contact_developers">Entwickler kontaktieren</string>
+    <string name="version">V %s</string>
+    <string name="settings_head_tracking">Per Kopfbewegung</string>
+    <string name="settings_dialog_title">App verlassen</string>
+    <string name="settings_dialog_message">Dieser link wir außerhalb der Vocable App geöffnet. Sie laufen möglicherweise Gefahr, nicht mehr per Kopfbewegung steuern zu können.</string>
+    <string name="settings_dialog_continue">Weiter</string>
+    <string name="settings_dialog_cancel">Abbrechen</string>
+
+    <!-- Settings Options -->
+    <string name="settings_edit_saying">Meine Redewendung</string>
+    <string name="settings_edit_categories">Kategorien</string>
+    <string name="settings_selection_mode">Steuerungsmodus</string>
+    <string name="settings_reset_app">App Einstellungen zurücksetzen</string>
+
+    <!-- Selection Mode -->
+    <string name="selection_mode_title">Steuerungsmodus</string>
+
+    <!-- Button Text -->
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+
+    <!-- Errors -->
+    <string name="error_move_closer">Bitte näher ans Gerät kommen.</string>
+
+    <!-- Keyboard Layout -->
+    <string name="keyboard_select_letters">Texteingabe beginnen…</string>
+
+    <!-- Saved Phrase Success -->
+    <string name="saved_successfully">In Meine Sätze gespeichert</string>
+
+    <!-- Edit Sayings -->
+    <string name="delete">Löschen</string>
+    <string name="delete_warning">Gelöschte Redewendung können nicht wiederhergestellt werden.</string>
+    <string name="new_phrase_saved">Neue Redewendung gespeichert</string>
+    <string name="contiue_editing">Weiter editieren</string>
+    <string name="discard">Verwerfen</string>
+    <string name="are_you_sure">Bist du sicher?</string>
+    <string name="back_warning">Nicht gespeicherte Veränderungen werden beim Verlassen des Menüs verworfen..</string>
+
+    <!-- Edit Keyboard -->
+    <string name="changes_saved">Änderungen gespeichert</string>
+
+    <!-- Timing and Sensitivity -->
+    <string name="timing_sensitivity_title">Timing und Empfindlichkeit</string>
+    <string name="hover_time_text">Schwebezeit</string>
+    <string name="cursor_sensitivity_text">Zeigerempfindlichkeit</string>
+    <string name="hover_time_amount_text">%s sekunden</string>
+    <string name="hover_time_one_text">1 zweite</string>
+    <string name="cursor_sensitivity_low">Niedrig</string>
+    <string name="cursor_sensitivity_medium">Mittel</string>
+    <string name="cursor_sensitivity_high">Hoch</string>
+
+    <!-- Categories -->
+    <string name="category_my_sayings_id" translatable="false">preset_user_favorites</string>
+    <string name="category_123">123</string>
+    <string name="category_123_id" translatable="false">preset_user_keypad</string>
+    <string name="category_123_yes">Ja</string>
+    <string name="category_123_no">Nein</string>
+
+    <!-- Edit Categories -->
+    <string name="edit_categories_title">Kategorien</string>
+    <string name="edit_categories_button_number">%1d. %2s</string>
+
+    <!-- Edit Category Options -->
+    <string name="edit_category_show_category_text">Kategorien anzeigen</string>
+    <string name="edit_category_remove_category_text">Kategorie entfernen</string>
+    <string name="removed_cant_be_restored">Entfernte Kategorien können nicht wiederhergestellt werden.</string>
+
+</resources>
