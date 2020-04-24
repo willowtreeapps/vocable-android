@@ -11,11 +11,11 @@
         android:id="@+id/my_sayings_title"
         style="@style/EditCategoriesTitle"
         android:layout_width="0dp"
-        android:gravity="center"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/edit_categories_title"
-        app:layout_constraintStart_toEndOf="@id/back_button"
         app:layout_constraintEnd_toStartOf="@id/add_category_button"
+        app:layout_constraintStart_toEndOf="@id/back_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
@@ -35,6 +35,7 @@
         style="@style/EditCategoriesActionButton"
         android:background="@drawable/button_default_background"
         android:src="@drawable/add_40dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
@@ -64,8 +65,8 @@
         android:id="@+id/category_back_button"
         android:layout_width="@dimen/edit_paging_button_width"
         android:layout_height="@dimen/edit_paging_button_height"
-        android:layout_marginBottom="@dimen/edit_paging_button_bottom_margin"
         android:layout_marginStart="@dimen/paging_button_margin"
+        android:layout_marginBottom="@dimen/edit_paging_button_bottom_margin"
         android:background="@drawable/button_default_background"
         android:gravity="center"
         android:scaleType="center"
@@ -85,10 +86,10 @@
         android:textSize="@dimen/phrases_page_number_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/category_forward_button"
-        app:layout_constraintTop_toTopOf="@id/category_forward_button"
         app:layout_constraintEnd_toStartOf="@+id/category_forward_button"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/category_back_button"
+        app:layout_constraintTop_toTopOf="@id/category_forward_button"
         tools:text="Page 1 of 2" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
@@ -103,7 +104,6 @@
         android:src="@drawable/phrases_forward_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/edit_categories_view_pager"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        />
+        app:layout_constraintHorizontal_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
