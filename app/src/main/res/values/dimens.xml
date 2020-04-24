@@ -33,6 +33,8 @@
     <dimen name="close_button_text_size">20sp</dimen>
 
     <!-- Settings -->
+    <dimen name="settings_title_padding_start">16dp</dimen>
+    <dimen name="settings_title_padding_end">88dp</dimen>
     <dimen name="settings_title_margin_bottom">40dp</dimen>
     <dimen name="settings_title_text_size">34sp</dimen>
     <dimen name="settings_margin_small">8dp</dimen>
@@ -140,7 +142,7 @@
     <dimen name="edit_sayings_title_text_size">34sp</dimen>
     <dimen name="edit_sayings_add_button_width">72dp</dimen>
     <dimen name="edit_sayings_add_button_height">72dp</dimen>
-    <dimen name="edit_sayings_title_margin_start">24dp</dimen>
+    <dimen name="edit_sayings_title_margin_horizontal">8dp</dimen>
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>
     <dimen name="edit_phrases_margin_bottom">33dp</dimen>
     <dimen name="edit_phrases_margin_top">33dp</dimen>
@@ -152,6 +154,7 @@
     <dimen name="edit_action_delete_width">56dp</dimen>
 
     <!-- Settings Options -->
+    <dimen name="settings_screen_margin">24dp</dimen>
     <dimen name="settings_close_button_height">72dp</dimen>
     <dimen name="settings_close_button_width">72dp</dimen>
     <dimen name="settings_close_button_start_margin">24dp</dimen>
@@ -215,6 +218,7 @@
     <dimen name="edit_category_pager_margin_top">32dp</dimen>
     <dimen name="edit_categories_title_text_size">34sp</dimen>
     <dimen name="edit_categories_title_margin">30dp</dimen>
+    <dimen name="edit_categories_title_margin_horizontal">8dp</dimen>
     <dimen name="edit_category_pager_margin_end">24dp</dimen>
     <dimen name="edit_category_pager_margin_bottom">64dp</dimen>
 
@@ -247,4 +251,5 @@
     <!-- Category Edit Button -->
     <dimen name="category_edit_button_hidden_margin_start">16dp</dimen>
     <dimen name="category_edit_button_hidden_margin_end">8dp</dimen>
+
 </resources>
