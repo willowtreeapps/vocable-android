@@ -8,6 +8,7 @@
     <color name="pause_overlay">#41201C5B</color>
     <color name="textColor">#D1EEE9</color>
     <color name="textColorDisabled">#32D1EEE9</color>
+    <color name="speakerButtonColor">#4DD9F9</color>
     <color name="colorAccent">#FEA430</color>
     <color name="selectedColor">#00FA9A</color>
     <color name="errorColor">#AD006C</color>

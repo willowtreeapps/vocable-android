@@ -22,8 +22,7 @@ open class ActionButton @JvmOverloads constructor(
 
     override fun sayText(text: CharSequence?) {
         if (text?.isNotBlank() == true) {
-            VocableTextToSpeech.getTextToSpeech()
-                ?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id.toString())
+            VocableTextToSpeech.speak(locale, text.toString())
         }
     }
 }
