@@ -13,7 +13,6 @@
     <string name="settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_developers">Contact Developers</string>
-    <string name="edit_phrases">Edit Phrases</string>
     <string name="version">V %s</string>
     <string name="settings_head_tracking">Head Tracking</string>
     <string name="settings_dialog_title">Leaving the app</string>
@@ -24,16 +23,13 @@
     <!-- Settings Options -->
     <string name="settings_edit_saying">My Sayings</string>
     <string name="settings_edit_categories">Categories</string>
-    <string name="settings_timing_sensitivity">Timing and Sensitivity</string>
     <string name="settings_selection_mode">Selection Mode</string>
     <string name="settings_reset_app">Reset App Settings</string>
 
     <!-- Selection Mode -->
     <string name="selection_mode_title">Selection Mode</string>
-    <string name="selection_mode_head_tracking">Head Tracking</string>
 
     <!-- Button Text -->
-    <string name="button_close">Close</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Resume</string>
 
@@ -47,8 +43,6 @@
     <string name="saved_successfully">Saved to My Sayings</string>
 
     <!-- Edit Sayings -->
-    <string name="edit_sayings_back_button">&lt; Settings</string>
-    <string name="edit_sayings_title">My Sayings</string>
     <string name="delete">Delete</string>
     <string name="delete_warning">Deleted phrases cannot be recovered.</string>
     <string name="new_phrase_saved">New phrase saved</string>
@@ -71,7 +65,6 @@
     <string name="cursor_sensitivity_high">High</string>
 
     <!-- Categories -->
-    <string name="category_my_sayings">My Sayings</string>
     <string name="category_my_sayings_id" translatable="false">preset_user_favorites</string>
     <string name="category_123">123</string>
     <string name="category_123_id" translatable="false">preset_user_keypad</string>
@@ -80,7 +73,6 @@
 
     <!-- Edit Categories -->
     <string name="edit_categories_title">Categories</string>
-    <string name="edit_categories_title_handset">Categories</string>
     <string name="edit_categories_button_number">%1d. %2s</string>
 
     <!-- Edit Category Options -->
