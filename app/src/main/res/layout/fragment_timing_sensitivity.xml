@@ -6,19 +6,7 @@
     android:orientation="vertical"
     android:theme="@style/SettingsTheme">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/settings_screen_margin" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/settings_screen_margin" />
+    <include layout="@layout/guidelines_settings" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/timing_sensitivity_back_button"
