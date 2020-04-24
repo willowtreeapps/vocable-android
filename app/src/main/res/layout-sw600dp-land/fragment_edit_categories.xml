@@ -38,6 +38,7 @@
         android:padding="@dimen/edit_sayings_back_button_padding"
         android:src="@drawable/add_40dp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
@@ -88,10 +89,10 @@
         android:textSize="@dimen/phrases_page_number_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/category_forward_button"
-        app:layout_constraintTop_toTopOf="@id/category_forward_button"
         app:layout_constraintEnd_toStartOf="@+id/category_forward_button"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/category_back_button"
+        app:layout_constraintTop_toTopOf="@id/category_forward_button"
         tools:text="Page 1 of 2" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
