@@ -1,26 +1,21 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.MainActivity
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import kotlin.math.min
 
-class EditCategoriesFragment : BaseFragment() {
+class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
 
-    private var binding: FragmentEditCategoriesBinding? = null
+    override val bindingInflater: BindingInflater<FragmentEditCategoriesBinding> = FragmentEditCategoriesBinding::inflate
 
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
@@ -28,51 +23,33 @@ class EditCategoriesFragment : BaseFragment() {
     private val allViews = mutableListOf<View>()
     private var maxEditCategories = 1
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentEditCategoriesBinding.inflate(inflater, container, false)
-
-        return binding?.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.categoryBackButton?.let {
-            it.action = {
-                when (val currentPosition = binding?.editCategoriesViewPager?.currentItem) {
-                    null -> {
-                        // No-op
-                    }
-                    0 -> {
-                        binding?.editCategoriesViewPager?.setCurrentItem(
-                            categoriesAdapter.itemCount - 1,
-                            true
-                        )
-                    }
-                    else -> {
-                        binding?.editCategoriesViewPager?.setCurrentItem(currentPosition - 1, true)
-                    }
+        binding.categoryBackButton.action = {
+            when (val currentPosition = binding.editCategoriesViewPager.currentItem) {
+                null -> {
+                    // No-op
+                }
+                0 -> {
+                    binding.editCategoriesViewPager.setCurrentItem(
+                        categoriesAdapter.itemCount - 1,
+                        true
+                    )
+                }
+                else -> {
+                    binding.editCategoriesViewPager.setCurrentItem(currentPosition - 1, true)
                 }
             }
         }
 
-        binding?.categoryForwardButton?.let {
-            it.action = {
-                when (val currentPosition = binding?.editCategoriesViewPager?.currentItem) {
-                    null -> {
-                        // No-op
-                    }
-                    categoriesAdapter.itemCount - 1 -> {
-                        binding?.editCategoriesViewPager?.setCurrentItem(0, true)
-                    }
-                    else -> {
-                        binding?.editCategoriesViewPager?.setCurrentItem(currentPosition + 1, true)
-                    }
+        binding.categoryForwardButton.action = {
+            when (val currentPosition = binding.editCategoriesViewPager.currentItem) {
+                categoriesAdapter.itemCount - 1 -> {
+                    binding.editCategoriesViewPager.setCurrentItem(0, true)
+                }
+                else -> {
+                    binding.editCategoriesViewPager.setCurrentItem(currentPosition + 1, true)
                 }
             }
         }
@@ -80,11 +57,11 @@ class EditCategoriesFragment : BaseFragment() {
 
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
-        binding?.editCategoriesViewPager?.registerOnPageChangeCallback(object :
+        binding.editCategoriesViewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 val pageNum = position % categoriesAdapter.numPages + 1
-                binding?.categoryPageNumber?.text = getString(
+                binding.categoryPageNumber.text = getString(
                     R.string.phrases_page_number,
                     pageNum,
                     categoriesAdapter.numPages
@@ -99,11 +76,11 @@ class EditCategoriesFragment : BaseFragment() {
             }
         })
 
-        binding?.backButton?.action = {
+        binding.backButton.action = {
             parentFragmentManager.popBackStack()
         }
 
-        binding?.addCategoryButton?.action = {
+        binding.addCategoryButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(
@@ -125,11 +102,6 @@ class EditCategoriesFragment : BaseFragment() {
         subscribeToViewModel()
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
     override fun getAllViews(): List<View> {
         return emptyList()
     }
@@ -137,17 +109,17 @@ class EditCategoriesFragment : BaseFragment() {
     private fun subscribeToViewModel() {
         editCategoriesViewModel.addRemoveCategoryList.observe(requireActivity(), Observer {
             it?.let { categories ->
-                with(binding?.editCategoriesViewPager) {
-                    this?.isSaveEnabled = false
-                    this?.adapter = categoriesAdapter
+                binding.editCategoriesViewPager.apply {
+                    isSaveEnabled = false
+                    adapter = categoriesAdapter
                     categoriesAdapter.setItems(categories)
                     // Move adapter to middle so user can scroll both directions
                     val middle = categoriesAdapter.itemCount / 2
                     if (middle % categoriesAdapter.numPages == 0) {
-                        binding?.editCategoriesViewPager?.setCurrentItem(middle, false)
+                        setCurrentItem(middle, false)
                     } else {
                         val mod = middle % categoriesAdapter.numPages
-                        binding?.editCategoriesViewPager?.setCurrentItem(
+                        setCurrentItem(
                             middle + (categoriesAdapter.numPages - mod),
                             false
                         )
@@ -166,8 +138,8 @@ class EditCategoriesFragment : BaseFragment() {
                     val mod = middle % categoriesAdapter.numPages
                     middle + (categoriesAdapter.numPages - mod) + pageNum
                 }
-                if (binding?.editCategoriesViewPager?.currentItem != toScrollTo) {
-                    binding?.editCategoriesViewPager?.setCurrentItem(toScrollTo, false)
+                if (binding.editCategoriesViewPager.currentItem != toScrollTo) {
+                    binding.editCategoriesViewPager.setCurrentItem(toScrollTo, false)
                 }
             }
         })
@@ -192,10 +164,10 @@ class EditCategoriesFragment : BaseFragment() {
     }
 
     private fun setPagingButtonsEnabled(enable: Boolean) {
-        binding?.let {
-            it.categoryForwardButton.isEnabled = enable
-            it.categoryBackButton.isEnabled = enable
-            it.editCategoriesViewPager.isUserInputEnabled = enable
+        binding.apply {
+            categoryForwardButton.isEnabled = enable
+            categoryBackButton.isEnabled = enable
+            editCategoriesViewPager.isUserInputEnabled = enable
         }
     }
 
