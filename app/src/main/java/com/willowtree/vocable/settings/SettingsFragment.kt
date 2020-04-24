@@ -10,15 +10,11 @@ import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.BuildConfig
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentSettingsBinding
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     companion object {
         private const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
@@ -27,8 +23,8 @@ class SettingsFragment : BaseFragment() {
         private const val SETTINGS_OPTION_COUNT = 5
     }
 
+    override val bindingInflater: BindingInflater<FragmentSettingsBinding> = FragmentSettingsBinding::inflate
     private lateinit var viewModel: SettingsViewModel
-    private var binding: FragmentSettingsBinding? = null
     private var numColumns = 1
 
     override fun onCreateView(
@@ -36,11 +32,10 @@ class SettingsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         numColumns = resources.getInteger(R.integer.settings_options_columns)
 
-        (binding?.settingsOptionsContainer?.root as? GridLayout)?.children?.forEachIndexed { index, child ->
+        (binding.settingsOptionsContainer.root as GridLayout).children.forEachIndexed { index, child ->
             if (index % numColumns == numColumns - 1) {
                 child.layoutParams = (child.layoutParams as GridLayout.LayoutParams).apply {
                     marginEnd = 0
@@ -53,29 +48,24 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        return binding?.root
+        return binding.root
     }
 
     override fun getAllViews(): List<View> {
         return emptyList()
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.version?.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        binding.version.text = getString(R.string.version, BuildConfig.VERSION_NAME)
 
-        binding?.privacyPolicyButton?.action = {
+        binding.privacyPolicyButton.action = {
             showLeavingAppDialog {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY)))
             }
         }
 
-        binding?.contactDevsButton?.action = {
+        binding.contactDevsButton.action = {
             showLeavingAppDialog {
                 val sendEmail = Intent(Intent.ACTION_SENDTO).apply {
                     data =
@@ -85,13 +75,11 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        binding?.settingsCloseButton?.let {
-            it.action = {
-                requireActivity().finish()
-            }
+        binding.settingsCloseButton.action = {
+            requireActivity().finish()
         }
 
-        binding?.settingsOptionsContainer?.editSayingsButton?.action = {
+        binding.settingsOptionsContainer.editSayingsButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, EditPresetsFragment())
@@ -99,7 +87,7 @@ class SettingsFragment : BaseFragment() {
                 .commit()
         }
 
-        binding?.settingsOptionsContainer?.timingSensitivityButton?.action = {
+        binding.settingsOptionsContainer.timingSensitivityButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SensitivityFragment())
@@ -107,7 +95,7 @@ class SettingsFragment : BaseFragment() {
                 .commit()
         }
 
-        binding?.settingsOptionsContainer?.selectionModeButton?.action = {
+        binding.settingsOptionsContainer.selectionModeButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, SelectionModeFragment())
@@ -115,7 +103,7 @@ class SettingsFragment : BaseFragment() {
                 .commit()
         }
 
-        binding?.settingsOptionsContainer?.editCategoriesButton?.action = {
+        binding.settingsOptionsContainer.editCategoriesButton.action = {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, EditCategoriesFragment())
@@ -135,43 +123,43 @@ class SettingsFragment : BaseFragment() {
 
     private fun showLeavingAppDialog(positiveAction: (() -> Unit)) {
         setSettingsButtonsEnabled(false)
-        binding?.settingsConfirmation?.dialogTitle?.setText(R.string.settings_dialog_title)
-        binding?.settingsConfirmation?.dialogMessage?.setText(R.string.settings_dialog_message)
-        binding?.settingsConfirmation?.dialogPositiveButton?.let {
-            it.setText(R.string.settings_dialog_continue)
-            it.action = {
-                positiveAction.invoke()
-                toggleDialogVisibility(false)
+        binding.settingsConfirmation.apply {
+            dialogTitle.setText(R.string.settings_dialog_title)
+            dialogMessage.setText(R.string.settings_dialog_message)
+            dialogPositiveButton.apply {
+                setText(R.string.settings_dialog_continue)
+                action = {
+                    positiveAction.invoke()
+                    toggleDialogVisibility(false)
 
-                setSettingsButtonsEnabled(true)
+                    setSettingsButtonsEnabled(true)
+                }
             }
-        }
-        binding?.settingsConfirmation?.dialogNegativeButton?.let {
-            it.setText(R.string.settings_dialog_cancel)
-            it.action = {
-                toggleDialogVisibility(false)
-                setSettingsButtonsEnabled(true)
+            dialogNegativeButton.apply {
+                setText(R.string.settings_dialog_cancel)
+                action = {
+                    toggleDialogVisibility(false)
+                    setSettingsButtonsEnabled(true)
+                }
             }
         }
         toggleDialogVisibility(true)
     }
 
     private fun setSettingsButtonsEnabled(enable: Boolean) {
-        binding?.let {
-            it.settingsCloseButton.isEnabled = enable
-            it.privacyPolicyButton.isEnabled = enable
-            it.contactDevsButton.isEnabled = enable
-            it.settingsOptionsContainer.editCategoriesButton.isEnabled = enable
-            it.settingsOptionsContainer.editSayingsButton.isEnabled = enable
-            it.settingsOptionsContainer.resetAppButton.isEnabled = enable
-            it.settingsOptionsContainer.selectionModeButton.isEnabled = enable
-            it.settingsOptionsContainer.timingSensitivityButton.isEnabled = enable
+        binding.apply {
+            settingsCloseButton.isEnabled = enable
+            privacyPolicyButton.isEnabled = enable
+            contactDevsButton.isEnabled = enable
+            settingsOptionsContainer.editCategoriesButton.isEnabled = enable
+            settingsOptionsContainer.editSayingsButton.isEnabled = enable
+            settingsOptionsContainer.resetAppButton.isEnabled = enable
+            settingsOptionsContainer.selectionModeButton.isEnabled = enable
+            settingsOptionsContainer.timingSensitivityButton.isEnabled = enable
         }
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {
-        binding?.settingsConfirmation?.root?.let {
-            it.isVisible = visible
-        }
+        binding.settingsConfirmation.root.isVisible = visible
     }
 }
