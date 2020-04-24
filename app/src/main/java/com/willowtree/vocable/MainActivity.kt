@@ -78,7 +78,7 @@ class MainActivity : BaseActivity() {
 
     private fun getAllFragmentViews() {
         supportFragmentManager.fragments.forEach {
-            if (it is BaseFragment) {
+            if (it is BaseFragment<*>) {
                 allViews.addAll(it.getAllViews())
             }
         }
