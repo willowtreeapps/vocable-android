@@ -7,8 +7,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich muss aufs Klo",
-        "en" : "I need to go to the restroom",
-        "ar" : "أحتاج الذهاب الي دورة المياه"
+        "en" : "I need to go to the restroom"
       }
     },
     {
@@ -18,8 +17,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich bin durstig",
-        "en" : "I am thirsty",
-        "ar" : "أنا عطشان"
+        "en" : "I am thirsty"
       }
     },
     {
@@ -29,8 +27,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich habe Hunger",
-        "en" : "I am hungry",
-        "ar" : "أنا جائع"
+        "en" : "I am hungry"
       }
     },
     {
@@ -40,8 +37,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Mir ist kalt",
-        "en" : "I am cold",
-        "ar" : "أشعر بالبرد"
+        "en" : "I am cold"
       }
     },
     {
@@ -51,8 +47,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Mir ist heiß",
-        "en" : "I am hot",
-        "ar" : "أشعر بالحر"
+        "en" : "I am hot"
       }
     },
     {
@@ -62,8 +57,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich bin müde",
-        "en" : "I am tired",
-        "ar" : "أشعر بالتعب"
+        "en" : "I am tired"
       }
     },
     {
@@ -73,8 +67,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Mir geht es gut",
-        "en" : "I am fine",
-        "ar" : "أنا بخير"
+        "en" : "I am fine"
       }
     },
     {
@@ -84,8 +77,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Das reicht, danke",
-        "en" : "I am good",
-        "ar" : "أنا بحال جيد"
+        "en" : "I am good"
       }
     },
     {
@@ -95,8 +87,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich fühle mich unwohl",
-        "en" : "I am uncomfortable",
-        "ar" : "أنا غير مرتاح"
+        "en" : "I am uncomfortable"
       }
     },
     {
@@ -106,8 +97,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich habe Schmerzen",
-        "en" : "I am in pain",
-        "ar" : "أنا أشعر بالألم"
+        "en" : "I am in pain"
       }
     },
     {
@@ -117,8 +107,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich bin fertig",
-        "en" : "I am finished",
-        "ar" : "لقد إنتهيت"
+        "en" : "I am finished"
       }
     },
     {
@@ -128,8 +117,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte mich hinlegen",
-        "en" : "I want to lie down",
-        "ar" : "أريد الإستلقاء"
+        "en" : "I want to lie down"
       }
     },
     {
@@ -139,8 +127,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte mich aufsetzen",
-        "en" : "I want to sit up",
-        "ar" : "أريد الجلوس"
+        "en" : "I want to sit up"
       }
     },
     {
@@ -150,8 +137,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Hallo",
-        "en" : "Hello",
-        "ar" : "مرحباً"
+        "en" : "Hello"
       }
     },
     {
@@ -161,8 +147,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Guten Morgen",
-        "en" : "Good morning",
-        "ar" : "صباح الخير"
+        "en" : "Good morning"
       }
     },
     {
@@ -172,8 +157,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Guten Abend",
-        "en" : "Good evening",
-        "ar" : "مساء الخير"
+        "en" : "Good evening"
       }
     },
     {
@@ -183,8 +167,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Freut mich dich zu sehen",
-        "en" : "Pleased to meet you",
-        "ar" : "مسرور بلقائك"
+        "en" : "Pleased to meet you"
       }
     },
     {
@@ -194,8 +177,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Wie läuft dein Tag?",
-        "en" : "How is your day?",
-        "ar" : "كيف كان يومك؟"
+        "en" : "How is your day?"
       }
     },
     {
@@ -205,8 +187,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Wie geht es dir?",
-        "en" : "How are you?",
-        "ar" : "كيف حالك؟"
+        "en" : "How are you?"
       }
     },
     {
@@ -216,8 +197,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Wie läuft's?",
-        "en" : "How's it going?",
-        "ar" : "كيف تسير أمورك؟"
+        "en" : "How's it going?"
       }
     },
     {
@@ -227,8 +207,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Wie war dein Wochenende?",
-        "en" : "How was your weekend?",
-        "ar" : "كيف كانت عطلة نهاية الأسبوع؟"
+        "en" : "How was your weekend?"
       }
     },
     {
@@ -238,8 +217,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Tschüss",
-        "en" : "Goodbye",
-        "ar" : "وداعاً"
+        "en" : "Goodbye"
       }
     },
     {
@@ -249,8 +227,7 @@
       ],
       "localizedUtterance" : {
         "de" : "OK",
-        "en" : "Okay",
-        "ar" : "حسناً"
+        "en" : "Okay"
       }
     },
     {
@@ -260,8 +237,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Schlecht",
-        "en" : "Bad",
-        "ar" : "سيئ"
+        "en" : "Bad"
       }
     },
     {
@@ -271,8 +247,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Gut",
-        "en" : "Good",
-        "ar" : "جيد"
+        "en" : "Good"
       }
     },
     {
@@ -282,8 +257,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Das macht Sinn",
-        "en" : "That makes sense",
-        "ar" : "هذا منطقي"
+        "en" : "That makes sense"
       }
     },
     {
@@ -293,8 +267,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Das mag ich",
-        "en" : "I like it",
-        "ar" : "أعجبتني"
+        "en" : "I like it"
       }
     },
     {
@@ -304,8 +277,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte aufhören",
-        "en" : "Please stop",
-        "ar" : "أرجوك توقف"
+        "en" : "Please stop"
       }
     },
     {
@@ -315,8 +287,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich stimme nicht zu",
-        "en" : "I do not agree",
-        "ar" : "أنا لا أتفق"
+        "en" : "I do not agree"
       }
     },
     {
@@ -326,8 +297,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Wie bitte?",
-        "en" : "Please repeat what you said",
-        "ar" : "أرجوك أعد ماقلته"
+        "en" : "Please repeat what you said"
       }
     },
     {
@@ -337,8 +307,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte",
-        "en" : "Please",
-        "ar" : "من فضلك"
+        "en" : "Please"
       }
     },
     {
@@ -348,8 +317,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Danke",
-        "en" : "Thank you",
-        "ar" : "شكراً"
+        "en" : "Thank you"
       }
     },
     {
@@ -359,8 +327,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ja",
-        "en" : "Yes",
-        "ar" : "نعم"
+        "en" : "Yes"
       }
     },
     {
@@ -370,8 +337,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Nein",
-        "en" : "No",
-        "ar" : "لا"
+        "en" : "No"
       }
     },
     {
@@ -381,8 +347,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Vielleicht",
-        "en" : "Maybe",
-        "ar" : "ربما"
+        "en" : "Maybe"
       }
     },
     {
@@ -392,8 +357,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Einen Moment, bitte",
-        "en" : "Please wait",
-        "ar" : "الرجاء الإنتظار"
+        "en" : "Please wait"
       }
     },
     {
@@ -403,8 +367,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Das weiß ich nicht",
-        "en" : "I don't know",
-        "ar" : "لا أعلم"
+        "en" : "I don't know"
       }
     },
     {
@@ -414,8 +377,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Das wollte ich nicht sagen",
-        "en" : "I didn't mean to say that",
-        "ar" : "لم أقصد قول ذالك"
+        "en" : "I didn't mean to say that"
       }
     },
     {
@@ -425,8 +387,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Hab bitte Geduld",
-        "en" : "Please be patient",
-        "ar" : "أرجوك كن صبور"
+        "en" : "Please be patient"
       }
     },
     {
@@ -436,8 +397,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte das Licht anschalten",
-        "en" : "Please turn the lights on",
-        "ar" : "أرجوك إنتح الأضواء"
+        "en" : "Please turn the lights on"
       }
     },
     {
@@ -447,8 +407,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte das Licht ausschalten",
-        "en" : "Please turn the lights off",
-        "ar" : "أرجوك أطفئ الأضواء"
+        "en" : "Please turn the lights off"
       }
     },
     {
@@ -458,8 +417,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Kein Besuch bitte",
-        "en" : "No visitors please",
-        "ar" : "لازوار من فضلك"
+        "en" : "No visitors please"
       }
     },
     {
@@ -469,8 +427,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich hätte gerne Besuch",
-        "en" : "I would like visitors",
-        "ar" : "أنا أريد زوار"
+        "en" : "I would like visitors"
       }
     },
     {
@@ -480,8 +437,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte leise sein",
-        "en" : "Please be quiet",
-        "ar" : "أرجوك كن هادءً"
+        "en" : "Please be quiet"
       }
     },
     {
@@ -491,8 +447,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte reden",
-        "en" : "I would like to talk",
-        "ar" : "أريد أن أتكلم"
+        "en" : "I would like to talk"
       }
     },
     {
@@ -502,8 +457,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte den Fernseher anschalten",
-        "en" : "Please turn the TV on",
-        "ar" : "أرجوك إفتح جهاز التلفاز"
+        "en" : "Please turn the TV on"
       }
     },
     {
@@ -513,8 +467,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte den Fernseher ausschalten",
-        "en" : "Please turn the TV off",
-        "ar" : "أرجوك أغلق جهاز التلفاز"
+        "en" : "Please turn the TV off"
       }
     },
     {
@@ -524,8 +477,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte lauter",
-        "en" : "Please turn the volume up",
-        "ar" : "أرجوك إرفع مستوى الصوت"
+        "en" : "Please turn the volume up"
       }
     },
     {
@@ -535,8 +487,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte leiser",
-        "en" : "Please turn the volume down",
-        "ar" : "أرجوك إخفظ مستوى الصوت"
+        "en" : "Please turn the volume down"
       }
     },
     {
@@ -546,8 +497,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte die Vorhänge öffnen",
-        "en" : "Please open the blinds",
-        "ar" : "أرجوك إفتح الستائر"
+        "en" : "Please open the blinds"
       }
     },
     {
@@ -557,8 +507,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte die Vorhänge schließen",
-        "en" : "Please close the blinds",
-        "ar" : "أرجوك أغلق الستائر"
+        "en" : "Please close the blinds"
       }
     },
     {
@@ -568,8 +517,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte das Fenster öffnen",
-        "en" : "Please open the window",
-        "ar" : "أرجوك إفتك النافذه"
+        "en" : "Please open the window"
       }
     },
     {
@@ -579,8 +527,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte das Fenster schließen",
-        "en" : "Please close the window",
-        "ar" : "أرجوك أغلق النافذه"
+        "en" : "Please close the window"
       }
     },
     {
@@ -590,8 +537,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich brauche meine Medikamente",
-        "en" : "I need my medication",
-        "ar" : "أحتاج دوائي"
+        "en" : "I need my medication"
       }
     },
     {
@@ -601,8 +547,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte baden",
-        "en" : "I need a bath",
-        "ar" : "أحتاج الإستحمام"
+        "en" : "I need a bath"
       }
     },
     {
@@ -612,8 +557,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte duschen",
-        "en" : "I need a shower",
-        "ar" : "أحتاج الإستحمام"
+        "en" : "I need a shower"
       }
     },
     {
@@ -623,8 +567,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte mein Gesicht waschen",
-        "en" : "I need to wash my face",
-        "ar" : "أحتاج الي غسل وجهي"
+        "en" : "I need to wash my face"
       }
     },
     {
@@ -634,8 +577,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich möchte mein Haar kämmen",
-        "en" : "I need to brush my hair",
-        "ar" : "أحتاج لتمشيط شعري"
+        "en" : "I need to brush my hair"
       }
     },
     {
@@ -645,8 +587,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Bitte mein Kissen aufschütteln",
-        "en" : "Please fix my pillow",
-        "ar" : "أرجوك عدل وضعية وسادتي"
+        "en" : "Please fix my pillow"
       }
     },
     {
@@ -656,8 +597,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich muss spucken",
-        "en" : "I need to spit",
-        "ar" : "أحتاج أن أبسق"
+        "en" : "I need to spit"
       }
     },
     {
@@ -667,8 +607,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich habe Atembeschwerden",
-        "en" : "I am having trouble breathing",
-        "ar" : "أنا أواجه مشكلة في التنفس"
+        "en" : "I am having trouble breathing"
       }
     },
     {
@@ -678,8 +617,7 @@
       ],
       "localizedUtterance" : {
         "de" : "Ich brauchen eine Jacke",
-        "en" : "I need a jacket",
-        "ar" : "أحتاج الي ستره"
+        "en" : "I need a jacket"
       }
     }
   ],
@@ -689,8 +627,7 @@
       "id" : "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2",
       "localizedName" : {
         "de" : "Allgemeines",
-        "en" : "General",
-        "ar" : "عام"
+        "en" : "General"
       },
       "hidden" : false
     },
@@ -698,8 +635,7 @@
       "id" : "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B",
       "localizedName" : {
         "de" : "Bedürfnisse",
-        "en" : "Basic Needs",
-        "ar" : "الإحتياجات الأساسية"
+        "en" : "Basic Needs"
       },
       "hidden" : false
     },
@@ -707,8 +643,7 @@
       "id" : "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B",
       "localizedName" : {
         "de" : "Hygiene",
-        "en" : "Personal Care",
-        "ar" : "الرعاية الشخصية"
+        "en" : "Personal Care"
       },
       "hidden" : false
     },
@@ -716,8 +651,7 @@
       "id" : "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76",
       "localizedName" : {
         "de" : "Unterhaltung",
-        "en" : "Conversation",
-        "ar" : "محادثه"
+        "en" : "Conversation"
       },
       "hidden" : false
     },
@@ -725,8 +659,7 @@
       "id" : "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8",
       "localizedName" : {
         "de" : "Umgebung",
-        "en" : "Environment",
-        "ar" : "البيأه"
+        "en" : "Environment"
       },
       "hidden" : false
     },
@@ -734,8 +667,7 @@
       "id" : "preset_user_keypad",
       "localizedName" : {
         "de" : "123",
-        "en" : "123",
-        "ar" : "123"
+        "en" : "123"
       },
       "hidden" : false
     },
@@ -743,8 +675,7 @@
       "id" : "preset_user_favorites",
       "localizedName" : {
         "de" : "Meine Redewendung",
-        "en" : "My Sayings",
-        "ar" : "مقولاتي"
+        "en" : "My Sayings"
       },
       "hidden" : false
     }
