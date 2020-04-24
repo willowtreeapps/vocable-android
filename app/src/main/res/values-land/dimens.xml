@@ -65,6 +65,6 @@
     <dimen name="edit_options_button_height">56dp</dimen>
 
     <!-- Empty My Sayings -->
-    <dimen name="empty_my_sayings_text_width">516dp</dimen>
+    <dimen name="empty_my_sayings_text_width">0dp</dimen>
 
 </resources>

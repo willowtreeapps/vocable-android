@@ -244,6 +244,7 @@
     <!-- Empty My Sayings -->
     <dimen name="empty_my_sayings_text_width">0dp</dimen>
     <dimen name="empty_my_sayings_text_margin_top">32dp</dimen>
+    <dimen name="empty_my_sayings_text_margin_horizontal">100dp</dimen>
     <dimen name="empty_my_sayings_text_size">24sp</dimen>
     <dimen name="empty_my_sayings_star_margin_top">40dp</dimen>
 
