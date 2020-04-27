@@ -1,4 +1,4 @@
-package com.willowtree.vocable.room
+package com.willowtree.vocable.room.models
 
 data class PresetsObject(
     val schemaVersion: Int,
