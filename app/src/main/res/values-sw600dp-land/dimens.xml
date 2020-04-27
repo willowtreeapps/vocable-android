@@ -14,7 +14,7 @@
     <dimen name="main_activity_category_margin">16dp</dimen>
 
     <!-- Phrases -->
-    <dimen name="phrases_margin">8dp</dimen>
+    <dimen name="phrases_margin">16dp</dimen>
     <dimen name="phrases_paging_margin_bottom">44dp</dimen>
 
     <!-- Settings Options-->
@@ -64,5 +64,13 @@
     <!-- Hover Time -->
     <dimen name="hover_time_button_height">88dp</dimen>
     <dimen name="hover_time_button_width">88dp</dimen>
+
+    <!-- Edit Categories -->
+    <dimen name="edit_categories_action_button_width">112dp</dimen>
+    <dimen name="edit_categories_action_button_height">96dp</dimen>
+    <dimen name="edit_category_pager_margin_top">28dp</dimen>
+    <dimen name="edit_category_pager_margin_end">44dp</dimen>
+    <dimen name="edit_category_pager_margin_bottom">34dp</dimen>
+    <dimen name="edit_categories_title_margin">84dp</dimen>
 
 </resources>
