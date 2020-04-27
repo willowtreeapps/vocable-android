@@ -5,6 +5,7 @@ import android.util.Log
 import com.squareup.moshi.Moshi
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.*
+import com.willowtree.vocable.room.models.PresetsObject
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
