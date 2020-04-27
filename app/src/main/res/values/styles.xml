@@ -10,6 +10,14 @@
         <item name="android:windowEnableSplitTouch">false</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <style name="SettingsTheme" parent="AppTheme">
         <item name="colorPrimary">@color/textColor</item>
         <item name="android:colorForeground">@color/textColor</item>
@@ -177,8 +185,16 @@
 
     <style name="EditSayingsTitle">
         <item name="android:layout_marginTop">@dimen/edit_sayings_title_margin</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/edit_sayings_title_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditCategoriesTitle">
+        <item name="android:layout_marginTop">@dimen/edit_categories_title_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/edit_categories_title_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -186,6 +202,15 @@
     <style name="EditSayingsActionButton">
         <item name="android:layout_width">@dimen/edit_sayings_add_button_width</item>
         <item name="android:layout_height">@dimen/edit_sayings_add_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/edit_categories_add_button_margin</item>
+        <item name="android:layout_marginStart">@dimen/edit_categories_add_button_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EditCategoriesActionButton">
+        <item name="android:layout_width">@dimen/edit_categories_action_button_width</item>
+        <item name="android:layout_height">@dimen/edit_categories_action_button_height</item>
         <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:scaleType">center</item>
@@ -232,7 +257,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/settings_margin_default</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_label_text_size</item>
     </style>
 
@@ -266,6 +291,15 @@
         <item name="android:gravity">center</item>
         <item name="android:scaleType">center</item>
         <item name="android:background">@drawable/button_default_background</item>
+    </style>
+
+    <style name="EmptyMySayingsTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/empty_my_sayings_text_margin_top</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/empty_my_sayings_text_size</item>
     </style>
 
 </resources>

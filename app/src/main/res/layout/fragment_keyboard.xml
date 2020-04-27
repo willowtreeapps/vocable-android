@@ -7,13 +7,14 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimaryDark">
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <EditText
         android:id="@+id/keyboard_input"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/keyboard_side_margin"
         android:background="@null"
         android:ellipsize="end"
+        android:enabled="false"
         android:gravity="start|center_vertical"
         android:inputType="textCapSentences"
         android:maxLines="2"
@@ -23,7 +24,7 @@
         android:textStyle="bold"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/action_button_container"
-        app:layout_constraintEnd_toEndOf="@id/speaker_icon"
+        app:layout_constraintEnd_toStartOf="@id/speaker_icon"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,13 +117,15 @@
         android:layout_marginTop="@dimen/keyboard_keys_top_margin"
         android:layout_marginEnd="@dimen/keyboard_side_margin"
         android:layout_marginBottom="@dimen/keyboard_side_margin"
-        android:columnCount="5"
-        android:rowCount="6"
+        android:columnCount="@integer/keyboard_columns"
+        android:rowCount="@integer/keyboard_rows"
         android:useDefaultMargins="true"
         app:layout_constraintBottom_toTopOf="@+id/keyboard_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_button_container" />
+        app:layout_constraintTop_toBottomOf="@+id/action_button_container"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/keyboard_bottom_bar"
@@ -186,7 +189,7 @@
             android:id="@+id/keyboard_speak_button"
             android:layout_width="0dp"
             android:layout_height="@dimen/keyboard_bottom_bar_height"
-            android:background="@drawable/button_default_background"
+            android:background="@drawable/button_speaker_background"
             android:gravity="center"
             android:scaleType="center"
             android:src="@drawable/keyboard_speak_button_icon"
