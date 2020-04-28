@@ -35,6 +35,7 @@ class FaceTrackFragment : ArFragment() {
             setInstructionView(null)
         }
         viewModel = ViewModelProviders.of(requireActivity()).get(FaceTrackingViewModel::class.java)
+        lifecycle.addObserver(viewModel)
         subscribeToViewModel()
         attachFaceTracker()
     }
@@ -55,7 +56,7 @@ class FaceTrackFragment : ArFragment() {
     private fun attachFaceTracker() {
         val scene = arSceneView.scene
         scene.addOnUpdateListener {
-            viewModel.onFaceDetected(arSceneView.session?.getAllTrackables(AugmentedFace::class.java))
+            viewModel.onSceneUpdate(arSceneView.session?.getAllTrackables(AugmentedFace::class.java))
         }
     }
 
@@ -64,7 +65,7 @@ class FaceTrackFragment : ArFragment() {
             arSceneView.resume()
         } else {
             arSceneView.pause()
-            viewModel.onFaceDetected(null)
+            viewModel.onSceneUpdate(null)
         }
     }
 }
