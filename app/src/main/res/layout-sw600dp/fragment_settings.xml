@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/SettingsTheme">
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/settings_close_button"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/settings_close_button_width"
+        android:layout_height="@dimen/settings_close_button_height"
+        android:layout_marginStart="@dimen/settings_close_button_start_margin"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
+        android:scaleType="center"
+        android:src="@drawable/close_action_button_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/settings_title"
+        style="@style/SettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        app:layout_constraintBottom_toBottomOf="@+id/settings_close_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/settings_close_button"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <include
+        android:id="@+id/settings_options_container"
+        layout="@layout/settings_options_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/setting_options_margin_horizontal"
+        android:layout_marginTop="@dimen/settings_options_margin_top"
+        android:layout_marginBottom="@dimen/settings_options_margin_bottom"
+        app:layout_constraintBottom_toTopOf="@id/privacy_policy_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_close_button" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/privacy_policy_button"
+        style="@style/SettingsLinkOutButton"
+        android:layout_width="0dp"
+        android:text="@string/privacy_policy"
+        app:layout_constraintBottom_toTopOf="@id/version"
+        app:layout_constraintEnd_toStartOf="@+id/contact_devs_button"
+        app:layout_constraintStart_toStartOf="@id/settings_options_container"
+        app:layout_constraintTop_toBottomOf="@id/settings_options_container" />
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/contact_devs_button"
+        style="@style/SettingsLinkOutButton"
+        android:layout_width="0dp"
+        android:layout_marginEnd="0dp"
+        android:text="@string/contact_developers"
+        app:layout_constraintEnd_toEndOf="@id/settings_options_container"
+        app:layout_constraintStart_toEndOf="@id/privacy_policy_button"
+        app:layout_constraintTop_toTopOf="@id/privacy_policy_button" />
+
+    <TextView
+        android:id="@+id/version"
+        style="@style/VersionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/settings_version_text_bottom_margin"
+        android:text="@string/version"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <include
+        android:id="@+id/settings_confirmation"
+        layout="@layout/vocable_confirmation_dialog"
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

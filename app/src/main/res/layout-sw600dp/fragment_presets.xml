@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/presets_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:id="@+id/current_text"
+        style="@style/SpokenTextView"
+        android:layout_width="wrap_content"
+        android:ellipsize="end"
+        android:gravity="start|center_vertical"
+        android:lines="1"
+        android:text="@string/select_something"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@+id/speaker_icon"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/speaker_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/speech_button_margin"
+        android:src="@drawable/ic_speaker"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/current_text"
+        app:layout_constraintEnd_toStartOf="@+id/action_button_container"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/current_text"
+        app:layout_constraintTop_toTopOf="@+id/current_text" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/category_back_button"
+        android:layout_width="@dimen/categories_paging_button_width"
+        android:layout_height="@dimen/categories_paging_button_height"
+        android:layout_marginStart="@dimen/main_activity_side_margin"
+        android:layout_marginTop="@dimen/categories_margin"
+        android:background="@drawable/category_button_background"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/category_back_button_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_button_container" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/category_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/categories_side_margin"
+        android:layout_marginTop="@dimen/categories_margin"
+        android:layout_marginEnd="@dimen/categories_side_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/category_back_button"
+        app:layout_constraintEnd_toStartOf="@+id/category_forward_button"
+        app:layout_constraintStart_toEndOf="@+id/category_back_button"
+        app:layout_constraintTop_toBottomOf="@id/action_button_container" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/category_forward_button"
+        android:layout_width="@dimen/categories_paging_button_width"
+        android:layout_height="@dimen/categories_paging_button_height"
+        android:layout_marginTop="@dimen/categories_margin"
+        android:layout_marginEnd="@dimen/main_activity_side_margin"
+        android:background="@drawable/category_button_background"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/category_forward_button_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_button_container" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/phrases_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/main_activity_side_margin"
+        android:layout_marginTop="@dimen/main_activity_category_margin"
+        android:layout_marginEnd="@dimen/main_activity_side_margin"
+        android:layout_marginBottom="@dimen/phrases_margin"
+        app:layout_constraintBottom_toTopOf="@+id/phrases_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/category_view" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/phrases_back_button"
+        android:layout_width="@dimen/phrases_paging_button_width"
+        android:layout_height="@dimen/phrases_paging_button_height"
+        android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/phrases_back_button_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/phrases_page_number"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/phrases_page_number"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/phrases_page_number_margin"
+        android:layout_marginEnd="@dimen/phrases_page_number_margin"
+        android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
+        android:gravity="center"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/phrases_page_number_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/phrases_forward_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/phrases_back_button"
+        app:layout_constraintTop_toTopOf="@+id/phrases_back_button"
+        tools:text="Page 1 of 2" />
+
+    <include
+        android:id="@+id/action_button_container"
+        layout="@layout/presets_action_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/current_text"
+        app:layout_constraintBottom_toBottomOf="@id/current_text"/>
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/phrases_forward_button"
+        android:layout_width="@dimen/phrases_paging_button_width"
+        android:layout_height="@dimen/phrases_paging_button_height"
+        android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/phrases_forward_button_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/phrases_page_number" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

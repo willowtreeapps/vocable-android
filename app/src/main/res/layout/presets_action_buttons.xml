@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/keyboard_button"
+        style="@style/TopBarButton"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/top_bar_button_margin"
+        android:scaleType="center"
+        android:src="@drawable/keyboard_action_button_icon"
+        app:layout_constraintEnd_toStartOf="@id/settings_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/settings_button"
+        style="@style/TopBarButton"
+        android:layout_width="0dp"
+        android:scaleType="center"
+        android:src="@drawable/settings_action_button_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/keyboard_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
