@@ -23,6 +23,13 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
+    private val livePhrases = MutableLiveData<List<Phrase>>()
+    val phrases: LiveData<List<Phrase>> = livePhrases
+
+    init {
+        getPhrases()
+    }
+
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
             val mySayingsCategory =
@@ -48,9 +55,19 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
                     )
                 )
             }
+
+            getPhrases()
+
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_ADDED_DELAY)
             liveShowPhraseAdded.postValue(false)
+        }
+    }
+
+    fun getPhrases() {
+        backgroundScope.launch {
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
+            livePhrases.postValue(mySayingsPhrases)
         }
     }
 }
