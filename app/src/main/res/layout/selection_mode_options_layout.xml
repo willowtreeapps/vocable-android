@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/selection_mode_options"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="@integer/selection_modes_columns"
+    android:rowCount="@integer/selection_modes_rows">
+
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/head_tracking_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/selection_mode_button_height"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/selection_mode_button_end_margin"
+        android:layout_marginBottom="@dimen/selection_mode_buttom_bottom_margin"
+        android:background="@drawable/settings_group_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/SelectionModeButton"
+            android:text="@string/settings_head_tracking"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/head_tracking_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/head_tracking_switch"
+            style="@style/SelectionModeButtonSwitch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
+
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/placeholder_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/selection_mode_button_height"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:background="@drawable/button_default_background"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/placeholder_text"
+            style="@style/SelectionModeButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/placeholder_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/placeholder_switch"
+            style="@style/SelectionModeButtonSwitch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
+</GridLayout>
+

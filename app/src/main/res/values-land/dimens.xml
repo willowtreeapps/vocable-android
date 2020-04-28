@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Keyboard -->
+    <dimen name="keyboard_keys_bottom_margin">8dp</dimen>
+    <dimen name="keyboard_bottom_bar_margin">24dp</dimen>
+    <dimen name="keyboard_input_text_size">34sp</dimen>
+    <dimen name="keyboard_text_size">48sp</dimen>
+    <dimen name="keyboard_keys_top_margin">8dp</dimen>
+
+    <!-- Top Bar -->
+    <dimen name="top_bar_button_height">64dp</dimen>
+    <dimen name="top_bar_button_width">90dp</dimen>
+
+    <!-- Settings -->
+    <dimen name="dialog_width">380dp</dimen>
+    <dimen name="settings_margin_small">8dp</dimen>
+    <dimen name="settings_action_button_bottom_margin">40dp</dimen>
+    <dimen name="settings_switch_top_margin">16dp</dimen>
+
+    <!-- Edit Sayings -->
+    <dimen name="edit_sayings_title_margin">37dp</dimen>
+    <dimen name="edit_phrases_margin_top">16dp</dimen>
+    <dimen name="edit_phrases_margin_bottom">16dp</dimen>
+    <dimen name="edit_sayings_back_button_margin_end">8dp</dimen>
+    <dimen name="edit_action_delete_height">96dp</dimen>
+    <dimen name="edit_action_delete_width">88dp</dimen>
+
+    <!-- Settings Options -->
+    <dimen name="settings_options_margin_bottom">16dp</dimen>
+    <dimen name="settings_link_button_bottom_margin">20dp</dimen>
+    <dimen name="settings_options_margin_top">24dp</dimen>
+    <dimen name="settings_version_text_bottom_margin">32dp</dimen>
+    <dimen name="settings_close_button_top_margin">19dp</dimen>
+
+    <!-- Selection Mode -->
+    <dimen name="selection_mode_button_end_margin">8dp</dimen>
+    <dimen name="selection_mode_buttom_bottom_margin">0dp</dimen>
+
+    <!-- Edit Keyboard -->
+    <dimen name="edit_keyboard_text_size">34sp</dimen>
+    <dimen name="edit_keyboard_button_width">90dp</dimen>
+    <dimen name="edit_keyboard_button_height">64dp</dimen>
+    <dimen name="edit_keyboard_bottom_margin">8dp</dimen>
+    <dimen name="edit_keyboard_padding">12dp</dimen>
+    <dimen name="edit_keyboard_height">104dp</dimen>
+    <dimen name="edit_keyboard_top_margin">16dp</dimen>
+    <dimen name="edit_keyboard_horizontal_margin">24dp</dimen>
+
+    <!-- Timing and Sensitivity -->
+    <dimen name="hover_time_text_top_margin">24dp</dimen>
+    <dimen name="timing_title_text_size">34sp</dimen>
+
+    <!-- Edit Categories -->
+    <dimen name="edit_categories_action_button_width">72dp</dimen>
+    <dimen name="edit_categories_action_button_height">72dp</dimen>
+    <dimen name="edit_category_pager_margin_top">16dp</dimen>
+    <dimen name="edit_category_pager_margin_end">24dp</dimen>
+    <dimen name="edit_category_pager_margin_bottom">42dp</dimen>
+    <dimen name="paging_button_margin">168dp</dimen>
+    <dimen name="edit_categories_title_margin">37dp</dimen>
+
+    <!-- Edit Categories Options -->
+    <dimen name="edit_options_button_width">56dp</dimen>
+    <dimen name="edit_options_button_height">56dp</dimen>
+
+    <!-- Empty My Sayings -->
+    <dimen name="empty_my_sayings_text_width">0dp</dimen>
+
+</resources>

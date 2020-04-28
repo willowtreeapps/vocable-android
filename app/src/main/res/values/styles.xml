@@ -6,6 +6,300 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="SettingsTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/textColor</item>
+        <item name="android:colorForeground">@color/textColor</item>
+        <item name="colorAccent">@color/selectedColor</item>
+    </style>
+
+    <style name="VocableButton" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="SpeechButton" parent="VocableButton">
+        <item name="android:textSize">@dimen/speech_button_text_size</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="CategoryTheme" parent="VocableButton">
+        <item name="android:background">@drawable/radio_button_background</item>
+        <item name="android:textSize">@dimen/category_button_text_size</item>
+        <item name="android:textColor">@color/category_button_text_colors</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="PauseButton">
+        <item name="android:layout_marginStart">@dimen/pause_button_margin</item>
+        <item name="android:layout_marginTop">@dimen/pause_button_margin</item>
+        <item name="android:drawableStart">@drawable/ic_pause</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/pause_button_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@android:color/transparent</item>
+
+    </style>
+
+    <style name="SettingsButton">
+        <item name="android:layout_marginTop">@dimen/settings_margin_small</item>
+        <item name="android:layout_marginStart">@dimen/settings_margin_small</item>
+        <item name="android:layout_marginEnd">@dimen/settings_margin_small</item>
+        <item name="android:drawableStart">@drawable/ic_settings_light_48dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="SpokenTextView">
+        <item name="android:layout_height">@dimen/spoken_text_view_height</item>
+        <item name="android:layout_marginStart">@dimen/main_activity_side_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/spoken_text_view_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/spoken_text_view_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="CategoryRadioGroup">
+        <item name="android:layout_marginStart">@dimen/category_group_margin</item>
+        <item name="android:layout_marginEnd">@dimen/category_group_margin</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/category_group_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">@dimen/category_group_weight_sum</item>
+    </style>
+
+    <style name="SpeechButtonLinearLayout">
+        <item name="android:layout_weight">1</item>
+        <item name="android:weightSum">3</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="CloseButton">
+        <item name="android:layout_marginTop">@dimen/close_button_margin</item>
+        <item name="android:layout_marginEnd">@dimen/close_button_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/close_button_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:background">@drawable/button_default_background</item>
+    </style>
+
+    <style name="SettingsTitle">
+        <item name="android:textSize">@dimen/settings_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="ActionButton">
+        <item name="android:layout_height">@dimen/action_button_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textSize">@dimen/action_button_text_size</item>
+    </style>
+
+    <style name="VersionTextView">
+        <item name="android:textSize">@dimen/version_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TopBarButton">
+        <item name="android:layout_width">@dimen/top_bar_button_width</item>
+        <item name="android:layout_height">@dimen/top_bar_button_height</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ConfirmationDialogText">
+        <item name="android:textSize">@dimen/dialog_title_text_size</item>
+        <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_text_margin</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="ConfirmationDialogButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_button_end_margin</item>
+        <item name="android:layout_marginBottom">@dimen/dialog_button_end_margin</item>
+        <item name="android:paddingStart">@dimen/dialog_button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/dialog_button_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/dialog_button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/dialog_button_padding_vertical</item>
+        <item name="android:background">@drawable/vocable_dialog_button_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="autoSizeMaxTextSize">@dimen/dialog_button_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="EditSayingsTextView">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_text_margin_start</item>
+        <item name="android:layout_marginTop">@dimen/edit_sayings_text_horizontal_margin</item>
+        <item name="android:layout_marginBottom">@dimen/edit_sayings_text_horizontal_margin</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="EditSayingsActionButtons">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_buttons_margin</item>
+        <item name="android:layout_marginEnd">@dimen/edit_sayings_buttons_margin</item>
+    </style>
+
+    <style name="EditSayingsBackButton">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_back_button_margin</item>
+        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:background">@drawable/vocable_dialog_button_background</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EditSayingsTitle">
+        <item name="android:layout_marginTop">@dimen/edit_sayings_title_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/edit_sayings_title_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditCategoriesTitle">
+        <item name="android:layout_marginTop">@dimen/edit_categories_title_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/edit_categories_title_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditSayingsActionButton">
+        <item name="android:layout_width">@dimen/edit_sayings_add_button_width</item>
+        <item name="android:layout_height">@dimen/edit_sayings_add_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/edit_categories_add_button_margin</item>
+        <item name="android:layout_marginStart">@dimen/edit_categories_add_button_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EditCategoriesActionButton">
+        <item name="android:layout_width">@dimen/edit_categories_action_button_width</item>
+        <item name="android:layout_height">@dimen/edit_categories_action_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/edit_sayings_add_button_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="SettingsLinkOutButton">
+        <item name="android:layout_height">@dimen/settings_link_button_height</item>
+        <item name="android:layout_marginEnd">@dimen/settings_link_button_end_margin</item>
+        <item name="android:layout_marginBottom">@dimen/settings_link_button_bottom_margin</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:drawableRight">@drawable/launch_32dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/settings_link_button_padding</item>
+        <item name="android:paddingEnd">@dimen/settings_link_button_padding</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+    </style>
+
+    <style name="EditKeyboardBottomBarButtons">
+        <item name="android:layout_height">@dimen/keyboard_bottom_bar_height</item>
+        <item name="android:layout_marginEnd">@dimen/keyboard_bottom_bar_key_margin</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:textSize">@dimen/keyboard_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SettingsOptionButtons">
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_marginEnd">@dimen/settings_option_button_margin</item>
+        <item name="android:layout_marginBottom">@dimen/settings_option_button_margin</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:drawableEnd">@drawable/arrow_right_32dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
+        <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+    </style>
+
+    <style name="SelectionModeButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/settings_margin_default</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textSize">@dimen/settings_label_text_size</item>
+    </style>
+
+    <style name="SelectionModeButtonSwitch">
+        <item name="android:layout_width">@dimen/settings_switch_width</item>
+        <item name="android:layout_height">@dimen/settings_switch_height</item>
+        <item name="android:layout_marginTop">@dimen/settings_margin_default</item>
+        <item name="android:layout_marginEnd">@dimen/settings_margin_default</item>
+        <item name="android:layout_marginBottom">@dimen/settings_margin_default</item>
+        <item name="android:checked">true</item>
+        <item name="android:scaleX">1.5</item>
+        <item name="android:scaleY">1.5</item>
+    </style>
+
+    <style name="TimingSensitivityTitle">
+        <item name="android:textSize">@dimen/timing_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="CursorSensitivityButton">
+        <item name="android:background">@drawable/sensitivity_button_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/category_button_text_colors</item>
+        <item name="android:textSize">@dimen/hover_time_text_size</item>
+    </style>
+
+    <style name="HoverTimeEditButtons">
+        <item name="android:layout_marginTop">@dimen/hover_time_button_margin</item>
+        <item name="android:layout_marginEnd">@dimen/hover_time_button_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:background">@drawable/button_default_background</item>
+    </style>
+
+    <style name="EmptyMySayingsTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/empty_my_sayings_text_margin_top</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/empty_my_sayings_text_size</item>
     </style>
 
 </resources>

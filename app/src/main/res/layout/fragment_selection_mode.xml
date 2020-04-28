@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/SettingsTheme">
+
+    <include layout="@layout/guidelines_settings" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/selection_mode_back_button"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/settings_close_button_width"
+        android:layout_height="@dimen/settings_close_button_height"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
+        android:scaleType="center"
+        android:src="@drawable/category_back_button_icon"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/settings_title"
+        style="@style/SettingsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="@dimen/settings_title_padding_start"
+        android:paddingEnd="@dimen/settings_title_padding_end"
+        android:text="@string/selection_mode_title"
+        android:textSize="@dimen/selection_mode_settings_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/selection_mode_back_button"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/selection_mode_back_button"
+        app:layout_constraintTop_toTopOf="@+id/selection_mode_back_button" />
+
+    <include
+        android:id="@+id/selection_mode_options"
+        layout="@layout/selection_mode_options_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_options_margin_top"
+        android:layout_marginBottom="@dimen/settings_options_margin_bottom"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/selection_mode_back_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

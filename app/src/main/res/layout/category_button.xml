@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.willowtree.vocable.customviews.CategoryButton xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CategoryTheme"
+    android:layout_marginStart="@dimen/category_button_side_margin"
+    android:layout_marginEnd="@dimen/category_button_side_margin" />
