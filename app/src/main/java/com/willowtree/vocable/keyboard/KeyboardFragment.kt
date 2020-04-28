@@ -20,6 +20,7 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.presets.PresetsFragment
+import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import org.koin.android.ext.android.get
@@ -30,7 +31,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> = FragmentKeyboardBinding::inflate
     private lateinit var viewModel: KeyboardViewModel
     private lateinit var keys: Array<String>
-    private val currentLocale = get<Context>().resources.configuration?.locales?.get(0)
+    private var mySayingsPhrases: List<Phrase>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +57,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                 action = {
                     //This action mimics sentence capitalization
                     //Example: "This is what's going on in here. Do you get it? Some letters are capitalized."
-                    val currentText = binding.keyboardInput.text?.toString() ?: ""
+                    var currentText = binding.keyboardInput.text?.toString() ?: ""
                     if (isDefaultTextVisible()) {
                         binding.keyboardInput.text = null
                         binding.keyboardInput.append(text?.toString())
@@ -66,6 +67,15 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                         binding.keyboardInput.append(
                             text?.toString()?.toLowerCase(Locale.getDefault())
                         )
+                    }
+
+                    currentText = binding.keyboardInput.text.toString()
+                    val mySayingsContainsText = mySayingsPhrases?.map { it.getLocalizedText() }?.contains<String?>(currentText)
+                    mySayingsContainsText?.let {
+                        binding.actionButtonContainer.saveButton.apply {
+                            isActivated = it
+                            isEnabled = !it
+                        }
                     }
                 }
             }
@@ -100,6 +110,11 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                 binding.keyboardInput.text?.let { text ->
                     if (text.isNotBlank()) {
                         viewModel.addNewPhrase(text.toString())
+                        binding.actionButtonContainer.saveButton.apply {
+                            isActivated = true
+                            isEnabled = false
+                        }
+
                     }
                 }
             }
@@ -107,6 +122,10 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         binding.keyboardClearButton.action = {
             binding.keyboardInput.setText(R.string.keyboard_select_letters)
+            binding.actionButtonContainer.saveButton.apply {
+                isActivated = false
+                isEnabled = true
+            }
         }
 
         binding.keyboardSpaceButton.action = {
@@ -121,6 +140,13 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                     setText(text.toString().dropLast(1))
                     if (text.isNullOrEmpty()) {
                         setText(R.string.keyboard_select_letters)
+                    }
+                    val mySayingsContainsText = mySayingsPhrases?.map { it.getLocalizedText() }?.contains<String?>(text.toString())
+                    mySayingsContainsText?.let {
+                        binding.actionButtonContainer.saveButton.apply {
+                            isActivated = it
+                            isEnabled = !it
+                        }
                     }
                 }
             }
@@ -150,6 +176,10 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
     private fun subscribeToViewModel() {
         viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
             binding.phraseSavedView.root.isVisible = it
+        })
+
+        viewModel.phrases.observe(viewLifecycleOwner, Observer {
+            mySayingsPhrases = it
         })
     }
 
