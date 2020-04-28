@@ -89,3 +89,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:core:1.2.0'
 }
+
+// This task will clone the vocable-presets repo and copy the presets.json and presets.xml files
+// into this project.
+task fetchPresets(type: Exec) {
+    workingDir '.'
+    commandLine './fetchPresets.sh'
+}
+
+preBuild.dependsOn fetchPresets
