@@ -20,6 +20,7 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.presets.PresetsFragment
+import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import org.koin.android.ext.android.get
@@ -30,7 +31,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> = FragmentKeyboardBinding::inflate
     private lateinit var viewModel: KeyboardViewModel
     private lateinit var keys: Array<String>
-    private val currentLocale = get<Context>().resources.configuration?.locales?.get(0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +67,8 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                             text?.toString()?.toLowerCase(Locale.getDefault())
                         )
                     }
+
+                    viewModel.currentText = binding.keyboardInput.text.toString()
                 }
             }
         }
@@ -100,6 +102,11 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                 binding.keyboardInput.text?.let { text ->
                     if (text.isNotBlank()) {
                         viewModel.addNewPhrase(text.toString())
+                        binding.actionButtonContainer.saveButton.apply {
+                            isActivated = true
+                            isEnabled = false
+                        }
+
                     }
                 }
             }
@@ -107,11 +114,13 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         binding.keyboardClearButton.action = {
             binding.keyboardInput.setText(R.string.keyboard_select_letters)
+            viewModel.currentText = ""
         }
 
         binding.keyboardSpaceButton.action = {
             if (!isDefaultTextVisible() && binding.keyboardInput.text?.endsWith(' ') == false) {
                 binding.keyboardInput.append(" ")
+                viewModel.currentText = binding.keyboardInput.text.toString()
             }
         }
 
@@ -122,6 +131,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                     if (text.isNullOrEmpty()) {
                         setText(R.string.keyboard_select_letters)
                     }
+                    viewModel.currentText = this.text.toString()
                 }
             }
         }
@@ -150,6 +160,13 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
     private fun subscribeToViewModel() {
         viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
             binding.phraseSavedView.root.isVisible = it
+        })
+
+        viewModel.isPhraseSaved.observe(viewLifecycleOwner, Observer {
+            binding.actionButtonContainer.saveButton.apply {
+                isActivated = it
+                isEnabled = !it
+            }
         })
     }
 

@@ -23,6 +23,15 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
+    private val liveIsPhraseSaved = MutableLiveData<Boolean>()
+    val isPhraseSaved: LiveData<Boolean> = liveIsPhraseSaved
+
+    var currentText = ""
+        set(value) {
+            field = value
+            checkIfPhraseSaved()
+        }
+
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
             val mySayingsCategory =
@@ -48,9 +57,20 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
                     )
                 )
             }
+
+            checkIfPhraseSaved()
+
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_ADDED_DELAY)
             liveShowPhraseAdded.postValue(false)
+        }
+    }
+
+    private fun checkIfPhraseSaved() {
+        backgroundScope.launch {
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
+            val isSaved = mySayingsPhrases.map { it.getLocalizedText() }.contains(currentText)
+            liveIsPhraseSaved.postValue(isSaved)
         }
     }
 }
