@@ -28,5 +28,5 @@ interface CategoryDao {
 
     @Transaction
     @Query("SELECT * FROM Category WHERE category_id == :categoryId")
-    suspend fun getCategoryWithPhrases(categoryId: String): List<CategoryWithPhrases>
+    suspend fun getCategoryWithPhrases(categoryId: String): CategoryWithPhrases
 }
