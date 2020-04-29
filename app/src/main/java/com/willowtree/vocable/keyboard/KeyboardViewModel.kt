@@ -23,9 +23,6 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
-    private val livePhrases = MutableLiveData<List<Phrase>>()
-    val phrases: LiveData<List<Phrase>> = livePhrases
-
     private val liveIsPhraseSaved = MutableLiveData<Boolean>()
     val isPhraseSaved: LiveData<Boolean> = liveIsPhraseSaved
 

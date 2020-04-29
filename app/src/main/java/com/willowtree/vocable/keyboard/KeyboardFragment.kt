@@ -31,7 +31,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> = FragmentKeyboardBinding::inflate
     private lateinit var viewModel: KeyboardViewModel
     private lateinit var keys: Array<String>
-    private var mySayingsPhrases: List<Phrase>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
