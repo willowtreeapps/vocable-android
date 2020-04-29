@@ -56,7 +56,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                 action = {
                     //This action mimics sentence capitalization
                     //Example: "This is what's going on in here. Do you get it? Some letters are capitalized."
-                    var currentText = binding.keyboardInput.text?.toString() ?: ""
+                    val currentText = binding.keyboardInput.text?.toString() ?: ""
                     if (isDefaultTextVisible()) {
                         binding.keyboardInput.text = null
                         binding.keyboardInput.append(text?.toString())
