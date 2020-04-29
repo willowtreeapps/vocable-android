@@ -69,14 +69,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                         )
                     }
 
-                    currentText = binding.keyboardInput.text.toString()
-                    val mySayingsContainsText = mySayingsPhrases?.map { it.getLocalizedText() }?.contains<String?>(currentText)
-                    mySayingsContainsText?.let {
-                        binding.actionButtonContainer.saveButton.apply {
-                            isActivated = it
-                            isEnabled = !it
-                        }
-                    }
+                    viewModel.currentText = binding.keyboardInput.text.toString()
                 }
             }
         }
@@ -122,15 +115,13 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         binding.keyboardClearButton.action = {
             binding.keyboardInput.setText(R.string.keyboard_select_letters)
-            binding.actionButtonContainer.saveButton.apply {
-                isActivated = false
-                isEnabled = true
-            }
+            viewModel.currentText = ""
         }
 
         binding.keyboardSpaceButton.action = {
             if (!isDefaultTextVisible() && binding.keyboardInput.text?.endsWith(' ') == false) {
                 binding.keyboardInput.append(" ")
+                viewModel.currentText = binding.keyboardInput.text.toString()
             }
         }
 
@@ -141,13 +132,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                     if (text.isNullOrEmpty()) {
                         setText(R.string.keyboard_select_letters)
                     }
-                    val mySayingsContainsText = mySayingsPhrases?.map { it.getLocalizedText() }?.contains<String?>(text.toString())
-                    mySayingsContainsText?.let {
-                        binding.actionButtonContainer.saveButton.apply {
-                            isActivated = it
-                            isEnabled = !it
-                        }
-                    }
+                    viewModel.currentText = this.text.toString()
                 }
             }
         }
@@ -178,8 +163,11 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             binding.phraseSavedView.root.isVisible = it
         })
 
-        viewModel.phrases.observe(viewLifecycleOwner, Observer {
-            mySayingsPhrases = it
+        viewModel.isPhraseSaved.observe(viewLifecycleOwner, Observer {
+            binding.actionButtonContainer.saveButton.apply {
+                isActivated = it
+                isEnabled = !it
+            }
         })
     }
 
