@@ -101,7 +101,7 @@ jobs:
           path: ~/test-results
 
       - store_artifacts:
-          path: ~/test-results/junit
+          path: app/build/reports/androidTests/connected
 
 workflows:
   version: 2
