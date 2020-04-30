@@ -9,7 +9,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/face_fragment"
-        android:name="com.willowtree.vocable.facetracking.FaceTrackFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
