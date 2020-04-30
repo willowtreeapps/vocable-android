@@ -1,4 +1,4 @@
-package com.willowtree.vocable.pages
+package com.willowtree.vocable.screens
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -7,7 +7,7 @@ import com.willowtree.vocable.customviews.VocableButton
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 
-class PresetsPage {
+class MainScreen {
 
     // Edit Text box and action buttons
     val currentText = onView(withId(R.id.current_text))
