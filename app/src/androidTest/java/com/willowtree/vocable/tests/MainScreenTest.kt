@@ -1,7 +1,7 @@
 package com.willowtree.vocable.tests
 
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.assertTextMatches
@@ -15,8 +15,8 @@ class MainScreenTest : BaseTest<SplashActivity>() {
 
     private val mainScreen = MainScreen()
 
-    override fun getActivityTestRule(): IntentsTestRule<SplashActivity> {
-        return IntentsTestRule(
+    override fun getActivityTestRule(): ActivityTestRule<SplashActivity> {
+        return ActivityTestRule(
             SplashActivity::class.java, false, false
         )
     }
