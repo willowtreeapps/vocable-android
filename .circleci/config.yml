@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-and-deploy:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-29-node
@@ -10,9 +10,9 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      #      - run:
-      #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-      #         command: sudo chmod +x ./gradlew
+#      - run:
+#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+#         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -107,7 +107,7 @@ workflows:
   version: 2
   build-test-android:
     jobs:
-      - build:
+      - build-and-deploy:
           filters:
             branches:
               only:
