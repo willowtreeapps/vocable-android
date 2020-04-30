@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MainScreenTest : BaseTest<SplashActivity>() {
 
-    private val presetsPage = MainScreen()
+    private val mainScreen = MainScreen()
 
     override fun getActivityTestRule(): IntentsTestRule<SplashActivity> {
         return IntentsTestRule(
@@ -21,14 +21,9 @@ class MainScreenTest : BaseTest<SplashActivity>() {
         )
     }
 
-    // Eventually we may want to get the currently selected category and then pull the first phrase of that category from the JSON
-    // to make this test more dynamic.
     @Test
     fun verifyClickingPhraseUpdatesCurrentText() {
-
-        // Wait for Splash Screen, we will want to make this wait more dynamic in the future and probably put it in the base test class
-        Thread.sleep(10000)
-        presetsPage.apply {
+        mainScreen.apply {
             firstPhrase.tap()
             currentText.assertTextMatches("Please")
         }
