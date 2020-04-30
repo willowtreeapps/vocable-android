@@ -1,4 +1,4 @@
-package com.willowtree.vocable.utility
+package com.willowtree.vocable.tests
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 
 
-abstract class BaseUITest<T : Activity> {
+abstract class BaseTest<T : Activity> {
 
     private val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
