@@ -24,5 +24,3 @@ $SDKMANAGER "build-tools;29.0.2"
 $SDKMANAGER "ndk-bundle;20.0.5594570"
 $SDKMANAGER "system-images;android-29;google_apis;x86_64"
 $SDKMANAGER "emulator"
-
-echo no | avdmanager create avd -d "pixel_xl" -n test -k "system-images;android-29;google_apis;x86_64" --force
