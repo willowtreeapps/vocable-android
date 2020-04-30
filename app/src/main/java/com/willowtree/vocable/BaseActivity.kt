@@ -40,9 +40,25 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!checkIsSupportedDeviceOrFinish()) {
+        if (BuildConfig.USE_HEAD_TRACKING && !checkIsSupportedDeviceOrFinish()) {
             return
         }
+
+        if (supportFragmentManager.findFragmentById(R.id.face_fragment) == null && BuildConfig.USE_HEAD_TRACKING) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.face_fragment, FaceTrackFragment())
+                .commit()
+        } else {
+            window
+                .decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                .or(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+                .or(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                .or(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                .or(View.SYSTEM_UI_FLAG_FULLSCREEN)
+                .or(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
+
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
         subscribeToViewModel()
@@ -87,6 +103,7 @@ abstract class BaseActivity : AppCompatActivity() {
         displayManager.registerDisplayListener(displayListener, null)
     }
 
+
     /**
      * If the device rotates 180 degrees (portrait to portrait/landscape to landscape), the
      * activity won't be destroyed and recreated. This means that the FaceTrackFragment will not
@@ -129,7 +146,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         })
         viewModel.pointerLocation.observe(this, Observer {
-            it.let {
+            it?.let {
                 updatePointer(it.x, it.y)
             }
         })
