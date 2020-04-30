@@ -2,8 +2,8 @@ package com.willowtree.vocable.tests
 
 import android.app.Activity
 import android.content.Intent
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -15,15 +15,12 @@ abstract class BaseTest<T : Activity> {
     private val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @Rule
-    lateinit var activityRule: IntentsTestRule<T>
+    lateinit var activityRule: ActivityTestRule<T>
 
     @Before
     fun setup() {
         println("setup")
         activityRule = getActivityTestRule()
-
-        // Wake up sleeping device
-        device.wakeUp()
 
         if (shouldAutoLaunchActivity()) {
             activityRule.launchActivity(Intent())
@@ -36,6 +33,6 @@ abstract class BaseTest<T : Activity> {
         }
     }
 
-    abstract fun getActivityTestRule(): IntentsTestRule<T>
+    abstract fun getActivityTestRule(): ActivityTestRule<T>
     protected open fun shouldAutoLaunchActivity(): Boolean = true
 }
