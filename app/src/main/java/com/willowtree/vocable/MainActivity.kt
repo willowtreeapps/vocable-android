@@ -10,13 +10,16 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.databinding.ActivityMainBinding
 import com.willowtree.vocable.presets.PresetsFragment
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val sharedPrefs: VocableSharedPreferences by inject()
     private val allViews = mutableListOf<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +27,7 @@ class MainActivity : BaseActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING
+        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING && sharedPrefs.getHeadTrackingEnabled()
 
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
@@ -43,6 +46,11 @@ class MainActivity : BaseActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING && sharedPrefs.getHeadTrackingEnabled()
     }
 
     override fun onDestroy() {
