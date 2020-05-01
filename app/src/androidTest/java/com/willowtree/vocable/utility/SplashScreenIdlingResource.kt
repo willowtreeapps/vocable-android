@@ -25,7 +25,7 @@ class SplashScreenIdlingResource(private val viewMatcher: Matcher<View?>?,
     }
 
     override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback?) {
-        this.resourceCallback = resourceCallback
+        resourceCallback = callback
     }
 
     private fun getView(viewMatcher: Matcher<View?>?): View? {
