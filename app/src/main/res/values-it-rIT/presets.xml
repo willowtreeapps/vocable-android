@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="preset_general" formatted="false">Generali</string>
+  <string name="preset_basic_needs" formatted="false">Bisogni primari</string>
+  <string name="preset_personal_care" formatted="false">Cura personale</string>
+  <string name="preset_conversation" formatted="false">Conversazione</string>
+  <string name="preset_environment" formatted="false">Ambiente</string>
+  <string name="preset_user_keypad" formatted="false">123</string>
+  <string name="preset_user_favorites" formatted="false">Le mie frasi</string>
+  <string name="preset_need_restroom" formatted="false">Devo andare in bagno</string>
+  <string name="preset_im_thirsty" formatted="false">Ho sete</string>
+  <string name="preset_im_hungry" formatted="false">Ho fame</string>
+  <string name="preset_im_cold" formatted="false">Ho freddo</string>
+  <string name="preset_im_hot" formatted="false">Ho caldo</string>
+  <string name="preset_im_tired" formatted="false">Sono stanco</string>
+  <string name="preset_im_fine" formatted="false">Sto abbastanza bene</string>
+  <string name="preset_im_good" formatted="false">Sto bene</string>
+  <string name="preset_im_uncomfortable" formatted="false">Sono scomodo</string>
+  <string name="preset_im_in_pain" formatted="false">Sono dolorante</string>
+  <string name="preset_im_finished" formatted="false">Ho finito</string>
+  <string name="preset_want_lie_down" formatted="false">Voglio sdraiarmi</string>
+  <string name="preset_want_sit_up" formatted="false">Devo sedermi</string>
+  <string name="preset_hello" formatted="false">Ciao</string>
+  <string name="preset_good_morning" formatted="false">Buongiorno</string>
+  <string name="preset_good_evening" formatted="false">Buona sera</string>
+  <string name="preset_pleased_to_meet_you" formatted="false">Piacere di conoscerti</string>
+  <string name="preset_how_is_day" formatted="false">Com\'è stata la tua giornata?</string>
+  <string name="preset_how_are_you" formatted="false">Come stai?</string>
+  <string name="preset_how_is_it_going" formatted="false">Come va?</string>
+  <string name="preset_how_was_your_weekend" formatted="false">Come è andato il fine settimana?</string>
+  <string name="preset_goodbye" formatted="false">Arrivederci</string>
+  <string name="preset_okay" formatted="false">Ok</string>
+  <string name="preset_bad" formatted="false">Male</string>
+  <string name="preset_good" formatted="false">Bene</string>
+  <string name="preset_that_makes_sense" formatted="false">Ha senso</string>
+  <string name="preset_i_like_it" formatted="false">Mi piace</string>
+  <string name="preset_please_stop" formatted="false">Basta per favore</string>
+  <string name="preset_i_do_not_agree" formatted="false">Non sono d\'accordo</string>
+  <string name="preset_please_repeat" formatted="false">Ripeti per favore</string>
+  <string name="preset_please" formatted="false">Prego</string>
+  <string name="preset_thank_you" formatted="false">Grazie</string>
+  <string name="preset_yes" formatted="false">Si</string>
+  <string name="preset_no" formatted="false">No</string>
+  <string name="preset_maybe" formatted="false">Forse</string>
+  <string name="preset_please_wait" formatted="false">Aspetta per favore</string>
+  <string name="preset_i_dont_know" formatted="false">Non lo so</string>
+  <string name="preset_i_didnt_mean_say_that" formatted="false">Non intendevo dire questo</string>
+  <string name="preset_be_patient" formatted="false">Porta pazienza per favore</string>
+  <string name="preset_turn_on_lights" formatted="false">Accendi le luci per favore</string>
+  <string name="preset_turn_off_lights" formatted="false">Spegni le luci per favore</string>
+  <string name="preset_no_visitors" formatted="false">Nessun visitatore per favore</string>
+  <string name="preset_like_visitors" formatted="false">Vorrei visite</string>
+  <string name="preset_be_quiet" formatted="false">Vorrei silenzio</string>
+  <string name="preset_like_to_talk" formatted="false">Vorrei parlare</string>
+  <string name="preset_tv_on" formatted="false">Accendi la TV per favore</string>
+  <string name="preset_tv_off" formatted="false">Spegni la TV per favore</string>
+  <string name="preset_volume_up" formatted="false">Alza il volume per favore</string>
+  <string name="preset_volume_down" formatted="false">Abbassa il volume per favore</string>
+  <string name="preset_open_blinds" formatted="false">Apri la tenda per favore</string>
+  <string name="preset_close_blinds" formatted="false">Chiudi la tende per favore</string>
+  <string name="preset_open_window" formatted="false">Apri la finestra per favore</string>
+  <string name="preset_close_window" formatted="false">Chiudi la finestra per favore</string>
+  <string name="preset_need_medication" formatted="false">Ho bisogno delle mie medicine</string>
+  <string name="preset_need_bath" formatted="false">Ho bisogno di un bagno</string>
+  <string name="preset_need_shower" formatted="false">Devo fare la doccia</string>
+  <string name="preset_need_wash_face" formatted="false">Devo lavarmi la faccia</string>
+  <string name="preset_want_brush_hair" formatted="false">Devo cambiarmi i vestiti</string>
+  <string name="preset_fix_pillow" formatted="false">Sistema il mio cuscino per favore</string>
+  <string name="preset_need_spit" formatted="false">Devo sputare</string>
+  <string name="preset_trouble_breathing" formatted="false">Ho difficoltà a respirare</string>
+  <string name="preset_need_jacket" formatted="false">Ho bisogno di una giacca</string>
+</resources>
