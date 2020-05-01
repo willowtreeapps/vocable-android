@@ -88,6 +88,10 @@ jobs:
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
 
       - run:
+          name: disable fullscreen prompt
+          command: adb shell settings put secure immersive_mode_confirmations confirmed
+
+      - run:
           name: Run EspressoTests
           command: |
             ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false" --stacktrace
