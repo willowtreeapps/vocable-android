@@ -106,9 +106,9 @@ open class VocableButton @JvmOverloads constructor(
     }
 
     override fun onPointerExit() {
+        buttonJob?.cancel()
         isPressed = false
         isSelected = false
-        buttonJob?.cancel()
     }
 
     override fun onAttachedToWindow() {
