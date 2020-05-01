@@ -98,7 +98,7 @@ jobs:
       - run:
           name: Run EspressoTests
           command: |
-            ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false"
+            ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false" --stacktrace
 
       - run:
           name: Save test results
