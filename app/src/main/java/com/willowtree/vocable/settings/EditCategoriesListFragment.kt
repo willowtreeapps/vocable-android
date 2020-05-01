@@ -14,6 +14,8 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 
 class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBinding>() {
 
@@ -42,6 +44,8 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
     private var endPosition = 0
 
     private val editButtonList = mutableListOf<CategoryEditButtonBinding>()
+
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -134,13 +138,14 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
+            val categoryNameText = localizedResourceUtility.getTextFromCategory(category)
             if (category.hidden) {
-                categoryName.text = category.getLocalizedText()
+                categoryName.text = categoryNameText
             } else {
                 categoryName.text = getString(
                     R.string.edit_categories_button_number,
                     overallIndex + 1,
-                    category.getLocalizedText()
+                    categoryNameText
                 )
             }
 

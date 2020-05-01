@@ -84,6 +84,7 @@ class EditPhrasesViewModel(numbersCategoryId: String, mySayingsCategoryId: Strin
                     System.currentTimeMillis(),
                     true,
                     System.currentTimeMillis(),
+                    null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                     mySayingsPhrases.size
                 )

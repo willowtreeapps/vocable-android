@@ -14,6 +14,7 @@ class VocableSharedPreferences : KoinComponent {
         private const val PREFERENCES_NAME =
             "com.willowtree.vocable.utils.vocable-encrypted-preferences"
         private const val KEY_MY_SAYINGS = "KEY_MY_SAYINGS"
+        private const val KEY_MY_LOCALIZED_SAYINGS = "KEY_MY_LOCALIZED_SAYINGS"
         const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
         const val KEY_SENSITIVITY = "KEY_SENSITIVITY"
         const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY
@@ -53,6 +54,17 @@ class VocableSharedPreferences : KoinComponent {
 
     fun setMySayings(mySayings: Set<String>) {
         encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, mySayings).apply()
+    }
+
+    fun getMyLocalizedSaying(): List<String> {
+        encryptedPrefs.getStringSet(KEY_MY_LOCALIZED_SAYINGS, setOf())?.let {
+            return it.toList()
+        }
+        return listOf()
+    }
+
+    fun setMyLocalizedSayings(mySayings: Set<String>) {
+        encryptedPrefs.edit().putStringSet(KEY_MY_LOCALIZED_SAYINGS, mySayings).apply()
     }
 
     fun getDwellTime(): Long = encryptedPrefs.getLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
