@@ -56,4 +56,81 @@
         <item>@string/category_123_no</item>
     </string-array>
 
+    <string-array name="category_basic_needs">
+        <item>@string/preset_need_restroom</item>
+        <item>@string/preset_im_thirsty</item>
+        <item>@string/preset_im_hungry</item>
+        <item>@string/preset_im_cold</item>
+        <item>@string/preset_im_hot</item>
+        <item>@string/preset_im_tired</item>
+        <item>@string/preset_im_fine</item>
+        <item>@string/preset_im_good</item>
+        <item>@string/preset_im_uncomfortable</item>
+        <item>@string/preset_im_in_pain</item>
+        <item>@string/preset_im_finished</item>
+        <item>@string/preset_want_lie_down</item>
+        <item>@string/preset_want_sit_up</item>
+    </string-array>
+
+    <string-array name="category_conversation">
+        <item>@string/preset_hello</item>
+        <item>@string/preset_good_morning</item>
+        <item>@string/preset_good_evening</item>
+        <item>@string/preset_pleased_to_meet_you</item>
+        <item>@string/preset_how_is_day</item>
+        <item>@string/preset_how_are_you</item>
+        <item>@string/preset_how_is_it_going</item>
+        <item>@string/preset_how_was_your_weekend</item>
+        <item>@string/preset_goodbye</item>
+        <item>@string/preset_okay</item>
+        <item>@string/preset_bad</item>
+        <item>@string/preset_good</item>
+        <item>@string/preset_that_makes_sense</item>
+        <item>@string/preset_i_like_it</item>
+        <item>@string/preset_please_stop</item>
+        <item>@string/preset_i_do_not_agree</item>
+        <item>@string/preset_please_repeat</item>
+    </string-array>
+
+    <string-array name="category_general">
+        <item>@string/preset_please</item>
+        <item>@string/preset_thank_you</item>
+        <item>@string/preset_yes</item>
+        <item>@string/preset_no</item>
+        <item>@string/preset_maybe</item>
+        <item>@string/preset_please_wait</item>
+        <item>@string/preset_i_dont_know</item>
+        <item>@string/preset_i_didnt_mean_say_that</item>
+        <item>@string/preset_be_patient</item>
+    </string-array>
+
+    <string-array name="category_environment">
+        <item>@string/preset_turn_on_lights</item>
+        <item>@string/preset_turn_off_lights</item>
+        <item>@string/preset_no_visitors</item>
+        <item>@string/preset_like_visitors</item>
+        <item>@string/preset_be_quiet</item>
+        <item>@string/preset_like_to_talk</item>
+        <item>@string/preset_tv_on</item>
+        <item>@string/preset_tv_off</item>
+        <item>@string/preset_volume_up</item>
+        <item>@string/preset_volume_down</item>
+        <item>@string/preset_open_blinds</item>
+        <item>@string/preset_close_blinds</item>
+        <item>@string/preset_open_window</item>
+        <item>@string/preset_close_window</item>
+    </string-array>
+
+    <string-array name="category_personal_care">
+        <item>@string/preset_need_medication</item>
+        <item>@string/preset_need_bath</item>
+        <item>@string/preset_need_shower</item>
+        <item>@string/preset_need_wash_face</item>
+        <item>@string/preset_want_brush_hair</item>
+        <item>@string/preset_fix_pillow</item>
+        <item>@string/preset_need_spit</item>
+        <item>@string/preset_trouble_breathing</item>
+        <item>@string/preset_need_jacket</item>
+    </string-array>
+
 </resources>

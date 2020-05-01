@@ -97,4 +97,4 @@ task fetchPresets(type: Exec) {
     commandLine './fetchPresets.sh'
 }
 
-preBuild.dependsOn fetchPresets
+//preBuild.dependsOn fetchPresets

@@ -1,683 +1,407 @@
 {
-  "phrases" : [
-    {
-      "id" : "preset_7ACA0926-DB7F-4B9E-872C-AE9690AD79E7",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich muss aufs Klo",
-        "en" : "I need to go to the restroom"
-      }
-    },
-    {
-      "id" : "preset_9DEB32B5-8606-4689-8F6A-0B251F4DB377",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich bin durstig",
-        "en" : "I am thirsty"
-      }
-    },
-    {
-      "id" : "preset_E012D902-E8BA-4BEA-92C7-7107ECF8051C",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich habe Hunger",
-        "en" : "I am hungry"
-      }
-    },
-    {
-      "id" : "preset_8C4D0099-9BA8-4914-A6B5-730FFDC8C499",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Mir ist kalt",
-        "en" : "I am cold"
-      }
-    },
-    {
-      "id" : "preset_6AD93FB9-437C-455F-A4AF-C96033BCBCAE",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Mir ist heiß",
-        "en" : "I am hot"
-      }
-    },
-    {
-      "id" : "preset_F6F03BBD-B9CD-41F5-B26A-FCC13CCBB199",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich bin müde",
-        "en" : "I am tired"
-      }
-    },
-    {
-      "id" : "preset_ADDD57C6-D11E-4B32-A2B3-05AA43D9AC8C",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Mir geht es gut",
-        "en" : "I am fine"
-      }
-    },
-    {
-      "id" : "preset_C6C14627-E48E-4EF3-B81D-64C191F2EC75",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Das reicht, danke",
-        "en" : "I am good"
-      }
-    },
-    {
-      "id" : "preset_C6E6B6E7-BEB6-466D-822A-F8CE2D092B9E",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich fühle mich unwohl",
-        "en" : "I am uncomfortable"
-      }
-    },
-    {
-      "id" : "preset_5542BE2F-419E-41A5-BBF2-5B82E0A49834",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich habe Schmerzen",
-        "en" : "I am in pain"
-      }
-    },
-    {
-      "id" : "preset_28A8F6B6-E196-4981-B762-652C288A0C29",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich bin fertig",
-        "en" : "I am finished"
-      }
-    },
-    {
-      "id" : "preset_0B491C3E-1A7F-4A94-A523-6DE329BF9E72",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte mich hinlegen",
-        "en" : "I want to lie down"
-      }
-    },
-    {
-      "id" : "preset_BBE8BABC-CCBF-49BF-87D4-057016AADBC5",
-      "categoryIds" : [
-        "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte mich aufsetzen",
-        "en" : "I want to sit up"
-      }
-    },
-    {
-      "id" : "preset_3EF1FBFA-E07A-47B5-BDF6-3AE7A684B834",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Hallo",
-        "en" : "Hello"
-      }
-    },
-    {
-      "id" : "preset_9929E83B-997D-40AA-841C-130709F5115B",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Guten Morgen",
-        "en" : "Good morning"
-      }
-    },
-    {
-      "id" : "preset_D6A67E02-3D07-4D44-8B04-2C1B9B8B167E",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Guten Abend",
-        "en" : "Good evening"
-      }
-    },
-    {
-      "id" : "preset_0EE14D06-92D7-4A26-A15F-253528F14A69",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Freut mich dich zu sehen",
-        "en" : "Pleased to meet you"
-      }
-    },
-    {
-      "id" : "preset_0EF33A3F-41E8-4E47-9B2C-69FC86B957FC",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Wie läuft dein Tag?",
-        "en" : "How is your day?"
-      }
-    },
-    {
-      "id" : "preset_1B634A96-563E-4275-875A-2B705A5D1178",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Wie geht es dir?",
-        "en" : "How are you?"
-      }
-    },
-    {
-      "id" : "preset_31E8760F-E728-4261-A82E-B50AB40C73FF",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Wie läuft's?",
-        "en" : "How's it going?"
-      }
-    },
-    {
-      "id" : "preset_24B48F19-EA3A-49A1-88C1-AACB67FE7278",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Wie war dein Wochenende?",
-        "en" : "How was your weekend?"
-      }
-    },
-    {
-      "id" : "preset_B2442AA0-6004-4636-9B39-2DB97ADD1DA1",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Tschüss",
-        "en" : "Goodbye"
-      }
-    },
-    {
-      "id" : "preset_045EF309-3EB7-46B9-8AB7-31BC8482E3DC",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "OK",
-        "en" : "Okay"
-      }
-    },
-    {
-      "id" : "preset_573DD827-7201-49F1-8BE8-0BC18028A8CB",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Schlecht",
-        "en" : "Bad"
-      }
-    },
-    {
-      "id" : "preset_D64EE532-14D3-4434-B671-8F4368EC0A8D",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Gut",
-        "en" : "Good"
-      }
-    },
-    {
-      "id" : "preset_6B463AF1-C884-45CD-9194-90806E75FD70",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Das macht Sinn",
-        "en" : "That makes sense"
-      }
-    },
-    {
-      "id" : "preset_A436EAAF-BD8A-4D8D-81EA-DC6D3C849D4A",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Das mag ich",
-        "en" : "I like it"
-      }
-    },
-    {
-      "id" : "preset_A02D6604-5C7C-4BB0-8C4A-E1C5E0D1A869",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte aufhören",
-        "en" : "Please stop"
-      }
-    },
-    {
-      "id" : "preset_30153E11-D48C-47C8-9186-47988D0A5B7A",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich stimme nicht zu",
-        "en" : "I do not agree"
-      }
-    },
-    {
-      "id" : "preset_A74483A8-4069-40D7-992C-01295934E97C",
-      "categoryIds" : [
-        "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76"
-      ],
-      "localizedUtterance" : {
-        "de" : "Wie bitte?",
-        "en" : "Please repeat what you said"
-      }
-    },
-    {
-      "id" : "preset_33B3F4B7-2438-439B-A21B-46D2599C8840",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte",
-        "en" : "Please"
-      }
-    },
-    {
-      "id" : "preset_72633C5C-47A2-4D5E-9615-E1408234478F",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Danke",
-        "en" : "Thank you"
-      }
-    },
-    {
-      "id" : "preset_8BCBACFB-D5ED-46CB-B3E2-21FB31D8D6AD",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ja",
-        "en" : "Yes"
-      }
-    },
-    {
-      "id" : "preset_FABE749C-B54D-4031-B8E7-62777B34D273",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Nein",
-        "en" : "No"
-      }
-    },
-    {
-      "id" : "preset_DFB79E0D-CF93-4744-B9EE-12738E1864E2",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Vielleicht",
-        "en" : "Maybe"
-      }
-    },
-    {
-      "id" : "preset_7FF4503F-F838-48BE-B529-758B3531093C",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Einen Moment, bitte",
-        "en" : "Please wait"
-      }
-    },
-    {
-      "id" : "preset_6CBD6D3E-42A7-435C-B661-2ABD669DC6BE",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Das weiß ich nicht",
-        "en" : "I don't know"
-      }
-    },
-    {
-      "id" : "preset_BEE6FF86-CE30-4096-9E37-C469F63630B7",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Das wollte ich nicht sagen",
-        "en" : "I didn't mean to say that"
-      }
-    },
-    {
-      "id" : "preset_63980C93-EE77-40DE-BDE7-BF8F97EC0304",
-      "categoryIds" : [
-        "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2"
-      ],
-      "localizedUtterance" : {
-        "de" : "Hab bitte Geduld",
-        "en" : "Please be patient"
-      }
-    },
-    {
-      "id" : "preset_9E3230D7-1172-491A-8A00-E734B1661DC1",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte das Licht anschalten",
-        "en" : "Please turn the lights on"
-      }
-    },
-    {
-      "id" : "preset_46EF7041-50F7-4B64-A0F6-879A8A3D7532",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte das Licht ausschalten",
-        "en" : "Please turn the lights off"
-      }
-    },
-    {
-      "id" : "preset_9A808275-0D67-49E4-8BF8-6F22A0C7E169",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Kein Besuch bitte",
-        "en" : "No visitors please"
-      }
-    },
-    {
-      "id" : "preset_E7D11E13-BC4F-4FE5-9C8A-BE2DE31AEE7F",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich hätte gerne Besuch",
-        "en" : "I would like visitors"
-      }
-    },
-    {
-      "id" : "preset_30474911-619F-4FBF-B7DA-F64039F556F2",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte leise sein",
-        "en" : "Please be quiet"
-      }
-    },
-    {
-      "id" : "preset_0167AA43-587D-436F-91A9-9CEEAF1CCCF1",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte reden",
-        "en" : "I would like to talk"
-      }
-    },
-    {
-      "id" : "preset_FB19C160-BC96-4580-9542-6F54AA1B2D70",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte den Fernseher anschalten",
-        "en" : "Please turn the TV on"
-      }
-    },
-    {
-      "id" : "preset_9EE3A781-E84E-4728-976F-8EF993B8174C",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte den Fernseher ausschalten",
-        "en" : "Please turn the TV off"
-      }
-    },
-    {
-      "id" : "preset_DC942BB6-B2BF-4ABB-8931-719BD2A504E6",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte lauter",
-        "en" : "Please turn the volume up"
-      }
-    },
-    {
-      "id" : "preset_702D3BAD-6C56-4DC6-8290-8E0693B63152",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte leiser",
-        "en" : "Please turn the volume down"
-      }
-    },
-    {
-      "id" : "preset_42DC7273-92F9-4149-8166-966C3C201862",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte die Vorhänge öffnen",
-        "en" : "Please open the blinds"
-      }
-    },
-    {
-      "id" : "preset_88556B8E-FE61-401D-888C-0D79568715A0",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte die Vorhänge schließen",
-        "en" : "Please close the blinds"
-      }
-    },
-    {
-      "id" : "preset_2BF1A363-CE24-4F26-9727-C5EAD1FEC27C",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte das Fenster öffnen",
-        "en" : "Please open the window"
-      }
-    },
-    {
-      "id" : "preset_C865BE96-40B5-406C-9BAA-0A0D3280E377",
-      "categoryIds" : [
-        "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte das Fenster schließen",
-        "en" : "Please close the window"
-      }
-    },
-    {
-      "id" : "preset_1244394F-2793-47EF-BCAC-DB8BBDAB78C6",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich brauche meine Medikamente",
-        "en" : "I need my medication"
-      }
-    },
-    {
-      "id" : "preset_64348AD1-9F63-4ADA-B391-E1742913C0E6",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte baden",
-        "en" : "I need a bath"
-      }
-    },
-    {
-      "id" : "preset_81B473E3-2FC9-40F0-AE59-3C658EC6CD91",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte duschen",
-        "en" : "I need a shower"
-      }
-    },
-    {
-      "id" : "preset_73B654AA-C999-4864-BF5A-77379DAA991C",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte mein Gesicht waschen",
-        "en" : "I need to wash my face"
-      }
-    },
-    {
-      "id" : "preset_1BAD392A-C26C-4080-B0F2-FC544E08349C",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich möchte mein Haar kämmen",
-        "en" : "I need to brush my hair"
-      }
-    },
-    {
-      "id" : "preset_4F776A4A-4154-4DFE-89AC-E603C2A578EE",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Bitte mein Kissen aufschütteln",
-        "en" : "Please fix my pillow"
-      }
-    },
-    {
-      "id" : "preset_8359B09D-7259-40CC-B258-02895ECC4DB7",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich muss spucken",
-        "en" : "I need to spit"
-      }
-    },
-    {
-      "id" : "preset_939B4829-D8B4-42F1-B8A2-0E956AAE1FEE",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich habe Atembeschwerden",
-        "en" : "I am having trouble breathing"
-      }
-    },
-    {
-      "id" : "preset_05754D0C-962D-48C3-8554-E4F7D5E86D93",
-      "categoryIds" : [
-        "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B"
-      ],
-      "localizedUtterance" : {
-        "de" : "Ich brauchen eine Jacke",
-        "en" : "I need a jacket"
-      }
-    }
-  ],
-  "schemaVersion" : 1,
-  "categories" : [
-    {
-      "id" : "preset_C0B2A1A8-8333-4121-B4A8-FFFA185EB5D2",
-      "localizedName" : {
-        "de" : "Allgemeines",
-        "en" : "General"
-      },
-      "hidden" : false
-    },
-    {
-      "id" : "preset_F8F5D1C9-0AA6-4152-BF7C-0851ACD1406B",
-      "localizedName" : {
-        "de" : "Bedürfnisse",
-        "en" : "Basic Needs"
-      },
-      "hidden" : false
-    },
-    {
-      "id" : "preset_E7ADBE88-2722-4DE7-BDC1-994F07EA294B",
-      "localizedName" : {
-        "de" : "Hygiene",
-        "en" : "Personal Care"
-      },
-      "hidden" : false
-    },
-    {
-      "id" : "preset_EB7A9732-E28E-4440-A88B-BA2A1ACFBD76",
-      "localizedName" : {
-        "de" : "Unterhaltung",
-        "en" : "Conversation"
-      },
-      "hidden" : false
-    },
-    {
-      "id" : "preset_52CA4E71-4A8C-4EA8-8EA8-C4B18AA16EC8",
-      "localizedName" : {
-        "de" : "Umgebung",
-        "en" : "Environment"
-      },
-      "hidden" : false
-    },
-    {
-      "id" : "preset_user_keypad",
-      "localizedName" : {
-        "de" : "123",
-        "en" : "123"
-      },
-      "hidden" : false
-    },
-    {
-      "id" : "preset_user_favorites",
-      "localizedName" : {
-        "de" : "Meine Redewendung",
-        "en" : "My Sayings"
-      },
-      "hidden" : false
-    }
-  ]
+    "phrases": [
+        {
+            "id": "preset_7ACA0926_DB7F_4B9E_872C_AE9690AD79E7",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_9DEB32B5_8606_4689_8F6A_0B251F4DB377",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_E012D902_E8BA_4BEA_92C7_7107ECF8051C",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_8C4D0099_9BA8_4914_A6B5_730FFDC8C499",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_6AD93FB9_437C_455F_A4AF_C96033BCBCAE",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_F6F03BBD_B9CD_41F5_B26A_FCC13CCBB199",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_ADDD57C6_D11E_4B32_A2B3_05AA43D9AC8C",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_C6C14627_E48E_4EF3_B81D_64C191F2EC75",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_C6E6B6E7_BEB6_466D_822A_F8CE2D092B9E",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_5542BE2F_419E_41A5_BBF2_5B82E0A49834",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_28A8F6B6_E196_4981_B762_652C288A0C29",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_0B491C3E_1A7F_4A94_A523_6DE329BF9E72",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_BBE8BABC_CCBF_49BF_87D4_057016AADBC5",
+            "categoryIds": [
+                "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B"
+            ]
+        },
+        {
+            "id": "preset_3EF1FBFA_E07A_47B5_BDF6_3AE7A684B834",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_9929E83B_997D_40AA_841C_130709F5115B",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_D6A67E02_3D07_4D44_8B04_2C1B9B8B167E",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_0EE14D06_92D7_4A26_A15F_253528F14A69",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_0EF33A3F_41E8_4E47_9B2C_69FC86B957FC",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_1B634A96_563E_4275_875A_2B705A5D1178",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_31E8760F_E728_4261_A82E_B50AB40C73FF",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_24B48F19_EA3A_49A1_88C1_AACB67FE7278",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_B2442AA0_6004_4636_9B39_2DB97ADD1DA1",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_045EF309_3EB7_46B9_8AB7_31BC8482E3DC",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_573DD827_7201_49F1_8BE8_0BC18028A8CB",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_D64EE532_14D3_4434_B671_8F4368EC0A8D",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_6B463AF1_C884_45CD_9194_90806E75FD70",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_A436EAAF_BD8A_4D8D_81EA_DC6D3C849D4A",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_A02D6604_5C7C_4BB0_8C4A_E1C5E0D1A869",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_30153E11_D48C_47C8_9186_47988D0A5B7A",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_A74483A8_4069_40D7_992C_01295934E97C",
+            "categoryIds": [
+                "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76"
+            ]
+        },
+        {
+            "id": "preset_33B3F4B7_2438_439B_A21B_46D2599C8840",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_72633C5C_47A2_4D5E_9615_E1408234478F",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_8BCBACFB_D5ED_46CB_B3E2_21FB31D8D6AD",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_FABE749C_B54D_4031_B8E7_62777B34D273",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_DFB79E0D_CF93_4744_B9EE_12738E1864E2",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_7FF4503F_F838_48BE_B529_758B3531093C",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_6CBD6D3E_42A7_435C_B661_2ABD669DC6BE",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_BEE6FF86_CE30_4096_9E37_C469F63630B7",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_63980C93_EE77_40DE_BDE7_BF8F97EC0304",
+            "categoryIds": [
+                "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2"
+            ]
+        },
+        {
+            "id": "preset_9E3230D7_1172_491A_8A00_E734B1661DC1",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_46EF7041_50F7_4B64_A0F6_879A8A3D7532",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_9A808275_0D67_49E4_8BF8_6F22A0C7E169",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_E7D11E13_BC4F_4FE5_9C8A_BE2DE31AEE7F",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_30474911_619F_4FBF_B7DA_F64039F556F2",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_0167AA43_587D_436F_91A9_9CEEAF1CCCF1",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_FB19C160_BC96_4580_9542_6F54AA1B2D70",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_9EE3A781_E84E_4728_976F_8EF993B8174C",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_DC942BB6_B2BF_4ABB_8931_719BD2A504E6",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_702D3BAD_6C56_4DC6_8290_8E0693B63152",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_42DC7273_92F9_4149_8166_966C3C201862",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_88556B8E_FE61_401D_888C_0D79568715A0",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_2BF1A363_CE24_4F26_9727_C5EAD1FEC27C",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_C865BE96_40B5_406C_9BAA_0A0D3280E377",
+            "categoryIds": [
+                "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8"
+            ]
+        },
+        {
+            "id": "preset_1244394F_2793_47EF_BCAC_DB8BBDAB78C6",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_64348AD1_9F63_4ADA_B391_E1742913C0E6",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_81B473E3_2FC9_40F0_AE59_3C658EC6CD91",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_73B654AA_C999_4864_BF5A_77379DAA991C",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_1BAD392A_C26C_4080_B0F2_FC544E08349C",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_4F776A4A_4154_4DFE_89AC_E603C2A578EE",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_8359B09D_7259_40CC_B258_02895ECC4DB7",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_939B4829_D8B4_42F1_B8A2_0E956AAE1FEE",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        },
+        {
+            "id": "preset_05754D0C_962D_48C3_8554_E4F7D5E86D93",
+            "categoryIds": [
+                "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B"
+            ]
+        }
+    ],
+    "schemaVersion": 1,
+    "categories": [
+        {
+            "id": "preset_C0B2A1A8_8333_4121_B4A8_FFFA185EB5D2",
+            "hidden": false
+        },
+        {
+            "id": "preset_F8F5D1C9_0AA6_4152_BF7C_0851ACD1406B",
+            "hidden": false
+        },
+        {
+            "id": "preset_E7ADBE88_2722_4DE7_BDC1_994F07EA294B",
+            "hidden": false
+        },
+        {
+            "id": "preset_EB7A9732_E28E_4440_A88B_BA2A1ACFBD76",
+            "hidden": false
+        },
+        {
+            "id": "preset_52CA4E71_4A8C_4EA8_8EA8_C4B18AA16EC8",
+            "hidden": false
+        },
+        {
+            "id": "preset_user_keypad",
+            "hidden": false
+        },
+        {
+            "id": "preset_user_favorites",
+            "hidden": false
+        }
+    ]
 }
