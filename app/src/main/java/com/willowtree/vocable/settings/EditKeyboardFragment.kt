@@ -21,6 +21,9 @@ import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocaleUtils
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
@@ -67,6 +70,7 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
     private var category: Category? = null
     private var isCategory = false
     private var addNewPhrase = false
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -129,9 +133,9 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
 
         binding.backButton.action = {
             val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
-            val textChanged = binding.keyboardInput.text.toString() != phrase?.getLocalizedText()
+            val textChanged = binding.keyboardInput.text.toString() != phrase?.let { localizedResourceUtility.getTextFromPhrase(it) }
             val categoryTextChanged =
-                binding.keyboardInput.text.toString() != category?.getLocalizedText()
+                binding.keyboardInput.text.toString() != category?.let { localizedResourceUtility.getTextFromCategory(it) }
             if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
             } else if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
@@ -183,15 +187,12 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
                 }
             }
         }
-
-        val inputText = if (!isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
-            getString(R.string.keyboard_select_letters)
-        } else if (isCategory && category?.getLocalizedText().isNullOrEmpty()) {
-            getString(R.string.keyboard_select_letters)
-        } else if (isCategory) {
-            category?.getLocalizedText()
+        val phraseText = phrase?.let { localizedResourceUtility.getTextFromPhrase(it) }
+        val categoryText = category?.let { localizedResourceUtility.getTextFromCategory(it) }
+        val inputText = if (isCategory) {
+            categoryText ?: getString(R.string.keyboard_select_letters)
         } else {
-            phrase?.getLocalizedText()
+            phraseText ?: getString(R.string.keyboard_select_letters)
         }
 
         binding.keyboardInput.setText(inputText)

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "4865923e2e1bd91ddd4fe607b90ea952",
+    "identityHash": "c55abbc949507621c16e5d75c06a16c1",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `localized_name` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `resource_id` INTEGER, `localized_name` TEXT, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -27,10 +27,16 @@
             "notNull": true
           },
           {
+            "fieldPath": "resourceId",
+            "columnName": "resource_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
             "fieldPath": "localizedName",
             "columnName": "localized_name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "hidden",
@@ -56,7 +62,7 @@
       },
       {
         "tableName": "Phrase",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `localized_utterance` TEXT NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))",
         "fields": [
           {
             "fieldPath": "phraseId",
@@ -83,10 +89,16 @@
             "notNull": true
           },
           {
+            "fieldPath": "resourceId",
+            "columnName": "resource_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
             "fieldPath": "localizedUtterance",
             "columnName": "localized_utterance",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "sortOrder",
@@ -135,7 +147,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4865923e2e1bd91ddd4fe607b90ea952')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c55abbc949507621c16e5d75c06a16c1')"
     ]
   }
 }

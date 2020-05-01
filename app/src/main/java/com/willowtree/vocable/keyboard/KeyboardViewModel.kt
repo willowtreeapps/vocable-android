@@ -37,6 +37,7 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
                         System.currentTimeMillis(),
                         true,
                         System.currentTimeMillis(),
+                        null,
                         mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                         mySayingsPhrases.size
                     )

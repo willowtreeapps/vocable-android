@@ -121,6 +121,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                     it.id,
                     System.currentTimeMillis(),
                     false,
+                    null,
                     it.localizedName,
                     it.hidden,
                     categoryObjects.size
@@ -135,6 +136,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                     System.currentTimeMillis(),
                     false,
                     System.currentTimeMillis(),
+                    null,
                     presetPhrase.localizedUtterance,
                     phraseObjects.size
                 )
@@ -153,6 +155,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                     System.currentTimeMillis(),
                     false,
                     System.currentTimeMillis(),
+                    null,
                     mapOf(Pair(Locale.US.language, it)),
                     phraseObjects.size
                 )
@@ -172,6 +175,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                     System.currentTimeMillis(),
                     true,
                     System.currentTimeMillis(),
+                    null,
                     mapOf(Pair(Locale.US.language, it)),
                     phraseObjects.size
                 )
@@ -189,4 +193,5 @@ class PresetsRepository(context: Context) : KoinComponent {
         populatePhrases(phraseObjects)
         populateCrossRefs(crossRefObjects)
     }
+
 }

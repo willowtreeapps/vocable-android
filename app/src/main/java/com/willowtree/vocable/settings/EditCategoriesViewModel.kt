@@ -169,6 +169,7 @@ class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: St
                 UUID.randomUUID().toString(),
                 System.currentTimeMillis(),
                 true,
+                null,
                 mapOf(Pair(Locale.getDefault().toString(), categoryStr)),
                 false,
                 firstHiddenIndex
