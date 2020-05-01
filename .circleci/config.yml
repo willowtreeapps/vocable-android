@@ -88,16 +88,12 @@ jobs:
 
       - run:
           name: start AVD
-          command: emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+          command: emulator -avd test -noaudio -no-boot-anim -accel auto -verbose
           background: true
 
       - run:
           name: wait for emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
-
-      - run:
-          name: disable fullscreen prompt
-          command: adb shell settings put secure immersive_mode_confirmations confirmed
 
       - run:
           name: Run EspressoTests
