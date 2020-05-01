@@ -28,4 +28,11 @@ class MainScreenTest : BaseTest<SplashActivity>() {
             currentText.assertTextMatches("Please")
         }
     }
+
+    @Test
+    fun verifyDefaultCategoriesExist() {
+        mainScreen.apply {
+            mainScreen.verifyDefaultCategories()
+        }
+    }
 }
