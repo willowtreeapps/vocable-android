@@ -85,9 +85,9 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun populateDatabase() {
         val categories = getAllCategories()
-        if (categories.isNotEmpty()) {
-            return
-        }
+//        if (categories.isNotEmpty()) {
+//            return
+//        }
 
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
@@ -108,8 +108,8 @@ class PresetsRepository(context: Context) : KoinComponent {
             )
 
             if (it.getArrayId() == -1) { return@forEach }
-            val phraseStringIds = get<Context>().resources.getIntArray(it.getArrayId()).toList()
-            phraseStringIds.forEach { phraseStringId ->
+            val phraseStringIds = get<Context>().resources.obtainTypedArray(it.getArrayId())
+            for (index in 0 until phraseStringIds.length()) {
                 val phraseId = UUID.randomUUID().toString()
                 phraseObjects.add(
                     Phrase(
@@ -117,13 +117,14 @@ class PresetsRepository(context: Context) : KoinComponent {
                         System.currentTimeMillis(),
                         false,
                         System.currentTimeMillis(),
-                        phraseStringId,
+                        phraseStringIds.getResourceId(index, -1),
                         null,
                         phraseObjects.size
                     )
                 )
                 crossRefObjects.add(CategoryPhraseCrossRef(it.id, phraseId))
             }
+            phraseStringIds.recycle()
         }
 
         // Populate the numbers category from arrays.xml
