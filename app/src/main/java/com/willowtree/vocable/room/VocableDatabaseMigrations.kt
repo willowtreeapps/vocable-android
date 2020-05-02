@@ -64,7 +64,7 @@ object VocableDatabaseMigrations {
 
             // Get id of My Sayings category
             val mySayingsMap = HashMap<String, String>()
-            mySayingsMap["en"] = "My Sayings"
+            mySayingsMap["en_US"] = "My Sayings"
             val jsonName = Converters.stringMapToJson(mySayingsMap)
             val categoryCursor =
                 database.query("SELECT category_id FROM Category WHERE localized_name = '$jsonName'")
