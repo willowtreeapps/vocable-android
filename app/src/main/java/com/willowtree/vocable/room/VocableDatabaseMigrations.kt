@@ -2,6 +2,7 @@ package com.willowtree.vocable.room
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
 
 object VocableDatabaseMigrations {
@@ -62,19 +63,8 @@ object VocableDatabaseMigrations {
             database.execSQL("CREATE TABLE Phrase_New (phrase_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
             database.execSQL("CREATE TABLE CategoryPhraseCrossRef_New (category_id TEXT NOT NULL, phrase_id TEXT NOT NULL, PRIMARY KEY(category_id, phrase_id))")
 
-            // Get id of My Sayings category
-            val mySayingsMap = HashMap<String, String>()
-            mySayingsMap["en_US"] = "My Sayings"
-            val jsonName = Converters.stringMapToJson(mySayingsMap)
-            val categoryCursor =
-                database.query("SELECT category_id FROM Category WHERE localized_name = '$jsonName'")
-            var categoryId = ""
-            while (categoryCursor.moveToNext()) {
-                categoryId = categoryCursor.getString(categoryCursor.getColumnIndex("category_id"))
-            }
-            categoryCursor.close()
-
             // Get My Sayings
+            val categoryId = PresetCategories.USER_FAVORITES.id
             val crossRefCursor =
                 database.query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
             val myLocalizedSayings = LinkedHashSet<String>()
