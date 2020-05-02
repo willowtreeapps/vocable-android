@@ -13,6 +13,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
@@ -95,10 +96,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         editCategoriesViewModel =
             ViewModelProviders.of(
                 requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
+                BaseViewModelFactory()
             ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
     }
@@ -162,7 +160,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category.categoryId == getString(R.string.category_my_sayings_id)) {
+            if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
                 editCategorySelectButton.isEnabled = false
             }
 

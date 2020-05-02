@@ -249,18 +249,12 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
         if (isCategory) {
             editCategoriesViewModel = ViewModelProviders.of(
                 requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
+                BaseViewModelFactory()
             ).get(EditCategoriesViewModel::class.java)
         } else {
             viewModel = ViewModelProviders.of(
                 requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
+                BaseViewModelFactory()
             ).get(EditPhrasesViewModel::class.java)
         }
         subscribeToViewModel()

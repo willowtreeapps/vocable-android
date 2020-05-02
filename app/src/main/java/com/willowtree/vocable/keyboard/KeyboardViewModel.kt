@@ -3,6 +3,7 @@ package com.willowtree.vocable.keyboard
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
@@ -11,8 +12,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.inject
 import java.util.*
 
-class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
-    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
+class KeyboardViewModel : BaseViewModel() {
 
     companion object {
         private const val PHRASE_ADDED_DELAY = 2000L
@@ -26,10 +26,10 @@ class KeyboardViewModel(numbersCategoryId: String, mySayingsCategoryId: String) 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
             val mySayingsCategory =
-                presetsRepository.getCategoryById(mySayingsCategoryId)
+                presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
             val phraseId = UUID.randomUUID().toString()
             val mySayingsPhrases =
-                presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
+                presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
             with(presetsRepository) {
                 addPhrase(
                     Phrase(

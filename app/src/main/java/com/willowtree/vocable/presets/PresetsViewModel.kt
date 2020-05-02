@@ -8,8 +8,7 @@ import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
-class PresetsViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
-    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
+class PresetsViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 

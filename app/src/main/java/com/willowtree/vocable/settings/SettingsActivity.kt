@@ -23,10 +23,7 @@ class SettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(
             this,
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(SettingsViewModel::class.java)
 
         super.onCreate(savedInstanceState)

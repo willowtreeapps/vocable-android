@@ -101,10 +101,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(EditCategoriesViewModel::class.java)
     }
 
