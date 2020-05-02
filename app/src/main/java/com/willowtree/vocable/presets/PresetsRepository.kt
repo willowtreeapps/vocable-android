@@ -85,9 +85,9 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun populateDatabase() {
         val categories = getAllCategories()
-//        if (categories.isNotEmpty()) {
-//            return
-//        }
+        if (categories.isNotEmpty()) {
+            return
+        }
 
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
