@@ -90,7 +90,7 @@ object VocableDatabaseMigrations {
             if (myLocalizedSayings.isEmpty() && nonLocalizedSayings.isNotEmpty()) {
                 nonLocalizedSayings.forEach {
                     val map = HashMap<String, String>()
-                    map["en"] = it
+                    map["en_US"] = it
                     myLocalizedSayings.add(Converters.stringMapToJson(map))
                 }
 
