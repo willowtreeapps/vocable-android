@@ -7,6 +7,7 @@ import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
@@ -19,6 +20,7 @@ class KeyboardViewModel : BaseViewModel() {
     }
 
     private val presetsRepository: PresetsRepository by inject()
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
@@ -69,8 +71,8 @@ class KeyboardViewModel : BaseViewModel() {
 
     private fun checkIfPhraseSaved() {
         backgroundScope.launch {
-            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(mySayingsCategoryId)
-            val isSaved = mySayingsPhrases.map { it.getLocalizedText() }.contains(currentText)
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
+            val isSaved = mySayingsPhrases.map { localizedResourceUtility.getTextFromPhrase(it) }.contains(currentText)
             liveIsPhraseSaved.postValue(isSaved)
         }
     }
