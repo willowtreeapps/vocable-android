@@ -26,6 +26,14 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        all {
+            def useHeadTracking = project.getProperties().getOrDefault("USE_HEAD_TRACKING", "true")
+            if (useHeadTracking == "true") {
+                buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
+            } else {
+                buildConfigField("boolean", "USE_HEAD_TRACKING", "false")
+            }
+        }
     }
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
@@ -86,6 +94,7 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:2.2.5"
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:core:1.2.0'
 }

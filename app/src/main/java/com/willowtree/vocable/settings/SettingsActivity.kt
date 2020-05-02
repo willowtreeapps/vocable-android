@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseActivity
 import com.willowtree.vocable.BaseViewModelFactory
+import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
@@ -30,6 +32,7 @@ class SettingsActivity : BaseActivity() {
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING
 
         if (supportFragmentManager.findFragmentById(R.id.settings_fragment_container) == null) {
             supportFragmentManager

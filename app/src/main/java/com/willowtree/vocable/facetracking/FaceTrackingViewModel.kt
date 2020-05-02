@@ -1,10 +1,8 @@
 package com.willowtree.vocable.facetracking
 
-import android.content.SharedPreferences
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.content.SharedPreferences
+import androidx.lifecycle.*
 import com.google.ar.core.AugmentedFace
 import com.google.ar.sceneform.math.Vector3
 import com.willowtree.vocable.R
@@ -14,7 +12,11 @@ import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.inject
 
-class FaceTrackingViewModel : ViewModel(), KoinComponent {
+class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
+
+    companion object {
+        private const val FACE_DETECTION_TIMEOUT = 1000
+    }
 
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
@@ -49,20 +51,37 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
 
     private var oldVector: Vector3? = null
 
+    private var lastDetectedFaceTime = 0L
+
     init {
         sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
         isTablet = get<Context>().resources.getBoolean(R.bool.is_tablet)
     }
 
-    fun onFaceDetected(augmentedFaces: Collection<AugmentedFace>?) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume() {
+        lastDetectedFaceTime = System.currentTimeMillis()
+    }
+
+    fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?) {
         if (!headTrackingEnabled) {
             liveShowError.postValue(false)
             return
         }
-        if (augmentedFaces?.firstOrNull() == null) {
+
+        // After losing track of a face, we will allow up to 1 second for a face to be re-detected
+        // before showing the error.
+        if (!augmentedFaces.isNullOrEmpty() || lastDetectedFaceTime == 0L) {
+            lastDetectedFaceTime = System.currentTimeMillis()
+        }
+
+        val faceDetectionTimeoutExpired = System.currentTimeMillis() - lastDetectedFaceTime > FACE_DETECTION_TIMEOUT
+
+        if (augmentedFaces.isNullOrEmpty() && faceDetectionTimeoutExpired) {
             liveShowError.postValue(true)
             return
         }
+
         if (liveShowError.value == true) {
             liveShowError.postValue(false)
         }
@@ -70,7 +89,8 @@ class FaceTrackingViewModel : ViewModel(), KoinComponent {
         if (faceTrackingJob != null && faceTrackingJob?.isActive == true) {
             return
         }
-        augmentedFaces.firstOrNull()?.let { augmentedFace ->
+
+        augmentedFaces?.firstOrNull()?.let { augmentedFace ->
             faceTrackingJob = backgroundScope.launch {
                 val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
                 val zAxis = pose.zAxis
