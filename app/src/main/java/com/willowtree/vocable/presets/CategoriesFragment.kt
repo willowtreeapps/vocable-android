@@ -87,10 +87,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }

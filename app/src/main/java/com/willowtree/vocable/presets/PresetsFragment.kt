@@ -136,10 +136,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         presetsViewModel =
             ViewModelProviders.of(
                 requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
+                BaseViewModelFactory()
             ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
@@ -221,7 +218,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             adapter = phrasesAdapter
 
             maxPhrases =
-                if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
+                if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_KEYPAD.id) {
                     NumberPadFragment.MAX_PHRASES
                 } else {
                     resources.getInteger(R.integer.max_phrases)
@@ -271,9 +268,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)
 
-            return if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_123_id)) {
+            return if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_KEYPAD.id) {
                 NumberPadFragment.newInstance(phrases)
-            } else if (presetsViewModel.selectedCategory.value?.categoryId == getString(R.string.category_my_sayings_id) && items.isEmpty()) {
+            } else if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_FAVORITES.id && items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(phrases)

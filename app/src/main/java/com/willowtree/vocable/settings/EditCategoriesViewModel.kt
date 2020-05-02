@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.inject
 import java.util.*
 
-class EditCategoriesViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
-    BaseViewModel(numbersCategoryId, mySayingsCategoryId) {
+class EditCategoriesViewModel : BaseViewModel() {
 
     companion object {
         private const val CATEGORY_UPDATED_DELAY = 2000L

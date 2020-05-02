@@ -76,15 +76,26 @@ object VocableDatabaseMigrations {
             // Get My Sayings
             val phraseCursor =
                 database.query("SELECT utterance FROM Phrase WHERE category_id = $categoryId ORDER BY creation_date ASC")
-            val mySayings = LinkedHashSet<String>()
+            val myLocalizedSayings = LinkedHashSet<String>()
             while (phraseCursor.moveToNext()) {
                 val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
-                mySayings.add(saying)
+                myLocalizedSayings.add(saying)
             }
             phraseCursor.close()
 
-            // Save My Sayings to Shared Prefs
-            VocableSharedPreferences().setMyLocalizedSayings(mySayings)
+            // If we didn't pick up any sayings from scheme 3, check if there were some in
+            // scheme 2
+            val nonLocalizedSayings = VocableSharedPreferences().getMySayings()
+            if (myLocalizedSayings.isEmpty() && nonLocalizedSayings.isNotEmpty()) {
+                nonLocalizedSayings.forEach {
+                    val map = HashMap<String, String>()
+                    map["en"] = it
+                    myLocalizedSayings.add(Converters.stringMapToJson(map))
+                }
+
+            }
+
+            VocableSharedPreferences().setMyLocalizedSayings(myLocalizedSayings)
 
             // Delete old tables and rename new ones to match old names
             database.execSQL("DROP TABLE Category")

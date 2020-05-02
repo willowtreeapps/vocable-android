@@ -7,7 +7,10 @@ enum class PresetCategories(val id: String) {
     BASIC_NEEDS("preset_basic_needs_category_id"),
     CONVERSATION("preset_conversation_category_id"),
     ENVIRONMENT("preset_environment_category_id"),
-    PERSONAL_CARE("preset_personal_care_category_id");
+    PERSONAL_CARE("preset_personal_care_category_id"),
+    USER_KEYPAD("preset_user_keypad"),
+    USER_FAVORITES("preset_user_favorites");
+
 
     fun getArrayId(): Int {
         return when (this) {
@@ -16,6 +19,8 @@ enum class PresetCategories(val id: String) {
             CONVERSATION -> R.array.category_conversation
             ENVIRONMENT -> R.array.category_environment
             PERSONAL_CARE -> R.array.category_personal_care
+            USER_KEYPAD -> -1 // Not localized with same convention
+            USER_FAVORITES -> -1 // Not localized with same convention
         }
     }
 
@@ -26,6 +31,8 @@ enum class PresetCategories(val id: String) {
             CONVERSATION -> R.string.preset_conversation
             ENVIRONMENT -> R.string.preset_environment
             PERSONAL_CARE -> R.string.preset_personal_care
+            USER_KEYPAD -> R.string.preset_user_keypad
+            USER_FAVORITES -> R.string.preset_user_favorites
         }
     }
 }

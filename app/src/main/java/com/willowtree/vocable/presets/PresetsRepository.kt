@@ -83,66 +83,46 @@ class PresetsRepository(context: Context) : KoinComponent {
         return database.categoryDao().getCategoryById(categoryId)
     }
 
-    suspend fun populateDatabase(numbersCategoryId: String, mySayingsCategoryId: String) {
+    suspend fun populateDatabase() {
         val categories = getAllCategories()
         if (categories.isNotEmpty()) {
             return
-        }
-        val presets = withContext(Dispatchers.IO) {
-            var json = ""
-            try {
-                val inputStream = get<Context>().assets.open("json/presets.json")
-                val size = inputStream.available()
-                val buffer = ByteArray(size)
-                inputStream.read(buffer)
-                inputStream.close()
-                json = String(buffer, Charset.forName("UTF-8"))
-            } catch (e: Exception) {
-                Log.e("populateDatabase", e.message ?: "Error reading JSON")
-            }
-
-            var presetsObject: PresetsObject? = null
-            try {
-                presetsObject = moshi.adapter(PresetsObject::class.java).fromJson(json)
-            } catch (e: Exception) {
-                Log.e("populateDatabase", e.message ?: "Error parsing JSON")
-            }
-            return@withContext presetsObject
         }
 
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
         val crossRefObjects = mutableListOf<CategoryPhraseCrossRef>()
+        
 
-        // Populate the presets from JSON
-        presets?.categories?.forEach {
+        PresetCategories.values().forEach {
             categoryObjects.add(
                 Category(
                     it.id,
                     System.currentTimeMillis(),
                     false,
+                    it.getNameId(),
                     null,
-                    it.localizedName,
-                    it.hidden,
+                    false,
                     categoryObjects.size
                 )
             )
-        }
 
-        presets?.phrases?.forEach { presetPhrase ->
-            phraseObjects.add(
-                Phrase(
-                    presetPhrase.id,
-                    System.currentTimeMillis(),
-                    false,
-                    System.currentTimeMillis(),
-                    null,
-                    presetPhrase.localizedUtterance,
-                    phraseObjects.size
+            if (it.getArrayId() == -1) { return@forEach }
+            val phraseStringIds = get<Context>().resources.getIntArray(it.getArrayId()).toList()
+            phraseStringIds.forEach { phraseStringId ->
+                val phraseId = UUID.randomUUID().toString()
+                phraseObjects.add(
+                    Phrase(
+                        phraseId,
+                        System.currentTimeMillis(),
+                        false,
+                        System.currentTimeMillis(),
+                        phraseStringId,
+                        null,
+                        phraseObjects.size
+                    )
                 )
-            )
-            presetPhrase.categoryIds.forEach { categoryId ->
-                crossRefObjects.add(CategoryPhraseCrossRef(categoryId, presetPhrase.id))
+                crossRefObjects.add(CategoryPhraseCrossRef(it.id, phraseId))
             }
         }
 
@@ -160,15 +140,16 @@ class PresetsRepository(context: Context) : KoinComponent {
                     phraseObjects.size
                 )
             )
-            crossRefObjects.add(CategoryPhraseCrossRef(numbersCategoryId, phraseId))
+            crossRefObjects.add(CategoryPhraseCrossRef(PresetCategories.USER_KEYPAD.id, phraseId))
         }
 
         // Create My Sayings category
         val mySayingsCategory =
-            categoryObjects.first { it.categoryId == mySayingsCategoryId }
-        val mySayings = sharedPrefs.getMySayings()
+            categoryObjects.first { it.categoryId == PresetCategories.USER_FAVORITES.id }
+        val mySayings = sharedPrefs.getMyLocalizedSaying()
         mySayings.forEach {
             val phraseId = UUID.randomUUID().toString()
+            val localizedPhrase = Converters.jsonToStringMap(it)
             phraseObjects.add(
                 Phrase(
                     phraseId,
@@ -176,7 +157,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                     true,
                     System.currentTimeMillis(),
                     null,
-                    mapOf(Pair(Locale.US.language, it)),
+                    localizedPhrase,
                     phraseObjects.size
                 )
             )
