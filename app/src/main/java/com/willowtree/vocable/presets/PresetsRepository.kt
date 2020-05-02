@@ -26,8 +26,7 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
-        val categoriesList = database.categoryDao().getCategoryWithPhrases(categoryId)
-        return categoriesList.firstOrNull()?.phrases ?: listOf()
+        return database.categoryDao().getCategoryWithPhrases(categoryId).phrases
     }
 
     suspend fun addPhrase(phrase: Phrase) {

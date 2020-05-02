@@ -104,7 +104,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.addRemoveCategoryList.observe(requireActivity(), Observer {
+        editCategoriesViewModel.addRemoveCategoryList.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 binding.editCategoriesViewPager.apply {
                     isSaveEnabled = false
@@ -125,7 +125,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
             }
         })
 
-        editCategoriesViewModel.lastViewedIndex.observe(requireActivity(), Observer {
+        editCategoriesViewModel.lastViewedIndex.observe(viewLifecycleOwner, Observer {
             it?.let { index ->
                 val pageNum = index / maxEditCategories
                 val middle = categoriesAdapter.itemCount / 2
