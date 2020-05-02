@@ -76,7 +76,7 @@ object VocableDatabaseMigrations {
             crossRefCursor.close()
 
             phraseIds.forEach {
-                val phraseCursor = database.query("SELECT phrase_id FROM Phrase WHERE phrase_id = '$it'")
+                val phraseCursor = database.query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
                 while (phraseCursor.moveToNext()) {
                     val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                     myLocalizedSayings.add(saying)
