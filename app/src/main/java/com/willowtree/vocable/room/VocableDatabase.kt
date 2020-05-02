@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Category::class, Phrase::class, CategoryPhraseCrossRef::class], version = 3)
+@Database(entities = [Category::class, Phrase::class, CategoryPhraseCrossRef::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
 
@@ -20,7 +20,8 @@ abstract class VocableDatabase : RoomDatabase() {
                     Room.databaseBuilder(context, VocableDatabase::class.java, DATABASE_NAME)
                         .addMigrations(
                             VocableDatabaseMigrations.MIGRATION_1_2,
-                            VocableDatabaseMigrations.MIGRATION_2_3
+                            VocableDatabaseMigrations.MIGRATION_2_3,
+                            VocableDatabaseMigrations.MIGRATION_3_4
                         )
                         .build()
             }

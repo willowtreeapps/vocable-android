@@ -56,7 +56,7 @@
         <item>@string/category_123_no</item>
     </string-array>
 
-    <integer-array name="category_basic_needs">
+    <array name="category_basic_needs">
         <item>@string/preset_need_restroom</item>
         <item>@string/preset_im_thirsty</item>
         <item>@string/preset_im_hungry</item>
@@ -70,9 +70,9 @@
         <item>@string/preset_im_finished</item>
         <item>@string/preset_want_lie_down</item>
         <item>@string/preset_want_sit_up</item>
-    </integer-array>
+    </array>
 
-    <integer-array name="category_conversation">
+    <array name="category_conversation">
         <item>@string/preset_hello</item>
         <item>@string/preset_good_morning</item>
         <item>@string/preset_good_evening</item>
@@ -90,9 +90,9 @@
         <item>@string/preset_please_stop</item>
         <item>@string/preset_i_do_not_agree</item>
         <item>@string/preset_please_repeat</item>
-    </integer-array>
+    </array>
 
-    <integer-array name="category_general">
+    <array name="category_general">
         <item>@string/preset_please</item>
         <item>@string/preset_thank_you</item>
         <item>@string/preset_yes</item>
@@ -102,9 +102,9 @@
         <item>@string/preset_i_dont_know</item>
         <item>@string/preset_i_didnt_mean_say_that</item>
         <item>@string/preset_be_patient</item>
-    </integer-array>
+    </array>
 
-    <integer-array name="category_environment">
+    <array name="category_environment">
         <item>@string/preset_turn_on_lights</item>
         <item>@string/preset_turn_off_lights</item>
         <item>@string/preset_no_visitors</item>
@@ -119,9 +119,9 @@
         <item>@string/preset_close_blinds</item>
         <item>@string/preset_open_window</item>
         <item>@string/preset_close_window</item>
-    </integer-array>
+    </array>
 
-    <integer-array name="category_personal_care">
+    <array name="category_personal_care">
         <item>@string/preset_need_medication</item>
         <item>@string/preset_need_bath</item>
         <item>@string/preset_need_shower</item>
@@ -131,6 +131,6 @@
         <item>@string/preset_need_spit</item>
         <item>@string/preset_trouble_breathing</item>
         <item>@string/preset_need_jacket</item>
-    </integer-array>
+    </array>
 
 </resources>
