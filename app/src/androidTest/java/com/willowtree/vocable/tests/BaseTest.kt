@@ -2,6 +2,7 @@ package com.willowtree.vocable.tests
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
@@ -32,7 +33,12 @@ abstract class BaseTest<T : Activity> {
         idleRegistry.register(idlingResource)
         getActivityTestRule().launchActivity(Intent())
         val device = UiDevice.getInstance(getInstrumentation())
-        device.wait(Until.findObject(By.text("GOT IT")), 60000).click()
+        try {
+            device.wait(Until.findObject(By.text("GOT IT")), 30000).click()
+        } catch (e: NullPointerException) {
+            Log.e("TEST", "Did not find Got it prompt")
+        }
+
     }
 
     @After
