@@ -27,7 +27,12 @@ class MainActivity : BaseActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING && sharedPrefs.getHeadTrackingEnabled()
+
+        if (BuildConfig.USE_HEAD_TRACKING) {
+            binding.pointerView.isVisible = true
+        } else {
+            binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
+        }
 
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
@@ -50,7 +55,11 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING && sharedPrefs.getHeadTrackingEnabled()
+        if (BuildConfig.USE_HEAD_TRACKING) {
+            binding.pointerView.isVisible = true
+        } else {
+            binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
+        }
     }
 
     override fun onDestroy() {
