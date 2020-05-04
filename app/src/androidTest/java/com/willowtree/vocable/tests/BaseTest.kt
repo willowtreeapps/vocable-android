@@ -32,7 +32,7 @@ abstract class BaseTest<T : Activity> {
         idleRegistry.register(idlingResource)
         getActivityTestRule().launchActivity(Intent())
         val device = UiDevice.getInstance(getInstrumentation())
-        device.wait(Until.findObject(By.text("GOT IT")), 60).click()
+        device.wait(Until.findObject(By.text("GOT IT")), 60000).click()
     }
 
     @After
