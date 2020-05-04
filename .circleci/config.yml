@@ -103,6 +103,7 @@ jobs:
       - run:
           name: Export Device Screenshots
           command: |
+            mkdir -p ~/screenshots/
             adb shell "run-as com.willowtree.vocable cat /data/user/0/com.willowtree.vocable/files/test.png" > ~/screenshots/test.png
           when: always
 
