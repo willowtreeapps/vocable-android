@@ -33,12 +33,6 @@ abstract class BaseTest<T : Activity> {
     fun setup() {
         idleRegistry.register(idlingResource)
         getActivityTestRule().launchActivity(Intent())
-        val device = UiDevice.getInstance(getInstrumentation())
-        try {
-            device.wait(Until.findObject(By.text("Got it")), 30000).click()
-        } catch (e: NullPointerException) {
-            Log.d("Test", "Prompt not found, continuing with test")
-        }
     }
 
     @After
@@ -46,10 +40,26 @@ abstract class BaseTest<T : Activity> {
         idleRegistry.unregister(idlingResource)
     }
 
+     /* This function will take a screenshot of the application and copy it to the sd card path
+     on the emulator so that it can be pulled out with an adb command on the build machine.
+     The copy shell command is necessary because the app and its contents are deleted
+     once the tests finish running on CircleCI. */
     fun takeScreenshot(fileName: String) {
         val file = File(getInstrumentation().targetContext.filesDir.path, "$fileName.png")
         UiDevice.getInstance(getInstrumentation()).takeScreenshot(file)
         getInstrumentation().uiAutomation.executeShellCommand("run-as com.willowtree.vocable cp $file /sdcard/test.png")
+    }
+
+    /* This function can be used if the emulator on CircleCI gets reset and the
+    tests start failing due to the prompt appearing again. Add it after the
+    launchActivity call here in base test to dismiss it*/
+    fun dismissFullscreenPrompt() {
+        val device = UiDevice.getInstance(getInstrumentation())
+        try {
+            device.wait(Until.findObject(By.text("Got it")), 30000).click()
+        } catch (e: NullPointerException) {
+            Log.d("Test", "Prompt not found, continuing with test")
+        }
     }
 
     abstract fun getActivityTestRule(): ActivityTestRule<T>
