@@ -15,6 +15,7 @@ import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
+import org.junit.rules.TestName
 import java.io.File
 
 
@@ -26,17 +27,22 @@ abstract class BaseTest<T : Activity> {
         ViewMatchers.isDisplayed()
     )
 
+    private val name = TestName()
+    @Rule
+    fun getTestName(): TestName = name
+
     @Rule
     lateinit var activityRule: ActivityTestRule<T>
 
     @Before
-    fun setup() {
+    open fun setup() {
         idleRegistry.register(idlingResource)
         getActivityTestRule().launchActivity(Intent())
     }
 
     @After
-    fun teardown() {
+    open fun teardown() {
+        takeScreenshot(getTestName().methodName)
         idleRegistry.unregister(idlingResource)
     }
 
