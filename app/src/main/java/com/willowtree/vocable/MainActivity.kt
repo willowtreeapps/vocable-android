@@ -28,8 +28,8 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (BuildConfig.USE_HEAD_TRACKING) {
-            binding.pointerView.isVisible = true
+        if (!BuildConfig.USE_HEAD_TRACKING) {
+            binding.pointerView.isVisible = false
         } else {
             binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
         }
@@ -55,8 +55,8 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (BuildConfig.USE_HEAD_TRACKING) {
-            binding.pointerView.isVisible = true
+        if (!BuildConfig.USE_HEAD_TRACKING) {
+            binding.pointerView.isVisible = false
         } else {
             binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
         }
