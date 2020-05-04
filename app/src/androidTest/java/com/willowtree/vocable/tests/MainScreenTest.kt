@@ -6,12 +6,24 @@ import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.assertTextMatches
 import com.willowtree.vocable.utility.tap
+import org.junit.After
+import org.junit.Rule
 
 import org.junit.Test
+import org.junit.rules.TestName
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MainScreenTest : BaseTest<SplashActivity>() {
+
+    @Rule
+    val testName = TestName()
+
+    @After
+    override fun teardown() {
+        takeScreenshot(testName.methodName)
+        super.teardown()
+    }
 
     private val mainScreen = MainScreen()
 

@@ -47,16 +47,15 @@ abstract class BaseTest<T : Activity> {
     fun takeScreenshot(fileName: String) {
         val file = File(getInstrumentation().targetContext.filesDir.path, "$fileName.png")
         UiDevice.getInstance(getInstrumentation()).takeScreenshot(file)
-        getInstrumentation().uiAutomation.executeShellCommand("run-as com.willowtree.vocable cp $file /sdcard/test.png")
+        getInstrumentation().uiAutomation.executeShellCommand(
+            "run-as com.willowtree.vocable cp $file /sdcard/Pictures/$fileName.png")
     }
 
-    /* This function can be used if the emulator on CircleCI gets reset and the
-    tests start failing due to the prompt appearing again. Add it after the
-    launchActivity call here in base test to dismiss it*/
+    // This function dismisses the full screen immersive prompt which shows on first launch
     fun dismissFullscreenPrompt() {
         val device = UiDevice.getInstance(getInstrumentation())
         try {
-            device.wait(Until.findObject(By.text("Got it")), 30000).click()
+            device.wait(Until.findObject(By.text("Got it")), 15000).click()
         } catch (e: NullPointerException) {
             Log.d("Test", "Prompt not found, continuing with test")
         }
