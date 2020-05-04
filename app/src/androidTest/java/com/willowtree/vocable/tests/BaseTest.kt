@@ -1,43 +1,55 @@
 package com.willowtree.vocable.tests
 
-import android.app.Activity
 import android.content.Intent
-import android.util.Log
+import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResourceTimeoutException
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
 import com.willowtree.vocable.R
+import com.willowtree.vocable.screens.MainScreen
+import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 
-abstract class BaseTest<T : Activity> {
+open class BaseTest {
 
     private val idleRegistry = IdlingRegistry.getInstance()
     private val idlingResource = SplashScreenIdlingResource(
         ViewMatchers.withId(R.id.current_text),
         ViewMatchers.isDisplayed()
     )
-
     private val name = TestName()
+    private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
+
     @Rule
     fun getTestName(): TestName = name
 
     @Rule
-    lateinit var activityRule: ActivityTestRule<T>
+    fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
 
     @Before
     open fun setup() {
+        IdlingPolicies.setIdlingResourceTimeout(5, TimeUnit.SECONDS)
         idleRegistry.register(idlingResource)
-        getActivityTestRule().launchActivity(Intent())
+        activityRule.launchActivity(Intent())
+
+        try {
+            MainScreen().firstPhrase.check(matches(isDisplayed()))
+        } catch (e: IdlingResourceTimeoutException) {
+            dismissFullscreenPrompt()
+        }
     }
 
     @After
@@ -58,14 +70,8 @@ abstract class BaseTest<T : Activity> {
     }
 
     // This function dismisses the full screen immersive prompt which shows on first launch
-    fun dismissFullscreenPrompt() {
+    private fun dismissFullscreenPrompt() {
         val device = UiDevice.getInstance(getInstrumentation())
-        try {
-            device.wait(Until.findObject(By.text("Got it")), 15000).click()
-        } catch (e: NullPointerException) {
-            Log.d("Test", "Prompt not found, continuing with test")
-        }
+        device.findObject(By.text("Got it")).click()
     }
-
-    abstract fun getActivityTestRule(): ActivityTestRule<T>
 }
