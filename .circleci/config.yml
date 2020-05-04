@@ -104,7 +104,7 @@ jobs:
           name: Export Device Screenshots
           command: |
             adb shell "run-as com.willowtree.vocable cat /data/user/0/com.willowtree.vocable/files/test.png" > ~/screenshots/test.png
-
+          when: always
 
       - run:
           name: Save test results
