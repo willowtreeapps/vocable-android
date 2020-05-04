@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import com.willowtree.vocable.R
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.After
@@ -31,8 +32,7 @@ abstract class BaseTest<T : Activity> {
         idleRegistry.register(idlingResource)
         getActivityTestRule().launchActivity(Intent())
         val device = UiDevice.getInstance(getInstrumentation())
-        Thread.sleep(15000)
-        device.findObject(By.text("GOT IT")).click()
+        device.wait(Until.findObject(By.text("GOT IT")), 60).click()
     }
 
     @After
