@@ -39,10 +39,9 @@ abstract class BaseTest<T : Activity> {
         try {
             device.wait(Until.findObject(By.text("GOT IT")), 30000).click()
         } catch (e: NullPointerException) {
-            val file = File(InstrumentationRegistry.getInstrumentation().targetContext.filesDir.path,
-                "test.png"
-            )
+            val file = File(getInstrumentation().targetContext.filesDir.path, "test.png")
             device.takeScreenshot(file)
+            getInstrumentation().uiAutomation.executeShellCommand("run-as com.willowtree.vocable cp $file /sdcard/test.png")
         }
 
     }
