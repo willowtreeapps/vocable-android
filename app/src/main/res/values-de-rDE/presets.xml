@@ -39,8 +39,8 @@
   <string name="preset_please_repeat" formatted="false">Wie bitte?</string>
   <string name="preset_please" formatted="false">Bitte</string>
   <string name="preset_thank_you" formatted="false">Danke</string>
-  <string name="preset_yes" formatted="false">Ja</string>
-  <string name="preset_no" formatted="false">Nein</string>
+  <string name="preset_yes" formatted="false">Yes</string>
+  <string name="preset_no" formatted="false">No</string>
   <string name="preset_maybe" formatted="false">Vielleicht</string>
   <string name="preset_please_wait" formatted="false">Einen Moment</string>
   <string name="preset_i_dont_know" formatted="false">Das weiß ich nicht</string>
