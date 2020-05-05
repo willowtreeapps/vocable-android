@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,8 +20,8 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
     companion object {
         private const val KEY_PHRASE = "KEY_PHRASE"
 
-        fun newInstance(phrase: Phrase?): EditKeyboardFragment {
-            return EditKeyboardFragment().apply {
+        fun newInstance(phrase: Phrase?): EditPhrasesKeyboardFragment {
+            return EditPhrasesKeyboardFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_PHRASE, phrase)
                 }
@@ -28,8 +29,6 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         }
     }
 
-    override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> =
-        FragmentEditKeyboardBinding::inflate
     private var phrase: Phrase? = null
     private var addNewPhrase = false
     private lateinit var viewModel: EditPhrasesViewModel
@@ -43,7 +42,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
             phrase = it
         }
-        return binding.root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,6 +88,15 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         }
 
         binding.keyboardInput.setText(inputText)
+
+        (binding.phraseSavedView.root as TextView).apply {
+            if (phrase == null) {
+                setText(R.string.new_phrase_saved)
+            } else {
+                setText(R.string.changes_saved)
+            }
+        }
+
 
         viewModel = ViewModelProviders.of(
             requireActivity(),

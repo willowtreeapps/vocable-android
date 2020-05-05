@@ -23,7 +23,7 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import java.util.*
 
-open class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
+abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
 
     companion object {
         private const val KEY_USER_INPUT = "KEY_USER_INPUT"
@@ -119,14 +119,6 @@ open class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
                 }
             }
         }
-
-//        (binding.phraseSavedView.root as TextView).apply {
-//            if (arguments?.getBoolean(KEY_IS_EDITING) == true) {
-//                setText(R.string.changes_saved)
-//            } else {
-//                setText(R.string.new_phrase_saved)
-//            }
-//        }
 
         // Restore user input on config change
         savedInstanceState?.apply { binding.keyboardInput.setText(getString(KEY_USER_INPUT)) }
