@@ -3,17 +3,13 @@ package com.willowtree.vocable.tests
 import android.content.Intent
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.IdlingResourceTimeoutException
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.willowtree.vocable.R
-import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.After
@@ -26,13 +22,13 @@ import java.util.concurrent.TimeUnit
 
 open class BaseTest {
 
+    private var firstLaunch = true
     private val idleRegistry = IdlingRegistry.getInstance()
     private val idlingResource = SplashScreenIdlingResource(
         ViewMatchers.withId(R.id.current_text),
         ViewMatchers.isDisplayed()
     )
     private val name = TestName()
-    private var firstLaunch = true
     private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
 
     @Rule
@@ -47,18 +43,15 @@ open class BaseTest {
         idleRegistry.register(idlingResource)
         activityRule.launchActivity(Intent())
 
-        firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().size < 1
-
+        firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().isEmpty()
         if (firstLaunch) {
+            takeScreenshot("InitialSetup")
             dismissFullscreenPrompt()
         }
-
-
     }
 
     @After
     open fun teardown() {
-        takeScreenshot(getTestName().methodName)
         idleRegistry.unregister(idlingResource)
     }
 
