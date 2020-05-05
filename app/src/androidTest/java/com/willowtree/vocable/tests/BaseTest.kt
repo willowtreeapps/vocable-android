@@ -72,6 +72,6 @@ open class BaseTest {
     // This function dismisses the full screen immersive prompt which shows on first launch
     private fun dismissFullscreenPrompt() {
         val device = UiDevice.getInstance(getInstrumentation())
-        device.findObject(By.text("Got it")).click()
+        device.findObject(By.text("GOT IT")).click()
     }
 }
