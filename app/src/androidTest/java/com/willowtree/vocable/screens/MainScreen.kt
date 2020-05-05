@@ -15,7 +15,7 @@ class MainScreen {
     val defaultPhraseGeneral = arrayOf("Please be patient", "I don't know", "Maybe", "Yes", "I didn't mean to say that", "Please wait", "No", "Thank you")
     val defaultPhraseBasicNeeds = arrayOf("I want to sit up", "I am finished", "I am uncomfortable", "I am fine", "I want to lie down", "I am in pain", "I am good", "I am tired")
 
-    fun verifyDefaultCategoriesExists() {
+    fun verifyDefaultCategoriesExist() {
         for (category in defaultCategories) {
             onView(allOf(withText(category), withParent(withId(R.id.category_button_container))))
                 .check(matches(isDisplayed()))
