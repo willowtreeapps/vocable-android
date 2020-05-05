@@ -47,7 +47,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                val text = localizedResourceUtility.getTextFromPhrase(phrase) ?: ""
+                val text = localizedResourceUtility.getTextFromPhrase(phrase)
                 setText(text, Locale.getDefault())
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {

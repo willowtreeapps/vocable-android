@@ -56,7 +56,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                val (phraseStr, locale) = localizedResourceUtility.getValueLocalePairFromPhrase(phrase) ?: Pair("", Locale.getDefault())
+                val (phraseStr, locale) = localizedResourceUtility.getValueLocalePairFromPhrase(phrase)
                 setText(phraseStr, locale)
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
