@@ -5,8 +5,8 @@
   <string name="preset_personal_care" formatted="false">個人護理</string>
   <string name="preset_conversation" formatted="false">對話</string>
   <string name="preset_environment" formatted="false">環境</string>
-  <string name="preset_user_keypad" formatted="false">數字</string>
-  <string name="preset_user_favorites" formatted="false">我的對話</string>
+  <string name="preset_user_keypad" formatted="false">123</string>
+  <string name="preset_user_favorites" formatted="false">My Sayings</string>
   <string name="preset_need_restroom" formatted="false">我需要去洗手間</string>
   <string name="preset_im_thirsty" formatted="false">我口喝</string>
   <string name="preset_im_hungry" formatted="false">我餓了</string>
@@ -39,8 +39,8 @@
   <string name="preset_please_repeat" formatted="false">請再重複講一次</string>
   <string name="preset_please" formatted="false">請</string>
   <string name="preset_thank_you" formatted="false">謝謝</string>
-  <string name="preset_yes" formatted="false">是</string>
-  <string name="preset_no" formatted="false">不</string>
+  <string name="preset_yes" formatted="false">Yes</string>
+  <string name="preset_no" formatted="false">No</string>
   <string name="preset_maybe" formatted="false">可能</string>
   <string name="preset_please_wait" formatted="false">請等待</string>
   <string name="preset_i_dont_know" formatted="false">我不知道</string>
