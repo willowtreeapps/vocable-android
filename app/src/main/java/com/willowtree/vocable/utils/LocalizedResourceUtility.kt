@@ -12,35 +12,27 @@ class LocalizedResourceUtility(context: Context) : KoinComponent {
 
     val resources: Resources = get<Context>().resources
 
-    fun getValueLocalePairFromCategory(category: Category): Pair<String, Locale>? {
-        return category.resourceId?.let {
-            Pair(resources.getString(it), Locale.getDefault())
-        } ?: category.localizedName?.let {
-            LocaleUtils.getLocalizedPair(it)
-        }
-    }
-
-    fun getValueLocalePairFromPhrase(phrase: Phrase): Pair<String, Locale>? {
+    fun getValueLocalePairFromPhrase(phrase: Phrase): Pair<String, Locale> {
         return phrase.resourceId?.let {
             Pair(resources.getString(it), Locale.getDefault())
         } ?: phrase.localizedUtterance?.let {
             LocaleUtils.getLocalizedPair(it)
-        }
+        } ?: Pair("", Locale.getDefault())
     }
 
-    fun getTextFromCategory(category: Category): String? {
+    fun getTextFromCategory(category: Category): String {
         return category.resourceId?.let {
             resources.getString(it)
         } ?: category.localizedName?.let {
             LocaleUtils.getTextForLocale(it)
-        }
+        } ?: ""
     }
 
-    fun getTextFromPhrase(phrase: Phrase): String? {
+    fun getTextFromPhrase(phrase: Phrase): String {
         return phrase.resourceId?.let {
             resources.getString(it)
         } ?: phrase.localizedUtterance?.let {
             LocaleUtils.getTextForLocale(it)
-        }
+        } ?: ""
     }
 }
