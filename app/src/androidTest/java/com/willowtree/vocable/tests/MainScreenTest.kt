@@ -23,7 +23,7 @@ class MainScreenTest : BaseTest() {
     @Test
     fun verifyDefaultCategoriesExist() {
         mainScreen.apply {
-            mainScreen.verifyDefaultCategories()
+            mainScreen.verifyDefaultCategoriesExists()
         }
     }
 }
