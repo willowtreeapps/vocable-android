@@ -80,7 +80,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
                     .addToBackStack(null)
                     .replace(
                         R.id.settings_fragment_container,
-                        EditKeyboardFragment.newInstance(phrase)
+                        EditPhrasesKeyboardFragment.newInstance(phrase)
                     )
                     .commit()
             }
