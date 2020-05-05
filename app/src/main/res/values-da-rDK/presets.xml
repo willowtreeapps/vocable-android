@@ -6,7 +6,7 @@
   <string name="preset_conversation" formatted="false">Samtale</string>
   <string name="preset_environment" formatted="false">Omkring mig</string>
   <string name="preset_user_keypad" formatted="false">123</string>
-  <string name="preset_user_favorites" formatted="false">Mine sætninger</string>
+  <string name="preset_user_favorites" formatted="false">Mine Sætninger</string>
   <string name="preset_need_restroom" formatted="false">Jeg skal på toilettet</string>
   <string name="preset_im_thirsty" formatted="false">Jeg er tørstig</string>
   <string name="preset_im_hungry" formatted="false">Jeg er sulten</string>
