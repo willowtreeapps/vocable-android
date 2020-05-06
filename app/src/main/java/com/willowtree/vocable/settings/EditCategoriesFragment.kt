@@ -85,7 +85,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
                 .beginTransaction()
                 .replace(
                     R.id.settings_fragment_container,
-                    EditCategoriesKeyboardFragment.newInstance(null)
+                    EditKeyboardFragment.newCreateCategoryInstance()
                 )
                 .addToBackStack(null)
                 .commit()

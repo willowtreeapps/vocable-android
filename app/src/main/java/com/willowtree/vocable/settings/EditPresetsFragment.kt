@@ -96,7 +96,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
                 .beginTransaction()
                 .replace(
                     R.id.settings_fragment_container,
-                    EditPhrasesKeyboardFragment.newInstance(null)
+                    EditKeyboardFragment.newInstance(false)
                 )
                 .addToBackStack(null)
                 .commit()
