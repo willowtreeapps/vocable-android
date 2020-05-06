@@ -23,50 +23,14 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import java.util.*
 
-class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
+abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
 
     companion object {
-        private const val KEY_PHRASE = "KEY_PHRASE"
-        private const val KEY_IS_EDITING = "KEY_IS_EDITING"
-        private const val KEY_CATEGORY = "KEY_CATEGORY"
-        private const val KEY_IS_CATEGORY = "KEY_IS_CATEGORY"
         private const val KEY_USER_INPUT = "KEY_USER_INPUT"
-
-        fun newInstance(phrase: Phrase): EditKeyboardFragment {
-            return EditKeyboardFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_PHRASE, phrase)
-                    putBoolean(KEY_IS_EDITING, true)
-                    putBoolean(KEY_IS_CATEGORY, false)
-                }
-            }
-        }
-
-        fun newInstance(isEditing: Boolean) = EditKeyboardFragment().apply {
-            arguments = bundleOf(KEY_IS_EDITING to isEditing)
-        }
-
-        fun newInstance(category: Category) = EditKeyboardFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(KEY_CATEGORY, category)
-                putBoolean(KEY_IS_EDITING, true)
-                putBoolean(KEY_IS_CATEGORY, true)
-            }
-        }
-
-        fun newCreateCategoryInstance(): EditKeyboardFragment = EditKeyboardFragment().apply {
-            arguments = bundleOf(KEY_IS_CATEGORY to true)
-        }
     }
 
     override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> = FragmentEditKeyboardBinding::inflate
-    private lateinit var viewModel: EditPhrasesViewModel
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private lateinit var keys: Array<String>
-    private var phrase: Phrase? = null
-    private var category: Category? = null
-    private var isCategory = false
-    private var addNewPhrase = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,15 +38,6 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        keys = resources.getStringArray(R.array.keyboard_keys)
-        arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
-            phrase = it
-        }
-        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
-            category = it
-        }
-
-        isCategory = arguments?.getBoolean(KEY_IS_CATEGORY) ?: false
 
         keys = resources.getStringArray(R.array.keyboard_keys)
 
@@ -120,81 +75,12 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
         }
     }
 
-    private fun isDefaultTextVisible(): Boolean {
+    fun isDefaultTextVisible(): Boolean {
         return binding.keyboardInput.text.toString() == getString(R.string.keyboard_select_letters)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.backButton.action = {
-            val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
-            val textChanged = binding.keyboardInput.text.toString() != phrase?.getLocalizedText()
-            val categoryTextChanged =
-                binding.keyboardInput.text.toString() != category?.getLocalizedText()
-            if (isCategory && !categoryTextChanged || isDefaultTextVisible()) {
-                parentFragmentManager.popBackStack()
-            } else if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
-                parentFragmentManager.popBackStack()
-            } else {
-                showConfirmationDialog()
-            }
-        }
-
-        val isEditing = arguments?.getBoolean(KEY_IS_EDITING) ?: false
-
-        binding.saveButton.action = {
-            if (isCategory && !isEditing && !isDefaultTextVisible()) {
-                binding.keyboardInput.text?.let { text ->
-                    if (text.isNotBlank()) {
-                        editCategoriesViewModel.addNewCategory(text.toString())
-                        parentFragmentManager.popBackStack()
-                    }
-                }
-            } else if (isCategory && isEditing && !isDefaultTextVisible()) {
-                binding.keyboardInput.text.let { text ->
-                    val categoryName = category?.localizedName?.toMutableMap()?.apply {
-                        put(Locale.getDefault().toString(), text.toString())
-                    }
-                    category?.localizedName = categoryName ?: mapOf()
-                    category?.let { updatedCategory ->
-                        editCategoriesViewModel.updateCategory(updatedCategory)
-                    } ?: editCategoriesViewModel.addNewCategory(text.toString())
-                }
-            } else if (!isDefaultTextVisible()) {
-                binding.keyboardInput.text.let { text ->
-                    if (text.isNotBlank()) {
-                        val phraseUtterance =
-                            phrase?.localizedUtterance?.toMutableMap()?.apply {
-                                put(Locale.getDefault().toString(), text.toString())
-                            }
-                        phrase?.localizedUtterance = phraseUtterance ?: mapOf()
-                        if (phrase == null) {
-                            viewModel.addNewPhrase(text.toString())
-                            addNewPhrase = true
-                        } else {
-                            phrase?.let { updatedPhrase ->
-                                viewModel.updatePhrase(updatedPhrase)
-                                addNewPhrase = false
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-
-        val inputText = if (!isCategory && phrase?.getLocalizedText().isNullOrEmpty()) {
-            getString(R.string.keyboard_select_letters)
-        } else if (isCategory && category?.getLocalizedText().isNullOrEmpty()) {
-            getString(R.string.keyboard_select_letters)
-        } else if (isCategory) {
-            category?.getLocalizedText()
-        } else {
-            phrase?.getLocalizedText()
-        }
-
-        binding.keyboardInput.setText(inputText)
 
         binding.keyboardInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -234,35 +120,8 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
             }
         }
 
-        (binding.phraseSavedView.root as TextView).apply {
-            if (arguments?.getBoolean(KEY_IS_EDITING) == true) {
-                setText(R.string.changes_saved)
-            } else {
-                setText(R.string.new_phrase_saved)
-            }
-        }
-
         // Restore user input on config change
         savedInstanceState?.apply { binding.keyboardInput.setText(getString(KEY_USER_INPUT)) }
-
-        if (isCategory) {
-            editCategoriesViewModel = ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
-            ).get(EditCategoriesViewModel::class.java)
-        } else {
-            viewModel = ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
-            ).get(EditPhrasesViewModel::class.java)
-        }
-        subscribeToViewModel()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -270,7 +129,7 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
         outState.putString(KEY_USER_INPUT, binding.keyboardInput.text.toString())
     }
 
-    private fun showConfirmationDialog() {
+    fun showConfirmationDialog() {
         setSettingsButtonsEnabled(false)
         binding.editConfirmation.dialogTitle.text = getString(R.string.are_you_sure)
         binding.editConfirmation.dialogMessage.text = getString(R.string.back_warning)
@@ -306,14 +165,6 @@ class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
 
     private fun toggleDialogVisibility(visible: Boolean) {
         binding.editConfirmation.root.isVisible = visible
-    }
-
-    private fun subscribeToViewModel() {
-        if (!isCategory) {
-            viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-                binding.phraseSavedView.root.isVisible = it ?: false
-            })
-        }
     }
 
     override fun getAllViews(): List<View> = emptyList()
