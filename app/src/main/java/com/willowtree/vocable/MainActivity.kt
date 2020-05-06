@@ -28,12 +28,6 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (!BuildConfig.USE_HEAD_TRACKING) {
-            binding.pointerView.isVisible = false
-        } else {
-            binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
-        }
-
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
 
