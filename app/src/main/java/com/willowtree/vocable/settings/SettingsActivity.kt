@@ -15,12 +15,15 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.databinding.ActivitySettingsBinding
 import com.willowtree.vocable.facetracking.FaceTrackFragment
+import com.willowtree.vocable.utils.VocableSharedPreferences
+import org.koin.android.ext.android.inject
 
 class SettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private val allViews = mutableListOf<View>()
     private lateinit var viewModel: SettingsViewModel
+    private val sharedPrefs: VocableSharedPreferences by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(
@@ -35,7 +38,12 @@ class SettingsActivity : BaseActivity() {
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.pointerView.isVisible = BuildConfig.USE_HEAD_TRACKING
+
+        if (!BuildConfig.USE_HEAD_TRACKING) {
+            binding.pointerView.isVisible = false
+        } else {
+            binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
+        }
 
         if (supportFragmentManager.findFragmentById(R.id.settings_fragment_container) == null) {
             supportFragmentManager
