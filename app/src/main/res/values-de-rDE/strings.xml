@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Vocable</string>
+    <!-- Presets -->
+    <string name="select_something">Wähle unten etwas aus, um zu sprechen.</string>
+    <string name="phrases_page_number">Seite %1d von %2d</string>
+    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
+    <!-- Settings Page -->
+    <string name="settings">Einstellungen</string>
+    <string name="privacy_policy">Datenschutz</string>
+    <string name="contact_developers">Entwickler kontaktieren</string>
+    <string name="version">V %s</string>
+    <string name="settings_head_tracking">Per Kopfbewegung</string>
+    <string name="settings_dialog_title">Leaving the app</string>
+    <string name="settings_dialog_message">Dieser Link wir ausserhalb der Vocable App geöffnet. Sie laufen möglicherweise Gefahr, nicht mehr per Kopfbewegung steuern zu können.</string>
+    <string name="settings_dialog_continue">Weiter</string>
+    <string name="settings_dialog_cancel">Abbrechen</string>
+    <!-- Settings Options -->
+    <string name="settings_edit_saying">Meine Sätze</string>
+    <string name="settings_edit_categories">Categories</string>
+    <string name="settings_selection_mode">Steuerungsmodus</string>
+    <string name="settings_reset_app">App Einstellungen zurücksetzen</string>
+    <!-- Selection Mode -->
+    <string name="selection_mode_title">Steuerungsmodus</string>
+    <!-- Button Text -->
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+    <!-- Errors -->
+    <string name="error_move_closer">Bitte näher ans Gerät kommen.</string>
+    <!-- Keyboard Layout -->
+    <string name="keyboard_select_letters">Start typing…</string>
+    <!-- Saved Phrase Success -->
+    <string name="saved_successfully">In Meine Sätze gespeichert</string>
+    <!-- Edit Sayings -->
+    <string name="delete">Löschen</string>
+    <string name="delete_warning">Gelöschte Sätze können nicht wiederhergestellt werden.</string>
+    <string name="new_phrase_saved">New phrase saved</string>
+    <string name="contiue_editing">Continue editing</string>
+    <string name="discard">Verwerfen</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="back_warning">Nicht gespeicherte Veränderungen werden beim Verlassen des Menüs verworfen.</string>
+    <!-- Edit Keyboard -->
+    <string name="changes_saved">Änderungen gespeichert</string>
+    <!-- Timing and Sensitivity -->
+    <string name="timing_sensitivity_title">Timing und Empfindlichkeit</string>
+    <string name="hover_time_text">Hover Time</string>
+    <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
+    <string name="hover_time_amount_text">%s seconds</string>
+    <string name="hover_time_one_text">1 Sekunde</string>
+    <string name="cursor_sensitivity_low">Niedrig</string>
+    <string name="cursor_sensitivity_medium">Medium</string>
+    <string name="cursor_sensitivity_high">High</string>
+    <!-- Categories -->
+    <string name="category_123">123</string>
+    <string name="category_123_yes">Yes</string>
+    <string name="category_123_no">No</string>
+    <!-- Edit Categories -->
+    <string name="edit_categories_title">Categories</string>
+    <string name="edit_categories_button_number">%1d. %2s</string>
+    <!-- Edit Category Options -->
+    <string name="edit_category_show_category_text">Show Category</string>
+    <string name="edit_category_remove_category_text">Remove Category</string>
+    <string name="removed_cant_be_restored">Removed categories can not be restored.</string>
+</resources>
