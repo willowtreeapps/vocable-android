@@ -56,17 +56,6 @@ class VocableSharedPreferences : KoinComponent {
         encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, mySayings).apply()
     }
 
-    fun getMyLocalizedSaying(): List<String> {
-        encryptedPrefs.getStringSet(KEY_MY_LOCALIZED_SAYINGS, setOf())?.let {
-            return it.toList()
-        }
-        return listOf()
-    }
-
-    fun setMyLocalizedSayings(mySayings: Set<String>) {
-        encryptedPrefs.edit().putStringSet(KEY_MY_LOCALIZED_SAYINGS, mySayings).apply()
-    }
-
     fun getDwellTime(): Long = encryptedPrefs.getLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
 
     fun setDwellTime(time: Long) {

@@ -84,9 +84,7 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun populateDatabase() {
         val categories = getAllCategories()
-        if (categories.isNotEmpty()) {
-            return
-        }
+        if (categories.size > 1) { return }
 
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
@@ -102,7 +100,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                     it.getNameId(),
                     null,
                     false,
-                    categoryObjects.size
+                    it.initialSortOrder
                 )
             )
 
@@ -141,33 +139,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                 )
             )
             crossRefObjects.add(CategoryPhraseCrossRef(PresetCategories.USER_KEYPAD.id, phraseId))
-        }
-
-        // Create My Sayings category
-        val mySayingsCategory =
-            categoryObjects.first { it.categoryId == PresetCategories.USER_FAVORITES.id }
-        val mySayings = sharedPrefs.getMyLocalizedSaying()
-        mySayings.forEach {
-            val phraseId = UUID.randomUUID().toString()
-            val localizedPhrase = Converters.jsonToStringMap(it)
-            phraseObjects.add(
-                Phrase(
-                    phraseId,
-                    System.currentTimeMillis(),
-                    true,
-                    System.currentTimeMillis(),
-                    null,
-                    localizedPhrase,
-                    phraseObjects.size
-                )
-            )
-            crossRefObjects.add(
-                CategoryPhraseCrossRef(
-                    mySayingsCategory.categoryId,
-                    phraseId
-                )
-            )
-            sharedPrefs.setMySayings(emptySet())
         }
 
         populateCategories(categoryObjects)

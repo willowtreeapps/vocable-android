@@ -2,15 +2,14 @@ package com.willowtree.vocable.presets
 
 import com.willowtree.vocable.R
 
-enum class PresetCategories(val id: String) {
-    GENERAL("preset_general_category_id"),
-    BASIC_NEEDS("preset_basic_needs_category_id"),
-    CONVERSATION("preset_conversation_category_id"),
-    ENVIRONMENT("preset_environment_category_id"),
-    PERSONAL_CARE("preset_personal_care_category_id"),
-    USER_KEYPAD("preset_user_keypad"),
-    USER_FAVORITES("preset_user_favorites");
-
+enum class PresetCategories(val id: String, val initialSortOrder: Int) {
+    GENERAL("preset_general_category_id", 0),
+    BASIC_NEEDS("preset_basic_needs_category_id", 1),
+    CONVERSATION("preset_conversation_category_id", 2),
+    ENVIRONMENT("preset_environment_category_id", 3),
+    PERSONAL_CARE("preset_personal_care_category_id", 4),
+    USER_KEYPAD("preset_user_keypad", 5),
+    USER_FAVORITES("preset_user_favorites", 6);
 
     fun getArrayId(): Int {
         return when (this) {
