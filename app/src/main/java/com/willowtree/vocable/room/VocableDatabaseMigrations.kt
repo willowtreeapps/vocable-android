@@ -4,6 +4,9 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashSet
 
 object VocableDatabaseMigrations {
 
@@ -96,7 +99,16 @@ object VocableDatabaseMigrations {
 
             }
 
-            VocableSharedPreferences().setMyLocalizedSayings(myLocalizedSayings)
+            database.execSQL("INSERT INTO Category_New (category_id, creation_date, is_user_generated, resource_id, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, ${PresetCategories.USER_FAVORITES.getNameId()}, null, 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
+
+            var sortOrder = 0
+            myLocalizedSayings.forEach { localizedSaying ->
+                val phraseId = UUID.randomUUID().toString()
+                val creationDate = System.currentTimeMillis()
+                database.execSQL("INSERT INTO Phrase_New (phrase_id, creation_date, is_user_generated, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$phraseId', $creationDate, 1, $creationDate, null, '$localizedSaying', ${sortOrder++})")
+                database.execSQL("INSERT INTO CategoryPhraseCrossRef_New (category_id, phrase_id) VALUES ('${PresetCategories.USER_FAVORITES.id}', '$phraseId')")
+            }
+
 
             // Delete old tables and rename new ones to match old names
             database.execSQL("DROP TABLE Category")
