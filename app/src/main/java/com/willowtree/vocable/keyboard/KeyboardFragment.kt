@@ -1,6 +1,5 @@
 package com.willowtree.vocable.keyboard
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,15 +19,14 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.presets.PresetsFragment
-import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import org.koin.android.ext.android.get
 import java.util.*
 
 class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
-    override val bindingInflater: BindingInflater<FragmentKeyboardBinding> = FragmentKeyboardBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentKeyboardBinding> =
+        FragmentKeyboardBinding::inflate
     private lateinit var viewModel: KeyboardViewModel
     private lateinit var keys: Array<String>
 
@@ -38,7 +36,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        keys =  resources.getStringArray(R.array.keyboard_keys)
+        keys = resources.getStringArray(R.array.keyboard_keys)
         populateKeys()
         return binding.root
     }
