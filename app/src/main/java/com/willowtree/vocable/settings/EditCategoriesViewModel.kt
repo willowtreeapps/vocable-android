@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 import java.util.*
@@ -58,6 +59,10 @@ class EditCategoriesViewModel : BaseViewModel() {
     fun updateCategory(category: Category) {
         backgroundScope.launch {
             presetsRepository.updateCategory(category)
+
+            liveShowCategoryAdded.postValue(true)
+            delay(CATEGORY_UPDATED_DELAY)
+            liveShowCategoryAdded.postValue(false)
         }
     }
 

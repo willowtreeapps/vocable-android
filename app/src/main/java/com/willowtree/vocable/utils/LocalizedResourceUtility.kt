@@ -20,18 +20,18 @@ class LocalizedResourceUtility(context: Context) : KoinComponent {
         } ?: Pair("", Locale.getDefault())
     }
 
-    fun getTextFromCategory(category: Category): String {
-        return category.resourceId?.let {
+    fun getTextFromCategory(category: Category?): String {
+        return category?.resourceId?.let {
             resources.getString(it)
-        } ?: category.localizedName?.let {
+        } ?: category?.localizedName?.let {
             LocaleUtils.getTextForLocale(it)
         } ?: ""
     }
 
-    fun getTextFromPhrase(phrase: Phrase): String {
-        return phrase.resourceId?.let {
+    fun getTextFromPhrase(phrase: Phrase?): String {
+        return phrase?.resourceId?.let {
             resources.getString(it)
-        } ?: phrase.localizedUtterance?.let {
+        } ?: phrase?.localizedUtterance?.let {
             LocaleUtils.getTextForLocale(it)
         } ?: ""
     }
