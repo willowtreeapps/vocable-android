@@ -87,6 +87,11 @@ class MigrationTest {
         val phraseTwoId = UUID.randomUUID().toString()
         val creationDateTwo = System.currentTimeMillis()
 
+        val mySayingLegacyPhrase = "Legacy Phrase"
+        val legacyMyPhrases = LinkedHashSet<String>()
+        legacyMyPhrases.add(mySayingLegacyPhrase)
+        VocableSharedPreferences().setMySayings(legacyMyPhrases)
+
         helper.createDatabase(TEST_DB, 3).apply {
             // Create mock My Sayings category
             execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
@@ -124,6 +129,57 @@ class MigrationTest {
                 }
                 Assert.assertTrue(myLocalizedSayings.contains(mySayingTestPhraseOneV3))
                 Assert.assertTrue(myLocalizedSayings.contains(mySayingTestPhraseTwoV3))
+                Assert.assertTrue(myLocalizedSayings.contains(mySayingLegacyPhrase))
+                close()
+            }
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate3to4_with_legacySayings() {
+        val categoryNameMap = HashMap<String, String>()
+        categoryNameMap["en_US"] = "My Sayings"
+
+        val mySayingsCategoryNameV3 = Converters.stringMapToJson(categoryNameMap)
+
+        val mySayingLegacyPhrase = "Legacy Phrase"
+        val legacyMyPhrases = LinkedHashSet<String>()
+        legacyMyPhrases.add(mySayingLegacyPhrase)
+        VocableSharedPreferences().setMySayings(legacyMyPhrases)
+
+        helper.createDatabase(TEST_DB, 3).apply {
+            // Create mock My Sayings category
+            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
+
+            close()
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 4, true, VocableDatabaseMigrations.MIGRATION_3_4)
+            .apply {
+                // Verify that new schema is as expected
+                val categoryId = PresetCategories.USER_FAVORITES.id
+                val crossRefCursor =
+                    query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
+                val myLocalizedSayings = arrayListOf<String>()
+                val phraseIds =  mutableListOf<String>()
+                while (crossRefCursor.moveToNext()) {
+                    val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
+                    phraseIds.add(phraseId)
+                }
+                crossRefCursor.close()
+
+                phraseIds.forEach {
+                    val phraseCursor = query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
+                    while (phraseCursor.moveToNext()) {
+                        val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                        myLocalizedSayings.add(saying)
+                    }
+                    phraseCursor.close()
+                }
+                val hashMap = HashMap<String, String>()
+                hashMap["en_US"] = mySayingLegacyPhrase
+                val localizedLegacyPhrase = Converters.stringMapToJson(hashMap)
+                Assert.assertTrue(myLocalizedSayings.contains(localizedLegacyPhrase))
                 close()
             }
     }
