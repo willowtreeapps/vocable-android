@@ -87,11 +87,6 @@ class MigrationTest {
         val phraseTwoId = UUID.randomUUID().toString()
         val creationDateTwo = System.currentTimeMillis()
 
-        val mySayingLegacyPhrase = "Legacy Phrase"
-        val legacyMyPhrases = LinkedHashSet<String>()
-        legacyMyPhrases.add(mySayingLegacyPhrase)
-        VocableSharedPreferences().setMySayings(legacyMyPhrases)
-
         helper.createDatabase(TEST_DB, 3).apply {
             // Create mock My Sayings category
             execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
@@ -129,7 +124,6 @@ class MigrationTest {
                 }
                 Assert.assertTrue(myLocalizedSayings.contains(mySayingTestPhraseOneV3))
                 Assert.assertTrue(myLocalizedSayings.contains(mySayingTestPhraseTwoV3))
-                Assert.assertTrue(myLocalizedSayings.contains(mySayingLegacyPhrase))
                 close()
             }
     }
