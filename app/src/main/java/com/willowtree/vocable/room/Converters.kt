@@ -1,6 +1,5 @@
 package com.willowtree.vocable.room
 
-import android.util.Log
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
