@@ -42,7 +42,6 @@ open class BaseTest {
         IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         idleRegistry.register(idlingResource)
         activityRule.launchActivity(Intent())
-
         firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().isEmpty()
         if (firstLaunch) {
             takeScreenshot("InitialSetup")
@@ -63,7 +62,8 @@ open class BaseTest {
         val file = File(getInstrumentation().targetContext.filesDir.path, "$fileName.png")
         UiDevice.getInstance(getInstrumentation()).takeScreenshot(file)
         getInstrumentation().uiAutomation.executeShellCommand(
-            "run-as com.willowtree.vocable cp $file /sdcard/Pictures/$fileName.png")
+            "run-as com.willowtree.vocable cp $file /sdcard/Pictures/$fileName.png"
+        )
     }
 
     // This function dismisses the full screen immersive prompt which shows on first launch
@@ -71,4 +71,5 @@ open class BaseTest {
         val device = UiDevice.getInstance(getInstrumentation())
         device.wait(Until.findObject(By.text("GOT IT")), 15000).click()
     }
+    
 }
