@@ -23,6 +23,7 @@ class MainScreen {
         }
     }
 
+    // Scrolls to the left numTimesToScroll times and then taps the current category
     fun scrollLeftAndTapCurrentCategory(numTimesToScroll: Int) {
        for (i in 1..numTimesToScroll){
             onView(withId(R.id.category_back_button)).tap()
@@ -31,6 +32,7 @@ class MainScreen {
        onView(withText(defaultCategories[currentCategory])).tap()
     }
 
+    // Scrolls to the right numTimesToScroll times and then taps the current category
     fun scrollRightAndTapCurrentCategory(numTimesToScroll: Int) {
         for (i in 1..numTimesToScroll){
             onView(withId(R.id.category_forward_button)).tap()
@@ -39,12 +41,14 @@ class MainScreen {
         onView(withText(defaultCategories[currentCategory])).tap()
     }
 
+    // Verifies that the give phrase is shown on screen
     fun verifyGivenPhrasesDisplay(setOfPhrases: Array<String>) {
         for (phrase in setOfPhrases) {
             onView(withText(phrase)).check(matches(isDisplayed()))
         }
     }
 
+    // Taps on the selected phrase
     fun tapPhrase(phraseText: String) {
         onView(withText(phraseText)).tap()
     }
