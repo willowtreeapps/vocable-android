@@ -57,6 +57,7 @@
     <string name="category_123">123</string>
     <string name="category_123_yes">Ja</string>
     <string name="category_123_no">Nein</string>
+    <!-- Keypad Numbers -->
     <!-- Edit Categories -->
     <string name="edit_categories_title">Kategorien</string>
     <!-- Edit Category Options -->
