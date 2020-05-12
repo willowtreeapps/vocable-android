@@ -42,16 +42,16 @@
     </string-array>
 
     <string-array name="category_123">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
+        <item>@string/category_123_0</item>
+        <item>@string/category_123_1</item>
+        <item>@string/category_123_2</item>
+        <item>@string/category_123_3</item>
+        <item>@string/category_123_4</item>
+        <item>@string/category_123_5</item>
+        <item>@string/category_123_6</item>
+        <item>@string/category_123_7</item>
+        <item>@string/category_123_8</item>
+        <item>@string/category_123_9</item>
         <item>@string/category_123_yes</item>
         <item>@string/category_123_no</item>
     </string-array>

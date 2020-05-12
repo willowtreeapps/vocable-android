@@ -72,6 +72,18 @@
     <string name="category_123_yes">Yes</string>
     <string name="category_123_no">No</string>
 
+    <!-- Keypad Numbers -->
+    <string name="category_123_0" translatable="false">0</string>
+    <string name="category_123_1" translatable="false">1</string>
+    <string name="category_123_2" translatable="false">2</string>
+    <string name="category_123_3" translatable="false">3</string>
+    <string name="category_123_4" translatable="false">4</string>
+    <string name="category_123_5" translatable="false">5</string>
+    <string name="category_123_6" translatable="false">6</string>
+    <string name="category_123_7" translatable="false">7</string>
+    <string name="category_123_8" translatable="false">8</string>
+    <string name="category_123_9" translatable="false">9</string>
+
     <!-- Edit Categories -->
     <string name="edit_categories_title">Categories</string>
     <string name="edit_categories_button_number" translatable="false">%1d. %2s</string>
