@@ -130,7 +130,7 @@ class MigrationTest {
 
     @Test
     @Throws(IOException::class)
-    fun migrate3to4_with_legacySayings() {
+    fun migrateSharedPreferenceSayingsDuring3to4() {
         val categoryNameMap = HashMap<String, String>()
         categoryNameMap["en_US"] = "My Sayings"
 
