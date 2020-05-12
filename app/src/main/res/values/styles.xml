@@ -58,13 +58,13 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
-    <style name="PauseButton">
+    <style name="PauseButton" parent="ScalableText">
         <item name="android:layout_marginStart">@dimen/pause_button_margin</item>
         <item name="android:layout_marginTop">@dimen/pause_button_margin</item>
         <item name="android:drawableStart">@drawable/ic_pause</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:textSize">@dimen/pause_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/pause_button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@android:color/transparent</item>
 
@@ -129,8 +129,8 @@
         <item name="autoSizeMaxTextSize">@dimen/action_button_text_size</item>
     </style>
 
-    <style name="VersionTextView">
-        <item name="android:textSize">@dimen/version_text_size</item>
+    <style name="VersionTextView" parent="ScalableText">
+        <item name="autoSizeMaxTextSize">@dimen/version_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -142,14 +142,14 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="ConfirmationDialogText">
-        <item name="android:textSize">@dimen/dialog_title_text_size</item>
+    <style name="ConfirmationDialogText" parent="ScalableText">
+        <item name="autoSizeMaxTextSize">@dimen/dialog_title_text_size</item>
         <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
         <item name="android:layout_marginEnd">@dimen/dialog_text_margin</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="ConfirmationDialogButton">
+    <style name="ConfirmationDialogButton" parent="ScalableText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/dialog_text_margin</item>
@@ -181,9 +181,9 @@
         <item name="android:layout_marginEnd">@dimen/edit_sayings_buttons_margin</item>
     </style>
 
-    <style name="EditSayingsBackButton">
+    <style name="EditSayingsBackButton" parent="ScalableText">
         <item name="android:layout_marginStart">@dimen/edit_sayings_back_button_margin</item>
-        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/edit_sayings_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:background">@drawable/vocable_dialog_button_background</item>
         <item name="android:textStyle">bold</item>
@@ -224,7 +224,7 @@
         <item name="android:scaleType">center</item>
     </style>
 
-    <style name="SettingsLinkOutButton">
+    <style name="SettingsLinkOutButton" parent="ScalableText">
         <item name="android:layout_height">@dimen/settings_link_button_height</item>
         <item name="android:layout_marginEnd">@dimen/settings_link_button_end_margin</item>
         <item name="android:layout_marginBottom">@dimen/settings_link_button_bottom_margin</item>
@@ -233,21 +233,21 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_link_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_link_button_padding</item>
-        <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/settings_button_text_size</item>
         <item name="android:textColor">@color/vocable_button_text_color</item>
     </style>
 
-    <style name="EditKeyboardBottomBarButtons">
+    <style name="EditKeyboardBottomBarButtons" parent="ScalableText">
         <item name="android:layout_height">@dimen/keyboard_bottom_bar_height</item>
         <item name="android:layout_marginEnd">@dimen/keyboard_bottom_bar_key_margin</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
         <item name="android:scaleType">center</item>
-        <item name="android:textSize">@dimen/keyboard_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/keyboard_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SettingsOptionButtons">
+    <style name="SettingsOptionButtons" parent="ScalableText">
         <item name="android:layout_rowWeight">1</item>
         <item name="android:layout_columnWeight">1</item>
         <item name="android:layout_marginEnd">@dimen/settings_option_button_margin</item>
@@ -257,16 +257,16 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
-        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="autoSizeMaxTextSize">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
-    <style name="SelectionModeButton">
+    <style name="SelectionModeButton" parent="ScalableText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/settings_margin_default</item>
         <item name="android:textColor">@color/vocable_button_text_color</item>
-        <item name="android:textSize">@dimen/settings_label_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/settings_label_text_size</item>
     </style>
 
     <style name="SelectionModeButtonSwitch">
@@ -280,17 +280,17 @@
         <item name="android:scaleY">1.5</item>
     </style>
 
-    <style name="TimingSensitivityTitle">
-        <item name="android:textSize">@dimen/timing_title_text_size</item>
+    <style name="TimingSensitivityTitle" parent="ScalableText">
+        <item name="autoSizeMaxTextSize">@dimen/timing_title_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="CursorSensitivityButton">
+    <style name="CursorSensitivityButton" parent="ScalableText">
         <item name="android:background">@drawable/sensitivity_button_background</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/category_button_text_colors</item>
-        <item name="android:textSize">@dimen/hover_time_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/hover_time_text_size</item>
     </style>
 
     <style name="HoverTimeEditButtons">
