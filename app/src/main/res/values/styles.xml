@@ -257,8 +257,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
-        <item name="autoSizeMaxTextSize">@color/vocable_button_text_color</item>
-        <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="autoSizeMaxTextSize">@dimen/settings_button_text_size</item>
     </style>
 
     <style name="SelectionModeButton" parent="ScalableText">
