@@ -18,7 +18,7 @@ enum class PresetCategories(val id: String, val initialSortOrder: Int) {
             CONVERSATION -> R.array.category_conversation
             ENVIRONMENT -> R.array.category_environment
             PERSONAL_CARE -> R.array.category_personal_care
-            USER_KEYPAD -> -1 // Not localized with same convention
+            USER_KEYPAD -> R.array.category_123
             USER_FAVORITES -> -1 // Not localized with same convention
         }
     }

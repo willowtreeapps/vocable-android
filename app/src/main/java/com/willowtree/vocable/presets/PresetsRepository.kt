@@ -18,8 +18,6 @@ import java.util.*
 class PresetsRepository(context: Context) : KoinComponent {
 
     private val database = VocableDatabase.getVocableDatabase(context)
-    private val sharedPrefs: VocableSharedPreferences by inject()
-    private val moshi: Moshi by inject()
 
     suspend fun getAllCategories(): List<Category> {
         return database.categoryDao().getAllCategories()
@@ -122,23 +120,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                 crossRefObjects.add(CategoryPhraseCrossRef(it.id, phraseId))
             }
             phraseStringIds.recycle()
-        }
-
-        // Populate the numbers category from arrays.xml
-        get<Context>().resources.getStringArray(R.array.category_123).forEach {
-            val phraseId = UUID.randomUUID().toString()
-            phraseObjects.add(
-                Phrase(
-                    phraseId,
-                    System.currentTimeMillis(),
-                    false,
-                    System.currentTimeMillis(),
-                    null,
-                    mapOf(Pair(Locale.US.language, it)),
-                    phraseObjects.size
-                )
-            )
-            crossRefObjects.add(CategoryPhraseCrossRef(PresetCategories.USER_KEYPAD.id, phraseId))
         }
 
         populateCategories(categoryObjects)
