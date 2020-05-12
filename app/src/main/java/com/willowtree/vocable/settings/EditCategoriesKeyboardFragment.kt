@@ -13,6 +13,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.Category
 import androidx.lifecycle.Observer
+import com.willowtree.vocable.presets.PresetCategories
 import java.util.*
 
 class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
@@ -50,7 +51,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
         binding.backButton.action = {
             val categoryTextChanged =
-                binding.keyboardInput.text.toString() != category?.getLocalizedText()
+                binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromCategory(category)
             if (!categoryTextChanged || isDefaultTextVisible()) {
                 parentFragmentManager.popBackStack()
             } else {
@@ -80,11 +81,8 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
             }
         }
 
-        val inputText = if (category?.getLocalizedText().isNullOrEmpty()) {
-            getString(R.string.keyboard_select_letters)
-        } else {
-            category?.getLocalizedText()
-        }
+        val categoryText = localizedResourceUtility.getTextFromCategory(category)
+        val inputText = categoryText.ifEmpty { getString(R.string.keyboard_select_letters) }
 
         binding.keyboardInput.setText(inputText)
 
@@ -96,10 +94,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
         viewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(EditCategoriesViewModel::class.java)
 
         subscribeToViewModel()

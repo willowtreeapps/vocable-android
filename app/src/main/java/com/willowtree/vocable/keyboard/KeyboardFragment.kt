@@ -147,10 +147,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         viewModel = ViewModelProviders.of(
             this,
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(KeyboardViewModel::class.java)
         subscribeToViewModel()
     }

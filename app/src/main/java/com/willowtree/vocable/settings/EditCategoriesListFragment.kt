@@ -13,7 +13,10 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 
 class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBinding>() {
 
@@ -42,6 +45,8 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
     private var endPosition = 0
 
     private val editButtonList = mutableListOf<CategoryEditButtonBinding>()
+
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,10 +96,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         editCategoriesViewModel =
             ViewModelProviders.of(
                 requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
+                BaseViewModelFactory()
             ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
     }
@@ -134,13 +136,14 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
+            val categoryNameText = localizedResourceUtility.getTextFromCategory(category)
             if (category.hidden) {
-                categoryName.text = category.getLocalizedText()
+                categoryName.text = categoryNameText
             } else {
                 categoryName.text = getString(
                     R.string.edit_categories_button_number,
                     overallIndex + 1,
-                    category.getLocalizedText()
+                    categoryNameText
                 )
             }
 
@@ -157,7 +160,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category.categoryId == getString(R.string.category_my_sayings_id)) {
+            if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
                 editCategorySelectButton.isEnabled = false
             }
 

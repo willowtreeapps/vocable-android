@@ -14,6 +14,8 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 
 class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBinding>() {
 
@@ -31,7 +33,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> = FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
-
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,7 +44,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             binding.editOptionsButton?.isInvisible = false
         }
 
-        binding.categoryTitle.text = category?.getLocalizedText()
+        binding.categoryTitle.text = category?.let { localizedResourceUtility.getTextFromCategory(it) }
 
         category?.let {
             binding.editOptionsButton?.action = {
@@ -99,10 +101,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(EditCategoriesViewModel::class.java)
     }
 

@@ -21,6 +21,9 @@ import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocaleUtils
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 import java.util.*
 
 abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>() {
@@ -31,6 +34,7 @@ abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>(
 
     override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> = FragmentEditKeyboardBinding::inflate
     private lateinit var keys: Array<String>
+    internal val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,

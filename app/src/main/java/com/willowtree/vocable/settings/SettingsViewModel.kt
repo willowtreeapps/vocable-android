@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class SettingsViewModel(numbersCategoryId: String, mySayingsCategoryId: String) :
-    BaseViewModel(numbersCategoryId, mySayingsCategoryId), KoinComponent {
+class SettingsViewModel : BaseViewModel(), KoinComponent {
 
     private val sharedPrefs: VocableSharedPreferences by inject()
     private val presetsRepository: PresetsRepository by inject()
