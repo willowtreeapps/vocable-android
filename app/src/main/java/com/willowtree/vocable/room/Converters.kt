@@ -22,10 +22,12 @@ object Converters : KoinComponent {
 
     @TypeConverter
     @JvmStatic
-    fun jsonToStringMap(json: String): Map<String, String>? {
-        val type =
-            Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)
-        val adapter: JsonAdapter<Map<String, String>> = moshi.adapter(type)
-        return adapter.fromJson(json)
+    fun jsonToStringMap(json: String?): Map<String, String>? {
+        return json?.let {
+            val type =
+                Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)
+            val adapter: JsonAdapter<Map<String, String>> = moshi.adapter(type)
+            adapter.fromJson(it)
+        }
     }
 }

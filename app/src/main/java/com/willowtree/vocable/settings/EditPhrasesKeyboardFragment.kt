@@ -49,7 +49,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.action = {
-            val textChanged = binding.keyboardInput.text.toString() != phrase?.getLocalizedText()
+            val textChanged = binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromPhrase(phrase)
             if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
                 parentFragmentManager.popBackStack()
             } else {
@@ -81,11 +81,8 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
             }
         }
 
-        val inputText = if (phrase?.getLocalizedText().isNullOrEmpty()) {
-            getString(R.string.keyboard_select_letters)
-        } else {
-            phrase?.getLocalizedText()
-        }
+        val phraseText = localizedResourceUtility.getTextFromPhrase(phrase)
+        val inputText = phraseText.ifEmpty { getString(R.string.keyboard_select_letters) }
 
         binding.keyboardInput.setText(inputText)
 
@@ -100,10 +97,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
         viewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(EditPhrasesViewModel::class.java)
 
         subscribeToViewModel()

@@ -14,6 +14,7 @@ class VocableSharedPreferences : KoinComponent {
         private const val PREFERENCES_NAME =
             "com.willowtree.vocable.utils.vocable-encrypted-preferences"
         private const val KEY_MY_SAYINGS = "KEY_MY_SAYINGS"
+        private const val KEY_MY_LOCALIZED_SAYINGS = "KEY_MY_LOCALIZED_SAYINGS"
         const val KEY_HEAD_TRACKING_ENABLED = "KEY_HEAD_TRACKING_ENABLED"
         const val KEY_SENSITIVITY = "KEY_SENSITIVITY"
         const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY

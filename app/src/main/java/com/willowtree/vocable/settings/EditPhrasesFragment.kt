@@ -18,6 +18,8 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 
 class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
@@ -38,6 +40,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
     private var numColumns = 1
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +56,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
             val phraseView =
                 PhraseEditLayoutBinding.inflate(inflater, binding.editPhrasesContainer, false)
             with(phraseView) {
-                phraseEditText.text = phrase.getLocalizedText()
+                phraseEditText.text = localizedResourceUtility.getTextFromPhrase(phrase)
                 phraseEditText.tag = phrase
             }
             with(phraseView.root) {
@@ -144,10 +147,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
         editPhrasesViewModel =
             ViewModelProviders.of(
                 requireActivity(),
-                BaseViewModelFactory(
-                    getString(R.string.category_123_id),
-                    getString(R.string.category_my_sayings_id)
-                )
+                BaseViewModelFactory()
             ).get(EditPhrasesViewModel::class.java)
     }
 

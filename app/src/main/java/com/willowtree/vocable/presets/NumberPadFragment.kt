@@ -14,6 +14,9 @@ import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentNumberPadBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocaleUtils
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -30,7 +33,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentNumberPadBinding> = FragmentNumberPadBinding::inflate
     private var numColumns = 1
-
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,8 +47,8 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                val pair = phrase.getLocalizedPair()
-                setText(pair.first, Locale.getDefault())
+                val text = localizedResourceUtility.getTextFromPhrase(phrase)
+                setText(text, Locale.getDefault())
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
                     layoutParams = (layoutParams as GridLayout.LayoutParams).apply {

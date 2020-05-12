@@ -19,6 +19,8 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
 
 class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
@@ -39,6 +41,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
     private lateinit var viewModel: PresetsViewModel
     private val allViews = mutableListOf<View>()
     private var maxCategories = 1
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +58,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
                 CategoryButtonBinding.inflate(inflater, binding.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
                 tag = category
-                text = category.getLocalizedText()
+                text = localizedResourceUtility.getTextFromCategory(category)
                 action = {
                     viewModel.onCategorySelected(category)
                 }
@@ -84,10 +87,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory(
-                getString(R.string.category_123_id),
-                getString(R.string.category_my_sayings_id)
-            )
+            BaseViewModelFactory()
         ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }

@@ -7,10 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.KoinComponent
 
-open class BaseViewModel(
-    protected val numbersCategoryId: String,
-    protected val mySayingsCategoryId: String
-) : ViewModel(), KoinComponent {
+open class BaseViewModel : ViewModel(), KoinComponent {
 
     private val viewModelJob = SupervisorJob()
     protected val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)

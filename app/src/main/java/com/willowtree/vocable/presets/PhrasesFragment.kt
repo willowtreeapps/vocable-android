@@ -15,6 +15,11 @@ import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocaleUtils
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import org.koin.android.ext.android.inject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
 
@@ -30,10 +35,12 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         }
     }
 
-    override val bindingInflater: BindingInflater<FragmentPhrasesBinding> = FragmentPhrasesBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentPhrasesBinding> =
+        FragmentPhrasesBinding::inflate
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
     private var numColumns = 1
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +56,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
             val phraseButton =
                 PhraseButtonBinding.inflate(inflater, binding.phrasesContainer, false)
             with(phraseButton.root as VocableButton) {
-                val (phraseStr, locale) = phrase.getLocalizedPair()
+                val (phraseStr, locale) = localizedResourceUtility.getValueLocalePairFromPhrase(phrase)
                 setText(phraseStr, locale)
                 // Remove end margin on last column
                 if (index % numColumns == numColumns - 1) {
