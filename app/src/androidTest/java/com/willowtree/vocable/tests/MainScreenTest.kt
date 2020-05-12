@@ -26,4 +26,27 @@ class MainScreenTest : BaseTest() {
             mainScreen.verifyDefaultCategoriesExist()
         }
     }
+
+    @Test
+    fun testWhenTappingPhrase_ThenThatPhraseDisplaysOnOutputLabel() {
+        mainScreen.apply {
+            mainScreen.tapPhrase(defaultPhraseGeneral[0])
+            currentText.assertTextMatches(defaultPhraseGeneral[0])
+        }
+    }
+
+    /*    func testSelectingCategoryChangesPhrases() {
+        mainScreen.scrollRightAndTapCurrentCategory(numTimesToScroll: 1)
+        verifyGivenPhrasesDisplay(setOfPhrases: mainScreen.defaultPhraseBasicNeeds)
+    }*/
+
+    @Test
+    fun testSelectingCategoryChangesPhrases() {
+        mainScreen.apply {
+            mainScreen.scrollRightAndTapCurrentCategory(1)
+            verifyGivenPhrasesDisplay(mainScreen.defaultPhraseBasicNeeds)
+        }
+    }
+
+
 }
