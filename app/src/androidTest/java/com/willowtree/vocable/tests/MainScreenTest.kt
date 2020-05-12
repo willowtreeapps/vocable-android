@@ -15,8 +15,16 @@ class MainScreenTest : BaseTest() {
     @Test
     fun verifyClickingPhraseUpdatesCurrentText() {
         mainScreen.apply {
-            firstPhrase.tap()
-            currentText.assertTextMatches("Please")
+            mainScreen.tapPhrase(defaultPhraseGeneral[0])
+            currentText.assertTextMatches(defaultPhraseGeneral[0])
+        }
+    }
+
+    @Test
+    fun verifyDefaultTextAppears() {
+        mainScreen.apply {
+            val defaultText = "Select something below to speak."
+            currentText.assertTextMatches(defaultText)
         }
     }
 
@@ -26,19 +34,6 @@ class MainScreenTest : BaseTest() {
             mainScreen.verifyDefaultCategoriesExist()
         }
     }
-
-    @Test
-    fun testWhenTappingPhrase_ThenThatPhraseDisplaysOnOutputLabel() {
-        mainScreen.apply {
-            mainScreen.tapPhrase(defaultPhraseGeneral[0])
-            currentText.assertTextMatches(defaultPhraseGeneral[0])
-        }
-    }
-
-    /*    func testSelectingCategoryChangesPhrases() {
-        mainScreen.scrollRightAndTapCurrentCategory(numTimesToScroll: 1)
-        verifyGivenPhrasesDisplay(setOfPhrases: mainScreen.defaultPhraseBasicNeeds)
-    }*/
 
     @Test
     fun testSelectingCategoryChangesPhrases() {
