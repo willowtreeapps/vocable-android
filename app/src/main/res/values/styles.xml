@@ -27,10 +27,19 @@
     <style name="VocableButton" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textAllCaps">false</item>
+        <item name="autoSizeMinTextSize">@dimen/auto_size_min_text_size</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeStepGranularity">2sp</item>
+    </style>
+
+    <style name="ScalableText">
+        <item name="autoSizeMinTextSize">@dimen/auto_size_min_text_size</item>
+        <item name="autoSizeStepGranularity">@dimen/auto_size_step_granularity</item>
+        <item name="autoSizeTextType">uniform</item>
     </style>
 
     <style name="SpeechButton" parent="VocableButton">
-        <item name="android:textSize">@dimen/speech_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/speech_button_text_size</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/button_default_background</item>
@@ -39,7 +48,7 @@
 
     <style name="CategoryTheme" parent="VocableButton">
         <item name="android:background">@drawable/radio_button_background</item>
-        <item name="android:textSize">@dimen/category_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/category_button_text_size</item>
         <item name="android:textColor">@color/category_button_text_colors</item>
         <item name="android:gravity">center</item>
         <item name="android:button">@android:color/transparent</item>
@@ -69,11 +78,10 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="SpokenTextView">
+    <style name="SpokenTextView" parent="ScalableText">
         <item name="android:layout_height">@dimen/spoken_text_view_height</item>
         <item name="android:layout_marginStart">@dimen/main_activity_side_margin</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/spoken_text_view_text_size</item>
         <item name="autoSizeMaxTextSize">@dimen/spoken_text_view_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
@@ -96,29 +104,29 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="CloseButton">
+    <style name="CloseButton" parent="ScalableText">
         <item name="android:layout_marginTop">@dimen/close_button_margin</item>
         <item name="android:layout_marginEnd">@dimen/close_button_margin</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/close_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/close_button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:background">@drawable/button_default_background</item>
     </style>
 
-    <style name="SettingsTitle">
-        <item name="android:textSize">@dimen/settings_title_text_size</item>
+    <style name="SettingsTitle" parent="ScalableText">
+        <item name="autoSizeMaxTextSize">@dimen/settings_title_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="ActionButton">
+    <style name="ActionButton" parent="ScalableText">
         <item name="android:layout_height">@dimen/action_button_height</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@drawable/button_default_background</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/vocable_button_text_color</item>
-        <item name="android:textSize">@dimen/action_button_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/action_button_text_size</item>
     </style>
 
     <style name="VersionTextView">
@@ -159,12 +167,12 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="EditSayingsTextView">
+    <style name="EditSayingsTextView" parent="ScalableText">
         <item name="android:layout_marginStart">@dimen/edit_sayings_text_margin_start</item>
         <item name="android:layout_marginTop">@dimen/edit_sayings_text_horizontal_margin</item>
         <item name="android:layout_marginBottom">@dimen/edit_sayings_text_horizontal_margin</item>
         <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/edit_sayings_text_size</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
 
@@ -183,18 +191,18 @@
         <item name="android:scaleType">center</item>
     </style>
 
-    <style name="EditSayingsTitle">
+    <style name="EditSayingsTitle" parent="ScalableText">
         <item name="android:layout_marginTop">@dimen/edit_sayings_title_margin</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/edit_sayings_title_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/edit_sayings_title_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="EditCategoriesTitle">
+    <style name="EditCategoriesTitle" parent="ScalableText">
         <item name="android:layout_marginTop">@dimen/edit_categories_title_margin</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/edit_categories_title_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/edit_categories_title_text_size</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -293,13 +301,13 @@
         <item name="android:background">@drawable/button_default_background</item>
     </style>
 
-    <style name="EmptyMySayingsTextView">
+    <style name="EmptyMySayingsTextView" parent="ScalableText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/empty_my_sayings_text_margin_top</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:textSize">@dimen/empty_my_sayings_text_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/empty_my_sayings_text_size</item>
     </style>
 
 </resources>
