@@ -15,7 +15,7 @@ class MainScreenTest : BaseTest() {
     @Test
     fun verifyClickingPhraseUpdatesCurrentText() {
         mainScreen.apply {
-            mainScreen.tapPhrase(defaultPhraseGeneral[0])
+            tapPhrase(defaultPhraseGeneral[0])
             currentText.assertTextMatches(defaultPhraseGeneral[0])
         }
     }
@@ -31,7 +31,7 @@ class MainScreenTest : BaseTest() {
     @Test
     fun verifyDefaultCategoriesExist() {
         mainScreen.apply {
-            mainScreen.verifyDefaultCategoriesExist()
+            verifyDefaultCategoriesExist()
         }
     }
 
