@@ -10,6 +10,7 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.willowtree.vocable.R
+import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.After
@@ -42,15 +43,20 @@ open class BaseTest {
         IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         idleRegistry.register(idlingResource)
         activityRule.launchActivity(Intent())
+
+        // Since the build machine gets wiped after every run we can check the file storage
+        // of the emulator to determine if this is a first time launch
+        // and dismiss the full screen immersive popup on android if it is
         firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().isEmpty()
         if (firstLaunch) {
             takeScreenshot("InitialSetup")
             dismissFullscreenPrompt()
         }
-    }
 
-    @After
-    open fun teardown() {
+        // Once we confirm we are on the MainScreen we need to unregister the Splash Screen
+        // idling resource so that we don't transition back to a not idle state when we
+        // navigate off of the main screen which would cause a timeout exception
+        MainScreen().checkOnMainScreen()
         idleRegistry.unregister(idlingResource)
     }
 
