@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Auto size Text -->
+    <dimen name="auto_size_min_text_size">12sp</dimen>
+    <dimen name="auto_size_step_granularity">2sp</dimen>
+
     <!-- Pointer View -->
     <dimen name="pointer_view_width_height">32dp</dimen>
 
@@ -10,9 +14,11 @@
     <dimen name="category_button_margin">0dp</dimen>
     <dimen name="category_button_side_margin">8dp</dimen>
     <dimen name="category_button_text_size">20sp</dimen>
+    <dimen name="category_button_min_text_size">12sp</dimen>
 
     <!-- Speech Button -->
     <dimen name="speech_button_text_size">24sp</dimen>
+    <dimen name="speech_button_min_text_size">12sp</dimen>
     <dimen name="speech_button_margin">10dp</dimen>
     <dimen name="speech_button_padding">8dp</dimen>
 
@@ -75,7 +81,7 @@
 
     <!-- Keyboard -->
     <dimen name="keyboard_text_size">48sp</dimen>
-    <dimen name="keyboard_text_min_size">32sp</dimen>
+    <dimen name="keyboard_text_min_size">22sp</dimen>
     <dimen name="keyboard_text_size_granularity">2sp</dimen>
     <dimen name="keyboard_side_margin">24dp</dimen>
     <dimen name="keyboard_predictive_height">120dp</dimen>
