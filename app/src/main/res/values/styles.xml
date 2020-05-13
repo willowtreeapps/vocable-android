@@ -286,8 +286,8 @@
         <item name="android:scaleY">1.5</item>
     </style>
 
-    <style name="TimingSensitivityTitle">
-        <item name="android:textSize">@dimen/timing_title_text_size</item>
+    <style name="TimingSensitivityTitle" parent="ScalableText">
+        <item name="autoSizeMaxTextSize">@dimen/timing_title_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
