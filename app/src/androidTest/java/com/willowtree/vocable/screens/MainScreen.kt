@@ -53,6 +53,11 @@ class MainScreen {
         onView(withText(phraseText)).tap()
     }
 
+    // This function verifies that we are on the Main Screen
+    fun checkOnMainScreen(){
+        currentText.check(matches(isDisplayed()))
+    }
+
     // Edit Text box and action buttons
     val currentText = onView(withId(R.id.current_text))
     val keyboardNavitgationButton = onView(withId(R.id.keyboard_button))
