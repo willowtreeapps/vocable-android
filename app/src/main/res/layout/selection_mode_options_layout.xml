@@ -22,8 +22,11 @@
         <TextView
             style="@style/SelectionModeButton"
             android:text="@string/settings_head_tracking"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/head_tracking_switch"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/head_tracking_switch" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/head_tracking_switch"
