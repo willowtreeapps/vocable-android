@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/settings_title"
-        style="@style/SettingsTitle"
+        style="@style/ScalableSettingsTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingStart="@dimen/settings_title_padding_start"

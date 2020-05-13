@@ -114,6 +114,12 @@
         <item name="android:background">@drawable/button_default_background</item>
     </style>
 
+    <style name="ScalableSettingsTitle" parent="ScalableText">
+        <item name="autoSizeMaxTextSize">@dimen/settings_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
     <style name="SettingsTitle">
         <item name="android:textSize">@dimen/settings_title_text_size</item>
         <item name="android:textStyle">bold</item>
