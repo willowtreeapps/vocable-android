@@ -22,17 +22,16 @@
 
     <TextView
         android:id="@+id/settings_title"
-        style="@style/SettingsTitle"
+        style="@style/ScalableSettingsTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center"
         android:paddingStart="@dimen/settings_title_padding_start"
         android:paddingEnd="@dimen/settings_title_padding_end"
         android:text="@string/selection_mode_title"
-        android:textSize="@dimen/selection_mode_settings_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/selection_mode_back_button"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintStart_toEndOf="@id/selection_mode_back_button"
+        app:layout_constraintStart_toEndOf="@+id/selection_mode_back_button"
         app:layout_constraintTop_toTopOf="@+id/selection_mode_back_button" />
 
     <include
