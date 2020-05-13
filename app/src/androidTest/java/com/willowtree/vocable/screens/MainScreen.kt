@@ -12,8 +12,8 @@ import org.hamcrest.CoreMatchers.instanceOf
 class MainScreen {
 
     val defaultCategories = arrayOf("General", "Basic Needs", "Personal Care", "Conversation", "Environment", "123", "My Sayings")
-    val defaultPhraseGeneral = arrayOf("Please be patient", "I don't know", "Maybe", "Yes", "I didn't mean to say that", "Please wait", "No", "Thank you")
-    val defaultPhraseBasicNeeds = arrayOf("I want to sit up", "I am finished", "I am uncomfortable", "I am fine", "I want to lie down", "I am in pain", "I am good", "I am tired")
+    val defaultPhraseGeneral = arrayOf("Please", "Yes", "Maybe", "I don't know", "Thank you", "No", "Please wait", "I didn't mean to say that")
+    val defaultPhraseBasicNeeds = arrayOf("I need to go to the restroom", "I am hungry", "I am hot", "I am fine", "I am thirsty", "I am cold", "I am tired", "I am good")
 
     fun verifyDefaultCategoriesExist() {
         for (category in defaultCategories) {
@@ -21,6 +21,36 @@ class MainScreen {
                 .check(matches(isDisplayed()))
             categoryForwardButton.tap()
         }
+    }
+
+    // Scrolls to the left numTimesToScroll times and then taps the current category
+    fun scrollLeftAndTapCurrentCategory(numTimesToScroll: Int) {
+       for (i in 1..numTimesToScroll){
+            onView(withId(R.id.category_back_button)).tap()
+       }
+       val currentCategory = defaultCategories.size - (numTimesToScroll % defaultCategories.size)
+       onView(withText(defaultCategories[currentCategory])).tap()
+    }
+
+    // Scrolls to the right numTimesToScroll times and then taps the current category
+    fun scrollRightAndTapCurrentCategory(numTimesToScroll: Int) {
+        for (i in 1..numTimesToScroll){
+            onView(withId(R.id.category_forward_button)).tap()
+        }
+        val currentCategory = numTimesToScroll % defaultCategories.size
+        onView(withText(defaultCategories[currentCategory])).tap()
+    }
+
+    // Verifies that the give phrase is shown on screen
+    fun verifyGivenPhrasesDisplay(setOfPhrases: Array<String>) {
+        for (phrase in setOfPhrases) {
+            onView(withText(phrase)).check(matches(isDisplayed()))
+        }
+    }
+
+    // Taps on the selected phrase
+    fun tapPhrase(phraseText: String) {
+        onView(withText(phraseText)).tap()
     }
 
     // Edit Text box and action buttons
