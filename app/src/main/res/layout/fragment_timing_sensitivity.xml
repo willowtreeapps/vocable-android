@@ -23,7 +23,7 @@
         android:id="@+id/settings_title"
         style="@style/TimingSensitivityTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center"
         android:paddingStart="@dimen/settings_title_padding_start"
         android:paddingEnd="@dimen/settings_title_padding_end"
