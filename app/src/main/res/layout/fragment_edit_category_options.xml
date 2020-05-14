@@ -24,7 +24,7 @@
         android:id="@+id/category_title"
         style="@style/SettingsTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/edit_category_title_margin_top"
         android:ellipsize="end"
         android:lines="1"
@@ -63,8 +63,11 @@
         <TextView
             style="@style/SelectionModeButton"
             android:text="@string/edit_category_show_category_text"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/category_show_switch" />
+            app:layout_constraintEnd_toStartOf="@id/category_show_switch"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/category_show_switch"
