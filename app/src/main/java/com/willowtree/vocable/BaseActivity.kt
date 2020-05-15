@@ -42,9 +42,9 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val shouldForceDisableHeadTracking = !BuildConfig.USE_HEAD_TRACKING
-        val isSupportedDevice = checkIsSupportedDeviceOrFinish()
+        val isNotSupportedDevice = !checkIsSupportedDeviceOrFinish()
 
-        if (shouldForceDisableHeadTracking || !isSupportedDevice) {
+        if (shouldForceDisableHeadTracking || isNotSupportedDevice) {
             return
         }
 
