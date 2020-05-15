@@ -23,13 +23,13 @@ android {
     }
     buildTypes {
         release {
+            buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        all {
+        debug {
             def useHeadTracking = project.getProperties().getOrDefault("USE_HEAD_TRACKING", "true")
             buildConfigField("boolean", "USE_HEAD_TRACKING", useHeadTracking)
-
         }
     }
     testOptions {
