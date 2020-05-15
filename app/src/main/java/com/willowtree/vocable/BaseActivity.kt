@@ -40,7 +40,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.USE_HEAD_TRACKING && !checkIsSupportedDeviceOrFinish()) {
+
+        val shouldForceDisableHeadTracking = !BuildConfig.USE_HEAD_TRACKING
+        val isNotSupportedDevice = !checkIsSupportedDeviceOrFinish()
+
+        if (shouldForceDisableHeadTracking || isNotSupportedDevice) {
             return
         }
 
