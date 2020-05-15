@@ -1,6 +1,7 @@
 package com.willowtree.vocable.tests
 
 import android.content.Intent
+import android.util.Log
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
@@ -18,6 +19,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
 import java.io.File
+import java.lang.NullPointerException
 import java.util.concurrent.TimeUnit
 
 
@@ -75,7 +77,14 @@ open class BaseTest {
     // This function dismisses the full screen immersive prompt which shows on first launch
     private fun dismissFullscreenPrompt() {
         val device = UiDevice.getInstance(getInstrumentation())
-        device.wait(Until.findObject(By.text("GOT IT")), 15000).click()
+
+        // Catch the exception if the popup doesn't appear so we don't fail the tests
+        try {
+            device.wait(Until.findObject(By.text("GOT IT")), 10000).click()
+        }
+        catch (e: NullPointerException) {
+            Log.d("Test", "Popup not found, continuing with test")
+        }
     }
     
 }
