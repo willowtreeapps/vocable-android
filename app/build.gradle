@@ -28,11 +28,8 @@ android {
         }
         all {
             def useHeadTracking = project.getProperties().getOrDefault("USE_HEAD_TRACKING", "true")
-            if (useHeadTracking == "true") {
-                buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
-            } else {
-                buildConfigField("boolean", "USE_HEAD_TRACKING", "false")
-            }
+            buildConfigField("boolean", "USE_HEAD_TRACKING", useHeadTracking)
+
         }
     }
     testOptions {
