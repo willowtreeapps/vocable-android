@@ -36,10 +36,10 @@ class SettingsActivity : BaseActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (!BuildConfig.USE_HEAD_TRACKING) {
-            binding.pointerView.isVisible = false
-        } else {
+        if (BuildConfig.USE_HEAD_TRACKING) {
             binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
+        } else {
+            binding.pointerView.isVisible = false
         }
 
         if (supportFragmentManager.findFragmentById(R.id.settings_fragment_container) == null) {
