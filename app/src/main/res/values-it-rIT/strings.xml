@@ -47,8 +47,7 @@
     <string name="timing_sensitivity_title">Tempistiche e sensibilità</string>
     <string name="hover_time_text">Hover Time</string>
     <string name="cursor_sensitivity_text">Sensibilità del cursore</string>
-    <string name="hover_time_amount_text">
-        <xliff:g id="time" example="5">%s</xliff:g> secondi
+    <string name="hover_time_amount_text">        <xliff:g id="time" example="5">%s</xliff:g> secondi
     </string>
     <string name="hover_time_one_text">1 secondo</string>
     <string name="cursor_sensitivity_low">Basso</string>
