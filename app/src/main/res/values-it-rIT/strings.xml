@@ -4,7 +4,7 @@
     <!-- Presets -->
     <string name="select_something">Seleziona qualcosa qui sotto per parlare.</string>
     <string name="phrases_page_number">Pagina %1d di %2d</string>
-    <string name="my_sayings_empty">&lt;b&gt;I tuoi messaggi appariranno\nqui.&lt;/b&gt;\n\nEntra nella tastiera, digita qualcosa\n e poi seleziona \"&lt;unk&gt; \" per salvarla qui.</string>
+    <string name="my_sayings_empty"><b>I tuoi messaggi appariranno\nqui.</b>\n\nEntra nella tastiera, digita qualcosa\n e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_handset_port"><b>I tuoi messaggi appariranno\nqui.</b>\n\nEntra nella tastiera, digita qualcosa e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_handset_land"><b>I tuoi messaggi appariranno qui.</b>\n\nEntra nella tastiera, digita qualcosa\n e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_settings"><b>Non hai ancora nessun messaggio salvato. Seleziona \"+\" in alto a destra per aggiungere qualcosa.</b></string>
