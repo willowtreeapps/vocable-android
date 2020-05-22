@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- Presets -->
+    <string name="select_something">Vælg noget nedenunder for at snakke.</string>
+    <string name="phrases_page_number">Side %1d af %2d</string>
+    <string name="my_sayings_empty">Dine sætninger er vist her. Naviger til tastaturet, indtast din sætning og tryk på \"☆\" for at gemme.</string>
+    <string name="my_sayings_empty_handset_port">Dine sætninger er vist her. Naviger til tastaturet, indtast din sætning og tryk på \"☆\" for at gemme.</string>
+    <string name="my_sayings_empty_handset_land">Dine sætninger er vist her. Naviger til tastaturet, indtast din sætning og tryk på \"☆\" for at gemme.</string>
+    <string name="my_sayings_empty_settings"><b>Du har ingen sætninger. Tryk på \"+\" for at tilføje en ny sætning.</b></string>
+    <!-- Settings Page -->
+    <string name="settings">Indstillinger</string>
+    <string name="privacy_policy">Privatlivspolitik</string>
+    <string name="contact_developers">Kontakt Udvikler</string>
+    <string name="settings_head_tracking">Hovedbevægelsesregistrering</string>
+    <string name="settings_dialog_title">Forlader Vocable</string>
+    <string name="settings_dialog_message">Du er ved at forlade Vocable. Du vil måske miste hovedsporingskontrol.</string>
+    <string name="settings_dialog_continue">Forsæt</string>
+    <string name="settings_dialog_cancel">Annuller</string>
+    <!-- Settings Options -->
+    <string name="settings_edit_saying">Mine Sætninger</string>
+    <string name="settings_edit_categories">Kategorier</string>
+    <string name="settings_selection_mode">Markeringstilstand</string>
+    <string name="settings_reset_app">Nulstil App Indstillinger</string>
+    <!-- Selection Mode -->
+    <string name="selection_mode_title">Markeringstilstand</string>
+    <!-- Button Text -->
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Genoptag</string>
+    <!-- Errors -->
+    <string name="error_move_closer">Kom nærmere din mobilenhed.</string>
+    <!-- Keyboard Layout -->
+    <string name="keyboard_select_letters">Begynd at skrive…</string>
+    <!-- Saved Phrase Success -->
+    <string name="saved_successfully">Gemt til Mine Sætninger</string>
+    <!-- Edit Sayings -->
+    <string name="delete">Slet</string>
+    <string name="delete_warning">Slettede sætninger kan ikke genskabes.</string>
+    <string name="new_phrase_saved">Ny sætning er gemt</string>
+    <string name="contiue_editing">Fortsæt redigering</string>
+    <string name="discard">Slet</string>
+    <string name="are_you_sure">Er du sikker?</string>
+    <string name="back_warning">Hvis du forlader uden at gemme vil dine ændringer blive slettet.</string>
+    <!-- Edit Keyboard -->
+    <string name="changes_saved">Dine ændringer er gemt</string>
+    <!-- Timing and Sensitivity -->
+    <string name="timing_sensitivity_title">Timing og Følsomhed</string>
+    <string name="hover_time_text">Pegetid</string>
+    <string name="cursor_sensitivity_text">Markørfølsomhed</string>
+    <string name="hover_time_amount_text">        <xliff:g id="time" example="5">%s</xliff:g> seconds
+    </string>
+    <string name="hover_time_one_text">1 sekund</string>
+    <string name="cursor_sensitivity_low">Lav</string>
+    <string name="cursor_sensitivity_medium">Mellem</string>
+    <string name="cursor_sensitivity_high">Høj</string>
+    <!-- Categories -->
+    <string name="category_123">123</string>
+    <string name="category_123_yes">Ja</string>
+    <string name="category_123_no">Nej</string>
+    <!-- Keypad Numbers -->
+    <!-- Edit Categories -->
+    <string name="edit_categories_title">Kategorier</string>
+    <!-- Edit Category Options -->
+    <string name="edit_category_show_category_text">Vis %category%</string>
+    <string name="edit_category_remove_category_text">Fjern Kategori</string>
+    <string name="removed_cant_be_restored">Slettede kategorier kan ikke blive gendannet.</string>
+    <!-- Presets -->
+    <string name="preset_general" formatted="false">Generelt</string>
+    <string name="preset_basic_needs" formatted="false">Basale behov</string>
+    <string name="preset_personal_care" formatted="false">Personligt</string>
+    <string name="preset_conversation" formatted="false">Samtale</string>
+    <string name="preset_environment" formatted="false">Omkring mig</string>
+    <string name="preset_user_keypad" formatted="false">123</string>
+    <string name="preset_user_favorites" formatted="false">Mine Sætninger</string>
+    <string name="preset_need_restroom" formatted="false">Jeg skal på toilettet</string>
+    <string name="preset_im_thirsty" formatted="false">Jeg er tørstig</string>
+    <string name="preset_im_hungry" formatted="false">Jeg er sulten</string>
+    <string name="preset_im_cold" formatted="false">Jeg fryser</string>
+    <string name="preset_im_hot" formatted="false">Jeg har det varmt</string>
+    <string name="preset_im_tired" formatted="false">Jeg er træt</string>
+    <string name="preset_im_fine" formatted="false">Jeg har det fint</string>
+    <string name="preset_im_good" formatted="false">Jeg har det godt</string>
+    <string name="preset_im_uncomfortable" formatted="false">Jeg er ukomfortabel</string>
+    <string name="preset_im_in_pain" formatted="false">Jeg har ondt</string>
+    <string name="preset_im_finished" formatted="false">Jeg er færdig</string>
+    <string name="preset_want_lie_down" formatted="false">Jeg vil ligge ned</string>
+    <string name="preset_want_sit_up" formatted="false">Jeg vil sidde op</string>
+    <string name="preset_hello" formatted="false">Hej</string>
+    <string name="preset_good_morning" formatted="false">Godmorgen</string>
+    <string name="preset_good_evening" formatted="false">Godaften</string>
+    <string name="preset_pleased_to_meet_you" formatted="false">Rart at møde dig</string>
+    <string name="preset_how_is_day" formatted="false">Har du haft en god dag?</string>
+    <string name="preset_how_are_you" formatted="false">Hvordan har du det?</string>
+    <string name="preset_how_is_it_going" formatted="false">Hvordan går det?</string>
+    <string name="preset_how_was_your_weekend" formatted="false">Havde du en god weekend?</string>
+    <string name="preset_goodbye" formatted="false">Farvel</string>
+    <string name="preset_okay" formatted="false">Okay</string>
+    <string name="preset_bad" formatted="false">Dårligt</string>
+    <string name="preset_good" formatted="false">Godt</string>
+    <string name="preset_that_makes_sense" formatted="false">Det giver mening</string>
+    <string name="preset_i_like_it" formatted="false">Det kan jeg godt lide</string>
+    <string name="preset_please_stop" formatted="false">Venligst stop</string>
+    <string name="preset_i_do_not_agree" formatted="false">Jeg er ikke enig</string>
+    <string name="preset_please_repeat" formatted="false">Kan du gentage</string>
+    <string name="preset_please" formatted="false">Vær så venlig</string>
+    <string name="preset_thank_you" formatted="false">Tak</string>
+    <string name="preset_yes" formatted="false">Ja</string>
+    <string name="preset_no" formatted="false">Nej</string>
+    <string name="preset_maybe" formatted="false">Måske</string>
+    <string name="preset_please_wait" formatted="false">Vent venligst</string>
+    <string name="preset_i_dont_know" formatted="false">Det ved jeg ikke</string>
+    <string name="preset_i_didnt_mean_say_that" formatted="false">Jeg mente ikke at sige det</string>
+    <string name="preset_be_patient" formatted="false">Vær tålmodig</string>
+    <string name="preset_turn_on_lights" formatted="false">Tænd lyset</string>
+    <string name="preset_turn_off_lights" formatted="false">Sluk lyset</string>
+    <string name="preset_no_visitors" formatted="false">Ingen besøgende, tak</string>
+    <string name="preset_like_visitors" formatted="false">Jeg vil gerne have besøg</string>
+    <string name="preset_be_quiet" formatted="false">Vær stille</string>
+    <string name="preset_like_to_talk" formatted="false">Jeg vil gerne snakke</string>
+    <string name="preset_tv_on" formatted="false">Tænd fjernsynet</string>
+    <string name="preset_tv_off" formatted="false">Sluk fjernsynet</string>
+    <string name="preset_volume_up" formatted="false">Skru op</string>
+    <string name="preset_volume_down" formatted="false">Skru ned</string>
+    <string name="preset_open_blinds" formatted="false">Åben persiennerne</string>
+    <string name="preset_close_blinds" formatted="false">Luk persiennerne</string>
+    <string name="preset_open_window" formatted="false">Åben persiennerne</string>
+    <string name="preset_close_window" formatted="false">Luk vinduet</string>
+    <string name="preset_need_medication" formatted="false">Jeg har brug for min medicin</string>
+    <string name="preset_need_bath" formatted="false">Jeg har brug for et bad</string>
+    <string name="preset_need_shower" formatted="false">Jeg har brug for et bad</string>
+    <string name="preset_need_wash_face" formatted="false">Jeg har brug for at vaske mit ansigt</string>
+    <string name="preset_want_brush_hair" formatted="false">Jeg har brug for at vaske redde mit hår</string>
+    <string name="preset_fix_pillow" formatted="false">Fix min pude</string>
+    <string name="preset_need_spit" formatted="false">Jeg skal spytte</string>
+    <string name="preset_trouble_breathing" formatted="false">Jeg har svært ved at trække vejret</string>
+    <string name="preset_need_jacket" formatted="false">Jeg vil gerne have en jakke</string>
+</resources>
