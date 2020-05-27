@@ -128,7 +128,7 @@
     <string name="preset_need_bath" formatted="false">Jeg har brug for et bad</string>
     <string name="preset_need_shower" formatted="false">Jeg har brug for et bad</string>
     <string name="preset_need_wash_face" formatted="false">Jeg har brug for at vaske mit ansigt</string>
-    <string name="preset_want_brush_hair" formatted="false">Jeg har brug for at vaske redde mit hår</string>
+    <string name="preset_want_brush_hair" formatted="false">Jeg har brug for at redde mit hår</string>
     <string name="preset_fix_pillow" formatted="false">Fix min pude</string>
     <string name="preset_need_spit" formatted="false">Jeg skal spytte</string>
     <string name="preset_trouble_breathing" formatted="false">Jeg har svært ved at trække vejret</string>
