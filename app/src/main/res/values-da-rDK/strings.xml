@@ -60,7 +60,7 @@
     <!-- Edit Categories -->
     <string name="edit_categories_title">Kategorier</string>
     <!-- Edit Category Options -->
-    <string name="edit_category_show_category_text">Vis %category%</string>
+    <string name="edit_category_show_category_text">Vis Kategori</string>
     <string name="edit_category_remove_category_text">Fjern Kategori</string>
     <string name="removed_cant_be_restored">Slettede kategorier kan ikke blive gendannet.</string>
     <!-- Presets -->
