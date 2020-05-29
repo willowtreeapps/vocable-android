@@ -60,7 +60,7 @@
     <!-- Edit Categories -->
     <string name="edit_categories_title">Kategorier</string>
     <!-- Edit Category Options -->
-    <string name="edit_category_show_category_text">Vis %category%</string>
+    <string name="edit_category_show_category_text">Vis Kategori</string>
     <string name="edit_category_remove_category_text">Fjern Kategori</string>
     <string name="removed_cant_be_restored">Slettede kategorier kan ikke blive gendannet.</string>
     <!-- Presets -->
@@ -122,13 +122,13 @@
     <string name="preset_volume_down" formatted="false">Skru ned</string>
     <string name="preset_open_blinds" formatted="false">Åben persiennerne</string>
     <string name="preset_close_blinds" formatted="false">Luk persiennerne</string>
-    <string name="preset_open_window" formatted="false">Åben persiennerne</string>
+    <string name="preset_open_window" formatted="false">Åben vinduet</string>
     <string name="preset_close_window" formatted="false">Luk vinduet</string>
     <string name="preset_need_medication" formatted="false">Jeg har brug for min medicin</string>
     <string name="preset_need_bath" formatted="false">Jeg har brug for et bad</string>
     <string name="preset_need_shower" formatted="false">Jeg har brug for et bad</string>
     <string name="preset_need_wash_face" formatted="false">Jeg har brug for at vaske mit ansigt</string>
-    <string name="preset_want_brush_hair" formatted="false">Jeg har brug for at vaske redde mit hår</string>
+    <string name="preset_want_brush_hair" formatted="false">Jeg har brug for at redde mit hår</string>
     <string name="preset_fix_pillow" formatted="false">Fix min pude</string>
     <string name="preset_need_spit" formatted="false">Jeg skal spytte</string>
     <string name="preset_trouble_breathing" formatted="false">Jeg har svært ved at trække vejret</string>
