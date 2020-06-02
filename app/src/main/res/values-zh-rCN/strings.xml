@@ -124,7 +124,7 @@
     <string name="preset_open_window" formatted="false">请打开窗口</string>
     <string name="preset_close_window" formatted="false">请关闭窗口</string>
     <string name="preset_need_medication" formatted="false">我需要我的药物</string>
-    <string name="preset_need_bath" formatted="false">我需要洗操</string>
+    <string name="preset_need_bath" formatted="false">我需要洗澡</string>
     <string name="preset_need_shower" formatted="false">我需要冲凉</string>
     <string name="preset_need_wash_face" formatted="false">我需要洗脸</string>
     <string name="preset_want_brush_hair" formatted="false">我需要梳头</string>
