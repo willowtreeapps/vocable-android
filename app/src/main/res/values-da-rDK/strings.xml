@@ -11,7 +11,7 @@
     <string name="settings">Indstillinger</string>
     <string name="privacy_policy">Privatlivspolitik</string>
     <string name="contact_developers">Kontakt Udvikler</string>
-    <string name="settings_head_tracking">Hovedbevægelsesregistrering</string>
+    <string name="settings_head_tracking">Hovedsporing</string>
     <string name="settings_dialog_title">Forlader Vocable</string>
     <string name="settings_dialog_message">Du er ved at forlade Vocable. Du vil måske miste hovedsporingskontrol.</string>
     <string name="settings_dialog_continue">Forsæt</string>
@@ -126,7 +126,7 @@
     <string name="preset_close_window" formatted="false">Luk vinduet</string>
     <string name="preset_need_medication" formatted="false">Jeg har brug for min medicin</string>
     <string name="preset_need_bath" formatted="false">Jeg har brug for et bad</string>
-    <string name="preset_need_shower" formatted="false">Jeg har brug for et bad</string>
+    <string name="preset_need_shower" formatted="false">Jeg har brug for et brusebad</string>
     <string name="preset_need_wash_face" formatted="false">Jeg har brug for at vaske mit ansigt</string>
     <string name="preset_want_brush_hair" formatted="false">Jeg har brug for at redde mit hår</string>
     <string name="preset_fix_pillow" formatted="false">Fix min pude</string>
