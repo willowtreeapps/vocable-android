@@ -76,7 +76,7 @@
     <string name="preset_im_cold" formatted="false">我冷</string>
     <string name="preset_im_hot" formatted="false">我热</string>
     <string name="preset_im_tired" formatted="false">我累了</string>
-    <string name="preset_im_fine" formatted="false">我好</string>
+    <string name="preset_im_fine" formatted="false">我还可以</string>
     <string name="preset_im_good" formatted="false">我好</string>
     <string name="preset_im_uncomfortable" formatted="false">我不舒服</string>
     <string name="preset_im_in_pain" formatted="false">我疼了</string>
@@ -89,10 +89,10 @@
     <string name="preset_pleased_to_meet_you" formatted="false">很高兴认识你</string>
     <string name="preset_how_is_day" formatted="false">今天过的还好吗？</string>
     <string name="preset_how_are_you" formatted="false">你好吗？</string>
-    <string name="preset_how_is_it_going" formatted="false">你好吗？</string>
+    <string name="preset_how_is_it_going" formatted="false">您最近怎么样了？</string>
     <string name="preset_how_was_your_weekend" formatted="false">您的周末如何？</string>
     <string name="preset_goodbye" formatted="false">再見</string>
-    <string name="preset_okay" formatted="false">好</string>
+    <string name="preset_okay" formatted="false">对</string>
     <string name="preset_bad" formatted="false">差</string>
     <string name="preset_good" formatted="false">好</string>
     <string name="preset_that_makes_sense" formatted="false">这是合理</string>
