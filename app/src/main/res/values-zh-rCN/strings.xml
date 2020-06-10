@@ -54,7 +54,7 @@
     <!-- Categories -->
     <string name="category_123">数字</string>
     <string name="category_123_yes">是</string>
-    <string name="category_123_no">不</string>
+    <string name="category_123_no">不是</string>
     <!-- Keypad Numbers -->
     <!-- Edit Categories -->
     <string name="edit_categories_title">类别</string>
@@ -103,9 +103,9 @@
     <string name="preset_please" formatted="false">请</string>
     <string name="preset_thank_you" formatted="false">谢谢</string>
     <string name="preset_yes" formatted="false">是</string>
-    <string name="preset_no" formatted="false">不</string>
+    <string name="preset_no" formatted="false">不是</string>
     <string name="preset_maybe" formatted="false">可能</string>
-    <string name="preset_please_wait" formatted="false">请等待</string>
+    <string name="preset_please_wait" formatted="false">请稍等</string>
     <string name="preset_i_dont_know" formatted="false">我不知道</string>
     <string name="preset_i_didnt_mean_say_that" formatted="false">我不是说这句</string>
     <string name="preset_be_patient" formatted="false">请耐心等待</string>
