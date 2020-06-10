@@ -36,6 +36,8 @@
         <item name="autoSizeMinTextSize">@dimen/auto_size_min_text_size</item>
         <item name="autoSizeStepGranularity">@dimen/auto_size_step_granularity</item>
         <item name="autoSizeTextType">uniform</item>
+        <item name="android:breakStrategy">high_quality</item>
+        <item name="android:hyphenationFrequency">full</item>
     </style>
 
     <style name="SpeechButton" parent="VocableButton">
