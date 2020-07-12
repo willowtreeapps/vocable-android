@@ -147,7 +147,8 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 )
             }
 
-            hiddenView.isVisible = category.hidden
+            hiddenButton.isActivated = category.hidden
+            editCategorySelectButton.isEnabled = !category.hidden
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
@@ -158,6 +159,12 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             }
             moveCategoryDownButton.action = {
                 editCategoriesViewModel.moveCategoryDown(category)
+            }
+
+            hiddenButton.action = {
+                editCategoriesViewModel.hideShowCategory(category, !category.hidden)
+                hiddenButton.isActivated = !category.hidden
+                editCategorySelectButton.isEnabled = category.hidden
             }
 
             if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
