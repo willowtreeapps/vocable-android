@@ -176,7 +176,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                     .beginTransaction()
                     .replace(
                         R.id.settings_fragment_container,
-                        EditCategoryOptionsFragment.newInstance(category)
+                        EditPresetsFragment.newInstance(category)
                     )
                     .addToBackStack(null)
                     .commit()

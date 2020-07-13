@@ -15,12 +15,12 @@
         android:padding="@dimen/edit_sayings_back_button_padding"
         android:src="@drawable/arrow_back_40dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
+        app:layout_constraintBottom_toBottomOf="@id/edit_phrases_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
+        app:layout_constraintTop_toTopOf="@id/edit_phrases_title" />
 
     <TextView
-        android:id="@+id/my_sayings_title"
+        android:id="@+id/edit_phrases_title"
         style="@style/EditCategoriesTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -40,9 +40,9 @@
         android:src="@drawable/add_40dp"
         android:textStyle="bold"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
+        app:layout_constraintBottom_toBottomOf="@id/edit_phrases_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
+        app:layout_constraintTop_toTopOf="@id/edit_phrases_title" />
 
     <View
         android:id="@+id/top_view"

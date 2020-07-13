@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
@@ -20,8 +21,11 @@ class EditPhrasesViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val liveMySayingsList = MutableLiveData<List<Phrase>>()
-    val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList
+    private val liveCategory = MutableLiveData<Category>()
+    val category: LiveData<Category> = liveCategory
+
+    private val livePhrasesList = MutableLiveData<List<Phrase>>()
+    val phrasesList: LiveData<List<Phrase>> = livePhrasesList
 
     private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
     val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
@@ -35,11 +39,18 @@ class EditPhrasesViewModel : BaseViewModel() {
 
     private fun populateMySayings() {
         backgroundScope.launch {
+            val phrases = category.value?.categoryId?.let { categoryId ->
+                presetsRepository.getPhrasesForCategory(categoryId).sortedBy { it.sortOrder }
+            }
 
-            val phrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id).sortedBy { it.sortOrder }
+            livePhrasesList.postValue(phrases)
+        }
+    }
 
-            liveMySayingsList.postValue(phrases)
+    fun setCategory(category: Category) {
+        backgroundScope.launch {
+            liveCategory.postValue(category)
+            populateMySayings()
         }
     }
 

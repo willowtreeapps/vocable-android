@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -18,18 +17,46 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
 import com.willowtree.vocable.presets.MySayingsEmptyFragment
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 
 class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
 
+    companion object {
+        private const val KEY_CATEGORY = "KEY_CATEGORY"
+
+        fun newInstance(category: Category): EditPresetsFragment{
+            return EditPresetsFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_CATEGORY, category)
+                }
+            }
+        }
+    }
+
     override val bindingInflater: BindingInflater<FragmentEditPresetsBinding> = FragmentEditPresetsBinding::inflate
     private var allViews = mutableListOf<View>()
+
+    private var category: Category? = null
 
     private var maxPhrases = 1
 
     private lateinit var editPhrasesViewModel: EditPhrasesViewModel
     private lateinit var phrasesAdapter: EditPhrasesAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
+            category = it
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +66,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
         binding.backButton.action = {
             parentFragmentManager
                 .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
+                .replace(R.id.settings_fragment_container, EditCategoriesFragment())
                 .commit()
         }
 
@@ -107,12 +134,20 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
                 requireActivity(),
                 BaseViewModelFactory()
             ).get(EditPhrasesViewModel::class.java)
+
+
+        category?.let {
+            binding.editPhrasesTitle.text = it.localizedName.toString()
+            editPhrasesViewModel.setCategory(it)
+        }
+
         subscribeToViewModel()
 
     }
 
     private fun subscribeToViewModel() {
-        editPhrasesViewModel.mySayingsList.observe(viewLifecycleOwner, Observer {
+
+        editPhrasesViewModel.phrasesList.observe(viewLifecycleOwner, Observer {
             it?.let { phrases ->
                 binding.editSayingsViewPager.apply {
                     adapter = phrasesAdapter

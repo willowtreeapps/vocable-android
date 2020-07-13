@@ -8,7 +8,7 @@
     tools:background="@color/colorPrimaryDark">
 
     <TextView
-        android:id="@+id/my_sayings_title"
+        android:id="@+id/edit_phrases_title"
         style="@style/EditSayingsTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,9 +33,9 @@
         style="@style/EditSayingsActionButton"
         android:background="@drawable/button_default_background"
         android:src="@drawable/add_40dp"
-        app:layout_constraintBottom_toBottomOf="@id/my_sayings_title"
+        app:layout_constraintBottom_toBottomOf="@id/edit_phrases_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/my_sayings_title" />
+        app:layout_constraintTop_toTopOf="@id/edit_phrases_title" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/edit_sayings_view_pager"
