@@ -79,14 +79,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             requireActivity().finish()
         }
 
-        binding.settingsOptionsContainer.editSayingsButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                .addToBackStack(null)
-                .commit()
-        }
-
         binding.settingsOptionsContainer.timingSensitivityButton.action = {
             parentFragmentManager
                 .beginTransaction()
@@ -149,7 +141,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             privacyPolicyButton.isEnabled = enable
             contactDevsButton.isEnabled = enable
             settingsOptionsContainer.editCategoriesButton.isEnabled = enable
-            settingsOptionsContainer.editSayingsButton.isEnabled = enable
             settingsOptionsContainer.resetAppButton.isEnabled = enable
             settingsOptionsContainer.selectionModeButton.isEnabled = enable
             settingsOptionsContainer.timingSensitivityButton.isEnabled = enable

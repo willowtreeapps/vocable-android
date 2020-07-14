@@ -67,10 +67,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
 
         binding.backButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditCategoriesFragment())
-                .commit()
+            parentFragmentManager.popBackStack()
         }
 
         binding.phrasesForwardButton.action = {
