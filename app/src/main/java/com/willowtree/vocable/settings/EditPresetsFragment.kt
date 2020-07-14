@@ -10,16 +10,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.BindingInflater
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPresetsBinding
 import com.willowtree.vocable.presets.MySayingsEmptyFragment
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.LocalizedResourceUtility
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import org.koin.android.ext.android.inject
 
 class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
 
@@ -38,12 +37,14 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
     override val bindingInflater: BindingInflater<FragmentEditPresetsBinding> = FragmentEditPresetsBinding::inflate
     private var allViews = mutableListOf<View>()
 
-    private var category: Category? = null
+    private lateinit var category: Category
 
     private var maxPhrases = 1
 
     private lateinit var editPhrasesViewModel: EditPhrasesViewModel
     private lateinit var phrasesAdapter: EditPhrasesAdapter
+
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +61,8 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.editPhrasesTitle.text = localizedResourceUtility.getTextFromCategory(category)
 
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
 
@@ -131,15 +134,9 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
 
         editPhrasesViewModel =
             ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
+                this,
+                EditPhrasesViewModelFactory(category)
             ).get(EditPhrasesViewModel::class.java)
-
-
-        category?.let {
-            binding.editPhrasesTitle.text = it.localizedName.toString()
-            editPhrasesViewModel.setCategory(it)
-        }
 
         subscribeToViewModel()
 
@@ -225,7 +222,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
             return if (items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(true)
             } else {
-                EditPhrasesFragment.newInstance(sublist)
+                EditPhrasesFragment.newInstance(sublist, category)
             }
 
         }

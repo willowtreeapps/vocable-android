@@ -10,13 +10,11 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
-import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.BindingInflater
-import com.willowtree.vocable.R
+import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
 import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
@@ -25,11 +23,13 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
+        private const val KEY_CATEGORY = "KEY_CATEGORY"
 
-        fun newInstance(phrases: List<Phrase>): EditPhrasesFragment {
+        fun newInstance(phrases: List<Phrase>, category: Category): EditPhrasesFragment {
             return EditPhrasesFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList(KEY_PHRASES, ArrayList(phrases))
+                    putParcelable(KEY_CATEGORY, category)
                 }
             }
         }
@@ -41,6 +41,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
     private var maxPhrases = 1
     private var numColumns = 1
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
+    private lateinit var category: Category
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +51,10 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
         super.onCreateView(inflater, container, savedInstanceState)
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
         numColumns = resources.getInteger(R.integer.edit_phrases_columns)
+
+        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
+            category = it
+        }
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
         phrases?.forEachIndexed { index, phrase ->
@@ -146,8 +151,8 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
         editPhrasesViewModel =
             ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
+                this,
+                EditPhrasesViewModelFactory(category)
             ).get(EditPhrasesViewModel::class.java)
     }
 
