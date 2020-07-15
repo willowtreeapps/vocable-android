@@ -26,9 +26,6 @@ class BaseViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(KeyboardViewModel::class.java) -> {
                 return KeyboardViewModel() as T
             }
-//            modelClass.isAssignableFrom(EditPhrasesViewModel::class.java) -> {
-//                return EditPhrasesViewModel() as T
-//            }
             modelClass.isAssignableFrom(EditCategoriesViewModel::class.java) -> {
                 return EditCategoriesViewModel() as T
             }

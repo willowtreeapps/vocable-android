@@ -10,8 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
+import com.willowtree.vocable.EditPhrasesViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import java.util.*
 
@@ -19,11 +21,13 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
     companion object {
         private const val KEY_PHRASE = "KEY_PHRASE"
+        private const val KEY_CATEGORY = "KEY_CATEGORY"
 
-        fun newInstance(phrase: Phrase?): EditPhrasesKeyboardFragment {
+        fun newInstance(phrase: Phrase?, category: Category): EditPhrasesKeyboardFragment {
             return EditPhrasesKeyboardFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_PHRASE, phrase)
+                    putParcelable(KEY_CATEGORY,category)
                 }
             }
         }
@@ -31,6 +35,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
     private var phrase: Phrase? = null
     private var addNewPhrase = false
+    private lateinit var category: Category
     private lateinit var viewModel: EditPhrasesViewModel
 
 
@@ -42,6 +47,11 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
             phrase = it
         }
+
+        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
+            category = it
+        }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -97,7 +107,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
         viewModel = ViewModelProviders.of(
             requireActivity(),
-            BaseViewModelFactory()
+            EditPhrasesViewModelFactory(category)
         ).get(EditPhrasesViewModel::class.java)
 
         subscribeToViewModel()

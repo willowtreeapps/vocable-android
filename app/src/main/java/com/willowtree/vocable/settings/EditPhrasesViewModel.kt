@@ -30,10 +30,10 @@ class EditPhrasesViewModel(private val category: Category) : BaseViewModel() {
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
     init {
-        populateMySayings()
+        populatePhrases()
     }
 
-    private fun populateMySayings() {
+    private fun populatePhrases() {
         backgroundScope.launch {
             val phrases = presetsRepository.getPhrasesForCategory(category.categoryId).sortedBy { it.sortOrder }
 
@@ -52,7 +52,7 @@ class EditPhrasesViewModel(private val category: Category) : BaseViewModel() {
                     )
                 )
             }
-            populateMySayings()
+            populatePhrases()
         }
     }
 
@@ -63,7 +63,7 @@ class EditPhrasesViewModel(private val category: Category) : BaseViewModel() {
     fun updatePhrase(phrase: Phrase) {
         backgroundScope.launch {
             presetsRepository.updatePhrase(phrase)
-            populateMySayings()
+            populatePhrases()
 
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)
@@ -73,7 +73,7 @@ class EditPhrasesViewModel(private val category: Category) : BaseViewModel() {
 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
-            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+            val phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
             val phraseId = UUID.randomUUID().toString()
             presetsRepository.addPhrase(
                 Phrase(
@@ -83,12 +83,13 @@ class EditPhrasesViewModel(private val category: Category) : BaseViewModel() {
                     System.currentTimeMillis(),
                     null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
-                    mySayingsPhrases.size
+                    phrases.size
                 )
             )
+
             presetsRepository.addCrossRef(CategoryPhraseCrossRef(category.categoryId, phraseId))
 
-            populateMySayings()
+            populatePhrases()
 
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)

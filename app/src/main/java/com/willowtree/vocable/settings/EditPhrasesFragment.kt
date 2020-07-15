@@ -88,7 +88,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
                     .addToBackStack(null)
                     .replace(
                         R.id.settings_fragment_container,
-                        EditPhrasesKeyboardFragment.newInstance(phrase)
+                        EditPhrasesKeyboardFragment.newInstance(phrase, category)
                     )
                     .commit()
             }
@@ -151,7 +151,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
         editPhrasesViewModel =
             ViewModelProviders.of(
-                this,
+                requireActivity(),
                 EditPhrasesViewModelFactory(category)
             ).get(EditPhrasesViewModel::class.java)
     }

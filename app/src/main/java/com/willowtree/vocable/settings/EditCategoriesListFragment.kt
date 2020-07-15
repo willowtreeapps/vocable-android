@@ -167,7 +167,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategorySelectButton.isEnabled = category.hidden
             }
 
-            if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
+            if (!category.isUserGenerated) {
                 editCategorySelectButton.isEnabled = false
             }
 
