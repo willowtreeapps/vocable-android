@@ -42,6 +42,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
     private var maxPhrases = 1
 
     private lateinit var editPhrasesViewModel: EditPhrasesViewModel
+    private lateinit var editCategoryViewModel: EditCategoriesViewModel
     private lateinit var phrasesAdapter: EditPhrasesAdapter
 
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
@@ -129,11 +130,33 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
                 .commit()
         }
 
+        binding.deleteButton?.action = {
+            editCategoryViewModel.deleteCategory(category)
+            parentFragmentManager.popBackStack()
+        }
+
+        binding.editButton?.action = {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.settings_fragment_container,
+                    EditCategoriesKeyboardFragment.newInstance(category)
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+
         editPhrasesViewModel =
             ViewModelProviders.of(
-                requireActivity(),
+                this,
                 EditPhrasesViewModelFactory(category)
             ).get(EditPhrasesViewModel::class.java)
+
+        editCategoryViewModel =
+            ViewModelProviders.of(
+                this,
+                BaseViewModelFactory()
+            ).get(EditCategoriesViewModel::class.java)
 
         subscribeToViewModel()
 
