@@ -1,6 +1,7 @@
 # Vocable AAC for Android
 ![Platform Android](https://img.shields.io/badge/Platform-Android-blue.svg)
 ![license MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)
+[![Crowdin](https://badges.crowdin.net/vocable-android/localized.svg)](https://crowdin.com/project/vocable-android)
 
 > Empowering people to communicate with care takers and loved ones.
 
@@ -12,6 +13,7 @@
 - [What is Vocable?](#what-is-vocable)
 - [Features](#features)
 - [Roadmap](#roadmap)
+- [Translations](#translations)
 - [Contributing](#contributing)
 - [Requirements](#requirements)
 - [Credits](#credits)
@@ -38,6 +40,9 @@ Type with your head or your hands.
 For the current progress on features, please visit the [project board](https://github.com/willowtreeapps/vocable-android/projects/1).
 
 For a high-level roadmap, see the [Vocable Roadmap](./ROADMAP.md)
+
+## Translations
+We'd love to translate Vocable into as many languages as possible. If you'd like to help translate, please visit our [Crowdin project](https://crowdin.com/project/vocable-android). Thanks for helping people communicate all around the world! 🌎🌍🌏
 
 ## Contributing
 We love contributions! To get started, please see our [Contributing Guidelines](./CONTRIBUTING.md).
