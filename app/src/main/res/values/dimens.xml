@@ -94,6 +94,7 @@
     <dimen name="keyboard_speaker_margin">8dp</dimen>
     <dimen name="keyboard_bottom_bar_height">72dp</dimen>
     <dimen name="keyboard_input_text_size">34sp</dimen>
+    <dimen name="keyboard_key_margin">8dp</dimen>
 
     <!-- Categories -->
     <dimen name="categories_paging_button_width">80dp</dimen>
