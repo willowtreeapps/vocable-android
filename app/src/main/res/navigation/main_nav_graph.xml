@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/presetsFragment"
+        android:name="com.willowtree.vocable.presets.PresetsFragment"
+        android:label="PresetsFragment"
+        tools:layout="@layout/fragment_presets">
+        <action
+            android:id="@+id/action_presetsFragment_to_keyboardFragment"
+            app:destination="@id/keyboardFragment" />
+        <action
+            android:id="@+id/action_presetsFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.willowtree.vocable.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_presetsFragment"
+            app:destination="@id/presetsFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_splashFragment"
+        app:destination="@id/splashFragment" />
+    <fragment
+        android:id="@+id/keyboardFragment"
+        android:name="com.willowtree.vocable.keyboard.KeyboardFragment"
+        android:label="KeyboardFragment"
+        tools:layout="@layout/fragment_keyboard">
+        <action
+            android:id="@+id/action_keyboardFragment_to_presetsFragment"
+            app:destination="@id/presetsFragment"
+            app:popUpTo="@id/presetsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.willowtree.vocable.settings.SettingsActivity"
+        android:label="SettingsActivity" />
+</navigation>

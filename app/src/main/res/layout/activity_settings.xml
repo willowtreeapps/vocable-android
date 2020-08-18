@@ -18,9 +18,12 @@
         android:background="@color/colorPrimaryDark" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/settings_fragment_container"
+        android:id="@+id/settings_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/settings_nav_graph"/>
 
     <com.willowtree.vocable.customviews.PointerView
         android:id="@+id/pointer_view"

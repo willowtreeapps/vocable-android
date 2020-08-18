@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
@@ -85,16 +86,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         }
 
         binding.actionButtonContainer.keyboardButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, KeyboardFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_presetsFragment_to_keyboardFragment)
         }
 
         binding.actionButtonContainer.settingsButton.action = {
-            val intent = Intent(activity, SettingsActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_presetsFragment_to_settingsActivity)
         }
 
         categoriesAdapter = CategoriesPagerAdapter(childFragmentManager)

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
@@ -51,7 +52,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         binding.backButton.action = {
             val textChanged = binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromPhrase(phrase)
             if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
-                parentFragmentManager.popBackStack()
+                findNavController().popBackStack()
             } else {
                 showConfirmationDialog()
             }

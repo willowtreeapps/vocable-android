@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
@@ -20,10 +21,7 @@ class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.selectionModeBackButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
-                .commit()
+            findNavController().popBackStack()
         }
 
         binding.selectionModeOptions.apply {

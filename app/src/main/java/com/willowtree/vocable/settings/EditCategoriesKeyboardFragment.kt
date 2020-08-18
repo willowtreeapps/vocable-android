@@ -13,6 +13,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.Category
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.presets.PresetCategories
 import java.util.*
 
@@ -53,7 +54,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
             val categoryTextChanged =
                 binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromCategory(category)
             if (!categoryTextChanged || isDefaultTextVisible()) {
-                parentFragmentManager.popBackStack()
+                findNavController().popBackStack()
             } else {
                 showConfirmationDialog()
             }
@@ -65,7 +66,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
                 binding.keyboardInput.text?.let { text ->
                     if (text.isNotBlank()) {
                         viewModel.addNewCategory(text.toString())
-                        parentFragmentManager.popBackStack()
+                        findNavController().popBackStack()
                     }
                 }
             } else if ((category != null) && !isDefaultTextVisible()) {
