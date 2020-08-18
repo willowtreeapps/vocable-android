@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.NavHostFragment
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.databinding.ActivityMainBinding
-import com.willowtree.vocable.presets.PresetsFragment
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -31,14 +31,12 @@ class MainActivity : BaseActivity() {
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
 
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, PresetsFragment())
-                .commit()
-        }
+        val navHost = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
+        val navController = navHost.navController
 
-        binding.fragmentContainer.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        navController.setGraph(R.navigation.main_nav_graph, intent.extras)
+
+        binding.mainNavHostFragment?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
         }
     }

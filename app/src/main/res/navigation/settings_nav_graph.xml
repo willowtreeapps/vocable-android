@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_nav_graph"
+    app:startDestination="@id/settingsFragment">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.willowtree.vocable.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_editPresetsFragment"
+            app:destination="@id/editPresetsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_sensitivityFragment"
+            app:destination="@id/sensitivityFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_selectionModeFragment"
+            app:destination="@id/selectionModeFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_editCategoriesFragment"
+            app:destination="@id/editCategoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPresetsFragment"
+        android:name="com.willowtree.vocable.settings.EditPresetsFragment"
+        android:label="EditPresetsFragment"
+        tools:layout="@layout/fragment_edit_presets">
+        <action
+            android:id="@+id/action_editPresetsFragment_to_editPhrasesKeyboardFragment"
+            app:destination="@id/editPhrasesKeyboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sensitivityFragment"
+        android:name="com.willowtree.vocable.settings.SensitivityFragment"
+        android:label="SensitivityFragment"
+        tools:layout="@layout/fragment_timing_sensitivity"/>
+    <fragment
+        android:id="@+id/selectionModeFragment"
+        android:name="com.willowtree.vocable.settings.SelectionModeFragment"
+        android:label="SelectionModeFragment"
+        tools:layout="@layout/fragment_selection_mode"/>
+    <fragment
+        android:id="@+id/editCategoriesFragment"
+        android:name="com.willowtree.vocable.settings.EditCategoriesFragment"
+        android:label="EditCategoriesFragment"
+        tools:layout="@layout/fragment_edit_categories">
+        <action
+            android:id="@+id/action_editCategoriesFragment_to_editCategoriesKeyboardFragment"
+            app:destination="@id/editCategoriesKeyboardFragment" />
+        <action
+            android:id="@+id/action_editCategoriesFragment_to_editCategoryOptionsFragment"
+            app:destination="@id/editCategoryOptionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCategoriesKeyboardFragment"
+        android:name="com.willowtree.vocable.settings.EditCategoriesKeyboardFragment"
+        android:label="EditCategoriesKeyboardFragment"
+        tools:layout="@layout/fragment_edit_keyboard">
+        <argument
+            android:name="category"
+            app:argType="com.willowtree.vocable.room.Category"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPhrasesKeyboardFragment"
+        android:name="com.willowtree.vocable.settings.EditPhrasesKeyboardFragment"
+        android:label="EditPhrasesKeyboardFragment"
+        tools:layout="@layout/fragment_edit_phrases">
+        <argument
+            android:name="phrase"
+            app:argType="com.willowtree.vocable.room.Phrase"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCategoryOptionsFragment"
+        android:name="com.willowtree.vocable.settings.EditCategoryOptionsFragment"
+        android:label="EditCategoryOptionsFragment" >
+        <argument
+            android:name="category"
+            app:argType="com.willowtree.vocable.room.Category" />
+        <action
+            android:id="@+id/action_editCategoryOptionsFragment_to_editCategoriesKeyboardFragment"
+            app:destination="@id/editCategoriesKeyboardFragment" />
+    </fragment>
+</navigation>

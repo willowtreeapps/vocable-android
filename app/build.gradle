@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -82,6 +84,9 @@ dependencies {
 
     implementation 'androidx.security:security-crypto:1.0.0-beta01'
 
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
+
     // Moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
 
@@ -95,4 +100,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:2.3.0"
 }

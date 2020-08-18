@@ -1,13 +1,11 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
@@ -48,18 +46,13 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         category?.let {
             binding.editOptionsButton?.action = {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(
-                        R.id.settings_fragment_container,
-                        EditCategoriesKeyboardFragment.newInstance(category)
-                    ).addToBackStack(null)
-                    .commit()
+                val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(category)
+                findNavController().navigate(action)
             }
         }
 
         binding.editOptionsBackButton.action = {
-            parentFragmentManager.popBackStack()
+            findNavController().popBackStack()
         }
 
         binding.showCategorySwitch.action = {
@@ -88,7 +81,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                         editCategoriesViewModel.deleteCategory(category)
                     }
 
-                    parentFragmentManager.popBackStack()
+                    findNavController().popBackStack()
                 }
                 dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
                 dialogNegativeButton.action = {

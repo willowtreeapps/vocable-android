@@ -10,6 +10,7 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
@@ -84,10 +85,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
         })
 
         binding.actionButtonContainer.presetsButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, PresetsFragment())
-                .commit()
+            findNavController().navigate(R.id.action_keyboardFragment_to_presetsFragment)
         }
 
         binding.actionButtonContainer.settingsButton.action = {

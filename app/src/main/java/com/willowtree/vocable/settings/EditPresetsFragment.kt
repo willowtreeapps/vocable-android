@@ -1,7 +1,6 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -9,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -37,10 +36,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
         maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
 
         binding.backButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
-                .commit()
+            findNavController().popBackStack()
         }
 
         binding.phrasesForwardButton.action = {
@@ -92,14 +88,7 @@ class EditPresetsFragment : BaseFragment<FragmentEditPresetsBinding>() {
         })
 
         binding.addSayingsButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.settings_fragment_container,
-                    EditPhrasesKeyboardFragment.newInstance(null)
-                )
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_editPresetsFragment_to_editPhrasesKeyboardFragment)
         }
 
         editPhrasesViewModel =
