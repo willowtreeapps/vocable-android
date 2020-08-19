@@ -7,6 +7,9 @@ import android.view.View
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
@@ -129,7 +132,7 @@ abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>(
         binding.editConfirmation.dialogNegativeButton.apply {
             text = getString(R.string.discard)
             action = {
-                parentFragmentManager.popBackStack()
+                findNavController().popBackStack()
             }
         }
         toggleDialogVisibility(true)

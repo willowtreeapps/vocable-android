@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
@@ -58,10 +59,7 @@ class SensitivityFragment : BaseFragment<FragmentTimingSensitivityBinding>() {
         }
 
         binding.timingSensitivityBackButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
-                .commit()
+            findNavController().popBackStack()
         }
 
         binding.decreaseHoverTime.action = {

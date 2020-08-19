@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.settings.EditPhrasesKeyboardFragmentArgs.Companion.fromBundle
 import java.util.*
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
@@ -32,16 +33,15 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
     private var phrase: Phrase? = null
     private var addNewPhrase = false
     private lateinit var viewModel: EditPhrasesViewModel
-
+    private val args by navArgs<EditPhrasesKeyboardFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
-            phrase = it
-        }
+        phrase = args.phrase
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -51,7 +51,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         binding.backButton.action = {
             val textChanged = binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromPhrase(phrase)
             if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
-                parentFragmentManager.popBackStack()
+                findNavController().popBackStack()
             } else {
                 showConfirmationDialog()
             }

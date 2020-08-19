@@ -10,6 +10,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
@@ -78,14 +79,8 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
             }
 
             phraseView.actionButtonContainer.editSayingsButton.action = {
-                requireActivity().supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack(null)
-                    .replace(
-                        R.id.settings_fragment_container,
-                        EditPhrasesKeyboardFragment.newInstance(phrase)
-                    )
-                    .commit()
+                val action = EditPresetsFragmentDirections.actionEditPresetsFragmentToEditPhrasesKeyboardFragment(phrase)
+                findNavController().navigate(action)
             }
 
             binding.editPhrasesContainer.addView(phraseView.root)
