@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Phrase
@@ -32,14 +33,14 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
     private var phrase: Phrase? = null
     private var addNewPhrase = false
     private lateinit var viewModel: EditPhrasesViewModel
-
+    private val args by navArgs<EditPhrasesKeyboardFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        phrase = fromBundle(requireArguments()).phrase
+        phrase = args.phrase
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

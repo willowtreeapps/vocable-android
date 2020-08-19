@@ -5,7 +5,9 @@ import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
@@ -29,6 +31,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
     }
+    private val args by navArgs<EditCategoryOptionsFragmentArgs>()
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> = FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
@@ -36,10 +39,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // val category = arguments?.get(KEY_CATEGORY) as Category?
-        val category by lazy {
-            fromBundle(requireArguments()).category
-        }
+        val category = args.category
 
         if (category.isUserGenerated) {
             binding.removeCategoryButton.isInvisible = false
