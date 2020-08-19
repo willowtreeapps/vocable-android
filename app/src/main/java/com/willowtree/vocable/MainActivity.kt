@@ -31,9 +31,6 @@ class MainActivity : BaseActivity() {
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
 
-        val navHost = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
-        val navController = navHost.navController
-
         binding.mainNavHostFragment?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
         }
