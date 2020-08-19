@@ -2,7 +2,6 @@ package com.willowtree.vocable.keyboard
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -10,16 +9,17 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.ActionButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
-import com.willowtree.vocable.databinding.KeyboardKeyLayoutBinding
+import com.willowtree.vocable.keyboard.adapter.KeyboardAdapter
 import com.willowtree.vocable.presets.PresetsFragment
 import com.willowtree.vocable.settings.SettingsActivity
+import com.willowtree.vocable.utils.ItemOffsetDecoration
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import java.util.*
 
@@ -30,46 +30,20 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
     private lateinit var viewModel: KeyboardViewModel
     private lateinit var keys: Array<String>
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        keys = resources.getStringArray(R.array.keyboard_keys)
-        populateKeys()
-        return binding.root
-    }
-
-    private fun populateKeys() {
-        keys.withIndex().forEach {
-            with(
-                KeyboardKeyLayoutBinding.inflate(
-                    layoutInflater,
-                    binding.keyboardKeyHolder,
-                    true
-                ).root as ActionButton
-            ) {
-                text = it.value
-                action = {
-                    //This action mimics sentence capitalization
-                    //Example: "This is what's going on in here. Do you get it? Some letters are capitalized."
-                    val currentText = binding.keyboardInput.text?.toString() ?: ""
-                    if (isDefaultTextVisible()) {
-                        binding.keyboardInput.text = null
-                        binding.keyboardInput.append(text?.toString())
-                    } else if (currentText.endsWith(". ") || currentText.endsWith("? ")) {
-                        binding.keyboardInput.append(text?.toString())
-                    } else {
-                        binding.keyboardInput.append(
-                            text?.toString()?.toLowerCase(Locale.getDefault())
-                        )
-                    }
-
-                    viewModel.currentText = binding.keyboardInput.text.toString()
-                }
-            }
+    private val keyAction = { keyText: String ->
+        val currentText = binding.keyboardInput.text?.toString() ?: ""
+        if (isDefaultTextVisible()) {
+            binding.keyboardInput.text = null
+            binding.keyboardInput.append(keyText)
+        } else if (currentText.endsWith(". ") || currentText.endsWith("? ")) {
+            binding.keyboardInput.append(keyText)
+        } else {
+            binding.keyboardInput.append(
+                keyText.toLowerCase(Locale.getDefault())
+            )
         }
+
+        viewModel.currentText = binding.keyboardInput.text.toString()
     }
 
     private fun isDefaultTextVisible(): Boolean {
@@ -78,6 +52,23 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        keys = resources.getStringArray(R.array.keyboard_keys)
+
+        val numColumns = resources.getInteger(R.integer.keyboard_columns)
+        val numRows = resources.getInteger(R.integer.keyboard_rows)
+
+        with(binding.keyboardKeyHolder) {
+            layoutManager = GridLayoutManager(requireContext(), numColumns)
+            addItemDecoration(
+                ItemOffsetDecoration(
+                    requireContext(),
+                    R.dimen.keyboard_key_margin,
+                    keys.size
+                )
+            )
+            adapter = KeyboardAdapter(keys, keyAction, numRows)
+        }
 
         VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
             binding.speakerIcon.isVisible = it

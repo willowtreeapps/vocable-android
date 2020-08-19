@@ -11,8 +11,8 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentNumberPadBinding
 import com.willowtree.vocable.presets.adapter.PhraseAdapter
-import com.willowtree.vocable.presets.adapter.PhraseItemOffsetDecoration
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.ItemOffsetDecoration
 
 class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
 
@@ -44,10 +44,10 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
             with(binding.phrasesContainer) {
                 layoutManager = GridLayoutManager(requireContext(), numColumns)
                 addItemDecoration(
-                    PhraseItemOffsetDecoration(
+                    ItemOffsetDecoration(
                         requireContext(),
-                        numColumns,
-                        MAX_PHRASES
+                        R.dimen.speech_button_margin,
+                        it.size
                     )
                 )
                 adapter = PhraseAdapter(

@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <GridLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/keyboard_key_holder"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -63,9 +63,6 @@
         android:layout_marginTop="@dimen/keyboard_keys_top_margin"
         android:layout_marginEnd="@dimen/keyboard_side_margin"
         android:layout_marginBottom="@dimen/keyboard_side_margin"
-        android:columnCount="@integer/edit_keyboard_columns"
-        android:rowCount="@integer/edit_keyboard_rows"
-        android:useDefaultMargins="true"
         app:layout_constraintBottom_toTopOf="@+id/keyboard_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
