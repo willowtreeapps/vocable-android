@@ -1,21 +1,31 @@
-package com.willowtree.vocable.presets.adapter
+package com.willowtree.vocable.utils
 
 import android.content.Context
 import android.graphics.Rect
 import android.view.View
+import androidx.annotation.DimenRes
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.willowtree.vocable.R
 
-class PhraseItemOffsetDecoration(
+/**
+ * Adds spacing at the bottom and end of items in a RecyclerView using a GridLayoutManager. Will not
+ * add bottom spacing to the last row of items and will not add end spacing to the last column of
+ * items.
+ *
+ * @param context Context used to get the pixel size of the offset
+ * @param offsetSize The dimen resource representing the offset
+ * @param itemCount The number of items in the RecyclerView
+ */
+class ItemOffsetDecoration(
     context: Context,
-    private val numColumns: Int,
+    @DimenRes private val offsetSize: Int,
     private val itemCount: Int
 ) : RecyclerView.ItemDecoration() {
 
     private var offset = 0
 
     init {
-        offset = context.resources.getDimensionPixelSize(R.dimen.speech_button_margin)
+        offset = context.resources.getDimensionPixelSize(offsetSize)
     }
 
     override fun getItemOffsets(
@@ -27,6 +37,13 @@ class PhraseItemOffsetDecoration(
         super.getItemOffsets(outRect, view, parent, state)
 
         val itemIndex = parent.indexOfChild(view)
+
+        val layoutManager = parent.layoutManager
+        val numColumns = if (layoutManager is GridLayoutManager) {
+            layoutManager.spanCount
+        } else {
+            0
+        }
 
         var rightOffset = offset
         var bottomOffset = offset

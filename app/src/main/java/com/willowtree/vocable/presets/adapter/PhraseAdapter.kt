@@ -3,6 +3,7 @@ package com.willowtree.vocable.presets.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.PhraseButtonBinding
@@ -30,8 +31,12 @@ class PhraseAdapter(private val phrases: List<Phrase>, private val numRows: Int)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhraseItemViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.phrase_button, parent, false)
+        itemView.isInvisible = true
         parent.post {
-            itemView.minimumHeight = getMinHeight(parent)
+            with(itemView) {
+                minimumHeight = getMinHeight(parent)
+                isInvisible = false
+            }
         }
         return PhraseItemViewHolder(itemView)
     }
