@@ -10,9 +10,9 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
-import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.screens.MainScreen
+import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.After
 import org.junit.Before
@@ -32,13 +32,13 @@ open class BaseTest {
         ViewMatchers.isDisplayed()
     )
     private val name = TestName()
-    private var activityRule = ActivityTestRule(MainActivity::class.java, false, false)
+    private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
 
     @Rule
     fun getTestName(): TestName = name
 
     @Rule
-    fun getActivityRule(): ActivityTestRule<MainActivity> = activityRule
+    fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
 
     @Before
     open fun setup() {
