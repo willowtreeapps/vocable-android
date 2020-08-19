@@ -2,6 +2,7 @@
 ![Platform Android](https://img.shields.io/badge/Platform-Android-blue.svg)
 ![license MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)
 [![Crowdin](https://badges.crowdin.net/vocable-android/localized.svg)](https://crowdin.com/project/vocable-android)
+[![Slack](https://img.shields.io/badge/Join%20our%20Slack-%23E01E5A?logo=slack)](https://docs.google.com/forms/d/1hiU2fJtta4BcalnybFMugUE9RXeG4oQXelG9B3KDtf8/viewform?edit_requested=true)
 
 > Empowering people to communicate with care takers and loved ones.
 
