@@ -10,10 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseViewModelFactory
-import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.settings.EditPhrasesKeyboardFragmentArgs.Companion.fromBundle
 import java.util.*
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
@@ -40,9 +39,8 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        arguments?.getParcelable<Phrase>(KEY_PHRASE)?.let {
-            phrase = it
-        }
+        phrase = fromBundle(requireArguments()).phrase
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

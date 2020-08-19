@@ -12,6 +12,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.settings.EditCategoryOptionsFragmentArgs.Companion.fromBundle
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 
@@ -35,16 +36,19 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val category = arguments?.getParcelable<Category>(KEY_CATEGORY)
+        // val category = arguments?.get(KEY_CATEGORY) as Category?
+        val category by lazy {
+            fromBundle(requireArguments()).category
+        }
 
-        if (category?.isUserGenerated == true) {
+        if (category.isUserGenerated) {
             binding.removeCategoryButton.isInvisible = false
             binding.editOptionsButton?.isInvisible = false
         }
 
         binding.categoryTitle.text = category?.let { localizedResourceUtility.getTextFromCategory(it) }
 
-        category?.let {
+        category.let {
             binding.editOptionsButton?.action = {
                 val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(category)
                 findNavController().navigate(action)
