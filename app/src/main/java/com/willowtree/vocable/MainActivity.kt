@@ -34,8 +34,6 @@ class MainActivity : BaseActivity() {
         val navHost = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
         val navController = navHost.navController
 
-        navController.setGraph(R.navigation.main_nav_graph, intent.extras)
-
         binding.mainNavHostFragment?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
         }
