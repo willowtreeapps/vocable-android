@@ -11,6 +11,7 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentSettingsBinding
 
@@ -80,35 +81,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         }
 
         binding.settingsOptionsContainer.editSayingsButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditPresetsFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_settingsFragment_to_editPresetsFragment)
         }
 
         binding.settingsOptionsContainer.timingSensitivityButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SensitivityFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_settingsFragment_to_sensitivityFragment)
         }
 
         binding.settingsOptionsContainer.selectionModeButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SelectionModeFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_settingsFragment_to_selectionModeFragment)
         }
 
         binding.settingsOptionsContainer.editCategoriesButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, EditCategoriesFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_settingsFragment_to_editCategoriesFragment)
         }
 
         viewModel = ViewModelProviders.of(

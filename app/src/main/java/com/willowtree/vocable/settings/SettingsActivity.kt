@@ -1,12 +1,16 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.willowtree.vocable.BaseActivity
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BuildConfig
@@ -42,14 +46,7 @@ class SettingsActivity : BaseActivity() {
             binding.pointerView.isVisible = false
         }
 
-        if (supportFragmentManager.findFragmentById(R.id.settings_fragment_container) == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment_container, SettingsFragment())
-                .commit()
-        }
-
-        binding.settingsFragmentContainer.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        binding.settingsNavHostFragment.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
         }
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
@@ -77,18 +78,11 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
         })
 
         binding.backButton.action = {
-            parentFragmentManager.popBackStack()
+            findNavController().popBackStack()
         }
 
         binding.addCategoryButton.action = {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.settings_fragment_container,
-                    EditCategoriesKeyboardFragment.newInstance(null)
-                )
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_editCategoriesFragment_to_editCategoriesKeyboardFragment)
         }
 
         editCategoriesViewModel =

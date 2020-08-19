@@ -1,19 +1,20 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewbinding.ViewBinding
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.settings.EditCategoryOptionsFragmentArgs.Companion.fromBundle
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 
@@ -30,6 +31,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
     }
+    private val args by navArgs<EditCategoryOptionsFragmentArgs>()
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> = FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
@@ -37,29 +39,24 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val category = arguments?.getParcelable<Category>(KEY_CATEGORY)
+        val category = args.category
 
-        if (category?.isUserGenerated == true) {
+        if (category.isUserGenerated) {
             binding.removeCategoryButton.isInvisible = false
             binding.editOptionsButton?.isInvisible = false
         }
 
         binding.categoryTitle.text = category?.let { localizedResourceUtility.getTextFromCategory(it) }
 
-        category?.let {
+        category.let {
             binding.editOptionsButton?.action = {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(
-                        R.id.settings_fragment_container,
-                        EditCategoriesKeyboardFragment.newInstance(category)
-                    ).addToBackStack(null)
-                    .commit()
+                val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(category)
+                findNavController().navigate(action)
             }
         }
 
         binding.editOptionsBackButton.action = {
-            parentFragmentManager.popBackStack()
+            findNavController().popBackStack()
         }
 
         binding.showCategorySwitch.action = {
@@ -88,7 +85,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                         editCategoriesViewModel.deleteCategory(category)
                     }
 
-                    parentFragmentManager.popBackStack()
+                    findNavController().popBackStack()
                 }
                 dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
                 dialogNegativeButton.action = {
