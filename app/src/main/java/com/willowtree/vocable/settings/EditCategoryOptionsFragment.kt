@@ -59,19 +59,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             findNavController().popBackStack()
         }
 
-        binding.showCategorySwitch.action = {
-            binding.categoryShowSwitch.isChecked = !binding.categoryShowSwitch.isChecked
-        }
-
-        binding.categoryShowSwitch.apply {
-            isChecked = category?.hidden?.not() ?: false
-            setOnCheckedChangeListener { _, isChecked ->
-                category?.let { category ->
-                    editCategoriesViewModel.hideShowCategory(category, !isChecked)
-                }
-            }
-        }
-
         binding.removeCategoryButton.action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
@@ -108,11 +95,9 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
     private fun setEditButtonsEnabled(enabled: Boolean) {
         binding.apply {
-            showCategorySwitch.isEnabled = enabled
             editOptionsButton?.isEnabled = enabled
             editOptionsBackButton.isEnabled = enabled
             removeCategoryButton.isEnabled = enabled
-            categoryShowSwitch.isEnabled = enabled
         }
     }
 
