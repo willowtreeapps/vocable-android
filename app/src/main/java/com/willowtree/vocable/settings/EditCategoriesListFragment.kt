@@ -165,10 +165,28 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategorySelectButton.isEnabled = false
             }
 
-            editCategorySelectButton.action = {
-                val action = EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(category)
-                findNavController().navigate(action)
-                editCategoriesViewModel.onCategorySelected(category)
+            editCategorySelectButton.apply {
+                isEnabled = category.isUserGenerated
+
+                editCategorySelectButton.action = {
+                    val action = EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(category)
+                    findNavController().navigate(action)
+                    editCategoriesViewModel.onCategorySelected(category)
+                }
+            }
+        }
+
+        editButtonBinding.showHideCategoryButton?.apply {
+            if (!category.hidden) {
+                setImageResource(R.drawable.button_hidden)
+            } else {
+                setImageResource(R.drawable.button_shown)
+            }
+
+            setOnClickListener {
+                category.let { category ->
+                    editCategoriesViewModel.hideShowCategory(category, !category.hidden)
+                }
             }
         }
     }
