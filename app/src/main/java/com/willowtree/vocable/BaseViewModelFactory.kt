@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willowtree.vocable.keyboard.KeyboardViewModel
 import com.willowtree.vocable.presets.PresetsViewModel
+import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditPhrasesViewModel
 import com.willowtree.vocable.settings.SettingsViewModel
@@ -31,6 +32,9 @@ class BaseViewModelFactory : ViewModelProvider.Factory {
             }
             modelClass.isAssignableFrom(EditCategoriesViewModel::class.java) -> {
                 return EditCategoriesViewModel() as T
+            }
+            modelClass.isAssignableFrom(AddUpdateCategoryViewModel::class.java) -> {
+                return AddUpdateCategoryViewModel() as T
             }
             else -> throw IllegalArgumentException("Unknown class: ${modelClass::class.java.canonicalName}")
         }
