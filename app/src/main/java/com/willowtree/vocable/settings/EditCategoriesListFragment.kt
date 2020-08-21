@@ -177,7 +177,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             }
         }
 
-        editButtonBinding.showHideCategoryButton.apply {
+        with(editButtonBinding.showHideCategoryButton) {
             if (!category.hidden) {
                 setImageResource(R.drawable.button_hidden)
             } else {
