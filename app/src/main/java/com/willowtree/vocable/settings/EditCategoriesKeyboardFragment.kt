@@ -2,7 +2,6 @@ package com.willowtree.vocable.settings
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -66,8 +65,6 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
         binding.keyboardInput.setText(inputText)
 
-        toggleMessage()
-
         viewModel = ViewModelProviders.of(
             this,
             BaseViewModelFactory()
@@ -76,25 +73,21 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
         subscribeToViewModel()
     }
 
-    private fun toggleMessage() {
-        with(binding.phraseSavedView.root) {
-            if (currentCategory != null) {
-                setText(R.string.changes_saved)
-            } else {
-                setText(R.string.category_created)
-            }
-        }
-    }
-
     private fun subscribeToViewModel() {
         viewModel.showCategoryUpdateMessage.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it == true
+            with(binding.phraseSavedView.root) {
+                isVisible = it == true
+                if (currentCategory != null) {
+                    setText(R.string.changes_saved)
+                } else {
+                    setText(R.string.category_created)
+                }
+            }
         })
 
         viewModel.currentCategory.observe(viewLifecycleOwner, Observer {
             it?.let {
                 currentCategory = it
-                toggleMessage()
             }
         })
     }

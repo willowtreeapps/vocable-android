@@ -94,10 +94,9 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
             }
 
             liveShowCategoryUpdateMessage.postValue(true)
+            liveCurrentCategory.postValue(newCategory)
             delay(CATEGORY_MESSAGE_DELAY)
             liveShowCategoryUpdateMessage.postValue(false)
-
-            liveCurrentCategory.postValue(newCategory)
         }
     }
 }
