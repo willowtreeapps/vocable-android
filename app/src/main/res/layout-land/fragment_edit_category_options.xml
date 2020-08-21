@@ -45,34 +45,6 @@
         app:layout_constraintTop_toTopOf="@id/category_title" />
 
     <com.willowtree.vocable.customviews.VocableConstraintLayout
-        android:id="@+id/show_category_switch"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/selection_mode_button_height"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_marginStart="@dimen/selection_mode_grid_horizontal_margin"
-        android:layout_marginTop="@dimen/settings_options_margin_top"
-        android:background="@drawable/settings_group_background"
-        app:layout_constraintEnd_toStartOf="@id/remove_category_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_options_back_button">
-
-        <TextView
-            style="@style/SelectionModeButton"
-            android:text="@string/edit_category_show_category_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/category_show_switch" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/category_show_switch"
-            style="@style/SelectionModeButtonSwitch"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </com.willowtree.vocable.customviews.VocableConstraintLayout>
-
-    <com.willowtree.vocable.customviews.VocableConstraintLayout
         android:id="@+id/remove_category_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/selection_mode_button_height"
@@ -83,8 +55,8 @@
         android:layout_marginEnd="@dimen/selection_mode_grid_horizontal_margin"
         android:background="@drawable/button_default_background"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/show_category_switch"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_options_back_button">
 
         <TextView
