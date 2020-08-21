@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -38,7 +38,8 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         }
     }
 
-    override val bindingInflater: BindingInflater<FragmentEditCategoriesListBinding> = FragmentEditCategoriesListBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditCategoriesListBinding> =
+        FragmentEditCategoriesListBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
     private var maxEditCategories = 1
 
@@ -148,8 +149,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 )
             }
 
-            hiddenView.isVisible = category.hidden
-
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
                 !category.hidden && overallIndex + 1 < firstHiddenIndex
@@ -167,10 +166,14 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
 
             with(editCategorySelectButton) {
                 // enable the button if the category is user-generated, or if it's My Sayings
-                isEnabled = category.isUserGenerated || category.categoryId == PresetCategories.USER_FAVORITES.id
+                isEnabled =
+                    category.isUserGenerated || category.categoryId == PresetCategories.USER_FAVORITES.id
 
                 action = {
-                    val action = EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(category)
+                    val action =
+                        EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
+                            category
+                        )
                     findNavController().navigate(action)
                     editCategoriesViewModel.onCategorySelected(category)
                 }
@@ -180,8 +183,10 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         with(editButtonBinding.showHideCategoryButton) {
             if (!category.hidden) {
                 setImageResource(R.drawable.button_hidden)
+                setBackgroundResource(R.drawable.button_default_background)
             } else {
                 setImageResource(R.drawable.button_shown)
+                setBackgroundResource(R.drawable.category_button_background)
             }
 
             setOnClickListener {
