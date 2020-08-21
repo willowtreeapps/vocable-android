@@ -165,10 +165,11 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategorySelectButton.isEnabled = false
             }
 
-            editCategorySelectButton.apply {
-                isEnabled = category.isUserGenerated
+            with(editCategorySelectButton) {
+                // enable the button if the category is user-generated, or if it's My Sayings
+                isEnabled = category.isUserGenerated || category.categoryId == PresetCategories.USER_FAVORITES.id
 
-                editCategorySelectButton.action = {
+                action = {
                     val action = EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(category)
                     findNavController().navigate(action)
                     editCategoriesViewModel.onCategorySelected(category)
@@ -176,7 +177,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             }
         }
 
-        editButtonBinding.showHideCategoryButton?.apply {
+        editButtonBinding.showHideCategoryButton.apply {
             if (!category.hidden) {
                 setImageResource(R.drawable.button_hidden)
             } else {

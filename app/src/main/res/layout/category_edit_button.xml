@@ -53,7 +53,7 @@
         android:layout_height="@dimen/edit_categories_list_button_height"
         android:background="@drawable/button_default_background"
         android:src="@drawable/arrow_down_40dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/edit_categories_list_arrow_margin"
         app:layout_constraintBottom_toBottomOf="@id/move_category_up_button"
         app:layout_constraintEnd_toStartOf="@id/show_hide_category_button"
         app:layout_constraintStart_toEndOf="@id/move_category_up_button"
