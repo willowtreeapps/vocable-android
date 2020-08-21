@@ -1,58 +1,40 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.Category
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import com.willowtree.vocable.presets.PresetCategories
-import java.util.*
 
 class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
-    companion object {
-        private const val KEY_CATEGORY = "KEY_CATEGORY"
-
-        fun newInstance(category: Category?) = EditCategoriesKeyboardFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(KEY_CATEGORY, category)
-            }
-        }
-    }
-
     override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> =
         FragmentEditKeyboardBinding::inflate
-    private lateinit var viewModel: EditCategoriesViewModel
-    private var category: Category? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private lateinit var viewModel: AddUpdateCategoryViewModel
 
-        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
-            category = it
-        }
+    private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    private var currentCategory: Category? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        currentCategory = args.category
+
         binding.backButton.action = {
             val categoryTextChanged =
-                binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromCategory(category)
+                binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromCategory(
+                    currentCategory
+                )
             if (!categoryTextChanged || isDefaultTextVisible()) {
                 findNavController().popBackStack()
             } else {
@@ -62,49 +44,58 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
 
         binding.saveButton.action = {
-            if ((category == null) && !isDefaultTextVisible()) {
+            if (currentCategory == null && !isDefaultTextVisible()) {
+                // Add new category
                 binding.keyboardInput.text?.let { text ->
                     if (text.isNotBlank()) {
-                        viewModel.addNewCategory(text.toString())
-                        findNavController().popBackStack()
+                        viewModel.addCategory(text.toString())
                     }
                 }
-            } else if ((category != null) && !isDefaultTextVisible()) {
-                binding.keyboardInput.text.let { text ->
-                    val categoryName = category?.localizedName?.toMutableMap()?.apply {
-                        put(Locale.getDefault().toString(), text.toString())
+            } else if (currentCategory != null && !isDefaultTextVisible()) {
+                // Update category
+                currentCategory?.let {
+                    binding.keyboardInput.text.let { text ->
+                        viewModel.updateCategory(it.categoryId, text.toString())
                     }
-                    category?.localizedName = categoryName ?: mapOf()
-                    category?.let { updatedCategory ->
-                        viewModel.updateCategory(updatedCategory)
-                    } ?: viewModel.addNewCategory(text.toString())
                 }
             }
         }
 
-        val categoryText = localizedResourceUtility.getTextFromCategory(category)
+        val categoryText = localizedResourceUtility.getTextFromCategory(currentCategory)
         val inputText = categoryText.ifEmpty { getString(R.string.keyboard_select_letters) }
 
         binding.keyboardInput.setText(inputText)
 
-        (binding.phraseSavedView.root as TextView).apply {
-            if (category != null) {
-                setText(R.string.changes_saved)
-            }
-        }
+        toggleMessage()
 
         viewModel = ViewModelProviders.of(
-            requireActivity(),
+            this,
             BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
+        ).get(AddUpdateCategoryViewModel::class.java)
 
         subscribeToViewModel()
     }
 
+    private fun toggleMessage() {
+        with(binding.phraseSavedView.root) {
+            if (currentCategory != null) {
+                setText(R.string.changes_saved)
+            } else {
+                setText(R.string.category_created)
+            }
+        }
+    }
 
     private fun subscribeToViewModel() {
-        viewModel.showCategoryAdded.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it ?: false
+        viewModel.showCategoryUpdateMessage.observe(viewLifecycleOwner, Observer {
+            binding.phraseSavedView.root.isVisible = it == true
+        })
+
+        viewModel.currentCategory.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                currentCategory = it
+                toggleMessage()
+            }
         })
     }
 }
