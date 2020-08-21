@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
@@ -22,6 +23,8 @@ class EditCategoriesViewModel : BaseViewModel() {
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
 
     private var overallCategories = listOf<Category>()
+
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     fun refreshCategories() {
         backgroundScope.launch {
@@ -72,6 +75,11 @@ class EditCategoriesViewModel : BaseViewModel() {
                 showCategory(category)
             }
         }
+    }
+
+    fun getUpdatedCategoryName(category: Category): String {
+        val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
+        return localizedResourceUtility.getTextFromCategory(updatedCategory)
     }
 
     private suspend fun hideCategory(category: Category) {
