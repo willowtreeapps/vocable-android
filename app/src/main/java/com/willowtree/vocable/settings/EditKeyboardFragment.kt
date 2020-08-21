@@ -45,6 +45,8 @@ abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>(
                 keyText.toLowerCase(Locale.getDefault())
             )
         }
+
+        binding.keyboardInput.setSelection(binding.keyboardInput.text.length)
     }
 
     fun isDefaultTextVisible(): Boolean {
@@ -102,6 +104,7 @@ abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>(
             if (!isDefaultTextVisible()) {
                 binding.keyboardInput.let { keyboardInput ->
                     keyboardInput.setText(keyboardInput.text.toString().dropLast(1))
+                    keyboardInput.setSelection(keyboardInput.text.length)
                     if (keyboardInput.text.isNullOrEmpty()) {
                         keyboardInput.setText(R.string.keyboard_select_letters)
                     }
