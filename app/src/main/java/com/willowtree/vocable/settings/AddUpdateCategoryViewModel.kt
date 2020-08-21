@@ -52,6 +52,7 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
                 presetsRepository.updateCategory(it)
 
                 liveShowCategoryUpdateMessage.postValue(true)
+                liveCurrentCategory.postValue(it)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)
             }
