@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/category_container"
     android:layout_width="0dp"
     android:layout_height="0dp"
+    android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
-    android:layout_rowWeight="1"
-    android:layout_columnWeight="1"
     app:layout_constraintTop_toBottomOf="@+id/top_view">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/hidden_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_visibility_off_40dp"
-        android:layout_marginStart="@dimen/category_edit_button_hidden_margin_start"
-        android:layout_marginEnd="@dimen/category_edit_button_hidden_margin_end"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@id/move_category_down_button"
-        app:layout_constraintTop_toTopOf="@id/category_name"
-        app:layout_constraintBottom_toBottomOf="@id/category_name"
-        app:layout_constraintEnd_toStartOf="@id/category_name"
-        />
 
 
     <com.willowtree.vocable.customviews.VocableImageButton
@@ -43,9 +29,9 @@
         android:id="@+id/move_category_down_button"
         android:layout_width="@dimen/edit_categories_list_button_width"
         android:layout_height="@dimen/edit_categories_list_button_height"
+        android:layout_marginEnd="@dimen/edit_categories_list_arrow_margin"
         android:background="@drawable/button_default_background"
         android:src="@drawable/arrow_down_40dp"
-        android:layout_marginEnd="@dimen/edit_categories_list_arrow_margin"
         app:layout_constraintBottom_toTopOf="@id/edit_category_select_button"
         app:layout_constraintEnd_toStartOf="@id/show_hide_category_button"
         app:layout_constraintStart_toEndOf="@id/move_category_up_button"
@@ -57,10 +43,10 @@
         android:layout_height="@dimen/edit_categories_list_button_height"
         android:background="@drawable/button_default_background"
         android:src="@drawable/button_shown"
-        app:layout_constraintTop_toTopOf="@id/move_category_down_button"
         app:layout_constraintBottom_toBottomOf="@id/move_category_down_button"
+        app:layout_constraintEnd_toStartOf="@id/category_name"
         app:layout_constraintStart_toEndOf="@id/move_category_down_button"
-        app:layout_constraintEnd_toStartOf="@id/hidden_view"/>
+        app:layout_constraintTop_toTopOf="@id/move_category_down_button" />
 
     <TextView
         android:id="@+id/category_name"
@@ -70,7 +56,7 @@
         android:textColor="@color/textColor"
         android:textSize="@dimen/edit_categories_list_text_size"
         app:layout_constraintBottom_toBottomOf="@id/edit_category_select_button"
-        app:layout_constraintStart_toEndOf="@id/hidden_view"
+        app:layout_constraintStart_toEndOf="@id/show_hide_category_button"
         app:layout_constraintTop_toTopOf="@+id/edit_category_select_button" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
