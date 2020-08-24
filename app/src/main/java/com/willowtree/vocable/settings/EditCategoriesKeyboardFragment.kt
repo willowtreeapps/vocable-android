@@ -43,18 +43,20 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
 
         binding.saveButton.action = {
-            if (currentCategory == null && !isDefaultTextVisible()) {
-                // Add new category
-                binding.keyboardInput.text?.let { text ->
-                    if (text.isNotBlank()) {
-                        viewModel.addCategory(text.toString())
+            if (!isDefaultTextVisible()) {
+                if (currentCategory == null) {
+                    // Add new category
+                    binding.keyboardInput.text?.let { text ->
+                        if (text.isNotBlank()) {
+                            viewModel.addCategory(text.toString())
+                        }
                     }
-                }
-            } else if (currentCategory != null && !isDefaultTextVisible()) {
-                // Update category
-                currentCategory?.let {
-                    binding.keyboardInput.text.let { text ->
-                        viewModel.updateCategory(it.categoryId, text.toString())
+                } else {
+                    // Update category
+                    currentCategory?.let {
+                        binding.keyboardInput.text.let { text ->
+                            viewModel.updateCategory(it.categoryId, text.toString())
+                        }
                     }
                 }
             }
