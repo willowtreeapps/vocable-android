@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
@@ -13,29 +13,15 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
-import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.settings.EditCategoryOptionsFragmentArgs.Companion.fromBundle
-import com.willowtree.vocable.utils.LocalizedResourceUtility
-import org.koin.android.ext.android.inject
 
 class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBinding>() {
 
-    companion object {
-        private const val KEY_CATEGORY = "KEY_CATEGORY"
+    private val args: EditCategoryOptionsFragmentArgs by navArgs()
 
-        fun newInstance(category: Category): EditCategoryOptionsFragment {
-            return EditCategoryOptionsFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_CATEGORY, category)
-                }
-            }
-        }
-    }
-    private val args by navArgs<EditCategoryOptionsFragmentArgs>()
-
-    override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> = FragmentEditCategoryOptionsBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> =
+        FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,11 +32,12 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             binding.editOptionsButton?.isInvisible = false
         }
 
-        binding.categoryTitle.text = category?.let { localizedResourceUtility.getTextFromCategory(it) }
-
         category.let {
             binding.editOptionsButton?.action = {
-                val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(category)
+                val action =
+                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
+                        category
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -68,9 +55,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 dialogPositiveButton.text =
                     resources.getString(R.string.settings_dialog_continue)
                 dialogPositiveButton.action = {
-                    category?.let {
-                        editCategoriesViewModel.deleteCategory(category)
-                    }
+                    editCategoriesViewModel.deleteCategory(category)
 
                     findNavController().popBackStack()
                 }
@@ -82,11 +67,25 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
-
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory()
         ).get(EditCategoriesViewModel::class.java)
+
+        subscribeToViewModel()
+
+        editCategoriesViewModel.refreshCategories()
+    }
+
+    private fun subscribeToViewModel() {
+        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                // Get the most updated category name if the user changed it on the
+                // EditCategoriesKeyboardFragment screen
+                binding.categoryTitle.text =
+                    editCategoriesViewModel.getUpdatedCategoryName(args.category)
+            }
+        })
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {

@@ -54,13 +54,14 @@
 
     <!-- Edit Keyboard -->
     <string name="changes_saved">Changes Saved</string>
+    <string name="category_created">Category Created</string>
 
     <!-- Timing and Sensitivity -->
     <string name="timing_sensitivity_title">Timing and Sensitivity</string>
     <string name="hover_time_text">Hover Time</string>
     <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
     <string name="hover_time_amount_text">
-        <xliff:g id="time" example="5">%s</xliff:g> seconds
+        <xliff:g example="5" id="time">%s</xliff:g> seconds
     </string>
     <string name="hover_time_one_text">1 second</string>
     <string name="cursor_sensitivity_low">Low</string>
