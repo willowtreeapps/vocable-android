@@ -29,9 +29,6 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
 
         binding.categoryBackButton.action = {
             when (val currentPosition = binding.editCategoriesViewPager.currentItem) {
-                null -> {
-                    // No-op
-                }
                 0 -> {
                     binding.editCategoriesViewPager.setCurrentItem(
                         categoriesAdapter.itemCount - 1,
@@ -91,6 +88,8 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
                 BaseViewModelFactory()
             ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
+
+        editCategoriesViewModel.refreshCategories()
     }
 
     override fun getAllViews(): List<View> {
@@ -129,8 +128,11 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
                     val mod = middle % categoriesAdapter.numPages
                     middle + (categoriesAdapter.numPages - mod) + pageNum
                 }
-                if (binding.editCategoriesViewPager.currentItem != toScrollTo) {
-                    binding.editCategoriesViewPager.setCurrentItem(toScrollTo, false)
+                // Wait until view pager has finished its layout
+                binding.editCategoriesViewPager.post {
+                    if (binding.editCategoriesViewPager.currentItem != toScrollTo) {
+                        binding.editCategoriesViewPager.setCurrentItem(toScrollTo, false)
+                    }
                 }
             }
         })

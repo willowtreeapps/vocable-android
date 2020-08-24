@@ -5,21 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import kotlinx.coroutines.delay
+import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.inject
-import java.util.*
 
 class EditCategoriesViewModel : BaseViewModel() {
 
-    companion object {
-        private const val CATEGORY_UPDATED_DELAY = 2000L
-    }
-
     private val presetsRepository: PresetsRepository by inject()
-
-    private val liveCategoryList = MutableLiveData<List<Category>>()
-    val categoryList: LiveData<List<Category>> = liveCategoryList
 
     private val liveOrderCategoryList = MutableLiveData<List<Category>>()
     val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList
@@ -27,42 +19,44 @@ class EditCategoriesViewModel : BaseViewModel() {
     private val liveAddRemoveCategoryList = MutableLiveData<List<Category>>()
     val addRemoveCategoryList: LiveData<List<Category>> = liveAddRemoveCategoryList
 
-    private val liveShowCategoryAdded = MutableLiveData<Boolean>()
-    val showCategoryAdded: LiveData<Boolean> = liveShowCategoryAdded
-
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
 
     private var overallCategories = listOf<Category>()
 
-    init {
-        populateCategories()
-    }
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
-    private fun populateCategories() {
+    fun refreshCategories() {
         backgroundScope.launch {
+
+            val oldCategories = overallCategories
 
             overallCategories = presetsRepository.getAllCategories()
 
             liveOrderCategoryList.postValue(overallCategories)
             liveAddRemoveCategoryList.postValue(overallCategories)
+
+            // Check if a new category was added and scroll to it
+            if (oldCategories.isNotEmpty() && oldCategories.size < overallCategories.size) {
+                when (val firstHiddenIndex = overallCategories.indexOfFirst { it.hidden }) {
+                    -1 -> {
+                        liveLastViewedIndex.postValue(overallCategories.size - 1)
+                    }
+                    0 -> {
+                        liveLastViewedIndex.postValue(0)
+                    }
+                    else -> {
+                        liveLastViewedIndex.postValue(firstHiddenIndex - 1)
+                    }
+                }
+            }
         }
     }
 
     fun deleteCategory(category: Category) {
         backgroundScope.launch {
             presetsRepository.deleteCategory(category)
-            populateCategories()
-        }
-    }
-
-    fun updateCategory(category: Category) {
-        backgroundScope.launch {
-            presetsRepository.updateCategory(category)
-
-            liveShowCategoryAdded.postValue(true)
-            delay(CATEGORY_UPDATED_DELAY)
-            liveShowCategoryAdded.postValue(false)
+            refreshCategories()
         }
     }
 
@@ -81,6 +75,11 @@ class EditCategoriesViewModel : BaseViewModel() {
                 showCategory(category)
             }
         }
+    }
+
+    fun getUpdatedCategoryName(category: Category): String {
+        val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
+        return localizedResourceUtility.getTextFromCategory(updatedCategory)
     }
 
     private suspend fun hideCategory(category: Category) {
@@ -158,40 +157,4 @@ class EditCategoriesViewModel : BaseViewModel() {
             }
         }
     }
-
-    fun addNewCategory(categoryStr: String) {
-        backgroundScope.launch {
-            var firstHiddenIndex = overallCategories.indexOfFirst { it.hidden }
-            if (firstHiddenIndex == -1) {
-                firstHiddenIndex = overallCategories.size - 1
-            }
-            val listToUpdate = overallCategories.filter { it.hidden }
-            listToUpdate.forEach {
-                it.sortOrder++
-            }
-            val newCategory = Category(
-                UUID.randomUUID().toString(),
-                System.currentTimeMillis(),
-                true,
-                null,
-                mapOf(Pair(Locale.getDefault().toString(), categoryStr)),
-                false,
-                firstHiddenIndex
-            )
-
-            overallCategories = overallCategories
-                .toMutableList()
-                .apply { add(newCategory) }
-                .sortedBy { it.sortOrder }
-            liveAddRemoveCategoryList.postValue(overallCategories)
-            liveLastViewedIndex.postValue(firstHiddenIndex)
-            liveOrderCategoryList.postValue(overallCategories)
-
-            with(presetsRepository) {
-                addCategory(newCategory)
-                updateCategories(listToUpdate)
-            }
-        }
-    }
-
 }
