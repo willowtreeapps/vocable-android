@@ -12,4 +12,6 @@
     <integer name="max_edit_categories">5</integer>
     <integer name="keyboard_columns">10</integer>
     <integer name="keyboard_rows">3</integer>
+    <integer name="custom_category_phrase_columns">2</integer>
+    <integer name="custom_category_phrase_rows">3</integer>
 </resources>
