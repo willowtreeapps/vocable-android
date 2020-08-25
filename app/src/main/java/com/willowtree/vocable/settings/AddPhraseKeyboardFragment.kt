@@ -31,10 +31,10 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
         }
     }
 
-
     private lateinit var viewModel: AddPhraseViewModel
     private val args: AddPhraseKeyboardFragmentArgs by navArgs()
     private lateinit var category: Category
+    private var savedPhrase = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.action = {
-            if (isDefaultTextVisible()) {
+            if (isDefaultTextVisible() || binding.keyboardInput.text.toString() == savedPhrase) {
                 findNavController().popBackStack()
             } else {
                 showConfirmationDialog()
@@ -58,6 +58,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
                 binding.keyboardInput.text.let { text ->
                     if (text.isNotBlank()) {
                         viewModel.addNewPhrase(text.toString(), category.categoryId)
+                        savedPhrase = text.toString()
                     }
                 }
             }
