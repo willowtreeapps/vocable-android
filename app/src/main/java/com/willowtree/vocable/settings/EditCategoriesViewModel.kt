@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.inject
@@ -21,6 +22,9 @@ class EditCategoriesViewModel : BaseViewModel() {
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
+
+    private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
+    val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
 
     private var overallCategories = listOf<Category>()
 
@@ -56,6 +60,7 @@ class EditCategoriesViewModel : BaseViewModel() {
     fun deleteCategory(category: Category) {
         backgroundScope.launch {
             presetsRepository.deleteCategory(category)
+            // TODO: Delete category's phrases too
             refreshCategories()
         }
     }
@@ -80,6 +85,14 @@ class EditCategoriesViewModel : BaseViewModel() {
     fun getUpdatedCategoryName(category: Category): String {
         val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
         return localizedResourceUtility.getTextFromCategory(updatedCategory)
+    }
+
+    fun fetchCategoryPhrases(category: Category) {
+        backgroundScope.launch {
+            val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
+                .sortedBy { it.sortOrder }
+            liveCategoryPhraseList.postValue(phrasesForCategory)
+        }
     }
 
     private suspend fun hideCategory(category: Category) {
