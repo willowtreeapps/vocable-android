@@ -46,7 +46,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             findNavController().popBackStack()
         }
 
-        binding.removeCategoryButton.action = {
+        binding.removeCategoryButton.setOnClickListener { 
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding.confirmationDialog.apply {
@@ -65,6 +65,11 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                     setEditButtonsEnabled(true)
                 }
             }
+        }
+
+        binding.addPhraseButton.setOnClickListener {
+            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            findNavController().navigate(action)
         }
 
         editCategoriesViewModel = ViewModelProviders.of(
@@ -94,7 +99,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
     private fun setEditButtonsEnabled(enabled: Boolean) {
         binding.apply {
-            editOptionsButton?.isEnabled = enabled
+            editOptionsButton.isEnabled = enabled
             editOptionsBackButton.isEnabled = enabled
             removeCategoryButton.isEnabled = enabled
         }
