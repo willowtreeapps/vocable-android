@@ -46,7 +46,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             findNavController().popBackStack()
         }
 
-        binding.removeCategoryButton.setOnClickListener { 
+        binding.removeCategoryButton.action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding.confirmationDialog.apply {
@@ -67,7 +67,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
-        binding.addPhraseButton.setOnClickListener {
+        binding.addPhraseButton.action = {
             val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
             findNavController().navigate(action)
         }
