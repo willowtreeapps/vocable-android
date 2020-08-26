@@ -5,26 +5,26 @@
     android:layout_height="match_parent">
 
     <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/edit_sayings_button"
+        android:id="@+id/edit_phrase_button"
         android:layout_width="@dimen/edit_action_delete_width"
         android:layout_height="@dimen/edit_action_delete_height"
         android:layout_marginEnd="@dimen/edit_category_phrase_button_margin"
         android:background="@drawable/button_default_background"
         android:scaleType="center"
         android:src="@drawable/edit_40dp"
-        app:layout_constraintEnd_toStartOf="@id/delete_sayings_button"
+        app:layout_constraintEnd_toStartOf="@id/delete_phrase_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/delete_sayings_button"
+        android:id="@+id/delete_phrase_button"
         android:layout_width="@dimen/edit_action_delete_width"
         android:layout_height="@dimen/edit_action_delete_height"
         android:background="@drawable/button_default_background"
         android:scaleType="center"
         android:src="@drawable/keyboard_delete_button_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/edit_sayings_button"
+        app:layout_constraintStart_toEndOf="@id/edit_phrase_button"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

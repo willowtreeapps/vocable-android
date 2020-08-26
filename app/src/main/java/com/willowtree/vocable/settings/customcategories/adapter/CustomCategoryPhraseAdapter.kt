@@ -32,11 +32,11 @@ class CustomCategoryPhraseAdapter(
             binding.phraseText.text = localizedResourceUtility.getTextFromPhrase(phrase)
 
             with(binding.actionButtonContainer) {
-                editSayingsButton.action = {
+                editPhraseButton.action = {
                     onPhraseEdit(phrase)
                 }
 
-                deleteSayingsButton.action = {
+                deletePhraseButton.action = {
                     onPhraseDelete(phrase)
                 }
             }
