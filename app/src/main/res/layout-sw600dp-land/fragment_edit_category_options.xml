@@ -79,7 +79,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/edit_options_title_margin"
         android:layout_marginBottom="@dimen/edit_category_pager_margin_bottom"
-        app:layout_constraintBottom_toTopOf="@+id/edit_category_back_button"
+        app:layout_constraintBottom_toTopOf="@+id/edit_category_pager_back_button"
         app:layout_constraintEnd_toEndOf="@+id/remove_category_button"
         app:layout_constraintStart_toStartOf="@+id/edit_options_back_button"
         app:layout_constraintTop_toBottomOf="@+id/category_title" />
@@ -108,11 +108,11 @@
         android:textColor="@color/textColor"
         android:textSize="@dimen/phrases_page_number_text_size"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/edit_category_forward_button"
-        app:layout_constraintEnd_toStartOf="@+id/edit_category_forward_button"
+        app:layout_constraintBottom_toBottomOf="@id/edit_category_pager_forward_button"
+        app:layout_constraintEnd_toStartOf="@+id/edit_category_pager_forward_button"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/edit_category_back_button"
-        app:layout_constraintTop_toTopOf="@id/edit_category_forward_button"
+        app:layout_constraintStart_toEndOf="@+id/edit_category_pager_back_button"
+        app:layout_constraintTop_toTopOf="@id/edit_category_pager_back_button"
         tools:text="Page 1 of 2" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
