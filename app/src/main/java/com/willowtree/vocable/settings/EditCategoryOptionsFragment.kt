@@ -76,13 +76,18 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
+        binding.addPhraseButton.action = {
+            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            findNavController().navigate(action)
+        }
+
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
         val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
         maxPhrases = numColumns * numRows
 
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
-        binding.editCategoryForwardButton.action = {
+        binding.editCategoryPagerForwardButton.action = {
             when (val currentPosition = binding.editCategoryPhraseHolder.currentItem) {
                 phrasesAdapter.itemCount - 1 -> {
                     binding.editCategoryPhraseHolder.setCurrentItem(0, true)
@@ -93,7 +98,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
-        binding.editCategoryBackButton.action = {
+        binding.editCategoryPagerBackButton.action = {
             when (val currentPosition = binding.editCategoryPhraseHolder.currentItem) {
                 0 -> {
                     binding.editCategoryPhraseHolder.setCurrentItem(
@@ -135,7 +140,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             refreshCategories()
             fetchCategoryPhrases(args.category)
         }
-        editCategoriesViewModel.refreshCategories()
     }
 
     private fun subscribeToViewModel() {
@@ -203,8 +207,8 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         private fun setPagingButtonsEnabled(enable: Boolean) {
             with(binding) {
-                editCategoryForwardButton.isEnabled = enable
-                editCategoryBackButton.isEnabled = enable
+                editCategoryPagerForwardButton.isEnabled = enable
+                editCategoryPagerBackButton.isEnabled = enable
             }
         }
 
