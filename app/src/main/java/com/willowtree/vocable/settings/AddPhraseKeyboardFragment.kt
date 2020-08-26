@@ -69,7 +69,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
         }
 
         viewModel = ViewModelProviders.of(
-            requireActivity(),
+            this,
             BaseViewModelFactory()
         ).get(AddPhraseViewModel::class.java)
 

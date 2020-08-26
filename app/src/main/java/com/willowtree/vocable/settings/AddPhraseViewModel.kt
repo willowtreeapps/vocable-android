@@ -20,12 +20,6 @@ class AddPhraseViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val liveMySayingsList = MutableLiveData<List<Phrase>>()
-    val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList
-
-    private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
-    val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
-
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
@@ -34,14 +28,7 @@ class AddPhraseViewModel : BaseViewModel() {
     }
 
     private fun populateMySayings() {
-        backgroundScope.launch {
 
-            // TODO make this use the right category
-            val phrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id).sortedBy { it.sortOrder }
-
-            liveMySayingsList.postValue(phrases)
-        }
     }
 
     fun deletePhrase(phrase: Phrase) {
@@ -58,10 +45,6 @@ class AddPhraseViewModel : BaseViewModel() {
             }
             populateMySayings()
         }
-    }
-
-    fun setEditButtonsEnabled(enabled: Boolean) {
-        liveSetButtonsEnabled.postValue(enabled)
     }
 
     fun updatePhrase(phrase: Phrase) {
