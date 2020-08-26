@@ -67,6 +67,11 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
+        binding.addPhraseButton.action = {
+            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            findNavController().navigate(action)
+        }
+
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory()
@@ -94,7 +99,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
     private fun setEditButtonsEnabled(enabled: Boolean) {
         binding.apply {
-            editOptionsButton?.isEnabled = enabled
+            editOptionsButton.isEnabled = enabled
             editOptionsBackButton.isEnabled = enabled
             removeCategoryButton.isEnabled = enabled
         }
