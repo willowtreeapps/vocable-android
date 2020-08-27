@@ -70,6 +70,42 @@
         app:layout_constraintEnd_toEndOf="@+id/remove_category_button"
         app:layout_constraintTop_toTopOf="@+id/category_title" />
 
+    <TextView
+        android:id="@+id/empty_phrases_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_category_empty"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:textSize="34sp"
+        android:gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent=".75"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/empty_add_phrase_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.willowtree.vocable.customviews.KeyboardButton
+        android:id="@+id/empty_add_phrase_button"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="@drawable/button_default_background"
+        android:text="@string/add_phrase"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@color/textColor"
+        android:layout_marginTop="24dp"
+        app:layout_constraintWidth_percent="0.4"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/empty_phrases_text"
+        app:layout_constraintStart_toStartOf="@id/empty_phrases_text"
+        app:layout_constraintEnd_toEndOf="@id/empty_phrases_text"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/edit_category_phrase_holder"
         android:layout_width="0dp"

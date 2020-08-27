@@ -112,6 +112,11 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
+        binding.emptyAddPhraseButton.action = {
+            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            findNavController().navigate(action)
+        }
+
         binding.editCategoryPhraseHolder.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -176,23 +181,30 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        with(binding.editCategoryPhraseHolder) {
-            isSaveEnabled = false
+        if (phrases.isEmpty()) {
+            binding.emptyPhrasesText.visibility = View.VISIBLE
+            binding.emptyAddPhraseButton.visibility = View.VISIBLE
+        } else {
+            binding.emptyPhrasesText.visibility = View.GONE
+            binding.emptyAddPhraseButton.visibility = View.GONE
+            with(binding.editCategoryPhraseHolder) {
+                isSaveEnabled = false
 
-            adapter = phrasesAdapter
+                adapter = phrasesAdapter
 
-            phrasesAdapter.setItems(phrases)
+                phrasesAdapter.setItems(phrases)
 
-            // Move adapter to middle so user can scroll both directions
-            val middle = phrasesAdapter.itemCount / 2
-            if (middle % phrasesAdapter.numPages == 0) {
-                setCurrentItem(middle, false)
-            } else {
-                val mod = middle % phrasesAdapter.numPages
-                setCurrentItem(
-                    middle + (phrasesAdapter.numPages - mod),
-                    false
-                )
+                // Move adapter to middle so user can scroll both directions
+                val middle = phrasesAdapter.itemCount / 2
+                if (middle % phrasesAdapter.numPages == 0) {
+                    setCurrentItem(middle, false)
+                } else {
+                    val mod = middle % phrasesAdapter.numPages
+                    setCurrentItem(
+                        middle + (phrasesAdapter.numPages - mod),
+                        false
+                    )
+                }
             }
         }
     }
