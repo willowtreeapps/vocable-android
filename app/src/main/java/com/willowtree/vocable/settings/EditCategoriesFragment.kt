@@ -130,7 +130,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
                 }
                 // Wait until view pager has finished its layout
                 binding.editCategoriesViewPager.post {
-                    if (binding.editCategoriesViewPager.currentItem != toScrollTo) {
+                    if (isAdded && binding.editCategoriesViewPager.currentItem != toScrollTo) {
                         binding.editCategoriesViewPager.setCurrentItem(toScrollTo, false)
                     }
                 }
