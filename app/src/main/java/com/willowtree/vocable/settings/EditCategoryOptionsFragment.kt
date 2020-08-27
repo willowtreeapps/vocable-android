@@ -62,13 +62,13 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 dialogTitle.text = resources.getString(R.string.are_you_sure)
                 dialogMessage.text = getString(R.string.removed_cant_be_restored)
                 dialogPositiveButton.text =
-                    resources.getString(R.string.settings_dialog_continue)
+                    resources.getString(R.string.delete)
                 dialogPositiveButton.action = {
                     editCategoriesViewModel.deleteCategory(category)
 
                     findNavController().popBackStack()
                 }
-                dialogNegativeButton.text = resources.getString(R.string.delete)
+                dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
                 dialogNegativeButton.action = {
                     toggleDialogVisibility(false)
                     setEditButtonsEnabled(true)
@@ -77,7 +77,10 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
 
         binding.addPhraseButton.action = {
-            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            val action =
+                EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(
+                    category
+                )
             findNavController().navigate(action)
         }
 
