@@ -14,6 +14,9 @@ interface PhraseDao {
     @Delete
     suspend fun deletePhrase(phrase: Phrase)
 
+    @Delete
+    suspend fun deletePhrases(vararg phrases: Phrase)
+
     @Update
     suspend fun updatePhrase(phrase: Phrase)
 }

@@ -68,7 +68,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
                     findNavController().popBackStack()
                 }
-                dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
+                dialogNegativeButton.text = resources.getString(R.string.delete)
                 dialogNegativeButton.action = {
                     toggleDialogVisibility(false)
                     setEditButtonsEnabled(true)
