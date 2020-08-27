@@ -1,18 +1,12 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
-import android.util.Log
-import com.squareup.moshi.Moshi
-import com.willowtree.vocable.R
-import com.willowtree.vocable.room.*
-import com.willowtree.vocable.room.models.PresetsObject
-import com.willowtree.vocable.utils.VocableSharedPreferences
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryPhraseCrossRef
+import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.VocableDatabase
 import org.koin.core.KoinComponent
 import org.koin.core.get
-import org.koin.core.inject
-import java.nio.charset.Charset
 import java.util.*
 
 class PresetsRepository(context: Context) : KoinComponent {
@@ -53,11 +47,25 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun deleteCrossRef(crossRef: CategoryPhraseCrossRef) {
-        database.categoryPhraseCrossRefDao().deleteCategoryPhraseCrossRefDao(crossRef)
+        database.categoryPhraseCrossRefDao().deleteCategoryPhraseCrossRef(crossRef)
+    }
+
+    suspend fun deleteCrossRefs(crossRefs: List<CategoryPhraseCrossRef>) {
+        database.categoryPhraseCrossRefDao()
+            .deleteCategoryPhraseCrossRefs(*crossRefs.toTypedArray())
+    }
+
+    suspend fun getCrossRefsForPhraseIds(phraseIds: List<String>): List<CategoryPhraseCrossRef> {
+        return database.categoryPhraseCrossRefDao()
+            .getCategoryPhraseCrossRefsForPhraseIds(phraseIds)
     }
 
     suspend fun deletePhrase(phrase: Phrase) {
         database.phraseDao().deletePhrase(phrase)
+    }
+
+    suspend fun deletePhrases(phrases: List<Phrase>) {
+        database.phraseDao().deletePhrases(*phrases.toTypedArray())
     }
 
     suspend fun deleteCategory(category: Category) {
@@ -82,12 +90,14 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun populateDatabase() {
         val categories = getAllCategories()
-        if (categories.size > 1) { return }
+        if (categories.size > 1) {
+            return
+        }
 
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
         val crossRefObjects = mutableListOf<CategoryPhraseCrossRef>()
-        
+
 
         PresetCategories.values().forEach {
             categoryObjects.add(
@@ -102,7 +112,9 @@ class PresetsRepository(context: Context) : KoinComponent {
                 )
             )
 
-            if (it.getArrayId() == -1) { return@forEach }
+            if (it.getArrayId() == -1) {
+                return@forEach
+            }
             val phraseStringIds = get<Context>().resources.obtainTypedArray(it.getArrayId())
             for (index in 0 until phraseStringIds.length()) {
                 val phraseId = UUID.randomUUID().toString()

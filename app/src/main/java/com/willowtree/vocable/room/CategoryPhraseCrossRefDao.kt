@@ -1,9 +1,6 @@
 package com.willowtree.vocable.room
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.*
 
 @Dao
 interface CategoryPhraseCrossRefDao {
@@ -12,8 +9,14 @@ interface CategoryPhraseCrossRefDao {
     suspend fun insertCategoryPhraseCrossRef(categoryPhraseCrossRef: CategoryPhraseCrossRef)
 
     @Delete
-    suspend fun deleteCategoryPhraseCrossRefDao(categoryPhraseCrossRef: CategoryPhraseCrossRef)
+    suspend fun deleteCategoryPhraseCrossRef(categoryPhraseCrossRef: CategoryPhraseCrossRef)
+
+    @Delete
+    suspend fun deleteCategoryPhraseCrossRefs(vararg crossRefs: CategoryPhraseCrossRef)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCategoryPhraseCrossRefs(vararg crossRefs: CategoryPhraseCrossRef)
+
+    @Query("SELECT * FROM CategoryPhraseCrossRef WHERE phrase_id IN (:phraseIds)")
+    suspend fun getCategoryPhraseCrossRefsForPhraseIds(phraseIds: List<String>): List<CategoryPhraseCrossRef>
 }
