@@ -70,6 +70,17 @@
         app:layout_constraintEnd_toStartOf="@+id/remove_category_button"
         app:layout_constraintTop_toTopOf="@+id/edit_options_back_button" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/edit_category_phrase_holder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/edit_categories_list_button_margin"
+        android:layout_marginBottom="@dimen/phrases_margin"
+        app:layout_constraintBottom_toTopOf="@+id/edit_category_pager_back_button"
+        app:layout_constraintEnd_toEndOf="@+id/remove_category_button"
+        app:layout_constraintStart_toStartOf="@+id/edit_options_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/edit_options_back_button" />
+
     <TextView
         android:id="@+id/empty_phrases_text"
         android:layout_width="0dp"
@@ -95,17 +106,6 @@
         app:layout_constraintStart_toStartOf="@id/empty_phrases_text"
         app:layout_constraintEnd_toEndOf="@id/empty_phrases_text"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/edit_category_phrase_holder"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/edit_categories_list_button_margin"
-        android:layout_marginBottom="@dimen/phrases_margin"
-        app:layout_constraintBottom_toTopOf="@+id/edit_category_pager_back_button"
-        app:layout_constraintEnd_toEndOf="@+id/remove_category_button"
-        app:layout_constraintStart_toStartOf="@+id/edit_options_back_button"
-        app:layout_constraintTop_toBottomOf="@+id/edit_options_back_button" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/edit_category_pager_back_button"
