@@ -85,6 +85,32 @@
         app:layout_constraintBottom_toTopOf="@+id/phrases_back_button"
         app:layout_constraintTop_toBottomOf="@+id/category_view" />
 
+    <TextView
+        android:id="@+id/empty_phrases_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_category_empty"
+        style="@style/CustomCategoryEmptyText"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent=".75"
+        app:layout_constraintTop_toTopOf="@id/phrases_view"
+        app:layout_constraintBottom_toTopOf="@id/empty_add_phrase_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.willowtree.vocable.customviews.KeyboardButton
+        android:id="@+id/empty_add_phrase_button"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="@drawable/button_default_background"
+        android:text="@string/add_phrase"
+        style="@style/CustomCategoryEmptyButton"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintTop_toBottomOf="@id/empty_phrases_text"
+        app:layout_constraintStart_toStartOf="@id/empty_phrases_text"
+        app:layout_constraintEnd_toEndOf="@id/empty_phrases_text"
+        app:layout_constraintBottom_toBottomOf="@id/phrases_view"/>
+
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/phrases_back_button"
         android:layout_width="@dimen/phrases_paging_button_width"
