@@ -181,12 +181,10 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        if (phrases.isEmpty()) {
-            binding.emptyPhrasesText.visibility = View.VISIBLE
-            binding.emptyAddPhraseButton.visibility = View.VISIBLE
-        } else {
-            binding.emptyPhrasesText.visibility = View.GONE
-            binding.emptyAddPhraseButton.visibility = View.GONE
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+
+        if (phrases.isNotEmpty()) {
             with(binding.editCategoryPhraseHolder) {
                 isSaveEnabled = false
 
