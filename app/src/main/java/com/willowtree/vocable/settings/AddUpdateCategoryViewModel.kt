@@ -64,7 +64,7 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
             // Get the index of the first hidden category to find the sort order of new category
             var firstHiddenIndex = allCategories.indexOfFirst { it.hidden }
             if (firstHiddenIndex == -1) {
-                firstHiddenIndex = allCategories.size - 1
+                firstHiddenIndex = allCategories.size
             }
 
             // Increase the sort order of all hidden categories since the new one will be sorted

@@ -59,8 +59,41 @@ class EditCategoriesViewModel : BaseViewModel() {
 
     fun deleteCategory(category: Category) {
         backgroundScope.launch {
+            val categoryId = category.categoryId
+
+            // Delete any phrases whose only associated category is the one being deleted
+            // First get the ids of all phrases associated with the category being deleted
+            val phrasesForCategory = categoryPhraseList.value ?: listOf()
+            val phraseIds = phrasesForCategory.map { it.phraseId }
+
+            // Get a list of all of the phrases' cross refs (associations with categories)
+            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(phraseIds)
+
+            // Filter out any phrases that are associated with more than just the category being deleted
+            val phrasesToDelete = phrasesForCategory.filter { phrase ->
+                crossRefs.filter { crossRef -> crossRef.phraseId == phrase.phraseId }.size == 1
+            }
+            // Delete the phrases
+            if (phrasesToDelete.isNotEmpty()) {
+                presetsRepository.deletePhrases(phrasesToDelete)
+            }
+
+            // Delete cross refs for the category being deleted
+            val crossRefsToDelete = crossRefs.filter { it.categoryId == categoryId }
+            presetsRepository.deleteCrossRefs(crossRefsToDelete)
+
+            // Delete the category
             presetsRepository.deleteCategory(category)
-            // TODO: Delete category's phrases too
+
+            // Update the sort order of remaining categories
+            val categoriesToUpdate = overallCategories.filter { it.sortOrder > category.sortOrder }
+            categoriesToUpdate.forEach {
+                it.sortOrder--
+            }
+            if (categoriesToUpdate.isNotEmpty()) {
+                presetsRepository.updateCategories(categoriesToUpdate)
+            }
+
             refreshCategories()
         }
     }
