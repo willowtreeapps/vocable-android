@@ -63,6 +63,7 @@
     <!-- Edit Categories Options -->
     <dimen name="edit_options_button_width">56dp</dimen>
     <dimen name="edit_options_button_height">56dp</dimen>
+    <dimen name="custom_category_button_text_size">22sp</dimen>
 
     <!-- Empty My Sayings -->
     <dimen name="empty_my_sayings_text_width">0dp</dimen>
