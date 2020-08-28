@@ -120,7 +120,7 @@
     <style name="CustomCategoryEmptyText">
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/custom_category_button_text_size_phone</item>
+        <item name="android:textSize">@dimen/custom_category_button_text_size</item>
         <item name="android:gravity">center</item>
         <item name="android:visibility">invisible</item>
     </style>

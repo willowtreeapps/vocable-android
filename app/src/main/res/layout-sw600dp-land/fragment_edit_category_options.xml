@@ -79,7 +79,6 @@
         android:layout_height="wrap_content"
         android:text="@string/custom_category_empty"
         style="@style/CustomCategoryEmptyText"
-        android:textSize="@dimen/custom_category_button_text_size_tablet"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintWidth_percent=".75"
         app:layout_constraintTop_toTopOf="parent"
