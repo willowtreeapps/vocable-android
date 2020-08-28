@@ -117,6 +117,25 @@
         <item name="android:background">@drawable/button_default_background</item>
     </style>
 
+    <style name="CustomCategoryEmptyText">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/custom_category_button_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="CustomCategoryEmptyButton">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:visibility">invisible</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
     <style name="ScalableSettingsTitle" parent="ScalableText">
         <item name="autoSizeMaxTextSize">@dimen/settings_title_text_size</item>
         <item name="android:textStyle">bold</item>
