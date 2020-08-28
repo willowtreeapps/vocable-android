@@ -262,5 +262,6 @@
     <!-- Category Edit Button -->
     <dimen name="category_edit_button_hidden_margin_start">16dp</dimen>
     <dimen name="category_edit_button_hidden_margin_end">8dp</dimen>
+    <dimen name="custom_category_button_text_size">22sp</dimen>
 
 </resources>
