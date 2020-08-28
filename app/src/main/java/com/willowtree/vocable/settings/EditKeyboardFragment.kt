@@ -6,10 +6,8 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
@@ -123,19 +121,28 @@ abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>(
 
     fun showConfirmationDialog() {
         setSettingsButtonsEnabled(false)
-        binding.editConfirmation.dialogTitle.text = getString(R.string.are_you_sure)
-        binding.editConfirmation.dialogMessage.text = getString(R.string.back_warning)
-        binding.editConfirmation.dialogPositiveButton.apply {
-            text = getString(R.string.contiue_editing)
-            action = {
-                toggleDialogVisibility(false)
-                setSettingsButtonsEnabled(true)
+        with(binding.editConfirmation) {
+            dialogTitle.text = getString(R.string.are_you_sure)
+            dialogTitle.isVisible = true
+
+            dialogMessage.text = getString(R.string.back_warning)
+            dialogMessage.isVisible = true
+
+            with(dialogPositiveButton) {
+                text = getString(R.string.contiue_editing)
+                action = {
+                    toggleDialogVisibility(false)
+                    setSettingsButtonsEnabled(true)
+                }
+                isVisible = true
             }
-        }
-        binding.editConfirmation.dialogNegativeButton.apply {
-            text = getString(R.string.discard)
-            action = {
-                findNavController().popBackStack()
+
+            with(dialogNegativeButton) {
+                text = getString(R.string.discard)
+                action = {
+                    findNavController().popBackStack()
+                }
+                isVisible = true
             }
         }
         toggleDialogVisibility(true)

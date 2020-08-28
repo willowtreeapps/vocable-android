@@ -55,6 +55,7 @@
     <!-- Edit Keyboard -->
     <string name="changes_saved">Changes Saved</string>
     <string name="category_created">Category Created</string>
+    <string name="duplicate_category">Sorry, this category name already exists. Please try a different name.</string>
 
     <!-- Timing and Sensitivity -->
     <string name="timing_sensitivity_title">Timing and Sensitivity</string>
