@@ -19,6 +19,7 @@ import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
@@ -91,6 +92,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         binding.actionButtonContainer.settingsButton.action = {
             findNavController().navigate(R.id.action_presetsFragment_to_settingsActivity)
+        }
+
+        binding.emptyAddPhraseButton.action = {
+            val action = PresetsFragmentDirections.actionPresetsFragmentToKeyboardFragment()
+            findNavController().navigate(action)
         }
 
         categoriesAdapter = CategoriesPagerAdapter(childFragmentManager)
@@ -209,6 +215,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+
         binding.phrasesView.apply {
             isSaveEnabled = false
             adapter = phrasesAdapter
