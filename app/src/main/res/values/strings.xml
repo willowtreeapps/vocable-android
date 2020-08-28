@@ -46,7 +46,7 @@
 
     <!-- Edit Sayings -->
     <string name="delete">Delete</string>
-    <string name="delete_warning">Deleted phrases cannot be recovered.</string>
+    <string name="delete_warning">Removed phrases cannot be recovered.</string>
     <string name="new_phrase_saved">New phrase saved</string>
     <string name="contiue_editing">Continue editing</string>
     <string name="discard">Discard</string>
