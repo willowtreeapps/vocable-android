@@ -103,7 +103,7 @@
     <com.willowtree.vocable.customviews.KeyboardButton
         android:id="@+id/empty_add_phrase_button"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="@dimen/custom_category_button_height"
         android:background="@drawable/button_default_background"
         android:text="@string/add_phrase"
         style="@style/CustomCategoryEmptyButton"
