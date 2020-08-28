@@ -115,6 +115,11 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
+        binding.emptyAddPhraseButton.action = {
+            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            findNavController().navigate(action)
+        }
+
         binding.editCategoryPhraseHolder.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -179,23 +184,28 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        with(binding.editCategoryPhraseHolder) {
-            isSaveEnabled = false
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
 
-            adapter = phrasesAdapter
+        if (phrases.isNotEmpty()) {
+            with(binding.editCategoryPhraseHolder) {
+                isSaveEnabled = false
 
-            phrasesAdapter.setItems(phrases)
+                adapter = phrasesAdapter
 
-            // Move adapter to middle so user can scroll both directions
-            val middle = phrasesAdapter.itemCount / 2
-            if (middle % phrasesAdapter.numPages == 0) {
-                setCurrentItem(middle, false)
-            } else {
-                val mod = middle % phrasesAdapter.numPages
-                setCurrentItem(
-                    middle + (phrasesAdapter.numPages - mod),
-                    false
-                )
+                phrasesAdapter.setItems(phrases)
+
+                // Move adapter to middle so user can scroll both directions
+                val middle = phrasesAdapter.itemCount / 2
+                if (middle % phrasesAdapter.numPages == 0) {
+                    setCurrentItem(middle, false)
+                } else {
+                    val mod = middle % phrasesAdapter.numPages
+                    setCurrentItem(
+                        middle + (phrasesAdapter.numPages - mod),
+                        false
+                    )
+                }
             }
         }
     }
