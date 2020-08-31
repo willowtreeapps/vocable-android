@@ -2,6 +2,7 @@ package com.willowtree.vocable.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,6 +24,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
     private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
     private var currentCategory: Category? = null
+    private var currentCategoryText: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,10 +32,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
         currentCategory = args.category
 
         binding.backButton.action = {
-            val categoryTextChanged =
-                binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromCategory(
-                    currentCategory
-                )
+            val categoryTextChanged = binding.keyboardInput.text.toString() != currentCategoryText
             if (!categoryTextChanged || isDefaultTextVisible()) {
                 findNavController().popBackStack()
             } else {
@@ -49,13 +48,17 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
                     binding.keyboardInput.text?.let { text ->
                         if (text.isNotBlank()) {
                             viewModel.addCategory(text.toString())
+                            currentCategoryText = binding.keyboardInput.text?.toString()
                         }
                     }
                 } else {
                     // Update category
                     currentCategory?.let {
-                        binding.keyboardInput.text.let { text ->
-                            viewModel.updateCategory(it.categoryId, text.toString())
+                        binding.keyboardInput.text?.let { text ->
+                            if (text.isNotBlank()) {
+                                viewModel.updateCategory(it.categoryId, text.toString())
+                                currentCategoryText = binding.keyboardInput.text?.toString()
+                            }
                         }
                     }
                 }
@@ -87,9 +90,16 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
             }
         })
 
-        viewModel.currentCategory.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                currentCategory = it
+        viewModel.showDuplicateCategoryMessage.observe(viewLifecycleOwner, Observer {
+            with(binding.editConfirmation) {
+                root.isVisible = it == true
+                dialogTitle.isInvisible = true
+                dialogNegativeButton.isVisible = false
+                dialogMessage.setText(R.string.duplicate_category)
+                dialogPositiveButton.setText(android.R.string.ok)
+                dialogPositiveButton.action = {
+                    root.isVisible = false
+                }
             }
         })
     }
