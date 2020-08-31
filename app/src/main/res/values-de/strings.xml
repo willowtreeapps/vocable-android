@@ -17,7 +17,7 @@
     <string name="version">V %s</string>
     <string name="settings_head_tracking">Per Kopfbewegung</string>
     <string name="settings_dialog_title">App verlassen</string>
-    <string name="settings_dialog_message">Dieser link wir außerhalb der Vocable App geöffnet. Sie laufen möglicherweise Gefahr, nicht mehr per Kopfbewegung steuern zu können.</string>
+    <string name="settings_dialog_message">Dieser Link wird außerhalb der Vocable App geöffnet. Sie laufen möglicherweise Gefahr, nicht mehr per Kopfbewegung steuern zu können.</string>
     <string name="settings_dialog_continue">Weiter</string>
     <string name="settings_dialog_cancel">Abbrechen</string>
 
@@ -45,7 +45,7 @@
 
     <!-- Edit Sayings -->
     <string name="delete">Löschen</string>
-    <string name="delete_warning">Gelöschte Redewendung können nicht wiederhergestellt werden.</string>
+    <string name="delete_warning">Gelöschte Redewendungen können nicht wiederhergestellt werden.</string>
     <string name="new_phrase_saved">Neue Redewendung gespeichert</string>
     <string name="contiue_editing">Weiter editieren</string>
     <string name="discard">Verwerfen</string>
@@ -59,8 +59,8 @@
     <string name="timing_sensitivity_title">Timing und Empfindlichkeit</string>
     <string name="hover_time_text">Schwebezeit</string>
     <string name="cursor_sensitivity_text">Zeigerempfindlichkeit</string>
-    <string name="hover_time_amount_text">%s sekunden</string>
-    <string name="hover_time_one_text">1 zweite</string>
+    <string name="hover_time_amount_text">%s Sekunden</string>
+    <string name="hover_time_one_text">1 Sekunde</string>
     <string name="cursor_sensitivity_low">Niedrig</string>
     <string name="cursor_sensitivity_medium">Mittel</string>
     <string name="cursor_sensitivity_high">Hoch</string>
@@ -112,7 +112,7 @@
     <string name="preset_okay" formatted="false">OK</string>
     <string name="preset_bad" formatted="false">Schlecht</string>
     <string name="preset_good" formatted="false">Gut</string>
-    <string name="preset_that_makes_sense" formatted="false">Das macht Sinn</string>
+    <string name="preset_that_makes_sense" formatted="false">Das ergibt Sinn</string>
     <string name="preset_i_like_it" formatted="false">Das mag ich</string>
     <string name="preset_please_stop" formatted="false">Bitte aufhören</string>
     <string name="preset_i_do_not_agree" formatted="false">Ich stimme nicht zu</string>
@@ -148,6 +148,6 @@
     <string name="preset_fix_pillow" formatted="false">Bitte mein Kissen aufschütteln</string>
     <string name="preset_need_spit" formatted="false">Ich muss spucken</string>
     <string name="preset_trouble_breathing" formatted="false">Ich habe Atembeschwerden</string>
-    <string name="preset_need_jacket" formatted="false">Ich brauchen eine Jacke</string>
+    <string name="preset_need_jacket" formatted="false">Ich brauche eine Jacke</string>
 
 </resources>
