@@ -19,10 +19,12 @@ import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
 import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import kotlinx.android.synthetic.main.fragment_presets.*
 
 class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
@@ -35,6 +37,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
+
+    private var isMySayingShowing = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,6 +97,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             findNavController().navigate(R.id.action_presetsFragment_to_settingsActivity)
         }
 
+        binding.emptyAddPhraseButton.action = {
+            val action = PresetsFragmentDirections.actionPresetsFragmentToKeyboardFragment()
+            findNavController().navigate(action)
+        }
+
         categoriesAdapter = CategoriesPagerAdapter(childFragmentManager)
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
@@ -105,6 +114,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                         activity.resetAllViews()
                     }
                 }
+
+                isMySayingShowing = categoriesAdapter.getItemsByPosition(position)[0].categoryId == PresetCategories.USER_FAVORITES.id
             }
         })
 
@@ -209,6 +220,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !isMySayingShowing
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !isMySayingShowing
+
         binding.phrasesView.apply {
             isSaveEnabled = false
             adapter = phrasesAdapter
