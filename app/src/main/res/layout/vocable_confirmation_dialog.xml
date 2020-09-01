@@ -24,8 +24,9 @@
         style="@style/ConfirmationDialogText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dialog_text_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_title"
         tools:text="You're about to be taken outside of the app. You may lose head tracking control." />
 
@@ -40,10 +41,10 @@
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/dialog_negative_button"
         style="@style/ConfirmationDialogButton"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dialog_positive_button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_message"
         tools:text="Cancel" />
 

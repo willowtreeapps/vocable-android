@@ -24,8 +24,9 @@
         style="@style/ConfirmationDialogText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dialog_text_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_title"
         tools:text="You're about to be taken outside of the app. You may lose head tracking control." />
 
@@ -33,8 +34,8 @@
         android:id="@+id/dialog_positive_button"
         style="@style/ConfirmationDialogButton"
         android:paddingStart="@dimen/dialog_button_padding_horizontal"
-        android:paddingEnd="@dimen/dialog_button_padding_horizontal"
         android:paddingTop="@dimen/dialog_button_padding_vertical"
+        android:paddingEnd="@dimen/dialog_button_padding_horizontal"
         android:paddingBottom="@dimen/dialog_button_padding_vertical"
         android:textSize="@dimen/dialog_button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,15 +46,15 @@
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/dialog_negative_button"
         style="@style/ConfirmationDialogButton"
-        android:textSize="@dimen/dialog_button_text_size"
         android:paddingStart="@dimen/dialog_button_padding_horizontal"
-        android:paddingEnd="@dimen/dialog_button_padding_horizontal"
         android:paddingTop="@dimen/dialog_button_padding_vertical"
+        android:paddingEnd="@dimen/dialog_button_padding_horizontal"
         android:paddingBottom="@dimen/dialog_button_padding_vertical"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:textSize="@dimen/dialog_button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dialog_positive_button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_message"
         tools:text="Cancel" />
 

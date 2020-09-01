@@ -186,6 +186,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     private fun handlePhrases(phrases: List<Phrase>) {
         binding.emptyPhrasesText.isVisible = phrases.isEmpty()
         binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+        binding.editCategoryPhraseHolder.isVisible = phrases.isNotEmpty()
         binding.editCategoryPagerForwardButton.isVisible = phrases.isNotEmpty()
         binding.editCategoryPagerBackButton.isVisible = phrases.isNotEmpty()
         binding.editCategoryPageNumber.isVisible = phrases.isNotEmpty()
@@ -233,7 +234,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)
 
-            return CustomCategoryPhraseListFragment.newInstance(phrases)
+            return CustomCategoryPhraseListFragment.newInstance(phrases, args.category)
         }
 
     }
