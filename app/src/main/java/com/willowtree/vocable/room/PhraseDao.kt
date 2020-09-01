@@ -19,4 +19,7 @@ interface PhraseDao {
 
     @Update
     suspend fun updatePhrase(phrase: Phrase)
+
+    @Query("SELECT * FROM Phrase WHERE phrase_id=:id")
+    fun getPhraseById(id: String): Phrase
 }
