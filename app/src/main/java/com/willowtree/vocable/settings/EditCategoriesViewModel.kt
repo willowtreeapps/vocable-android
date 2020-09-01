@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
@@ -95,6 +96,29 @@ class EditCategoriesViewModel : BaseViewModel() {
             }
 
             refreshCategories()
+        }
+    }
+
+    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
+        backgroundScope.launch {
+            // Get a list of all of the phrases' cross refs (associations with categories)
+            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(listOf(phrase.phraseId))
+
+            // Delete the cross ref with the given category
+            presetsRepository.deleteCrossRef(
+                CategoryPhraseCrossRef(
+                    category.categoryId,
+                    phrase.phraseId
+                )
+            )
+
+            // If the phrase is only associated with this category, delete it entirely
+            if (crossRefs.size == 1) {
+                presetsRepository.deletePhrase(phrase)
+            }
+
+            // Refresh phrase list
+            fetchCategoryPhrases(category)
         }
     }
 
