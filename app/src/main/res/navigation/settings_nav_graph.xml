@@ -89,6 +89,9 @@
         <action
             android:id="@+id/action_editCategoryOptionsFragment_to_addPhraseKeyboardFragment"
             app:destination="@id/addPhraseKeyboardFragment" />
+        <action
+            android:id="@+id/action_editCategoryOptionsFragment_to_editPhrasesKeyboardFragment"
+            app:destination="@id/editPhrasesKeyboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPhraseKeyboardFragment"

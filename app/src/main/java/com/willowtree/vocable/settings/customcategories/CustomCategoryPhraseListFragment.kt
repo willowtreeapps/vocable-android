@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
@@ -14,6 +15,7 @@ import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBindin
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.EditCategoriesViewModel
+import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 
@@ -37,7 +39,8 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     private lateinit var category: Category
 
     private val onPhraseEdit = { phrase: Phrase ->
-        // TODO: Handle editing the phrase
+        val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditPhrasesKeyboardFragment(phrase)
+        findNavController().navigate(action)
     }
 
     private val onPhraseDelete = { phrase: Phrase ->
