@@ -14,6 +14,9 @@ interface CategoryDao {
     @Query("SELECT * FROM Category ORDER BY sort_order ASC")
     suspend fun getAllCategories(): List<Category>
 
+    @Query("SELECT * FROM Category WHERE is_user_generated ORDER BY sort_order ASC")
+    suspend fun getUserGeneratedCategories(): List<Category>
+
     @Query("SELECT * FROM Category WHERE category_id = :categoryId")
     suspend fun getCategoryById(categoryId: String): Category
 

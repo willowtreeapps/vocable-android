@@ -19,4 +19,7 @@ interface CategoryPhraseCrossRefDao {
 
     @Query("SELECT * FROM CategoryPhraseCrossRef WHERE phrase_id IN (:phraseIds)")
     suspend fun getCategoryPhraseCrossRefsForPhraseIds(phraseIds: List<String>): List<CategoryPhraseCrossRef>
+
+    @Query("SELECT * FROM CategoryPhraseCrossRef WHERE category_id=:categoryId")
+    suspend fun getCategoryPhraseCrossRefsForCategoryId(categoryId: String): List<CategoryPhraseCrossRef>
 }

@@ -42,7 +42,8 @@
     <string name="keyboard_select_letters">Start typing…</string>
 
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Saved to My Sayings</string>
+    <string name="saved_successfully">Saved to %1s</string>
+    <string name="removed_successfully">Removed from %1s</string>
 
     <!-- Edit Sayings -->
     <string name="delete">Delete</string>
@@ -167,5 +168,6 @@
     <string name="preset_trouble_breathing" formatted="false">I am having trouble breathing</string>
     <string name="preset_need_jacket" formatted="false">I need a jacket</string>
     <string name="add_phrase">Add Phrase</string>
+    <string name="add_to_category">Add to Category</string>
 
 </resources>
