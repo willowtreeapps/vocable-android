@@ -186,6 +186,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
     private fun handlePhrases(phrases: List<Phrase>) {
         binding.emptyPhrasesText.isVisible = phrases.isEmpty()
         binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+        binding.editCategoryPhraseHolder.isVisible = phrases.isNotEmpty()
 
         if (phrases.isNotEmpty()) {
             with(binding.editCategoryPhraseHolder) {
@@ -230,7 +231,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)
 
-            return CustomCategoryPhraseListFragment.newInstance(phrases)
+            return CustomCategoryPhraseListFragment.newInstance(phrases, args.category)
         }
 
     }
