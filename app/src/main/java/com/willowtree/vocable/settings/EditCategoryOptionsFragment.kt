@@ -16,6 +16,7 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
@@ -30,11 +31,12 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
     private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
+    private lateinit var category: Category
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val category = args.category
+        category = args.category
 
         if (category.isUserGenerated) {
             binding.removeCategoryButton.isInvisible = false
@@ -157,6 +159,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 // EditCategoriesKeyboardFragment screen
                 binding.categoryTitle.text =
                     editCategoriesViewModel.getUpdatedCategoryName(args.category)
+                category = editCategoriesViewModel.getUpdatedCategory(args.category)
             }
         })
 
