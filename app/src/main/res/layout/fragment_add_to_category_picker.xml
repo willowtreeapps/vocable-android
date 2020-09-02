@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxWidth="150dp"
+        android:maxWidth="@dimen/add_to_category_title_max_width"
         android:text="@string/add_to_category"
         app:layout_constraintBottom_toBottomOf="@id/back_button"
         app:layout_constraintEnd_toEndOf="parent"

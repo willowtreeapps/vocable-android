@@ -75,4 +75,6 @@
 
     <dimen name="custom_category_button_text_size">34sp</dimen>
 
+    <dimen name="add_to_category_title_max_width">600dp</dimen>
+
 </resources>
