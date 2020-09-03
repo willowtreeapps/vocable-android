@@ -102,21 +102,30 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         addToCategoryPickerViewModel.categoryMap.observe(viewLifecycleOwner, Observer {
             it?.let { map ->
                 with(ArrayList(map.keys)) {
-                    binding.categoryHolder.apply {
-                        isSaveEnabled = false
-                        adapter = categoriesAdapter
-                        categoriesAdapter.setItems(this@with)
+                    // empty state
+                    if (this.size == 0) {
+                        binding.emptyStateTitle.isVisible = true
+                        binding.emptyStateText.isVisible = true
+                        binding.categoryPagerBackButton.isEnabled = false
+                        binding.categoryPagerForwardButton.isEnabled = false
+                        binding.categoryPageNumber.text = getString(R.string.phrases_page_number, 1, 1)
+                    } else {
+                        binding.categoryHolder.apply {
+                            isSaveEnabled = false
+                            adapter = categoriesAdapter
+                            categoriesAdapter.setItems(this@with)
 
-                        // Move adapter to middle so user can scroll both directions
-                        val middle = categoriesAdapter.itemCount / 2
-                        if (middle % categoriesAdapter.numPages == 0) {
-                            setCurrentItem(middle, false)
-                        } else {
-                            val mod = middle % categoriesAdapter.numPages
-                            setCurrentItem(
-                                middle + (categoriesAdapter.numPages - mod),
-                                false
-                            )
+                            // Move adapter to middle so user can scroll both directions
+                            val middle = categoriesAdapter.itemCount / 2
+                            if (middle % categoriesAdapter.numPages == 0) {
+                                setCurrentItem(middle, false)
+                            } else {
+                                val mod = middle % categoriesAdapter.numPages
+                                setCurrentItem(
+                                    middle + (categoriesAdapter.numPages - mod),
+                                    false
+                                )
+                            }
                         }
                     }
                 }
