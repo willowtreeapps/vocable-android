@@ -266,5 +266,6 @@
     <dimen name="custom_category_button_height">64dp</dimen>
 
     <dimen name="add_to_category_title_max_width">150dp</dimen>
+    <dimen name="empty_state_horizontal_margin">24dp</dimen>
 
 </resources>
