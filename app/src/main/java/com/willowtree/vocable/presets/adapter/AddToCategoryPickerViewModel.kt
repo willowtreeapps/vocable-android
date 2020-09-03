@@ -83,7 +83,7 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
             var phrase: Phrase? = null
 
             val phrasesInCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-            phrasesInCategory.forEach { p ->
+            for (p in phrasesInCategory) {
                 if (localizedResourceUtility.getTextFromPhrase(p) == phraseString) {
                     phrase = p
                 }
