@@ -37,8 +37,6 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
         }
     }
 
-    private val args: AddToCategoryPickerFragmentArgs by navArgs()
-
     private lateinit var viewModel: AddToCategoryPickerViewModel
     private lateinit var phraseString: String
 
@@ -62,8 +60,6 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
             requireActivity(),
             BaseViewModelFactory()
         ).get(AddToCategoryPickerViewModel::class.java)
-
-
 
         subscribeToViewModel()
     }
@@ -91,8 +87,6 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
                     )
                 )
                 setHasFixedSize(true)
-
-
 
                 adapter = CustomCategoryAdapter(it, numRows, onCategoryToggle)
             }
