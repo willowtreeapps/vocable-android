@@ -124,6 +124,8 @@
     <!-- Empty My Sayings -->
     <dimen name="empty_my_sayings_text_width">445dp</dimen>
     <dimen name="empty_my_sayings_text_margin_top">24dp</dimen>
+    <dimen name="category_list_vertical_margin">60dp</dimen>
+    <dimen name="category_list_horizontal_margin">44dp</dimen>
 
     <dimen name="add_to_category_title_max_width">250dp</dimen>
 </resources>

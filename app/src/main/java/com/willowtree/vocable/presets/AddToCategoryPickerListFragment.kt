@@ -41,7 +41,6 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
 
     private lateinit var viewModel: AddToCategoryPickerViewModel
     private lateinit var phraseString: String
-    private lateinit var categories: List<Category>
 
     override val bindingInflater: BindingInflater<FragmentAddToCategoryListBinding> =
         FragmentAddToCategoryListBinding::inflate
