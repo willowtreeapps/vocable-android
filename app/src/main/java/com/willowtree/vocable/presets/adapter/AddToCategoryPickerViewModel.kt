@@ -55,20 +55,16 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
             userCategories = presetsRepository.getUserGeneratedCategories()
 
             // for each category in the list
-            for (category in userCategories) {
+            userCategories.forEach { category ->
                 // get all the phrases associated with it
-                val crossRefs = presetsRepository.getCrossRefsForCategoryId(category.categoryId)
+                val phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
 
                 // for each phrase in the category
-                for (ref in crossRefs) {
-                    // get the phrase from the db
-                    val phrase = presetsRepository.getPhraseById(ref.phraseId)
+                phrases.forEach {
                     // if we find a match
-                    if (localizedResourceUtility.getTextFromPhrase(phrase) == phraseString) {
-                        val category = presetsRepository.getCategoryById(ref.categoryId)
+                    if (localizedResourceUtility.getTextFromPhrase(it) == phraseString) {
                         // add it to the map
                         phraseMap[category] = true
-                        break
                     }
                 }
 
@@ -87,7 +83,7 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
             var phrase: Phrase? = null
 
             val phrasesInCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-            for (p in phrasesInCategory) {
+            phrasesInCategory.forEach { p ->
                 if (localizedResourceUtility.getTextFromPhrase(p) == phraseString) {
                     phrase = p
                 }
@@ -101,7 +97,7 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
                     if (crossRefs.size == 1) {
                         deletePhrase(phrase)
                     } else { // otherwise, just delete the one cross reference
-                        for (ref in crossRefs) {
+                        crossRefs.forEach { ref ->
                             if (ref.categoryId == category.categoryId) {
                                 deleteCrossRef(ref)
                             }
