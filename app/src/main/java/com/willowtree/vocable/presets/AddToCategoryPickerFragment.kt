@@ -102,12 +102,15 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         addToCategoryPickerViewModel.categoryMap.observe(viewLifecycleOwner, Observer {
             it?.let { map ->
                 with(ArrayList(map.keys)) {
+                    val categoriesExist = this.size != 0
+
+                    binding.emptyStateTitle.isVisible = !categoriesExist
+                    binding.emptyStateText.isVisible = !categoriesExist
+                    binding.categoryPagerBackButton.isEnabled = categoriesExist
+                    binding.categoryPagerForwardButton.isEnabled = categoriesExist
+
                     // empty state
                     if (this.size == 0) {
-                        binding.emptyStateTitle.isVisible = true
-                        binding.emptyStateText.isVisible = true
-                        binding.categoryPagerBackButton.isEnabled = false
-                        binding.categoryPagerForwardButton.isEnabled = false
                         binding.categoryPageNumber.text = getString(R.string.phrases_page_number, 1, 1)
                     } else {
                         binding.categoryHolder.apply {
