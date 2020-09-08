@@ -19,4 +19,7 @@ interface PhraseDao {
 
     @Update
     suspend fun updatePhrase(phrase: Phrase)
+
+    @Query("DELETE FROM Phrase WHERE NOT is_user_generated")
+    suspend fun deleteNonUserGeneratedPhrases()
 }
