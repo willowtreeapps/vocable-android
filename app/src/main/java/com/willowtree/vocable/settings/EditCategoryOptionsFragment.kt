@@ -190,6 +190,9 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         binding.emptyPhrasesText.isVisible = phrases.isEmpty()
         binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
         binding.editCategoryPhraseHolder.isVisible = phrases.isNotEmpty()
+        binding.editCategoryPagerForwardButton.isVisible = phrases.isNotEmpty()
+        binding.editCategoryPagerBackButton.isVisible = phrases.isNotEmpty()
+        binding.editCategoryPageNumber.isVisible = phrases.isNotEmpty()
 
         if (phrases.isNotEmpty()) {
             with(binding.editCategoryPhraseHolder) {

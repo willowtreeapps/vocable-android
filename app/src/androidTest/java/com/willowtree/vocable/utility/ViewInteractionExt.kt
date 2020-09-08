@@ -13,3 +13,7 @@ fun ViewInteraction.tap() {
 fun ViewInteraction.assertTextMatches(text: String) {
     check(ViewAssertions.matches(ViewMatchers.withText(CoreMatchers.containsString(text))))
 }
+
+fun ViewInteraction.assertElementExists() {
+    check(ViewAssertions.matches(CoreMatchers.not(ViewAssertions.doesNotExist())))
+}
