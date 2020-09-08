@@ -91,9 +91,7 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
 
         subscribeToViewModel()
 
-        with(addToCategoryPickerViewModel) {
-            getCategoryList()
-        }
+        addToCategoryPickerViewModel.getCategoryList()
     }
 
     private fun subscribeToViewModel() {
