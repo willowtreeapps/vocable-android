@@ -43,10 +43,6 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
     override val bindingInflater: BindingInflater<FragmentAddToCategoryListBinding> =
         FragmentAddToCategoryListBinding::inflate
 
-    override fun getAllViews(): List<View> {
-        return emptyList()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,19 +57,7 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
             BaseViewModelFactory()
         ).get(AddToCategoryPickerViewModel::class.java)
 
-        subscribeToViewModel()
-    }
-
-    private fun subscribeToViewModel() {
-        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it
-        })
-
-        viewModel.showPhraseDeleted.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it
-        })
-
-        viewModel.categoryMap.observe(viewLifecycleOwner, Observer {
+        categories?.let {
             val numColumns = resources.getInteger(R.integer.custom_category_columns)
             val numRows = resources.getInteger(R.integer.custom_category_rows)
 
@@ -88,18 +72,38 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
                 )
                 setHasFixedSize(true)
 
-                adapter = CustomCategoryAdapter(it, numRows, onCategoryToggle)
+                adapter = CustomCategoryAdapter(
+                    viewModel.buildCategoryList(phraseString, categories),
+                    numRows,
+                    onCategoryToggle
+                )
             }
+        }
+
+        subscribeToViewModel()
+    }
+
+    private fun subscribeToViewModel() {
+        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
+            binding.phraseSavedView.root.isVisible = it
+        })
+
+        viewModel.showPhraseDeleted.observe(viewLifecycleOwner, Observer {
+            binding.phraseSavedView.root.isVisible = it
         })
     }
 
     private val onCategoryToggle = { category: Category, isChecked: Boolean ->
         if (isChecked) {
-            binding.phraseSavedView.root.text = getString(R.string.saved_successfully, viewModel.getUpdatedCategoryName(category))
+            binding.phraseSavedView.root.text =
+                getString(R.string.saved_successfully, viewModel.getUpdatedCategoryName(category))
         } else {
-            binding.phraseSavedView.root.text = getString(R.string.removed_successfully, viewModel.getUpdatedCategoryName(category))
+            binding.phraseSavedView.root.text =
+                getString(R.string.removed_successfully, viewModel.getUpdatedCategoryName(category))
         }
 
         viewModel.handleCategoryToggled(phraseString, category, isChecked)
     }
+
+    override fun getAllViews(): List<View> = emptyList()
 }

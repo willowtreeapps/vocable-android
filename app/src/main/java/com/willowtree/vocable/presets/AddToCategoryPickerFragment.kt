@@ -29,11 +29,12 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
 
     private var maxCategories = 1
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
+    private lateinit var phraseText: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val phraseText = args.phraseText
+        phraseText = args.phraseText
 
         binding.backButton.action = {
             findNavController().popBackStack()
@@ -91,45 +92,13 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         subscribeToViewModel()
 
         with(addToCategoryPickerViewModel) {
-            buildCategoryList(phraseText)
+            getCategoryList()
         }
     }
 
     private fun subscribeToViewModel() {
-        addToCategoryPickerViewModel.categoryMap.observe(viewLifecycleOwner, Observer {
-            it?.let { map ->
-                with(ArrayList(map.keys)) {
-                    val categoriesExist = this.size != 0
-
-                    binding.emptyStateTitle.isVisible = !categoriesExist
-                    binding.emptyStateText.isVisible = !categoriesExist
-                    binding.categoryPagerBackButton.isEnabled = categoriesExist
-                    binding.categoryPagerForwardButton.isEnabled = categoriesExist
-
-                    // empty state
-                    if (this.size == 0) {
-                        binding.categoryPageNumber.text = getString(R.string.phrases_page_number, 1, 1)
-                    } else {
-                        binding.categoryHolder.apply {
-                            isSaveEnabled = false
-                            adapter = categoriesAdapter
-                            categoriesAdapter.setItems(this@with)
-
-                            // Move adapter to middle so user can scroll both directions
-                            val middle = categoriesAdapter.itemCount / 2
-                            if (middle % categoriesAdapter.numPages == 0) {
-                                setCurrentItem(middle, false)
-                            } else {
-                                val mod = middle % categoriesAdapter.numPages
-                                setCurrentItem(
-                                    middle + (categoriesAdapter.numPages - mod),
-                                    false
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+        addToCategoryPickerViewModel.categoryList.observe(viewLifecycleOwner, Observer {
+            handleCategories(it)
         })
     }
 
@@ -137,8 +106,40 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         return emptyList()
     }
 
+    private fun handleCategories(categories: List<Category>) {
+        val categoriesExist = categories.isNotEmpty()
+
+        binding.emptyStateTitle.isVisible = !categoriesExist
+        binding.emptyStateText.isVisible = !categoriesExist
+        binding.categoryPagerBackButton.isEnabled = categoriesExist
+        binding.categoryPagerForwardButton.isEnabled = categoriesExist
+
+        if (categoriesExist) {
+            with(binding.categoryHolder) {
+                isSaveEnabled = false
+
+                adapter = categoriesAdapter
+
+                categoriesAdapter.setItems(categories)
+
+                // Move adapter to middle so user can scroll both directions
+                val middle = categoriesAdapter.itemCount / 2
+                if (middle % categoriesAdapter.numPages == 0) {
+                    setCurrentItem(middle, false)
+                } else {
+                    val mod = middle % categoriesAdapter.numPages
+                    setCurrentItem(
+                        middle + (categoriesAdapter.numPages - mod),
+                        false
+                    )
+                }
+            }
+        }
+    }
+
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
             VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
+
         override fun setItems(items: List<Category>) {
             super.setItems(items)
             setPagingButtonsEnabled(numPages > 1)
