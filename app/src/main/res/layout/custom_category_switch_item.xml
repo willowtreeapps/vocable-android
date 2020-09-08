@@ -3,41 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/SpeechButton"
-    android:layout_marginStart="@dimen/category_list_horizontal_margin"
-    android:layout_marginEnd="@dimen/category_list_horizontal_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/category_list_horizontal_margin"
+    android:layout_marginEnd="@dimen/category_list_horizontal_margin"
     android:clickable="false">
 
     <com.willowtree.vocable.customviews.VocableConstraintLayout
         android:id="@+id/category_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/category_text"
-            style="@style/EditSayingsTextView"
+            style="@style/CustomCategorySwitchText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
-            tools:text="Pets"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/action_button_container"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Pets" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/toggle_switch"
-            style="@style/SelectionModeButtonSwitch"
-            android:theme="@style/SelectionModeButtonSwitch"
+            style="@style/CustomCategorySwitch"
             android:checked="true"
-            app:layout_constraintTop_toTopOf="parent"
+            android:theme="@style/SelectionModeButtonSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
 

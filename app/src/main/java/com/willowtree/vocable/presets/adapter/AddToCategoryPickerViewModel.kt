@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets.adapter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -11,6 +12,7 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.core.inject
 import java.util.*
 
@@ -19,8 +21,8 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
     private val presetsRepository: PresetsRepository by inject()
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
-    private val liveCategoryMap = MutableLiveData<Map<Category, Boolean>>()
-    val categoryMap: LiveData<Map<Category, Boolean>> = liveCategoryMap
+    private val liveCategoryList = MutableLiveData<List<Category>>()
+    val categoryList: LiveData<List<Category>> = liveCategoryList
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
@@ -47,12 +49,22 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
         }
     }
 
-    fun buildCategoryList(phraseString: String) {
-        // map category to whether or not the phrase is in that category
+    fun getCategoryList() {
+        backgroundScope.launch {
+            liveCategoryList.postValue(presetsRepository.getUserGeneratedCategories())
+        }
+    }
+
+    fun buildCategoryList(phraseString: String, categories: List<Category>): Map<Category, Boolean> {
         val phraseMap = mutableMapOf<Category, Boolean>()
 
-        backgroundScope.launch {
-            userCategories = presetsRepository.getUserGeneratedCategories()
+        categories.forEach {
+            phraseMap[it] = false
+        }
+
+        return runBlocking {
+            // map category to whether or not the phrase is in that category
+            userCategories = categories
 
             // for each category in the list
             userCategories.forEach { category ->
@@ -74,7 +86,7 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
                 }
             }
 
-            liveCategoryMap.postValue(phraseMap)
+            return@runBlocking phraseMap
         }
     }
 
