@@ -53,7 +53,7 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
         val categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
 
         viewModel = ViewModelProviders.of(
-            requireActivity(),
+            this,
             BaseViewModelFactory()
         ).get(AddToCategoryPickerViewModel::class.java)
 
@@ -73,11 +73,13 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
                 setHasFixedSize(true)
 
                 adapter = CustomCategoryAdapter(
-                    viewModel.buildCategoryList(phraseString, categories),
+                    mapOf(),
                     numRows,
                     onCategoryToggle
                 )
             }
+
+            viewModel.buildCategoryList(phraseString, it)
         }
 
         subscribeToViewModel()
@@ -90,6 +92,10 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
 
         viewModel.showPhraseDeleted.observe(viewLifecycleOwner, Observer {
             binding.phraseSavedView.root.isVisible = it
+        })
+
+        viewModel.categoryMap.observe(viewLifecycleOwner, Observer {
+            (binding.categoryList.adapter as CustomCategoryAdapter).setMap(it)
         })
     }
 

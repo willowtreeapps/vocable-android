@@ -62,6 +62,11 @@ class CustomCategoryAdapter(
         return _minHeight ?: 0
     }
 
+    fun setMap(map: Map<Category, Boolean>) {
+        this.categories = map
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = categories.size
 
     override fun onBindViewHolder(holder: CustomCategoryViewHolder, position: Int) {

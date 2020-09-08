@@ -24,6 +24,9 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList
 
+    private val liveCategoryMap = MutableLiveData<Map<Category, Boolean>>()
+    val categoryMap: LiveData<Map<Category, Boolean>> = liveCategoryMap
+
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
@@ -55,14 +58,14 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
         }
     }
 
-    fun buildCategoryList(phraseString: String, categories: List<Category>): Map<Category, Boolean> {
+    fun buildCategoryList(phraseString: String, categories: List<Category>) {
         val phraseMap = mutableMapOf<Category, Boolean>()
 
         categories.forEach {
             phraseMap[it] = false
         }
 
-        return runBlocking {
+        backgroundScope.launch {
             // map category to whether or not the phrase is in that category
             userCategories = categories
 
@@ -86,7 +89,7 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
                 }
             }
 
-            return@runBlocking phraseMap
+            liveCategoryMap.postValue(phraseMap)
         }
     }
 
