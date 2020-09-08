@@ -82,4 +82,7 @@ class MainScreen {
     val phrasesForwardButton = onView(withId(R.id.phrases_forward_button))
     val phrasesPageNumber = onView(withId(R.id.phrases_page_number))
 
+    // Keyboard
+    val keyboardCont = onView(withId(R.id.keyboard_key_holder))
+
 }
