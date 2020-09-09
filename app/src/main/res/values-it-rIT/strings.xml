@@ -31,7 +31,7 @@
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Scrivi qui…</string>
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Salvato in Mie Frasi</string>
+    <string name="saved_successfully">Salvato in %1s</string>
     <!-- Edit Sayings -->
     <string name="delete">Elimina</string>
     <string name="delete_warning">Eliminati I Rischi Non Possono Essere Recuperati.</string>

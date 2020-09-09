@@ -144,6 +144,10 @@ class EditCategoriesViewModel : BaseViewModel() {
         return localizedResourceUtility.getTextFromCategory(updatedCategory)
     }
 
+    fun getUpdatedCategory(category: Category): Category {
+        return overallCategories.first { it.categoryId == category.categoryId }
+    }
+
     fun fetchCategoryPhrases(category: Category) {
         backgroundScope.launch {
             val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)

@@ -31,7 +31,7 @@
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Texteingabe beginnen…</string>
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">In Meine Sätze gespeichert</string>
+    <string name="saved_successfully">In %1s gespeichert</string>
     <!-- Edit Sayings -->
     <string name="delete">Löschen</string>
     <string name="delete_warning">Gelöschte Sätze können nicht wiederhergestellt werden.</string>

@@ -31,7 +31,7 @@
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">在这里输入...</string>
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">保存到我的对话</string>
+    <string name="saved_successfully">保存到%1s</string>
     <!-- Edit Sayings -->
     <string name="delete">删除</string>
     <string name="delete_warning">删除后的对话无法恢复。</string>
