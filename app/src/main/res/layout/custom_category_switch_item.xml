@@ -24,7 +24,7 @@
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
-            app:layout_constraintEnd_toStartOf="@+id/action_button_container"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_switch"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
