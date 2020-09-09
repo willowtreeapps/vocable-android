@@ -1,6 +1,5 @@
 package com.willowtree.vocable.presets
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +15,16 @@ import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
-import com.willowtree.vocable.keyboard.KeyboardFragment
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
-import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import kotlinx.android.synthetic.main.fragment_presets.*
 
 class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
-    override val bindingInflater: BindingInflater<FragmentPresetsBinding> = FragmentPresetsBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentPresetsBinding> =
+        FragmentPresetsBinding::inflate
     private val allViews = mutableListOf<View>()
 
     private var maxCategories = 1
@@ -37,8 +33,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
-
-    private var isMySayingShowing = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -114,8 +108,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                         activity.resetAllViews()
                     }
                 }
-
-                isMySayingShowing = categoriesAdapter.getItemsByPosition(position)[0].categoryId == PresetCategories.USER_FAVORITES.id
             }
         })
 
@@ -220,8 +212,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !isMySayingShowing
-        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !isMySayingShowing
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
 
         binding.phrasesView.apply {
             isSaveEnabled = false
@@ -254,7 +246,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         override fun getMaxItemsPerPage(): Int = maxCategories
 
-        override fun createFragment(position: Int) = CategoriesFragment.newInstance(getItemsByPosition(position))
+        override fun createFragment(position: Int) =
+            CategoriesFragment.newInstance(getItemsByPosition(position))
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
