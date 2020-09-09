@@ -80,10 +80,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             requireActivity().finish()
         }
 
-        binding.settingsOptionsContainer.editSayingsButton.action = {
-            findNavController().navigate(R.id.action_settingsFragment_to_editPresetsFragment)
-        }
-
         binding.settingsOptionsContainer.timingSensitivityButton.action = {
             findNavController().navigate(R.id.action_settingsFragment_to_sensitivityFragment)
         }
@@ -134,7 +130,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             privacyPolicyButton.isEnabled = enable
             contactDevsButton.isEnabled = enable
             settingsOptionsContainer.editCategoriesButton.isEnabled = enable
-            settingsOptionsContainer.editSayingsButton.isEnabled = enable
             settingsOptionsContainer.resetAppButton.isEnabled = enable
             settingsOptionsContainer.selectionModeButton.isEnabled = enable
             settingsOptionsContainer.timingSensitivityButton.isEnabled = enable
