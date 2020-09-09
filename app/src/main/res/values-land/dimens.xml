@@ -68,4 +68,6 @@
     <!-- Empty My Sayings -->
     <dimen name="empty_my_sayings_text_width">0dp</dimen>
 
+    <dimen name="add_to_category_title_max_width">300dp</dimen>
+
 </resources>

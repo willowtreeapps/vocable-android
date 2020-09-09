@@ -37,9 +37,17 @@ class PresetsViewModel : BaseViewModel() {
     fun onCategorySelected(category: Category) {
         liveSelectedCategory.postValue(category)
         backgroundScope.launch {
-            val phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
-                .sortedBy { it.sortOrder }
-            liveCurrentPhrases.postValue(phrases)
+            val cat = presetsRepository.getCategoryById(category.categoryId)
+
+            // make sure the category wasn't deleted before getting its phrases
+            if (cat != null) {
+                val phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                    .sortedBy { it.sortOrder }
+                liveCurrentPhrases.postValue(phrases)
+            } else { // if the category has been deleted, select the first available category to show
+                val categories = presetsRepository.getAllCategories().filter { !it.hidden }
+                onCategorySelected(categories[0])
+            }
         }
     }
 }

@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/top_bar_button_margin"
         android:scaleType="center"
-        android:src="@drawable/add_favorite_action_button_icon"
+        android:src="@drawable/ic_save"
         app:layout_constraintEnd_toStartOf="@id/presets_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

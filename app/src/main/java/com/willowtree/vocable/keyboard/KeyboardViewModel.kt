@@ -16,7 +16,7 @@ import java.util.*
 class KeyboardViewModel : BaseViewModel() {
 
     companion object {
-        private const val PHRASE_ADDED_DELAY = 2000L
+        const val PHRASE_ADDED_DELAY = 2000L
     }
 
     private val presetsRepository: PresetsRepository by inject()

@@ -73,6 +73,10 @@
     <dimen name="edit_category_pager_margin_bottom">34dp</dimen>
     <dimen name="edit_categories_title_margin">84dp</dimen>
 
+    <!-- Custom Categories-->
     <dimen name="custom_category_button_text_size">34sp</dimen>
+    <dimen name="add_to_category_title_max_width">600dp</dimen>
+    <dimen name="category_list_vertical_margin">40dp</dimen>
+    <dimen name="category_list_horizontal_margin">44dp</dimen>
 
 </resources>
