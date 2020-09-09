@@ -9,7 +9,7 @@
         style="@style/TopBarButton"
         android:layout_marginEnd="@dimen/top_bar_button_margin"
         android:scaleType="center"
-        android:src="@drawable/add_favorite_action_button_icon" />
+        android:src="@drawable/ic_save" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/presets_button"

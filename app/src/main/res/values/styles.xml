@@ -135,6 +135,22 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="CustomCategorySwitchText">
+        <item name="android:layout_marginStart">@dimen/edit_sayings_text_margin_start</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textSize">@dimen/edit_sayings_text_size</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="CustomCategorySwitch">
+        <item name="android:layout_width">@dimen/settings_switch_width</item>
+        <item name="android:layout_height">@dimen/settings_switch_height</item>
+        <item name="android:layout_marginEnd">@dimen/settings_margin_default</item>
+        <item name="colorControlActivated">@color/selectedColor</item>
+        <item name="android:checked">true</item>
+        <item name="android:scaleX">1.5</item>
+        <item name="android:scaleY">1.5</item>
+    </style>
 
     <style name="ScalableSettingsTitle" parent="ScalableText">
         <item name="autoSizeMaxTextSize">@dimen/settings_title_text_size</item>
@@ -303,6 +319,7 @@
         <item name="android:layout_marginTop">@dimen/settings_margin_default</item>
         <item name="android:layout_marginEnd">@dimen/settings_margin_default</item>
         <item name="android:layout_marginBottom">@dimen/settings_margin_default</item>
+        <item name="colorControlActivated">@color/selectedColor</item>
         <item name="android:checked">true</item>
         <item name="android:scaleX">1.5</item>
         <item name="android:scaleY">1.5</item>
