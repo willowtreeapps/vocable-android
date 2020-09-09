@@ -31,7 +31,7 @@
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Begynd at skrive…</string>
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Gemt til Mine Sætninger</string>
+    <string name="saved_successfully">Gemt til %1s</string>
     <!-- Edit Sayings -->
     <string name="delete">Slet</string>
     <string name="delete_warning">Slettede sætninger kan ikke genskabes.</string>

@@ -14,4 +14,6 @@
     <integer name="keyboard_rows">3</integer>
     <integer name="custom_category_phrase_columns">2</integer>
     <integer name="custom_category_phrase_rows">3</integer>
+    <integer name="custom_category_columns">2</integer>
+    <integer name="custom_category_rows">4</integer>
 </resources>

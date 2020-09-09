@@ -17,6 +17,10 @@ class PresetsRepository(context: Context) : KoinComponent {
         return database.categoryDao().getAllCategories()
     }
 
+    suspend fun getUserGeneratedCategories(): List<Category> {
+        return database.categoryDao().getUserGeneratedCategories()
+    }
+
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return database.categoryDao().getCategoryWithPhrases(categoryId).phrases
     }
@@ -58,6 +62,14 @@ class PresetsRepository(context: Context) : KoinComponent {
     suspend fun getCrossRefsForPhraseIds(phraseIds: List<String>): List<CategoryPhraseCrossRef> {
         return database.categoryPhraseCrossRefDao()
             .getCategoryPhraseCrossRefsForPhraseIds(phraseIds)
+    }
+
+    suspend fun getCrossRefsForCategoryId(categoryId: String): List<CategoryPhraseCrossRef> {
+        return database.categoryPhraseCrossRefDao().getCategoryPhraseCrossRefsForCategoryId(categoryId)
+    }
+
+    suspend fun getPhraseById(id: String): Phrase {
+        return database.phraseDao().getPhraseById(id)
     }
 
     suspend fun deletePhrase(phrase: Phrase) {
