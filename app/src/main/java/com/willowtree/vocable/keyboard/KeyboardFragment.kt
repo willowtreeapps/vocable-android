@@ -45,6 +45,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
         }
 
         viewModel.currentText = binding.keyboardInput.text.toString()
+        binding.keyboardInput.setSelection(binding.keyboardInput.text.length)
     }
 
     private fun isDefaultTextVisible(): Boolean {
@@ -116,6 +117,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             if (!isDefaultTextVisible()) {
                 binding.keyboardInput.apply {
                     setText(text.toString().dropLast(1))
+                    setSelection(text.length)
                     if (text.isNullOrEmpty()) {
                         setText(R.string.keyboard_select_letters)
                     }
