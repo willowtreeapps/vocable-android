@@ -25,10 +25,10 @@ class SplashViewModel : BaseViewModel() {
 
     private fun populateDatabase() {
         backgroundScope.launch {
-            presetsRepository.populateDatabase()
-
             moveMySayings()
 
+            presetsRepository.populateDatabase()
+            
             liveExitSplash.postValue(true)
         }
     }
