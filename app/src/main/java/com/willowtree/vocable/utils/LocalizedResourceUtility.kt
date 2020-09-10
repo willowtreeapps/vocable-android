@@ -36,8 +36,4 @@ class LocalizedResourceUtility(context: Context) : KoinComponent {
             LocaleUtils.getTextForLocale(it)
         } ?: ""
     }
-
-    fun getMySayingsTitle(): String {
-        return resources.getString(R.string.preset_user_favorites)
-    }
 }
