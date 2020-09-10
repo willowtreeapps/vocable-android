@@ -1,8 +1,10 @@
 package com.willowtree.vocable.splash
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
+import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
@@ -27,8 +29,6 @@ class SplashViewModel : BaseViewModel() {
 
     private fun populateDatabase() {
         backgroundScope.launch {
-            val mySayingsCategory =
-                presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
             val newCategoryId = UUID.randomUUID().toString()
             val shouldUpdateName = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
                 .isNotEmpty()
@@ -51,7 +51,7 @@ class SplashViewModel : BaseViewModel() {
         mySayingsCategory.localizedName = mapOf(
             Pair(
                 Locale.getDefault().toString(),
-                localizedResourceUtility.getMySayingsTitle()
+                get<Context>().resources.getString(R.string.preset_user_favorites)
             )
         )
 
