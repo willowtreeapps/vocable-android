@@ -247,7 +247,7 @@
     <dimen name="edit_category_title_margin_top">32dp</dimen>
     <dimen name="edit_remove_category_margin_top">8dp</dimen>
     <dimen name="edit_category_edit_options_margin_top">24dp</dimen>
-    <dimen name="edit_options_button_margin_start">16dp</dimen>
+    <dimen name="edit_options_button_margin_horizontal">16dp</dimen>
     <dimen name="edit_category_options_remove_button_margin_start">8dp</dimen>
     <dimen name="edit_options_title_margin">32dp</dimen>
     <dimen name="edit_category_phrase_button_margin">8dp</dimen>
