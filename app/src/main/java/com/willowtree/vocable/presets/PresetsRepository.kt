@@ -64,6 +64,10 @@ class PresetsRepository(context: Context) : KoinComponent {
             .getCategoryPhraseCrossRefsForPhraseIds(phraseIds)
     }
 
+    suspend fun deleteCrossRefsForCategoryIds(categoryIds: List<String>) {
+        database.categoryPhraseCrossRefDao().deleteCategoryPhraseCrossRefsForPhraseIds(categoryIds)
+    }
+
     suspend fun getCrossRefsForCategoryId(categoryId: String): List<CategoryPhraseCrossRef> {
         return database.categoryPhraseCrossRefDao().getCategoryPhraseCrossRefsForCategoryId(categoryId)
     }
@@ -92,6 +96,10 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.categoryDao().updateCategory(category)
     }
 
+    suspend fun deleteNonUserGeneratedPhrases() {
+        database.phraseDao().deleteNonUserGeneratedPhrases()
+    }
+
     suspend fun updateCategories(categories: List<Category>) {
         database.categoryDao().updateCategories(*categories.toTypedArray())
     }
@@ -101,11 +109,6 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun populateDatabase() {
-        val categories = getAllCategories()
-        if (categories.size > 1) {
-            return
-        }
-
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
         val crossRefObjects = mutableListOf<CategoryPhraseCrossRef>()
@@ -124,9 +127,18 @@ class PresetsRepository(context: Context) : KoinComponent {
                 )
             )
 
+            // delete non-user-generated cross-refs
+            val nonUserCategoryIds = PresetCategories.values().map { category -> category.id }
+            deleteCrossRefsForCategoryIds(nonUserCategoryIds)
+
             if (it.getArrayId() == -1) {
                 return@forEach
             }
+
+            // delete non-user-generated phrases
+            deleteNonUserGeneratedPhrases()
+
+            // re-add them
             val phraseStringIds = get<Context>().resources.obtainTypedArray(it.getArrayId())
             for (index in 0 until phraseStringIds.length()) {
                 val phraseId = UUID.randomUUID().toString()
