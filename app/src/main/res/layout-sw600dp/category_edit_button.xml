@@ -49,14 +49,18 @@
 
     <TextView
         android:id="@+id/category_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/edit_categories_list_button_margin"
         android:textColor="@color/textColor"
         android:textSize="@dimen/edit_categories_list_text_size"
-        app:layout_constraintBottom_toBottomOf="@id/edit_category_select_button"
-        app:layout_constraintStart_toEndOf="@id/show_hide_category_button"
-        app:layout_constraintTop_toTopOf="@+id/edit_category_select_button" />
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="start"
+        app:layout_constraintBottom_toBottomOf="@id/show_hide_category_button"
+        app:layout_constraintStart_toEndOf="@+id/show_hide_category_button"
+        app:layout_constraintEnd_toStartOf="@id/edit_category_select_button"
+        app:layout_constraintTop_toTopOf="@id/show_hide_category_button" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/edit_category_select_button"
