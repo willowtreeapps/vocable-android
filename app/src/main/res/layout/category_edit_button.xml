@@ -20,6 +20,7 @@
         android:textSize="@dimen/edit_categories_list_text_size"
         android:maxLines="1"
         android:ellipsize="end"
+        android:gravity="start"
         app:layout_constraintBottom_toTopOf="@id/move_category_up_button"
         app:layout_constraintStart_toStartOf="@+id/move_category_up_button"
         app:layout_constraintEnd_toEndOf="@id/edit_category_select_button"
