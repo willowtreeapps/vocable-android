@@ -24,10 +24,15 @@
     <TextView
         android:id="@+id/category_title"
         style="@style/SettingsTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/edit_categories_title_margin"
+        android:layout_marginEnd="@dimen/edit_categories_title_margin"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/edit_options_back_button"
-        app:layout_constraintEnd_toStartOf="@+id/remove_category_button"
+        app:layout_constraintEnd_toStartOf="@+id/edit_options_button"
         app:layout_constraintStart_toEndOf="@+id/edit_options_back_button"
         app:layout_constraintTop_toTopOf="@+id/edit_options_back_button"
         app:layout_constraintVertical_chainStyle="packed"
@@ -44,7 +49,7 @@
         android:src="@drawable/edit_40dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/category_title"
-        app:layout_constraintEnd_toStartOf="@+id/remove_category_button"
+        app:layout_constraintEnd_toStartOf="@+id/add_phrase_button"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/category_title"
         app:layout_constraintTop_toTopOf="@id/category_title" />
@@ -67,6 +72,7 @@
         android:layout_height="@dimen/settings_close_button_height"
         android:layout_marginTop="0dp"
         android:src="@drawable/add_40dp"
+        app:layout_constraintStart_toEndOf="@id/edit_options_button"
         app:layout_constraintEnd_toStartOf="@+id/remove_category_button"
         app:layout_constraintTop_toTopOf="@+id/edit_options_back_button" />
 
