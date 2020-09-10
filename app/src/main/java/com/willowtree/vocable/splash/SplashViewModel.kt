@@ -34,6 +34,9 @@ class SplashViewModel : BaseViewModel() {
     }
 
     private suspend fun moveMySayings() {
+        // Get the old My Sayings category
+        val mySayingsCategory = presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
+        
         // if the user has My Sayings phrases, we need to migrate them to a custom category
         if (presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id).isNotEmpty()) {
             val allCategories = presetsRepository.getAllCategories()
@@ -51,7 +54,7 @@ class SplashViewModel : BaseViewModel() {
                 System.currentTimeMillis(),
                 true,
                 null,
-                mapOf(Pair(Locale.getDefault().toString(), "My Sayings")),
+                mySayingsCategory.localizedName,
                 false,
                 firstHiddenIndex
             )
@@ -64,13 +67,15 @@ class SplashViewModel : BaseViewModel() {
                 presetsRepository.addCrossRef(CategoryPhraseCrossRef(newCategoryId, it.phraseId))
             }
 
-            // Get the old My Sayings category and delete it
-            val mySayingsCategory = presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
+            // delete the old My Sayings category
             presetsRepository.deleteCategory(mySayingsCategory)
 
             // Get the old My Sayings cross refs and delete them
             val mySayingsCrossRefs = presetsRepository.getCrossRefsForCategoryId(PresetCategories.USER_FAVORITES.id)
             mySayingsCrossRefs.forEach { presetsRepository.deleteCrossRef(it) }
         }
+
+        // delete the old My Sayings category
+        presetsRepository.deleteCategory(mySayingsCategory)
     }
 }
