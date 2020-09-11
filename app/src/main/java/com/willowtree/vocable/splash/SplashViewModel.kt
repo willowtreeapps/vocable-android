@@ -31,7 +31,7 @@ class SplashViewModel : BaseViewModel() {
         backgroundScope.launch {
             val newCategoryId = UUID.randomUUID().toString()
             val shouldUpdateName = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
-                .isNotEmpty()
+                .isNullOrEmpty()
 
             moveMySayings(newCategoryId)
 
@@ -48,14 +48,18 @@ class SplashViewModel : BaseViewModel() {
 
     private suspend fun updateMySayingsName(newCategoryId: String) {
         val mySayingsCategory = presetsRepository.getCategoryById(newCategoryId)
-        mySayingsCategory.localizedName = mapOf(
-            Pair(
-                Locale.getDefault().toString(),
-                get<Context>().resources.getString(R.string.preset_user_favorites)
+        // we need to check for null here, because if the category does not exist, the return value will be null
+        // regardless of the return type being non-nullable.
+        if (mySayingsCategory != null) {
+            mySayingsCategory.localizedName = mapOf(
+                Pair(
+                    Locale.getDefault().toString(),
+                    get<Context>().resources.getString(R.string.preset_user_favorites)
+                )
             )
-        )
 
-        presetsRepository.updateCategory(mySayingsCategory)
+            presetsRepository.updateCategory(mySayingsCategory)
+        }
     }
 
     private suspend fun moveMySayings(newCategoryId: String) {
@@ -95,16 +99,15 @@ class SplashViewModel : BaseViewModel() {
                 presetsRepository.addCrossRef(CategoryPhraseCrossRef(newCategoryId, it.phraseId))
             }
 
-            // delete the old My Sayings category
-            presetsRepository.deleteCategory(mySayingsCategory)
-
             // Get the old My Sayings cross refs and delete them
             val mySayingsCrossRefs =
                 presetsRepository.getCrossRefsForCategoryId(PresetCategories.USER_FAVORITES.id)
             mySayingsCrossRefs.forEach { presetsRepository.deleteCrossRef(it) }
         }
 
-        // delete the old My Sayings category
-        presetsRepository.deleteCategory(mySayingsCategory)
+        if (mySayingsCategory != null) {
+            // delete the old My Sayings category
+            presetsRepository.deleteCategory(mySayingsCategory)
+        }
     }
 }
