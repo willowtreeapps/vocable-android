@@ -89,7 +89,7 @@
     <string name="category_123_9" translatable="false">9</string>
 
     <!-- Edit Categories -->
-    <string name="edit_categories_title">Categories</string>
+    <string name="edit_categories_title">Categories and Phrases</string>
     <string name="edit_categories_button_number" translatable="false">%1d. %2s</string>
 
     <!-- Edit Category Options -->
