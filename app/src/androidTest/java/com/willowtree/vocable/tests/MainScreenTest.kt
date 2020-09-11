@@ -28,7 +28,6 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyDefaultCategoriesExist() {
         mainScreen.apply {
@@ -36,16 +35,14 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
-    fun verifyDefaultSayingsInCategoriesExist() {
+    fun verifyDefaultSayingsInGeneralCategoryExist() {
         mainScreen.apply {
-            scrollRightAndTapCurrentCategory(0)
+            navigateToCategoryByName("General")
             verifyGivenPhrasesDisplay(defaultPhraseGeneral)
         }
     }
 
-    @Ignore
     @Test
     fun verifySelectingCategoryChangesPhrases() {
         mainScreen.apply {

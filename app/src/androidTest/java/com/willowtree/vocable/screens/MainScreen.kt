@@ -1,19 +1,23 @@
 package com.willowtree.vocable.screens
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.PerformException
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.VocableButton
+import com.willowtree.vocable.utility.assertElementExists
 import com.willowtree.vocable.utility.tap
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 
 class MainScreen {
 
-    val defaultCategories = arrayOf("General", "Basic Needs", "Personal Care", "Conversation", "Environment", "123", "My Sayings")
+    val defaultCategories = arrayOf("General", "Basic Needs", "Personal Care", "Conversation", "Environment", "123")
     val defaultPhraseGeneral = arrayOf("Please", "Yes", "Maybe", "I don't know", "Thank you", "No", "Please wait", "I didn't mean to say that")
     val defaultPhraseBasicNeeds = arrayOf("I need to go to the restroom", "I am hungry", "I am hot", "I am fine", "I am thirsty", "I am cold", "I am tired", "I am good")
+    val defaultPhrase123 = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", " Yes", "No")
 
     fun verifyDefaultCategoriesExist() {
         for (category in defaultCategories) {
@@ -21,6 +25,25 @@ class MainScreen {
                 .check(matches(isDisplayed()))
             categoryForwardButton.tap()
         }
+    }
+
+    fun navigateToCategoryByName(categoryName: String){
+        val maxNumTimesToScroll = defaultCategories.size + 2
+
+        for (i in 1..maxNumTimesToScroll) {
+            try {
+                //try to tap the name
+                try {
+                    onView(withText(categoryName)).tap()
+                } catch (e: PerformException){
+                    onView(withText(categoryName)).tap()
+                }
+            } catch (e: NoMatchingViewException) {
+                //if the name isn't there, go to the next
+                onView(withId(R.id.category_forward_button)).tap()
+            }
+        }
+
     }
 
     // Scrolls to the left numTimesToScroll times and then taps the current category
