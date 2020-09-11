@@ -111,6 +111,7 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         binding.emptyStateText.isVisible = !categoriesExist
         binding.categoryPagerBackButton.isEnabled = categoriesExist
         binding.categoryPagerForwardButton.isEnabled = categoriesExist
+        binding.categoryHolder.isVisible = categoriesExist
 
         if (categoriesExist) {
             with(binding.categoryHolder) {

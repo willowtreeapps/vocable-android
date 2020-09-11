@@ -2,6 +2,7 @@ package com.willowtree.vocable.utils
 
 import android.content.Context
 import android.content.res.Resources
+import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import org.koin.core.KoinComponent

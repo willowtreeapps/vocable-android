@@ -22,7 +22,7 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
-        return database.categoryDao().getCategoryWithPhrases(categoryId).phrases
+        return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: emptyList()
     }
 
     suspend fun addPhrase(phrase: Phrase) {
