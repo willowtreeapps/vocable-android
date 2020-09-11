@@ -83,16 +83,17 @@
         android:gravity="center"
         android:scaleType="center"
         android:src="@drawable/phrases_back_button_icon"
+        app:layout_constraintStart_toStartOf="@id/category_holder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/category_holder" />
+        app:layout_constraintEnd_toStartOf="@id/category_page_number" />
 
     <TextView
         android:id="@+id/category_page_number"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/edit_page_number_margin"
-        android:layout_marginEnd="@dimen/edit_page_number_margin"
+        android:layout_marginStart="@dimen/phrases_page_number_margin"
+        android:layout_marginEnd="@dimen/phrases_page_number_margin"
         android:gravity="center"
         android:textColor="@color/textColor"
         android:textSize="@dimen/phrases_page_number_text_size"
@@ -114,6 +115,7 @@
         android:gravity="center"
         android:scaleType="center"
         android:src="@drawable/phrases_forward_button_icon"
+        app:layout_constraintStart_toEndOf="@id/category_page_number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/category_holder"
         app:layout_constraintHorizontal_chainStyle="packed" />
