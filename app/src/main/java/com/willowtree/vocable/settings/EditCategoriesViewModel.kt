@@ -130,6 +130,7 @@ class EditCategoriesViewModel : BaseViewModel() {
     }
 
     fun hideShowCategory(category: Category, hide: Boolean) {
+        // only hide if this category is not the only one left that is showing
         backgroundScope.launch {
             if (hide) {
                 hideCategory(category)
@@ -157,22 +158,26 @@ class EditCategoriesViewModel : BaseViewModel() {
     }
 
     private suspend fun hideCategory(category: Category) {
-        val catIndex = overallCategories.indexOf(category)
-        if (catIndex > -1) {
-            val listToUpdate = overallCategories.filter { it.sortOrder >= category.sortOrder }
-            listToUpdate.forEach {
-                if (it.categoryId == category.categoryId) {
-                    it.sortOrder = overallCategories.size - 1
-                    it.hidden = true
-                } else {
-                    it.sortOrder--
+        val numberOfShowingCategories = presetsRepository.getNumberOfShownCategories()
+
+        if (numberOfShowingCategories > 2) {
+            val catIndex = overallCategories.indexOf(category)
+            if (catIndex > -1) {
+                val listToUpdate = overallCategories.filter { it.sortOrder >= category.sortOrder }
+                listToUpdate.forEach {
+                    if (it.categoryId == category.categoryId) {
+                        it.sortOrder = overallCategories.size - 1
+                        it.hidden = true
+                    } else {
+                        it.sortOrder--
+                    }
                 }
+
+                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                liveOrderCategoryList.postValue(overallCategories)
+
+                presetsRepository.updateCategories(listToUpdate)
             }
-
-            overallCategories = overallCategories.sortedBy { it.sortOrder }
-            liveOrderCategoryList.postValue(overallCategories)
-
-            presetsRepository.updateCategories(listToUpdate)
         }
     }
 

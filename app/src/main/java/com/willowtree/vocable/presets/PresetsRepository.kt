@@ -108,6 +108,10 @@ class PresetsRepository(context: Context) : KoinComponent {
         return database.categoryDao().getCategoryById(categoryId)
     }
 
+    suspend fun getNumberOfShownCategories(): Int {
+        return database.categoryDao().getNumberOfShownCategories()
+    }
+
     suspend fun populateDatabase() {
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
