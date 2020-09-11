@@ -3,6 +3,7 @@ package com.willowtree.vocable.tests
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertTextMatches
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -27,6 +28,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyDefaultCategoriesExist() {
         mainScreen.apply {
@@ -34,6 +36,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyDefaultSayingsInCategoriesExist() {
         mainScreen.apply {
@@ -42,6 +45,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifySelectingCategoryChangesPhrases() {
         mainScreen.apply {
