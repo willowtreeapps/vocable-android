@@ -108,6 +108,10 @@ class PresetsRepository(context: Context) : KoinComponent {
         return database.categoryDao().getCategoryById(categoryId)
     }
 
+    suspend fun getNumberOfShownCategories(): Int {
+        return database.categoryDao().getNumberOfShownCategories()
+    }
+
     suspend fun populateDatabase() {
         val categoryObjects = mutableListOf<Category>()
         val phraseObjects = mutableListOf<Phrase>()
@@ -115,16 +119,30 @@ class PresetsRepository(context: Context) : KoinComponent {
 
 
         PresetCategories.values().forEach {
+            val existingCategory = getCategoryById(it.id)
             categoryObjects.add(
-                Category(
-                    it.id,
-                    System.currentTimeMillis(),
-                    false,
-                    it.getNameId(),
-                    null,
-                    false,
-                    it.initialSortOrder
-                )
+                if (existingCategory != null) {
+                    Category(
+                        it.id,
+                        System.currentTimeMillis(),
+                        false,
+                        it.getNameId(),
+                        null,
+                        existingCategory?.hidden,
+                        existingCategory?.sortOrder
+                    )
+                } else {
+                    Category(
+                        it.id,
+                        System.currentTimeMillis(),
+                        false,
+                        it.getNameId(),
+                        null,
+                        false,
+                        it.initialSortOrder
+                    )
+                }
+
             )
 
             // delete non-user-generated cross-refs
