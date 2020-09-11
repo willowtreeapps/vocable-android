@@ -2,12 +2,10 @@ package com.willowtree.vocable.screens
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.PerformException
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.VocableButton
-import com.willowtree.vocable.utility.assertElementExists
 import com.willowtree.vocable.utility.tap
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
@@ -33,17 +31,12 @@ class MainScreen {
         for (i in 1..maxNumTimesToScroll) {
             try {
                 //try to tap the name
-                try {
                     onView(withText(categoryName)).tap()
-                } catch (e: PerformException){
-                    onView(withText(categoryName)).tap()
-                }
             } catch (e: NoMatchingViewException) {
                 //if the name isn't there, go to the next
                 onView(withId(R.id.category_forward_button)).tap()
             }
         }
-
     }
 
     // Scrolls to the left numTimesToScroll times and then taps the current category
