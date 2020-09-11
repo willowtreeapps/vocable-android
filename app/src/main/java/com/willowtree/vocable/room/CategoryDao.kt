@@ -29,6 +29,9 @@ interface CategoryDao {
     @Update
     suspend fun updateCategories(vararg categories: Category)
 
+    @Query("SELECT COUNT(*) FROM Category WHERE NOT hidden")
+    suspend fun getNumberOfShownCategories(): Int
+
     @Transaction
     @Query("SELECT * FROM Category WHERE category_id == :categoryId")
     suspend fun getCategoryWithPhrases(categoryId: String): CategoryWithPhrases?
