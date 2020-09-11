@@ -37,10 +37,8 @@ class SplashViewModel : BaseViewModel() {
 
             presetsRepository.populateDatabase()
 
-            if (shouldUpdateName) {
-                // we need to call this after populating the db so that the resource IDs are correct
-                updateMySayingsName(newCategoryId)
-            }
+            // we need to call this after populating the db so that the resource IDs are correct
+            updateMySayingsName(newCategoryId)
 
             liveExitSplash.postValue(true)
         }
