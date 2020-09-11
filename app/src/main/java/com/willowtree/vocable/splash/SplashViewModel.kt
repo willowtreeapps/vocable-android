@@ -18,7 +18,6 @@ import java.util.*
 class SplashViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     private val liveExitSplash = MutableLiveData<Boolean>()
     val exitSplash: LiveData<Boolean> = liveExitSplash
@@ -30,8 +29,6 @@ class SplashViewModel : BaseViewModel() {
     private fun populateDatabase() {
         backgroundScope.launch {
             val newCategoryId = UUID.randomUUID().toString()
-            val shouldUpdateName = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
-                .isNullOrEmpty()
 
             moveMySayings(newCategoryId)
 
