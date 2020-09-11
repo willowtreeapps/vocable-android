@@ -43,6 +43,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifySelectingCategoryChangesPhrases() {
         mainScreen.apply {
