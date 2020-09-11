@@ -24,7 +24,7 @@
 
     <!-- Settings Options -->
     <string name="settings_edit_saying">My Sayings</string>
-    <string name="settings_edit_categories">Categories</string>
+    <string name="settings_edit_categories">Categories and Phrases</string>
     <string name="settings_selection_mode">Selection Mode</string>
     <string name="settings_reset_app">Reset App Settings</string>
 
