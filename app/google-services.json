@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "292071094533",
+    "firebase_url": "https://vocable-fcb07.firebaseio.com",
+    "project_id": "vocable-fcb07",
+    "storage_bucket": "vocable-fcb07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292071094533:android:8b787ac7bd56d10b909f6c",
+        "android_client_info": {
+          "package_name": "com.willowtree.vocable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292071094533-l9ui2p4lmhuuvdamr3t204uuk6dns355.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu3CIOAF67MYwrzsiQ8OZaWrhgmip4i0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292071094533-l9ui2p4lmhuuvdamr3t204uuk6dns355.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "292071094533-86uue52ck8hejnsh3unfoccvk5g7svnl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.willowtreeapps.eyespeakaac",
+                "app_store_id": "1497040547"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292071094533:android:428816fac79acc57909f6c",
+        "android_client_info": {
+          "package_name": "com.willowtree.vocable.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292071094533-0ftj6hif8vdkpjtl1relfnbm6q833md3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.willowtree.vocable.debug",
+            "certificate_hash": "a5a3354b22b25b25073594c0319cc152fbbea04e"
+          }
+        },
+        {
+          "client_id": "292071094533-l9ui2p4lmhuuvdamr3t204uuk6dns355.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu3CIOAF67MYwrzsiQ8OZaWrhgmip4i0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292071094533-l9ui2p4lmhuuvdamr3t204uuk6dns355.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "292071094533-86uue52ck8hejnsh3unfoccvk5g7svnl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.willowtreeapps.eyespeakaac",
+                "app_store_id": "1497040547"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
