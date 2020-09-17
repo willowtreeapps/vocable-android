@@ -26,3 +26,7 @@
   <init>(...);
   <fields>;
 }
+
+-keepnames class androidx.navigation.fragment.NavHostFragment
+-keepnames class com.willowtree.vocable.room.Category
+-keepnames class com.willowtree.vocable.room.Phrase
