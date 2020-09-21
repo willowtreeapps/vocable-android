@@ -189,7 +189,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 setBackgroundResource(R.drawable.category_button_background)
             }
 
-            setOnClickListener {
+            action = {
                 category.let { category ->
                     editCategoriesViewModel.hideShowCategory(category, !category.hidden)
                 }
