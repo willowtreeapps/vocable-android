@@ -133,6 +133,8 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
                     )
                 }
             }
+        } else {
+            binding.categoryPageNumber.text = getString(R.string.phrases_page_number, 1, 1)
         }
     }
 
