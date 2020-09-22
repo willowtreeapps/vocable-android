@@ -182,7 +182,21 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handleCategories(categories: List<Category>) {
-        binding.categoryView.apply {
+        with(binding.categoryView) {
+            val categoriesExist = categories.isNotEmpty()
+            // if there are no categories to show (the user has hidden them all), then show the empty state
+            isVisible = categoriesExist
+            binding.phrasesView.isVisible = categoriesExist
+            binding.phrasesPageNumber.isVisible = categoriesExist
+            binding.phrasesBackButton.isVisible = categoriesExist
+            binding.phrasesForwardButton.isVisible = categoriesExist
+            binding.categoryBackButton.isVisible = categoriesExist
+            binding.categoryForwardButton.isVisible = categoriesExist
+            binding.emptyAddPhraseButton.isVisible = categoriesExist
+            binding.emptyPhrasesText.isVisible = categoriesExist
+
+            binding.emptyCategoriesText.isVisible = !categoriesExist
+
             isSaveEnabled = false
             adapter = categoriesAdapter
             categoriesAdapter.setItems(categories)
