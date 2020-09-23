@@ -7,6 +7,7 @@
     <string name="my_sayings_empty_handset_port"><b>I tuoi messaggi appariranno\nqui.</b>\n\nEntra nella tastiera, digita qualcosa e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_handset_land"><b>I tuoi messaggi appariranno qui.</b>\n\nEntra nella tastiera, digita qualcosa\n e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_settings"><b>Non hai ancora nessun messaggio salvato. Seleziona \"+\" in alto a destra per aggiungere qualcosa.</b></string>
+    <string name="custom_category_empty"><b>Non hai ancora nessuna frasi salvata.</b></string>
     <!-- Settings Page -->
     <string name="settings">Impostazioni</string>
     <string name="privacy_policy">Politica sulla privacy</string>
@@ -18,7 +19,7 @@
     <string name="settings_dialog_cancel">Annulla</string>
     <!-- Settings Options -->
     <string name="settings_edit_saying">Le mie frasi</string>
-    <string name="settings_edit_categories">Categorie</string>
+    <string name="settings_edit_categories">Categorie e frasi</string>
     <string name="settings_selection_mode">Modalità selezione</string>
     <string name="settings_reset_app">Ripristina le impostazioni dell\'app</string>
     <!-- Selection Mode -->
@@ -32,9 +33,10 @@
     <string name="keyboard_select_letters">Scrivi qui…</string>
     <!-- Saved Phrase Success -->
     <string name="saved_successfully">Salvato in %1s</string>
+    <string name="removed_successfully">Rimosso da %1s</string>
     <!-- Edit Sayings -->
     <string name="delete">Elimina</string>
-    <string name="delete_warning">Eliminati I Rischi Non Possono Essere Recuperati.</string>
+    <string name="delete_warning">Le frasi rimosse non possono essere restaurate.</string>
     <string name="new_phrase_saved">Nuova frase salvata</string>
     <string name="contiue_editing">Continua la modifica</string>
     <string name="discard">Scartare</string>
@@ -42,11 +44,13 @@
     <string name="back_warning">Tornare indietro prima di salvare cancellerà tutte le modifiche apportate.</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">Modifiche salvate</string>
+    <string name="category_created">Categoria Creata</string>
+    <string name="duplicate_category">Siamo spiacenti, questo nome categoria esiste già. Si prega di provare un nome diverso.</string>
     <!-- Timing and Sensitivity -->
     <string name="timing_sensitivity_title">Tempistiche e sensibilità</string>
     <string name="hover_time_text">Hover Time</string>
     <string name="cursor_sensitivity_text">Sensibilità del cursore</string>
-    <string name="hover_time_amount_text">        <xliff:g id="time" example="5">%s</xliff:g> secondi
+    <string name="hover_time_amount_text">        <xliff:g example="5" id="time">%s</xliff:g> secondi
     </string>
     <string name="hover_time_one_text">1 secondo</string>
     <string name="cursor_sensitivity_low">Basso</string>
@@ -58,7 +62,7 @@
     <string name="category_123_no">No</string>
     <!-- Keypad Numbers -->
     <!-- Edit Categories -->
-    <string name="edit_categories_title">Categorie</string>
+    <string name="edit_categories_title">Categorie e frasi</string>
     <!-- Edit Category Options -->
     <string name="edit_category_show_category_text">Mostra categoria</string>
     <string name="edit_category_remove_category_text">Rimuovere la categoria</string>
@@ -133,4 +137,8 @@
     <string name="preset_need_spit" formatted="false">Devo sputare</string>
     <string name="preset_trouble_breathing" formatted="false">Ho difficoltà a respirare</string>
     <string name="preset_need_jacket" formatted="false">Ho bisogno di una giacca</string>
+    <string name="add_phrase">Aggiungi frase</string>
+    <string name="add_to_category">Aggiungi alla Categoria</string>
+    <string name="no_custom_categories">Nessuna categoria personalizzata</string>
+    <string name="create_custom_categories">Creare categorie personalizzate nel menu delle impostazioni per aggiungere frasi qui.</string>
 </resources>
