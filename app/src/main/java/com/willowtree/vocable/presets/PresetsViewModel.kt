@@ -52,6 +52,8 @@ class PresetsViewModel : BaseViewModel() {
     }
 
     fun addToRecents(phrase: Phrase) {
-        val x = phrase
+        backgroundScope.launch {
+            presetsRepository.addPhraseToRecents(phrase)
+        }
     }
 }
