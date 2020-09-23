@@ -105,6 +105,7 @@
     <string name="preset_environment" formatted="false">Environment</string>
     <string name="preset_user_keypad" formatted="false">123</string>
     <string name="preset_user_favorites" formatted="false">My Sayings</string>
+    <string name="preset_recents" formatted="false">&#128339; Recents</string>
     <string name="preset_need_restroom" formatted="false">I need to go to the restroom</string>
     <string name="preset_im_thirsty" formatted="false">I am thirsty</string>
     <string name="preset_im_hungry" formatted="false">I am hungry</string>
