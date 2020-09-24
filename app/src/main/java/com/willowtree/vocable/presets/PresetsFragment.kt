@@ -182,6 +182,10 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handleCategories(categories: List<Category>) {
+        if (categories.isNotEmpty()) {
+            presetsViewModel.onCategorySelected(categories[0])
+        }
+
         with(binding.categoryView) {
             val categoriesExist = categories.isNotEmpty()
             // if there are no categories to show (the user has hidden them all), then show the empty state
