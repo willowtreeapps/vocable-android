@@ -34,6 +34,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
 
+    private var recentsCategorySelected = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -197,6 +199,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             }
 
             presetsViewModel.selectedCategory.value?.let { selectedCategory ->
+                recentsCategorySelected = selectedCategory.categoryId == PresetCategories.RECENTS.id
+
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
                     val pageCategories = categoriesAdapter.getItemsByPosition(i)
 
@@ -212,8 +216,12 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
-        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !recentsCategorySelected
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !recentsCategorySelected
+
+        binding.noRecentsTitle.isVisible = phrases.isEmpty() && recentsCategorySelected
+        binding.noRecentsMessage.isVisible = phrases.isEmpty() && recentsCategorySelected
+        binding.clockIcon.isVisible = phrases.isEmpty() && recentsCategorySelected
 
         binding.phrasesView.apply {
             isSaveEnabled = false

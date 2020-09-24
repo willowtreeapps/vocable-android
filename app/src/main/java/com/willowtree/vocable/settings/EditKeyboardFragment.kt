@@ -115,8 +115,8 @@ abstract class EditKeyboardFragment : BaseFragment<FragmentEditKeyboardBinding>(
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
         outState.putString(KEY_USER_INPUT, binding.keyboardInput.text.toString())
+        super.onSaveInstanceState(outState)
     }
 
     fun showConfirmationDialog() {
