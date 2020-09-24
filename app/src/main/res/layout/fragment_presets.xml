@@ -106,6 +106,7 @@
         android:layout_height="64dp"
         android:src="@drawable/ic_clock"
         android:visibility="invisible"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/no_recents_title"
         app:layout_constraintStart_toStartOf="@id/no_recents_title"
         app:layout_constraintEnd_toEndOf="@id/no_recents_title" />
