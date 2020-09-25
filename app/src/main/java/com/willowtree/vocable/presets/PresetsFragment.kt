@@ -230,8 +230,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
-        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && categoriesAdapter.getSize() > 0
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && categoriesAdapter.getSize() > 0
 
         binding.phrasesView.apply {
             isSaveEnabled = false
@@ -266,6 +266,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         override fun createFragment(position: Int) =
             CategoriesFragment.newInstance(getItemsByPosition(position))
+
+        fun getSize(): Int = items.size
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
