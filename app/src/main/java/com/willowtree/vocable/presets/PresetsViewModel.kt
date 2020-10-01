@@ -41,8 +41,17 @@ class PresetsViewModel : BaseViewModel() {
 
             // make sure the category wasn't deleted before getting its phrases
             if (cat != null) {
-                val phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
-                    .sortedBy { it.sortOrder }
+                val phrases: List<Phrase>
+
+                // if the selected category was the Recents category, we need to invert the sort so
+                // the most recently added phrases are at the top
+                if (cat.categoryId == PresetCategories.RECENTS.id) {
+                    phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                        .sortedByDescending { it.sortOrder }
+                } else {
+                    phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                        .sortedBy { it.sortOrder }
+                }
                 liveCurrentPhrases.postValue(phrases)
             } else { // if the category has been deleted, select the first available category to show
                 val categories = presetsRepository.getAllCategories().filter { !it.hidden }
