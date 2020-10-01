@@ -141,4 +141,5 @@
     <string name="add_to_category">Zu Kategorie hinzufügen</string>
     <string name="no_custom_categories">Keine benutzerdefinierten Kategorien</string>
     <string name="create_custom_categories">Erstellen Sie benutzerdefinierte Kategorien im Einstellungsmenü, um hier Phrasen hinzuzufügen.</string>
+    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
 </resources>
