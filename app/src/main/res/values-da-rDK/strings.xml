@@ -140,4 +140,5 @@
     <string name="add_to_category">Tilføje til kategorier</string>
     <string name="no_custom_categories">Ingen brugerkategorier</string>
     <string name="create_custom_categories">Opret brugerkategorier i indstillingsmenuen for at tilføje sætninger til dem her.</string>
+    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
 </resources>
