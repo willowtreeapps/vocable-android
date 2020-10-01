@@ -141,4 +141,5 @@
     <string name="add_to_category">Add to Category</string>
     <string name="no_custom_categories">No custom categories</string>
     <string name="create_custom_categories">Create custom categories in the settings menu to add phrases to them here.</string>
+    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
 </resources>
