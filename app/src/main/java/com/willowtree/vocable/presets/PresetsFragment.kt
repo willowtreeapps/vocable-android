@@ -182,7 +182,25 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handleCategories(categories: List<Category>) {
-        binding.categoryView.apply {
+        if (categories.isNotEmpty()) {
+            presetsViewModel.onCategorySelected(categories[0])
+        }
+
+        with(binding.categoryView) {
+            val categoriesExist = categories.isNotEmpty()
+            // if there are no categories to show (the user has hidden them all), then show the empty state
+            isVisible = categoriesExist
+            binding.phrasesView.isVisible = categoriesExist
+            binding.phrasesPageNumber.isVisible = categoriesExist
+            binding.phrasesBackButton.isVisible = categoriesExist
+            binding.phrasesForwardButton.isVisible = categoriesExist
+            binding.categoryBackButton.isVisible = categoriesExist
+            binding.categoryForwardButton.isVisible = categoriesExist
+            binding.emptyAddPhraseButton.isVisible = categoriesExist
+            binding.emptyPhrasesText.isVisible = categoriesExist
+
+            binding.emptyCategoriesText.isVisible = !categoriesExist
+
             isSaveEnabled = false
             adapter = categoriesAdapter
             categoriesAdapter.setItems(categories)
@@ -212,8 +230,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
-        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
-        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && categoriesAdapter.getSize() > 0
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && categoriesAdapter.getSize() > 0
 
         binding.phrasesView.apply {
             isSaveEnabled = false
@@ -248,6 +266,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         override fun createFragment(position: Int) =
             CategoriesFragment.newInstance(getItemsByPosition(position))
+
+        fun getSize(): Int = items.size
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
