@@ -141,4 +141,5 @@
     <string name="add_to_category">添加到类别</string>
     <string name="no_custom_categories">自定义类别</string>
     <string name="create_custom_categories">在设置菜单中创建自定义类别以在这里添加短语。</string>
+    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
 </resources>
