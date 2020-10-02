@@ -75,6 +75,7 @@
     <string name="preset_environment" formatted="false">Environment</string>
     <string name="preset_user_keypad" formatted="false">123</string>
     <string name="preset_user_favorites" formatted="false">My Sayings</string>
+    <string name="preset_recents" formatted="false">Recents</string>
     <string name="preset_need_restroom" formatted="false">I need to go to the restroom</string>
     <string name="preset_im_thirsty" formatted="false">I am thirsty</string>
     <string name="preset_im_hungry" formatted="false">I am hungry</string>
@@ -141,4 +142,7 @@
     <string name="add_to_category">Add to Category</string>
     <string name="no_custom_categories">No custom categories</string>
     <string name="create_custom_categories">Create custom categories in the settings menu to add phrases to them here.</string>
+    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
+    <string name="no_recent_phrases_title">No recently used phrases</string>
+    <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
 </resources>
