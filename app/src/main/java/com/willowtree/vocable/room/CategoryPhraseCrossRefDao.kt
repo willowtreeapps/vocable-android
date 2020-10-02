@@ -23,6 +23,12 @@ interface CategoryPhraseCrossRefDao {
     @Query("SELECT * FROM CategoryPhraseCrossRef WHERE category_id=:categoryId")
     suspend fun getCategoryPhraseCrossRefsForCategoryId(categoryId: String): List<CategoryPhraseCrossRef>
 
+    @Query("SELECT * FROM CategoryPhraseCrossRef WHERE category_id=:categoryId AND phrase_id=:phraseId")
+    suspend fun getSpecificCategoryPhraseCrossRef(categoryId: String, phraseId: String): CategoryPhraseCrossRef?
+
+    @Query("UPDATE CategoryPhraseCrossRef SET timestamp=:timestamp WHERE category_id=:categoryId AND phrase_id=:phraseId")
+    suspend fun updateCrossRefTimestamp(categoryId: String, phraseId: String, timestamp: Long)
+
     @Query("DELETE FROM CategoryPhraseCrossRef WHERE category_id In (:categoryIds)")
     suspend fun deleteCategoryPhraseCrossRefsForPhraseIds(categoryIds: List<String>)
 }

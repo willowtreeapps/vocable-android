@@ -13,14 +13,17 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
 
-class PhraseAdapter(private val phrases: List<Phrase>, private val numRows: Int) :
+class PhraseAdapter(private val phrases: List<Phrase>, private val numRows: Int, private val phraseClickAction: ((Phrase) -> Unit)?) :
     RecyclerView.Adapter<PhraseAdapter.PhraseItemViewHolder>(), KoinComponent {
 
-    class PhraseItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PhraseItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = PhraseButtonBinding.bind(itemView)
 
-        fun bind(text: String) {
+        fun bind(text: String, position: Int) {
             binding.root.setText(text, Locale.getDefault())
+            binding.root.action = {
+                phraseClickAction?.invoke(phrases[position])
+            }
         }
     }
 
@@ -43,7 +46,7 @@ class PhraseAdapter(private val phrases: List<Phrase>, private val numRows: Int)
 
     override fun onBindViewHolder(holder: PhraseItemViewHolder, position: Int) {
         val text = localizedResourceUtility.getTextFromPhrase(phrases[position])
-        holder.bind(text)
+        holder.bind(text, position)
     }
 
     private fun getMinHeight(parent: ViewGroup): Int {

@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
@@ -14,6 +16,7 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 
 class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
+    private lateinit var presetsViewModel: PresetsViewModel
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -36,6 +39,13 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
+        presetsViewModel =
+            ViewModelProviders.of(
+                requireActivity(),
+                BaseViewModelFactory()
+            ).get(PresetsViewModel::class.java)
+
         val numColumns = resources.getInteger(R.integer.phrases_columns)
         val numRows = resources.getInteger(R.integer.phrases_rows)
 
@@ -50,10 +60,11 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
                         it.size
                     )
                 )
-                adapter = PhraseAdapter(
-                    it,
-                    numRows
-                )
+
+                adapter = PhraseAdapter(it, numRows) { phrase ->
+                    presetsViewModel.addToRecents(phrase)
+                }
+
                 setHasFixedSize(true)
             }
         }

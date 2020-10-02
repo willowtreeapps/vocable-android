@@ -110,6 +110,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <ImageView
+        android:id="@+id/clock_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_clock"
+        android:visibility="invisible"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/no_recents_title"
+        app:layout_constraintStart_toStartOf="@id/no_recents_title"
+        app:layout_constraintEnd_toEndOf="@id/no_recents_title" />
+
+    <TextView
+        android:id="@+id/no_recents_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_recent_phrases_title"
+        style="@style/CustomCategoryEmptyText"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent=".75"
+        app:layout_constraintTop_toTopOf="@id/phrases_view"
+        app:layout_constraintBottom_toTopOf="@id/no_recents_message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/no_recents_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_recent_phrases_message"
+        android:textSize="22sp"
+        style="@style/CustomCategoryEmptyText"
+        android:layout_marginTop="16dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent=".75"
+        app:layout_constraintTop_toBottomOf="@id/no_recents_title"
+        app:layout_constraintBottom_toBottomOf="@id/phrases_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <com.willowtree.vocable.customviews.KeyboardButton
         android:id="@+id/empty_add_phrase_button"
         android:layout_width="0dp"
