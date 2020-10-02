@@ -7,6 +7,7 @@
     <string name="my_sayings_empty_handset_port"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und\n wählen Sie dann den \"☆\", um es zu speichern.</string>
     <string name="my_sayings_empty_handset_land"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und wählen Sie dann den \"☆\", um es zu speichern.</string>
     <string name="my_sayings_empty_settings"><b>Sie haben noch keine Redewendungen gespeichert. Wählen Sie das \"+\" oben rechts, um etwas hinzuzufügen.</b></string>
+    <string name="custom_category_empty"><b>Sie haben noch keine Phrasen gespeichert.</b></string>
     <!-- Settings Page -->
     <string name="settings">Einstellungen</string>
     <string name="privacy_policy">Datenschutz</string>
@@ -18,7 +19,7 @@
     <string name="settings_dialog_cancel">Abbrechen</string>
     <!-- Settings Options -->
     <string name="settings_edit_saying">Meine Sätze</string>
-    <string name="settings_edit_categories">Kategorien</string>
+    <string name="settings_edit_categories">Kategorien und Phrasen</string>
     <string name="settings_selection_mode">Steuerungsmodus</string>
     <string name="settings_reset_app">App Einstellungen zurücksetzen</string>
     <!-- Selection Mode -->
@@ -32,9 +33,10 @@
     <string name="keyboard_select_letters">Texteingabe beginnen…</string>
     <!-- Saved Phrase Success -->
     <string name="saved_successfully">In %1s gespeichert</string>
+    <string name="removed_successfully">Aus der %1s entfernt</string>
     <!-- Edit Sayings -->
     <string name="delete">Löschen</string>
-    <string name="delete_warning">Gelöschte Sätze können nicht wiederhergestellt werden.</string>
+    <string name="delete_warning">Entfernte Phrasen können nicht wiederhergestellt werden.</string>
     <string name="new_phrase_saved">Neue Redewendung gespeichert</string>
     <string name="contiue_editing">Weiter editieren</string>
     <string name="discard">Verwerfen</string>
@@ -42,11 +44,13 @@
     <string name="back_warning">Nicht gespeicherte Veränderungen werden beim Verlassen des Menüs verworfen.</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">Änderungen gespeichert</string>
+    <string name="category_created">Kategorie erstellt</string>
+    <string name="duplicate_category">Entschuldigung, dieser Kategoriename existiert bereits. Bitte versuchen Sie es mit einem anderen Namen.</string>
     <!-- Timing and Sensitivity -->
     <string name="timing_sensitivity_title">Timing und Empfindlichkeit</string>
     <string name="hover_time_text">Schwebezeit</string>
     <string name="cursor_sensitivity_text">Zeigerempfindlichkeit</string>
-    <string name="hover_time_amount_text">        <xliff:g id="time" example="5">%s</xliff:g> Sekunden
+    <string name="hover_time_amount_text">        <xliff:g example="5" id="time">%s</xliff:g> Sekunden
     </string>
     <string name="hover_time_one_text">1 Sekunde</string>
     <string name="cursor_sensitivity_low">Niedrig</string>
@@ -58,7 +62,7 @@
     <string name="category_123_no">Nein</string>
     <!-- Keypad Numbers -->
     <!-- Edit Categories -->
-    <string name="edit_categories_title">Kategorien</string>
+    <string name="edit_categories_title">Kategorien und Phrasen</string>
     <!-- Edit Category Options -->
     <string name="edit_category_show_category_text">Kategorie anzeigen</string>
     <string name="edit_category_remove_category_text">Kategorie entfernen</string>
@@ -133,4 +137,8 @@
     <string name="preset_need_spit" formatted="false">Ich muss spucken</string>
     <string name="preset_trouble_breathing" formatted="false">Ich habe Atembeschwerden</string>
     <string name="preset_need_jacket" formatted="false">Ich brauche eine Jacke</string>
+    <string name="add_phrase">Phrase hinzufügen</string>
+    <string name="add_to_category">Zu Kategorie hinzufügen</string>
+    <string name="no_custom_categories">Keine benutzerdefinierten Kategorien</string>
+    <string name="create_custom_categories">Erstellen Sie benutzerdefinierte Kategorien im Einstellungsmenü, um hier Phrasen hinzuzufügen.</string>
 </resources>

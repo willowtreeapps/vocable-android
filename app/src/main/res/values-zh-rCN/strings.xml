@@ -7,6 +7,7 @@
     <string name="my_sayings_empty_handset_port"><b>您的对话会出现\n在这里。</b>\n\n向着键盘，输入一些东西，然后选择\"stime\"保存到这里。</string>
     <string name="my_sayings_empty_handset_land"><b>您的对话会出现在这里。</b>\n\n向着键盘，输入一些东西\n 然后选择\"stime\"保存到这里。</string>
     <string name="my_sayings_empty_settings"><b>您还没有保存任何对话。选择右上角的“+”来添加一些对话。</b></string>
+    <string name="custom_category_empty"><b>您尚未保存任何短语。。</b></string>
     <!-- Settings Page -->
     <string name="settings">设置</string>
     <string name="privacy_policy">隐私政策</string>
@@ -18,7 +19,7 @@
     <string name="settings_dialog_cancel">取消</string>
     <!-- Settings Options -->
     <string name="settings_edit_saying">我的对话</string>
-    <string name="settings_edit_categories">类别</string>
+    <string name="settings_edit_categories">类别和词组</string>
     <string name="settings_selection_mode">移动对象模式</string>
     <string name="settings_reset_app">重置应用设置</string>
     <!-- Selection Mode -->
@@ -31,7 +32,8 @@
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">在这里输入...</string>
     <!-- Saved Phrase Success -->
-    <string name="saved_successfully">保存到%1s</string>
+    <string name="saved_successfully">保存到 %1s</string>
+    <string name="removed_successfully">已从 %1s 移除</string>
     <!-- Edit Sayings -->
     <string name="delete">删除</string>
     <string name="delete_warning">删除后的对话无法恢复。</string>
@@ -42,11 +44,14 @@
     <string name="back_warning">保存前返回将会清除任何编辑的东西。</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">更改已保存</string>
+    <string name="category_created">类别已创建</string>
+    <string name="duplicate_category">对不起，此类别名称已存在。请尝试其他名称。</string>
     <!-- Timing and Sensitivity -->
     <string name="timing_sensitivity_title">时间和灵敏度</string>
     <string name="hover_time_text">徘徊时间</string>
     <string name="cursor_sensitivity_text">指针敏度</string>
-    <string name="hover_time_amount_text"><xliff:g id="number" example="7">%s</xliff:g> 秒钟    </string>
+    <string name="hover_time_amount_text">        <xliff:g example="5" id="time">%s</xliff:g> 秒
+    </string>
     <string name="hover_time_one_text">1 秒</string>
     <string name="cursor_sensitivity_low">低</string>
     <string name="cursor_sensitivity_medium">中</string>
@@ -57,7 +62,7 @@
     <string name="category_123_no">不是</string>
     <!-- Keypad Numbers -->
     <!-- Edit Categories -->
-    <string name="edit_categories_title">类别</string>
+    <string name="edit_categories_title">类别和词组</string>
     <!-- Edit Category Options -->
     <string name="edit_category_show_category_text">显示类别</string>
     <string name="edit_category_remove_category_text">删除类别</string>
@@ -132,4 +137,8 @@
     <string name="preset_need_spit" formatted="false">我要吐</string>
     <string name="preset_trouble_breathing" formatted="false">我呼吸困难</string>
     <string name="preset_need_jacket" formatted="false">我需要外套</string>
+    <string name="add_phrase">添加短语</string>
+    <string name="add_to_category">添加到类别</string>
+    <string name="no_custom_categories">自定义类别</string>
+    <string name="create_custom_categories">在设置菜单中创建自定义类别以在这里添加短语。</string>
 </resources>

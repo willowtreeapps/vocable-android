@@ -7,6 +7,7 @@
     <string name="my_sayings_empty_handset_port">Dine sætninger er vist her. Naviger til tastaturet, indtast din sætning og tryk på \"☆\" for at gemme.</string>
     <string name="my_sayings_empty_handset_land">Dine sætninger er vist her. Naviger til tastaturet, indtast din sætning og tryk på \"☆\" for at gemme.</string>
     <string name="my_sayings_empty_settings"><b>Du har ingen sætninger. Tryk på \"+\" for at tilføje en ny sætning.</b></string>
+    <string name="custom_category_empty"><b>Du har ingen sætninger gemt endnu.</b></string>
     <!-- Settings Page -->
     <string name="settings">Indstillinger</string>
     <string name="privacy_policy">Privatlivspolitik</string>
@@ -18,7 +19,7 @@
     <string name="settings_dialog_cancel">Annuller</string>
     <!-- Settings Options -->
     <string name="settings_edit_saying">Mine Sætninger</string>
-    <string name="settings_edit_categories">Kategorier</string>
+    <string name="settings_edit_categories">Kategorier og sætning</string>
     <string name="settings_selection_mode">Markeringstilstand</string>
     <string name="settings_reset_app">Nulstil App Indstillinger</string>
     <!-- Selection Mode -->
@@ -32,6 +33,7 @@
     <string name="keyboard_select_letters">Begynd at skrive…</string>
     <!-- Saved Phrase Success -->
     <string name="saved_successfully">Gemt til %1s</string>
+    <string name="removed_successfully">Fjernet fra %1s</string>
     <!-- Edit Sayings -->
     <string name="delete">Slet</string>
     <string name="delete_warning">Slettede sætninger kan ikke genskabes.</string>
@@ -42,11 +44,13 @@
     <string name="back_warning">Hvis du forlader uden at gemme vil dine ændringer blive slettet.</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">Dine ændringer er gemt</string>
+    <string name="category_created">Kategori oprettet</string>
+    <string name="duplicate_category">Beklager, dette kategorinavn findes allerede. Prøv venligst et andet navn.</string>
     <!-- Timing and Sensitivity -->
     <string name="timing_sensitivity_title">Timing og Følsomhed</string>
     <string name="hover_time_text">Pegetid</string>
     <string name="cursor_sensitivity_text">Markørfølsomhed</string>
-    <string name="hover_time_amount_text"><xliff:g id="time" example="5">%s</xliff:g> sekunder    </string>
+    <string name="hover_time_amount_text"><xliff:g example="5" id="time">%s</xliff:g> sekunder    </string>
     <string name="hover_time_one_text">1 sekund</string>
     <string name="cursor_sensitivity_low">Lav</string>
     <string name="cursor_sensitivity_medium">Mellem</string>
@@ -57,7 +61,7 @@
     <string name="category_123_no">Nej</string>
     <!-- Keypad Numbers -->
     <!-- Edit Categories -->
-    <string name="edit_categories_title">Kategorier</string>
+    <string name="edit_categories_title">Kategorier og sætning</string>
     <!-- Edit Category Options -->
     <string name="edit_category_show_category_text">Vis Kategori</string>
     <string name="edit_category_remove_category_text">Fjern Kategori</string>
@@ -132,4 +136,8 @@
     <string name="preset_need_spit" formatted="false">Jeg skal spytte</string>
     <string name="preset_trouble_breathing" formatted="false">Jeg har svært ved at trække vejret</string>
     <string name="preset_need_jacket" formatted="false">Jeg vil gerne have en jakke</string>
+    <string name="add_phrase">Tilføj Sætning</string>
+    <string name="add_to_category">Tilføje til kategorier</string>
+    <string name="no_custom_categories">Ingen brugerkategorier</string>
+    <string name="create_custom_categories">Opret brugerkategorier i indstillingsmenuen for at tilføje sætninger til dem her.</string>
 </resources>
