@@ -41,13 +41,36 @@ class PresetsViewModel : BaseViewModel() {
 
             // make sure the category wasn't deleted before getting its phrases
             if (cat != null) {
-                val phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
-                    .sortedBy { it.sortOrder }
+                var phrases: MutableList<Phrase> = mutableListOf()
+
+                // if the selected category was the Recents category, we need to invert the sort so
+                // the most recently added phrases are at the top
+                if (cat.categoryId == PresetCategories.RECENTS.id) {
+                    // get the Recents crossRefs
+                    var crossRefs = presetsRepository.getCrossRefsForCategoryId(PresetCategories.RECENTS.id)
+
+                    // sort them in descending order by timestamp
+                    crossRefs = crossRefs.sortedByDescending { it.timestamp }
+
+                    // for each crossRef, add its phrase to the list
+                    crossRefs.forEach {
+                        phrases.add(presetsRepository.getPhraseById(it.phraseId))
+                    }
+                } else {
+                    phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                        .sortedBy { it.sortOrder }.toMutableList()
+                }
                 liveCurrentPhrases.postValue(phrases)
             } else { // if the category has been deleted, select the first available category to show
                 val categories = presetsRepository.getAllCategories().filter { !it.hidden }
                 onCategorySelected(categories[0])
             }
+        }
+    }
+
+    fun addToRecents(phrase: Phrase) {
+        backgroundScope.launch {
+            presetsRepository.addPhraseToRecents(phrase)
         }
     }
 }

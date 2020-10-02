@@ -29,6 +29,41 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.phraseDao().insertPhrase(phrase)
     }
 
+    suspend fun addPhraseToRecents(phrase: Phrase) {
+        val category = database.categoryDao().getCategoryById(PresetCategories.RECENTS.id)
+
+        // get the cross ref for the Recents category and the given phrase
+        var categoryPhraseCrossRef = database.categoryPhraseCrossRefDao()
+            .getSpecificCategoryPhraseCrossRef(category.categoryId, phrase.phraseId)
+
+        if (categoryPhraseCrossRef == null) {
+            // if it doesn't exist in the db, we need to create it and insert it
+            categoryPhraseCrossRef = CategoryPhraseCrossRef(
+                category.categoryId,
+                phrase.phraseId,
+                System.currentTimeMillis()
+            )
+            database.categoryPhraseCrossRefDao()
+                .insertCategoryPhraseCrossRef(categoryPhraseCrossRef)
+
+            // get a list of all the cross refs listed under "Recents"
+            val recentsCategoryPhraseCrossRefs = database.categoryPhraseCrossRefDao()
+                .getCategoryPhraseCrossRefsForCategoryId(PresetCategories.RECENTS.id)
+            if (recentsCategoryPhraseCrossRefs.size > 9) {
+                // if there's more than 9, we need to delete the oldest one
+                val oldestCrossRef = recentsCategoryPhraseCrossRefs.sortedBy { it.timestamp }[0]
+                database.categoryPhraseCrossRefDao().deleteCategoryPhraseCrossRef(oldestCrossRef)
+            }
+        } else {
+            // if it does exist, we just need to update the timestamp
+            database.categoryPhraseCrossRefDao().updateCrossRefTimestamp(
+                category.categoryId,
+                phrase.phraseId,
+                System.currentTimeMillis()
+            )
+        }
+    }
+
     suspend fun addCategory(category: Category) {
         database.categoryDao().insertCategory(category)
     }
@@ -69,7 +104,8 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun getCrossRefsForCategoryId(categoryId: String): List<CategoryPhraseCrossRef> {
-        return database.categoryPhraseCrossRefDao().getCategoryPhraseCrossRefsForCategoryId(categoryId)
+        return database.categoryPhraseCrossRefDao()
+            .getCategoryPhraseCrossRefsForCategoryId(categoryId)
     }
 
     suspend fun getPhraseById(id: String): Phrase {

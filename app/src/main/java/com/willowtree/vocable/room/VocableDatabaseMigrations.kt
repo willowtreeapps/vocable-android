@@ -121,4 +121,11 @@ object VocableDatabaseMigrations {
             database.execSQL("ALTER TABLE CategoryPhraseCrossRef_New RENAME TO CategoryPhraseCrossRef")
         }
     }
+
+    val MIGRATION_4_5: Migration = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE CategoryPhraseCrossRef ADD COLUMN timestamp INTEGER")
+        }
+
+    }
 }
