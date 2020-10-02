@@ -85,6 +85,19 @@
         app:layout_constraintTop_toBottomOf="@+id/category_view" />
 
     <TextView
+        android:id="@+id/empty_categories_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/all_categories_hidden_text"
+        style="@style/CustomCategoryEmptyText"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent=".75"
+        app:layout_constraintTop_toBottomOf="@id/action_button_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
         android:id="@+id/empty_phrases_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
