@@ -81,15 +81,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         }
 
         binding.settingsOptionsContainer.timingSensitivityButton.action = {
-            findNavController().navigate(R.id.action_settingsFragment_to_sensitivityFragment)
+            if (findNavController().currentDestination?.id == R.id.settingsFragment) {
+                findNavController().navigate(R.id.action_settingsFragment_to_sensitivityFragment)
+            }
         }
 
         binding.settingsOptionsContainer.selectionModeButton.action = {
-            findNavController().navigate(R.id.action_settingsFragment_to_selectionModeFragment)
+            if (findNavController().currentDestination?.id == R.id.settingsFragment) {
+                findNavController().navigate(R.id.action_settingsFragment_to_selectionModeFragment)
+            }
         }
 
         binding.settingsOptionsContainer.editCategoriesButton.action = {
-            findNavController().navigate(R.id.action_settingsFragment_to_editCategoriesFragment)
+            if (findNavController().currentDestination?.id == R.id.settingsFragment) {
+                findNavController().navigate(R.id.action_settingsFragment_to_editCategoriesFragment)
+            }
         }
 
         viewModel = ViewModelProviders.of(

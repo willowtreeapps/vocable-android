@@ -40,7 +40,9 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
 
     private val onPhraseEdit = { phrase: Phrase ->
         val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditPhrasesKeyboardFragment(phrase)
-        findNavController().navigate(action)
+        if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+            findNavController().navigate(action)
+        }
     }
 
     private val onPhraseDelete = { phrase: Phrase ->

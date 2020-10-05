@@ -49,7 +49,9 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                     EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
                         category
                     )
-                findNavController().navigate(action)
+                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+                    findNavController().navigate(action)
+                }
             }
         }
 
@@ -83,7 +85,9 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(
                     category
                 )
-            findNavController().navigate(action)
+            if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+                findNavController().navigate(action)
+            }
         }
 
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
@@ -119,7 +123,9 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         binding.emptyAddPhraseButton.action = {
             val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
-            findNavController().navigate(action)
+            if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+                findNavController().navigate(action)
+            }
         }
 
         binding.editCategoryPhraseHolder.registerOnPageChangeCallback(object :
