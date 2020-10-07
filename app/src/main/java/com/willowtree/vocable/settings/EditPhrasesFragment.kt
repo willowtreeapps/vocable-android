@@ -80,7 +80,9 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
             phraseView.actionButtonContainer.editSayingsButton.action = {
                 val action = EditPresetsFragmentDirections.actionEditPresetsFragmentToEditPhrasesKeyboardFragment(phrase)
-                findNavController().navigate(action)
+                if (findNavController().currentDestination?.id == R.id.editPresetsFragment) {
+                    findNavController().navigate(action)
+                }
             }
 
             binding.editPhrasesContainer.addView(phraseView.root)
