@@ -77,7 +77,9 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
         })
 
         binding.actionButtonContainer.presetsButton.action = {
-            findNavController().navigate(R.id.action_keyboardFragment_to_presetsFragment)
+            if (findNavController().currentDestination?.id == R.id.keyboardFragment) {
+                findNavController().navigate(R.id.action_keyboardFragment_to_presetsFragment)
+            }
         }
 
         binding.actionButtonContainer.settingsButton.action = {
@@ -95,7 +97,9 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                         }
 
                         val action = KeyboardFragmentDirections.actionKeyboardFragmentToAddToCategoryPickerFragment(text.toString())
-                        findNavController().navigate(action)
+                        if (findNavController().currentDestination?.id == R.id.keyboardFragment) {
+                            findNavController().navigate(action)
+                        }
                     }
                 }
             }
