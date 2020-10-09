@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.databinding.ActivityMainBinding
+import com.willowtree.vocable.facetracking.FaceTrackFragment
+import com.willowtree.vocable.settings.SettingsViewModel
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -21,6 +25,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private val sharedPrefs: VocableSharedPreferences by inject()
     private val allViews = mutableListOf<View>()
+    private lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +76,23 @@ class MainActivity : BaseActivity() {
     }
 
     override fun getLayout(): Int = R.layout.activity_main
+
+    override fun subscribeToViewModel() {
+        super.subscribeToViewModel()
+        settingsViewModel = ViewModelProviders.of(
+            this,
+            BaseViewModelFactory()
+        ).get(SettingsViewModel::class.java)
+        
+        settingsViewModel.headTrackingEnabled.observe(this, Observer {
+            it?.let {
+                val faceFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
+                if (faceFragment is FaceTrackFragment) {
+                    faceFragment.enableFaceTracking(it)
+                }
+            }
+        })
+    }
 
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {
