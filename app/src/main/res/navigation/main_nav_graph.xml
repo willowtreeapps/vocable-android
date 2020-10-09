@@ -138,11 +138,7 @@
             android:name="phraseText"
             app:argType="string" />
         <action
-            android:id="@+id/action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment2"
-            app:destination="@id/editCategoriesKeyboardFragment2" />
+            android:id="@+id/action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment"
+            app:destination="@id/editCategoriesKeyboardFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/editCategoriesKeyboardFragment2"
-        android:name="com.willowtree.vocable.settings.EditCategoriesKeyboardFragment"
-        android:label="EditCategoriesKeyboardFragment" />
 </navigation>

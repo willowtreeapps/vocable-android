@@ -2,7 +2,6 @@ package com.willowtree.vocable.presets
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -16,7 +15,6 @@ import com.willowtree.vocable.databinding.FragmentAddToCategoryPickerBinding
 import com.willowtree.vocable.presets.adapter.AddToCategoryPickerViewModel
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
-import kotlin.math.min
 
 class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBinding>() {
 
@@ -71,7 +69,8 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         }
 
         binding.emptyAddCategoryButton.action = {
-            findNavController().navigate(R.id.action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment2)
+            val action = AddToCategoryPickerFragmentDirections.actionAddToCategoryPickerFragmentToEditCategoriesKeyboardFragment(null)
+            findNavController().navigate(action)
         }
 
         binding.categoryHolder.registerOnPageChangeCallback(object :
