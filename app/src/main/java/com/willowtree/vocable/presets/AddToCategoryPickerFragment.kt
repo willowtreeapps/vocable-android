@@ -70,6 +70,10 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
             }
         }
 
+        binding.emptyAddCategoryButton.action = {
+            findNavController().navigate(R.id.action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment2)
+        }
+
         binding.categoryHolder.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -107,7 +111,7 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
         val categoriesExist = categories.isNotEmpty()
 
         binding.emptyStateTitle.isVisible = !categoriesExist
-        binding.emptyStateText.isVisible = !categoriesExist
+        binding.emptyAddCategoryButton.isVisible = !categoriesExist
         binding.categoryPagerBackButton.isEnabled = categoriesExist
         binding.categoryPagerForwardButton.isEnabled = categoriesExist
         binding.categoryHolder.isVisible = categoriesExist
