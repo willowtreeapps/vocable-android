@@ -15,7 +15,6 @@ import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentAddToCategoryPickerBinding
 import com.willowtree.vocable.presets.adapter.AddToCategoryPickerViewModel
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import kotlin.math.min
 
