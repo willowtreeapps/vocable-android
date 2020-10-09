@@ -93,7 +93,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         binding.actionButtonContainer.settingsButton.action = {
             if (findNavController().currentDestination?.id == R.id.presetsFragment) {
-                findNavController().navigate(R.id.action_presetsFragment_to_settingsActivity)
+                findNavController().navigate(R.id.action_presetsFragment_to_settingsFragment)
             }
         }
 
