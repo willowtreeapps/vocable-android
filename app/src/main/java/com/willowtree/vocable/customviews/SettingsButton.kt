@@ -3,7 +3,6 @@ package com.willowtree.vocable.customviews
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
-import com.willowtree.vocable.settings.SettingsActivity
 
 /**
  * A subclass of VocableButton that will open SettingsActivity when interacted with

@@ -18,8 +18,6 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.keyboard.adapter.KeyboardAdapter
-import com.willowtree.vocable.presets.PresetsFragment
-import com.willowtree.vocable.settings.SettingsActivity
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import java.util.*
@@ -83,8 +81,9 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
         }
 
         binding.actionButtonContainer.settingsButton.action = {
-            val intent = Intent(activity, SettingsActivity::class.java)
-            startActivity(intent)
+            if (findNavController().currentDestination?.id == R.id.keyboardFragment) {
+                findNavController().navigate(R.id.action_keyboardFragment_to_settingsFragment)
+            }
         }
 
         binding.actionButtonContainer.saveButton.action = {

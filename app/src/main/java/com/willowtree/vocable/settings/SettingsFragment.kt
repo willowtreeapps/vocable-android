@@ -77,7 +77,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         }
 
         binding.settingsCloseButton.action = {
-            requireActivity().finish()
+            findNavController().popBackStack()
         }
 
         binding.settingsOptionsContainer.timingSensitivityButton.action = {
