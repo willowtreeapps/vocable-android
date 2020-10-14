@@ -138,6 +138,7 @@
     <string name="preset_trouble_breathing" formatted="false">Jeg har svært ved at trække vejret</string>
     <string name="preset_need_jacket" formatted="false">Jeg vil gerne have en jakke</string>
     <string name="add_phrase">Tilføj Sætning</string>
+    <string name="add_category">Add Category</string>
     <string name="add_to_category">Tilføje til kategorier</string>
     <string name="no_custom_categories">Ingen brugerkategorier</string>
     <string name="create_custom_categories">Opret brugerkategorier i indstillingsmenuen for at tilføje sætninger til dem her.</string>
