@@ -139,6 +139,7 @@
     <string name="preset_trouble_breathing" formatted="false">Ich habe Atembeschwerden</string>
     <string name="preset_need_jacket" formatted="false">Ich brauche eine Jacke</string>
     <string name="add_phrase">Phrase hinzufügen</string>
+    <string name="add_category">Add Category</string>
     <string name="add_to_category">Zu Kategorie hinzufügen</string>
     <string name="no_custom_categories">Keine benutzerdefinierten Kategorien</string>
     <string name="create_custom_categories">Erstellen Sie benutzerdefinierte Kategorien im Einstellungsmenü, um hier Phrasen hinzuzufügen.</string>
