@@ -137,5 +137,8 @@
         <argument
             android:name="phraseText"
             app:argType="string" />
+        <action
+            android:id="@+id/action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment"
+            app:destination="@id/editCategoriesKeyboardFragment" />
     </fragment>
 </navigation>
