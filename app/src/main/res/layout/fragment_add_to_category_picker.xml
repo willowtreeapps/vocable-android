@@ -52,26 +52,23 @@
         style="@style/EditCategoriesTitle"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintTop_toTopOf="@id/category_holder"
-        app:layout_constraintBottom_toTopOf="@id/empty_state_text"
+        app:layout_constraintBottom_toTopOf="@id/empty_add_category_button"
         app:layout_constraintStart_toStartOf="@id/category_holder"
         app:layout_constraintEnd_toEndOf="@id/category_holder"/>
 
-    <TextView
-        android:id="@+id/empty_state_text"
+    <com.willowtree.vocable.customviews.KeyboardButton
+        android:id="@+id/empty_add_category_button"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/create_custom_categories"
-        android:textColor="@color/textColor"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/categories_margin"
-        android:layout_marginEnd="@dimen/empty_state_horizontal_margin"
-        android:layout_marginStart="@dimen/empty_state_horizontal_margin"
+        android:layout_height="@dimen/custom_category_button_height"
+        android:background="@drawable/button_default_background"
+        android:text="@string/add_category"
+        style="@style/CustomCategoryEmptyButton"
+        android:visibility="visible"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintTop_toBottomOf="@id/empty_state_title"
-        app:layout_constraintBottom_toBottomOf="@id/category_holder"
         app:layout_constraintStart_toStartOf="@id/category_holder"
-        app:layout_constraintEnd_toEndOf="@id/category_holder"/>
+        app:layout_constraintEnd_toEndOf="@id/category_holder"
+        app:layout_constraintBottom_toBottomOf="@id/category_holder"/>
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/category_pager_back_button"
