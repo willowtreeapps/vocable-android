@@ -137,11 +137,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                     pageNum,
                     phrasesAdapter.numPages
                 )
-
-                val activity = requireActivity()
-                if (activity is SettingsActivity) {
-                    activity.resetAllViews()
-                }
             }
         })
 
