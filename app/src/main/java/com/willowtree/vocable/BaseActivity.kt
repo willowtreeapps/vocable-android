@@ -52,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.face_fragment, FaceTrackFragment())
-                .commit()
+                .commitAllowingStateLoss()
         } else {
             window
                 .decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -120,7 +120,7 @@ abstract class BaseActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.face_fragment, FaceTrackFragment(), tag)
-                .commit()
+                .commitAllowingStateLoss()
         }
     }
 
