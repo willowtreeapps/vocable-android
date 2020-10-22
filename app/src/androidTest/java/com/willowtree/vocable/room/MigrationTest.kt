@@ -1,3 +1,10 @@
+/**
+
+These tests confirm that users can successfully upgrade from older versions of Vocable to newer versions.
+All new migrations should have a test confirming the migration.
+
+**/
+
 package com.willowtree.vocable.room
 
 import androidx.room.testing.MigrationTestHelper

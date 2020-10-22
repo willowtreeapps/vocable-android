@@ -118,7 +118,7 @@
       },
       {
         "tableName": "CategoryPhraseCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `phrase_id` TEXT NOT NULL, `timestamp` INTEGER, PRIMARY KEY(`category_id`, `phrase_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `phrase_id` TEXT NOT NULL,  PRIMARY KEY(`category_id`, `phrase_id`))",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -131,12 +131,6 @@
             "columnName": "phrase_id",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "timestamp",
-            "columnName": "timestamp",
-            "affinity": "INTEGER",
-            "notNull": false
           }
         ],
         "primaryKey": {
