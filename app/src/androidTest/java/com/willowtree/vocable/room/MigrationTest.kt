@@ -218,11 +218,13 @@ class MigrationTest {
                 // Verify that new schema is as expected.
                 val categoryId = PresetCategories.USER_FAVORITES.id
                 val crossRefCursor =
-                    query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
+                    query("SELECT * FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val phrasesAdded = arrayListOf<String>()
                 val phraseIds =  mutableListOf<String>()
+                var timestamp: Long? = null
                 while (crossRefCursor.moveToNext()) {
                     val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
+                    timestamp = crossRefCursor.getLong(crossRefCursor.getColumnIndex("timestamp"))
                     phraseIds.add(phraseId)
                 }
                 crossRefCursor.close()
@@ -235,6 +237,7 @@ class MigrationTest {
                     phraseCursor.close()
 
                 Assert.assertTrue(phrasesAdded.contains(testPhraseV4))
+                Assert.assertEquals(0L, timestamp)
                close()
             }
     }
