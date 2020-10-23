@@ -29,6 +29,7 @@ class PresetsViewModel : BaseViewModel(), KoinComponent {
     fun populateCategories() {
         backgroundScope.launch {
             val categories = presetsRepository.getAllCategories().filter { !it.hidden }
+            println("Categories Populated")
             liveCategoryList.postValue(categories)
             val currentCategory = liveSelectedCategory.value ?: categories.first()
             onCategorySelected(currentCategory)

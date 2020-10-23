@@ -48,9 +48,7 @@ class PresetsViewModelTest : BaseUnitTest() {
                 "preset_recents"
             )
 
-            runBlocking {
-                presetsViewModel.populateCategories()
-            }
+            presetsViewModel.populateCategories()
 
             val captor = argumentCaptor<List<Category>>()
             captor.run {
