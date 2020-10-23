@@ -29,7 +29,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.willowtree.vocable.MainActivity" />
-        <activity android:name="com.willowtree.vocable.settings.SettingsActivity" />
     </application>
 
 </manifest>
