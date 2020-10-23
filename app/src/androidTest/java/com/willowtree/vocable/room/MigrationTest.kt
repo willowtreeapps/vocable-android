@@ -184,4 +184,59 @@ class MigrationTest {
                 close()
             }
     }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate4to5() {
+        // This migration adds a timestamp to phrases.
+
+        val categoryNameMap = HashMap<String, String>()
+        categoryNameMap["en_US"] = "My Sayings"
+
+        val phraseOneMap = HashMap<String, String>()
+        phraseOneMap["en_US"] = "Saying 1"
+
+        val categoryNameV4 = Converters.stringMapToJson(categoryNameMap)
+        val testPhraseV4 = Converters.stringMapToJson(phraseOneMap)
+
+        val phraseId = UUID.randomUUID().toString()
+        val creationDate = System.currentTimeMillis()
+
+        helper.createDatabase(TEST_DB, 4).apply {
+            // Create mock My Sayings category. This replicates a user who's added phrases before Custom Categories was a thing.
+            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$categoryNameV4', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
+
+            // Add custom phrase to the category you just created.
+            execSQL("INSERT INTO Phrase (phrase_id, creation_date, is_user_generated, last_spoken_date, localized_utterance, sort_order) VALUES ('$phraseId', $creationDate, 1, $creationDate, '$testPhraseV4', 0)")
+            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.USER_FAVORITES.id}', '$phraseId')")
+
+            close()
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 5, true, VocableDatabaseMigrations.MIGRATION_4_5)
+            .apply {
+                // Verify that new schema is as expected.
+                val categoryId = PresetCategories.USER_FAVORITES.id
+                val crossRefCursor =
+                    query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
+                val phrasesAdded = arrayListOf<String>()
+                val phraseIds =  mutableListOf<String>()
+                while (crossRefCursor.moveToNext()) {
+                    val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
+                    phraseIds.add(phraseId)
+                }
+                crossRefCursor.close()
+
+                    val phraseCursor = query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$phraseId'")
+                    while (phraseCursor.moveToNext()) {
+                        val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                        phrasesAdded.add(saying)
+                    }
+                    phraseCursor.close()
+
+                Assert.assertTrue(phrasesAdded.contains(testPhraseV4))
+               close()
+            }
+    }
+
 }
