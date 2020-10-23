@@ -55,7 +55,7 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-    useLibrary 'android.test.runner'
+    //useLibrary 'android.test.runner'
 }
 
 dependencies {

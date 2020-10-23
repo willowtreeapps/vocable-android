@@ -6,9 +6,10 @@ import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class PresetsViewModel : BaseViewModel() {
+class PresetsViewModel : BaseViewModel(), KoinComponent {
 
     private val presetsRepository: PresetsRepository by inject()
 
