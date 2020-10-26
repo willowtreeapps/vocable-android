@@ -20,6 +20,7 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
@@ -30,7 +31,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     private var maxCategories = 1
     private var maxPhrases = 1
 
-    private lateinit var presetsViewModel: PresetsViewModel
+    private val presetsViewModel: PresetsViewModel by viewModel()
+
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
 
@@ -140,11 +142,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         SpokenText.postValue(null)
 
-        presetsViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 

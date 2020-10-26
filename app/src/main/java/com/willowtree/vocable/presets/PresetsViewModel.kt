@@ -9,9 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class PresetsViewModel : BaseViewModel(), KoinComponent {
-
-    private val presetsRepository: PresetsRepository by inject()
+class PresetsViewModel(private val presetsRepository: PresetsRepository) : BaseViewModel(), KoinComponent {
 
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList
@@ -29,7 +27,6 @@ class PresetsViewModel : BaseViewModel(), KoinComponent {
     fun populateCategories() {
         backgroundScope.launch {
             val categories = presetsRepository.getAllCategories().filter { !it.hidden }
-            println("Categories Populated")
             liveCategoryList.postValue(categories)
             val currentCategory = liveSelectedCategory.value ?: categories.first()
             onCategorySelected(currentCategory)

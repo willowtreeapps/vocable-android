@@ -32,11 +32,11 @@ abstract class BaseUnitTest {
 
     private val allUnitTestsModule = module {
         single { VocableSharedPreferences() }
-        single { PresetsRepository() }
+        single { PresetsRepository(get()) }
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility(get()) }
-        single { PresetsViewModel() }
-        single<VocableDatabase> {
+        single { PresetsViewModel(get()) }
+        single {
             var vocableDatabase: VocableDatabase? = null
 
             if (vocableDatabase == null) {

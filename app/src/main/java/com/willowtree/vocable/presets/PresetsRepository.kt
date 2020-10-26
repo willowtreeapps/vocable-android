@@ -10,9 +10,7 @@ import org.koin.core.get
 import org.koin.core.inject
 import java.util.*
 
-class PresetsRepository : KoinComponent {
-
-    private val database: VocableDatabase by inject()
+class PresetsRepository(private val database: VocableDatabase) : KoinComponent {
 
     suspend fun getAllCategories(): List<Category> {
         return database.categoryDao().getAllCategories()

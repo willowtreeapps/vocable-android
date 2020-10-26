@@ -21,6 +21,7 @@ import com.willowtree.vocable.databinding.CategoryButtonBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
@@ -38,7 +39,8 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
     override val bindingInflater: BindingInflater<CategoriesFragmentBinding> = CategoriesFragmentBinding::inflate
 
-    private lateinit var viewModel: PresetsViewModel
+    private val presetsViewModel: PresetsViewModel by viewModel()
+
     private val allViews = mutableListOf<View>()
     private var maxCategories = 1
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
@@ -60,7 +62,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
                 tag = category
                 text = localizedResourceUtility.getTextFromCategory(category)
                 action = {
-                    viewModel.onCategorySelected(category)
+                    presetsViewModel.onCategorySelected(category)
                 }
                 if (!isTablet && index > 0 && index + 1 == maxCategories) {
                     layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
@@ -85,10 +87,6 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 
@@ -111,7 +109,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.selectedCategory.observe(viewLifecycleOwner, Observer { category ->
+        presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer { category ->
             category?.let {
                 binding.categoryButtonContainer.children.forEach {
                     if (it is CategoryButton) {

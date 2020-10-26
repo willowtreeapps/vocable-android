@@ -16,9 +16,6 @@ class BaseViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
                 return SplashViewModel() as T
             }
-            modelClass.isAssignableFrom(PresetsViewModel::class.java) -> {
-                return PresetsViewModel() as T
-            }
             modelClass.isAssignableFrom(SettingsViewModel::class.java) -> {
                 return SettingsViewModel() as T
             }

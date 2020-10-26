@@ -11,17 +11,17 @@ import com.willowtree.vocable.room.VocableDatabaseMigrations
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 object AppKoinModule {
 
     fun getModule() = module {
         single { VocableSharedPreferences() }
-        single { PresetsRepository() }
+        single { PresetsRepository(get()) }
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility(get()) }
-        single { PresetsViewModel() }
-        single<VocableDatabase> {
+        single {
             var vocableDatabase: VocableDatabase? = null
 
             if (vocableDatabase == null) {
@@ -39,5 +39,7 @@ object AppKoinModule {
             }
             vocableDatabase as VocableDatabase
         }
+
+        viewModel { PresetsViewModel(get()) }
     }
 }

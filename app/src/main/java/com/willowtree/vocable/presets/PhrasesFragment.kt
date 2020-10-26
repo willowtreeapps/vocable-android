@@ -14,9 +14,10 @@ import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.presets.adapter.PhraseAdapter
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.ItemOffsetDecoration
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
-    private lateinit var presetsViewModel: PresetsViewModel
+    private val presetsViewModel: PresetsViewModel by viewModel()
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -39,12 +40,6 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
-        presetsViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(PresetsViewModel::class.java)
 
         val numColumns = resources.getInteger(R.integer.phrases_columns)
         val numRows = resources.getInteger(R.integer.phrases_rows)
