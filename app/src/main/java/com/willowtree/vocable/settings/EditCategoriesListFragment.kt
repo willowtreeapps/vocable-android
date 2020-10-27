@@ -95,6 +95,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         super.onViewCreated(view, savedInstanceState)
 
         subscribeToViewModel()
+        editCategoriesViewModel.refreshCategories()
     }
 
     override fun getAllViews(): List<View> {

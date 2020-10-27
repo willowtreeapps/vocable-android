@@ -49,8 +49,8 @@ object AppKoinModule {
         viewModel { SettingsViewModel(get()) }
         viewModel { KeyboardViewModel(get(), get()) }
         viewModel { EditPhrasesViewModel(get()) }
-        viewModel { EditCategoriesViewModel(get()) }
-        viewModel { AddUpdateCategoryViewModel(get()) }
+        viewModel { EditCategoriesViewModel(get(), get()) }
+        viewModel { AddUpdateCategoryViewModel(get(), get()) }
         viewModel { AddPhraseViewModel(get()) }
         viewModel { AddToCategoryPickerViewModel(get(), get()) }
     }

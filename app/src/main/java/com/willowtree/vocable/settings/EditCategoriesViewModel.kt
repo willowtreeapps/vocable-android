@@ -11,7 +11,7 @@ import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
-class EditCategoriesViewModel(private val presetsRepository: PresetsRepository) : BaseViewModel() {
+class EditCategoriesViewModel(private val presetsRepository: PresetsRepository, private val localizedResourceUtility: LocalizedResourceUtility) : BaseViewModel() {
 
     private val liveOrderCategoryList = MutableLiveData<List<Category>>()
     val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList
@@ -26,8 +26,6 @@ class EditCategoriesViewModel(private val presetsRepository: PresetsRepository) 
     val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
 
     private var overallCategories = listOf<Category>()
-
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     fun refreshCategories() {
         backgroundScope.launch {
