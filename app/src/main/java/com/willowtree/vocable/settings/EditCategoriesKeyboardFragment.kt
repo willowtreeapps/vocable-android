@@ -8,18 +8,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.Category
+import org.koin.android.ext.android.inject
 
 class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
     override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> =
         FragmentEditKeyboardBinding::inflate
 
-    private lateinit var viewModel: AddUpdateCategoryViewModel
+    private val viewModel: AddUpdateCategoryViewModel by inject()
 
     private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
@@ -69,11 +69,6 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
         val inputText = categoryText.ifEmpty { getString(R.string.keyboard_select_letters) }
 
         binding.keyboardInput.setText(inputText)
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(AddUpdateCategoryViewModel::class.java)
 
         subscribeToViewModel()
     }

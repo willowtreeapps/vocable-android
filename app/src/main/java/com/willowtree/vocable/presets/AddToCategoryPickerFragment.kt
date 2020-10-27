@@ -15,6 +15,7 @@ import com.willowtree.vocable.databinding.FragmentAddToCategoryPickerBinding
 import com.willowtree.vocable.presets.adapter.AddToCategoryPickerViewModel
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import org.koin.android.ext.android.inject
 
 class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBinding>() {
 
@@ -22,7 +23,7 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
 
     override val bindingInflater: BindingInflater<FragmentAddToCategoryPickerBinding> =
         FragmentAddToCategoryPickerBinding::inflate
-    private lateinit var addToCategoryPickerViewModel: AddToCategoryPickerViewModel
+    private val addToCategoryPickerViewModel: AddToCategoryPickerViewModel by inject()
 
     private var maxCategories = 1
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
@@ -85,11 +86,6 @@ class AddToCategoryPickerFragment : BaseFragment<FragmentAddToCategoryPickerBind
                 }
             }
         })
-
-        addToCategoryPickerViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(AddToCategoryPickerViewModel::class.java)
 
         subscribeToViewModel()
 

@@ -16,10 +16,7 @@ import kotlinx.coroutines.runBlocking
 import org.koin.core.inject
 import java.util.*
 
-class AddToCategoryPickerViewModel : BaseViewModel() {
-
-    private val presetsRepository: PresetsRepository by inject()
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
+class AddToCategoryPickerViewModel(private val presetsRepository: PresetsRepository, private val localizedResourceUtility: LocalizedResourceUtility) : BaseViewModel() {
 
     private val liveCategoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = liveCategoryList

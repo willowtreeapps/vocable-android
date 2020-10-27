@@ -10,11 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.EditPhrasesKeyboardFragmentArgs.Companion.fromBundle
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class AddPhraseKeyboardFragment : EditKeyboardFragment() {
@@ -31,7 +31,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
         }
     }
 
-    private lateinit var viewModel: AddPhraseViewModel
+    private val viewModel: AddPhraseViewModel by inject()
     private val args: AddPhraseKeyboardFragmentArgs by navArgs()
     private lateinit var category: Category
     private var savedPhrase = ""
@@ -67,11 +67,6 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
         (binding.phraseSavedView.root as TextView).apply {
             setText(R.string.new_phrase_saved)
         }
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(AddPhraseViewModel::class.java)
 
         subscribeToViewModel()
     }

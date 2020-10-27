@@ -9,10 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class SettingsViewModel : BaseViewModel(), KoinComponent {
-
-    private val sharedPrefs: VocableSharedPreferences by inject()
-    private val presetsRepository: PresetsRepository by inject()
+class SettingsViewModel(private val sharedPrefs: VocableSharedPreferences) : BaseViewModel(), KoinComponent {
 
     private val liveHeadTrackingEnabled = MutableLiveData<Boolean>()
     val headTrackingEnabled: LiveData<Boolean> = liveHeadTrackingEnabled

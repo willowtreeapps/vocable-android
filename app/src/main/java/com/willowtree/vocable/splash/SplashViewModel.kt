@@ -15,9 +15,7 @@ import org.koin.core.get
 import org.koin.core.inject
 import java.util.*
 
-class SplashViewModel : BaseViewModel() {
-
-    private val presetsRepository: PresetsRepository by inject()
+class SplashViewModel(private val presetsRepository: PresetsRepository) : BaseViewModel() {
 
     private val liveExitSplash = MutableLiveData<Boolean>()
     val exitSplash: LiveData<Boolean> = liveExitSplash

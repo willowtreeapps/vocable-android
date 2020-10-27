@@ -11,9 +11,7 @@ import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 
-class EditCategoriesViewModel : BaseViewModel() {
-
-    private val presetsRepository: PresetsRepository by inject()
+class EditCategoriesViewModel(private val presetsRepository: PresetsRepository) : BaseViewModel() {
 
     private val liveOrderCategoryList = MutableLiveData<List<Category>>()
     val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList

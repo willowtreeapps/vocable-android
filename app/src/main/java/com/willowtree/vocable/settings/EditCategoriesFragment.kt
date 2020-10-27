@@ -12,6 +12,7 @@ import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import org.koin.android.ext.android.inject
 import kotlin.math.min
 
 class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
@@ -19,7 +20,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
     override val bindingInflater: BindingInflater<FragmentEditCategoriesBinding> = FragmentEditCategoriesBinding::inflate
 
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by inject()
 
     private val allViews = mutableListOf<View>()
     private var maxEditCategories = 1
@@ -84,11 +85,6 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
             }
         }
 
-        editCategoriesViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
 
         editCategoriesViewModel.refreshCategories()

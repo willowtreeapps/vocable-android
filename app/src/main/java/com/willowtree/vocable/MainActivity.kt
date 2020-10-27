@@ -25,7 +25,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private val sharedPrefs: VocableSharedPreferences by inject()
     private val allViews = mutableListOf<View>()
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel: SettingsViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,10 +79,6 @@ class MainActivity : BaseActivity() {
 
     override fun subscribeToViewModel() {
         super.subscribeToViewModel()
-        settingsViewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(SettingsViewModel::class.java)
         
         settingsViewModel.headTrackingEnabled.observe(this, Observer {
             it?.let {

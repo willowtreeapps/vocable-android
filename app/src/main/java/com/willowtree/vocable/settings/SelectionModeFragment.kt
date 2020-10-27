@@ -6,16 +6,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
+import org.koin.android.ext.android.inject
 
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentSelectionModeBinding> = FragmentSelectionModeBinding::inflate
     private var allViews = mutableListOf<View>()
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,10 +34,6 @@ class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
             viewModel.onHeadTrackingChecked(isChecked)
         }
 
-        viewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(SettingsViewModel::class.java)
         subscribeToViewModel()
     }
 

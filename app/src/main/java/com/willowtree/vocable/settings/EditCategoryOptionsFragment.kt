@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
@@ -20,6 +19,7 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import org.koin.android.ext.android.inject
 
 class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBinding>() {
 
@@ -27,7 +27,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> =
         FragmentEditCategoryOptionsBinding::inflate
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by inject()
 
     private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
@@ -139,11 +139,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 )
             }
         })
-
-        editCategoriesViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
 
         subscribeToViewModel()
 

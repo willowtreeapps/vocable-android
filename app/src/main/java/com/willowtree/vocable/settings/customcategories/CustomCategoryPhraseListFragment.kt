@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
@@ -18,6 +17,7 @@ import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
+import org.koin.android.ext.android.inject
 
 class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhraseListBinding>() {
 
@@ -35,7 +35,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         }
     }
 
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by inject()
     private lateinit var category: Category
 
     private val onPhraseEdit = { phrase: Phrase ->
@@ -78,11 +78,6 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
                 adapter = CustomCategoryPhraseAdapter(it, numRows, onPhraseEdit, onPhraseDelete)
             }
         }
-
-        editCategoriesViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
     }
 
     private fun showDeletePhraseDialog(phrase: Phrase) {

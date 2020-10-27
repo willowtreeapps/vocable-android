@@ -12,13 +12,11 @@ import kotlinx.coroutines.launch
 import org.koin.core.inject
 import java.util.*
 
-class AddPhraseViewModel : BaseViewModel() {
+class AddPhraseViewModel(private val presetsRepository: PresetsRepository) : BaseViewModel() {
 
     companion object {
         private const val PHRASE_UPDATED_DELAY = 2000L
     }
-
-    private val presetsRepository: PresetsRepository by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded

@@ -13,14 +13,11 @@ import kotlinx.coroutines.launch
 import org.koin.core.inject
 import java.util.*
 
-class KeyboardViewModel : BaseViewModel() {
+class KeyboardViewModel(private val presetsRepository: PresetsRepository, private val localizedResourceUtility: LocalizedResourceUtility) : BaseViewModel() {
 
     companion object {
         const val PHRASE_ADDED_DELAY = 2000L
     }
-
-    private val presetsRepository: PresetsRepository by inject()
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded

@@ -5,19 +5,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
+import org.koin.android.ext.android.inject
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(SplashViewModel::class.java)
+        val viewModel: SplashViewModel by inject()
 
         viewModel.exitSplash.observe(this, Observer {
             if (it) {

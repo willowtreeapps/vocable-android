@@ -12,7 +12,6 @@ import androidx.core.view.updateMargins
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -37,7 +36,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
     }
 
     override val bindingInflater: BindingInflater<FragmentEditPhrasesBinding> = FragmentEditPhrasesBinding::inflate
-    private lateinit var editPhrasesViewModel: EditPhrasesViewModel
+    private val editPhrasesViewModel: EditPhrasesViewModel by inject()
     private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
     private var numColumns = 1
@@ -136,16 +135,6 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
     private fun toggleDialogVisibility(visible: Boolean) {
         binding.deleteConfirmation.root.isVisible = visible
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        editPhrasesViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(EditPhrasesViewModel::class.java)
     }
 
     override fun getAllViews(): List<View> {

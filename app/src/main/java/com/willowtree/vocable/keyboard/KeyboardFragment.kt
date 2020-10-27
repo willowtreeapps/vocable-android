@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -20,13 +19,14 @@ import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.keyboard.adapter.KeyboardAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> =
         FragmentKeyboardBinding::inflate
-    private lateinit var viewModel: KeyboardViewModel
+    private val viewModel: KeyboardViewModel by inject()
     private lateinit var keys: Array<String>
 
     private val keyAction = { keyText: String ->
@@ -140,10 +140,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         (binding.phraseSavedView.root as TextView).setText(R.string.saved_successfully)
 
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(KeyboardViewModel::class.java)
         subscribeToViewModel()
     }
 

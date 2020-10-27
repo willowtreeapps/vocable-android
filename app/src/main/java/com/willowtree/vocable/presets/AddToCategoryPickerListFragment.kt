@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentAddToCategoryListBinding
@@ -17,6 +16,7 @@ import com.willowtree.vocable.presets.adapter.AddToCategoryPickerViewModel
 import com.willowtree.vocable.presets.adapter.CustomCategoryAdapter
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.ItemOffsetDecoration
+import org.koin.android.ext.android.inject
 
 class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBinding>() {
 
@@ -37,7 +37,7 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
         }
     }
 
-    private lateinit var viewModel: AddToCategoryPickerViewModel
+    private val viewModel: AddToCategoryPickerViewModel by inject()
     private lateinit var phraseString: String
 
     override val bindingInflater: BindingInflater<FragmentAddToCategoryListBinding> =
@@ -51,11 +51,6 @@ class AddToCategoryPickerListFragment : BaseFragment<FragmentAddToCategoryListBi
         }
 
         val categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(AddToCategoryPickerViewModel::class.java)
 
         categories?.let {
             val numColumns = resources.getInteger(R.integer.custom_category_columns)

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentSettingsBinding
+import org.koin.android.ext.android.inject
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
@@ -25,7 +26,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     override val bindingInflater: BindingInflater<FragmentSettingsBinding> = FragmentSettingsBinding::inflate
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by inject()
     private var numColumns = 1
 
     override fun onCreateView(
@@ -97,11 +98,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 findNavController().navigate(R.id.action_settingsFragment_to_editCategoriesFragment)
             }
         }
-
-        viewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(SettingsViewModel::class.java)
     }
 
 
