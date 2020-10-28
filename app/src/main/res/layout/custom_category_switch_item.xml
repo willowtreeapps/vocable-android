@@ -12,7 +12,8 @@
     <com.willowtree.vocable.customviews.VocableConstraintLayout
         android:id="@+id/category_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72dp"
+        android:background="@drawable/settings_group_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
