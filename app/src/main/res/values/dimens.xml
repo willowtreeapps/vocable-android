@@ -232,8 +232,8 @@
     <dimen name="edit_category_pager_margin_bottom">64dp</dimen>
 
     <!-- Edit Categories List -->
-    <dimen name="edit_categories_list_button_width">56dp</dimen>
-    <dimen name="edit_categories_list_button_height">56dp</dimen>
+    <dimen name="edit_categories_list_button_width">84dp</dimen>
+    <dimen name="edit_categories_list_button_height">54dp</dimen>
     <dimen name="edit_categories_list_button_margin">16dp</dimen>
     <dimen name="edit_categories_list_arrow_margin">8dp</dimen>
     <dimen name="edit_categories_list_margin">4dp</dimen>

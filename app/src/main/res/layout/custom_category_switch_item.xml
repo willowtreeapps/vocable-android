@@ -1,54 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.willowtree.vocable.customviews.VocableConstraintLayout
+    android:id="@+id/show_hide_switch"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/SpeechButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/category_list_horizontal_margin"
-    android:layout_marginEnd="@dimen/category_list_horizontal_margin"
     android:clickable="false">
 
-    <com.willowtree.vocable.customviews.VocableConstraintLayout
-        android:id="@+id/category_container"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@drawable/settings_group_background"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/category_text"
-            style="@style/CustomCategorySwitchText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="2"
-            app:layout_constraintEnd_toStartOf="@+id/toggle_switch"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Pets" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/toggle_switch"
-            style="@style/CustomCategorySwitch"
-            android:checked="true"
-            android:theme="@style/SelectionModeButtonSwitch"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </com.willowtree.vocable.customviews.VocableConstraintLayout>
-
     <TextView
-        android:id="@+id/filler_view"
-        android:layout_width="match_parent"
+        android:id="@+id/show_text"
+        style="@style/CustomCategorySwitchText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/toggle_switch"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Show" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/toggle_switch"
+        style="@style/CustomCategorySwitch"
+        android:checked="true"
+        android:layout_marginStart="24dp"
+        android:theme="@style/SelectionModeButtonSwitch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/show_text"/>
+
+</com.willowtree.vocable.customviews.VocableConstraintLayout>

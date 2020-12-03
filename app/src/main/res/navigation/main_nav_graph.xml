@@ -39,20 +39,11 @@
             android:id="@+id/action_editCategoryOptionsFragment_to_editCategoriesKeyboardFragment"
             app:destination="@id/editCategoriesKeyboardFragment" />
         <action
-            android:id="@+id/action_editCategoryOptionsFragment_to_addPhraseKeyboardFragment"
-            app:destination="@id/addPhraseKeyboardFragment" />
-        <action
             android:id="@+id/action_editCategoryOptionsFragment_to_editPhrasesKeyboardFragment"
             app:destination="@id/editPhrasesKeyboardFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/editPresetsFragment"
-        android:name="com.willowtree.vocable.settings.EditPresetsFragment"
-        android:label="EditPresetsFragment"
-        tools:layout="@layout/fragment_edit_presets">
         <action
-            android:id="@+id/action_editPresetsFragment_to_editPhrasesKeyboardFragment"
-            app:destination="@id/editPhrasesKeyboardFragment" />
+            android:id="@+id/action_editCategoryOptionsFragment_to_editPhrasesFragment"
+            app:destination="@id/editPhrasesFragment" />
     </fragment>
     <fragment
         android:id="@+id/sensitivityFragment"
@@ -88,9 +79,6 @@
         android:name="com.willowtree.vocable.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_editPresetsFragment"
-            app:destination="@id/editPresetsFragment" />
         <action
             android:id="@+id/action_settingsFragment_to_sensitivityFragment"
             app:destination="@id/sensitivityFragment" />
@@ -141,4 +129,13 @@
             android:id="@+id/action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment"
             app:destination="@id/editCategoriesKeyboardFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editPhrasesFragment"
+        android:name="com.willowtree.vocable.settings.EditPhrasesFragment"
+        android:label="EditPhrasesFragment" >
+        <action
+            android:id="@+id/action_editPhrasesFragment_to_addPhraseKeyboardFragment"
+            app:destination="@id/addPhraseKeyboardFragment" />
+    </fragment>
+
 </navigation>

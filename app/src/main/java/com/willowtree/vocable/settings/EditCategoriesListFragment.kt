@@ -165,9 +165,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             }
 
             with(editCategorySelectButton) {
-                // enable the button if the category is user-generated, or if it's My Sayings
-                isEnabled =
-                    category.isUserGenerated || category.categoryId == PresetCategories.USER_FAVORITES.id
 
                 action = {
                     val action =
@@ -178,23 +175,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                         findNavController().navigate(action)
                     }
                     editCategoriesViewModel.onCategorySelected(category)
-                }
-            }
-        }
-
-        with(editButtonBinding.showHideCategoryButton) {
-            if (!category.hidden) {
-                setImageResource(R.drawable.button_hidden)
-                setBackgroundResource(R.drawable.button_default_background)
-            } else {
-                setImageResource(R.drawable.button_shown)
-                setBackgroundResource(R.drawable.category_button_background)
-            }
-
-
-            action = {
-                category.let { category ->
-                    editCategoriesViewModel.hideShowCategory(category, !category.hidden)
                 }
             }
         }

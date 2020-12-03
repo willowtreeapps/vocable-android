@@ -27,9 +27,9 @@ class CustomCategoryAdapter(
             CustomCategorySwitchItemBinding.bind(itemView)
 
         fun bind(category: Category, isChecked: Boolean, onCategoryToggle: (Category, Boolean) -> Unit) {
-            binding.categoryText.text = localizedResourceUtility.getTextFromCategory(category)
+//            binding.categoryText.text = localizedResourceUtility.getTextFromCategory(category)
 
-            binding.categoryContainer.action = { binding.toggleSwitch.isChecked = !binding.toggleSwitch.isChecked }
+//            binding.categoryContainer.action = { binding.toggleSwitch.isChecked = !binding.toggleSwitch.isChecked }
 
             binding.toggleSwitch.isChecked = isChecked
 
