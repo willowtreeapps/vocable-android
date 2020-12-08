@@ -98,6 +98,9 @@
         <action
             android:id="@+id/action_presetsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_presetsFragment_to_addPhraseKeyboardFragment"
+            app:destination="@id/addPhraseKeyboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/keyboardFragment"

@@ -97,11 +97,13 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             }
         }
 
-        // Fix - add phrase to category
         binding.emptyAddPhraseButton.action = {
-            val action = PresetsFragmentDirections.actionPresetsFragmentToKeyboardFragment()
-            if (findNavController().currentDestination?.id == R.id.presetsFragment) {
-                findNavController().navigate(action)
+            presetsViewModel.selectedCategory.value?.let {
+                val action =
+                    PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(it)
+                if (findNavController().currentDestination?.id == R.id.presetsFragment) {
+                    findNavController().navigate(action)
+                }
             }
         }
 
