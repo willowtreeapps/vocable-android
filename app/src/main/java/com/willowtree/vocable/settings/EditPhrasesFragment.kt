@@ -1,167 +1,201 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.GridLayout
-import androidx.core.view.children
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.core.view.updateMargins
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentEditPhrasesBinding
-import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.utils.LocalizedResourceUtility
-import org.koin.android.ext.android.inject
+import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
+import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 
 class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
-    companion object {
-        private const val KEY_PHRASES = "KEY_PHRASES"
+    private val args: EditCategoryOptionsFragmentArgs by navArgs()
 
-        fun newInstance(phrases: List<Phrase>): EditPhrasesFragment {
-            return EditPhrasesFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(KEY_PHRASES, ArrayList(phrases))
-                }
-            }
-        }
-    }
+    override val bindingInflater: BindingInflater<FragmentEditPhrasesBinding> =
+        FragmentEditPhrasesBinding::inflate
+    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
 
-    override val bindingInflater: BindingInflater<FragmentEditPhrasesBinding> = FragmentEditPhrasesBinding::inflate
-    private lateinit var editPhrasesViewModel: EditPhrasesViewModel
-    private val allViews = mutableListOf<View>()
     private var maxPhrases = 1
-    private var numColumns = 1
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        maxPhrases = resources.getInteger(R.integer.max_edit_phrases)
-        numColumns = resources.getInteger(R.integer.edit_phrases_columns)
-
-        val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
-        phrases?.forEachIndexed { index, phrase ->
-            val phraseView =
-                PhraseEditLayoutBinding.inflate(inflater, binding.editPhrasesContainer, false)
-            with(phraseView) {
-                phraseEditText.text = localizedResourceUtility.getTextFromPhrase(phrase)
-                phraseEditText.tag = phrase
-            }
-            with(phraseView.root) {
-                // Remove end margin on last column
-                if (index % numColumns == numColumns - 1) {
-                    layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
-                        marginEnd = 0
-                    }
-                }
-                if (index >= maxPhrases - numColumns) {
-                    layoutParams = (layoutParams as GridLayout.LayoutParams).apply {
-                        updateMargins(bottom = 0)
-                    }
-                }
-            }
-
-            phraseView.actionButtonContainer.deleteSayingsButton.action = {
-                showDeletePhraseDialog(phrase)
-            }
-
-            phraseView.actionButtonContainer.editSayingsButton.action = {
-                val action = EditPresetsFragmentDirections.actionEditPresetsFragmentToEditPhrasesKeyboardFragment(phrase)
-                if (findNavController().currentDestination?.id == R.id.editPresetsFragment) {
-                    findNavController().navigate(action)
-                }
-            }
-
-            binding.editPhrasesContainer.addView(phraseView.root)
-        }
-
-        phrases?.let {
-            // Add invisible views to fill out the rest of the space
-            for (i in 0 until maxPhrases - it.size) {
-                val hiddenView =
-                    PhraseEditLayoutBinding.inflate(inflater, binding.editPhrasesContainer, false)
-                binding.editPhrasesContainer.addView(hiddenView.root.apply {
-                    isEnabled = false
-                    isInvisible = true
-                })
-            }
-        }
-
-        return binding.root
-    }
-
-    private fun showDeletePhraseDialog(phrase: Phrase) {
-        setSettingsButtonsEnabled(false)
-
-        binding.deleteConfirmation.apply {
-            dialogTitle.text = getString(R.string.are_you_sure)
-            dialogMessage.text = getString(R.string.delete_warning)
-            dialogPositiveButton.apply {
-                text = getString(R.string.delete)
-                action = {
-                    editPhrasesViewModel.deletePhrase(phrase)
-                    toggleDialogVisibility(false)
-                    setSettingsButtonsEnabled(true)
-                }
-            }
-            dialogNegativeButton.apply {
-                text = getString(R.string.settings_dialog_cancel)
-                action = {
-                    toggleDialogVisibility(false)
-                    setSettingsButtonsEnabled(true)
-                }
-            }
-        }
-
-        toggleDialogVisibility(true)
-    }
-
-    private fun setSettingsButtonsEnabled(enable: Boolean) {
-        editPhrasesViewModel.setEditButtonsEnabled(enable)
-
-    }
-
-    private fun toggleDialogVisibility(visible: Boolean) {
-        binding.deleteConfirmation.root.isVisible = visible
-    }
+    private lateinit var phrasesAdapter: PhrasesPagerAdapter
+    private lateinit var category: Category
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editPhrasesViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(EditPhrasesViewModel::class.java)
+        category = args.category
+
+        binding.backButton.action = {
+            findNavController().popBackStack()
+        }
+
+        binding.addPhraseButton.action = {
+            val action =
+                EditPhrasesFragmentDirections.actionEditPhrasesFragmentToAddPhraseKeyboardFragment(category)
+            if (findNavController().currentDestination?.id == R.id.editPhrasesFragment) {
+                findNavController().navigate(action)
+            }
+        }
+
+        val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
+        val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
+        maxPhrases = numColumns * numRows
+
+        phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
+
+        binding.phraseForwardButton.action = {
+            when (val currentPosition = binding.editPhrasesViewPager.currentItem) {
+                phrasesAdapter.itemCount - 1 -> {
+                    binding.editPhrasesViewPager.setCurrentItem(0, true)
+                }
+                else -> {
+                    binding.editPhrasesViewPager.setCurrentItem(currentPosition + 1, true)
+                }
+            }
+        }
+
+        binding.phraseBackButton.action = {
+            when (val currentPosition = binding.editPhrasesViewPager.currentItem) {
+                0 -> {
+                    binding.editPhrasesViewPager.setCurrentItem(
+                        phrasesAdapter.itemCount - 1,
+                        true
+                    )
+                }
+                else -> {
+                    binding.editPhrasesViewPager.setCurrentItem(currentPosition - 1, true)
+                }
+            }
+        }
+
+        binding.emptyAddPhraseButton.action = {
+            val action = EditPhrasesFragmentDirections.actionEditPhrasesFragmentToAddPhraseKeyboardFragment(category)
+            if (findNavController().currentDestination?.id == R.id.editPhrasesFragment) {
+                findNavController().navigate(action)
+            }
+        }
+
+        binding.editPhrasesViewPager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val pageNum = position % phrasesAdapter.numPages + 1
+                binding.phrasePageNumber.text = getString(
+                    R.string.phrases_page_number,
+                    pageNum,
+                    phrasesAdapter.numPages
+                )
+            }
+        })
+
+        editCategoriesViewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory()
+        ).get(EditCategoriesViewModel::class.java)
+
+        subscribeToViewModel()
+
+        with(editCategoriesViewModel) {
+            refreshCategories()
+            fetchCategoryPhrases(args.category)
+        }
+    }
+
+    private fun subscribeToViewModel() {
+        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                // Get the most updated category name if the user changed it on the
+                // EditCategoriesKeyboardFragment screen
+                binding.categoryNameTitle.text =
+                    editCategoriesViewModel.getUpdatedCategoryName(args.category)
+                category = editCategoriesViewModel.getUpdatedCategory(args.category)
+            }
+        })
+
+        editCategoriesViewModel.categoryPhraseList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                handlePhrases(it)
+            }
+        })
+    }
+
+//    private fun toggleDialogVisibility(visible: Boolean) {
+//        binding.confirmationDialog.root.isVisible = visible
+//    }
+
+    private fun setEditButtonsEnabled(enabled: Boolean) {
+        binding.backButton.isEnabled = enabled
     }
 
     override fun getAllViews(): List<View> {
-        if (allViews.isEmpty()) {
-            getAllChildViews(binding.editPhrasesContainer)
-        }
-        return allViews
+        return emptyList()
     }
 
-    private fun getAllChildViews(viewGroup: ViewGroup?) {
-        viewGroup?.children?.forEach {
-            if (it is PointerListener) {
-                allViews.add(it)
-            } else if (it is ViewGroup) {
-                getAllChildViews(it)
+    private fun handlePhrases(phrases: List<Phrase>) {
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty()
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
+        binding.editPhrasesViewPager.isVisible = phrases.isNotEmpty()
+        binding.phraseForwardButton.isVisible = phrases.isNotEmpty()
+        binding.phraseBackButton.isVisible = phrases.isNotEmpty()
+        binding.phrasePageNumber.isVisible = phrases.isNotEmpty()
+
+        if (phrases.isNotEmpty()) {
+            with(binding.editPhrasesViewPager) {
+                isSaveEnabled = false
+
+                adapter = phrasesAdapter
+
+                phrasesAdapter.setItems(phrases)
+
+                // Move adapter to middle so user can scroll both directions
+                val middle = phrasesAdapter.itemCount / 2
+                if (middle % phrasesAdapter.numPages == 0) {
+                    setCurrentItem(middle, false)
+                } else {
+                    val mod = middle % phrasesAdapter.numPages
+                    setCurrentItem(
+                        middle + (phrasesAdapter.numPages - mod),
+                        false
+                    )
+                }
             }
         }
+    }
+
+    inner class PhrasesPagerAdapter(fm: FragmentManager) :
+        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
+
+        override fun setItems(items: List<Phrase>) {
+            super.setItems(items)
+            setPagingButtonsEnabled(numPages > 1)
+        }
+
+        private fun setPagingButtonsEnabled(enable: Boolean) {
+            binding.apply {
+                phraseForwardButton.isEnabled = enable
+                phraseBackButton.isEnabled = enable
+
+            }
+        }
+
+        override fun getMaxItemsPerPage(): Int = maxPhrases
+
+        override fun createFragment(position: Int): Fragment {
+            val phrases = getItemsByPosition(position)
+
+            return CustomCategoryPhraseListFragment.newInstance(phrases, args.category)
+        }
+
     }
 }
