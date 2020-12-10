@@ -160,10 +160,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
-                editCategorySelectButton.isEnabled = false
-            }
-
             with(editCategorySelectButton) {
 
                 action = {
