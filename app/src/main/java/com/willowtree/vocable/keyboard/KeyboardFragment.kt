@@ -134,7 +134,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             }
         }
 
-        (binding.phraseSavedView.root as TextView).setText(R.string.saved_successfully)
+        binding.phraseSavedView.root.text = getString(R.string.saved_successfully, "My Sayings")
 
         viewModel = ViewModelProviders.of(
             this,

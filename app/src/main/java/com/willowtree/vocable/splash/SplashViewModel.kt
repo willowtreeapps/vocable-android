@@ -30,12 +30,12 @@ class SplashViewModel : BaseViewModel() {
         backgroundScope.launch {
             val newCategoryId = UUID.randomUUID().toString()
 
-            moveMySayings(newCategoryId)
+//            moveMySayings(newCategoryId)
 
             presetsRepository.populateDatabase()
 
             // we need to call this after populating the db so that the resource IDs are correct
-            updateMySayingsName(newCategoryId)
+//            updateMySayingsName(newCategoryId)
 
             liveExitSplash.postValue(true)
         }
