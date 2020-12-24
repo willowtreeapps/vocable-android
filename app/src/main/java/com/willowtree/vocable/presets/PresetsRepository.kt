@@ -181,13 +181,12 @@ class PresetsRepository(context: Context) : KoinComponent {
 
             )
 
-            // delete non-user-generated cross-refs
-            val nonUserCategoryIds = PresetCategories.values().map { category -> category.id }
-            deleteCrossRefsForCategoryIds(nonUserCategoryIds)
-
             if (it.getArrayId() == -1) {
                 return@forEach
             }
+
+            // delete non-user-generated cross-refs
+            deleteCrossRefsForCategoryIds(listOf(existingCategory.categoryId))
 
             // delete non-user-generated phrases
             deleteNonUserGeneratedPhrases()

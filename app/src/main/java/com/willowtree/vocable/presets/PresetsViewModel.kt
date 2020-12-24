@@ -52,10 +52,15 @@ class PresetsViewModel : BaseViewModel() {
                     // sort them in descending order by timestamp
                     crossRefs = crossRefs.sortedByDescending { it.timestamp }
 
+                    // gets phrases from Recents, this will only get phrases that are non-user generated for now
+                    phrases.addAll(presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id))
+
+                    // Add this back in once we fix how we add things to the database, right now we're
+                    // deleting everything and adding them back, which isn't great:
                     // for each crossRef, add its phrase to the list
-                    crossRefs.forEach {
-                        phrases.add(presetsRepository.getPhraseById(it.phraseId))
-                    }
+                    // crossRefs.forEach {
+                    //     phrases.add(presetsRepository.getPhraseById(it.phraseId))
+                    // }
                 } else {
                     phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()
