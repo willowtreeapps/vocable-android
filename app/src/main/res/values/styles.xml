@@ -139,7 +139,7 @@
         <item name="android:layout_marginStart">@dimen/edit_sayings_text_margin_start</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:textSize">@dimen/edit_sayings_text_size</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
     </style>
 
     <style name="CustomCategorySwitch">

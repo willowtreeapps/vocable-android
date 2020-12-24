@@ -80,7 +80,7 @@
         android:gravity="center"
         android:text="@string/edit_category_remove_category_text"
         android:textAllCaps="false"
-        android:textColor="@color/textColor"
+        android:textColor="@color/vocable_button_text_color"
         android:textSize="11pt"
         app:layout_constraintEnd_toEndOf="@id/show_hide_button_switch"
         app:layout_constraintStart_toStartOf="@id/show_hide_button_switch"

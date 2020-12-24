@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.willowtree.vocable.customviews.VocableConstraintLayout
-    android:id="@+id/show_hide_switch"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.willowtree.vocable.customviews.VocableConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show_hide_switch"
     style="@style/SpeechButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,12 +28,12 @@
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/toggle_switch"
         style="@style/CustomCategorySwitch"
-        android:checked="true"
         android:layout_marginStart="24dp"
+        android:checked="true"
         android:theme="@style/SelectionModeButtonSwitch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/show_text"/>
+        app:layout_constraintStart_toEndOf="@id/show_text"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </com.willowtree.vocable.customviews.VocableConstraintLayout>

@@ -79,7 +79,7 @@
         android:background="@drawable/button_default_background"
         android:text="Remove Category"
         android:textAllCaps="false"
-        android:textColor="@color/textColor"
+        android:textColor="@color/vocable_button_text_color"
         android:gravity="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@id/show_hide_button_switch"

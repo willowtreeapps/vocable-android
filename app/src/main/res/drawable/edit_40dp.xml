@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ic_edit_dark_blue_40dp" android:state_pressed="true" />
+    <item android:drawable="@drawable/ic_edit_disabled_40" android:state_enabled="false"/>
     <item android:drawable="@drawable/ic_edit_40dp" />
 </selector>

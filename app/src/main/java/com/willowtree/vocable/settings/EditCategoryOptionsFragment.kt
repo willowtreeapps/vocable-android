@@ -12,7 +12,9 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
+import kotlinx.android.synthetic.main.custom_category_switch_item.view.*
 
 class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBinding>() {
 
@@ -29,32 +31,44 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         category = args.category
 
-        binding.editPhrasesButton.isVisible = category.isUserGenerated
+        binding.editPhrasesButton.isVisible = category.isUserGenerated || category.categoryId == PresetCategories.USER_FAVORITES.id
         binding.removeCategoryButton.isEnabled = category.isUserGenerated
         binding.editCategoryNameButton.isEnabled = category.isUserGenerated
 
         category.let {
-            binding.editCategoryNameButton.action = {
-                val action =
-                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
-                        category
-                    )
-                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
-                    findNavController().navigate(action)
-                }
-            }
-
-            binding.showHideButtonSwitch.apply {
-                showText.text = "Show"
-                toggleSwitch.isChecked = !category.hidden
-
-                showHideSwitch.action = {
-                    toggleSwitch.isChecked = !toggleSwitch.isChecked
+            binding.editCategoryNameButton.apply {
+                if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
+                    isEnabled = false
                 }
 
-                toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    // if toggle is checked, the category should show
-                    editCategoriesViewModel.hideShowCategory(category, hide = !isChecked)
+                action = {
+                    val action =
+                        EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
+                            category
+                        )
+                    if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+                        findNavController().navigate(action)
+                    }
+                }
+
+                binding.showHideButtonSwitch.apply {
+                    if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
+                        toggleSwitch.isEnabled = false
+                        showHideSwitch.isEnabled = false
+                        showHideSwitch.show_text.isEnabled = false
+                    }
+
+                    showText.text = "Show"
+                    toggleSwitch.isChecked = !category.hidden
+
+                    showHideSwitch.action = {
+                        toggleSwitch.isChecked = !toggleSwitch.isChecked
+                    }
+
+                    toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
+                        // if toggle is checked, the category should show
+                        editCategoriesViewModel.hideShowCategory(category, hide = !isChecked)
+                    }
                 }
             }
         }
