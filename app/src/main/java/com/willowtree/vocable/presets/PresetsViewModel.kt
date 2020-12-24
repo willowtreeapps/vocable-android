@@ -52,7 +52,7 @@ class PresetsViewModel : BaseViewModel() {
                     // sort them in descending order by timestamp
                     crossRefs = crossRefs.sortedByDescending { it.timestamp }
 
-                    // gets phrases from Recents, this will only get phrases that are non-user generated for now
+                    // gets phrases from Recents, this will only get phrases that are user generated for now
                     phrases.addAll(presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id))
 
                     // Add this back in once we fix how we add things to the database, right now we're
