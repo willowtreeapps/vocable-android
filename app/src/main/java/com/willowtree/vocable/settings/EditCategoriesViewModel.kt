@@ -1,6 +1,5 @@
 package com.willowtree.vocable.settings
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -11,7 +10,6 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.inject
-import kotlin.math.log
 
 class EditCategoriesViewModel : BaseViewModel() {
 
