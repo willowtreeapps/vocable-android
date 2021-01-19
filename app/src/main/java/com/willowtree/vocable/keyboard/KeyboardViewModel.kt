@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
@@ -37,16 +38,21 @@ class KeyboardViewModel : BaseViewModel() {
 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
-            val mySayingsCategory =
+            var mySayingsCategory =
                 presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
             val phraseId = UUID.randomUUID().toString()
             val mySayingsPhrases =
                 presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
 
-            // Should handle this better, I will ask for assistance
             if (mySayingsCategory == null) {
-                Log.e("Error", "My Sayings Category from database is null")
-                return@launch
+                mySayingsCategory = Category(PresetCategories.USER_FAVORITES.id,
+                    System.currentTimeMillis(),
+                    false,
+                    PresetCategories.USER_FAVORITES.getNameId(),
+                    null,
+                    false,
+                    PresetCategories.USER_FAVORITES.initialSortOrder)
+                presetsRepository.addCategory(mySayingsCategory)
             }
 
             with(presetsRepository) {

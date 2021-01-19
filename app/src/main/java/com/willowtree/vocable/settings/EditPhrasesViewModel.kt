@@ -50,7 +50,6 @@ class EditPhrasesViewModel : BaseViewModel() {
                 deletePhrase(phrase)
                 val mySayingsCategory = getCategoryById(PresetCategories.USER_FAVORITES.id)
 
-                // Should handle this better, I will ask for assistance
                 if (mySayingsCategory == null) {
                     Log.e("Error", "My Sayings Category from database is null")
                     return@launch

@@ -31,12 +31,17 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun addPhraseToRecents(phrase: Phrase) {
-        val category = database.categoryDao().getCategoryById(PresetCategories.RECENTS.id)
+        var category = database.categoryDao().getCategoryById(PresetCategories.RECENTS.id)
 
-        // Should handle this better, I will ask for assistance
         if (category == null) {
-            Log.e("Error", "Category from database is null")
-            return
+            category = Category(PresetCategories.RECENTS.id,
+                System.currentTimeMillis(),
+                false,
+                PresetCategories.RECENTS.getNameId(),
+                null,
+                false,
+                PresetCategories.RECENTS.initialSortOrder)
+            addCategory(category)
         }
 
         // get the cross ref for the Recents category and the given phrase
