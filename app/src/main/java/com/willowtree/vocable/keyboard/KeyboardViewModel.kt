@@ -1,5 +1,6 @@
 package com.willowtree.vocable.keyboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -41,6 +42,13 @@ class KeyboardViewModel : BaseViewModel() {
             val phraseId = UUID.randomUUID().toString()
             val mySayingsPhrases =
                 presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
+
+            // Should handle this better, I will ask for assistance
+            if (mySayingsCategory == null) {
+                Log.e("Error", "My Sayings Category from database is null")
+                return@launch
+            }
+
             with(presetsRepository) {
                 addPhrase(
                     Phrase(

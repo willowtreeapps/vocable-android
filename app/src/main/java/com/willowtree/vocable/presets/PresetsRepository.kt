@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
+import android.util.Log
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
@@ -31,6 +32,12 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     suspend fun addPhraseToRecents(phrase: Phrase) {
         val category = database.categoryDao().getCategoryById(PresetCategories.RECENTS.id)
+
+        // Should handle this better, I will ask for assistance
+        if (category == null) {
+            Log.e("Error", "Category from database is null")
+            return
+        }
 
         // get the cross ref for the Recents category and the given phrase
         var categoryPhraseCrossRef = database.categoryPhraseCrossRefDao()
@@ -140,7 +147,7 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.categoryDao().updateCategories(*categories.toTypedArray())
     }
 
-    suspend fun getCategoryById(categoryId: String): Category {
+    suspend fun getCategoryById(categoryId: String): Category? {
         return database.categoryDao().getCategoryById(categoryId)
     }
 
@@ -164,8 +171,8 @@ class PresetsRepository(context: Context) : KoinComponent {
                         false,
                         it.getNameId(),
                         null,
-                        existingCategory?.hidden,
-                        existingCategory?.sortOrder
+                        existingCategory.hidden,
+                        existingCategory.sortOrder
                     )
                 } else {
                     Category(
@@ -186,7 +193,9 @@ class PresetsRepository(context: Context) : KoinComponent {
             }
 
             // delete non-user-generated cross-refs
-            deleteCrossRefsForCategoryIds(listOf(existingCategory.categoryId))
+            if (existingCategory != null) {
+                deleteCrossRefsForCategoryIds(listOf(existingCategory.categoryId))
+            }
 
             // delete non-user-generated phrases
             deleteNonUserGeneratedPhrases()

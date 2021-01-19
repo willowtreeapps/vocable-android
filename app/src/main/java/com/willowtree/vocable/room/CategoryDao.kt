@@ -18,7 +18,7 @@ interface CategoryDao {
     suspend fun getUserGeneratedCategories(): List<Category>
 
     @Query("SELECT * FROM Category WHERE category_id = :categoryId")
-    suspend fun getCategoryById(categoryId: String): Category
+    suspend fun getCategoryById(categoryId: String): Category?
 
     @Delete
     suspend fun deleteCategory(category: Category)
