@@ -7,6 +7,7 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
 import org.koin.core.inject
+import timber.log.Timber
 
 class PresetsViewModel : BaseViewModel() {
 
@@ -45,9 +46,11 @@ class PresetsViewModel : BaseViewModel() {
 
                 // if the selected category was the Recents category, we need to invert the sort so
                 // the most recently added phrases are at the top
+                Timber.d("WILL: 1")
                 if (cat.categoryId == PresetCategories.RECENTS.id) {
                     // get the Recents crossRefs
                     var crossRefs = presetsRepository.getCrossRefsForCategoryId(PresetCategories.RECENTS.id)
+                    Timber.d("WILL: cross refs $crossRefs")
 
                     // sort them in descending order by timestamp
                     crossRefs = crossRefs.sortedByDescending { it.timestamp }

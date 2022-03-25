@@ -6,7 +6,6 @@ import android.graphics.Rect
 import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Surface
 import android.view.View
 import android.widget.Toast
@@ -23,6 +22,7 @@ import com.willowtree.vocable.facetracking.FaceTrackFragment
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -232,7 +232,7 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     private fun checkIsSupportedDeviceOrFinish(): Boolean {
         if (ArCoreApk.getInstance().checkAvailability(this) === ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE) {
-            Log.e("TAG", "Augmented Faces requires ARCore.")
+            Timber.e("TAG", "Augmented Faces requires ARCore.")
             Toast.makeText(this, "Augmented Faces requires ARCore", Toast.LENGTH_LONG).show()
             finish()
             return false
@@ -242,7 +242,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 .deviceConfigurationInfo
                 .glEsVersion
         if (java.lang.Double.parseDouble(openGlVersionString) < minOpenGlVersion) {
-            Log.e("TAG", "Sceneform requires OpenGL ES 3.0 later")
+            Timber.e("TAG", "Sceneform requires OpenGL ES 3.0 later")
             Toast.makeText(this, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
                 .show()
             finish()
