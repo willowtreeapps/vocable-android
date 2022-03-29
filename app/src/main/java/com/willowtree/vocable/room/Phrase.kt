@@ -12,7 +12,8 @@ import java.util.*
 @Entity
 @Parcelize
 data class Phrase(
-    @PrimaryKey @ColumnInfo(name = "phrase_id") val phraseId: String,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "phrase_id") val phraseId: Long,
+    @ColumnInfo(name = "parent_category_id") val parentCategoryId: String,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
     @ColumnInfo(name = "is_user_generated") val isUserGenerated: Boolean,
     @ColumnInfo(name = "last_spoken_date") val lastSpokenDate: Long,

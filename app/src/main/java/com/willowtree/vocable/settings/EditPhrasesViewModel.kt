@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,12 +47,12 @@ class EditPhrasesViewModel : BaseViewModel() {
             with(presetsRepository) {
                 deletePhrase(phrase)
                 val mySayingsCategory = getCategoryById(PresetCategories.USER_FAVORITES.id)
-                deleteCrossRef(
-                    CategoryPhraseCrossRef(
-                        mySayingsCategory.categoryId,
-                        phrase.phraseId
-                    )
-                )
+//                deleteCrossRef( WILL:
+//                    CategoryPhraseCrossRef(
+//                        mySayingsCategory.categoryId,
+//                        phrase.phraseId
+//                    )
+//                )
             }
             populateMySayings()
         }
@@ -77,10 +76,10 @@ class EditPhrasesViewModel : BaseViewModel() {
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
-            val phraseId = UUID.randomUUID().toString()
             presetsRepository.addPhrase(
                 Phrase(
-                    phraseId,
+                    0L,
+                    PresetCategories.RECENTS.id,
                     System.currentTimeMillis(),
                     true,
                     System.currentTimeMillis(),
@@ -89,8 +88,8 @@ class EditPhrasesViewModel : BaseViewModel() {
                     mySayingsPhrases.size
                 )
             )
-            presetsRepository.addCrossRef(CategoryPhraseCrossRef(PresetCategories.USER_FAVORITES.id, phraseId))
-
+            //presetsRepository.addCrossRef(CategoryPhraseCrossRef(PresetCategories.USER_FAVORITES.id, phraseId))
+            //WILL:
             populateMySayings()
 
             liveShowPhraseAdded.postValue(true)

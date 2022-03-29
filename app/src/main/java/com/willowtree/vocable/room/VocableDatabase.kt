@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Category::class, Phrase::class, CategoryPhraseCrossRef::class], version = 5)
+@Database(entities = [Category::class, Phrase::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
 
@@ -34,6 +34,6 @@ abstract class VocableDatabase : RoomDatabase() {
 
     abstract fun phraseDao(): PhraseDao
 
-    abstract fun categoryPhraseCrossRefDao(): CategoryPhraseCrossRefDao
+    //abstract fun categoryPhraseCrossRefDao(): CategoryPhraseCrossRefDao
 }
 
