@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
@@ -68,20 +67,20 @@ class EditCategoriesViewModel : BaseViewModel() {
             val phraseIds = phrasesForCategory.map { it.phraseId }
 
             // Get a list of all of the phrases' cross refs (associations with categories)
-            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(phraseIds)
-
-            // Filter out any phrases that are associated with more than just the category being deleted
-            val phrasesToDelete = phrasesForCategory.filter { phrase ->
-                crossRefs.filter { crossRef -> crossRef.phraseId == phrase.phraseId }.size == 1
-            }
-            // Delete the phrases
-            if (phrasesToDelete.isNotEmpty()) {
-                presetsRepository.deletePhrases(phrasesToDelete)
-            }
-
-            // Delete cross refs for the category being deleted
-            val crossRefsToDelete = crossRefs.filter { it.categoryId == categoryId }
-            presetsRepository.deleteCrossRefs(crossRefsToDelete)
+//            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(phraseIds)
+//
+//            // Filter out any phrases that are associated with more than just the category being deleted
+//            val phrasesToDelete = phrasesForCategory.filter { phrase ->
+//                crossRefs.filter { crossRef -> crossRef.phraseId == phrase.phraseId }.size == 1
+//            }
+//            // Delete the phrases
+//            if (phrasesToDelete.isNotEmpty()) { WILL:
+//                presetsRepository.deletePhrases(phrasesToDelete)
+//            }
+//
+//            // Delete cross refs for the category being deleted
+//            val crossRefsToDelete = crossRefs.filter { it.categoryId == categoryId }
+//            presetsRepository.deleteCrossRefs(crossRefsToDelete)
 
             // Delete the category
             presetsRepository.deleteCategory(category)
@@ -102,20 +101,20 @@ class EditCategoriesViewModel : BaseViewModel() {
     fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
         backgroundScope.launch {
             // Get a list of all of the phrases' cross refs (associations with categories)
-            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(listOf(phrase.phraseId))
-
-            // Delete the cross ref with the given category
-            presetsRepository.deleteCrossRef(
-                CategoryPhraseCrossRef(
-                    category.categoryId,
-                    phrase.phraseId
-                )
-            )
+//            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(listOf(phrase.phraseId))
+//
+//            // Delete the cross ref with the given category
+//            presetsRepository.deleteCrossRef(
+//                CategoryPhraseCrossRef(
+//                    category.categoryId,
+//                    phrase.phraseId
+//                )
+//            )
 
             // If the phrase is only associated with this category, delete it entirely
-            if (crossRefs.size == 1) {
-                presetsRepository.deletePhrase(phrase)
-            }
+//            if (crossRefs.size == 1) {
+//                presetsRepository.deletePhrase(phrase)
+//            }
 
             // Refresh phrase list
             fetchCategoryPhrases(category)

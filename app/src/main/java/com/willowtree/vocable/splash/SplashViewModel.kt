@@ -8,16 +8,19 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
 import org.koin.core.get
 import org.koin.core.inject
+import timber.log.Timber
 import java.util.*
 
 class SplashViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
+
+    private val sharedPrefs: VocableSharedPreferences by inject()
 
     private val liveExitSplash = MutableLiveData<Boolean>()
     val exitSplash: LiveData<Boolean> = liveExitSplash
@@ -31,8 +34,12 @@ class SplashViewModel : BaseViewModel() {
             val newCategoryId = UUID.randomUUID().toString()
 
             moveMySayings(newCategoryId)
+            Timber.d("WILL: 2")
 
-            presetsRepository.populateDatabase()
+            if (sharedPrefs.getFirstTime()) {
+                sharedPrefs.setFirstTime()
+                presetsRepository.populateDatabase()
+            }
 
             // we need to call this after populating the db so that the resource IDs are correct
             updateMySayingsName(newCategoryId)
@@ -58,6 +65,8 @@ class SplashViewModel : BaseViewModel() {
     }
 
     private suspend fun moveMySayings(newCategoryId: String) {
+
+        Timber.d("WILL: move savings")
         // Get the old My Sayings category
         val mySayingsCategory =
             presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
@@ -88,16 +97,17 @@ class SplashViewModel : BaseViewModel() {
             presetsRepository.addCategory(newCategory)
 
             // Get the phrases from the old My Sayings category and add cross refs with the new category
+            Timber.d("WILL: 6")
             val mySayingsPhrases =
                 presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
             mySayingsPhrases.forEach {
-                presetsRepository.addCrossRef(CategoryPhraseCrossRef(newCategoryId, it.phraseId))
+                //presetsRepository.addCrossRef(CategoryPhraseCrossRef(newCategoryId, it.phraseId))
             }
 
             // Get the old My Sayings cross refs and delete them
-            val mySayingsCrossRefs =
-                presetsRepository.getCrossRefsForCategoryId(PresetCategories.USER_FAVORITES.id)
-            mySayingsCrossRefs.forEach { presetsRepository.deleteCrossRef(it) }
+//            val mySayingsCrossRefs = WILL:
+//                presetsRepository.getCrossRefsForCategoryId(PresetCategories.USER_FAVORITES.id)
+//            mySayingsCrossRefs.forEach { presetsRepository.deleteCrossRef(it) }
         }
 
         if (mySayingsCategory != null) {

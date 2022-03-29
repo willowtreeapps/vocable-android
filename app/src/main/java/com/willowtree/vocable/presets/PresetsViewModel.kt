@@ -38,27 +38,29 @@ class PresetsViewModel : BaseViewModel() {
     fun onCategorySelected(category: Category) {
         liveSelectedCategory.postValue(category)
         backgroundScope.launch {
-            val cat = presetsRepository.getCategoryById(category.categoryId)
+            val catId = presetsRepository.getCategoryById(category.categoryId)
 
             // make sure the category wasn't deleted before getting its phrases
-            if (cat != null) {
+            if (catId != null) {
                 var phrases: MutableList<Phrase> = mutableListOf()
 
                 // if the selected category was the Recents category, we need to invert the sort so
                 // the most recently added phrases are at the top
-                Timber.d("WILL: 1")
-                if (cat.categoryId == PresetCategories.RECENTS.id) {
-                    // get the Recents crossRefs
-                    var crossRefs = presetsRepository.getCrossRefsForCategoryId(PresetCategories.RECENTS.id)
-                    Timber.d("WILL: cross refs $crossRefs")
-
-                    // sort them in descending order by timestamp
-                    crossRefs = crossRefs.sortedByDescending { it.timestamp }
-
-                    // for each crossRef, add its phrase to the list
-                    crossRefs.forEach {
-                        phrases.add(presetsRepository.getPhraseById(it.phraseId))
-                    }
+                if (catId.categoryId == PresetCategories.RECENTS.id) {
+//                    // get the Recents crossRefs
+//                    var crossRefs = presetsRepository.getCrossRefsForCategoryId(PresetCategories.RECENTS.id)
+//                    WILL:
+//
+//                    // sort them in descending order by timestamp
+//                    crossRefs = crossRefs.sortedByDescending { it.timestamp }
+//
+//                    // for each crossRef, add its phrase to the list
+//                    crossRefs.forEach {
+//                        phrases.add(presetsRepository.getPhraseById(it.phraseId))
+//                    }
+                    Timber.d("WILL: display recents")
+                    phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                        .sortedBy { it.lastSpokenDate }.toMutableList()
                 } else {
                     phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()
