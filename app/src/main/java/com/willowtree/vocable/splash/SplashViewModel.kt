@@ -8,7 +8,6 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.utils.LocalizedResourceUtility
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
 import org.koin.core.get
@@ -69,10 +68,10 @@ class SplashViewModel : BaseViewModel() {
         Timber.d("WILL: move savings")
         // Get the old My Sayings category
         val mySayingsCategory =
-            presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
+            presetsRepository.getCategoryById(PresetCategories.MY_SAYINGS.id)
 
         // if the user has My Sayings phrases, we need to migrate them to a custom category
-        if (presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
+        if (presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
                 .isNotEmpty()
         ) {
             val allCategories = presetsRepository.getAllCategories()
@@ -99,7 +98,7 @@ class SplashViewModel : BaseViewModel() {
             // Get the phrases from the old My Sayings category and add cross refs with the new category
             Timber.d("WILL: 6")
             val mySayingsPhrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
+                presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
             mySayingsPhrases.forEach {
                 //presetsRepository.addCrossRef(CategoryPhraseCrossRef(newCategoryId, it.phraseId))
             }

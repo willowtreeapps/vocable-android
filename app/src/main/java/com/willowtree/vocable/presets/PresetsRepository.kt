@@ -22,7 +22,6 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
-        Timber.d("WILL: get phrases for $categoryId")
         return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: listOf()
     }
 
@@ -31,19 +30,53 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun addPhraseToRecents(phrase: Phrase) {
-        Timber.d("WILL: adding phrase called ${phrase.localizedUtterance}")
-        addPhrase(
-            Phrase(
-                phraseId = 0L,
-                parentCategoryId = PresetCategories.RECENTS.id,
-                creationDate = Calendar.getInstance().timeInMillis,
-                isUserGenerated = phrase.isUserGenerated,
-                lastSpokenDate = Calendar.getInstance().timeInMillis,
-                resourceId = phrase.resourceId,
-                localizedUtterance = phrase.localizedUtterance,
-                sortOrder = phrase.sortOrder
-            )
+        Timber.d("WILL: adding phrase: ${phrase.localizedUtterance} or ${phrase.resourceId}")
+
+        val phrases = getPhrasesForCategory(
+            PresetCategories.RECENTS.id
         )
+        val recentPhrase = phrases.firstOrNull {
+            it.localizedUtterance == phrase.localizedUtterance &&
+                    it.resourceId == phrase.resourceId
+        }
+        if (recentPhrase == null) {
+            addPhrase(
+                Phrase(
+                    phraseId = 0L,
+                    parentCategoryId = PresetCategories.RECENTS.id,
+                    creationDate = Calendar.getInstance().timeInMillis,
+                    isUserGenerated = phrase.isUserGenerated,
+                    lastSpokenDate = Calendar.getInstance().timeInMillis,
+                    resourceId = phrase.resourceId,
+                    localizedUtterance = phrase.localizedUtterance,
+                    sortOrder = phrase.sortOrder
+                )
+            )
+            if (phrases.size > 7) {
+                phrases.minByOrNull {
+                    it.lastSpokenDate
+                }?.let {
+                    Timber.d("WILL: deleting phrase: ${phrase.localizedUtterance} or ${phrase.resourceId}")
+                    deletePhrase(
+                        it
+                    )
+                }
+            }
+        } else {
+            Timber.d("WILL: else")
+            updatePhrase(
+                Phrase(
+                    recentPhrase.phraseId,
+                    PresetCategories.RECENTS.id,
+                    phrase.creationDate,
+                    phrase.isUserGenerated,
+                    Calendar.getInstance().timeInMillis,
+                    phrase.resourceId,
+                    phrase.localizedUtterance,
+                    phrase.sortOrder
+                )
+            )
+        }
 
         /**
          * TODO: WILL:
@@ -108,7 +141,7 @@ class PresetsRepository(context: Context) : KoinComponent {
     suspend fun populateDatabase() {
         Timber.d("WILL: 2")
         PresetCategories.values().forEach { presetCategory ->
-            if (presetCategory == PresetCategories.RECENTS || presetCategory == PresetCategories.USER_FAVORITES) {
+            if (presetCategory == PresetCategories.RECENTS || presetCategory == PresetCategories.MY_SAYINGS) {
                 Timber.d("WILL: recent user")
             } else {
                 val phrasesIds =

@@ -96,21 +96,21 @@ class MigrationTest {
 
         helper.createDatabase(TEST_DB, 3).apply {
             // Create mock My Sayings category
-            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
+            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
 
             // Add custom phrases to My Sayings category
             execSQL("INSERT INTO Phrase (phrase_id, creation_date, is_user_generated, last_spoken_date, localized_utterance, sort_order) VALUES ('$phraseOneId', $creationDateOne, 1, $creationDateOne, '$mySayingTestPhraseOneV3', 0)")
-            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.USER_FAVORITES.id}', '$phraseOneId')")
+            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.MY_SAYINGS.id}', '$phraseOneId')")
 
             execSQL("INSERT INTO Phrase (phrase_id, creation_date, is_user_generated, last_spoken_date, localized_utterance, sort_order) VALUES ('$phraseTwoId', $creationDateTwo, 1, $creationDateTwo, '$mySayingTestPhraseTwoV3', 1)")
-            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.USER_FAVORITES.id}', '$phraseTwoId')")
+            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.MY_SAYINGS.id}', '$phraseTwoId')")
             close()
         }
 
         helper.runMigrationsAndValidate(TEST_DB, 4, true, VocableDatabaseMigrations.MIGRATION_3_4)
             .apply {
                 // Verify that new schema is as expected
-                val categoryId = PresetCategories.USER_FAVORITES.id
+                val categoryId = PresetCategories.MY_SAYINGS.id
                 val crossRefCursor =
                     query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val myLocalizedSayings = arrayListOf<String>()
@@ -150,7 +150,7 @@ class MigrationTest {
 
         helper.createDatabase(TEST_DB, 3).apply {
             // Create mock My Sayings category
-            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
+            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, '$mySayingsCategoryNameV3', 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
 
             close()
         }
@@ -158,7 +158,7 @@ class MigrationTest {
         helper.runMigrationsAndValidate(TEST_DB, 4, true, VocableDatabaseMigrations.MIGRATION_3_4)
             .apply {
                 // Verify that new schema is as expected
-                val categoryId = PresetCategories.USER_FAVORITES.id
+                val categoryId = PresetCategories.MY_SAYINGS.id
                 val crossRefCursor =
                     query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val myLocalizedSayings = arrayListOf<String>()
@@ -204,11 +204,11 @@ class MigrationTest {
 
         helper.createDatabase(TEST_DB, 4).apply {
             // Create mock My Sayings category. This replicates a user who's added phrases before Custom Categories was a thing.
-            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.USER_FAVORITES.id}', ${System.currentTimeMillis()}, 0, '$categoryNameV4', 0, ${PresetCategories.USER_FAVORITES.initialSortOrder})")
+            execSQL("INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, '$categoryNameV4', 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
 
             // Add custom phrase to the category you just created.
             execSQL("INSERT INTO Phrase (phrase_id, creation_date, is_user_generated, last_spoken_date, localized_utterance, sort_order) VALUES ('$phraseId', $creationDate, 1, $creationDate, '$testPhraseV4', 0)")
-            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.USER_FAVORITES.id}', '$phraseId')")
+            execSQL("INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES ('${PresetCategories.MY_SAYINGS.id}', '$phraseId')")
 
             close()
         }
@@ -216,7 +216,7 @@ class MigrationTest {
         helper.runMigrationsAndValidate(TEST_DB, 5, true, VocableDatabaseMigrations.MIGRATION_4_5)
             .apply {
                 // Verify that new schema is as expected.
-                val categoryId = PresetCategories.USER_FAVORITES.id
+                val categoryId = PresetCategories.MY_SAYINGS.id
                 val crossRefCursor =
                     query("SELECT * FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val phrasesAdded = arrayListOf<String>()

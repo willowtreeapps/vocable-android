@@ -21,6 +21,7 @@ import com.willowtree.vocable.databinding.PhraseEditLayoutBinding
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
 
@@ -112,6 +113,7 @@ class EditPhrasesFragment : BaseFragment<FragmentEditPhrasesBinding>() {
             dialogPositiveButton.apply {
                 text = getString(R.string.delete)
                 action = {
+                    Timber.d("WILL: deleting phrase...")
                     editPhrasesViewModel.deletePhrase(phrase)
                     toggleDialogVisibility(false)
                     setSettingsButtonsEnabled(true)

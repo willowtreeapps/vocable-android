@@ -8,6 +8,7 @@ import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
 import org.koin.core.inject
 import timber.log.Timber
+import java.util.*
 
 class PresetsViewModel : BaseViewModel() {
 
@@ -60,7 +61,7 @@ class PresetsViewModel : BaseViewModel() {
 //                    }
                     Timber.d("WILL: display recents")
                     phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
-                        .sortedBy { it.lastSpokenDate }.toMutableList()
+                        .sortedBy { it.lastSpokenDate }.reversed().toMutableList()
                 } else {
                     phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()

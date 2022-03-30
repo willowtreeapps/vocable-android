@@ -32,16 +32,7 @@ class AddPhraseViewModel : BaseViewModel() {
 
     fun deletePhrase(phrase: Phrase) {
         backgroundScope.launch {
-            with(presetsRepository) {
-                deletePhrase(phrase)
-                val mySayingsCategory = getCategoryById(PresetCategories.USER_FAVORITES.id)
-//                deleteCrossRef(
-//                    CategoryPhraseCrossRef(
-//                        mySayingsCategory.categoryId,
-//                        phrase.phraseId
-//                    )
-//                )
-            }
+            presetsRepository.deletePhrase(phrase)
             populateMySayings()
         }
     }
@@ -63,7 +54,7 @@ class AddPhraseViewModel : BaseViewModel() {
             presetsRepository.addPhrase(
                 Phrase(
                     0L,
-                    PresetCategories.RECENTS.id,
+                    categoryId,
                     System.currentTimeMillis(),
                     true,
                     System.currentTimeMillis(),
@@ -72,7 +63,6 @@ class AddPhraseViewModel : BaseViewModel() {
                     mySayingsPhrases.size
                 )
             )
-            //presetsRepository.addCrossRef(CategoryPhraseCrossRef(categoryId, phraseId))
 
             populateMySayings()
 

@@ -9,6 +9,7 @@ import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
+import timber.log.Timber
 import java.util.*
 
 class EditPhrasesViewModel : BaseViewModel() {
@@ -36,23 +37,17 @@ class EditPhrasesViewModel : BaseViewModel() {
         backgroundScope.launch {
 
             val phrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id).sortedBy { it.sortOrder }
+                presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id).sortedBy { it.sortOrder }
 
             liveMySayingsList.postValue(phrases)
         }
     }
 
     fun deletePhrase(phrase: Phrase) {
+        Timber.d("WILL: deleting phrase: ${phrase.localizedUtterance} or ${phrase.resourceId}")
         backgroundScope.launch {
             with(presetsRepository) {
                 deletePhrase(phrase)
-                val mySayingsCategory = getCategoryById(PresetCategories.USER_FAVORITES.id)
-//                deleteCrossRef( WILL:
-//                    CategoryPhraseCrossRef(
-//                        mySayingsCategory.categoryId,
-//                        phrase.phraseId
-//                    )
-//                )
             }
             populateMySayings()
         }
@@ -75,7 +70,7 @@ class EditPhrasesViewModel : BaseViewModel() {
 
     fun addNewPhrase(phraseStr: String) {
         backgroundScope.launch {
-            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
             presetsRepository.addPhrase(
                 Phrase(
                     0L,
