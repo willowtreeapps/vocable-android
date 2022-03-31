@@ -6,7 +6,7 @@ import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 
 class PresetsViewModel : BaseViewModel() {
 
