@@ -9,7 +9,7 @@ import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.*
 
 class EditPhrasesViewModel : BaseViewModel() {

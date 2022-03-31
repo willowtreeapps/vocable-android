@@ -9,7 +9,7 @@ import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.*
 
 class AddPhraseViewModel : BaseViewModel() {
@@ -22,41 +22,6 @@ class AddPhraseViewModel : BaseViewModel() {
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
-
-    init {
-        populateMySayings()
-    }
-
-    private fun populateMySayings() {
-
-    }
-
-    fun deletePhrase(phrase: Phrase) {
-        backgroundScope.launch {
-            with(presetsRepository) {
-                deletePhrase(phrase)
-                val mySayingsCategory = getCategoryById(PresetCategories.USER_FAVORITES.id)
-                deleteCrossRef(
-                    CategoryPhraseCrossRef(
-                        mySayingsCategory.categoryId,
-                        phrase.phraseId
-                    )
-                )
-            }
-            populateMySayings()
-        }
-    }
-
-    fun updatePhrase(phrase: Phrase) {
-        backgroundScope.launch {
-            presetsRepository.updatePhrase(phrase)
-            populateMySayings()
-
-            liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_UPDATED_DELAY)
-            liveShowPhraseAdded.postValue(false)
-        }
-    }
 
     fun addNewPhrase(phraseStr: String, categoryId: String) {
         backgroundScope.launch {
@@ -75,12 +40,9 @@ class AddPhraseViewModel : BaseViewModel() {
             )
             presetsRepository.addCrossRef(CategoryPhraseCrossRef(categoryId, phraseId))
 
-            populateMySayings()
-
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)
             liveShowPhraseAdded.postValue(false)
         }
     }
-
 }

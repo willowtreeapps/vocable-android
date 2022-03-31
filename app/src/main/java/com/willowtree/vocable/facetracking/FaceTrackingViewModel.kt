@@ -8,9 +8,9 @@ import com.google.ar.sceneform.math.Vector3
 import com.willowtree.vocable.R
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.*
-import org.koin.core.KoinComponent
-import org.koin.core.get
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import org.koin.core.component.inject
 
 class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
 
