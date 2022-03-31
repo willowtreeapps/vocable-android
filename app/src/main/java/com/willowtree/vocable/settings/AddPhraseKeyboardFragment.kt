@@ -64,7 +64,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
             }
         }
 
-        (binding.phraseSavedView.root as TextView).apply {
+        (binding.phraseSavedView.root).apply {
             setText(R.string.new_phrase_saved)
         }
 

@@ -36,7 +36,7 @@ class MainActivity : BaseActivity() {
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
 
-        binding.mainNavHostFragment?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        binding.mainNavHostFragment.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             allViews.clear()
         }
     }

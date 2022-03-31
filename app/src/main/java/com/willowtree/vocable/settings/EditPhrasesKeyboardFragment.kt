@@ -86,7 +86,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
         binding.keyboardInput.setText(inputText)
 
-        (binding.phraseSavedView.root as TextView).apply {
+        (binding.phraseSavedView.root).apply {
             if (phrase == null) {
                 setText(R.string.new_phrase_saved)
             } else {

@@ -1,16 +1,12 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
-
-apply plugin: "androidx.navigation.safeargs.kotlin"
-
-apply plugin: 'com.google.gms.google-services'
-
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id "androidx.navigation.safeargs.kotlin"
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
 
 android {
     compileSdkVersion 32
@@ -56,6 +52,10 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
     useLibrary 'android.test.runner'
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -80,8 +80,8 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
 
-    implementation 'org.koin:koin-core:2.0.1'
-    implementation 'org.koin:koin-android:2.0.1'
+    implementation 'io.insert-koin:koin-core:3.1.5'
+    implementation 'io.insert-koin:koin-android:3.1.5'
 
     implementation "androidx.room:room-runtime:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"
@@ -92,7 +92,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
 
-    implementation 'com.google.firebase:firebase-analytics:20.1.1'
+    implementation 'com.google.firebase:firebase-analytics:20.1.2'
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.9'
 
     // Moshi

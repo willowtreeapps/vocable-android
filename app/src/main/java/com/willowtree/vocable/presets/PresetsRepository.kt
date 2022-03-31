@@ -5,8 +5,8 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.room.VocableDatabase
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import java.util.*
 
 class PresetsRepository(context: Context) : KoinComponent {
@@ -178,7 +178,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                         it.initialSortOrder
                     )
                 }
-
             )
 
             // delete non-user-generated cross-refs
