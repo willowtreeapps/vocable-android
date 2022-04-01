@@ -4,6 +4,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashSet
@@ -127,5 +128,43 @@ object VocableDatabaseMigrations {
             database.execSQL("ALTER TABLE CategoryPhraseCrossRef ADD COLUMN timestamp INTEGER")
         }
 
+    }
+
+    val MIGRATION_5_6: Migration = object : Migration(5, 6) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            Timber.d("WILL: starting migration")
+            //database.execSQL("ALTER TABLE Phrase ADD COLUMN parent_category_id TEXT")
+            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+
+            //Get user's custom categories
+            database.query("SELECT category_id FROM Category WHERE is_user_generated = TRUE")
+            val phraseIds =  mutableMapOf<String, String>()
+
+            val crossRefCursor =
+                database.query("SELECT * FROM CategoryPhraseCrossRef")
+            while (crossRefCursor.moveToNext()) {
+                phraseIds[crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))] =
+                    crossRefCursor.getString(crossRefCursor.getColumnIndex("category_id"))
+            }
+            crossRefCursor.close()
+
+            val phraseCursor =
+                database.query("SELECT * FROM Phrase WHERE is_user_generated=TRUE")
+            while (phraseCursor.moveToNext()) {
+                val parentID = phraseIds[phraseCursor.getString(phraseCursor.getColumnIndex("phrase_id"))]
+                val creationDate = phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
+                val lastSpokenDate = phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
+                val localizedUtterance = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
+                Timber.d("WILL: adding custom phrases to $parentID")
+
+                database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, is_user_generated, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, TRUE, $lastSpokenDate, null, '$localizedUtterance', $sortOrder)")
+            }
+            phraseCursor.close()
+
+            database.execSQL("DROP TABLE Phrase")
+            database.execSQL("DROP TABLE CategoryPhraseCrossRef")
+            database.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
+        }
     }
 }
