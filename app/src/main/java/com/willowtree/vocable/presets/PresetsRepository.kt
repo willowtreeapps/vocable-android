@@ -139,7 +139,7 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     //Initial DB populate
     suspend fun populateDatabase() {
-        Timber.d("WILL: 2")
+        Timber.d("WILL: populate called")
         PresetCategories.values().forEach { presetCategory ->
             if (presetCategory == PresetCategories.RECENTS || presetCategory == PresetCategories.MY_SAYINGS) {
                 Timber.d("WILL: recent user")
@@ -164,7 +164,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                 phrasesIds.recycle()
                 populatePhrases(phraseObjects)
             }
-            Timber.d("WILL: test boy")
             database.categoryDao().insertCategories(
                 Category(
                     presetCategory.id,
@@ -178,5 +177,6 @@ class PresetsRepository(context: Context) : KoinComponent {
 
             )
         }
+        Timber.d("WILL: populate finished")
     }
 }

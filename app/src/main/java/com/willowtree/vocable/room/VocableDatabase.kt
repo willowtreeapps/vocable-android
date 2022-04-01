@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Category::class, Phrase::class], version = 5)
+@Database(entities = [Category::class, Phrase::class], version = 6)
 @TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
 
@@ -22,7 +22,8 @@ abstract class VocableDatabase : RoomDatabase() {
                             VocableDatabaseMigrations.MIGRATION_1_2,
                             VocableDatabaseMigrations.MIGRATION_2_3,
                             VocableDatabaseMigrations.MIGRATION_3_4,
-                            VocableDatabaseMigrations.MIGRATION_4_5
+                            VocableDatabaseMigrations.MIGRATION_4_5,
+                            VocableDatabaseMigrations.MIGRATION_5_6
                         )
                         .build()
             }

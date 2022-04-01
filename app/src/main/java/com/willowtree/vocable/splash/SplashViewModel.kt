@@ -33,11 +33,11 @@ class SplashViewModel : BaseViewModel() {
             val newCategoryId = UUID.randomUUID().toString()
 
             moveMySayings(newCategoryId)
-            Timber.d("WILL: 2")
+            Timber.d("WILL: checking prefs ${sharedPrefs.getFirstTime()}")
 
             if (sharedPrefs.getFirstTime()) {
-                sharedPrefs.setFirstTime()
                 presetsRepository.populateDatabase()
+                sharedPrefs.setFirstTime()
             }
 
             // we need to call this after populating the db so that the resource IDs are correct
