@@ -87,10 +87,6 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
 
-    suspend fun getPhraseById(id: String): Phrase {
-        return database.phraseDao().getPhraseById(id)
-    }
-
     suspend fun deletePhrase(phrase: Phrase) {
         database.phraseDao().deletePhrase(phrase)
     }
