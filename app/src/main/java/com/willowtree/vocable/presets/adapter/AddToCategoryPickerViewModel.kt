@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.keyboard.KeyboardViewModel
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
@@ -11,6 +12,7 @@ import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
+import java.util.*
 
 class AddToCategoryPickerViewModel : BaseViewModel() {
 
@@ -91,14 +93,21 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
 
     private fun deletePhraseFromCategory(phraseString: String, category: Category) {
         backgroundScope.launch {
-            var phrase: Phrase? = null
 
-            val phrasesInCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-            for (p in phrasesInCategory) {
-                if (localizedResourceUtility.getTextFromPhrase(p) == phraseString) {
-                    phrase = p
-                }
+            val phrase = presetsRepository.getPhrasesForCategory(category.categoryId).firstOrNull {
+                it.localizedUtterance == mapOf(Pair(Locale.getDefault().toString(), phraseString))
             }
+            phrase ?: return@launch
+
+            presetsRepository.deletePhrase(phrase)
+            presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
+                .firstOrNull {
+                    it.localizedUtterance == phrase.localizedUtterance
+                }?.let {
+                    presetsRepository.deletePhrase(
+                        it
+                    )
+                }
 
             liveShowPhraseDeleted.postValue(true)
             delay(KeyboardViewModel.PHRASE_ADDED_DELAY)
@@ -108,7 +117,21 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
 
     private fun addNewPhrase(phraseString: String, category: Category) {
         backgroundScope.launch {
+            val categoryPhrases =
+                presetsRepository.getPhrasesForCategory(category.categoryId)
 
+            presetsRepository.addPhrase(
+                Phrase(
+                    phraseId = 0L,
+                    parentCategoryId = category.categoryId,
+                    creationDate = System.currentTimeMillis(),
+                    isUserGenerated = true,
+                    lastSpokenDate = System.currentTimeMillis(),
+                    resourceId = null,
+                    localizedUtterance = mapOf(Pair(Locale.getDefault().toString(), phraseString)),
+                    sortOrder = categoryPhrases.size
+                )
+            )
         }
     }
 
