@@ -6,7 +6,6 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.room.VocableDatabase
 import org.koin.core.KoinComponent
 import org.koin.core.get
-import timber.log.Timber
 import java.util.*
 
 class PresetsRepository(context: Context) : KoinComponent {
@@ -30,7 +29,6 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun addPhraseToRecents(phrase: Phrase) {
-        Timber.d("WILL: adding phrase: ${phrase.localizedUtterance} or ${phrase.resourceId}")
 
         val phrases = getPhrasesForCategory(
             PresetCategories.RECENTS.id
@@ -56,14 +54,12 @@ class PresetsRepository(context: Context) : KoinComponent {
                 phrases.minByOrNull {
                     it.lastSpokenDate
                 }?.let {
-                    Timber.d("WILL: deleting phrase: ${phrase.localizedUtterance} or ${phrase.resourceId}")
                     deletePhrase(
                         it
                     )
                 }
             }
         } else {
-            Timber.d("WILL: else")
             updatePhrase(
                 Phrase(
                     recentPhrase.phraseId,
@@ -77,12 +73,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                 )
             )
         }
-
-        /**
-         * TODO: WILL:
-         * Check if it exists, and if it does, update the time stamp
-         * Check if there's more than X (9 or 18) recents, and if so remove the last one
-         */
     }
 
     suspend fun addCategory(category: Category) {
@@ -139,11 +129,8 @@ class PresetsRepository(context: Context) : KoinComponent {
 
     //Initial DB populate
     suspend fun populateDatabase() {
-        Timber.d("WILL: populate called")
         PresetCategories.values().forEach { presetCategory ->
-            if (presetCategory == PresetCategories.RECENTS || presetCategory == PresetCategories.MY_SAYINGS) {
-                Timber.d("WILL: recent user")
-            } else {
+            if (presetCategory != PresetCategories.RECENTS && presetCategory != PresetCategories.MY_SAYINGS) {
                 val phrasesIds =
                     get<Context>().resources.obtainTypedArray(presetCategory.getArrayId())
                 val phraseObjects = mutableListOf<Phrase>()
@@ -177,6 +164,5 @@ class PresetsRepository(context: Context) : KoinComponent {
 
             )
         }
-        Timber.d("WILL: populate finished")
     }
 }

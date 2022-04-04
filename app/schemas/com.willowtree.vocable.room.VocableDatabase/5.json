@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "49795bc51673c33b741658b15939739a",
+    "identityHash": "7c276fa640a1af3853540fb1734a8bd7",
     "entities": [
       {
         "tableName": "Category",
@@ -62,17 +62,11 @@
       },
       {
         "tableName": "Phrase",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))",
         "fields": [
           {
             "fieldPath": "phraseId",
             "columnName": "phrase_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "parentCategoryId",
-            "columnName": "parent_category_id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -117,7 +111,40 @@
           "columnNames": [
             "phrase_id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CategoryPhraseCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `phrase_id` TEXT NOT NULL, `timestamp` INTEGER, PRIMARY KEY(`category_id`, `phrase_id`))",
+        "fields": [
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phraseId",
+            "columnName": "phrase_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "category_id",
+            "phrase_id"
+          ],
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -126,7 +153,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '49795bc51673c33b741658b15939739a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7c276fa640a1af3853540fb1734a8bd7')"
     ]
   }
 }

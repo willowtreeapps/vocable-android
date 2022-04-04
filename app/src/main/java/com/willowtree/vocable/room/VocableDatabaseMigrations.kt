@@ -4,7 +4,6 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
-import timber.log.Timber
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashSet
@@ -132,7 +131,6 @@ object VocableDatabaseMigrations {
 
     val MIGRATION_5_6: Migration = object : Migration(5, 6) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            Timber.d("WILL: starting migration")
             //database.execSQL("ALTER TABLE Phrase ADD COLUMN parent_category_id TEXT")
             database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
@@ -156,7 +154,6 @@ object VocableDatabaseMigrations {
                 val lastSpokenDate = phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
                 val localizedUtterance = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                 val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
-                Timber.d("WILL: adding custom phrases to $parentID")
 
                 database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, is_user_generated, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, TRUE, $lastSpokenDate, null, '$localizedUtterance', $sortOrder)")
             }

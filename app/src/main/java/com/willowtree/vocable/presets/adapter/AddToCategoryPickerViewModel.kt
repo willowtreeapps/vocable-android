@@ -100,26 +100,6 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
                 }
             }
 
-            with(presetsRepository) {
-//                if (phrase != null) { WILL:
-//                    val crossRefs = getCrossRefsForPhraseIds(listOf(phrase.phraseId))
-//
-//                    // if the phrase is in only one category, delete it from the db entirely
-//                    if (crossRefs.size == 1) {
-//                        deletePhrase(phrase)
-//                    } else { // otherwise, just delete the one cross reference
-//                        crossRefs.forEach { ref ->
-//                            if (ref.categoryId == category.categoryId) {
-//                                deleteCrossRef(ref)
-//                            }
-//                        }
-//                    }
-//
-//                    // remove the category from the saved phrases map
-//                    savedPhrases.remove(category.categoryId)
-//                }
-            }
-
             liveShowPhraseDeleted.postValue(true)
             delay(KeyboardViewModel.PHRASE_ADDED_DELAY)
             liveShowPhraseDeleted.postValue(false)
@@ -128,33 +108,7 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
 
     private fun addNewPhrase(phraseString: String, category: Category) {
         backgroundScope.launch {
-//            val categoryForPhrase = presetsRepository.getCategoryById(category.categoryId)
-//            val phraseId = UUID.randomUUID().toString()
-//            val categoryPhrases =
-//                presetsRepository.getPhrasesForCategory(category.categoryId)
-//            with(presetsRepository) {
-//                val phrase = Phrase(
-//                    phraseId,
-//                    System.currentTimeMillis(),
-//                    true,
-//                    System.currentTimeMillis(),
-//                    null,
-//                    mapOf(Pair(Locale.getDefault().toString(), phraseString)),
-//                    categoryPhrases.size
-//                )
-//                addPhrase(phrase)
-//                savedPhrases[category.categoryId] = phrase
-//                addCrossRef(
-//                    CategoryPhraseCrossRef(
-//                        categoryForPhrase.categoryId,
-//                        phraseId
-//                    )
-//                )
-//            }
-//
-//            liveShowPhraseAdded.postValue(true)
-//            delay(KeyboardViewModel.PHRASE_ADDED_DELAY)
-//            liveShowPhraseAdded.postValue(false)
+
         }
     }
 
