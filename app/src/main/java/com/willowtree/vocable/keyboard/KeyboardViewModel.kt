@@ -33,42 +33,6 @@ class KeyboardViewModel : BaseViewModel() {
             checkIfPhraseSaved()
         }
 
-    fun addNewPhrase(phraseStr: String) {
-        backgroundScope.launch {
-            val mySayingsCategory =
-                presetsRepository.getCategoryById(PresetCategories.MY_SAYINGS.id)
-            //val phraseId = UUID.randomUUID().toString()
-            val mySayingsPhrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
-            with(presetsRepository) {
-                addPhrase(
-                    Phrase(
-                        0L,
-                        PresetCategories.RECENTS.id,
-                        System.currentTimeMillis(),
-                        true,
-                        System.currentTimeMillis(),
-                        null,
-                        mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
-                        mySayingsPhrases.size
-                    )
-                )
-//                addCrossRef( WILL:
-//                    CategoryPhraseCrossRef(
-//                        mySayingsCategory.categoryId,
-//                        phraseId
-//                    )
-//                )
-            }
-
-            checkIfPhraseSaved()
-
-            liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_ADDED_DELAY)
-            liveShowPhraseAdded.postValue(false)
-        }
-    }
-
     private fun checkIfPhraseSaved() {
         backgroundScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)

@@ -9,7 +9,6 @@ import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
-import timber.log.Timber
 import java.util.*
 
 class EditPhrasesViewModel : BaseViewModel() {
@@ -20,47 +19,12 @@ class EditPhrasesViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val liveMySayingsList = MutableLiveData<List<Phrase>>()
-    val mySayingsList: LiveData<List<Phrase>> = liveMySayingsList
-
-    private val liveSetButtonsEnabled = MutableLiveData<Boolean>()
-    val setButtonEnabled: LiveData<Boolean> = liveSetButtonsEnabled
-
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
-
-    init {
-        populateMySayings()
-    }
-
-    private fun populateMySayings() {
-        backgroundScope.launch {
-
-            val phrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id).sortedBy { it.sortOrder }
-
-            liveMySayingsList.postValue(phrases)
-        }
-    }
-
-    fun deletePhrase(phrase: Phrase) {
-        Timber.d("WILL: deleting phrase: ${phrase.localizedUtterance} or ${phrase.resourceId}")
-        backgroundScope.launch {
-            with(presetsRepository) {
-                deletePhrase(phrase)
-            }
-            populateMySayings()
-        }
-    }
-
-    fun setEditButtonsEnabled(enabled: Boolean) {
-        liveSetButtonsEnabled.postValue(enabled)
-    }
 
     fun updatePhrase(phrase: Phrase) {
         backgroundScope.launch {
             presetsRepository.updatePhrase(phrase)
-            populateMySayings()
 
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)
@@ -83,14 +47,10 @@ class EditPhrasesViewModel : BaseViewModel() {
                     mySayingsPhrases.size
                 )
             )
-            //presetsRepository.addCrossRef(CategoryPhraseCrossRef(PresetCategories.USER_FAVORITES.id, phraseId))
-            //WILL:
-            populateMySayings()
 
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)
             liveShowPhraseAdded.postValue(false)
         }
     }
-
 }

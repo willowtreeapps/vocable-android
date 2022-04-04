@@ -47,23 +47,11 @@ class PresetsViewModel : BaseViewModel() {
 
                 // if the selected category was the Recents category, we need to invert the sort so
                 // the most recently added phrases are at the top
-                if (catId.categoryId == PresetCategories.RECENTS.id) {
-//                    // get the Recents crossRefs
-//                    var crossRefs = presetsRepository.getCrossRefsForCategoryId(PresetCategories.RECENTS.id)
-//                    WILL:
-//
-//                    // sort them in descending order by timestamp
-//                    crossRefs = crossRefs.sortedByDescending { it.timestamp }
-//
-//                    // for each crossRef, add its phrase to the list
-//                    crossRefs.forEach {
-//                        phrases.add(presetsRepository.getPhraseById(it.phraseId))
-//                    }
-                    Timber.d("WILL: display recents")
-                    phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                phrases = if (catId.categoryId == PresetCategories.RECENTS.id) {
+                    presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.lastSpokenDate }.reversed().toMutableList()
                 } else {
-                    phrases = presetsRepository.getPhrasesForCategory(category.categoryId)
+                    presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()
                 }
                 liveCurrentPhrases.postValue(phrases)
