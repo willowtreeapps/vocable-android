@@ -21,6 +21,7 @@ import com.willowtree.vocable.databinding.CategoryButtonBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import android.util.Log
 
 class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
@@ -42,6 +43,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
     private val allViews = mutableListOf<View>()
     private var maxCategories = 1
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
+    private var categories = arrayListOf<Category>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +54,8 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
         maxCategories = resources.getInteger(R.integer.max_categories)
         val isTablet = resources.getBoolean(R.bool.is_tablet)
 
-        val categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES)
-        categories?.forEachIndexed { index, category ->
+        categories = arguments?.getParcelableArrayList<Category>(KEY_CATEGORIES) as ArrayList<Category>
+        categories.forEachIndexed { index, category ->
             val categoryButton =
                 CategoryButtonBinding.inflate(inflater, binding.categoryButtonContainer, false)
             with(categoryButton.root as CategoryButton) {
@@ -80,6 +82,8 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
                 })
             }
         }
+        Log.d("Caroline","categories are ${categories?.get(0).toString()}")
+//        refreshCategory(position)
         return binding.root
     }
 
@@ -138,4 +142,9 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
             }
         }
     }
+
+    fun refreshCategory(position: Int) {
+        viewModel.onCategorySelected(categories[position])
+    }
+
 }
