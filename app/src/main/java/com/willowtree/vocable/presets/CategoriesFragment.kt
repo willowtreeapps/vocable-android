@@ -138,9 +138,4 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
             }
         }
     }
-
-    fun refreshCategory(position: Int) {
-        viewModel.onCategorySelected(categories[position])
-    }
-
 }
