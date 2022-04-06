@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
@@ -288,8 +287,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
         VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
-        private lateinit var categoriesFragment : CategoriesFragment
-
         override fun getMaxItemsPerPage(): Int = maxCategories
 
         override fun createFragment(position: Int) =
@@ -304,7 +301,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 items[position]
             }
         }
-
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
