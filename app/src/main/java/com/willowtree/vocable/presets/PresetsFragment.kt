@@ -1,13 +1,13 @@
 package com.willowtree.vocable.presets
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
@@ -43,21 +43,17 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         maxCategories = resources.getInteger(R.integer.max_categories)
 
         binding.categoryForwardButton.action = {
-          //  Log.d("Caroline","forward button is called")
 
             when (val currentPosition = binding.categoryView.currentItem) {
                 categoriesAdapter.itemCount - 1 -> {
                     binding.categoryView.setCurrentItem(0, true)
-                    var result = categoriesAdapter.getCategory( categoriesAdapter.itemCount - 1)
+                    val currentCategory = categoriesAdapter.getCategory( 0)
+                    presetsViewModel.onCategorySelected(currentCategory)
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition + 1, true)
-//                    Log.d("Caroline","current position is $currentPosition")
-//                    Log.d("Caroline","current position is ${presetsViewModel.selectedCategory}")
-                    var currentCategory = categoriesAdapter.getCategory(currentPosition+1)
+                    val currentCategory = categoriesAdapter.getCategory(currentPosition+1)
                     presetsViewModel.onCategorySelected(currentCategory)
-                    Log.d("Caroline",currentCategory.toString())
-                   // presetsViewModel.onCategorySelected(presetsViewModel.)
                 }
             }
         }
@@ -66,13 +62,13 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             when (val currentPosition = binding.categoryView.currentItem) {
                 0 -> {
                     binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                    var result = categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1)
-                    Log.d("Caroline",result.toString())
+                    val currentCategory = categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1)
+                    presetsViewModel.onCategorySelected(currentCategory)
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition - 1, true)
-                    var result = categoriesAdapter.getCategory(currentPosition-1)
-                    Log.d("Caroline",result.toString())
+                    val currentCategory = categoriesAdapter.getCategory(currentPosition-1)
+                    presetsViewModel.onCategorySelected(currentCategory)
                 }
             }
         }
@@ -129,7 +125,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                     if (activity is MainActivity) {
                         activity.resetAllViews()
                     }
-                    Log.d("Caroline","register on page change call back")
                 }
             }
         })
@@ -303,8 +298,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         fun getSize(): Int = items.size
 
         fun getCategory(position: Int): Category{
-            Log.d("Caroline","position is $position")
-            return items[position]
+            return if(position>=items.size){
+                items[position%items.size]
+            }else{
+                items[position]
+            }
         }
 
     }
