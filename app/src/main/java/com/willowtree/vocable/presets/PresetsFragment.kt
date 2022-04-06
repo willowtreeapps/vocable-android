@@ -45,13 +45,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             when (val currentPosition = binding.categoryView.currentItem) {
                 categoriesAdapter.itemCount - 1 -> {
                     binding.categoryView.setCurrentItem(0, true)
-                    val currentCategory = categoriesAdapter.getCategory( 0)
-                    presetsViewModel.onCategorySelected(currentCategory)
+                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0))
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition + 1, true)
-                    val currentCategory = categoriesAdapter.getCategory(currentPosition+1)
-                    presetsViewModel.onCategorySelected(currentCategory)
+                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition+1))
                 }
             }
         }
@@ -60,13 +58,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             when (val currentPosition = binding.categoryView.currentItem) {
                 0 -> {
                     binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                    val currentCategory = categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1)
-                    presetsViewModel.onCategorySelected(currentCategory)
+                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1))
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition - 1, true)
-                    val currentCategory = categoriesAdapter.getCategory(currentPosition-1)
-                    presetsViewModel.onCategorySelected(currentCategory)
+                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition-1))
                 }
             }
         }
@@ -293,9 +289,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         fun getSize(): Int = items.size
 
-        fun getCategory(position: Int): Category{
-            return if(position>=items.size){
-                items[position%items.size]
+        fun getCategory(position: Int) : Category{
+            return if( position >= items.size){
+                items[position % items.size]
             }else{
                 items[position]
             }
