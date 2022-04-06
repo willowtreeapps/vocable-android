@@ -59,9 +59,6 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
             with(categoryButton.root as CategoryButton) {
                 tag = category
                 text = localizedResourceUtility.getTextFromCategory(category)
-                action = {
-                    viewModel.onCategorySelected(category)
-                }
                 if (!isTablet && index > 0 && index + 1 == maxCategories) {
                     layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
                         marginStart = 0
