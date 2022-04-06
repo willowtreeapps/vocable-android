@@ -42,7 +42,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         maxCategories = resources.getInteger(R.integer.max_categories)
 
         binding.categoryForwardButton.action = {
-
             when (val currentPosition = binding.categoryView.currentItem) {
                 categoriesAdapter.itemCount - 1 -> {
                     binding.categoryView.setCurrentItem(0, true)
