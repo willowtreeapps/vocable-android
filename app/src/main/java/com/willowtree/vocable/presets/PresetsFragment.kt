@@ -289,10 +289,10 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         fun getSize(): Int = items.size
 
-        fun getCategory(position: Int) : Category{
-            return if( position >= items.size){
+        fun getCategory(position: Int): Category{
+            return if(position >= items.size){
                 items[position % items.size]
-            }else{
+            } else {
                 items[position]
             }
         }
