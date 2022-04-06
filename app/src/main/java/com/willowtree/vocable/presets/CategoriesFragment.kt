@@ -82,8 +82,6 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
                 })
             }
         }
-        Log.d("Caroline","categories are ${categories?.get(0).toString()}")
-//        refreshCategory(position)
         return binding.root
     }
 
