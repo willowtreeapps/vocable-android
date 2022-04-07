@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.*
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class VocableConstraintLayout @JvmOverloads constructor(
     context: Context,
