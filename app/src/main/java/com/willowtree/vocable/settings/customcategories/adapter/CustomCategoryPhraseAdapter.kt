@@ -9,8 +9,8 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.EditCustomCategoryPhraseItemBinding
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class CustomCategoryPhraseAdapter(
     private var phrases: List<Phrase>,

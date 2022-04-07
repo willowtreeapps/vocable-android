@@ -13,7 +13,7 @@ import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.*
 
 class AddToCategoryPickerViewModel : BaseViewModel() {
