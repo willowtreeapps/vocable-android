@@ -9,8 +9,8 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CustomCategorySwitchItemBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class CustomCategoryAdapter(
     private var categories: Map<Category, Boolean>,
