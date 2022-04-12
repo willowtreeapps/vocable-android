@@ -1,19 +1,12 @@
 package com.willowtree.vocable.splash
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
-import com.willowtree.vocable.R
-import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
-import org.koin.core.get
-import org.koin.core.inject
-import timber.log.Timber
-import java.util.*
+import org.koin.core.component.inject
 
 class SplashViewModel : BaseViewModel() {
 

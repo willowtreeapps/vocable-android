@@ -8,7 +8,7 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.*
 
 class AddUpdateCategoryViewModel : BaseViewModel() {
