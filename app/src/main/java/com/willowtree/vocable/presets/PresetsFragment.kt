@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -114,6 +115,13 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         binding.categoryView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+
+                binding.phrasesPageNumber.text = getString(
+                        R.string.phrases_page_number,
+                        1,
+                        1
+                    )
+
                 activity?.let { activity ->
                     allViews.clear()
                     if (activity is MainActivity) {
@@ -126,7 +134,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         binding.phrasesView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+
                 val pageNum = position % phrasesAdapter.numPages + 1
+
                 binding.phrasesPageNumber.text = getString(
                     R.string.phrases_page_number,
                     pageNum,
@@ -194,9 +204,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handleCategories(categories: List<Category>) {
+    /* 4/11/2022 Commenting this out because categories are now being updated with forward and backward buttons and within the onResume
         if (categories.isNotEmpty()) {
             presetsViewModel.onCategorySelected(categories[0])
         }
+     */
 
         with(binding.categoryView) {
             val categoriesExist = categories.isNotEmpty()
@@ -225,6 +237,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             if (targetPosition % categoriesAdapter.numPages != 0) {
                 targetPosition %= categoriesAdapter.numPages
             }
+
 
             presetsViewModel.selectedCategory.value?.let { selectedCategory ->
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {

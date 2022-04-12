@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -36,9 +37,9 @@ class PresetsViewModel : BaseViewModel() {
 
     fun onCategorySelected(category: Category) {
         liveSelectedCategory.postValue(category)
+
         backgroundScope.launch {
             val cat = presetsRepository.getCategoryById(category.categoryId)
-
             // make sure the category wasn't deleted before getting its phrases
             if (cat != null) {
                 var phrases: MutableList<Phrase> = mutableListOf()
