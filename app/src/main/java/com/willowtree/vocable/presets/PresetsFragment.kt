@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -30,6 +31,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
     private var maxCategories = 1
     private var maxPhrases = 1
+    private var isPortraitMode = true
+    private var isTabletMode = false
 
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
@@ -41,16 +44,27 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         maxCategories = resources.getInteger(R.integer.max_categories)
+        isPortraitMode = resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+        isTabletMode = resources.getBoolean(R.bool.is_tablet)
 
         binding.categoryForwardButton.action = {
             when (val currentPosition = binding.categoryView.currentItem) {
                 categoriesAdapter.itemCount - 1 -> {
                     binding.categoryView.setCurrentItem(0, true)
-                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0))
+                    //When in portrait mode, the phrases update on category forward and backward buttons
+                    if (isPortraitMode && !isTabletMode) {
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0))
+                    }
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition + 1, true)
-                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition+1))
+                    if (isPortraitMode && !isTabletMode) {
+                        presetsViewModel.onCategorySelected(
+                            categoriesAdapter.getCategory(
+                                currentPosition + 1
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -59,11 +73,15 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             when (val currentPosition = binding.categoryView.currentItem) {
                 0 -> {
                     binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1))
+                    if(isPortraitMode && !isTabletMode){
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1))
+                    }
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition - 1, true)
-                    presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition-1))
+                    if(isPortraitMode && !isTabletMode){
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition-1))
+                    }
                 }
             }
         }
