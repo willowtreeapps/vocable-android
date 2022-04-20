@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "2262272fd667521cadafde982bd8539f",
+    "identityHash": "8d6d47db642fbf6d6c6f9173428de61d",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `resource_id` INTEGER, `localized_name` TEXT, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_name` TEXT, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -17,12 +17,6 @@
           {
             "fieldPath": "creationDate",
             "columnName": "creation_date",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isUserGenerated",
-            "columnName": "is_user_generated",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -62,7 +56,7 @@
       },
       {
         "tableName": "Phrase",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "phraseId",
@@ -79,12 +73,6 @@
           {
             "fieldPath": "creationDate",
             "columnName": "creation_date",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isUserGenerated",
-            "columnName": "is_user_generated",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -126,7 +114,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2262272fd667521cadafde982bd8539f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8d6d47db642fbf6d6c6f9173428de61d')"
     ]
   }
 }

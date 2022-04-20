@@ -17,7 +17,7 @@ class PresetsRepository(context: Context) : KoinComponent {
     }
 
     suspend fun getUserGeneratedCategories(): List<Category> {
-        return database.categoryDao().getUserGeneratedCategories()
+        return database.categoryDao().getAllCategories()
     }
 
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
@@ -43,7 +43,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                     phraseId = 0L,
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = Calendar.getInstance().timeInMillis,
-                    isUserGenerated = phrase.isUserGenerated,
                     lastSpokenDate = Calendar.getInstance().timeInMillis,
                     resourceId = phrase.resourceId,
                     localizedUtterance = phrase.localizedUtterance,
@@ -65,7 +64,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                     recentPhrase.phraseId,
                     PresetCategories.RECENTS.id,
                     phrase.creationDate,
-                    phrase.isUserGenerated,
                     Calendar.getInstance().timeInMillis,
                     phrase.resourceId,
                     phrase.localizedUtterance,
@@ -107,10 +105,6 @@ class PresetsRepository(context: Context) : KoinComponent {
         database.categoryDao().updateCategory(category)
     }
 
-    suspend fun deleteNonUserGeneratedPhrases() {
-        database.phraseDao().deleteNonUserGeneratedPhrases()
-    }
-
     suspend fun updateCategories(categories: List<Category>) {
         database.categoryDao().updateCategories(*categories.toTypedArray())
     }
@@ -136,7 +130,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                             0L,
                             presetCategory.id,
                             System.currentTimeMillis(),
-                            false,
                             System.currentTimeMillis(),
                             phrasesIds.getResourceId(index, -1),
                             null,
@@ -151,7 +144,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                 Category(
                     presetCategory.id,
                     System.currentTimeMillis(),
-                    false,
                     presetCategory.getNameId(),
                     null,
                     false,

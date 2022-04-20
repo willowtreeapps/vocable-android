@@ -20,7 +20,7 @@ class VocableSharedPreferences : KoinComponent {
         const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = SensitivityFragment.DWELL_TIME_ONE_SECOND
-        const val KEY_FIRST_TIME = "KEY_HEAD_TRACKING_ENABLED"
+        const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
 
     }
 

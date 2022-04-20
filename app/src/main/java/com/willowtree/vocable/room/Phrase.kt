@@ -12,7 +12,6 @@ data class Phrase(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "phrase_id") val phraseId: Long,
     @ColumnInfo(name = "parent_category_id") val parentCategoryId: String?,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
-    @ColumnInfo(name = "is_user_generated") val isUserGenerated: Boolean,
     @ColumnInfo(name = "last_spoken_date") val lastSpokenDate: Long,
     @ColumnInfo(name = "resource_id") val resourceId: Int?,
     @ColumnInfo(name = "localized_utterance") var localizedUtterance: Map<String, String>?,

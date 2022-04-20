@@ -16,6 +16,7 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
@@ -37,10 +38,9 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         super.onViewCreated(view, savedInstanceState)
 
         category = args.category
-
-        if (category.isUserGenerated) {
-            binding.removeCategoryButton.isInvisible = false
-            binding.editOptionsButton.isInvisible = false
+        if (category.categoryId != PresetCategories.RECENTS.id) {
+            binding.removeCategoryButton.isInvisible = true
+            binding.editOptionsButton.isInvisible = true
         }
 
         category.let {

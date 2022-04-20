@@ -1,5 +1,6 @@
 package com.willowtree.vocable.room
 
+import android.annotation.SuppressLint
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.willowtree.vocable.presets.PresetCategories
@@ -130,13 +131,11 @@ object VocableDatabaseMigrations {
     }
 
     val MIGRATION_5_6: Migration = object : Migration(5, 6) {
+        @SuppressLint("Range")
         override fun migrate(database: SupportSQLiteDatabase) {
-            //database.execSQL("ALTER TABLE Phrase ADD COLUMN parent_category_id TEXT")
-            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
-            //Get user's custom categories
-            database.query("SELECT category_id FROM Category WHERE is_user_generated = TRUE")
-            val phraseIds =  mutableMapOf<String, String>()
+            val phraseIds = mutableMapOf<String, String>()
 
             val crossRefCursor =
                 database.query("SELECT * FROM CategoryPhraseCrossRef")
@@ -155,13 +154,38 @@ object VocableDatabaseMigrations {
                 val localizedUtterance = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                 val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
 
-                database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, is_user_generated, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, TRUE, $lastSpokenDate, null, '$localizedUtterance', $sortOrder)")
+                database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, null, '$localizedUtterance', $sortOrder)")
             }
             phraseCursor.close()
 
             database.execSQL("DROP TABLE Phrase")
-            database.execSQL("DROP TABLE CategoryPhraseCrossRef")
             database.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
+
+            database.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, resource_id INTEGER, localized_name TEXT, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
+            val categoriesCursor =
+                database.query("SELECT * FROM Category")
+            while (categoriesCursor.moveToNext()) {
+
+                val categoryID = categoriesCursor.getString(categoriesCursor.getColumnIndex("category_id"))
+                val creationDate = categoriesCursor.getInt(categoriesCursor.getColumnIndex("creation_date"))
+                val resourceID = categoriesCursor.getInt(categoriesCursor.getColumnIndex("resource_id")).let {
+                    if (it == 0) {
+                        null
+                    } else {
+                        it
+                    }
+                }
+                val localizedName = categoriesCursor.getString(categoriesCursor.getColumnIndex("localized_name"))
+                val hidden = categoriesCursor.getInt(categoriesCursor.getColumnIndex("hidden"))
+                val sortOrder = categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
+                database.execSQL("INSERT INTO Category_New (category_id, creation_date, resource_id, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$resourceID', '$localizedName', '$hidden', '$sortOrder')")
+            }
+
+            categoriesCursor.close()
+            database.execSQL("DROP TABLE Category")
+            database.execSQL("ALTER TABLE Category_New RENAME TO Category")
+            database.execSQL("DROP TABLE CategoryPhraseCrossRef")
+
         }
     }
 }
