@@ -40,7 +40,6 @@ class EditPhrasesViewModel : BaseViewModel() {
                     0L,
                     PresetCategories.RECENTS.id,
                     System.currentTimeMillis(),
-                    true,
                     System.currentTimeMillis(),
                     null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),

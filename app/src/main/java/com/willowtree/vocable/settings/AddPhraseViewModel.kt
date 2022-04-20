@@ -30,7 +30,6 @@ class AddPhraseViewModel : BaseViewModel() {
                     0L,
                     categoryId,
                     System.currentTimeMillis(),
-                    true,
                     System.currentTimeMillis(),
                     null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),

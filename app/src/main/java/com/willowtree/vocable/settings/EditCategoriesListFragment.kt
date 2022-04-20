@@ -166,7 +166,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             with(editCategorySelectButton) {
                 // enable the button if the category is user-generated, or if it's My Sayings
                 isEnabled =
-                    category.isUserGenerated || category.categoryId == PresetCategories.MY_SAYINGS.id
+                    category.categoryId != PresetCategories.RECENTS.id
 
                 action = {
                     val action =
