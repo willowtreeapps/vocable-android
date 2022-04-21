@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,10 +59,11 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
                 CategoryButtonBinding.inflate(inflater, binding.categoryButtonContainer, false)
             with(categoryButton.root) {
                 tag = category
-                text = localizedResourceUtility.getTextFromCategory(category)
                 action = {
                     viewModel.onCategorySelected(category)
+
                 }
+                text = localizedResourceUtility.getTextFromCategory(category)
                 if (!isTablet && index > 0 && index + 1 == maxCategories) {
                     layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
                         marginStart = 0
