@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -37,6 +38,7 @@ class PresetsViewModel : BaseViewModel() {
 
     fun onCategorySelected(category: Category) {
         liveSelectedCategory.postValue(category)
+
         backgroundScope.launch {
             val catId = presetsRepository.getCategoryById(category.categoryId)
 
