@@ -1,6 +1,8 @@
 package com.willowtree.vocable.presets
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -29,6 +31,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
     private var maxCategories = 1
     private var maxPhrases = 1
+    private var isPortraitMode = true
+    private var isTabletMode = false
 
     private lateinit var presetsViewModel: PresetsViewModel
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
@@ -40,14 +44,27 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         maxCategories = resources.getInteger(R.integer.max_categories)
+        isPortraitMode = resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+        isTabletMode = resources.getBoolean(R.bool.is_tablet)
 
         binding.categoryForwardButton.action = {
             when (val currentPosition = binding.categoryView.currentItem) {
                 categoriesAdapter.itemCount - 1 -> {
                     binding.categoryView.setCurrentItem(0, true)
+                    //When in portrait mode, the phrases update on category forward and backward buttons
+                    if (isPortraitMode && !isTabletMode) {
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0))
+                    }
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition + 1, true)
+                    if (isPortraitMode && !isTabletMode) {
+                        presetsViewModel.onCategorySelected(
+                            categoriesAdapter.getCategory(
+                                currentPosition + 1
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -56,9 +73,15 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             when (val currentPosition = binding.categoryView.currentItem) {
                 0 -> {
                     binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
+                    if(isPortraitMode && !isTabletMode){
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1))
+                    }
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition - 1, true)
+                    if(isPortraitMode && !isTabletMode){
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition-1))
+                    }
                 }
             }
         }
@@ -110,6 +133,13 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         binding.categoryView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+
+                binding.phrasesPageNumber.text = getString(
+                        R.string.phrases_page_number,
+                        1,
+                        1
+                    )
+
                 activity?.let { activity ->
                     allViews.clear()
                     if (activity is MainActivity) {
@@ -122,7 +152,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         binding.phrasesView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+
                 val pageNum = position % phrasesAdapter.numPages + 1
+
                 binding.phrasesPageNumber.text = getString(
                     R.string.phrases_page_number,
                     pageNum,
@@ -190,9 +222,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handleCategories(categories: List<Category>) {
+    /* 4/11/2022 Commenting this out because categories are now being updated with forward and backward buttons and within the onResume
         if (categories.isNotEmpty()) {
             presetsViewModel.onCategorySelected(categories[0])
         }
+     */
 
         with(binding.categoryView) {
             val categoriesExist = categories.isNotEmpty()
@@ -221,6 +255,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             if (targetPosition % categoriesAdapter.numPages != 0) {
                 targetPosition %= categoriesAdapter.numPages
             }
+
 
             presetsViewModel.selectedCategory.value?.let { selectedCategory ->
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
@@ -284,6 +319,14 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             CategoriesFragment.newInstance(getItemsByPosition(position))
 
         fun getSize(): Int = items.size
+
+        fun getCategory(position: Int): Category{
+            return if(position >= items.size){
+                items[position % items.size]
+            } else {
+                items[position]
+            }
+        }
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
