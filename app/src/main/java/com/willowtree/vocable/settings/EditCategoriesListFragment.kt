@@ -181,7 +181,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 }
             }
         }
-
+/*
         with(editButtonBinding.showHideCategoryButton) {
             if (!category.hidden) {
                 setImageResource(R.drawable.button_hidden)
@@ -197,6 +197,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                     editCategoriesViewModel.hideShowCategory(category, !category.hidden)
                 }
             }
-        }
+        }*/
     }
 }
