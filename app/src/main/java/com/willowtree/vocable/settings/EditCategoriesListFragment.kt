@@ -140,9 +140,9 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         with(editButtonBinding) {
             val categoryNameText = localizedResourceUtility.getTextFromCategory(category)
             if (category.hidden) {
-                categoryName.text = categoryNameText
+                individualEditCategoryButton?.text = categoryNameText
             } else {
-                categoryName.text = getString(
+                individualEditCategoryButton?.text = getString(
                     R.string.edit_categories_button_number,
                     overallIndex + 1,
                     categoryNameText
