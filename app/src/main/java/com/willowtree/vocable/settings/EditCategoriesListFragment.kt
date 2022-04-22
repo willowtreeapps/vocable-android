@@ -161,42 +161,38 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             }
 
             if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
-                editCategorySelectButton.isEnabled = false
+                editCategorySelectButton?.isEnabled = false
             }
 
-            with(editCategorySelectButton) {
-                // enable the button if the category is user-generated, or if it's My Sayings
-                isEnabled =
-                    category.isUserGenerated || category.categoryId == PresetCategories.USER_FAVORITES.id
+            individualEditCategoryButton?.action = {
+                val action =
+                    com.willowtree.vocable.settings.EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
+                        category
+                    )
+                if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
+                    findNavController().navigate(action)
+                }
+                editCategoriesViewModel.onCategorySelected(category)
+            }
+/*
+
+            with(editButtonBinding.showHideCategoryButton) {
+                if (!category.hidden) {
+                    setImageResource(R.drawable.button_hidden)
+                    setBackgroundResource(R.drawable.button_default_background)
+                } else {
+                    setImageResource(R.drawable.button_shown)
+                    setBackgroundResource(R.drawable.category_button_background)
+                }
+
 
                 action = {
-                    val action =
-                        EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
-                            category
-                        )
-                    if (findNavController().currentDestination?.id == R.id.editCategoriesFragment) {
-                        findNavController().navigate(action)
+                    category.let { category ->
+                        editCategoriesViewModel.hideShowCategory(category, !category.hidden)
                     }
-                    editCategoriesViewModel.onCategorySelected(category)
-                }
-            }
-        }
-/*
-        with(editButtonBinding.showHideCategoryButton) {
-            if (!category.hidden) {
-                setImageResource(R.drawable.button_hidden)
-                setBackgroundResource(R.drawable.button_default_background)
-            } else {
-                setImageResource(R.drawable.button_shown)
-                setBackgroundResource(R.drawable.category_button_background)
-            }
-
-
-            action = {
-                category.let { category ->
-                    editCategoriesViewModel.hideShowCategory(category, !category.hidden)
                 }
             }
         }*/
+        }
     }
 }
