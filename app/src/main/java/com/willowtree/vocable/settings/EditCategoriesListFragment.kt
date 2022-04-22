@@ -138,16 +138,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
-            val categoryNameText = localizedResourceUtility.getTextFromCategory(category)
-            if (category.hidden) {
-                individualEditCategoryButton?.text = categoryNameText
-            } else {
-                individualEditCategoryButton?.text = getString(
-                    R.string.edit_categories_button_number,
-                    overallIndex + 1,
-                    categoryNameText
-                )
-            }
+            individualEditCategoryButton?.text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
@@ -174,7 +165,8 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 }
                 editCategoriesViewModel.onCategorySelected(category)
             }
-/*
+
+/* Commenting this out so I can keep this code for when we refactor the category editing screen
 
             with(editButtonBinding.showHideCategoryButton) {
                 if (!category.hidden) {
