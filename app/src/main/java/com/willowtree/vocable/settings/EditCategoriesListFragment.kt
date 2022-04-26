@@ -157,7 +157,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
 
             individualEditCategoryButton?.action = {
                 val action =
-                    com.willowtree.vocable.settings.EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
+                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
                         category
                     )
                 if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
