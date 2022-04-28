@@ -124,21 +124,7 @@
             app:popUpTo="@id/presetsFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_keyboardFragment_to_addToCategoryPickerFragment"
-            app:destination="@id/addToCategoryPickerFragment" />
-        <action
             android:id="@+id/action_keyboardFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addToCategoryPickerFragment"
-        android:name="com.willowtree.vocable.presets.AddToCategoryPickerFragment"
-        android:label="AddToCategoryPickerFragment" >
-        <argument
-            android:name="phraseText"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_addToCategoryPickerFragment_to_editCategoriesKeyboardFragment"
-            app:destination="@id/editCategoriesKeyboardFragment" />
     </fragment>
 </navigation>
