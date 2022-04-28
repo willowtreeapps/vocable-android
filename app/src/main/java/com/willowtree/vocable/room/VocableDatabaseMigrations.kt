@@ -1,5 +1,6 @@
 package com.willowtree.vocable.room
 
+import android.annotation.SuppressLint
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.willowtree.vocable.presets.PresetCategories
@@ -8,6 +9,7 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashSet
 
+@SuppressLint("Range")
 object VocableDatabaseMigrations {
 
     val MIGRATION_1_2: Migration = object : Migration(1, 2) {
