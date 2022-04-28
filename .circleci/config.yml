@@ -2,7 +2,6 @@ version: 2
 jobs:
   build-and-deploy:
     working_directory: ~/code
-    java: -11.0.15
     docker:
       - image: cimg/android:2022.04
     environment:
