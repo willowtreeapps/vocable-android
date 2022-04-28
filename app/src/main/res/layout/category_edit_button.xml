@@ -20,6 +20,7 @@
         android:padding="@dimen/edit_individual_category_padding"
         android:layout_marginTop="@dimen/edit_individual_category_margin_top"
         android:text="@string/settings"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/move_category_up_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/category_container"

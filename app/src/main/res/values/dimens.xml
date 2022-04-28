@@ -230,7 +230,6 @@
     <dimen name="edit_categories_action_button_margin">44dp</dimen>
     <dimen name="edit_categories_add_button_margin">24dp</dimen>
     <dimen name="paging_button_margin">0dp</dimen>
-    <dimen name="edit_category_pager_margin_top">32dp</dimen>
     <dimen name="edit_categories_title_text_size">34sp</dimen>
     <dimen name="edit_categories_title_margin">30dp</dimen>
     <dimen name="edit_categories_title_margin_horizontal">8dp</dimen>
