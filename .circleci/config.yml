@@ -42,8 +42,8 @@ jobs:
           path: app/build/test-results
 
   test:
-    macos:
-      xcode: "11.4.1"
+    docker:
+      - image: circleci/android:api-31-node
     working_directory: ~/code
 
     steps:
