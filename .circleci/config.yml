@@ -3,7 +3,7 @@ jobs:
   build-and-deploy:
     working_directory: ~/code
     docker:
-      - image: cimg/android:2022.04.1-browsers
+      - image: cimg/android:2022.04
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -15,7 +15,7 @@ jobs:
 #         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
-          command: java -version
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
