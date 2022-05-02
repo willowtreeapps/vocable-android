@@ -7,7 +7,8 @@ jobs:
   unit-test:
     executor:
       name: android/android-machine
-      resource-class: xlarge
+      resource-class: medium
+      tag: 2022.04.1
     steps:
       - checkout
       - android/restore-gradle-cache
