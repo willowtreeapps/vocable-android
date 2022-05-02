@@ -17,7 +17,12 @@ echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK_ROOT/licenses/an
 echo "d975f751698a77b662f1254ddbeed3901e976f5a" > "$ANDROID_SDK_ROOT/licenses/intel-android-extra-license"
 
 sdkmanager "platform-tools"
+echo "1"
 sdkmanager "platforms;android-31"
+echo "2"
 sdkmanager "build-tools;29.0.3"
-sdkmanager "system-images;android-31;default;x86"
+echo "3"
+sdkmanager "system-images;android-29;default;x86"
+echo "4"
 sdkmanager "emulator"
+echo "5"
