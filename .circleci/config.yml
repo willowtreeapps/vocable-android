@@ -80,10 +80,8 @@ jobs:
             echo 6
             source $BASH_ENV
             echo 7
-            sdkmanager --list
-            echo 8
             echo no | avdmanager create avd -d "pixel_xl" -n test -k "system-images;android-29;default;x86" --force
-            echo 9
+            echo 8
 
       - save_cache:
           key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
