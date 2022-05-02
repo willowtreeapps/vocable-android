@@ -77,9 +77,13 @@ jobs:
             echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
+            echo 6
             source $BASH_ENV
+            echo 7
             sdkmanager --list
+            echo 8
             echo no | avdmanager create avd -d "pixel_xl" -n test -k "system-images;android-29;default;x86" --force
+            echo 9
 
       - save_cache:
           key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
