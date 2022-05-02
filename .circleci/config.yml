@@ -1,139 +1,89 @@
-version: 2
+version: 2.1
+
+orbs:
+  android: "1.0.3"
+
 jobs:
-  build-and-deploy:
-    working_directory: ~/code
-    docker:
-      - image: cimg/android:2022.04
-    environment:
-      JVM_OPTS: -Xmx3200m
+  unit-test:
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
+      steps:
+        - checkout
+        - android/restore-gradle-cache
+        - android/restore-build-cache
+        - android/run-tests:
+            test-command: ./gradlew testDebug
+        - run:
+            name: Save test results
+            command: |
+              mkdir -p ~/test-results/junit/
+              find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+              when: always
+          - store_test_results:
+              path: ~/test-results
+          - store_artifacts:
+              path: ~/test-results/junit
+        - android/save-gradle-cache
+        - android/save-build-cache
+  android-test:
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
+      steps:
+        - checkout
+        - android/start-emulator-and-run-tests:
+            test-command: ./gradlew connectedDebugAndroidTest
+            system-image: << parameters.system-image >>
+        - run:
+            name: Save test results
+            command: |
+              mkdir -p ~/test-results/junit/
+              find . -type f -regex ".*/build/outputs/androidTest-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+            when: always
+              - store_test_results:
+                  path: ~/test-results
+              - store_artifacts:
+                  path: ~/test-results/junit
+  release-build:
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#         command: sudo chmod +x ./gradlew
+      - android/restore-gradle-cache
+      - android/restore-build-cache
       - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - run:
-          name: Build Debug Apk
-          command: ./gradlew assembleDebug
-      - run:
-          name: Install AppCenter CLI
-          command: sudo npm install -g appcenter-cli
-      - run:
-          name: Publish to AppCenter
+          name: Assemble release build
           command: |
-            appcenter login --token ${APP_CENTER_TOKEN}
-            export apk="$(find ./app/build/outputs/apk/debug -regex '.*.apk')"
-            appcenter distribute release -f ${apk} -g ${APP_CENTER_DISTRIBUTION_LIST} --app ${APP_CENTER_APP_NAME} -r "Android" --silent
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: app/build/reports
-          destination: reports
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
-
-  test:
-    docker:
-      - image: cimg/android:2022.04
-    working_directory: ~/code
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          key: mac-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: mac-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-      - run:
-          name: set ANDROID_SDK_ROOT
-          command: |
-            echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
-
-      - restore_cache:
-          key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
-
-      - run:
-          name: install android tools
-          command: |
-            sh install-android-tools.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
-            echo 6
-            source $BASH_ENV
-            echo 7
-            echo no | avdmanager create avd -d "pixel_xl" -n test -k "system-images;android-29;default;x86" --force
-            echo 8
-
-      - save_cache:
-          key: android=tools-v1-{{ checksum "install-android-tools.sh" }}-{{ arch }}
-          paths:
-            - /Users/distiller/android-tools
-
-      - run:
-          name: start AVD
-          command: emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-          background: true
-
-      - run:
-          name: wait for emulator
-          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
-
-      - run:
-          name: Run EspressoTests
-          command: |
-            ./gradlew connectedDebugAndroidTest -PUSE_HEAD_TRACKING="false" --stacktrace
-
-      - run:
-          name: Export Device Screenshots
-          command: |
-            set +e
-            mkdir -p ~/screenshots/
-            adb pull /sdcard/Pictures ~/screenshots
-          when: always
-
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/outputs/androidTest-results/connected/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-
-      - store_test_results:
-          path: ~/test-results
-
+            ./gradlew assembleRelease
       - store_artifacts:
-          path: app/build/reports/androidTests/connected
-
-      - store_artifacts:
-          path: ~/screenshots
+          path: app/build/outputs/apk/release
 
 workflows:
-  version: 2
-  build-test-android:
+  test-and-build:
     jobs:
-      - build-and-deploy:
+      - unit-test
+      - android-test: # Commits to any branch - skip matrix of devices
+          filters:
+            branches:
+              ignore: main
+      - android-test: # Commits to main branch only - run full matrix
+          matrix:
+            alias: android-test-all
+            parameters:
+              system-image:
+                - system-images;android-30;google_apis;x86 #can add more if we want to
+          name: android-test-<<matrix.system-image>>
+          filters:
+            branches:
+              only: main
+      - release-build:
+          requires:
+            - unit-test
+            - android-test-all
           filters:
             branches:
               only:
                 - /develop.*/
                 - /release.*/
-      - test
