@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  android: "1.0.3"
+  android: circleci/android@2.0.3
 
 jobs:
   unit-test:
