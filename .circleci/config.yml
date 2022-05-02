@@ -35,7 +35,7 @@ jobs:
       - checkout
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
-          system-image: << parameters.system-image >>
+          system-image: system-images;android-30;google_apis;x86
       - run:
           name: Save test results
           command: |
@@ -70,11 +70,6 @@ workflows:
             branches:
               ignore: main
       - android-test:
-          matrix:
-            alias: android-test-all
-            parameters:
-              system-image:
-                - system-images;android-30;google_apis;x86
           name: android-test-<<matrix.system-image>>
           filters:
             branches:
