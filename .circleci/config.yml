@@ -34,7 +34,7 @@ jobs:
     steps:
       - checkout
       - android/start-emulator-and-run-tests:
-          system-image: system-images;android-30;google_apis;x86
+            system-image: system-images;android-30;google_apis;x86
           - run:
             name: Save test results
             command: |
