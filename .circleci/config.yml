@@ -28,6 +28,10 @@ jobs:
       - android/save-gradle-cache
       - android/save-build-cache
   android-test:
+    parameters:
+      system-image:
+        type: string
+        default: system-images;android-30;google_apis;x86
     executor:
       name: android/android-machine
       resource-class: xlarge
