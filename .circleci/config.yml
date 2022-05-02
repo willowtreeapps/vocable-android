@@ -8,43 +8,43 @@ jobs:
     executor:
       name: android/android-machine
       resource-class: xlarge
-      steps:
-        - checkout
-        - android/restore-gradle-cache
-        - android/restore-build-cache
-        - android/run-tests:
-            test-command: ./gradlew testDebug
-        - run:
-            name: Save test results
-            command: |
-              mkdir -p ~/test-results/junit/
-              find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-              when: always
-        - store_test_results:
-            path: ~/test-results
-        - store_artifacts:
-            path: ~/test-results/junit
-        - android/save-gradle-cache
-        - android/save-build-cache
+    steps:
+      - checkout
+      - android/restore-gradle-cache
+      - android/restore-build-cache
+      - android/run-tests:
+          test-command: ./gradlew testDebug
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+            when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+      - android/save-gradle-cache
+      - android/save-build-cache
   android-test:
     executor:
       name: android/android-machine
       resource-class: xlarge
-      steps:
-        - checkout
-        - android/start-emulator-and-run-tests:
-            test-command: ./gradlew connectedDebugAndroidTest
-            system-image: << parameters.system-image >>
-        - run:
-            name: Save test results
-            command: |
-              mkdir -p ~/test-results/junit/
-              find . -type f -regex ".*/build/outputs/androidTest-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-            when: always
-        - store_test_results:
-            path: ~/test-results
-        - store_artifacts:
-            path: ~/test-results/junit
+    steps:
+      - checkout
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: << parameters.system-image >>
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/outputs/androidTest-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
   release-build:
     executor:
       name: android/android-machine
@@ -64,16 +64,16 @@ workflows:
   test-and-build:
     jobs:
       - unit-test
-      - android-test: # Commits to any branch - skip matrix of devices
+      - android-test:
           filters:
             branches:
               ignore: main
-      - android-test: # Commits to main branch only - run full matrix
+      - android-test:
           matrix:
             alias: android-test-all
             parameters:
               system-image:
-                - system-images;android-30;google_apis;x86 #can add more if we want to
+                - system-images;android-30;google_apis;x86
           name: android-test-<<matrix.system-image>>
           filters:
             branches:
