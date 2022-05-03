@@ -1,6 +1,7 @@
 package com.willowtree.vocable.tests
 
 import android.content.Intent
+import android.util.Log
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
