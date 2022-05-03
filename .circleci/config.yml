@@ -37,6 +37,16 @@ jobs:
       - android/start-emulator-and-run-tests:
             test-command: ./gradlew connectedDebugAndroidTest
             system-image: system-images;android-30;google_apis;x86
+  android-test-all:
+    executor:
+      name: android/android-machine
+      tag: 2022.04.1
+      resource-class: xlarge
+    steps:
+      - checkout
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: system-images;android-30;google_apis;x86
   release-build:
     executor:
       name: android/android-machine
@@ -66,14 +76,9 @@ workflows:
           filters:
             branches:
               only: main
-      - android-test-all:
-          filters:
-            branches:
-              only: main
       - release-build:
           requires:
             - unit-test
-            - android-test-all
           filters:
             branches:
               only:
