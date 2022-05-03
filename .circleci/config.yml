@@ -66,6 +66,10 @@ workflows:
           filters:
             branches:
               only: main
+      - android-test-all:
+          filters:
+            branches:
+              only: main
       - release-build:
           requires:
             - unit-test
