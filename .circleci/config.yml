@@ -60,7 +60,7 @@ workflows:
             branches:
               ignore: main
       - android-test:
-          name: android-test-<<matrix.system-image>>
+          name: android-test-emulator
           filters:
             branches:
               only: main
