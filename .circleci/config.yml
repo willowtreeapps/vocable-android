@@ -36,7 +36,7 @@ jobs:
       - checkout
       - android/start-emulator-and-run-tests:
             test-command: ./gradlew connectedDebugAndroidTest
-            system-image: system-images;android-30;google_apis;x86
+            system-image: system-images;android-31;google_apis;x86
   release-build:
     executor:
       name: android/android-machine

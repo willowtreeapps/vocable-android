@@ -40,7 +40,7 @@ open class BaseTest {
 
     @Before
     open fun setup() {
-        IdlingPolicies.setIdlingResourceTimeout(30, TimeUnit.SECONDS)
+        IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         idleRegistry.register(idlingResource)
         activityRule.launchActivity(Intent())
 
