@@ -47,10 +47,11 @@ open class BaseTest {
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
         // and dismiss the full screen immersive popup on android if it is
-        firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().isEmpty()
-        if (firstLaunch) {
-            takeScreenshot("InitialSetup")
-        }
+//        firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().isEmpty()
+//        if (firstLaunch) {
+//            takeScreenshot("InitialSetup")
+//        }
+        takeScreenshot("InitialSetup")
         dismissARCoreDialog()
         // Once we confirm we are on the MainScreen we need to unregister the Splash Screen
         // idling resource so that we don't transition back to a not idle state when we
