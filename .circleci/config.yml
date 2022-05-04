@@ -44,6 +44,8 @@ jobs:
             mkdir -p ~/screenshots/
             adb pull /sdcard/Pictures ~/screenshots
           when: always
+      - store_artifacts:
+          path: ~/screenshots
   release-build:
     executor:
       name: android/android-machine
