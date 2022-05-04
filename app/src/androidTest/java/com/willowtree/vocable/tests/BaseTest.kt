@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
@@ -30,19 +31,22 @@ open class BaseTest {
         ViewMatchers.isDisplayed()
     )
     private val name = TestName()
-    private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
+    //private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
 
     @Rule
     fun getTestName(): TestName = name
 
-    @Rule
-    fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
+    //@Rule
+    //fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
+
+    @get:Rule
+    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
 
     @Before
     open fun setup() {
-        IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
+        //IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         //idleRegistry.register(idlingResource)
-        activityRule.launchActivity(Intent())
+        //activityRule.launchActivity(Intent())
 
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
