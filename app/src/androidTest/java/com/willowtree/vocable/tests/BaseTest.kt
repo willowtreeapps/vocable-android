@@ -41,7 +41,7 @@ open class BaseTest {
     @Before
     open fun setup() {
         IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
-        idleRegistry.register(idlingResource)
+        //idleRegistry.register(idlingResource)
         activityRule.launchActivity(Intent())
 
         // Since the build machine gets wiped after every run we can check the file storage
@@ -57,7 +57,7 @@ open class BaseTest {
         // idling resource so that we don't transition back to a not idle state when we
         // navigate off of the main screen which would cause a timeout exception
         MainScreen().checkOnMainScreen()
-        idleRegistry.unregister(idlingResource)
+        //idleRegistry.unregister(idlingResource)
     }
 
     /* This function will take a screenshot of the application and copy it to the sd card path
