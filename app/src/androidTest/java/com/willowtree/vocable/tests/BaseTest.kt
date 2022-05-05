@@ -42,15 +42,15 @@ open class BaseTest {
     //fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
+    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
 
     @Before
     open fun setup() {
-//        getInstrumentation().newApplication(
-//            VocableApp::class.java.classLoader,
-//            VocableApp::class.java.name,
-//            ApplicationProvider.getApplicationContext()
-//        )
+        getInstrumentation().newApplication(
+            VocableApp::class.java.classLoader,
+            VocableApp::class.java.name,
+            ApplicationProvider.getApplicationContext()
+        )
 
         //IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         //idleRegistry.register(idlingResource)
@@ -79,6 +79,7 @@ open class BaseTest {
     The copy shell command is necessary because the app and its contents are deleted
     once the tests finish running on CircleCI. */
     fun takeScreenshot(fileName: String) {
+        Log.d("WILL:", "taking screenshot")
         val file = File(getInstrumentation().targetContext.filesDir.path, "$fileName.png")
         UiDevice.getInstance(getInstrumentation()).takeScreenshot(file)
         getInstrumentation().uiAutomation.executeShellCommand(
