@@ -1,16 +1,15 @@
 package com.willowtree.vocable.tests
 
-import android.content.Intent
 import android.graphics.Point
 import android.os.RemoteException
 import android.util.Log
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
@@ -33,28 +32,28 @@ open class BaseTest {
         ViewMatchers.isDisplayed()
     )
     private val name = TestName()
-    private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
+    //private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
 
     @Rule
     fun getTestName(): TestName = name
 
-    @Rule
-    fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
+    //@Rule
+    //fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
 
-//    @get:Rule
-//    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
+    @get:Rule
+    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
 
     @Before
     open fun setup() {
-        getInstrumentation().newApplication(
-            VocableApp::class.java.classLoader,
-            VocableApp::class.java.name,
-            ApplicationProvider.getApplicationContext()
-        )
+//        getInstrumentation().newApplication(
+//            VocableApp::class.java.classLoader,
+//            VocableApp::class.java.name,
+//            ApplicationProvider.getApplicationContext()
+//        )
+
         //IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         //idleRegistry.register(idlingResource)
-        activityRule.launchActivity(Intent())
-
+        //activityRule.launchActivity(Intent())
 
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
@@ -70,6 +69,8 @@ open class BaseTest {
         // navigate off of the main screen which would cause a timeout exception
         MainScreen().checkOnMainScreen()
         //idleRegistry.unregister(idlingResource)
+
+
     }
 
     /* This function will take a screenshot of the application and copy it to the sd card path

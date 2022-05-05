@@ -1,5 +1,6 @@
 package com.willowtree.vocable.tests
 
+import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.screens.KeyboardScreen
 import com.willowtree.vocable.screens.MainScreen
@@ -18,7 +19,7 @@ class KeyboardScreenTest : BaseTest() {
     @Test
     fun verifyKeyboardButtonBringsUpKeyboard() {
         navigateToKeyboard()
-
+        activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
         keyboardScreen.apply {
             keyboardCont.assertElementExists()
             keyboardInputText.assertTextMatches("Start typing…")
