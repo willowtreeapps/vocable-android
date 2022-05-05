@@ -1,5 +1,6 @@
 package com.willowtree.vocable.facetracking
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.*
@@ -63,6 +64,7 @@ class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
         lastDetectedFaceTime = System.currentTimeMillis()
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?) {
         if (!headTrackingEnabled) {
             liveShowError.postValue(false)
