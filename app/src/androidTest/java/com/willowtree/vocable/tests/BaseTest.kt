@@ -13,6 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
+import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.VocableApp
 import com.willowtree.vocable.screens.MainScreen
@@ -41,7 +42,7 @@ open class BaseTest {
     //fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
+    val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
     open fun setup() {
