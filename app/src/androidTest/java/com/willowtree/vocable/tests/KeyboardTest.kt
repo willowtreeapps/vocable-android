@@ -19,7 +19,7 @@ class KeyboardScreenTest : BaseTest() {
     @Test
     fun verifyKeyboardButtonBringsUpKeyboard() {
         navigateToKeyboard()
-        activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+
         keyboardScreen.apply {
             keyboardCont.assertElementExists()
             keyboardInputText.assertTextMatches("Start typing…")
@@ -76,6 +76,6 @@ class KeyboardScreenTest : BaseTest() {
         mainScreen.apply {
             keyboardNavitgationButton.tap()
         }
-
+        activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
     }
 }
