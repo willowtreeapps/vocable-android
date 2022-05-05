@@ -1,16 +1,21 @@
 package com.willowtree.vocable.tests
 
+import android.content.Intent
 import android.graphics.Point
 import android.os.RemoteException
 import android.util.Log
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.willowtree.vocable.R
+import com.willowtree.vocable.VocableApp
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
@@ -28,36 +33,28 @@ open class BaseTest {
         ViewMatchers.isDisplayed()
     )
     private val name = TestName()
-    //private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
+    private var activityRule = ActivityTestRule(SplashActivity::class.java, false, false)
 
     @Rule
     fun getTestName(): TestName = name
 
-    //@Rule
-    //fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
+    @Rule
+    fun getActivityRule(): ActivityTestRule<SplashActivity> = activityRule
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
+//    @get:Rule
+//    val activityRule = ActivityScenarioRule(SplashActivity::class.java)
 
     @Before
     open fun setup() {
+        getInstrumentation().newApplication(
+            VocableApp::class.java.classLoader,
+            VocableApp::class.java.name,
+            ApplicationProvider.getApplicationContext()
+        )
         //IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
         //idleRegistry.register(idlingResource)
-        //activityRule.launchActivity(Intent())
-        val uiDevice = UiDevice.getInstance(getInstrumentation())
-        val coordinates: Array<Point?> = arrayOfNulls<Point>(4)
-        coordinates[0] = Point(248, 1520)
-        coordinates[1] = Point(248, 929)
-        coordinates[2] = Point(796, 1520)
-        coordinates[3] = Point(796, 929)
-        try {
-            if (!uiDevice.isScreenOn) {
-                uiDevice.wakeUp()
-                uiDevice.swipe(coordinates, 10)
-            }
-        } catch (e: RemoteException) {
-            e.printStackTrace()
-        }
+        activityRule.launchActivity(Intent())
+
 
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
@@ -87,17 +84,16 @@ open class BaseTest {
         )
     }
 
-    // This function dismisses the full screen immersive prompt which shows on first launch
+    // This function dismisses the ar core/play services dialog if it is displayed
     private fun dismissARCoreDialog() {
         val device = UiDevice.getInstance(getInstrumentation())
 
         // Catch the exception if the popup doesn't appear so we don't fail the tests
         try {
             device.wait(Until.findObject(By.text("CONTINUE")), 10000).click()
-        }
-        catch (e: NullPointerException) {
+        } catch (e: NullPointerException) {
             Log.d("Test", "Popup not found, continuing with test")
         }
     }
-    
+
 }
