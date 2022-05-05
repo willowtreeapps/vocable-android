@@ -37,13 +37,6 @@ jobs:
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-30;google_apis;x86
-      - run:
-          name: Export Device Screenshots
-          command: |
-            set +e
-            mkdir -p ~/screenshots/
-            adb pull /sdcard/Pictures ~/screenshots
-          when: always
       - store_artifacts:
           path: ~/screenshots
   release-build:
