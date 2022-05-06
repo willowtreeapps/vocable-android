@@ -349,7 +349,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)
-
             return if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_KEYPAD.id) {
                 NumberPadFragment.newInstance(phrases)
             } else if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_FAVORITES.id && items.isEmpty()) {
