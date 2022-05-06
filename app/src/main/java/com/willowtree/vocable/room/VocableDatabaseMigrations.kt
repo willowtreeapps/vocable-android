@@ -9,6 +9,7 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashSet
 
+@SuppressLint("Range")
 object VocableDatabaseMigrations {
 
     val MIGRATION_1_2: Migration = object : Migration(1, 2) {
