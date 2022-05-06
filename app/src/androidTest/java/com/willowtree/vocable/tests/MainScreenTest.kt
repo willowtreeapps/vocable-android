@@ -12,6 +12,7 @@ class MainScreenTest : BaseTest() {
 
     private val mainScreen = MainScreen()
 
+    @Ignore
     @Test
     fun verifyDefaultTextAppears() {
         mainScreen.apply {
@@ -20,6 +21,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyClickingPhraseUpdatesCurrentText() {
         mainScreen.apply {
