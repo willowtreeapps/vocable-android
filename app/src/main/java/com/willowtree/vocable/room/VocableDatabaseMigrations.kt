@@ -169,17 +169,10 @@ object VocableDatabaseMigrations {
 
                 val categoryID = categoriesCursor.getString(categoriesCursor.getColumnIndex("category_id"))
                 val creationDate = categoriesCursor.getInt(categoriesCursor.getColumnIndex("creation_date"))
-                val resourceID = categoriesCursor.getInt(categoriesCursor.getColumnIndex("resource_id")).let {
-                    if (it == 0) {
-                        null
-                    } else {
-                        it
-                    }
-                }
                 val localizedName = categoriesCursor.getString(categoriesCursor.getColumnIndex("localized_name"))
                 val hidden = categoriesCursor.getInt(categoriesCursor.getColumnIndex("hidden"))
                 val sortOrder = categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
-                database.execSQL("INSERT INTO Category_New (category_id, creation_date, resource_id, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$resourceID', '$localizedName', '$hidden', '$sortOrder')")
+                database.execSQL("INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$localizedName', '$hidden', '$sortOrder')")
             }
 
             categoriesCursor.close()
