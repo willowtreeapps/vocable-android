@@ -9,8 +9,8 @@ enum class PresetCategories(val id: String, val initialSortOrder: Int) {
     CONVERSATION("preset_conversation_category_id", 3),
     ENVIRONMENT("preset_environment_category_id", 4 ),
     USER_KEYPAD("preset_user_keypad", 5),
-    MY_SAYINGS("preset_user_favorites", 6),
-    RECENTS("preset_recents", 7);
+    RECENTS("preset_recents", 6),
+    MY_SAYINGS("preset_user_favorites", 7);
 
     fun getArrayId(): Int {
         return when (this) {
