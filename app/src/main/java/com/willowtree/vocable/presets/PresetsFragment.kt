@@ -1,5 +1,6 @@
 package com.willowtree.vocable.presets
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -40,6 +41,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
     private var recentsCategorySelected = false
 
+    @SuppressLint("NullSafeMutableLiveData")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -351,7 +353,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             val phrases = getItemsByPosition(position)
             return if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_KEYPAD.id) {
                 NumberPadFragment.newInstance(phrases)
-            } else if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_FAVORITES.id && items.isEmpty()) {
+            } else if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.MY_SAYINGS.id && items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(phrases)

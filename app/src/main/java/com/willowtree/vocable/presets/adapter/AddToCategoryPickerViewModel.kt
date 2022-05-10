@@ -1,18 +1,16 @@
 package com.willowtree.vocable.presets.adapter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.keyboard.KeyboardViewModel
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.core.component.inject
 import java.util.*
 
@@ -95,34 +93,21 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
 
     private fun deletePhraseFromCategory(phraseString: String, category: Category) {
         backgroundScope.launch {
-            var phrase: Phrase? = null
 
-            val phrasesInCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-            for (p in phrasesInCategory) {
-                if (localizedResourceUtility.getTextFromPhrase(p) == phraseString) {
-                    phrase = p
-                }
+            val phrase = presetsRepository.getPhrasesForCategory(category.categoryId).firstOrNull {
+                it.localizedUtterance == mapOf(Pair(Locale.getDefault().toString(), phraseString))
             }
+            phrase ?: return@launch
 
-            with(presetsRepository) {
-                if (phrase != null) {
-                    val crossRefs = getCrossRefsForPhraseIds(listOf(phrase.phraseId))
-
-                    // if the phrase is in only one category, delete it from the db entirely
-                    if (crossRefs.size == 1) {
-                        deletePhrase(phrase)
-                    } else { // otherwise, just delete the one cross reference
-                        crossRefs.forEach { ref ->
-                            if (ref.categoryId == category.categoryId) {
-                                deleteCrossRef(ref)
-                            }
-                        }
-                    }
-
-                    // remove the category from the saved phrases map
-                    savedPhrases.remove(category.categoryId)
+            presetsRepository.deletePhrase(phrase)
+            presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
+                .firstOrNull {
+                    it.localizedUtterance == phrase.localizedUtterance
+                }?.let {
+                    presetsRepository.deletePhrase(
+                        it
+                    )
                 }
-            }
 
             liveShowPhraseDeleted.postValue(true)
             delay(KeyboardViewModel.PHRASE_ADDED_DELAY)
@@ -132,33 +117,20 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
 
     private fun addNewPhrase(phraseString: String, category: Category) {
         backgroundScope.launch {
-            val categoryForPhrase = presetsRepository.getCategoryById(category.categoryId)
-            val phraseId = UUID.randomUUID().toString()
             val categoryPhrases =
                 presetsRepository.getPhrasesForCategory(category.categoryId)
-            with(presetsRepository) {
-                val phrase = Phrase(
-                    phraseId,
-                    System.currentTimeMillis(),
-                    true,
-                    System.currentTimeMillis(),
-                    null,
-                    mapOf(Pair(Locale.getDefault().toString(), phraseString)),
-                    categoryPhrases.size
-                )
-                addPhrase(phrase)
-                savedPhrases[category.categoryId] = phrase
-                addCrossRef(
-                    CategoryPhraseCrossRef(
-                        categoryForPhrase.categoryId,
-                        phraseId
-                    )
-                )
-            }
 
-            liveShowPhraseAdded.postValue(true)
-            delay(KeyboardViewModel.PHRASE_ADDED_DELAY)
-            liveShowPhraseAdded.postValue(false)
+            presetsRepository.addPhrase(
+                Phrase(
+                    phraseId = 0L,
+                    parentCategoryId = category.categoryId,
+                    creationDate = System.currentTimeMillis(),
+                    lastSpokenDate = System.currentTimeMillis(),
+                    resourceId = null,
+                    localizedUtterance = mapOf(Pair(Locale.getDefault().toString(), phraseString)),
+                    sortOrder = categoryPhrases.size
+                )
+            )
         }
     }
 

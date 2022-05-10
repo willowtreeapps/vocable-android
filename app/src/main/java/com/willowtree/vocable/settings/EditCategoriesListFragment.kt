@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -151,7 +150,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category.categoryId == PresetCategories.USER_FAVORITES.id) {
+            if (category.categoryId == PresetCategories.MY_SAYINGS.id) {
                 editCategorySelectButton?.isEnabled = false
             }
 
