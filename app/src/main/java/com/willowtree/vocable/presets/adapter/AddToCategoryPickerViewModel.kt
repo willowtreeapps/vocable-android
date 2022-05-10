@@ -126,7 +126,6 @@ class AddToCategoryPickerViewModel : BaseViewModel() {
                     parentCategoryId = category.categoryId,
                     creationDate = System.currentTimeMillis(),
                     lastSpokenDate = System.currentTimeMillis(),
-                    resourceId = null,
                     localizedUtterance = mapOf(Pair(Locale.getDefault().toString(), phraseString)),
                     sortOrder = categoryPhrases.size
                 )

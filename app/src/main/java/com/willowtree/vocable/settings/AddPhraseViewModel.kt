@@ -31,7 +31,6 @@ class AddPhraseViewModel : BaseViewModel() {
                     categoryId,
                     System.currentTimeMillis(),
                     System.currentTimeMillis(),
-                    null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                     mySayingsPhrases.size
                 )
