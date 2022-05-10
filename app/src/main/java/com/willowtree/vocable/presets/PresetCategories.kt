@@ -10,7 +10,7 @@ enum class PresetCategories(val id: String, val initialSortOrder: Int) {
     ENVIRONMENT("preset_environment_category_id", 4 ),
     USER_KEYPAD("preset_user_keypad", 5),
     RECENTS("preset_recents", 6),
-    USER_FAVORITES("preset_user_favorites", 7);
+    MY_SAYINGS("preset_user_favorites", 7);
 
     fun getArrayId(): Int {
         return when (this) {
@@ -21,7 +21,7 @@ enum class PresetCategories(val id: String, val initialSortOrder: Int) {
             PERSONAL_CARE -> R.array.category_personal_care
             USER_KEYPAD -> R.array.category_123
             RECENTS -> -1
-            USER_FAVORITES -> -1 // Not localized with same convention
+            MY_SAYINGS -> -1 // Not localized with same convention
         }
     }
 
@@ -33,7 +33,7 @@ enum class PresetCategories(val id: String, val initialSortOrder: Int) {
             ENVIRONMENT -> R.string.preset_environment
             PERSONAL_CARE -> R.string.preset_personal_care
             USER_KEYPAD -> R.string.preset_user_keypad
-            USER_FAVORITES -> R.string.preset_user_favorites
+            MY_SAYINGS -> R.string.preset_user_favorites
             RECENTS -> R.string.preset_recents
         }
     }

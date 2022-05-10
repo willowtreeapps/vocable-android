@@ -91,7 +91,6 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
             val newCategory = Category(
                 UUID.randomUUID().toString(),
                 System.currentTimeMillis(),
-                true,
                 null,
                 mapOf(Pair(Locale.getDefault().toString(), categoryName)),
                 false,
