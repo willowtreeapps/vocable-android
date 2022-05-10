@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,19 +25,17 @@ class AddPhraseViewModel : BaseViewModel() {
     fun addNewPhrase(phraseStr: String, categoryId: String) {
         backgroundScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(categoryId)
-            val phraseId = UUID.randomUUID().toString()
             presetsRepository.addPhrase(
                 Phrase(
-                    phraseId,
+                    0L,
+                    categoryId,
                     System.currentTimeMillis(),
-                    true,
                     System.currentTimeMillis(),
                     null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                     mySayingsPhrases.size
                 )
             )
-            presetsRepository.addCrossRef(CategoryPhraseCrossRef(categoryId, phraseId))
 
             liveShowPhraseAdded.postValue(true)
             delay(PHRASE_UPDATED_DELAY)

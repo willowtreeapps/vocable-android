@@ -354,7 +354,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
             return if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_KEYPAD.id) {
                 NumberPadFragment.newInstance(phrases)
-            } else if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.USER_FAVORITES.id && items.isEmpty()) {
+            } else if (presetsViewModel.selectedCategory.value?.categoryId == PresetCategories.MY_SAYINGS.id && items.isEmpty()) {
                 MySayingsEmptyFragment.newInstance(false)
             } else {
                 PhrasesFragment.newInstance(phrases)

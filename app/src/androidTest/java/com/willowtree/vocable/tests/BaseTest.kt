@@ -1,7 +1,6 @@
 package com.willowtree.vocable.tests
 
 import android.content.Intent
-import android.util.Log
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
@@ -18,10 +17,10 @@ import com.willowtree.vocable.utility.SplashScreenIdlingResource
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
+import timber.log.Timber
 import java.io.File
 import java.lang.NullPointerException
 import java.util.concurrent.TimeUnit
-
 
 open class BaseTest {
 
@@ -80,7 +79,7 @@ open class BaseTest {
             device.wait(Until.findObject(By.text("CONTINUE")), 10000).click()
         }
         catch (e: NullPointerException) {
-            Log.d("Test", "Popup not found, continuing with test")
+            Timber.d("Test", "Popup not found, continuing with test")
         }
     }
 }
