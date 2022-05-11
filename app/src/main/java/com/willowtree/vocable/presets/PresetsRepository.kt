@@ -8,7 +8,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import java.util.*
 
-class PresetsRepository(context: Context) : KoinComponent {
+class PresetsRepository(val context: Context) : KoinComponent {
 
     private val database = VocableDatabase.getVocableDatabase(context)
 
@@ -34,8 +34,7 @@ class PresetsRepository(context: Context) : KoinComponent {
             PresetCategories.RECENTS.id
         )
         val recentPhrase = phrases.firstOrNull {
-            it.localizedUtterance == phrase.localizedUtterance &&
-                    it.resourceId == phrase.resourceId
+            it.localizedUtterance == phrase.localizedUtterance
         }
         if (recentPhrase == null) {
             addPhrase(
@@ -44,7 +43,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = Calendar.getInstance().timeInMillis,
                     lastSpokenDate = Calendar.getInstance().timeInMillis,
-                    resourceId = phrase.resourceId,
                     localizedUtterance = phrase.localizedUtterance,
                     sortOrder = phrase.sortOrder
                 )
@@ -65,7 +63,6 @@ class PresetsRepository(context: Context) : KoinComponent {
                     PresetCategories.RECENTS.id,
                     phrase.creationDate,
                     Calendar.getInstance().timeInMillis,
-                    phrase.resourceId,
                     phrase.localizedUtterance,
                     phrase.sortOrder
                 )
@@ -131,8 +128,7 @@ class PresetsRepository(context: Context) : KoinComponent {
                             presetCategory.id,
                             System.currentTimeMillis(),
                             System.currentTimeMillis(),
-                            phrasesIds.getResourceId(index, -1),
-                            null,
+                            mapOf(Pair(Locale.getDefault().toString(), context.getString(phrasesIds.getResourceId(index, -1)))),
                             phraseObjects.size
                         )
                     )

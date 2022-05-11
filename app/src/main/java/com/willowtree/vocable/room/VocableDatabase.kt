@@ -34,7 +34,5 @@ abstract class VocableDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
     abstract fun phraseDao(): PhraseDao
-
-    //abstract fun categoryPhraseCrossRefDao(): CategoryPhraseCrossRefDao
 }
 
