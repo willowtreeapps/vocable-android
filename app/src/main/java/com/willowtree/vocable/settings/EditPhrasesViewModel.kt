@@ -41,7 +41,6 @@ class EditPhrasesViewModel : BaseViewModel() {
                     PresetCategories.RECENTS.id,
                     System.currentTimeMillis(),
                     System.currentTimeMillis(),
-                    null,
                     mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
                     mySayingsPhrases.size
                 )

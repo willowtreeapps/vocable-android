@@ -134,7 +134,7 @@ object VocableDatabaseMigrations {
     val MIGRATION_5_6: Migration = object : Migration(5, 6) {
         @SuppressLint("Range")
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
             val phraseIds = mutableMapOf<String, String>()
 
@@ -155,7 +155,7 @@ object VocableDatabaseMigrations {
                 val localizedUtterance = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                 val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
 
-                database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, null, '$localizedUtterance', $sortOrder)")
+                database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
             }
             phraseCursor.close()
 
@@ -179,7 +179,7 @@ object VocableDatabaseMigrations {
                 val localizedName = categoriesCursor.getString(categoriesCursor.getColumnIndex("localized_name"))
                 val hidden = categoriesCursor.getInt(categoriesCursor.getColumnIndex("hidden"))
                 val sortOrder = categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
-                database.execSQL("INSERT INTO Category_New (category_id, creation_date, resource_id, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$resourceID', '$localizedName', '$hidden', '$sortOrder')")
+                database.execSQL("INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$localizedName', '$hidden', '$sortOrder')")
             }
 
             categoriesCursor.close()

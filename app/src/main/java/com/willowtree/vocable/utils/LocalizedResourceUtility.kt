@@ -25,9 +25,7 @@ class LocalizedResourceUtility : KoinComponent {
     }
 
     fun getTextFromPhrase(phrase: Phrase?): String {
-        return phrase?.resourceId?.let {
-            resources.getString(it)
-        } ?: phrase?.localizedUtterance?.let {
+        return phrase?.localizedUtterance?.let {
             LocaleUtils.getTextForLocale(it)
         } ?: ""
     }
