@@ -137,16 +137,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
-            val categoryNameText = localizedResourceUtility.getTextFromCategory(category)
-            if (category.hidden) {
-                categoryName.text = categoryNameText
-            } else {
-                categoryName.text = getString(
-                    R.string.edit_categories_button_number,
-                    overallIndex + 1,
-                    categoryNameText
-                )
-            }
+            individualEditCategoryButton?.text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
@@ -160,42 +151,39 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
             }
 
             if (category.categoryId == PresetCategories.MY_SAYINGS.id) {
-                editCategorySelectButton.isEnabled = false
+                editCategorySelectButton?.isEnabled = false
             }
 
-            with(editCategorySelectButton) {
-                // enable the button if the category is user-generated, or if it's My Sayings
-                isEnabled =
-                    category.categoryId != PresetCategories.RECENTS.id
+            individualEditCategoryButton?.action = {
+                val action =
+                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
+                        category
+                    )
+                if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
+                    findNavController().navigate(action)
+                }
+                editCategoriesViewModel.onCategorySelected(category)
+            }
+
+/* Commenting this out so I can keep this code for when we refactor the category editing screen
+
+            with(editButtonBinding.showHideCategoryButton) {
+                if (!category.hidden) {
+                    setImageResource(R.drawable.button_hidden)
+                    setBackgroundResource(R.drawable.button_default_background)
+                } else {
+                    setImageResource(R.drawable.button_shown)
+                    setBackgroundResource(R.drawable.category_button_background)
+                }
+
 
                 action = {
-                    val action =
-                        EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
-                            category
-                        )
-                    if (findNavController().currentDestination?.id == R.id.editCategoriesFragment) {
-                        findNavController().navigate(action)
+                    category.let { category ->
+                        editCategoriesViewModel.hideShowCategory(category, !category.hidden)
                     }
-                    editCategoriesViewModel.onCategorySelected(category)
                 }
             }
-        }
-
-        with(editButtonBinding.showHideCategoryButton) {
-            if (!category.hidden) {
-                setImageResource(R.drawable.button_hidden)
-                setBackgroundResource(R.drawable.button_default_background)
-            } else {
-                setImageResource(R.drawable.button_shown)
-                setBackgroundResource(R.drawable.category_button_background)
-            }
-
-
-            action = {
-                category.let { category ->
-                    editCategoriesViewModel.hideShowCategory(category, !category.hidden)
-                }
-            }
+        }*/
         }
     }
 }

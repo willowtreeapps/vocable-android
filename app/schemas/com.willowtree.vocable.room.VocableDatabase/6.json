@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "8d6d47db642fbf6d6c6f9173428de61d",
+    "identityHash": "c1f1696aec199a504fbef00fc5a1e7f7",
     "entities": [
       {
         "tableName": "Category",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "Phrase",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "phraseId",
@@ -81,12 +81,6 @@
             "columnName": "last_spoken_date",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "resourceId",
-            "columnName": "resource_id",
-            "affinity": "INTEGER",
-            "notNull": false
           },
           {
             "fieldPath": "localizedUtterance",
@@ -114,7 +108,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8d6d47db642fbf6d6c6f9173428de61d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c1f1696aec199a504fbef00fc5a1e7f7')"
     ]
   }
 }
