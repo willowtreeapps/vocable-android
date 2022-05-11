@@ -6,6 +6,7 @@ import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertElementExists
 import com.willowtree.vocable.utility.assertTextMatches
 import com.willowtree.vocable.utility.tap
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -15,6 +16,7 @@ class KeyboardScreenTest : BaseTest() {
     private val keyboardScreen = KeyboardScreen()
     private val mainScreen = MainScreen()
 
+    @Ignore
     @Test
     fun verifyKeyboardButtonBringsUpKeyboard() {
         navigateToKeyboard()
@@ -25,6 +27,7 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyPhraseAppearsWhenTyped() {
         navigateToKeyboard()
@@ -35,6 +38,7 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyBackspaceRemovesLetters() {
         navigateToKeyboard()
@@ -46,6 +50,7 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyClearResetsInput() {
         navigateToKeyboard()
@@ -57,6 +62,7 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun verifyPresetsButtonReturnsToHome() {
         navigateToKeyboard()

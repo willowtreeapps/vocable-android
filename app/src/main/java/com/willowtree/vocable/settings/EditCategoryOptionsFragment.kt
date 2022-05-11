@@ -39,7 +39,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         category = args.category
         if (category.categoryId != PresetCategories.RECENTS.id) {
-            binding.removeCategoryButton.isInvisible = true
             binding.editOptionsButton.isInvisible = true
         }
 
