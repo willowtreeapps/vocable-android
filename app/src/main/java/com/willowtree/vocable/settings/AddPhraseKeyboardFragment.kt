@@ -17,8 +17,6 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.settings.EditPhrasesKeyboardFragmentArgs.Companion.fromBundle
-import java.util.*
 
 class AddPhraseKeyboardFragment : EditKeyboardFragment() {
 
