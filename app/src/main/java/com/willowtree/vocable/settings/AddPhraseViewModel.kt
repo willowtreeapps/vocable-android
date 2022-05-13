@@ -9,6 +9,7 @@ import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
+import timber.log.Timber
 import java.util.*
 
 class AddPhraseViewModel : BaseViewModel() {
@@ -23,22 +24,29 @@ class AddPhraseViewModel : BaseViewModel() {
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
     fun addNewPhrase(phraseStr: String, categoryId: String) {
+        Timber.d("WILL: log 1")
         backgroundScope.launch {
+            Timber.d("WILL: log 2")
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(categoryId)
-            presetsRepository.addPhrase(
-                Phrase(
-                    0L,
-                    categoryId,
-                    System.currentTimeMillis(),
-                    System.currentTimeMillis(),
-                    mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
-                    mySayingsPhrases.size
+            if (mySayingsPhrases.none {
+                    it.localizedUtterance?.containsValue(phraseStr) == true
+            }) {
+                Timber.d("WILL: saving like normal")
+                presetsRepository.addPhrase(
+                    Phrase(
+                        0L,
+                        categoryId,
+                        System.currentTimeMillis(),
+                        System.currentTimeMillis(),
+                        mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
+                        mySayingsPhrases.size
+                    )
                 )
-            )
-
-            liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_UPDATED_DELAY)
-            liveShowPhraseAdded.postValue(false)
+                liveShowPhraseAdded.postValue(true)
+            } else {
+                Timber.d("WILL: not saving")
+                liveShowPhraseAdded.postValue(false)
+            }
         }
     }
 }
