@@ -13,10 +13,6 @@ import java.util.*
 
 class EditPhrasesViewModel : BaseViewModel() {
 
-    companion object {
-        private const val PHRASE_UPDATED_DELAY = 2000L
-    }
-
     private val presetsRepository: PresetsRepository by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
@@ -25,10 +21,7 @@ class EditPhrasesViewModel : BaseViewModel() {
     fun updatePhrase(phrase: Phrase) {
         backgroundScope.launch {
             presetsRepository.updatePhrase(phrase)
-
             liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_UPDATED_DELAY)
-            liveShowPhraseAdded.postValue(false)
         }
     }
 
@@ -45,10 +38,11 @@ class EditPhrasesViewModel : BaseViewModel() {
                     mySayingsPhrases.size
                 )
             )
-
             liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_UPDATED_DELAY)
-            liveShowPhraseAdded.postValue(false)
         }
+    }
+
+    fun phraseToFalse() {
+        liveShowPhraseAdded.value = false
     }
 }
