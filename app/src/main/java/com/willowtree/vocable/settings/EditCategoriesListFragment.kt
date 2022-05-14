@@ -162,7 +162,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                     EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryMenuFragment(
                         category
                     )
-                Log.d("Caroline","navigation: category is ${category.categoryId}")
+
                 if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
                     findNavController().navigate(action)
                 }

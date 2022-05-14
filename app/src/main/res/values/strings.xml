@@ -179,5 +179,9 @@
     <string name="categories_edit_title">Categories</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rename_category">Rename Category</string>
+    <string name="show_category">Show Category</string>
+    <string name="edit_phrases">Edit Phrases</string>
+    <string name="remove_category">Remove Category</string>
 
 </resources>
