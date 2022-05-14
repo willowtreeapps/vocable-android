@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
+import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
@@ -33,7 +35,11 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         category = args.category
         Log.d("Caroline","args category is ${category.categoryId}")
         binding.categoryTitle.text = localizedResourceUtility.getTextFromCategory(category)
-        subscribeToViewModel()
+        setUpEditPhrasesButton()
+
+        binding.editOptionsBackButton.action = {
+            findNavController().popBackStack()
+        }
 
     }
 
@@ -47,6 +53,19 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
 //                category = editCategoriesViewModel.getUpdatedCategory(args.category)
 //            }
 //        })
+
+    }
+
+    private fun setUpEditPhrasesButton(){
+        binding.editPhrasesButton.action = {
+            val action =
+                EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(
+                    category
+                )
+            if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun getAllViews(): List<View> {
