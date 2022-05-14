@@ -52,9 +52,9 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpShowCategoryButton(){
-        binding.showCategoryButton.action={
-            editCategoriesViewModel.hideShowCategory(category, true)
-        }
+//        binding.showCategoryButton.action={
+//            editCategoriesViewModel.hideShowCategory(category, true)
+//        }
     }
 
     private fun subscribeToViewModel() {
