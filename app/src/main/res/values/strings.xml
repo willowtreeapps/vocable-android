@@ -177,5 +177,7 @@
     <string name="no_recent_phrases_title">No recently used phrases</string>
     <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
     <string name="categories_edit_title">Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
