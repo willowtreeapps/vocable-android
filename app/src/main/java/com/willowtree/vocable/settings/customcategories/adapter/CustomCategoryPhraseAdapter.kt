@@ -31,6 +31,7 @@ class CustomCategoryPhraseAdapter(
         fun bind(phrase: Phrase, onPhraseEdit: (Phrase) -> Unit, onPhraseDelete: (Phrase) -> Unit) {
             binding.phraseText.text = localizedResourceUtility.getTextFromPhrase(phrase)
 
+
             with(binding.actionButtonContainer) {
                 editPhraseButton.action = {
                     onPhraseEdit(phrase)

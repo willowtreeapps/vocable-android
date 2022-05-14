@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/SettingsTheme"
+    tools:background="@color/colorPrimaryDark">
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/edit_options_back_button"
+        style="@style/CloseButton"
+        android:layout_width="@dimen/settings_close_button_width"
+        android:layout_height="@dimen/settings_close_button_height"
+        android:layout_marginStart="@dimen/settings_close_button_start_margin"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
+        android:scaleType="center"
+        android:src="@drawable/category_back_button_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/category_title"
+        style="@style/SettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_category_title_margin_top"
+        android:ellipsize="end"
+        android:text="@string/settings"
+        android:lines="1"
+        app:layout_constraintStart_toEndOf="@id/edit_options_back_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="My Jokes" />
+
+    <TextView
+        android:id="@+id/empty_phrases_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_category_empty"
+        style="@style/CustomCategoryEmptyText"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent=".75"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/empty_add_phrase_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.willowtree.vocable.customviews.KeyboardButton
+        android:id="@+id/empty_add_phrase_button"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="@drawable/button_default_background"
+        android:text="@string/add_phrase"
+        style="@style/CustomCategoryEmptyButton"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/empty_phrases_text"
+        app:layout_constraintStart_toStartOf="@id/empty_phrases_text"
+        app:layout_constraintEnd_toEndOf="@id/empty_phrases_text"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/edit_category_pager_back_button"
+        android:layout_width="@dimen/edit_paging_button_width"
+        android:layout_height="@dimen/edit_paging_button_height"
+        android:layout_marginStart="@dimen/paging_button_margin"
+        android:layout_marginBottom="@dimen/edit_paging_button_bottom_margin"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/phrases_back_button_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_category_page_number"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/edit_page_number_margin"
+        android:layout_marginEnd="@dimen/edit_page_number_margin"
+        android:gravity="center"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/phrases_page_number_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/edit_category_pager_forward_button"
+        app:layout_constraintEnd_toStartOf="@+id/edit_category_pager_forward_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/edit_category_pager_back_button"
+        app:layout_constraintTop_toTopOf="@id/edit_category_pager_forward_button"
+        tools:text="Page 1 of 2" />
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/edit_category_pager_forward_button"
+        android:layout_width="@dimen/edit_paging_button_width"
+        android:layout_height="@dimen/edit_paging_button_height"
+        android:layout_marginEnd="@dimen/paging_button_margin"
+        android:layout_marginBottom="@dimen/edit_paging_button_bottom_margin"
+        android:background="@drawable/button_default_background"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/phrases_forward_button_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

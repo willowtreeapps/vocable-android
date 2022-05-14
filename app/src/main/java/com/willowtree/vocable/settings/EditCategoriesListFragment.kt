@@ -1,6 +1,7 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,6 +125,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                                 startPosition + index,
                                 firstHiddenIndex
                             )
+                            Log.d("Caroline","category is ${category.localizedName}")
                         }
                 }
             }
@@ -137,6 +139,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
+            Log.d("Caroline","in edit categories list fragment: category is ${category.categoryId}")
             individualEditCategoryButton?.text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
@@ -156,9 +159,10 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
 
             individualEditCategoryButton?.action = {
                 val action =
-                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
+                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryMenuFragment(
                         category
                     )
+                Log.d("Caroline","navigation: category is ${category.categoryId}")
                 if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
                     findNavController().navigate(action)
                 }

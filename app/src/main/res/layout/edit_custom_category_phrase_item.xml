@@ -8,18 +8,17 @@
 
     <TextView
         android:id="@+id/phrase_text"
-        style="@style/EditSayingsTextView"
+        style="@style/IndividualCategoryEditButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:maxLines="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/action_button_container"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:paddingStart="@dimen/edit_individual_category_padding_start"
+        android:paddingEnd="@dimen/edit_individual_category_padding_end"
+        android:padding="@dimen/edit_individual_category_padding"
+        android:layout_marginTop="@dimen/edit_individual_category_margin_top"
+        android:text="@string/settings"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <include
