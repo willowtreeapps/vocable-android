@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
@@ -37,10 +39,22 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         binding.categoryTitle.text = localizedResourceUtility.getTextFromCategory(category)
         setUpEditPhrasesButton()
 
+        editCategoriesViewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory()
+        ).get(EditCategoriesViewModel::class.java)
+
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
         }
 
+        setUpShowCategoryButton()
+    }
+
+    private fun setUpShowCategoryButton(){
+        binding.showCategoryButton.action={
+            editCategoriesViewModel.hideShowCategory(category, true)
+        }
     }
 
     private fun subscribeToViewModel() {
