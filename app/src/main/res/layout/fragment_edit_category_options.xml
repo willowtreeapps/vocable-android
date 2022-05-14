@@ -24,8 +24,8 @@
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/remove_category_button"
         style="@style/CloseButton"
-        android:layout_width="@dimen/settings_close_button_width"
-        android:layout_height="@dimen/settings_close_button_height"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="@dimen/settings_close_button_top_margin"
         android:src="@drawable/keyboard_delete_button_icon"
