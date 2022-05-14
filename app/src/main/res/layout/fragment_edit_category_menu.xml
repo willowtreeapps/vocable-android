@@ -48,18 +48,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/category_title"/>
 
-    <com.willowtree.vocable.customviews.SettingsButton
-        android:id="@+id/show_category_button"
-        style="@style/IndividualCategoryEditButton"
+    <com.willowtree.vocable.customviews.VocableConstraintLayout
+        android:id="@+id/show_category_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:layout_height="@dimen/selection_mode_button_height"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="24dp"
-        android:text="@string/show_category"
+        android:background="@drawable/settings_group_background"
         app:layout_constraintStart_toStartOf="@id/edit_options_back_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rename_category_button"/>
+        app:layout_constraintTop_toBottomOf="@id/rename_category_button">
+
+        <TextView
+            android:id="@+id/show_category_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingStart="@dimen/settings_option_button_padding"
+            android:textColor="@color/vocable_button_text_color"
+            android:textSize="@dimen/settings_button_text_size"
+            android:text="@string/edit_category_show_category_text"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/head_tracking_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/head_tracking_switch"
+            style="@style/SelectionModeButtonSwitch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.willowtree.vocable.customviews.VocableConstraintLayout>
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/edit_phrases_button"
@@ -72,14 +93,16 @@
         android:text="@string/edit_phrases"
         app:layout_constraintStart_toStartOf="@id/edit_options_back_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/show_category_button"/>
+        app:layout_constraintTop_toBottomOf="@id/show_category_container"/>
 
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/remove_category_button"
         style="@style/RemoveCategoryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="10dp"
+        android:drawableStart="@drawable/ic_delete"
+        android:gravity="center_vertical"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="24dp"
         android:text="@string/remove_category"
