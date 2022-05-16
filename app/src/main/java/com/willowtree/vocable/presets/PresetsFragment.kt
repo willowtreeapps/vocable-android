@@ -268,12 +268,15 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 }
                 setCurrentItem(targetPosition, false)
                 presetsViewModel.selectedCategory.removeObservers(viewLifecycleOwner)
-            })
-
-            presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer { selectedCategory ->
-                recentsCategorySelected = selectedCategory.categoryId == PresetCategories.RECENTS.id
+                observeRecents()
             })
         }
+    }
+
+    private fun observeRecents() {
+        presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer { selectedCategory ->
+            recentsCategorySelected = selectedCategory.categoryId == PresetCategories.RECENTS.id
+        })
     }
 
     private fun handlePhrases(phrases: List<Phrase>) {
