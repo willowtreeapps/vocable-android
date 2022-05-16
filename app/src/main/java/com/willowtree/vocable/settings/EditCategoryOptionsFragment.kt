@@ -30,7 +30,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
 
-    private var maxPhrases = 1
+    //private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
     private lateinit var category: Category
 
@@ -58,7 +58,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             findNavController().popBackStack()
         }
 
-        binding.removeCategoryButton.action = {
+        binding.removeCategoryButton?.action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding.confirmationDialog.apply {
@@ -90,8 +90,8 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
 
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
-        val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
-        maxPhrases = numColumns * numRows
+       // val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
+       // maxPhrases = numColumns * numRows
 
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
@@ -178,7 +178,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         binding.apply {
             editOptionsButton.isEnabled = enabled
             editOptionsBackButton.isEnabled = enabled
-            removeCategoryButton.isEnabled = enabled
+            removeCategoryButton?.isEnabled = enabled
         }
     }
 
@@ -232,7 +232,8 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
-        override fun getMaxItemsPerPage(): Int = maxPhrases
+       // override fun getMaxItemsPerPage(): Int = maxPhrases
+       override fun getMaxItemsPerPage(): Int = 10
 
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)

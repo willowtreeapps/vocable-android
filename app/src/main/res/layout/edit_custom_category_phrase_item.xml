@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/SpeechButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="false">
 
-    <TextView
-        android:id="@+id/phrase_text"
-        style="@style/IndividualCategoryEditButton"
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/remove_category_button"
+        style="@style/DeletePhraseButton"
+        android:scaleType="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/edit_individual_category_padding_start"
-        android:paddingEnd="@dimen/edit_individual_category_padding_end"
-        android:padding="@dimen/edit_individual_category_padding"
-        android:layout_marginTop="@dimen/edit_individual_category_margin_top"
-        android:text="@string/settings"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/keyboard_delete_button_icon"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/phrase_text_button"
+        style="@style/PhraseEditButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:layout_marginStart="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/remove_category_button"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <include
-        android:id="@+id/action_button_container"
-        style="@style/EditSayingsActionButtons"
-        layout="@layout/edit_custom_category_phrase_action_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/filler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
