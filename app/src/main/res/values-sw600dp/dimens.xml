@@ -14,6 +14,8 @@
     <dimen name="categories_paging_button_height">112dp</dimen>
     <dimen name="categories_margin">40dp</dimen>
     <dimen name="categories_side_margin">8dp</dimen>
+    <dimen name="settings_edit_individual_category_arrow_height">64dp</dimen>
+
 
     <!-- Phrases -->
     <dimen name="phrases_paging_button_width">104dp</dimen>
