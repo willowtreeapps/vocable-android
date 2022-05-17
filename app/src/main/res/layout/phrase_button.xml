@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.willowtree.vocable.customviews.VocablePhraseButton xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/SpeechButton"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:background="@drawable/button_default_background"
-    android:ellipsize="end"
-    android:maxLines="2"
-    android:paddingStart="@dimen/speech_button_padding"
-    android:paddingEnd="@dimen/speech_button_padding" />
+    android:layout_width="match_parent">
+
+    <com.willowtree.vocable.customviews.VocablePhraseButton
+        android:id="@+id/say_phrase_button"
+        style="@style/SpeechButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_default_background"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingStart="@dimen/speech_button_padding"
+        android:paddingEnd="@dimen/speech_button_padding"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.willowtree.vocable.customviews.VocablePhraseButton
+        android:id="@+id/add_phrase_button_home"
+        style="@style/SpeechButton"
+        android:text="@string/add_phrase_plus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_default_background_dashed"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingStart="@dimen/speech_button_padding"
+        android:paddingEnd="@dimen/speech_button_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

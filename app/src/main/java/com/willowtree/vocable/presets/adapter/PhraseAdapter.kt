@@ -20,8 +20,8 @@ class PhraseAdapter(private val phrases: List<Phrase>, private val numRows: Int,
         private val binding = PhraseButtonBinding.bind(itemView)
 
         fun bind(text: String, position: Int) {
-            binding.root.setText(text, Locale.getDefault())
-            binding.root.action = {
+            binding.sayPhraseButton.setText(text, Locale.getDefault())
+            binding.sayPhraseButton.action = {
                 phraseClickAction?.invoke(phrases[position])
             }
         }
