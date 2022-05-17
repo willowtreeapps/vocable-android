@@ -43,17 +43,17 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             binding.editOptionsButton.isInvisible = true
         }
 
-        category.let {
-            binding.editOptionsButton.action = {
-                val action =
-                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
-                        category
-                    )
-                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
-                    findNavController().navigate(action)
-                }
-            }
-        }
+//        category.let {
+//            binding.editCategoryPhraseHolder. = {
+//                val action =
+//                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
+//                        category
+//                    )
+//                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+//                    findNavController().navigate(action)
+//                }
+//            }
+//        }
 
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
