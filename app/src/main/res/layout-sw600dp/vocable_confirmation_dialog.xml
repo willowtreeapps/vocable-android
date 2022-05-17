@@ -5,7 +5,8 @@
     android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:elevation="@dimen/dialog_shadow">
+    android:elevation="@dimen/dialog_shadow"
+    android:id="@+id/dialog_confirmation_holder">
 
     <TextView
         android:id="@+id/dialog_title"

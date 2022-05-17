@@ -87,6 +87,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     }
 
     private fun showDeletePhraseDialog(phrase: Phrase) {
+
         with(binding.deleteConfirmation) {
             dialogTitle.setText(R.string.are_you_sure)
 
