@@ -14,7 +14,7 @@ import org.koin.core.component.inject
 
 class CustomCategoryPhraseAdapter(
     private var phrases: List<Phrase>,
-    //private val numRows: Int,
+    private val numRows: Int,
     private val onPhraseEdit: (Phrase) -> Unit,
     private val onPhraseDelete: (Phrase) -> Unit
 ) : RecyclerView.Adapter<CustomCategoryPhraseAdapter.CustomCategoryPhraseViewHolder>(),
