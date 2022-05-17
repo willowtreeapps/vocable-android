@@ -169,6 +169,7 @@
     <string name="preset_trouble_breathing" formatted="false">I am having trouble breathing</string>
     <string name="preset_need_jacket" formatted="false">I need a jacket</string>
     <string name="add_phrase">Add Phrase</string>
+    <string name="add_phrase_plus">+ Add Phrase</string>
     <string name="add_category">Add Category</string>
     <string name="add_to_category">Add to Category</string>
     <string name="no_custom_categories">No custom categories</string>
