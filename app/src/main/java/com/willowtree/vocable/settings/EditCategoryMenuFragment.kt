@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -35,7 +36,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         category = args.category
-        Log.d("Caroline","args category is ${category.categoryId}")
+
         binding.categoryTitle.text = localizedResourceUtility.getTextFromCategory(category)
         setUpEditPhrasesButton()
 
@@ -49,12 +50,47 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         }
 
         setUpShowCategoryButton()
+        setUpRemoveCategoryButton()
     }
 
     private fun setUpShowCategoryButton(){
 //        binding.showCategoryButton.action={
 //            editCategoriesViewModel.hideShowCategory(category, true)
 //        }
+    }
+
+    private fun setUpRemoveCategoryButton(){
+        binding.removeCategoryButton?.action = {
+            setEditButtonsEnabled(false)
+            toggleDialogVisibility(true)
+            binding.confirmationDialog.apply {
+                dialogTitle.text = resources.getString(R.string.are_you_sure)
+                dialogMessage.text = getString(R.string.removed_cant_be_restored)
+                dialogPositiveButton.text =
+                    resources.getString(R.string.delete)
+                dialogPositiveButton.action = {
+                    editCategoriesViewModel.deleteCategory(category)
+
+                    findNavController().popBackStack()
+                }
+                dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
+                dialogNegativeButton.action = {
+                    toggleDialogVisibility(false)
+                    setEditButtonsEnabled(true)
+                }
+            }
+        }
+    }
+
+    private fun toggleDialogVisibility(visible: Boolean) {
+        binding.confirmationDialog.root.isVisible = visible
+    }
+
+    private fun setEditButtonsEnabled(enabled: Boolean) {
+        binding.apply {
+            editOptionsBackButton.isEnabled = enabled
+            removeCategoryButton?.isEnabled = enabled
+        }
     }
 
     private fun subscribeToViewModel() {

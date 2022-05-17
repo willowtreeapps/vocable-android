@@ -110,6 +110,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_phrases_button"/>
 
+    <include
+        android:id="@+id/confirmation_dialog"
+        layout="@layout/vocable_confirmation_dialog"
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.willowtree.vocable.customviews.SettingsButton
         android:id="@+id/edit_category_pager_back_button"
         android:layout_width="@dimen/edit_paging_button_width"
