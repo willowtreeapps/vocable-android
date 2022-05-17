@@ -1,6 +1,7 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -30,7 +31,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         FragmentEditCategoryOptionsBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
 
-    //private var maxPhrases = 1
+    private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
     private lateinit var category: Category
 
@@ -90,12 +91,14 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
 
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
-       // val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
-       // maxPhrases = numColumns * numRows
+        //val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
+        val numRows = 9
+        maxPhrases = numColumns * numRows
 
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
         binding.editCategoryPagerForwardButton.action = {
+            Log.d("Caroline","phrase adapter is ${phrasesAdapter.itemCount}")
             when (val currentPosition = binding.editCategoryPhraseHolder.currentItem) {
                 phrasesAdapter.itemCount - 1 -> {
                     binding.editCategoryPhraseHolder.setCurrentItem(0, true)
@@ -232,8 +235,8 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
-       // override fun getMaxItemsPerPage(): Int = maxPhrases
-       override fun getMaxItemsPerPage(): Int = 10
+       override fun getMaxItemsPerPage(): Int = maxPhrases
+
 
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)
