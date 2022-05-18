@@ -53,6 +53,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
                 adapter = PhraseAdapter(
                     it,
                     numRows,
+                    null,
                     null
                 )
                 setHasFixedSize(true)

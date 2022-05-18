@@ -21,6 +21,9 @@ class PresetsViewModel : BaseViewModel() {
     private val liveCurrentPhrases = MutableLiveData<List<Phrase?>>()
     val currentPhrases: LiveData<List<Phrase?>> = liveCurrentPhrases
 
+    private val liveNavToAddPhrase = MutableLiveData<Boolean>()
+    val navToAddPhrase: LiveData<Boolean> = liveNavToAddPhrase
+
     init {
         populateCategories()
     }
@@ -52,6 +55,7 @@ class PresetsViewModel : BaseViewModel() {
                     presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()
                 }
+                //Add null to end of normal category phrase list for the "+ Add Phrase" button
                 if (catId.categoryId != PresetCategories.RECENTS.id && catId.categoryId != PresetCategories.USER_KEYPAD.id) {
                     phrases.add(null)
                 }
@@ -67,5 +71,10 @@ class PresetsViewModel : BaseViewModel() {
         backgroundScope.launch {
             presetsRepository.addPhraseToRecents(phrase)
         }
+    }
+
+    fun navToAddPhrase() {
+        liveNavToAddPhrase.value = true
+        liveNavToAddPhrase.value = false
     }
 }

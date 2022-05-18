@@ -47,7 +47,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/settings_close_button" />
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/privacy_policy_button"
         style="@style/SettingsLinkOutButton"
         android:layout_width="0dp"
@@ -58,7 +58,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/settings_options_container" />
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/contact_devs_button"
         style="@style/SettingsLinkOutButton"
         android:layout_width="0dp"
