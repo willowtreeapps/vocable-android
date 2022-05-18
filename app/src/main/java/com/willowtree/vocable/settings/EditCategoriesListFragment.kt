@@ -139,7 +139,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
-            Log.d("Caroline","in edit categories list fragment: category is ${category.categoryId}")
             individualEditCategoryButton?.text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0

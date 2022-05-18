@@ -348,7 +348,6 @@
         <item name="android:layout_marginBottom">@dimen/settings_option_button_margin</item>
         <item name="android:background">@drawable/button_default_background_remove_category</item>
         <item name="android:drawableStart">@drawable/ic_delete</item>
-
         <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>

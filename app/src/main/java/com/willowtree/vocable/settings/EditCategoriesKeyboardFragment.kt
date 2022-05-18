@@ -40,7 +40,6 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
             }
         }
 
-
         binding.saveButton.action = {
             if (!isDefaultTextVisible()) {
                 if (currentCategory == null) {

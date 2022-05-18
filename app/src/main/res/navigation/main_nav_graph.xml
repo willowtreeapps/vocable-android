@@ -31,6 +31,9 @@
             android:defaultValue="@null"
             app:argType="com.willowtree.vocable.room.Category"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_editCategoriesKeyboardFragment_to_editCategoryMenuFragment"
+            app:destination="@id/editCategoryMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/editCategoryOptionsFragment"
@@ -156,5 +159,8 @@
         <action
             android:id="@+id/action_editCategoryMenuFragment_to_editCategoryOptionsFragment"
             app:destination="@id/editCategoryOptionsFragment" />
+        <action
+            android:id="@+id/action_editCategoryMenuFragment_to_editCategoriesKeyboardFragment"
+            app:destination="@id/editCategoriesKeyboardFragment" />
     </fragment>
 </navigation>
