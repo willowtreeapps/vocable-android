@@ -12,13 +12,13 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import timber.log.Timber
 import java.util.*
 
 class PhraseAdapter(
     private val phrases: List<Phrase?>,
     private val numRows: Int,
-    private val phraseClickAction: ((Phrase) -> Unit)?
+    private val phraseClickAction: ((Phrase) -> Unit)?,
+    private val phraseAddClickAction: (() -> Unit)?
 ) :
     RecyclerView.Adapter<PhraseAdapter.PhraseViewHolder>(), KoinComponent {
 
@@ -31,7 +31,6 @@ class PhraseAdapter(
     inner class PhraseItemViewHolder(itemView: View) : PhraseAdapter.PhraseViewHolder(itemView) {
 
         override fun bind(text: String, position: Int) {
-            Timber.d("WILL: normal")
             val binding = PhraseButtonBinding.bind(itemView)
             binding.root.setText(text, Locale.getDefault())
             binding.root.action = {
@@ -43,10 +42,9 @@ class PhraseAdapter(
     inner class PhraseAddItemViewHolder(itemView: View) : PhraseAdapter.PhraseViewHolder(itemView) {
 
         override fun bind(text: String, position: Int) {
-            Timber.d("WILL: bind add extra")
             val binding = PhraseButtonAddBinding.bind(itemView)
             binding.root.action = {
-                Timber.d("WILL: add phrase button clicked")
+                phraseAddClickAction?.invoke()
             }
         }
     }

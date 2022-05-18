@@ -61,9 +61,11 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
                     )
                 )
 
-                adapter = PhraseAdapter(it, numRows) { phrase ->
+                adapter = PhraseAdapter(it, numRows, { phrase ->
                     presetsViewModel.addToRecents(phrase)
-                }
+                }, {
+                   presetsViewModel.navToAddPhrase()
+                })
 
                 setHasFixedSize(true)
             }
