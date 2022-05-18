@@ -20,7 +20,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
         private const val KEY_PHRASES = "KEY_PHRASES"
         const val MAX_PHRASES = 12
 
-        fun newInstance(phrases: List<Phrase>) = NumberPadFragment().apply {
+        fun newInstance(phrases: List<Phrase?>) = NumberPadFragment().apply {
             arguments = bundleOf(KEY_PHRASES to ArrayList(phrases))
         }
     }
