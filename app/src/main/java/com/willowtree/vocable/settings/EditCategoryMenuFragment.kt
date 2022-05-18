@@ -20,10 +20,12 @@ import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import java.util.function.LongToDoubleFunction
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
-    private val args: EditCategoryOptionsFragmentArgs by navArgs()
+    private val args: EditCategoryMenuFragmentArgs by navArgs()
+
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
@@ -36,8 +38,18 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         category = args.category
+        Log.d("Caroline","category is $category")
 
-        binding.categoryTitle.text = localizedResourceUtility.getTextFromCategory(category)
+        editCategoriesViewModel = ViewModelProviders.of(
+            requireActivity(),
+            BaseViewModelFactory()
+        ).get(EditCategoriesViewModel::class.java)
+
+        //val categoryText = localizedResourceUtility.getTextFromCategory(category)
+
+        //TEMPORARY -----------
+//        binding.categoryTitle.text = (category.localizedName?.get("en_US"))
+
         setUpEditPhrasesButton()
 
         editCategoriesViewModel = ViewModelProviders.of(
@@ -51,12 +63,41 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
 
         setUpShowCategoryButton()
         setUpRemoveCategoryButton()
+        setUpRenameCategoryButton()
+        subscribeToViewModel()
+    }
+
+    private fun subscribeToViewModel() {
+        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                // Get the most updated category name if the user changed it on the
+                // EditCategoriesKeyboardFragment screen
+                binding.categoryTitle.text =
+                    editCategoriesViewModel.getUpdatedCategoryName(args.category)
+                category = editCategoriesViewModel.getUpdatedCategory(args.category)
+            }
+        })
     }
 
     private fun setUpShowCategoryButton(){
 //        binding.showCategoryButton.action={
 //            editCategoriesViewModel.hideShowCategory(category, true)
 //        }
+    }
+
+    private fun setUpRenameCategoryButton(){
+
+        binding.renameCategoryButton.action = {
+            Log.d("Caroline","rename category")
+            val action =
+                EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
+                    category
+                )
+
+            if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun setUpRemoveCategoryButton(){
@@ -91,19 +132,6 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             editOptionsBackButton.isEnabled = enabled
             removeCategoryButton?.isEnabled = enabled
         }
-    }
-
-    private fun subscribeToViewModel() {
-//        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                // Get the most updated category name if the user changed it on the
-//                // EditCategoriesKeyboardFragment screen
-//                binding.categoryTitle.text =
-//                    editCategoriesViewModel.getUpdatedCategoryName(args.category)
-//                category = editCategoriesViewModel.getUpdatedCategory(args.category)
-//            }
-//        })
-
     }
 
     private fun setUpEditPhrasesButton(){

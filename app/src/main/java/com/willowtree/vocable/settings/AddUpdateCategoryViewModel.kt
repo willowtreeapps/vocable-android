@@ -1,5 +1,6 @@
 package com.willowtree.vocable.settings
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -40,6 +41,7 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
     }
 
     fun updateCategory(categoryId: String, updatedName: String) {
+        Log.d("Caroline","Update category is $updatedName")
         backgroundScope.launch {
             // Don't allow duplicate category names
             if (categoryNameExists(updatedName)) {
