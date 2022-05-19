@@ -1,7 +1,6 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -14,8 +13,6 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.utils.LocalizedResourceUtility
-import org.koin.android.ext.android.inject
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
@@ -55,7 +52,6 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun subscribeToCategoryNameChange() {
-
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 editCategoriesViewModel.refreshCategories()
@@ -72,8 +68,27 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
 //        }
     }
 
-    private fun setUpRenameCategoryButton() {
+    /* Commenting this out so I can keep this code for when we refactor the category editing screen
 
+            with(editButtonBinding.showHideCategoryButton) {
+                if (!category.hidden) {
+                    setImageResource(R.drawable.button_hidden)
+                    setBackgroundResource(R.drawable.button_default_background)
+                } else {
+                    setImageResource(R.drawable.button_shown)
+                    setBackgroundResource(R.drawable.category_button_background)
+                }
+
+
+                action = {
+                    category.let { category ->
+                        editCategoriesViewModel.hideShowCategory(category, !category.hidden)
+                    }
+                }
+            }
+        }*/
+
+    private fun setUpRenameCategoryButton() {
         binding.renameCategoryButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
