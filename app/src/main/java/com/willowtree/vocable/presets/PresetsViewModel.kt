@@ -55,8 +55,8 @@ class PresetsViewModel : BaseViewModel() {
                     presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()
                 }
-                //Add null to end of normal category phrase list for the "+ Add Phrase" button
-                if (catId.categoryId != PresetCategories.RECENTS.id && catId.categoryId != PresetCategories.USER_KEYPAD.id) {
+                //Add null to end of normal non empty category phrase list for the "+ Add Phrase" button
+                if (catId.categoryId != PresetCategories.RECENTS.id && catId.categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
                     phrases.add(null)
                 }
                 liveCurrentPhrases.postValue(phrases)
