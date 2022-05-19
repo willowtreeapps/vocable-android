@@ -53,15 +53,6 @@
             app:destination="@id/editPhrasesKeyboardFragment" />
     </fragment>
     <fragment
-        android:id="@+id/editPresetsFragment"
-        android:name="com.willowtree.vocable.settings.EditPresetsFragment"
-        android:label="EditPresetsFragment"
-        tools:layout="@layout/fragment_edit_presets">
-        <action
-            android:id="@+id/action_editPresetsFragment_to_editPhrasesKeyboardFragment"
-            app:destination="@id/editPhrasesKeyboardFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/sensitivityFragment"
         android:name="com.willowtree.vocable.settings.SensitivityFragment"
         android:label="SensitivityFragment"
@@ -75,7 +66,7 @@
         android:id="@+id/editPhrasesKeyboardFragment"
         android:name="com.willowtree.vocable.settings.EditPhrasesKeyboardFragment"
         android:label="EditPhrasesKeyboardFragment"
-        tools:layout="@layout/fragment_edit_phrases">
+        tools:layout="@layout/fragment_edit_keyboard">
         <argument
             android:name="phrase"
             android:defaultValue="@null"
@@ -95,9 +86,6 @@
         android:name="com.willowtree.vocable.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_editPresetsFragment"
-            app:destination="@id/editPresetsFragment" />
         <action
             android:id="@+id/action_settingsFragment_to_sensitivityFragment"
             app:destination="@id/sensitivityFragment" />
@@ -130,9 +118,6 @@
             app:destination="@id/presetsFragment"
             app:popUpTo="@id/presetsFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_keyboardFragment_to_addToCategoryPickerFragment"
-            app:destination="@id/addToCategoryPickerFragment" />
         <action
             android:id="@+id/action_keyboardFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />

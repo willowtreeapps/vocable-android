@@ -32,6 +32,11 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
         currentCategory = args.category
 
+        viewModel = ViewModelProviders.of(
+            this,
+            BaseViewModelFactory()
+        ).get(AddUpdateCategoryViewModel::class.java)
+
         binding.backButton.action = {
             val categoryTextChanged = binding.keyboardInput.text.toString() != currentCategoryText
             if (!categoryTextChanged || isDefaultTextVisible()) {
@@ -69,11 +74,6 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
         val inputText = categoryText.ifEmpty { getString(R.string.keyboard_select_letters) }
 
         binding.keyboardInput.setText(inputText)
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(AddUpdateCategoryViewModel::class.java)
 
         subscribeToViewModel()
     }

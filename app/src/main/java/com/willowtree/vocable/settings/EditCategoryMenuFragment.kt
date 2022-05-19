@@ -1,6 +1,7 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -44,20 +45,15 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         setUpShowCategoryButton()
         setUpEditPhrasesButton()
         setUpRemoveCategoryButton()
-        subscribeToViewModel()
+        setUpCategoryTitle()
 
     }
 
-    private fun subscribeToViewModel() {
-
-        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-
-                binding.categoryTitle.text =
-                    editCategoriesViewModel.getUpdatedCategoryName(args.category)
-                category = editCategoriesViewModel.getUpdatedCategory(args.category)
-            }
-        })
+    private fun setUpCategoryTitle() {
+        editCategoriesViewModel.refreshCategories()
+        binding.categoryTitle.text =
+            editCategoriesViewModel.getUpdatedCategoryName(args.category)
+        category = editCategoriesViewModel.getUpdatedCategory(args.category)
     }
 
     private fun setUpShowCategoryButton() {
