@@ -23,16 +23,6 @@ class LocalizedResourceUtility : KoinComponent {
                 ""
             }
         } ?: ""
-//        if (category?.resourceId == 0) {
-//            return category.localizedName?.let {
-//                LocaleUtils.getTextForLocale(it)
-//            } ?: ""
-//        }
-//        return category?.resourceId?.let {
-//            resources.getString(it)
-//        } ?: category?.localizedName?.let {
-//            LocaleUtils.getTextForLocale(it)
-//        } ?: ""
     }
 
     fun getTextFromPhrase(phrase: Phrase?): String {
