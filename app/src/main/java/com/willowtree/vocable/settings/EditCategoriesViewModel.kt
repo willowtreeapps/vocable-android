@@ -137,15 +137,8 @@ class EditCategoriesViewModel : BaseViewModel() {
     }
 
     fun getUpdatedCategoryName(category: Category): String {
-        Log.d("Caroline","view model get category name is $category")
         val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
-        Log.d("Caroline","view model updated category is ${updatedCategory}")
-        Log.d("Caroline","view model localized name is ${localizedResourceUtility.getTextFromCategory(updatedCategory)}")
         return localizedResourceUtility.getTextFromCategory(updatedCategory)
-    }
-
-    fun getRenamedCategoryName(category: Category): String {
-        return category.localizedName.toString()
     }
 
     fun getUpdatedCategory(category: Category): Category {

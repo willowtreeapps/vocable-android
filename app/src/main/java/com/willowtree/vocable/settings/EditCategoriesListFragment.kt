@@ -166,26 +166,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 }
                 editCategoriesViewModel.onCategorySelected(category)
             }
-
-/* Commenting this out so I can keep this code for when we refactor the category editing screen
-
-            with(editButtonBinding.showHideCategoryButton) {
-                if (!category.hidden) {
-                    setImageResource(R.drawable.button_hidden)
-                    setBackgroundResource(R.drawable.button_default_background)
-                } else {
-                    setImageResource(R.drawable.button_shown)
-                    setBackgroundResource(R.drawable.category_button_background)
-                }
-
-
-                action = {
-                    category.let { category ->
-                        editCategoriesViewModel.hideShowCategory(category, !category.hidden)
-                    }
-                }
-            }
-        }*/
         }
     }
 }

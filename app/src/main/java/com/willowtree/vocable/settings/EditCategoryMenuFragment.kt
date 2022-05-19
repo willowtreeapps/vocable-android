@@ -34,27 +34,25 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             BaseViewModelFactory()
         ).get(EditCategoriesViewModel::class.java)
 
-        editCategoriesViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
-
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
         }
+
+        binding.headTrackingSwitch.isChecked = !category.hidden
 
         setUpRenameCategoryButton()
         setUpShowCategoryButton()
         setUpEditPhrasesButton()
         setUpRemoveCategoryButton()
-        subscribeToCategoryNameChange()
+        subscribeToViewModel()
 
     }
 
-    private fun subscribeToCategoryNameChange() {
+    private fun subscribeToViewModel() {
+
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                editCategoriesViewModel.refreshCategories()
+
                 binding.categoryTitle.text =
                     editCategoriesViewModel.getUpdatedCategoryName(args.category)
                 category = editCategoriesViewModel.getUpdatedCategory(args.category)
@@ -63,30 +61,12 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpShowCategoryButton() {
-//        binding.showCategoryButton.action={
-//            editCategoriesViewModel.hideShowCategory(category, true)
-//        }
-    }
-
-    /* Commenting this out so I can keep this code for when we refactor the category editing screen
-
-            with(editButtonBinding.showHideCategoryButton) {
-                if (!category.hidden) {
-                    setImageResource(R.drawable.button_hidden)
-                    setBackgroundResource(R.drawable.button_default_background)
-                } else {
-                    setImageResource(R.drawable.button_shown)
-                    setBackgroundResource(R.drawable.category_button_background)
-                }
-
-
-                action = {
-                    category.let { category ->
-                        editCategoriesViewModel.hideShowCategory(category, !category.hidden)
-                    }
-                }
+        binding.headTrackingSwitch.apply {
+            setOnCheckedChangeListener { _, isChecked ->
+                editCategoriesViewModel.hideShowCategory(category, !category.hidden)
             }
-        }*/
+        }
+    }
 
     private fun setUpRenameCategoryButton() {
         binding.renameCategoryButton.action = {
@@ -94,7 +74,6 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
                     category
                 )
-
             if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                 findNavController().navigate(action)
             }
@@ -131,7 +110,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     private fun setEditButtonsEnabled(enabled: Boolean) {
         binding.apply {
             editOptionsBackButton.isEnabled = enabled
-            removeCategoryButton?.isEnabled = enabled
+            removeCategoryButton.isEnabled = enabled
         }
     }
 
