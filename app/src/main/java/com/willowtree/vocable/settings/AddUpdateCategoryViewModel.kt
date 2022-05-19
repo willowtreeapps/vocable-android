@@ -41,7 +41,6 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
     }
 
     fun updateCategory(categoryId: String, updatedName: String) {
-        Log.d("Caroline","Update category is $updatedName")
         backgroundScope.launch {
             // Don't allow duplicate category names
             if (categoryNameExists(updatedName)) {
