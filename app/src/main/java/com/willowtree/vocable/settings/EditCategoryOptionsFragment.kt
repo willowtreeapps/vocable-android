@@ -1,7 +1,6 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -123,7 +122,10 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
 
         binding.emptyAddPhraseButton.action = {
-            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
+            val action =
+                EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(
+                    category
+                )
             if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
                 findNavController().navigate(action)
             }
@@ -234,7 +236,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             }
         }
 
-       override fun getMaxItemsPerPage(): Int = maxPhrases
+        override fun getMaxItemsPerPage(): Int = maxPhrases
 
 
         override fun createFragment(position: Int): Fragment {

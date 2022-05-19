@@ -1,6 +1,5 @@
 package com.willowtree.vocable.settings
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
@@ -66,7 +65,7 @@ class EditCategoriesViewModel : BaseViewModel() {
             // Delete any phrases whose only associated category is the one being deleted
             // First get the ids of all phrases associated with the category being deleted
             val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-                                .sortedBy { it.sortOrder }
+                .sortedBy { it.sortOrder }
 
 
             //Delete from Recents by utterance

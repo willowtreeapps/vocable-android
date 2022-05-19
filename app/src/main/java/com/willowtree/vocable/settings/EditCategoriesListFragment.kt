@@ -1,7 +1,6 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -138,7 +137,8 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
-            individualEditCategoryButton?.text = localizedResourceUtility.getTextFromCategory(category)
+            individualEditCategoryButton?.text =
+                localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
