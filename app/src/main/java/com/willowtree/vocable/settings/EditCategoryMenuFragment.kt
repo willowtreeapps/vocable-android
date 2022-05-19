@@ -20,7 +20,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
 
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private lateinit var editCategoryMenuViewModel: EditCategoryMenuViewModel
 
     private lateinit var category: Category
 
@@ -28,10 +28,10 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         super.onViewCreated(view, savedInstanceState)
         category = args.category
 
-        editCategoriesViewModel = ViewModelProviders.of(
+        editCategoryMenuViewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
+        ).get(EditCategoryMenuViewModel::class.java)
 
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
@@ -48,16 +48,16 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpCategoryTitle() {
-        editCategoriesViewModel.refreshCategories()
+        editCategoryMenuViewModel.refreshCategories()
         binding.categoryTitle.text =
-            editCategoriesViewModel.getUpdatedCategoryName(args.category)
-        category = editCategoriesViewModel.getUpdatedCategory(args.category)
+            editCategoryMenuViewModel.getUpdatedCategoryName(args.category)
+        category = editCategoryMenuViewModel.getUpdatedCategory(args.category)
     }
 
     private fun setUpShowCategoryButton() {
         binding.headTrackingSwitch.apply {
             setOnCheckedChangeListener { _, isChecked ->
-                editCategoriesViewModel.hideShowCategory(category, !category.hidden)
+                editCategoryMenuViewModel.hideShowCategory(category, !category.hidden)
             }
         }
     }
@@ -84,7 +84,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                 dialogPositiveButton.text =
                     resources.getString(R.string.delete)
                 dialogPositiveButton.action = {
-                    editCategoriesViewModel.deleteCategory(category)
+                    editCategoryMenuViewModel.deleteCategory(category)
 
                     findNavController().popBackStack()
                 }
