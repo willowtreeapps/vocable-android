@@ -2,10 +2,7 @@ package com.willowtree.vocable.settings
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,21 +13,17 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
-import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
-import java.util.function.LongToDoubleFunction
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
     private val args: EditCategoryMenuFragmentArgs by navArgs()
 
-
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
 
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
 
     private lateinit var category: Category
@@ -38,19 +31,11 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         category = args.category
-        Log.d("Caroline","category is $category")
 
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory()
         ).get(EditCategoriesViewModel::class.java)
-
-        //val categoryText = localizedResourceUtility.getTextFromCategory(category)
-
-        //TEMPORARY -----------
-//        binding.categoryTitle.text = (category.localizedName?.get("en_US"))
-
-        setUpEditPhrasesButton()
 
         editCategoriesViewModel = ViewModelProviders.of(
             requireActivity(),
@@ -61,17 +46,19 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             findNavController().popBackStack()
         }
 
-        setUpShowCategoryButton()
-        setUpRemoveCategoryButton()
         setUpRenameCategoryButton()
-        subscribeToViewModel()
+        setUpShowCategoryButton()
+        setUpEditPhrasesButton()
+        setUpRemoveCategoryButton()
+        subscribeToCategoryNameChange()
+
     }
 
-    private fun subscribeToViewModel() {
+    private fun subscribeToCategoryNameChange() {
+
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                // Get the most updated category name if the user changed it on the
-                // EditCategoriesKeyboardFragment screen
+                editCategoriesViewModel.refreshCategories()
                 binding.categoryTitle.text =
                     editCategoriesViewModel.getUpdatedCategoryName(args.category)
                 category = editCategoriesViewModel.getUpdatedCategory(args.category)
@@ -79,16 +66,15 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         })
     }
 
-    private fun setUpShowCategoryButton(){
+    private fun setUpShowCategoryButton() {
 //        binding.showCategoryButton.action={
 //            editCategoriesViewModel.hideShowCategory(category, true)
 //        }
     }
 
-    private fun setUpRenameCategoryButton(){
+    private fun setUpRenameCategoryButton() {
 
         binding.renameCategoryButton.action = {
-            Log.d("Caroline","rename category")
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
                     category
@@ -100,7 +86,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         }
     }
 
-    private fun setUpRemoveCategoryButton(){
+    private fun setUpRemoveCategoryButton() {
         binding.removeCategoryButton?.action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
@@ -134,7 +120,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         }
     }
 
-    private fun setUpEditPhrasesButton(){
+    private fun setUpEditPhrasesButton() {
         binding.editPhrasesButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(

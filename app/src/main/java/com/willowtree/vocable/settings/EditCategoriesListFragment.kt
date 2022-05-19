@@ -125,7 +125,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                                 startPosition + index,
                                 firstHiddenIndex
                             )
-                            Log.d("Caroline","category is ${category.localizedName}")
                         }
                 }
             }
