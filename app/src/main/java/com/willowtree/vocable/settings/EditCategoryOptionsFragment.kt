@@ -98,7 +98,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
 
         binding.editCategoryPagerForwardButton.action = {
-            Log.d("Caroline","phrase adapter is ${phrasesAdapter.itemCount}")
             when (val currentPosition = binding.editCategoryPhraseHolder.currentItem) {
                 phrasesAdapter.itemCount - 1 -> {
                     binding.editCategoryPhraseHolder.setCurrentItem(0, true)
