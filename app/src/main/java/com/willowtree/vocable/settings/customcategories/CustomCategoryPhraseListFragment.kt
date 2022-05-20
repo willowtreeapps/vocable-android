@@ -75,7 +75,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
                     )
                 )
                 setHasFixedSize(true)
-                adapter = CustomCategoryPhraseAdapter(it, numRows, onPhraseEdit, onPhraseDelete)
+                adapter = CustomCategoryPhraseAdapter(it, numRows, onPhraseEdit, onPhraseDelete, category)
             }
         }
 
