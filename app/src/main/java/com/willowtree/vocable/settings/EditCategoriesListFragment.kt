@@ -150,10 +150,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category.categoryId == PresetCategories.MY_SAYINGS.id) {
-                editCategorySelectButton?.isEnabled = false
-            }
-
             individualEditCategoryButton?.action = {
                 val action =
                     EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(

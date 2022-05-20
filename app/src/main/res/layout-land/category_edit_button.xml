@@ -6,84 +6,49 @@
     android:layout_height="0dp"
     android:layout_rowWeight="1"
     android:layout_columnWeight="1"
-    android:background="@color/colorPrimaryDark"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/top_view">
+    app:layout_constraintStart_toStartOf="parent">
 
+    <com.willowtree.vocable.customviews.SettingsButton
+        android:id="@+id/individual_edit_category_button"
+        style="@style/IndividualCategoryEditButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/settings_edit_individual_category_arrow_height"
+        android:paddingStart="@dimen/edit_individual_category_padding_start"
+        android:paddingEnd="@dimen/edit_individual_category_padding_end"
+        android:padding="@dimen/edit_individual_category_padding"
+        android:layout_marginStart="@dimen/settings_option_button_margin"
+        android:layout_marginTop="@dimen/settings_edit_individual_category_arrow_top"
+        android:text="@string/settings"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/move_category_down_button"
+        app:layout_constraintEnd_toEndOf="@id/category_container"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/move_category_up_button"
-        android:layout_width="@dimen/edit_categories_list_button_width"
-        android:layout_height="@dimen/edit_categories_list_button_height"
-        android:layout_marginStart="@dimen/edit_categories_list_margin"
-        android:layout_marginEnd="@dimen/edit_categories_list_arrow_margin"
+        android:layout_width="@dimen/settings_edit_individual_category_arrow_width"
+        android:layout_height="@dimen/settings_edit_individual_category_arrow_height"
+        android:layout_marginTop="@dimen/settings_edit_individual_category_arrow_top"
+        android:padding="@dimen/settings_edit_individual_category_arrow_padding"
+        android:scaleType="centerInside"
         android:background="@drawable/button_default_background"
-        android:src="@drawable/arrow_up_40dp"
-        app:layout_constraintBottom_toTopOf="@id/edit_category_select_button"
-        app:layout_constraintEnd_toStartOf="@id/move_category_down_button"
+        android:src="@drawable/ic_up_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_category_select_button" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/move_category_down_button"
-        android:layout_width="@dimen/edit_categories_list_button_width"
-        android:layout_height="@dimen/edit_categories_list_button_height"
-        android:layout_marginEnd="@dimen/edit_categories_list_arrow_margin"
+        android:layout_width="@dimen/settings_edit_individual_category_arrow_width"
+        android:layout_height="@dimen/settings_edit_individual_category_arrow_height"
+        android:layout_marginTop="@dimen/settings_edit_individual_category_arrow_top"
+        android:layout_marginStart="@dimen/settings_edit_individual_category_arrow_top"
         android:background="@drawable/button_default_background"
-        android:src="@drawable/arrow_down_40dp"
-        app:layout_constraintBottom_toTopOf="@id/edit_category_select_button"
-        app:layout_constraintEnd_toStartOf="@id/show_hide_category_button"
-        app:layout_constraintStart_toEndOf="@id/move_category_up_button"
-        app:layout_constraintTop_toBottomOf="@id/edit_category_select_button" />
-
-    <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/show_hide_category_button"
-        android:layout_width="@dimen/edit_categories_list_button_width"
-        android:layout_height="@dimen/edit_categories_list_button_height"
-        android:background="@drawable/button_default_background"
-        android:src="@drawable/button_shown"
-        app:layout_constraintBottom_toBottomOf="@id/move_category_down_button"
-        app:layout_constraintEnd_toStartOf="@id/category_name"
-        app:layout_constraintStart_toEndOf="@id/move_category_down_button"
-        app:layout_constraintTop_toTopOf="@id/move_category_down_button" />
-
-    <TextView
-        android:id="@+id/category_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/edit_categories_list_button_margin"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/edit_categories_list_text_size"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:gravity="start"
-        app:layout_constraintBottom_toBottomOf="@id/show_hide_category_button"
-        app:layout_constraintStart_toEndOf="@+id/show_hide_category_button"
-        app:layout_constraintEnd_toStartOf="@id/edit_category_select_button"
-        app:layout_constraintTop_toTopOf="@id/show_hide_category_button" />
-
-    <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/edit_category_select_button"
-        android:layout_width="@dimen/edit_categories_list_button_width"
-        android:layout_height="@dimen/edit_categories_list_button_height"
-        android:layout_marginTop="@dimen/edit_categories_list_margin"
-        android:layout_marginEnd="@dimen/edit_categories_list_button_margin"
-        android:layout_marginBottom="@dimen/edit_categories_list_button_margin"
-        android:background="@drawable/button_default_background"
-        android:src="@drawable/small_arrow_right_40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/bottom_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_categories_divider_height"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/category_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:src="@drawable/ic_down_arrow"
+        android:padding="@dimen/settings_edit_individual_category_arrow_padding"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/move_category_up_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
