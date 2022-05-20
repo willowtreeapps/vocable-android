@@ -1,23 +1,19 @@
 package com.willowtree.vocable.settings
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 
-class EditCategoryMenuViewModel: BaseViewModel() {
+class EditCategoryMenuViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
-
-    private var overallCategories = listOf<Category>()
+    //private var overallCategories = listOf<Category>()
 
     private val _currentCategory = MutableLiveData<Category>()
     val currentCategory: LiveData<Category> = _currentCategory
@@ -27,36 +23,36 @@ class EditCategoryMenuViewModel: BaseViewModel() {
 
 
     fun updateCategoryById(categoryId: String) {
-        backgroundScope.launch{
+        backgroundScope.launch {
             _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
         }
     }
 
-    fun retrieveShowStatus(){
-        if(_currentCategory.value?.hidden==null){
+    fun retrieveShowStatus() {
+        if (_currentCategory.value?.hidden == null) {
             _showCategoryStatus.postValue(true)
-        }else{
-            _showCategoryStatus.postValue(!_currentCategory.value?.hidden!!)
+        } else {
+            _showCategoryStatus.postValue(_currentCategory.value?.hidden == false)
         }
     }
 
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
         backgroundScope.launch {
             _currentCategory.value?.hidden = !showCategoryStatus
-            _currentCategory?.value?.let { presetsRepository.updateCategory(_currentCategory.value!!) }
+            _currentCategory.value?.let { presetsRepository.updateCategory(it) }
             retrieveShowStatus()
         }
     }
 
 
-    fun deleteCategory(){
+    fun deleteCategory() {
         backgroundScope.launch {
             val category = _currentCategory.value
 
             // Delete any phrases whose only associated category is the one being deleted
             // First get the ids of all phrases associated with the category being deleted
-            val phrasesForCategory = category?.let {
-                presetsRepository.getPhrasesForCategory(it.categoryId)
+            val phrasesForCategory = category?.let { categoryPhrase ->
+                presetsRepository.getPhrasesForCategory(categoryPhrase.categoryId)
                     .sortedBy { it.sortOrder }
             }
 
@@ -76,7 +72,7 @@ class EditCategoryMenuViewModel: BaseViewModel() {
 
             //Delete phrases
             presetsRepository.deletePhrases(
-                phrasesForCategory?:listOf()
+                phrasesForCategory ?: listOf()
             )
 
             // Delete the category
@@ -85,7 +81,9 @@ class EditCategoryMenuViewModel: BaseViewModel() {
             }
 
             // Update the sort order of remaining categories
-            val categoriesToUpdate = overallCategories.filter { it.sortOrder > category?.sortOrder!! }
+            val overallCategories = presetsRepository.getAllCategories()
+            val categoriesToUpdate =
+                overallCategories.filter { it.sortOrder > category?.sortOrder ?: 0 }
             categoriesToUpdate.forEach {
                 it.sortOrder--
             }
@@ -94,5 +92,4 @@ class EditCategoryMenuViewModel: BaseViewModel() {
             }
         }
     }
-
 }
