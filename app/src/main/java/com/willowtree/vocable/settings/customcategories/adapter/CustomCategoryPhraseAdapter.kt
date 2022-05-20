@@ -7,6 +7,8 @@ import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.EditCustomCategoryPhraseItemBinding
+import com.willowtree.vocable.presets.PresetCategories
+import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
@@ -16,7 +18,8 @@ class CustomCategoryPhraseAdapter(
     private var phrases: List<Phrase>,
     private val numRows: Int,
     private val onPhraseEdit: (Phrase) -> Unit,
-    private val onPhraseDelete: (Phrase) -> Unit
+    private val onPhraseDelete: (Phrase) -> Unit,
+    private val category: Category
 ) : RecyclerView.Adapter<CustomCategoryPhraseAdapter.CustomCategoryPhraseViewHolder>(),
     KoinComponent {
 
@@ -31,15 +34,14 @@ class CustomCategoryPhraseAdapter(
         fun bind(phrase: Phrase, onPhraseEdit: (Phrase) -> Unit, onPhraseDelete: (Phrase) -> Unit) {
             binding.phraseTextButton?.text = localizedResourceUtility.getTextFromPhrase(phrase)
 
+            //TODO: WILL: check if category is Keypad or Recents
+            binding.phraseTextButton?.action = {
+                onPhraseEdit(phrase)
+            }
 
-
-                binding.phraseTextButton?.action = {
-                    onPhraseEdit(phrase)
-                }
-
-                binding.removeCategoryButton?.action = {
-                    onPhraseDelete(phrase)
-                }
+            binding.removeCategoryButton?.action = {
+                onPhraseDelete(phrase)
+            }
 
         }
     }
