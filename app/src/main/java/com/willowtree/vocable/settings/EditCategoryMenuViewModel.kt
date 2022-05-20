@@ -13,8 +13,6 @@ class EditCategoryMenuViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    //private var overallCategories = listOf<Category>()
-
     private val _currentCategory = MutableLiveData<Category>()
     val currentCategory: LiveData<Category> = _currentCategory
 
@@ -25,10 +23,11 @@ class EditCategoryMenuViewModel : BaseViewModel() {
     fun updateCategoryById(categoryId: String) {
         backgroundScope.launch {
             _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
+            retrieveShowStatus()
         }
     }
 
-    fun retrieveShowStatus() {
+    private fun retrieveShowStatus() {
         if (_currentCategory.value?.hidden == null) {
             _showCategoryStatus.postValue(true)
         } else {
