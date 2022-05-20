@@ -1,8 +1,6 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -14,12 +12,8 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
-import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.core.component.inject
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
@@ -85,7 +79,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpRemoveCategoryButton() {
-        binding.removeCategoryButton?.action = {
+        binding.removeCategoryButton.action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding.confirmationDialog.apply {
@@ -122,7 +116,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         binding.editPhrasesButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(
-                    editCategoryMenuViewModel.currentCategory.value?:args.category
+                    editCategoryMenuViewModel.currentCategory.value ?: args.category
                 )
             if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                 findNavController().navigate(action)
@@ -131,7 +125,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     override fun getAllViews(): List<View> {
-        TODO("Not yet implemented")
+        return emptyList()
     }
 
 }
