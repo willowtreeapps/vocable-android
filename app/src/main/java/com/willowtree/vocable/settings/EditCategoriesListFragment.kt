@@ -51,7 +51,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
@@ -107,6 +107,9 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner) { list ->
             list?.let { overallList ->
                 val hiddenCategories = overallList.filter { it.hidden }
+                if (endPosition > overallList.size) {
+                    endPosition = overallList.size - 1
+                }
                 overallList.subList(startPosition, endPosition)
                     .forEachIndexed { index, category ->
                         bindCategoryEditButton(

@@ -1,7 +1,6 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isInvisible
