@@ -34,7 +34,6 @@ class CustomCategoryPhraseAdapter(
         fun bind(phrase: Phrase, onPhraseEdit: (Phrase) -> Unit, onPhraseDelete: (Phrase) -> Unit) {
             binding.phraseTextButton?.text = localizedResourceUtility.getTextFromPhrase(phrase)
 
-            //TODO: WILL: check if category is Keypad or Recents
             binding.phraseTextButton?.action = {
                 onPhraseEdit(phrase)
             }

@@ -12,8 +12,10 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
@@ -35,18 +37,18 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         ).get(EditCategoryMenuViewModel::class.java)
 
         editCategoryMenuViewModel.updateCategoryById(args.category.categoryId)
-        editCategoryMenuViewModel.retrieveShowStatus()
 
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
         }
 
-        setUpRenameCategoryButton()
-        setUpShowCategoryButton()
-        setUpEditPhrasesButton()
-        setUpRemoveCategoryButton()
-        setUpCategoryTitle()
-
+        editCategoryMenuViewModel.currentCategory.observe(viewLifecycleOwner) {
+            setUpRenameCategoryButton()
+            setUpShowCategoryButton()
+            setUpEditPhrasesButton()
+            setUpRemoveCategoryButton()
+            setUpCategoryTitle()
+        }
     }
 
     private fun setUpCategoryTitle() {
@@ -113,13 +115,18 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpEditPhrasesButton() {
-        binding.editPhrasesButton.action = {
-            val action =
-                EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(
-                    editCategoryMenuViewModel.currentCategory.value ?: args.category
-                )
-            if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
-                findNavController().navigate(action)
+        if (editCategoryMenuViewModel.currentCategory.value?.categoryId == PresetCategories.RECENTS.id || editCategoryMenuViewModel.currentCategory.value?.categoryId == PresetCategories.USER_KEYPAD.id) {
+            binding.editPhrasesButton.isEnabled = false
+        } else {
+            binding.editPhrasesButton.isEnabled = true
+            binding.editPhrasesButton.action = {
+                val action =
+                    EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(
+                        editCategoryMenuViewModel.currentCategory.value ?: args.category
+                    )
+                if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
+                    findNavController().navigate(action)
+                }
             }
         }
     }
