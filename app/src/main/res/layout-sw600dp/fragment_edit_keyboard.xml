@@ -113,16 +113,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        android:id="@+id/phrase_saved_view"
-        layout="@layout/phrase_saved_success"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <include
         android:id="@+id/edit_confirmation"
         layout="@layout/vocable_confirmation_dialog"
         android:layout_width="@dimen/dialog_width"

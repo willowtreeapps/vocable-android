@@ -3,7 +3,6 @@ package com.willowtree.vocable.keyboard
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -119,19 +118,10 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             }
         }
 
-        (binding.phraseSavedView.root as TextView).setText(R.string.saved_successfully)
-
         viewModel = ViewModelProviders.of(
             this,
             BaseViewModelFactory()
         ).get(KeyboardViewModel::class.java)
-        subscribeToViewModel()
-    }
-
-    private fun subscribeToViewModel() {
-        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it
-        })
     }
 
     private val allViews = mutableListOf<View>()

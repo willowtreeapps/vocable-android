@@ -53,6 +53,7 @@
     <string name="discard">Discard</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="back_warning">Going back before saving will clear any edits made.</string>
+    <string name="duplicate_phrase">Sorry, this phrase name already exists. Please try a different name.</string>
 
     <!-- Edit Keyboard -->
     <string name="changes_saved">Changes Saved</string>

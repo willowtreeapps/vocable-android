@@ -137,7 +137,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         firstHiddenIndex: Int
     ) {
         with(editButtonBinding) {
-            individualEditCategoryButton?.text =
+            individualEditCategoryButton.text =
                 localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
@@ -151,15 +151,11 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategoriesViewModel.moveCategoryDown(category)
             }
 
-            if (category.categoryId == PresetCategories.MY_SAYINGS.id) {
-                editCategorySelectButton?.isEnabled = false
+            if (category.hidden) {
+                editCategoriesViewModel.hideShowCategory(category, true)
             }
 
-            if(category.hidden){
-                editCategoriesViewModel.hideShowCategory(category,true)
-            }
-
-            individualEditCategoryButton?.action = {
+            individualEditCategoryButton.action = {
                 val action =
                     EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryMenuFragment(
                         category

@@ -3,6 +3,7 @@ package com.willowtree.vocable.settings
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -80,19 +81,17 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
     private fun subscribeToViewModel() {
         viewModel.showCategoryUpdateMessage.observe(viewLifecycleOwner, Observer {
-            with(binding.phraseSavedView.root) {
-                isVisible = it == true
-                if (currentCategory != null) {
-                    setText(R.string.changes_saved)
-                } else {
-                    setText(R.string.category_created)
-                }
+            if (currentCategory != null) {
+                Toast.makeText(context, R.string.changes_saved, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, R.string.category_created, Toast.LENGTH_SHORT).show()
             }
+            findNavController().popBackStack()
         })
 
         viewModel.showDuplicateCategoryMessage.observe(viewLifecycleOwner, Observer {
             with(binding.editConfirmation) {
-                root.isVisible = it == true
+                root.isVisible = true
                 dialogTitle.isInvisible = true
                 dialogNegativeButton.isVisible = false
                 dialogMessage.setText(R.string.duplicate_category)
