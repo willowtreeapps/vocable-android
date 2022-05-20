@@ -32,8 +32,6 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
 
     private lateinit var editCategoryMenuViewModel: EditCategoryMenuViewModel
 
-//    private var category: Category = args.category
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,8 +40,8 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             BaseViewModelFactory()
         ).get(EditCategoryMenuViewModel::class.java)
 
-
         editCategoryMenuViewModel.updateCategoryById(args.category.categoryId)
+        editCategoryMenuViewModel.retrieveShowStatus()
 
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
@@ -60,7 +58,6 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     private fun setUpCategoryTitle() {
         editCategoryMenuViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
             binding.categoryTitle.text = localizedResourceUtility.getTextFromCategory(it)
-            Log.d("Caroline","frag: $it")
         })
     }
 
@@ -97,7 +94,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                 dialogPositiveButton.text =
                     resources.getString(R.string.delete)
                 dialogPositiveButton.action = {
-//                    editCategoryMenuViewModel.deleteCategory(category)
+                    editCategoryMenuViewModel.deleteCategory()
 
                     findNavController().popBackStack()
                 }
