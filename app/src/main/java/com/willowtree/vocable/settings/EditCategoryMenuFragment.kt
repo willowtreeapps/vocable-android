@@ -1,8 +1,11 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,32 +15,39 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.utils.LocalizedResourceUtility
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.core.component.inject
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
     private val args: EditCategoryMenuFragmentArgs by navArgs()
+
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
 
     private lateinit var editCategoryMenuViewModel: EditCategoryMenuViewModel
 
-    private lateinit var category: Category
+//    private var category: Category = args.category
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        category = args.category
 
         editCategoryMenuViewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory()
         ).get(EditCategoryMenuViewModel::class.java)
 
+
+        editCategoryMenuViewModel.updateCategoryById(args.category.categoryId)
+
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
         }
-
-        binding.headTrackingSwitch.isChecked = !category.hidden
 
         setUpRenameCategoryButton()
         setUpShowCategoryButton()
@@ -48,16 +58,19 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpCategoryTitle() {
-        editCategoryMenuViewModel.refreshCategories()
-        binding.categoryTitle.text =
-            editCategoryMenuViewModel.getUpdatedCategoryName(args.category)
-        category = editCategoryMenuViewModel.getUpdatedCategory(args.category)
+        editCategoryMenuViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
+            binding.categoryTitle.text = localizedResourceUtility.getTextFromCategory(it)
+            Log.d("Caroline","frag: $it")
+        })
     }
 
     private fun setUpShowCategoryButton() {
-        binding.headTrackingSwitch.apply {
+        editCategoryMenuViewModel.showCategoryStatus.observe(viewLifecycleOwner, Observer {
+            binding.showCategorySwitch.isChecked = it
+        })
+        binding.showCategorySwitch.apply {
             setOnCheckedChangeListener { _, isChecked ->
-                editCategoryMenuViewModel.hideShowCategory(category, !category.hidden)
+                editCategoryMenuViewModel.updateHiddenStatus(isChecked)
             }
         }
     }
@@ -66,7 +79,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         binding.renameCategoryButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
-                    category
+                    editCategoryMenuViewModel.currentCategory.value
                 )
             if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                 findNavController().navigate(action)
@@ -84,7 +97,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                 dialogPositiveButton.text =
                     resources.getString(R.string.delete)
                 dialogPositiveButton.action = {
-                    editCategoryMenuViewModel.deleteCategory(category)
+//                    editCategoryMenuViewModel.deleteCategory(category)
 
                     findNavController().popBackStack()
                 }
@@ -112,7 +125,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         binding.editPhrasesButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(
-                    category
+                    editCategoryMenuViewModel.currentCategory.value?:args.category
                 )
             if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                 findNavController().navigate(action)

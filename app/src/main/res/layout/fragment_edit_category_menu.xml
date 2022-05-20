@@ -69,12 +69,12 @@
             android:text="@string/edit_category_show_category_text"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/head_tracking_switch"
+            app:layout_constraintEnd_toStartOf="@+id/show_category_switch"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/head_tracking_switch"
+            android:id="@+id/show_category_switch"
             style="@style/SelectionModeButtonSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -164,7 +164,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
                     findNavController().navigate(action)
                 }
-                editCategoriesViewModel.onCategorySelected(category)
+               // editCategoriesViewModel.onCategorySelected(category)
             }
         }
     }
