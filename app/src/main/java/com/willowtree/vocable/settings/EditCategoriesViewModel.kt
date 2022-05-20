@@ -135,23 +135,6 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun getUpdatedCategoryName(category: Category): String {
-        val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
-        return localizedResourceUtility.getTextFromCategory(updatedCategory)
-    }
-
-    fun getUpdatedCategory(category: Category): Category {
-        return overallCategories.first { it.categoryId == category.categoryId }
-    }
-
-    fun fetchCategoryPhrases(category: Category) {
-        backgroundScope.launch {
-            val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-                .sortedBy { it.sortOrder }
-            liveCategoryPhraseList.postValue(phrasesForCategory)
-        }
-    }
-
     private suspend fun hideCategory(category: Category) {
         val catIndex = overallCategories.indexOf(category)
         if (catIndex > -1) {
@@ -167,8 +150,24 @@ class EditCategoriesViewModel : BaseViewModel() {
 
             overallCategories = overallCategories.sortedBy { it.sortOrder }
             liveOrderCategoryList.postValue(overallCategories)
-
             presetsRepository.updateCategories(listToUpdate)
+        }
+    }
+
+    fun getUpdatedCategoryName(category: Category): String {
+        val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
+        return localizedResourceUtility.getTextFromCategory(updatedCategory)
+    }
+
+    fun getUpdatedCategory(category: Category): Category {
+        return overallCategories.first { it.categoryId == category.categoryId }
+    }
+
+    fun fetchCategoryPhrases(category: Category) {
+        backgroundScope.launch {
+            val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
+                .sortedBy { it.sortOrder }
+            liveCategoryPhraseList.postValue(phrasesForCategory)
         }
     }
 

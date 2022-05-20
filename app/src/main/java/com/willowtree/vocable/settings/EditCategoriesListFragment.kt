@@ -1,6 +1,7 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +71,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                     false
                 )
             binding.categoryEditButtonContainer.addView(categoryView.root)
-
             editButtonList.add(categoryView)
         }
 
@@ -155,6 +155,10 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 editCategorySelectButton?.isEnabled = false
             }
 
+            if(category.hidden){
+                editCategoriesViewModel.hideShowCategory(category,true)
+            }
+
             individualEditCategoryButton?.action = {
                 val action =
                     EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryMenuFragment(
@@ -164,7 +168,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
                     findNavController().navigate(action)
                 }
-               // editCategoriesViewModel.onCategorySelected(category)
             }
         }
     }
