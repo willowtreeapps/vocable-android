@@ -1,12 +1,15 @@
 package com.willowtree.vocable.settings
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.ar.sceneform.lullmodel.OptionalBool.True
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.inject
 
 class EditCategoryMenuViewModel : BaseViewModel() {
@@ -16,30 +19,17 @@ class EditCategoryMenuViewModel : BaseViewModel() {
     private val _currentCategory = MutableLiveData<Category>()
     val currentCategory: LiveData<Category> = _currentCategory
 
-    private val _showCategoryStatus = MutableLiveData<Boolean>()
-    val showCategoryStatus: LiveData<Boolean> = _showCategoryStatus
-
-
     fun updateCategoryById(categoryId: String) {
-        backgroundScope.launch {
-            _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
-            retrieveShowStatus()
-        }
-    }
-
-    private fun retrieveShowStatus() {
-        if (_currentCategory.value?.hidden == null) {
-            _showCategoryStatus.postValue(true)
-        } else {
-            _showCategoryStatus.postValue(_currentCategory.value?.hidden == false)
-        }
+            backgroundScope.launch {
+                _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
+            }
     }
 
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
         backgroundScope.launch {
             _currentCategory.value?.hidden = !showCategoryStatus
             _currentCategory.value?.let { presetsRepository.updateCategory(it) }
-            retrieveShowStatus()
+            //retrieveShowStatus()
         }
     }
 
@@ -67,7 +57,6 @@ class EditCategoryMenuViewModel : BaseViewModel() {
                         }
                 )
             }
-
 
             //Delete phrases
             presetsRepository.deletePhrases(
