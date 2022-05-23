@@ -46,26 +46,6 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
             findNavController().popBackStack()
         }
 
-        binding.removeCategoryButton?.action = {
-            setEditButtonsEnabled(false)
-            toggleDialogVisibility(true)
-            binding.confirmationDialog.apply {
-                dialogTitle.text = resources.getString(R.string.are_you_sure)
-                dialogMessage.text = getString(R.string.removed_cant_be_restored)
-                dialogPositiveButton.text =
-                    resources.getString(R.string.delete)
-                dialogPositiveButton.action = {
-                    editCategoriesViewModel.deleteCategory(category)
-
-                    findNavController().popBackStack()
-                }
-                dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
-                dialogNegativeButton.action = {
-                    toggleDialogVisibility(false)
-                    setEditButtonsEnabled(true)
-                }
-            }
-        }
         if (category.categoryId == PresetCategories.RECENTS.id) {
             binding.addPhraseButton.visibility = View.GONE
         } else {
@@ -82,7 +62,7 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
 
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
         val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
-       // val numRows = 9
+
         maxPhrases = numColumns * numRows
 
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
@@ -163,18 +143,6 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
                 handlePhrases(it)
             }
         })
-    }
-
-    private fun toggleDialogVisibility(visible: Boolean) {
-        binding.confirmationDialog.root.isVisible = visible
-    }
-
-    private fun setEditButtonsEnabled(enabled: Boolean) {
-        binding.apply {
-            editOptionsButton.isEnabled = enabled
-            editOptionsBackButton.isEnabled = enabled
-            removeCategoryButton?.isEnabled = enabled
-        }
     }
 
     override fun getAllViews(): List<View> {
