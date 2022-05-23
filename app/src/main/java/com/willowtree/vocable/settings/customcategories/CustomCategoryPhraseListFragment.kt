@@ -15,7 +15,7 @@ import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBindin
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.EditCategoriesViewModel
-import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
+import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 
@@ -39,8 +39,8 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     private lateinit var category: Category
 
     private val onPhraseEdit = { phrase: Phrase ->
-        val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditPhrasesKeyboardFragment(phrase)
-        if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+        val action = EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToEditPhrasesKeyboardFragment(phrase)
+        if (findNavController().currentDestination?.id == R.id.editCategoryPhrasesFragment) {
             findNavController().navigate(action)
         }
     }
