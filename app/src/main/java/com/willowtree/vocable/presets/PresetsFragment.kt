@@ -3,7 +3,6 @@ package com.willowtree.vocable.presets
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -287,8 +286,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 targetPosition %= categoriesAdapter.numPages
             }
 
-
-            presetsViewModel.selectedCategory.value?.let { selectedCategory ->
+            presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer{ selectedCategory ->
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
                     val pageCategories = categoriesAdapter.getItemsByPosition(i)
 
@@ -297,24 +295,22 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                         break
                     }
                 }
-            }
-
-            presetsViewModel.selectedCategory.observe(
-                viewLifecycleOwner,
-                Observer { selectedCategory ->
-                    recentsCategorySelected =
-                        selectedCategory.categoryId == PresetCategories.RECENTS.id
-                })
-
-            setCurrentItem(targetPosition, false)
+                setCurrentItem(targetPosition, false)
+                presetsViewModel.selectedCategory.removeObservers(viewLifecycleOwner)
+                observeRecents()
+            })
         }
     }
 
+    private fun observeRecents() {
+        presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer { selectedCategory ->
+            recentsCategorySelected = selectedCategory.categoryId == PresetCategories.RECENTS.id
+        })
+    }
+
     private fun handlePhrases(phrases: List<Phrase?>) {
-        binding.emptyPhrasesText.isVisible =
-            phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
-        binding.emptyAddPhraseButton.isVisible =
-            phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
+        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
+        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
 
         binding.noRecentsTitle.isVisible = phrases.isEmpty() && recentsCategorySelected
         binding.noRecentsMessage.isVisible = phrases.isEmpty() && recentsCategorySelected

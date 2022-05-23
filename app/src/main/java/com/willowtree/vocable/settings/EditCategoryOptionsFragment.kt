@@ -78,14 +78,17 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 }
             }
         }
-
-        binding.addPhraseButton.action = {
-            val action =
-                EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(
-                    category
-                )
-            if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
-                findNavController().navigate(action)
+        if (category.categoryId == PresetCategories.RECENTS.id) {
+            binding.addPhraseButton.visibility = View.GONE
+        } else {
+            binding.addPhraseButton.action = {
+                val action =
+                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(
+                        category
+                    )
+                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+                    findNavController().navigate(action)
+                }
             }
         }
 
