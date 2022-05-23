@@ -1,15 +1,12 @@
 package com.willowtree.vocable.settings
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.ar.sceneform.lullmodel.OptionalBool.True
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.core.component.inject
 
 class EditCategoryMenuViewModel : BaseViewModel() {
@@ -20,19 +17,17 @@ class EditCategoryMenuViewModel : BaseViewModel() {
     val currentCategory: LiveData<Category> = _currentCategory
 
     fun updateCategoryById(categoryId: String) {
-            backgroundScope.launch {
-                _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
-            }
+        backgroundScope.launch {
+            _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
+        }
     }
 
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
         backgroundScope.launch {
             _currentCategory.value?.hidden = !showCategoryStatus
             _currentCategory.value?.let { presetsRepository.updateCategory(it) }
-            //retrieveShowStatus()
         }
     }
-
 
     fun deleteCategory() {
         backgroundScope.launch {
