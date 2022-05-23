@@ -1,6 +1,7 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -35,8 +36,9 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             requireActivity(),
             BaseViewModelFactory()
         ).get(EditCategoryMenuViewModel::class.java)
-
+        Log.d("Caroline","args are: ${args.category}")
         editCategoryMenuViewModel.updateCategoryById(args.category.categoryId)
+        //binding.showCategorySwitch.isChecked = true
 
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
@@ -58,8 +60,9 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpShowCategoryButton() {
-        editCategoryMenuViewModel.showCategoryStatus.observe(viewLifecycleOwner, Observer {
-            binding.showCategorySwitch.isChecked = it
+        editCategoryMenuViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
+            Log.d("Caroline","fragment: show category status $it")
+            binding.showCategorySwitch.isChecked = !it.hidden
         })
         binding.showCategorySwitch.apply {
             setOnCheckedChangeListener { _, isChecked ->
