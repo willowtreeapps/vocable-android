@@ -14,8 +14,8 @@
             android:id="@+id/action_editCategoriesFragment_to_editCategoriesKeyboardFragment"
             app:destination="@id/editCategoriesKeyboardFragment" />
         <action
-            android:id="@+id/action_editCategoriesFragment_to_editCategoryOptionsFragment"
-            app:destination="@id/editCategoryOptionsFragment" />
+            android:id="@+id/action_editCategoriesFragment_to_editCategoryPhrasesFragment"
+            app:destination="@id/editCategoryPhrasesFragment" />
         <action
             android:id="@+id/action_editCategoriesFragment_to_editCategoryMenuFragment"
             app:destination="@id/editCategoryMenuFragment" />
@@ -36,20 +36,20 @@
             app:destination="@id/editCategoryMenuFragment" />
     </fragment>
     <fragment
-        android:id="@+id/editCategoryOptionsFragment"
-        android:name="com.willowtree.vocable.settings.EditCategoryOptionsFragment"
-        android:label="EditCategoryOptionsFragment">
+        android:id="@+id/editCategoryPhrasesFragment"
+        android:name="com.willowtree.vocable.settings.EditCategoryPhrasesFragment"
+        android:label="EditCategoryPhrasesFragment">
         <argument
             android:name="category"
             app:argType="com.willowtree.vocable.room.Category" />
         <action
-            android:id="@+id/action_editCategoryOptionsFragment_to_editCategoriesKeyboardFragment"
+            android:id="@+id/action_editCategoryPhrasesFragment_to_editCategoriesKeyboardFragment"
             app:destination="@id/editCategoriesKeyboardFragment" />
         <action
-            android:id="@+id/action_editCategoryOptionsFragment_to_addPhraseKeyboardFragment"
+            android:id="@+id/action_editCategoryPhrasesFragment_to_addPhraseKeyboardFragment"
             app:destination="@id/addPhraseKeyboardFragment" />
         <action
-            android:id="@+id/action_editCategoryOptionsFragment_to_editPhrasesKeyboardFragment"
+            android:id="@+id/action_editCategoryPhrasesFragment_to_editPhrasesKeyboardFragment"
             app:destination="@id/editPhrasesKeyboardFragment" />
     </fragment>
     <fragment
@@ -142,8 +142,8 @@
             android:name="category"
             app:argType="com.willowtree.vocable.room.Category" />
         <action
-            android:id="@+id/action_editCategoryMenuFragment_to_editCategoryOptionsFragment"
-            app:destination="@id/editCategoryOptionsFragment" />
+            android:id="@+id/action_editCategoryMenuFragment_to_editCategoryPhrasesFragment"
+            app:destination="@id/editCategoryPhrasesFragment" />
         <action
             android:id="@+id/action_editCategoryMenuFragment_to_editCategoriesKeyboardFragment"
             app:destination="@id/editCategoriesKeyboardFragment" />

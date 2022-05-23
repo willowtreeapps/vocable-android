@@ -124,7 +124,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             binding.editPhrasesButton.isEnabled = true
             binding.editPhrasesButton.action = {
                 val action =
-                    EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryOptionsFragment(
+                    EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryPhrasesFragment(
                         editCategoryMenuViewModel.currentCategory.value ?: args.category
                     )
                 if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
