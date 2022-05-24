@@ -48,7 +48,7 @@
         android:columnCount="@integer/settings_options_columns"
         android:rowCount="@integer/settings_options_rows">
 
-        <com.willowtree.vocable.customviews.SettingsButton
+        <com.willowtree.vocable.customviews.NoSayTextButton
             android:id="@+id/rename_category_button"
             style="@style/IndividualCategoryEditButton"
             android:layout_width="0dp"
@@ -56,7 +56,7 @@
             android:text="@string/rename_category" />
 
 
-        <com.willowtree.vocable.customviews.SettingsButton
+        <com.willowtree.vocable.customviews.NoSayTextButton
             android:id="@+id/edit_phrases_button"
             style="@style/IndividualCategoryEditButton"
             android:layout_width="0dp"
@@ -96,7 +96,7 @@
 
     </GridLayout>
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/remove_category_button"
         style="@style/RemoveCategoryButton"
         android:layout_width="0dp"
@@ -112,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@id/edit_menu_container"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/placeholder_empty"
         style="@style/RemoveCategoryButton"
         android:visibility="invisible"

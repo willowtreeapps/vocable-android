@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/phrase_text_button"
         style="@style/PhraseEditButton"
         android:layout_width="0dp"
