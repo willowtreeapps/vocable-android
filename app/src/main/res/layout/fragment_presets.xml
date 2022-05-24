@@ -153,7 +153,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
 
-    <com.willowtree.vocable.customviews.KeyboardButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/empty_add_phrase_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/custom_category_button_height"

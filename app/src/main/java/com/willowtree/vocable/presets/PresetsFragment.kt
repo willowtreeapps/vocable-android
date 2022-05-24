@@ -19,6 +19,7 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -45,7 +46,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         maxCategories = resources.getInteger(R.integer.max_categories)
-        isPortraitMode = resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+        isPortraitMode =
+            resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
         isTabletMode = resources.getBoolean(R.bool.is_tablet)
 
         binding.categoryForwardButton.action = {
@@ -74,14 +76,22 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             when (val currentPosition = binding.categoryView.currentItem) {
                 0 -> {
                     binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                    if(isPortraitMode && !isTabletMode){
-                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(categoriesAdapter.itemCount - 1))
+                    if (isPortraitMode && !isTabletMode) {
+                        presetsViewModel.onCategorySelected(
+                            categoriesAdapter.getCategory(
+                                categoriesAdapter.itemCount - 1
+                            )
+                        )
                     }
                 }
                 else -> {
                     binding.categoryView.setCurrentItem(currentPosition - 1, true)
-                    if(isPortraitMode && !isTabletMode){
-                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(currentPosition-1))
+                    if (isPortraitMode && !isTabletMode) {
+                        presetsViewModel.onCategorySelected(
+                            categoriesAdapter.getCategory(
+                                currentPosition - 1
+                            )
+                        )
                     }
                 }
             }
@@ -122,8 +132,13 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         }
 
         binding.emptyAddPhraseButton.action = {
-            val action = PresetsFragmentDirections.actionPresetsFragmentToKeyboardFragment()
-            if (findNavController().currentDestination?.id == R.id.presetsFragment) {
+            val action =
+                presetsViewModel.selectedCategory.value?.let { category ->
+                    PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(
+                        category
+                    )
+                }
+            if (action != null) {
                 findNavController().navigate(action)
             }
         }
@@ -136,10 +151,10 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             override fun onPageSelected(position: Int) {
 
                 binding.phrasesPageNumber.text = getString(
-                        R.string.phrases_page_number,
-                        1,
-                        1
-                    )
+                    R.string.phrases_page_number,
+                    1,
+                    1
+                )
 
                 activity?.let { activity ->
                     allViews.clear()
@@ -203,6 +218,20 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             categoryList.observe(viewLifecycleOwner, ::handleCategories)
             currentPhrases.observe(viewLifecycleOwner, ::handlePhrases)
         }
+
+        presetsViewModel.navToAddPhrase.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                val action =
+                    presetsViewModel.selectedCategory.value?.let { category ->
+                        PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(
+                            category
+                        )
+                    }
+                if (action != null) {
+                    findNavController().navigate(action)
+                }
+            }
+        })
     }
 
     override fun getAllViews(): List<View> {
@@ -223,11 +252,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     private fun handleCategories(categories: List<Category>) {
-    /* 4/11/2022 Commenting this out because categories are now being updated with forward and backward buttons and within the onResume
-        if (categories.isNotEmpty()) {
-            presetsViewModel.onCategorySelected(categories[0])
-        }
-     */
+        /* 4/11/2022 Commenting this out because categories are now being updated with forward and backward buttons and within the onResume
+            if (categories.isNotEmpty()) {
+                presetsViewModel.onCategorySelected(categories[0])
+            }
+         */
 
         with(binding.categoryView) {
             val categoriesExist = categories.isNotEmpty()
@@ -279,7 +308,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         })
     }
 
-    private fun handlePhrases(phrases: List<Phrase>) {
+    private fun handlePhrases(phrases: List<Phrase?>) {
         binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
         binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
 
@@ -323,8 +352,8 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         fun getSize(): Int = items.size
 
-        fun getCategory(position: Int): Category{
-            return if(position >= items.size){
+        fun getCategory(position: Int): Category {
+            return if (position >= items.size) {
                 items[position % items.size]
             } else {
                 items[position]
@@ -333,9 +362,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
 
-        override fun setItems(items: List<Phrase>) {
+        override fun setItems(items: List<Phrase?>) {
             super.setItems(items)
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
         }
