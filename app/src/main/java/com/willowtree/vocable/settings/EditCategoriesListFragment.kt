@@ -10,6 +10,7 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.Category
@@ -130,8 +131,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         size: Int
     ) {
         with(editButtonBinding) {
-            individualEditCategoryButton.text =
-                localizedResourceUtility.getTextFromCategory(category)
+            (individualEditCategoryButton as NoSayTextButton).text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
