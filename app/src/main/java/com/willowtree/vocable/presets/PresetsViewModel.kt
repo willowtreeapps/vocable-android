@@ -18,8 +18,11 @@ class PresetsViewModel : BaseViewModel() {
     private val liveSelectedCategory = MutableLiveData<Category>()
     val selectedCategory: LiveData<Category> = liveSelectedCategory
 
-    private val liveCurrentPhrases = MutableLiveData<List<Phrase>>()
-    val currentPhrases: LiveData<List<Phrase>> = liveCurrentPhrases
+    private val liveCurrentPhrases = MutableLiveData<List<Phrase?>>()
+    val currentPhrases: LiveData<List<Phrase?>> = liveCurrentPhrases
+
+    private val liveNavToAddPhrase = MutableLiveData<Boolean>()
+    val navToAddPhrase: LiveData<Boolean> = liveNavToAddPhrase
 
     init {
         populateCategories()
@@ -42,16 +45,19 @@ class PresetsViewModel : BaseViewModel() {
 
             // make sure the category wasn't deleted before getting its phrases
             if (catId != null) {
-                var phrases: MutableList<Phrase> = mutableListOf()
 
                 // if the selected category was the Recents category, we need to invert the sort so
                 // the most recently added phrases are at the top
-                phrases = if (catId.categoryId == PresetCategories.RECENTS.id) {
+                val phrases: MutableList<Phrase?> = if (catId.categoryId == PresetCategories.RECENTS.id) {
                     presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.lastSpokenDate }.reversed().toMutableList()
                 } else {
                     presetsRepository.getPhrasesForCategory(category.categoryId)
                         .sortedBy { it.sortOrder }.toMutableList()
+                }
+                //Add null to end of normal non empty category phrase list for the "+ Add Phrase" button
+                if (catId.categoryId != PresetCategories.RECENTS.id && catId.categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
+                    phrases.add(null)
                 }
                 liveCurrentPhrases.postValue(phrases)
             } else { // if the category has been deleted, select the first available category to show
@@ -65,5 +71,10 @@ class PresetsViewModel : BaseViewModel() {
         backgroundScope.launch {
             presetsRepository.addPhraseToRecents(phrase)
         }
+    }
+
+    fun navToAddPhrase() {
+        liveNavToAddPhrase.value = true
+        liveNavToAddPhrase.value = false
     }
 }
