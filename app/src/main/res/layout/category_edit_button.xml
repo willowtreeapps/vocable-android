@@ -10,7 +10,7 @@
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent">
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/individual_edit_category_button"
         style="@style/IndividualCategoryEditButton"
         android:layout_width="0dp"
