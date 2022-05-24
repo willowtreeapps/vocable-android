@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.EditCustomCategoryPhraseItemBinding
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
@@ -32,13 +33,13 @@ class CustomCategoryPhraseAdapter(
             EditCustomCategoryPhraseItemBinding.bind(itemView)
 
         fun bind(phrase: Phrase, onPhraseEdit: (Phrase) -> Unit, onPhraseDelete: (Phrase) -> Unit) {
-            binding.phraseTextButton?.text = localizedResourceUtility.getTextFromPhrase(phrase)
+            (binding.phraseTextButton as NoSayTextButton).text = localizedResourceUtility.getTextFromPhrase(phrase)
 
-            binding.phraseTextButton?.action = {
+            binding.phraseTextButton.action = {
                 onPhraseEdit(phrase)
             }
 
-            binding.removeCategoryButton?.action = {
+            binding.removeCategoryButton.action = {
                 onPhraseDelete(phrase)
             }
 

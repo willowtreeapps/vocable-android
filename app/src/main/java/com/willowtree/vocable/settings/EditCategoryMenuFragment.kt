@@ -11,6 +11,7 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.LocalizedResourceUtility
@@ -68,7 +69,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpRenameCategoryButton() {
-        binding.renameCategoryButton.action = {
+        (binding.renameCategoryButton as NoSayTextButton).action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
                     editCategoryMenuViewModel.currentCategory.value
@@ -80,7 +81,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpRemoveCategoryButton() {
-        binding.removeCategoryButton.action = {
+        (binding.removeCategoryButton as NoSayTextButton).action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding.confirmationDialog.apply {
@@ -118,7 +119,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             binding.editPhrasesButton.isEnabled = false
         } else {
             binding.editPhrasesButton.isEnabled = true
-            binding.editPhrasesButton.action = {
+            (binding.editPhrasesButton as NoSayTextButton).action  = {
                 val action =
                     EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryPhrasesFragment(
                         editCategoryMenuViewModel.currentCategory.value ?: args.category

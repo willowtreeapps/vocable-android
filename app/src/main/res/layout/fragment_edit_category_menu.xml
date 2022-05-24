@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="My Jokes" />
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/rename_category_button"
         style="@style/IndividualCategoryEditButton"
         android:layout_width="0dp"
@@ -82,7 +82,7 @@
 
     </com.willowtree.vocable.customviews.VocableConstraintLayout>
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/edit_phrases_button"
         style="@style/IndividualCategoryEditButton"
         android:layout_width="0dp"
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/show_category_container"/>
 
-    <com.willowtree.vocable.customviews.SettingsButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/remove_category_button"
         style="@style/RemoveCategoryButton"
         android:layout_width="0dp"
