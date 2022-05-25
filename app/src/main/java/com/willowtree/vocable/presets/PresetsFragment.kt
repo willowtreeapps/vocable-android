@@ -284,7 +284,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             if (targetPosition % categoriesAdapter.numPages != 0) {
                 targetPosition %= categoriesAdapter.numPages
             }
-
             presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer{ selectedCategory ->
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
                     val pageCategories = categoriesAdapter.getItemsByPosition(i)
@@ -296,6 +295,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 }
                 setCurrentItem(targetPosition, false)
                 presetsViewModel.selectedCategory.removeObservers(viewLifecycleOwner)
+                presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(targetPosition))
                 observeRecents()
             })
         }
