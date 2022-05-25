@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/category_title"
         style="@style/SettingsTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="@dimen/edit_category_title_margin_top"
@@ -33,7 +33,8 @@
         android:lines="1"
         app:layout_constraintStart_toEndOf="@id/edit_options_back_button"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="My Jokes" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Really long category name" />
 
     <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/rename_category_button"
