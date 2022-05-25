@@ -32,7 +32,12 @@ class PresetsViewModel : BaseViewModel() {
         backgroundScope.launch {
             val categories = presetsRepository.getAllCategories().filter { !it.hidden }
             liveCategoryList.postValue(categories)
-            val currentCategory = liveSelectedCategory.value ?: categories.first()
+            val currentCategory = if (categories.contains(liveSelectedCategory.value) && liveSelectedCategory.value != null) {
+                liveSelectedCategory.value ?: categories.first()
+            } else {
+                categories.first()
+            }
+
             onCategorySelected(currentCategory)
         }
     }
