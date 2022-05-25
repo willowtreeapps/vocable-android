@@ -15,19 +15,19 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.databinding.FragmentEditCategoryOptionsBinding
+import com.willowtree.vocable.databinding.FragmentEditCategoryPhrasesBinding
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 
-class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBinding>() {
+class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBinding>() {
 
-    private val args: EditCategoryOptionsFragmentArgs by navArgs()
+    private val args: EditCategoryPhrasesFragmentArgs by navArgs()
 
-    override val bindingInflater: BindingInflater<FragmentEditCategoryOptionsBinding> =
-        FragmentEditCategoryOptionsBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditCategoryPhrasesBinding> =
+        FragmentEditCategoryPhrasesBinding::inflate
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
 
     private var maxPhrases = 1
@@ -42,51 +42,19 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
             binding.editOptionsButton.isInvisible = true
         }
 
-        category.let {
-            binding.editOptionsButton.action = {
-                val action =
-                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToEditCategoriesKeyboardFragment(
-                        category
-                    )
-                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
-                    findNavController().navigate(action)
-                }
-            }
-        }
-
         binding.editOptionsBackButton.action = {
             findNavController().popBackStack()
         }
 
-        binding.removeCategoryButton.action = {
-            setEditButtonsEnabled(false)
-            toggleDialogVisibility(true)
-            binding.confirmationDialog.apply {
-                dialogTitle.text = resources.getString(R.string.are_you_sure)
-                dialogMessage.text = getString(R.string.removed_cant_be_restored)
-                dialogPositiveButton.text =
-                    resources.getString(R.string.delete)
-                dialogPositiveButton.action = {
-                    editCategoriesViewModel.deleteCategory(category)
-
-                    findNavController().popBackStack()
-                }
-                dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
-                dialogNegativeButton.action = {
-                    toggleDialogVisibility(false)
-                    setEditButtonsEnabled(true)
-                }
-            }
-        }
         if (category.categoryId == PresetCategories.RECENTS.id) {
             binding.addPhraseButton.visibility = View.GONE
         } else {
             binding.addPhraseButton.action = {
                 val action =
-                    EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(
+                    EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToAddPhraseKeyboardFragment(
                         category
                     )
-                if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+                if (findNavController().currentDestination?.id == R.id.editCategoryPhrasesFragment) {
                     findNavController().navigate(action)
                 }
             }
@@ -94,6 +62,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
 
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
         val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
+
         maxPhrases = numColumns * numRows
 
         phrasesAdapter = PhrasesPagerAdapter(childFragmentManager)
@@ -124,8 +93,11 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
 
         binding.emptyAddPhraseButton.action = {
-            val action = EditCategoryOptionsFragmentDirections.actionEditCategoryOptionsFragmentToAddPhraseKeyboardFragment(category)
-            if (findNavController().currentDestination?.id == R.id.editCategoryOptionsFragment) {
+            val action =
+                EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToAddPhraseKeyboardFragment(
+                    category
+                )
+            if (findNavController().currentDestination?.id == R.id.editCategoryPhrasesFragment) {
                 findNavController().navigate(action)
             }
         }
@@ -171,18 +143,6 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
                 handlePhrases(it)
             }
         })
-    }
-
-    private fun toggleDialogVisibility(visible: Boolean) {
-        binding.confirmationDialog.root.isVisible = visible
-    }
-
-    private fun setEditButtonsEnabled(enabled: Boolean) {
-        binding.apply {
-            editOptionsButton.isEnabled = enabled
-            editOptionsBackButton.isEnabled = enabled
-            removeCategoryButton.isEnabled = enabled
-        }
     }
 
     override fun getAllViews(): List<View> {
@@ -236,6 +196,7 @@ class EditCategoryOptionsFragment : BaseFragment<FragmentEditCategoryOptionsBind
         }
 
         override fun getMaxItemsPerPage(): Int = maxPhrases
+
 
         override fun createFragment(position: Int): Fragment {
             val phrases = getItemsByPosition(position)

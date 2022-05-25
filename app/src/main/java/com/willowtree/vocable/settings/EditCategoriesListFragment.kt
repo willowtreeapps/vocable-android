@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
@@ -14,7 +13,6 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
-import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
@@ -54,7 +52,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
@@ -71,7 +69,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                     false
                 )
             binding.categoryEditButtonContainer.addView(categoryView.root)
-
             editButtonList.add(categoryView)
         }
 
@@ -108,41 +105,37 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
-            it?.let { overallList ->
-                if (startPosition >= 0 && endPosition <= overallList.size) {
-                    var firstHiddenIndex = overallList.indexOfFirst { category -> category.hidden }
-                    // Just default to list size if no categories are hidden
-                    if (firstHiddenIndex == -1) {
-                        firstHiddenIndex = overallList.size
-                    }
-
-                    overallList.subList(startPosition, endPosition)
-                        .forEachIndexed { index, category ->
-                            bindCategoryEditButton(
-                                editButtonList[index],
-                                category,
-                                startPosition + index,
-                                firstHiddenIndex
-                            )
-                        }
+        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner) { list ->
+            list?.let { overallList ->
+                val hiddenCategories = overallList.filter { it.hidden }
+                if (endPosition > overallList.size) {
+                    endPosition = overallList.size - 1
                 }
+                overallList.subList(startPosition, endPosition)
+                    .forEachIndexed { index, category ->
+                        bindCategoryEditButton(
+                            editButtonList[index],
+                            category,
+                            startPosition + index,
+                            overallList.size - hiddenCategories.size
+                        )
+                    }
             }
-        })
+        }
     }
 
     private fun bindCategoryEditButton(
         editButtonBinding: CategoryEditButtonBinding,
         category: Category,
         overallIndex: Int,
-        firstHiddenIndex: Int
+        size: Int
     ) {
         with(editButtonBinding) {
             (individualEditCategoryButton as NoSayTextButton).text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
-                !category.hidden && overallIndex + 1 < firstHiddenIndex
+                !category.hidden && overallIndex + 1 < size
 
             moveCategoryUpButton.action = {
                 editCategoriesViewModel.moveCategoryUp(category)
@@ -153,34 +146,14 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
 
             individualEditCategoryButton.action = {
                 val action =
-                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryOptionsFragment(
+                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToEditCategoryMenuFragment(
                         category
                     )
-                if (findNavController().currentDestination?.id == com.willowtree.vocable.R.id.editCategoriesFragment) {
+
+                if (findNavController().currentDestination?.id == R.id.editCategoriesFragment) {
                     findNavController().navigate(action)
                 }
-                editCategoriesViewModel.onCategorySelected(category)
             }
-
-/* Commenting this out so I can keep this code for when we refactor the category editing screen
-
-            with(editButtonBinding.showHideCategoryButton) {
-                if (!category.hidden) {
-                    setImageResource(R.drawable.button_hidden)
-                    setBackgroundResource(R.drawable.button_default_background)
-                } else {
-                    setImageResource(R.drawable.button_shown)
-                    setBackgroundResource(R.drawable.category_button_background)
-                }
-
-
-                action = {
-                    category.let { category ->
-                        editCategoriesViewModel.hideShowCategory(category, !category.hidden)
-                    }
-                }
-            }
-        }*/
         }
     }
 }
