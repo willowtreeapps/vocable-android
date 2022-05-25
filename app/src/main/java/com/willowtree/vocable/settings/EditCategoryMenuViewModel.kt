@@ -16,8 +16,12 @@ class EditCategoryMenuViewModel : BaseViewModel() {
     private val _currentCategory = MutableLiveData<Category>()
     val currentCategory: LiveData<Category> = _currentCategory
 
+    private val _lastCategoryRemaining = MutableLiveData<Boolean>()
+    val lastCategoryRemaining: LiveData<Boolean> = _lastCategoryRemaining
+
     fun updateCategoryById(categoryId: String) {
         backgroundScope.launch {
+            _lastCategoryRemaining.postValue(presetsRepository.getAllCategories().size == 1)
             _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
         }
     }

@@ -81,7 +81,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpRemoveCategoryButton() {
-        (binding.removeCategoryButton as NoSayTextButton).action = {
+        (binding.removeCategoryButton).action = {
             setEditButtonsEnabled(false)
             toggleDialogVisibility(true)
             binding.confirmationDialog.apply {
@@ -101,6 +101,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                 }
             }
         }
+        binding.removeCategoryButton.isEnabled = editCategoryMenuViewModel.lastCategoryRemaining.value == false
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {

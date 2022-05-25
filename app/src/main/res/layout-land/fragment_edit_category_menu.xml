@@ -23,17 +23,17 @@
     <TextView
         android:id="@+id/category_title"
         style="@style/SettingsTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="@dimen/edit_category_title_margin_top"
         android:ellipsize="end"
         android:text="@string/settings"
         android:lines="1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_options_back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="My Jokes" />
+        tools:text="Really long category name" />
 
     <GridLayout
         android:id="@+id/edit_menu_container"
@@ -54,7 +54,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/rename_category" />
-
 
         <com.willowtree.vocable.customviews.NoSayTextButton
             android:id="@+id/edit_phrases_button"
@@ -104,7 +103,7 @@
         android:padding="10dp"
         android:drawableStart="@drawable/ic_delete"
         android:gravity="center_vertical"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="24dp"
         android:text="@string/remove_category"
         app:layout_constraintStart_toStartOf="@id/edit_menu_container"
