@@ -8,13 +8,13 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-
 class VocableApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
 
         ViewPump.init(
             ViewPump.builder()

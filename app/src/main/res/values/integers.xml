@@ -19,7 +19,7 @@
     <integer name="keyboard_columns">5</integer>
     <integer name="keyboard_rows">6</integer>
     <integer name="custom_category_phrase_columns">1</integer>
-    <integer name="custom_category_phrase_rows">3</integer>
+    <integer name="custom_category_phrase_rows">9</integer>
     <integer name="custom_category_columns">1</integer>
     <integer name="custom_category_rows">8</integer>
 </resources>

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
+import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.EditCustomCategoryPhraseItemBinding
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.Category
@@ -32,21 +33,16 @@ class CustomCategoryPhraseAdapter(
             EditCustomCategoryPhraseItemBinding.bind(itemView)
 
         fun bind(phrase: Phrase, onPhraseEdit: (Phrase) -> Unit, onPhraseDelete: (Phrase) -> Unit) {
-            binding.phraseText.text = localizedResourceUtility.getTextFromPhrase(phrase)
+            (binding.phraseTextButton as NoSayTextButton).text = localizedResourceUtility.getTextFromPhrase(phrase)
 
-            with(binding.actionButtonContainer) {
-                if (category.categoryId == PresetCategories.RECENTS.id) {
-                    this.root.visibility = View.GONE
-                } else {
-                    editPhraseButton.action = {
-                        onPhraseEdit(phrase)
-                    }
-
-                    deletePhraseButton.action = {
-                        onPhraseDelete(phrase)
-                    }
-                }
+            binding.phraseTextButton.action = {
+                onPhraseEdit(phrase)
             }
+
+            binding.removeCategoryButton.action = {
+                onPhraseDelete(phrase)
+            }
+
         }
     }
 
@@ -59,7 +55,7 @@ class CustomCategoryPhraseAdapter(
         itemView.isInvisible = true
         parent.post {
             with(itemView) {
-                findViewById<View>(R.id.filler_view).minimumHeight = getMinHeight(parent)
+                //findViewById<View>(R.id.filler_view).minimumHeight = getMinHeight(parent)
                 isInvisible = false
             }
         }
@@ -67,15 +63,15 @@ class CustomCategoryPhraseAdapter(
         return CustomCategoryPhraseViewHolder(itemView)
     }
 
-    private fun getMinHeight(parent: ViewGroup): Int {
-        if (_minHeight == null) {
-            val offset =
-                parent.context.resources.getDimensionPixelSize(R.dimen.edit_category_phrase_button_margin)
-            _minHeight = (parent.measuredHeight / numRows) - ((numRows - 1) * offset / numRows)
-        }
-
-        return _minHeight ?: 0
-    }
+//    private fun getMinHeight(parent: ViewGroup): Int {
+//        if (_minHeight == null) {
+//            val offset =
+//                parent.context.resources.getDimensionPixelSize(R.dimen.edit_category_phrase_button_margin)
+//            _minHeight = (parent.measuredHeight / numRows) - ((numRows - 1) * offset / numRows)
+//        }
+//
+//        return _minHeight ?: 0
+//    }
 
     override fun getItemCount(): Int = phrases.size
 

@@ -50,16 +50,16 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
             val toUpdate = allCategories.firstOrNull { it.categoryId == categoryId }
             toUpdate?.let {
                 val currentName = it.localizedName?.get(Locale.getDefault().toString())
+
                 if (currentName == updatedName) {
                     return@let
                 }
-                val updatedNameMap = it.localizedName?.toMutableMap()?.apply {
-                    put(Locale.getDefault().toString(), updatedName)
-                }
+
+                val updatedNameMap = mapOf(Locale.getDefault().toString() to updatedName)
+
                 it.localizedName = updatedNameMap ?: mapOf()
 
                 presetsRepository.updateCategory(it)
-
                 liveShowCategoryUpdateMessage.postValue(true)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)

@@ -19,7 +19,6 @@ import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.settings.EditCategoryOptionsFragmentDirections
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -285,7 +284,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             if (targetPosition % categoriesAdapter.numPages != 0) {
                 targetPosition %= categoriesAdapter.numPages
             }
-
             presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer{ selectedCategory ->
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
                     val pageCategories = categoriesAdapter.getItemsByPosition(i)
@@ -297,6 +295,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 }
                 setCurrentItem(targetPosition, false)
                 presetsViewModel.selectedCategory.removeObservers(viewLifecycleOwner)
+                presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(targetPosition))
                 observeRecents()
             })
         }
