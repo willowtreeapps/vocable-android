@@ -25,67 +25,53 @@
         android:id="@+id/category_title"
         style="@style/SettingsTitle"
         android:layout_width="0dp"
+        android:textAlignment="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/edit_categories_title_margin"
-        android:layout_marginEnd="@dimen/edit_categories_title_margin"
-        android:maxLines="2"
+        android:layout_marginTop="@dimen/edit_category_title_margin_top"
         android:ellipsize="end"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_options_back_button"
-        app:layout_constraintEnd_toStartOf="@+id/edit_options_button"
-        app:layout_constraintStart_toEndOf="@+id/edit_options_back_button"
-        app:layout_constraintTop_toTopOf="@+id/edit_options_back_button"
-        app:layout_constraintVertical_chainStyle="packed"
+        android:lines="1"
+        app:layout_constraintStart_toEndOf="@id/edit_options_back_button"
+        app:layout_constraintEnd_toStartOf="@id/add_phrase_button"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="My Jokes" />
-
-    <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/edit_options_button"
-        android:layout_width="@dimen/edit_options_button_width"
-        android:layout_height="@dimen/edit_options_button_height"
-        android:layout_marginStart="@dimen/edit_options_button_margin_horizontal"
-        android:layout_marginEnd="@dimen/edit_options_button_margin_horizontal"
-        android:background="@drawable/button_default_background"
-        android:scaleType="center"
-        android:src="@drawable/edit_40dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/category_title"
-        app:layout_constraintEnd_toStartOf="@+id/add_phrase_button"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/category_title"
-        app:layout_constraintTop_toTopOf="@id/category_title" />
-
-    <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/remove_category_button"
-        style="@style/CloseButton"
-        android:layout_width="@dimen/settings_close_button_width"
-        android:layout_height="@dimen/settings_close_button_height"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="@dimen/settings_close_button_top_margin"
-        android:src="@drawable/keyboard_delete_button_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_options_back_button" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/add_phrase_button"
         style="@style/CloseButton"
         android:layout_width="@dimen/settings_close_button_width"
         android:layout_height="@dimen/settings_close_button_height"
-        android:layout_marginTop="0dp"
+        android:layout_marginEnd="@dimen/settings_close_button_start_margin"
+        android:layout_marginTop="@dimen/settings_close_button_top_margin"
+        android:scaleType="center"
         android:src="@drawable/add_40dp"
-        app:layout_constraintStart_toEndOf="@id/edit_options_button"
-        app:layout_constraintEnd_toStartOf="@+id/remove_category_button"
-        app:layout_constraintTop_toTopOf="@+id/edit_options_back_button" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <com.willowtree.vocable.customviews.VocableImageButton
+        android:id="@+id/edit_options_button"
+        android:layout_width="@dimen/edit_options_button_width"
+        android:layout_height="@dimen/edit_options_button_height"
+        android:background="@drawable/button_default_background"
+        android:scaleType="center"
+        android:src="@drawable/edit_40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/category_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/category_title" />
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/edit_category_phrase_holder"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/edit_categories_list_button_margin"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="@dimen/phrases_margin"
         app:layout_constraintBottom_toTopOf="@+id/edit_category_pager_back_button"
-        app:layout_constraintEnd_toEndOf="@+id/remove_category_button"
+        app:layout_constraintEnd_toEndOf="@id/add_phrase_button"
         app:layout_constraintStart_toStartOf="@+id/edit_options_back_button"
-        app:layout_constraintTop_toBottomOf="@+id/edit_options_back_button" />
+        app:layout_constraintTop_toBottomOf="@+id/category_title" />
 
     <TextView
         android:id="@+id/empty_phrases_text"
@@ -100,14 +86,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.willowtree.vocable.customviews.KeyboardButton
+    <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/empty_add_phrase_button"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="@drawable/button_default_background"
         android:text="@string/add_phrase"
         style="@style/CustomCategoryEmptyButton"
-        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintTop_toBottomOf="@id/empty_phrases_text"
         app:layout_constraintStart_toStartOf="@id/empty_phrases_text"
         app:layout_constraintEnd_toEndOf="@id/empty_phrases_text"
@@ -115,49 +101,48 @@
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/edit_category_pager_back_button"
-        android:layout_width="@dimen/phrases_paging_button_width"
-        android:layout_height="@dimen/phrases_paging_button_height"
-        android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
+        android:layout_width="@dimen/edit_paging_button_width"
+        android:layout_height="@dimen/edit_paging_button_height"
+        android:layout_marginStart="@dimen/paging_button_margin"
+        android:layout_marginBottom="@dimen/edit_paging_button_bottom_margin"
         android:background="@drawable/button_default_background"
         android:gravity="center"
         android:scaleType="center"
         android:src="@drawable/phrases_back_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/edit_category_page_number"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/edit_category_phrase_holder" />
 
     <TextView
         android:id="@+id/edit_category_page_number"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/phrases_page_number_margin"
-        android:layout_marginEnd="@dimen/phrases_page_number_margin"
-        android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
+        android:layout_marginStart="@dimen/edit_page_number_margin"
+        android:layout_marginEnd="@dimen/edit_page_number_margin"
         android:gravity="center"
         android:textColor="@color/textColor"
         android:textSize="@dimen/phrases_page_number_text_size"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/edit_category_pager_forward_button"
         app:layout_constraintEnd_toStartOf="@+id/edit_category_pager_forward_button"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/edit_category_pager_back_button"
-        app:layout_constraintTop_toTopOf="@+id/edit_category_pager_back_button"
+        app:layout_constraintTop_toTopOf="@id/edit_category_pager_forward_button"
         tools:text="Page 1 of 2" />
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/edit_category_pager_forward_button"
-        android:layout_width="@dimen/phrases_paging_button_width"
-        android:layout_height="@dimen/phrases_paging_button_height"
-        android:layout_marginBottom="@dimen/phrases_paging_margin_bottom"
+        android:layout_width="@dimen/edit_paging_button_width"
+        android:layout_height="@dimen/edit_paging_button_height"
+        android:layout_marginEnd="@dimen/paging_button_margin"
+        android:layout_marginBottom="@dimen/edit_paging_button_bottom_margin"
         android:background="@drawable/button_default_background"
         android:gravity="center"
         android:scaleType="center"
         android:src="@drawable/phrases_forward_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/edit_category_page_number" />
+        app:layout_constraintEnd_toEndOf="@id/edit_category_phrase_holder"
+        app:layout_constraintHorizontal_chainStyle="packed" />
 
     <include
         android:id="@+id/confirmation_dialog"

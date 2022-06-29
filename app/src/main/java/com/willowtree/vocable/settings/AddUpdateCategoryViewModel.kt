@@ -8,7 +8,7 @@ import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.*
 
 class AddUpdateCategoryViewModel : BaseViewModel() {
@@ -50,16 +50,16 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
             val toUpdate = allCategories.firstOrNull { it.categoryId == categoryId }
             toUpdate?.let {
                 val currentName = it.localizedName?.get(Locale.getDefault().toString())
+
                 if (currentName == updatedName) {
                     return@let
                 }
-                val updatedNameMap = it.localizedName?.toMutableMap()?.apply {
-                    put(Locale.getDefault().toString(), updatedName)
-                }
+
+                val updatedNameMap = mapOf(Locale.getDefault().toString() to updatedName)
+
                 it.localizedName = updatedNameMap ?: mapOf()
 
                 presetsRepository.updateCategory(it)
-
                 liveShowCategoryUpdateMessage.postValue(true)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)
@@ -91,7 +91,6 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
             val newCategory = Category(
                 UUID.randomUUID().toString(),
                 System.currentTimeMillis(),
-                true,
                 null,
                 mapOf(Pair(Locale.getDefault().toString(), categoryName)),
                 false,

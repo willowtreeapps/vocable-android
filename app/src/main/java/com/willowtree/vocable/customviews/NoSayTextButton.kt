@@ -5,9 +5,9 @@ import android.content.Intent
 import android.util.AttributeSet
 
 /**
- * A subclass of VocableButton that will open SettingsActivity when interacted with
+ * A subclass of VocableButton that will not say what is on the button when it is clicked.
  */
-class SettingsButton @JvmOverloads constructor(
+class NoSayTextButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0

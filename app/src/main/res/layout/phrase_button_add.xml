@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.willowtree.vocable.customviews.NoSayTextButton xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SpeechButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_default_background_dashed"
+    android:paddingStart="@dimen/speech_button_padding"
+    android:paddingEnd="@dimen/speech_button_padding"
+    android:text="@string/add_phrase_plus" />

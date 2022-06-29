@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Category
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.settings.EditPhrasesKeyboardFragmentArgs.Companion.fromBundle
-import java.util.*
 
 class AddPhraseKeyboardFragment : EditKeyboardFragment() {
 
@@ -64,10 +65,6 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
             }
         }
 
-        (binding.phraseSavedView.root as TextView).apply {
-            setText(R.string.new_phrase_saved)
-        }
-
         viewModel = ViewModelProviders.of(
             this,
             BaseViewModelFactory()
@@ -78,7 +75,21 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
 
     private fun subscribeToViewModel() {
         viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it ?: false
+            if (it) {
+                Toast.makeText(context, R.string.new_phrase_saved, Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            } else {
+                with(binding.editConfirmation) {
+                    root.isVisible = true
+                    dialogTitle.isInvisible = true
+                    dialogNegativeButton.isVisible = false
+                    dialogMessage.setText(R.string.duplicate_phrase)
+                    dialogPositiveButton.setText(android.R.string.ok)
+                    dialogPositiveButton.action = {
+                        root.isVisible = false
+                    }
+                }
+            }
         })
     }
 }

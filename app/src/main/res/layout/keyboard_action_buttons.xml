@@ -6,17 +6,6 @@
     android:orientation="horizontal">
 
     <com.willowtree.vocable.customviews.VocableImageButton
-        android:id="@+id/save_button"
-        style="@style/TopBarButton"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/top_bar_button_margin"
-        android:scaleType="center"
-        android:src="@drawable/ic_save"
-        app:layout_constraintEnd_toStartOf="@id/presets_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/presets_button"
         style="@style/TopBarButton"
         android:layout_width="0dp"
@@ -24,7 +13,7 @@
         android:scaleType="center"
         android:src="@drawable/presets_action_button_icon"
         app:layout_constraintEnd_toStartOf="@id/settings_button"
-        app:layout_constraintStart_toEndOf="@id/save_button"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableImageButton

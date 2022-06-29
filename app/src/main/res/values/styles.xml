@@ -117,6 +117,16 @@
         <item name="android:background">@drawable/button_default_background</item>
     </style>
 
+    <style name="DeletePhraseButton">
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:background">@drawable/button_default_background</item>
+    </style>
+
     <style name="CustomCategoryEmptyText">
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
@@ -301,6 +311,43 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
         <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+    </style>
+
+    <style name="IndividualCategoryEditButton">
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_marginEnd">@dimen/settings_option_button_margin</item>
+        <item name="android:layout_marginBottom">@dimen/settings_option_button_margin</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:drawableEnd">@drawable/arrow_right_32dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
+        <item name="android:paddingEnd">@dimen/settings_option_button_padding</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+    </style>
+
+    <style name="PhraseEditButton">
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:background">@drawable/button_default_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:drawableEnd">@drawable/arrow_right_32dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/vocable_button_text_color</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+    </style>
+
+    <style name="RemoveCategoryButton">
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_marginEnd">@dimen/settings_option_button_margin</item>
+        <item name="android:layout_marginBottom">@dimen/settings_option_button_margin</item>
+        <item name="android:background">@drawable/button_default_background_remove_category</item>
+        <item name="android:drawableStart">@drawable/ic_delete</item>
         <item name="android:textColor">@color/vocable_button_text_color</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>

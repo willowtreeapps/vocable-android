@@ -56,12 +56,13 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
         categories?.forEachIndexed { index, category ->
             val categoryButton =
                 CategoryButtonBinding.inflate(inflater, binding.categoryButtonContainer, false)
-            with(categoryButton.root as CategoryButton) {
+            with(categoryButton.root) {
                 tag = category
-                text = localizedResourceUtility.getTextFromCategory(category)
                 action = {
                     viewModel.onCategorySelected(category)
+
                 }
+                text = localizedResourceUtility.getTextFromCategory(category)
                 if (!isTablet && index > 0 && index + 1 == maxCategories) {
                     layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
                         marginStart = 0

@@ -180,6 +180,12 @@
     <dimen name="settings_option_button_margin">8dp</dimen>
     <dimen name="settings_option_button_padding">8dp</dimen>
     <dimen name="settings_contact_developers_top_margin">8dp</dimen>
+    <dimen name="settings_edit_individual_category_text_size">30sp</dimen>
+    <dimen name="settings_edit_individual_category_arrow_width">80dp</dimen>
+    <dimen name="settings_edit_individual_category_arrow_height">45dp</dimen>
+    <dimen name="settings_edit_individual_category_arrow_top">8dp</dimen>
+    <dimen name="settings_edit_individual_category_arrow_padding">10dp</dimen>
+
 
     <!-- Selection Mode -->
     <dimen name="selection_mode_button_end_margin">0dp</dimen>
@@ -224,12 +230,16 @@
     <dimen name="edit_categories_action_button_margin">44dp</dimen>
     <dimen name="edit_categories_add_button_margin">24dp</dimen>
     <dimen name="paging_button_margin">0dp</dimen>
-    <dimen name="edit_category_pager_margin_top">32dp</dimen>
     <dimen name="edit_categories_title_text_size">34sp</dimen>
     <dimen name="edit_categories_title_margin">30dp</dimen>
     <dimen name="edit_categories_title_margin_horizontal">8dp</dimen>
     <dimen name="edit_category_pager_margin_end">24dp</dimen>
-    <dimen name="edit_category_pager_margin_bottom">64dp</dimen>
+    <dimen name="edit_category_pager_margin_top">12dp</dimen>
+    <dimen name="edit_category_pager_margin_bottom">44dp</dimen>
+    <dimen name="edit_individual_category_padding_start">20dp</dimen>
+    <dimen name="edit_individual_category_padding_end">0dp</dimen>
+    <dimen name="edit_individual_category_padding">10dp</dimen>
+    <dimen name="edit_individual_category_margin_top">20dp</dimen>
 
     <!-- Edit Categories List -->
     <dimen name="edit_categories_list_button_width">56dp</dimen>

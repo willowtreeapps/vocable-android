@@ -53,6 +53,7 @@
     <string name="discard">Discard</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="back_warning">Going back before saving will clear any edits made.</string>
+    <string name="duplicate_phrase">Sorry, this phrase name already exists. Please try a different name.</string>
 
     <!-- Edit Keyboard -->
     <string name="changes_saved">Changes Saved</string>
@@ -169,6 +170,7 @@
     <string name="preset_trouble_breathing" formatted="false">I am having trouble breathing</string>
     <string name="preset_need_jacket" formatted="false">I need a jacket</string>
     <string name="add_phrase">Add Phrase</string>
+    <string name="add_phrase_plus">+ Add Phrase</string>
     <string name="add_category">Add Category</string>
     <string name="add_to_category">Add to Category</string>
     <string name="no_custom_categories">No custom categories</string>
@@ -176,5 +178,12 @@
     <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
     <string name="no_recent_phrases_title">No recently used phrases</string>
     <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
+    <string name="categories_edit_title">Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rename_category">Rename Category</string>
+    <string name="show_category">Show Category</string>
+    <string name="edit_phrases">Edit Phrases</string>
+    <string name="remove_category">Remove Category</string>
 
 </resources>

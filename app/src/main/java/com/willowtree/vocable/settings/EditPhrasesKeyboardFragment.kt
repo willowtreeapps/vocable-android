@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.settings.EditPhrasesKeyboardFragmentArgs.Companion.fromBundle
 import java.util.*
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
@@ -49,7 +46,10 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.action = {
-            val textChanged = binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromPhrase(phrase)
+            val textChanged =
+                binding.keyboardInput.text.toString() != localizedResourceUtility.getTextFromPhrase(
+                    phrase
+                )
             if (!textChanged || isDefaultTextVisible() || addNewPhrase) {
                 findNavController().popBackStack()
             } else {
@@ -86,15 +86,6 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
         binding.keyboardInput.setText(inputText)
 
-        (binding.phraseSavedView.root as TextView).apply {
-            if (phrase == null) {
-                setText(R.string.new_phrase_saved)
-            } else {
-                setText(R.string.changes_saved)
-            }
-        }
-
-
         viewModel = ViewModelProviders.of(
             requireActivity(),
             BaseViewModelFactory()
@@ -104,8 +95,16 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it ?: false
-        })
+        viewModel.showPhraseAdded.observe(viewLifecycleOwner) {
+            if (it) {
+                if (phrase == null) {
+                    Toast.makeText(context, R.string.new_phrase_saved, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, R.string.changes_saved, Toast.LENGTH_SHORT).show()
+                }
+                viewModel.phraseToFalse()
+                findNavController().popBackStack()
+            }
+        }
     }
 }

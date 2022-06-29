@@ -13,6 +13,6 @@ object AppKoinModule {
         single { VocableSharedPreferences() }
         single { PresetsRepository(get()) }
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { LocalizedResourceUtility(get()) }
+        single { LocalizedResourceUtility() }
     }
 }
