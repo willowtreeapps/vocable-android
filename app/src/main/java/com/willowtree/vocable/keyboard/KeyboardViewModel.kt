@@ -5,12 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.*
 
 class KeyboardViewModel : BaseViewModel() {
@@ -34,44 +33,9 @@ class KeyboardViewModel : BaseViewModel() {
             checkIfPhraseSaved()
         }
 
-    fun addNewPhrase(phraseStr: String) {
-        backgroundScope.launch {
-            val mySayingsCategory =
-                presetsRepository.getCategoryById(PresetCategories.USER_FAVORITES.id)
-            val phraseId = UUID.randomUUID().toString()
-            val mySayingsPhrases =
-                presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
-            with(presetsRepository) {
-                addPhrase(
-                    Phrase(
-                        phraseId,
-                        System.currentTimeMillis(),
-                        true,
-                        System.currentTimeMillis(),
-                        null,
-                        mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
-                        mySayingsPhrases.size
-                    )
-                )
-                addCrossRef(
-                    CategoryPhraseCrossRef(
-                        mySayingsCategory.categoryId,
-                        phraseId
-                    )
-                )
-            }
-
-            checkIfPhraseSaved()
-
-            liveShowPhraseAdded.postValue(true)
-            delay(PHRASE_ADDED_DELAY)
-            liveShowPhraseAdded.postValue(false)
-        }
-    }
-
     private fun checkIfPhraseSaved() {
         backgroundScope.launch {
-            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.USER_FAVORITES.id)
+            val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
             val isSaved = mySayingsPhrases.map { localizedResourceUtility.getTextFromPhrase(it) }.contains(currentText)
             liveIsPhraseSaved.postValue(isSaved)
         }

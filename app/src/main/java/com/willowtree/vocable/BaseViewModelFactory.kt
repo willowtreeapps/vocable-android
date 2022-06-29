@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willowtree.vocable.keyboard.KeyboardViewModel
 import com.willowtree.vocable.presets.PresetsViewModel
-import com.willowtree.vocable.presets.adapter.AddToCategoryPickerViewModel
 import com.willowtree.vocable.settings.*
 import com.willowtree.vocable.splash.SplashViewModel
 
@@ -31,14 +30,14 @@ class BaseViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(EditCategoriesViewModel::class.java) -> {
                 return EditCategoriesViewModel() as T
             }
+            modelClass.isAssignableFrom(EditCategoryMenuViewModel::class.java) -> {
+                return EditCategoryMenuViewModel() as T
+            }
             modelClass.isAssignableFrom(AddUpdateCategoryViewModel::class.java) -> {
                 return AddUpdateCategoryViewModel() as T
             }
             modelClass.isAssignableFrom(AddPhraseViewModel::class.java) -> {
                 return AddPhraseViewModel() as T
-            }
-            modelClass.isAssignableFrom(AddToCategoryPickerViewModel::class.java) -> {
-                return AddToCategoryPickerViewModel() as T
             }
             else -> throw IllegalArgumentException("Unknown class: ${modelClass::class.java.canonicalName}")
         }

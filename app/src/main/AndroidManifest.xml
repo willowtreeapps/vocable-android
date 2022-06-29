@@ -20,6 +20,7 @@
 
         <activity
             android:name=".splash.SplashActivity"
+            android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.willowtree.vocable.MainActivity" />
-        <activity android:name="com.willowtree.vocable.settings.SettingsActivity" />
+        <activity
+            android:name="com.willowtree.vocable.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

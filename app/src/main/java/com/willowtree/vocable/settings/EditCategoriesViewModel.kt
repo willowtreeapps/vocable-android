@@ -3,13 +3,13 @@ package com.willowtree.vocable.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Category
-import com.willowtree.vocable.room.CategoryPhraseCrossRef
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
-import org.koin.core.inject
+import org.koin.core.component.inject
 
 class EditCategoriesViewModel : BaseViewModel() {
 
@@ -37,6 +37,8 @@ class EditCategoriesViewModel : BaseViewModel() {
             val oldCategories = overallCategories
 
             overallCategories = presetsRepository.getAllCategories()
+            overallCategories = overallCategories.filter {!it.hidden} + overallCategories.filter {it.hidden}
+
 
             liveOrderCategoryList.postValue(overallCategories)
             liveAddRemoveCategoryList.postValue(overallCategories)
@@ -60,28 +62,27 @@ class EditCategoriesViewModel : BaseViewModel() {
 
     fun deleteCategory(category: Category) {
         backgroundScope.launch {
-            val categoryId = category.categoryId
 
             // Delete any phrases whose only associated category is the one being deleted
             // First get the ids of all phrases associated with the category being deleted
-            val phrasesForCategory = categoryPhraseList.value ?: listOf()
-            val phraseIds = phrasesForCategory.map { it.phraseId }
+            val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
+                .sortedBy { it.sortOrder }
 
-            // Get a list of all of the phrases' cross refs (associations with categories)
-            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(phraseIds)
 
-            // Filter out any phrases that are associated with more than just the category being deleted
-            val phrasesToDelete = phrasesForCategory.filter { phrase ->
-                crossRefs.filter { crossRef -> crossRef.phraseId == phrase.phraseId }.size == 1
-            }
-            // Delete the phrases
-            if (phrasesToDelete.isNotEmpty()) {
-                presetsRepository.deletePhrases(phrasesToDelete)
-            }
+            //Delete from Recents by utterance
+            presetsRepository.deletePhrases(
+                presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
+                    .filter {
+                        phrasesForCategory.map { phrase ->
+                            phrase.localizedUtterance
+                        }.contains(it.localizedUtterance)
+                    }
+            )
 
-            // Delete cross refs for the category being deleted
-            val crossRefsToDelete = crossRefs.filter { it.categoryId == categoryId }
-            presetsRepository.deleteCrossRefs(crossRefsToDelete)
+            //Delete phrases
+            presetsRepository.deletePhrases(
+                phrasesForCategory
+            )
 
             // Delete the category
             presetsRepository.deleteCategory(category)
@@ -101,42 +102,19 @@ class EditCategoriesViewModel : BaseViewModel() {
 
     fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
         backgroundScope.launch {
-            // Get a list of all of the phrases' cross refs (associations with categories)
-            val crossRefs = presetsRepository.getCrossRefsForPhraseIds(listOf(phrase.phraseId))
 
-            // Delete the cross ref with the given category
-            presetsRepository.deleteCrossRef(
-                CategoryPhraseCrossRef(
-                    category.categoryId,
-                    phrase.phraseId
-                )
-            )
-
-            // If the phrase is only associated with this category, delete it entirely
-            if (crossRefs.size == 1) {
-                presetsRepository.deletePhrase(phrase)
-            }
+            presetsRepository.deletePhrase(phrase)
+            presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
+                .firstOrNull {
+                    it.localizedUtterance == phrase.localizedUtterance
+                }?.let {
+                    presetsRepository.deletePhrase(
+                        it
+                    )
+                }
 
             // Refresh phrase list
             fetchCategoryPhrases(category)
-        }
-    }
-
-    fun onCategorySelected(category: Category) {
-        val index = overallCategories.indexOf(category)
-        if (index > -1) {
-            liveLastViewedIndex.postValue(index)
-        }
-    }
-
-    fun hideShowCategory(category: Category, hide: Boolean) {
-        // only hide if this category is not the only one left that is showing
-        backgroundScope.launch {
-            if (hide) {
-                hideCategory(category)
-            } else {
-                showCategory(category)
-            }
         }
     }
 
@@ -154,50 +132,6 @@ class EditCategoriesViewModel : BaseViewModel() {
             val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
                 .sortedBy { it.sortOrder }
             liveCategoryPhraseList.postValue(phrasesForCategory)
-        }
-    }
-
-    private suspend fun hideCategory(category: Category) {
-        val catIndex = overallCategories.indexOf(category)
-        if (catIndex > -1) {
-            val listToUpdate = overallCategories.filter { it.sortOrder >= category.sortOrder }
-            listToUpdate.forEach {
-                if (it.categoryId == category.categoryId) {
-                    it.sortOrder = overallCategories.size - 1
-                    it.hidden = true
-                } else {
-                    it.sortOrder--
-                }
-            }
-
-            overallCategories = overallCategories.sortedBy { it.sortOrder }
-            liveOrderCategoryList.postValue(overallCategories)
-
-            presetsRepository.updateCategories(listToUpdate)
-        }
-    }
-
-    private suspend fun showCategory(category: Category) {
-        val catIndex = overallCategories.indexOf(category)
-        if (catIndex > -1) {
-            var firstHiddenIndex = overallCategories.indexOfFirst { it.hidden }
-            if (firstHiddenIndex == -1) {
-                firstHiddenIndex = overallCategories.size - 1
-            }
-            val listToUpdate = overallCategories.filter { it.hidden }
-            listToUpdate.forEach {
-                if (it.categoryId == category.categoryId) {
-                    it.sortOrder = firstHiddenIndex
-                    it.hidden = false
-                } else {
-                    it.sortOrder++
-                }
-            }
-
-            overallCategories = overallCategories.sortedBy { it.sortOrder }
-            liveOrderCategoryList.postValue(overallCategories)
-
-            presetsRepository.updateCategories(listToUpdate)
         }
     }
 

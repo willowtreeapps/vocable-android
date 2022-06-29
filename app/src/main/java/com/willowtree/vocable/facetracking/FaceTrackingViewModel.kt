@@ -1,5 +1,6 @@
 package com.willowtree.vocable.facetracking
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.*
@@ -8,9 +9,9 @@ import com.google.ar.sceneform.math.Vector3
 import com.willowtree.vocable.R
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.*
-import org.koin.core.KoinComponent
-import org.koin.core.get
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import org.koin.core.component.inject
 
 class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
 
@@ -63,6 +64,7 @@ class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
         lastDetectedFaceTime = System.currentTimeMillis()
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?) {
         if (!headTrackingEnabled) {
             liveShowError.postValue(false)

@@ -1,10 +1,8 @@
 package com.willowtree.vocable.keyboard
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -86,24 +84,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             }
         }
 
-        binding.actionButtonContainer.saveButton.action = {
-            if (!isDefaultTextVisible()) {
-                binding.keyboardInput.text?.let { text ->
-                    if (text.isNotBlank()) {
-                        binding.actionButtonContainer.saveButton.apply {
-                            isActivated = true
-                            isEnabled = false
-                        }
-
-                        val action = KeyboardFragmentDirections.actionKeyboardFragmentToAddToCategoryPickerFragment(text.toString())
-                        if (findNavController().currentDestination?.id == R.id.keyboardFragment) {
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-            }
-        }
-
         binding.keyboardClearButton.action = {
             binding.keyboardInput.setText(R.string.keyboard_select_letters)
             viewModel.currentText = ""
@@ -138,26 +118,10 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             }
         }
 
-        (binding.phraseSavedView.root as TextView).setText(R.string.saved_successfully)
-
         viewModel = ViewModelProviders.of(
             this,
             BaseViewModelFactory()
         ).get(KeyboardViewModel::class.java)
-        subscribeToViewModel()
-    }
-
-    private fun subscribeToViewModel() {
-        viewModel.showPhraseAdded.observe(viewLifecycleOwner, Observer {
-            binding.phraseSavedView.root.isVisible = it
-        })
-
-        viewModel.isPhraseSaved.observe(viewLifecycleOwner, Observer {
-            binding.actionButtonContainer.saveButton.apply {
-                isActivated = it
-                isEnabled = !it
-            }
-        })
     }
 
     private val allViews = mutableListOf<View>()

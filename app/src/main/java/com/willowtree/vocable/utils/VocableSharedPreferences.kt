@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.willowtree.vocable.settings.SensitivityFragment
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 class VocableSharedPreferences : KoinComponent {
 
@@ -20,6 +20,8 @@ class VocableSharedPreferences : KoinComponent {
         const val DEFAULT_SENSITIVITY = SensitivityFragment.MEDIUM_SENSITIVITY
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = SensitivityFragment.DWELL_TIME_ONE_SECOND
+        const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
+
     }
 
     private val encryptedPrefs: EncryptedSharedPreferences by lazy {
@@ -73,5 +75,12 @@ class VocableSharedPreferences : KoinComponent {
     }
 
     fun getHeadTrackingEnabled(): Boolean =
-        encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
+        encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, false)
+
+    fun setFirstTime() {
+        encryptedPrefs.edit().putBoolean(KEY_FIRST_TIME, false).apply()
+    }
+
+    fun getFirstTime(): Boolean =
+        encryptedPrefs.getBoolean(KEY_FIRST_TIME, true)
 }

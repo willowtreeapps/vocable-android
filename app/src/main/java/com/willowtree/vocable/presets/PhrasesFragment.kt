@@ -21,7 +21,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
 
-        fun newInstance(phrases: List<Phrase>): PhrasesFragment {
+        fun newInstance(phrases: List<Phrase?>): PhrasesFragment {
             return PhrasesFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList(KEY_PHRASES, ArrayList(phrases))
@@ -49,7 +49,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         val numColumns = resources.getInteger(R.integer.phrases_columns)
         val numRows = resources.getInteger(R.integer.phrases_rows)
 
-        val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
+        val phrases = arguments?.getParcelableArrayList<Phrase?>(KEY_PHRASES)
         phrases?.let {
             with(binding.phrasesContainer) {
                 layoutManager = GridLayoutManager(requireContext(), numColumns)
@@ -61,9 +61,11 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
                     )
                 )
 
-                adapter = PhraseAdapter(it, numRows) { phrase ->
+                adapter = PhraseAdapter(it, numRows, { phrase ->
                     presetsViewModel.addToRecents(phrase)
-                }
+                }, {
+                   presetsViewModel.navToAddPhrase()
+                })
 
                 setHasFixedSize(true)
             }
