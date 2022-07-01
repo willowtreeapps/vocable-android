@@ -147,7 +147,7 @@ object VocableDatabaseMigrations {
             crossRefCursor.close()
 
             val phraseCursor =
-                database.query("SELECT * FROM Phrase WHERE is_user_generated=TRUE")
+                database.query("SELECT * FROM Phrase WHERE is_user_generated=1")
             while (phraseCursor.moveToNext()) {
                 val parentID = phraseIds[phraseCursor.getString(phraseCursor.getColumnIndex("phrase_id"))]
                 val creationDate = phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
