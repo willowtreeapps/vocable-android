@@ -1,14 +1,14 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@2.0.3
+  android: circleci/android@2.3.0
 
 jobs:
   unit-test:
     executor:
       name: android/android-machine
       resource-class: medium
-      tag: 2022.04.1
+      tag: 2023.07.1
     steps:
       - checkout
       - android/restore-gradle-cache
@@ -30,7 +30,7 @@ jobs:
   android-test:
     executor:
       name: android/android-machine
-      tag: 2022.04.1
+      tag: 2023.07.1
       resource-class: xlarge
     steps:
       - checkout
