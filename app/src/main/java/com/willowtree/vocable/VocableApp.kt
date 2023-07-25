@@ -22,7 +22,6 @@ class VocableApp : Application() {
                     CalligraphyInterceptor(
                         CalligraphyConfig.Builder()
                             .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
-                            .setFontAttrId(R.attr.fontPath)
                             .build()
                     )
                 )
