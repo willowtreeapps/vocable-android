@@ -58,3 +58,4 @@ fastlane/readme.md
 app/keys/
 app/release/
 app/.DS_Store
+.DS_Store
