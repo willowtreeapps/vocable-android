@@ -10,6 +10,8 @@
 
 [![Play Store Link](marketing_assets/google-play-badge.svg)](https://play.google.com/store/apps/details?id=com.willowtree.vocable)
 
+Pre-release builds are available through Firebase [here](https://appdistribution.firebase.dev/i/ebf0696a3e643b20)
+
 ## Contents
 - [What is Vocable?](#what-is-vocable)
 - [Features](#features)
