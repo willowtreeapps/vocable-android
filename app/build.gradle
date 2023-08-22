@@ -24,8 +24,17 @@ android {
             }
         }
     }
+    signingConfigs {
+        release {
+            storeFile rootProject.file("keystore")
+            storePassword System.getenv("RELEASE_KEY_PASSWORD")
+            keyAlias System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
