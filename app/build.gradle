@@ -9,7 +9,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    namespace 'com.willowtree.vocable'
+    compileSdk 33
     defaultConfig {
         applicationId "com.willowtree.vocable"
         minSdkVersion 24
@@ -25,6 +26,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.debug
             buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -39,11 +41,14 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    lintOptions {
+        checkReleaseBuilds false
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     viewBinding {
         enabled = true
@@ -55,6 +60,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -83,9 +89,9 @@ dependencies {
     implementation 'io.insert-koin:koin-core:3.1.5'
     implementation 'io.insert-koin:koin-android:3.1.5'
 
-    implementation "androidx.room:room-runtime:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
-    implementation "androidx.room:room-ktx:2.4.2"
+    implementation "androidx.room:room-runtime:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
+    implementation "androidx.room:room-ktx:2.5.2"
 
     implementation 'androidx.security:security-crypto:1.0.0-beta01'
 

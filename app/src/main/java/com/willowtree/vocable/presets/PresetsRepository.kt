@@ -164,8 +164,8 @@ class PresetsRepository(context: Context) : KoinComponent {
                         false,
                         it.getNameId(),
                         null,
-                        existingCategory?.hidden,
-                        existingCategory?.sortOrder
+                        existingCategory.hidden,
+                        existingCategory.sortOrder
                     )
                 } else {
                     Category(
