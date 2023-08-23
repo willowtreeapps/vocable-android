@@ -15,8 +15,9 @@ android {
         applicationId "com.willowtree.vocable"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 29
-        versionName "1.5.2"
+        //30 was the last versionCode used on Play Store before implementing CI with github actions
+        versionCode Integer.valueOf(System.getenv("VERSION_CODE") ?: 1) + 30
+        versionName System.getenv("VERSION_NAME") ?: "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
