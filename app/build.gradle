@@ -34,7 +34,6 @@ android {
         debug {
             def useHeadTracking = project.getProperties().getOrDefault("USE_HEAD_TRACKING", "true")
             buildConfigField("boolean", "USE_HEAD_TRACKING", useHeadTracking)
-            applicationIdSuffix ".debug"
         }
     }
     testOptions {
