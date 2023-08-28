@@ -7,13 +7,17 @@ All new migrations should have a test confirming the migration.
 
 package com.willowtree.vocable.room
 
+import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -240,6 +244,85 @@ class MigrationTest {
                 Assert.assertEquals(0L, timestamp)
                close()
             }
+    }
+
+    @Test
+    fun migrate5to6() = runTest {
+        // Migration from a many-to-many relationship of categories and phrases
+        // to a one-to-many relationship of categories to phrases
+
+        helper.createDatabase(TEST_DB, 5).use {
+            //Create tables
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `Category` " +
+                        "(`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, " +
+                        "`resource_id` INTEGER, `localized_name` TEXT, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`category_id`))"
+            )
+
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `Phrase` (`phrase_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, " +
+                        "`is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, " +
+                        "`localized_utterance` TEXT, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))"
+            )
+
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `CategoryPhraseCrossRef` (`category_id` TEXT NOT NULL, `phrase_id` TEXT NOT NULL, " +
+                        "`timestamp` INTEGER, PRIMARY KEY(`category_id`, `phrase_id`))"
+            )
+
+            // Add data
+            it.execSQL(
+                "INSERT INTO Category " +
+                        "(category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES " +
+                        "('custom', 0, 0, '{\"english\":\"custom\"}', 0, 7)"
+            )
+
+            it.execSQL(
+                "INSERT INTO Phrase (phrase_id, creation_date, is_user_generated, last_spoken_date, localized_utterance, sort_order) VALUES " +
+                        "('1', 0, 1, 0, '{\"english\":\"hi\"}', 0)"
+            )
+            it.execSQL(
+                "INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES " +
+                        "('custom', '1')"
+            )
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 6, true, VocableDatabaseMigrations.MIGRATION_5_6)
+
+        val db = Room.databaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            VocableDatabase::class.java,
+            TEST_DB
+        ).build()
+
+        val categories = db.categoryDao().getAllCategories()
+        assertEquals(
+            listOf(
+                Category(
+                    "custom",
+                    0L,
+                    null,
+                    mapOf("english" to "custom"),
+                    false,
+                    7
+                )
+            ), categories
+        )
+
+        val phrases = db.categoryDao().getCategoryWithPhrases("custom")?.phrases
+        assertEquals(
+            listOf(
+                Phrase(
+                    1L,
+                    "custom",
+                    0L,
+                    0L,
+                    mapOf("english" to "hi"),
+                    0
+                )
+            ), phrases
+        )
     }
 
 }
