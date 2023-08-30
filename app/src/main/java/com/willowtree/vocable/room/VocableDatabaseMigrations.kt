@@ -73,7 +73,7 @@ object VocableDatabaseMigrations {
             val crossRefCursor =
                 database.query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
             val myLocalizedSayings = LinkedHashSet<String>()
-            val phraseIds =  mutableListOf<String>()
+            val phraseIds = mutableListOf<String>()
             while (crossRefCursor.moveToNext()) {
                 val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
                 phraseIds.add(phraseId)
@@ -81,9 +81,11 @@ object VocableDatabaseMigrations {
             crossRefCursor.close()
 
             phraseIds.forEach {
-                val phraseCursor = database.query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
+                val phraseCursor =
+                    database.query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
                 while (phraseCursor.moveToNext()) {
-                    val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                    val saying =
+                        phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                     myLocalizedSayings.add(saying)
                 }
                 phraseCursor.close()
@@ -161,9 +163,12 @@ object VocableDatabaseMigrations {
                     )
                 } ?: continue
                 val parentID = phraseToCategory.categoryId
-                val creationDate = phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
-                val lastSpokenDate = phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
-                val localizedUtterance = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                val creationDate =
+                    phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
+                val lastSpokenDate =
+                    phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
+                val localizedUtterance =
+                    phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                 val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
 
                 database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
@@ -178,18 +183,23 @@ object VocableDatabaseMigrations {
                 database.query("SELECT * FROM Category")
             while (categoriesCursor.moveToNext()) {
 
-                val categoryID = categoriesCursor.getString(categoriesCursor.getColumnIndex("category_id"))
-                val creationDate = categoriesCursor.getInt(categoriesCursor.getColumnIndex("creation_date"))
-                val resourceID = categoriesCursor.getInt(categoriesCursor.getColumnIndex("resource_id")).let {
-                    if (it == 0) {
-                        null
-                    } else {
-                        it
+                val categoryID =
+                    categoriesCursor.getString(categoriesCursor.getColumnIndex("category_id"))
+                val creationDate =
+                    categoriesCursor.getInt(categoriesCursor.getColumnIndex("creation_date"))
+                val resourceID =
+                    categoriesCursor.getInt(categoriesCursor.getColumnIndex("resource_id")).let {
+                        if (it == 0) {
+                            null
+                        } else {
+                            it
+                        }
                     }
-                }
-                val localizedName = categoriesCursor.getString(categoriesCursor.getColumnIndex("localized_name"))
+                val localizedName =
+                    categoriesCursor.getString(categoriesCursor.getColumnIndex("localized_name"))
                 val hidden = categoriesCursor.getInt(categoriesCursor.getColumnIndex("hidden"))
-                val sortOrder = categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
+                val sortOrder =
+                    categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
                 database.execSQL("INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$localizedName', '$hidden', '$sortOrder')")
             }
 
