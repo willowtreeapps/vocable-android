@@ -339,6 +339,7 @@ class MigrationTest {
         )
 
         val customPhrases = db.categoryDao().getCategoryWithPhrases("custom")?.phrases
+        val recentPhrases = db.categoryDao().getCategoryWithPhrases("recents")?.phrases
         assertEquals(
             listOf(
                 Phrase(
@@ -350,6 +351,18 @@ class MigrationTest {
                     0
                 )
             ), customPhrases
+        )
+        assertEquals(
+            listOf(
+                Phrase(
+                    2L,
+                    "recents",
+                    0L,
+                    0L,
+                    mapOf("english" to "hi"),
+                    0
+                )
+            ), recentPhrases
         )
     }
 
