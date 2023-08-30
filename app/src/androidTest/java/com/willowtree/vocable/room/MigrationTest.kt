@@ -3,7 +3,7 @@
 These tests confirm that users can successfully upgrade from older versions of Vocable to newer versions.
 All new migrations should have a test confirming the migration.
 
-**/
+ **/
 
 package com.willowtree.vocable.room
 
@@ -118,17 +118,20 @@ class MigrationTest {
                 val crossRefCursor =
                     query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val myLocalizedSayings = arrayListOf<String>()
-                val phraseIds =  mutableListOf<String>()
+                val phraseIds = mutableListOf<String>()
                 while (crossRefCursor.moveToNext()) {
-                    val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
+                    val phraseId =
+                        crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
                     phraseIds.add(phraseId)
                 }
                 crossRefCursor.close()
 
                 phraseIds.forEach {
-                    val phraseCursor = query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
+                    val phraseCursor =
+                        query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
                     while (phraseCursor.moveToNext()) {
-                        val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                        val saying =
+                            phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                         myLocalizedSayings.add(saying)
                     }
                     phraseCursor.close()
@@ -166,17 +169,20 @@ class MigrationTest {
                 val crossRefCursor =
                     query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val myLocalizedSayings = arrayListOf<String>()
-                val phraseIds =  mutableListOf<String>()
+                val phraseIds = mutableListOf<String>()
                 while (crossRefCursor.moveToNext()) {
-                    val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
+                    val phraseId =
+                        crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
                     phraseIds.add(phraseId)
                 }
                 crossRefCursor.close()
 
                 phraseIds.forEach {
-                    val phraseCursor = query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
+                    val phraseCursor =
+                        query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
                     while (phraseCursor.moveToNext()) {
-                        val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                        val saying =
+                            phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                         myLocalizedSayings.add(saying)
                     }
                     phraseCursor.close()
@@ -224,25 +230,28 @@ class MigrationTest {
                 val crossRefCursor =
                     query("SELECT * FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
                 val phrasesAdded = arrayListOf<String>()
-                val phraseIds =  mutableListOf<String>()
+                val phraseIds = mutableListOf<String>()
                 var timestamp: Long? = null
                 while (crossRefCursor.moveToNext()) {
-                    val phraseId = crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
+                    val phraseId =
+                        crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))
                     timestamp = crossRefCursor.getLong(crossRefCursor.getColumnIndex("timestamp"))
                     phraseIds.add(phraseId)
                 }
                 crossRefCursor.close()
 
-                    val phraseCursor = query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$phraseId'")
-                    while (phraseCursor.moveToNext()) {
-                        val saying = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
-                        phrasesAdded.add(saying)
-                    }
-                    phraseCursor.close()
+                val phraseCursor =
+                    query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$phraseId'")
+                while (phraseCursor.moveToNext()) {
+                    val saying =
+                        phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                    phrasesAdded.add(saying)
+                }
+                phraseCursor.close()
 
                 Assert.assertTrue(phrasesAdded.contains(testPhraseV4))
                 Assert.assertEquals(0L, timestamp)
-               close()
+                close()
             }
     }
 
