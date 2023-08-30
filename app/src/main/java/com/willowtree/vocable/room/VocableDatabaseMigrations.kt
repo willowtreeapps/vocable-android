@@ -136,20 +136,31 @@ object VocableDatabaseMigrations {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
-            val phraseIds = mutableMapOf<String, String>()
+            data class PhraseToCategory(val phraseId: String, val categoryId: String)
+
+            val phraseToCategories = mutableListOf<PhraseToCategory>()
 
             val crossRefCursor =
                 database.query("SELECT * FROM CategoryPhraseCrossRef")
             while (crossRefCursor.moveToNext()) {
-                phraseIds[crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id"))] =
-                    crossRefCursor.getString(crossRefCursor.getColumnIndex("category_id"))
+                phraseToCategories.add(
+                    PhraseToCategory(
+                        crossRefCursor.getString(crossRefCursor.getColumnIndex("phrase_id")),
+                        crossRefCursor.getString(crossRefCursor.getColumnIndex("category_id"))
+                    )
+                )
             }
             crossRefCursor.close()
 
             val phraseCursor =
                 database.query("SELECT * FROM Phrase WHERE is_user_generated=TRUE")
             while (phraseCursor.moveToNext()) {
-                val parentID = phraseIds[phraseCursor.getString(phraseCursor.getColumnIndex("phrase_id"))]
+                val phraseToCategory = phraseToCategories.find {
+                    it.phraseId == phraseCursor.getString(
+                        phraseCursor.getColumnIndex("phrase_id")
+                    )
+                } ?: continue
+                val parentID = phraseToCategory.categoryId
                 val creationDate = phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
                 val lastSpokenDate = phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
                 val localizedUtterance = phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
