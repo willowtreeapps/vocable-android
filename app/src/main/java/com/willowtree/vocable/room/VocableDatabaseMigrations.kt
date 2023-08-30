@@ -157,21 +157,22 @@ object VocableDatabaseMigrations {
             val phraseCursor =
                 database.query("SELECT * FROM Phrase WHERE is_user_generated=TRUE")
             while (phraseCursor.moveToNext()) {
-                val phraseToCategory = phraseToCategories.find {
+                phraseToCategories.filter {
                     it.phraseId == phraseCursor.getString(
                         phraseCursor.getColumnIndex("phrase_id")
                     )
-                } ?: continue
-                val parentID = phraseToCategory.categoryId
-                val creationDate =
-                    phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
-                val lastSpokenDate =
-                    phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
-                val localizedUtterance =
-                    phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
-                val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
+                }.forEach {
+                    val parentID = it.categoryId
+                    val creationDate =
+                        phraseCursor.getLong(phraseCursor.getColumnIndex("creation_date"))
+                    val lastSpokenDate =
+                        phraseCursor.getLong(phraseCursor.getColumnIndex("last_spoken_date"))
+                    val localizedUtterance =
+                        phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
+                    val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
 
-                database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
+                    database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
+                }
             }
             phraseCursor.close()
 
