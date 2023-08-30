@@ -275,7 +275,12 @@ class MigrationTest {
             it.execSQL(
                 "INSERT INTO Category " +
                         "(category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES " +
-                        "('custom', 0, 0, '{\"english\":\"custom\"}', 0, 7)"
+                        "('custom', 0, 1, '{\"english\":\"custom\"}', 0, 7)"
+            )
+            it.execSQL(
+                "INSERT INTO Category " +
+                        "(category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES " +
+                        "('recents', 0, 0, '{\"english\":\"recents\"}', 0, 8)"
             )
 
             it.execSQL(
@@ -285,6 +290,12 @@ class MigrationTest {
             it.execSQL(
                 "INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES " +
                         "('custom', '1')"
+            )
+
+            // Add additional reference for a phrase included in multiple categories ie, how recents previously worked
+            it.execSQL(
+                "INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES " +
+                        "('recents', '1')"
             )
         }
 
@@ -306,11 +317,19 @@ class MigrationTest {
                     mapOf("english" to "custom"),
                     false,
                     7
+                ),
+                Category(
+                    "recents",
+                    0L,
+                    null,
+                    mapOf("english" to "recents"),
+                    false,
+                    8
                 )
             ), categories
         )
 
-        val phrases = db.categoryDao().getCategoryWithPhrases("custom")?.phrases
+        val customPhrases = db.categoryDao().getCategoryWithPhrases("custom")?.phrases
         assertEquals(
             listOf(
                 Phrase(
@@ -321,7 +340,7 @@ class MigrationTest {
                     mapOf("english" to "hi"),
                     0
                 )
-            ), phrases
+            ), customPhrases
         )
     }
 
