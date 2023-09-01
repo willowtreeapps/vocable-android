@@ -10,7 +10,7 @@ import org.koin.core.component.get
 import java.util.Calendar
 import java.util.Locale
 
-class PresetsRepository(val context: Context) : KoinComponent {
+class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepository {
 
     private val database = VocableDatabase.getVocableDatabase(context)
 
@@ -26,7 +26,7 @@ class PresetsRepository(val context: Context) : KoinComponent {
         return database.categoryDao().getAllCategories()
     }
 
-    suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
+    override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: listOf()
     }
 
@@ -34,7 +34,7 @@ class PresetsRepository(val context: Context) : KoinComponent {
         database.phraseDao().insertPhrase(phrase)
     }
 
-    suspend fun addPhraseToRecents(phrase: Phrase) {
+    override suspend fun addPhraseToRecents(phrase: Phrase) {
 
         val phrases = getPhrasesForCategory(
             PresetCategories.RECENTS.id
