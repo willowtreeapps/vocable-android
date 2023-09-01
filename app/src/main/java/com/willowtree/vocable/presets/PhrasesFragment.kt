@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.presets.adapter.PhraseAdapter
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.ItemOffsetDecoration
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
-    private lateinit var presetsViewModel: PresetsViewModel
+    private val presetsViewModel: PresetsViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
@@ -37,14 +39,8 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-
-        presetsViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(PresetsViewModel::class.java)
 
         val numColumns = resources.getInteger(R.integer.phrases_columns)
         val numRows = resources.getInteger(R.integer.phrases_rows)
