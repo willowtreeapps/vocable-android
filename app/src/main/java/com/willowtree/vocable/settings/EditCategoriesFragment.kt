@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import kotlin.math.min
 
@@ -141,9 +141,9 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<CategoryDto>(fm, viewLifecycleOwner.lifecycle) {
 
-        override fun setItems(items: List<Category>) {
+        override fun setItems(items: List<CategoryDto>) {
             super.setItems(items)
             setPagingButtonsEnabled(categoriesAdapter.numPages > 1)
         }

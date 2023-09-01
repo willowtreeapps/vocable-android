@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Category::class, Phrase::class], version = 6)
+@Database(entities = [CategoryDto::class, Phrase::class], version = 6)
 @TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
 

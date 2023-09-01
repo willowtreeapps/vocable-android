@@ -3,7 +3,7 @@ package com.willowtree.vocable.presets
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
@@ -12,11 +12,11 @@ class PresetsViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val liveCategoryList = MutableLiveData<List<Category>>()
-    val categoryList: LiveData<List<Category>> = liveCategoryList
+    private val liveCategoryList = MutableLiveData<List<CategoryDto>>()
+    val categoryList: LiveData<List<CategoryDto>> = liveCategoryList
 
-    private val liveSelectedCategory = MutableLiveData<Category>()
-    val selectedCategory: LiveData<Category> = liveSelectedCategory
+    private val liveSelectedCategory = MutableLiveData<CategoryDto>()
+    val selectedCategory: LiveData<CategoryDto> = liveSelectedCategory
 
     private val liveCurrentPhrases = MutableLiveData<List<Phrase?>>()
     val currentPhrases: LiveData<List<Phrase?>> = liveCurrentPhrases
@@ -42,7 +42,7 @@ class PresetsViewModel : BaseViewModel() {
         }
     }
 
-    fun onCategorySelected(category: Category) {
+    fun onCategorySelected(category: CategoryDto) {
         liveSelectedCategory.postValue(category)
 
         backgroundScope.launch {

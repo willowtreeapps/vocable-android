@@ -29,7 +29,7 @@
         <argument
             android:name="category"
             android:defaultValue="@null"
-            app:argType="com.willowtree.vocable.room.Category"
+            app:argType="com.willowtree.vocable.room.CategoryDto"
             app:nullable="true" />
         <action
             android:id="@+id/action_editCategoriesKeyboardFragment_to_editCategoryMenuFragment"
@@ -41,7 +41,7 @@
         android:label="EditCategoryPhrasesFragment">
         <argument
             android:name="category"
-            app:argType="com.willowtree.vocable.room.Category" />
+            app:argType="com.willowtree.vocable.room.CategoryDto" />
         <action
             android:id="@+id/action_editCategoryPhrasesFragment_to_editCategoriesKeyboardFragment"
             app:destination="@id/editCategoriesKeyboardFragment" />
@@ -79,7 +79,7 @@
         android:label="AddPhraseKeyboardFragment">
         <argument
             android:name="category"
-            app:argType="com.willowtree.vocable.room.Category" />
+            app:argType="com.willowtree.vocable.room.CategoryDto" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -143,7 +143,7 @@
         tools:layout="@layout/fragment_edit_category_menu" >
         <argument
             android:name="category"
-            app:argType="com.willowtree.vocable.room.Category" />
+            app:argType="com.willowtree.vocable.room.CategoryDto" />
         <action
             android:id="@+id/action_editCategoryMenuFragment_to_editCategoryPhrasesFragment"
             app:destination="@id/editCategoryPhrasesFragment" />

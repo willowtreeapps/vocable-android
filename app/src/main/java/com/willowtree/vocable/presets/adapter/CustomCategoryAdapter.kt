@@ -7,15 +7,15 @@ import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.CustomCategorySwitchItemBinding
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class CustomCategoryAdapter(
-    private var categories: Map<Category, Boolean>,
+    private var categories: Map<CategoryDto, Boolean>,
     private val numRows: Int,
-    private val onCategoryToggle: (Category, Boolean) -> Unit
+    private val onCategoryToggle: (CategoryDto, Boolean) -> Unit
 ) : RecyclerView.Adapter<CustomCategoryAdapter.CustomCategoryViewHolder>(), KoinComponent {
 
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
@@ -26,7 +26,7 @@ class CustomCategoryAdapter(
         private val binding: CustomCategorySwitchItemBinding =
             CustomCategorySwitchItemBinding.bind(itemView)
 
-        fun bind(category: Category, isChecked: Boolean, onCategoryToggle: (Category, Boolean) -> Unit) {
+        fun bind(category: CategoryDto, isChecked: Boolean, onCategoryToggle: (CategoryDto, Boolean) -> Unit) {
             binding.categoryText.text = localizedResourceUtility.getTextFromCategory(category)
 
             binding.categoryContainer.action = { binding.toggleSwitch.isChecked = !binding.toggleSwitch.isChecked }
@@ -62,7 +62,7 @@ class CustomCategoryAdapter(
         return _minHeight ?: 0
     }
 
-    fun setMap(map: Map<Category, Boolean>) {
+    fun setMap(map: Map<CategoryDto, Boolean>) {
         this.categories = map
         notifyDataSetChanged()
     }
