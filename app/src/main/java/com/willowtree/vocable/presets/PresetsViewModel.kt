@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PresetsViewModel(
-    private val presetsRepository: PresetsRepository,
+    private val presetsRepository: IPresetsRepository,
     categoriesUseCase: CategoriesUseCase
 ) : ViewModel() {
 
