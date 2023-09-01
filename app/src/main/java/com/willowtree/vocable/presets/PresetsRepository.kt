@@ -18,7 +18,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         return database.categoryDao().getAllCategories()
     }
 
-    fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
+    override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
         return database.categoryDao().getAllCategoriesFlow()
     }
 
