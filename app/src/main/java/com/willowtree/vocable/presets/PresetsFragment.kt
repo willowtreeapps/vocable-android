@@ -17,7 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
@@ -55,7 +55,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                     binding.categoryView.setCurrentItem(0, true)
                     //When in portrait mode, the phrases update on category forward and backward buttons
                     if (isPortraitMode && !isTabletMode) {
-                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0))
+                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0).categoryId)
                     }
                 }
                 else -> {
@@ -64,7 +64,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                         presetsViewModel.onCategorySelected(
                             categoriesAdapter.getCategory(
                                 currentPosition + 1
-                            )
+                            ).categoryId
                         )
                     }
                 }
@@ -79,7 +79,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                         presetsViewModel.onCategorySelected(
                             categoriesAdapter.getCategory(
                                 categoriesAdapter.itemCount - 1
-                            )
+                            ).categoryId
                         )
                     }
                 }
@@ -89,7 +89,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                         presetsViewModel.onCategorySelected(
                             categoriesAdapter.getCategory(
                                 currentPosition - 1
-                            )
+                            ).categoryId
                         )
                     }
                 }
@@ -195,11 +195,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         subscribeToViewModel()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presetsViewModel.populateCategories()
-    }
-
     private fun subscribeToViewModel() {
         SpokenText.observe(viewLifecycleOwner, Observer {
             binding.currentText.text = if (it.isNullOrBlank()) {
@@ -250,13 +245,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         }
     }
 
-    private fun handleCategories(categories: List<Category>) {
-        /* 4/11/2022 Commenting this out because categories are now being updated with forward and backward buttons and within the onResume
-            if (categories.isNotEmpty()) {
-                presetsViewModel.onCategorySelected(categories[0])
-            }
-         */
-
+    private fun handleCategories(categories: List<CategoryDto>) {
         with(binding.categoryView) {
             val categoriesExist = categories.isNotEmpty()
             // if there are no categories to show (the user has hidden them all), then show the empty state
@@ -284,26 +273,26 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             if (targetPosition % categoriesAdapter.numPages != 0) {
                 targetPosition %= categoriesAdapter.numPages
             }
-            presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer{ selectedCategory ->
+            presetsViewModel.selectedCategoryLiveData.observe(viewLifecycleOwner, Observer{ selectedCategory ->
                 for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
                     val pageCategories = categoriesAdapter.getItemsByPosition(i)
 
-                    if (pageCategories.find { it.categoryId == selectedCategory.categoryId } != null) {
+                    if (pageCategories.find { it.categoryId == selectedCategory?.categoryId } != null) {
                         targetPosition = i
                         break
                     }
                 }
                 setCurrentItem(targetPosition, false)
-                presetsViewModel.selectedCategory.removeObservers(viewLifecycleOwner)
-                presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(targetPosition))
+                presetsViewModel.selectedCategoryLiveData.removeObservers(viewLifecycleOwner)
+                presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(targetPosition).categoryId)
                 observeRecents()
             })
         }
     }
 
     private fun observeRecents() {
-        presetsViewModel.selectedCategory.observe(viewLifecycleOwner, Observer { selectedCategory ->
-            recentsCategorySelected = selectedCategory.categoryId == PresetCategories.RECENTS.id
+        presetsViewModel.selectedCategoryLiveData.observe(viewLifecycleOwner, Observer { selectedCategory ->
+            recentsCategorySelected = selectedCategory?.categoryId == PresetCategories.RECENTS.id
         })
     }
 
@@ -342,7 +331,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<CategoryDto>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun getMaxItemsPerPage(): Int = maxCategories
 
@@ -351,7 +340,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         fun getSize(): Int = items.size
 
-        fun getCategory(position: Int): Category {
+        fun getCategory(position: Int): CategoryDto {
             return if (position >= items.size) {
                 items[position % items.size]
             } else {

@@ -1,21 +1,17 @@
 package com.willowtree.vocable.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 
 class AddPhraseKeyboardFragment : EditKeyboardFragment() {
@@ -34,7 +30,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
 
     private lateinit var viewModel: AddPhraseViewModel
     private val args: AddPhraseKeyboardFragmentArgs by navArgs()
-    private lateinit var category: Category
+    private lateinit var category: CategoryDto
     private var savedPhrase = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {

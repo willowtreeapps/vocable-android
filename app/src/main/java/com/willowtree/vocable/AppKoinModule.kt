@@ -14,5 +14,6 @@ object AppKoinModule {
         single { PresetsRepository(get()) }
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility() }
+        single { CategoriesUseCase(get()) }
     }
 }

@@ -319,7 +319,7 @@ class MigrationTest {
         val categories = db.categoryDao().getAllCategories()
         assertEquals(
             listOf(
-                Category(
+                CategoryDto(
                     "custom",
                     0L,
                     null,
@@ -327,7 +327,7 @@ class MigrationTest {
                     false,
                     7
                 ),
-                Category(
+                CategoryDto(
                     "recents",
                     0L,
                     null,

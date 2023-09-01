@@ -2,7 +2,7 @@ package com.willowtree.vocable.utils
 
 import android.content.Context
 import android.content.res.Resources
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -11,7 +11,7 @@ class LocalizedResourceUtility : KoinComponent {
 
     val resources: Resources = get<Context>().resources
 
-    fun getTextFromCategory(category: Category?): String {
+    fun getTextFromCategory(category: CategoryDto?): String {
 
         return category?.localizedName?.let {
             LocaleUtils.getTextForLocale(it)

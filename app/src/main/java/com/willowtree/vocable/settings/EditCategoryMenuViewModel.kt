@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 
@@ -13,8 +13,8 @@ class EditCategoryMenuViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val _currentCategory = MutableLiveData<Category>()
-    val currentCategory: LiveData<Category> = _currentCategory
+    private val _currentCategory = MutableLiveData<CategoryDto>()
+    val currentCategory: LiveData<CategoryDto> = _currentCategory
 
     private val _lastCategoryRemaining = MutableLiveData<Boolean>()
     val lastCategoryRemaining: LiveData<Boolean> = _lastCategoryRemaining

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
     private val liveShowDuplicateCategoryMessage = MutableLiveData<Boolean>()
     val showDuplicateCategoryMessage: LiveData<Boolean> = liveShowDuplicateCategoryMessage
 
-    private var allCategories = listOf<Category>()
+    private var allCategories = listOf<CategoryDto>()
 
     init {
         populateAllCategories()
@@ -88,7 +88,7 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
                 it.sortOrder++
             }
 
-            val newCategory = Category(
+            val newCategory = CategoryDto(
                 UUID.randomUUID().toString(),
                 System.currentTimeMillis(),
                 null,
