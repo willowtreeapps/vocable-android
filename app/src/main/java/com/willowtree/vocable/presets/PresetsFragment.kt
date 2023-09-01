@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -22,6 +21,8 @@ import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
@@ -34,7 +35,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     private var isPortraitMode = true
     private var isTabletMode = false
 
-    private lateinit var presetsViewModel: PresetsViewModel
+    private val presetsViewModel: PresetsViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
 
@@ -187,11 +190,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         SpokenText.postValue(null)
 
-        presetsViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(PresetsViewModel::class.java)
         subscribeToViewModel()
     }
 

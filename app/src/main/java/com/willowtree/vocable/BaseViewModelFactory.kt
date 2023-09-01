@@ -3,7 +3,6 @@ package com.willowtree.vocable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willowtree.vocable.keyboard.KeyboardViewModel
-import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.settings.*
 import com.willowtree.vocable.splash.SplashViewModel
 
@@ -14,9 +13,6 @@ class BaseViewModelFactory : ViewModelProvider.Factory {
         when {
             modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
                 return SplashViewModel() as T
-            }
-            modelClass.isAssignableFrom(PresetsViewModel::class.java) -> {
-                return PresetsViewModel() as T
             }
             modelClass.isAssignableFrom(SettingsViewModel::class.java) -> {
                 return SettingsViewModel() as T

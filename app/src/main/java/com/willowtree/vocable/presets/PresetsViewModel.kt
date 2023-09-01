@@ -2,9 +2,9 @@ package com.willowtree.vocable.presets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
@@ -17,12 +17,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.inject
 
-class PresetsViewModel : BaseViewModel() {
-
-    private val presetsRepository: PresetsRepository by inject()
-    private val categoriesUseCase: CategoriesUseCase by inject()
+class PresetsViewModel(
+    private val presetsRepository: PresetsRepository,
+    categoriesUseCase: CategoriesUseCase
+) : ViewModel() {
 
     val categoryList: LiveData<List<CategoryDto>> = categoriesUseCase.categories().asLiveData()
 
@@ -66,7 +65,7 @@ class PresetsViewModel : BaseViewModel() {
     }
 
     fun addToRecents(phrase: Phrase) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             presetsRepository.addPhraseToRecents(phrase)
         }
     }
