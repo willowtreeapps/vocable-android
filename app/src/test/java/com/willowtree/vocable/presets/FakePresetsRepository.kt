@@ -44,4 +44,16 @@ class FakePresetsRepository : IPresetsRepository {
     override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
         return _allCategories
     }
+
+    override suspend fun getAllCategories(): List<CategoryDto> {
+        return _allCategories.value
+    }
+
+    override suspend fun deletePhrase(phrase: Phrase) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateCategories(categories: List<CategoryDto>) {
+        TODO("Not yet implemented")
+    }
 }

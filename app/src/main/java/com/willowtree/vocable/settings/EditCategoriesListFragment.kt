@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.NoSayTextButton
@@ -16,6 +14,8 @@ import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBinding>() {
 
@@ -38,7 +38,9 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
 
     override val bindingInflater: BindingInflater<FragmentEditCategoriesListBinding> =
         FragmentEditCategoriesListBinding::inflate
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
     private var maxEditCategories = 1
 
     private var startPosition = 0
@@ -92,11 +94,6 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editCategoriesViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
     }
 

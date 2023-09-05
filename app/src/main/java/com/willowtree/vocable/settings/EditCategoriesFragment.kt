@@ -5,13 +5,17 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.willowtree.vocable.*
+import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
+import com.willowtree.vocable.MainActivity
+import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.min
 
 class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
@@ -19,7 +23,9 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
     override val bindingInflater: BindingInflater<FragmentEditCategoriesBinding> = FragmentEditCategoriesBinding::inflate
 
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
 
     private val allViews = mutableListOf<View>()
     private var maxEditCategories = 1
@@ -84,11 +90,6 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
             }
         }
 
-        editCategoriesViewModel =
-            ViewModelProviders.of(
-                requireActivity(),
-                BaseViewModelFactory()
-            ).get(EditCategoriesViewModel::class.java)
         subscribeToViewModel()
 
         editCategoriesViewModel.refreshCategories()

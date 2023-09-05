@@ -23,9 +23,6 @@ class BaseViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(EditPhrasesViewModel::class.java) -> {
                 return EditPhrasesViewModel() as T
             }
-            modelClass.isAssignableFrom(EditCategoriesViewModel::class.java) -> {
-                return EditCategoriesViewModel() as T
-            }
             modelClass.isAssignableFrom(EditCategoryMenuViewModel::class.java) -> {
                 return EditCategoryMenuViewModel() as T
             }

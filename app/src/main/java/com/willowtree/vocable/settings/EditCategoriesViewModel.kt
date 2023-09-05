@@ -2,18 +2,19 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.launch
-import org.koin.core.component.inject
 
-class EditCategoriesViewModel : BaseViewModel() {
-
-    private val presetsRepository: PresetsRepository by inject()
+class EditCategoriesViewModel(
+    private val presetsRepository: IPresetsRepository,
+    private val localizedResourceUtility: ILocalizedResourceUtility
+) : ViewModel() {
 
     private val liveOrderCategoryList = MutableLiveData<List<CategoryDto>>()
     val orderCategoryList: LiveData<List<CategoryDto>> = liveOrderCategoryList
@@ -29,10 +30,8 @@ class EditCategoriesViewModel : BaseViewModel() {
 
     private var overallCategories = listOf<CategoryDto>()
 
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
-
     fun refreshCategories() {
-        backgroundScope.launch {
+        viewModelScope.launch {
 
             val oldCategories = overallCategories
 
@@ -60,48 +59,8 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun deleteCategory(category: CategoryDto) {
-        backgroundScope.launch {
-
-            // Delete any phrases whose only associated category is the one being deleted
-            // First get the ids of all phrases associated with the category being deleted
-            val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
-                .sortedBy { it.sortOrder }
-
-
-            //Delete from Recents by utterance
-            presetsRepository.deletePhrases(
-                presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
-                    .filter {
-                        phrasesForCategory.map { phrase ->
-                            phrase.localizedUtterance
-                        }.contains(it.localizedUtterance)
-                    }
-            )
-
-            //Delete phrases
-            presetsRepository.deletePhrases(
-                phrasesForCategory
-            )
-
-            // Delete the category
-            presetsRepository.deleteCategory(category)
-
-            // Update the sort order of remaining categories
-            val categoriesToUpdate = overallCategories.filter { it.sortOrder > category.sortOrder }
-            categoriesToUpdate.forEach {
-                it.sortOrder--
-            }
-            if (categoriesToUpdate.isNotEmpty()) {
-                presetsRepository.updateCategories(categoriesToUpdate)
-            }
-
-            refreshCategories()
-        }
-    }
-
     fun deletePhraseFromCategory(phrase: Phrase, category: CategoryDto) {
-        backgroundScope.launch {
+        viewModelScope.launch {
 
             presetsRepository.deletePhrase(phrase)
             presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
@@ -128,7 +87,7 @@ class EditCategoriesViewModel : BaseViewModel() {
     }
 
     fun fetchCategoryPhrases(category: CategoryDto) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
                 .sortedBy { it.sortOrder }
             liveCategoryPhraseList.postValue(phrasesForCategory)
@@ -136,7 +95,7 @@ class EditCategoriesViewModel : BaseViewModel() {
     }
 
     fun moveCategoryUp(category: CategoryDto) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > 0) {
                 val previousCat = overallCategories[catIndex - 1]
@@ -152,7 +111,7 @@ class EditCategoriesViewModel : BaseViewModel() {
     }
 
     fun moveCategoryDown(category: CategoryDto) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > -1) {
                 val nextCat = overallCategories[catIndex + 1]

@@ -7,12 +7,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryPhrasesBinding
@@ -21,6 +19,8 @@ import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBinding>() {
 
@@ -28,7 +28,9 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryPhrasesBinding> =
         FragmentEditCategoryPhrasesBinding::inflate
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
 
     private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
@@ -113,11 +115,6 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
                 )
             }
         })
-
-        editCategoriesViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
 
         subscribeToViewModel()
 
