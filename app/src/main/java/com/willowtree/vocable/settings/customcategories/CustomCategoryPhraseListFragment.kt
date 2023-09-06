@@ -12,7 +12,7 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
@@ -27,7 +27,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
 
         fun newInstance(
             phrases: List<Phrase>,
-            category: Category
+            category: CategoryDto
         ): CustomCategoryPhraseListFragment {
             return CustomCategoryPhraseListFragment().apply {
                 arguments = bundleOf(KEY_PHRASES to ArrayList(phrases), KEY_CATEGORY to category)
@@ -36,7 +36,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     }
 
     private lateinit var editCategoriesViewModel: EditCategoriesViewModel
-    private lateinit var category: Category
+    private lateinit var category: CategoryDto
 
     private val onPhraseEdit = { phrase: Phrase ->
         val action = EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToEditPhrasesKeyboardFragment(phrase)
@@ -55,7 +55,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
+        arguments?.getParcelable<CategoryDto>(KEY_CATEGORY)?.let {
             category = it
         }
 

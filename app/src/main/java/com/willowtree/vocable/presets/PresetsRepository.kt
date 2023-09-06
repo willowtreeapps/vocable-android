@@ -1,26 +1,32 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.room.VocableDatabase
+import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
-class PresetsRepository(val context: Context) : KoinComponent {
+class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepository {
 
     private val database = VocableDatabase.getVocableDatabase(context)
 
-    suspend fun getAllCategories(): List<Category> {
+    suspend fun getAllCategories(): List<CategoryDto> {
         return database.categoryDao().getAllCategories()
     }
 
-    suspend fun getUserGeneratedCategories(): List<Category> {
+    override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
+        return database.categoryDao().getAllCategoriesFlow()
+    }
+
+    suspend fun getUserGeneratedCategories(): List<CategoryDto> {
         return database.categoryDao().getAllCategories()
     }
 
-    suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
+    override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: listOf()
     }
 
@@ -28,7 +34,7 @@ class PresetsRepository(val context: Context) : KoinComponent {
         database.phraseDao().insertPhrase(phrase)
     }
 
-    suspend fun addPhraseToRecents(phrase: Phrase) {
+    override suspend fun addPhraseToRecents(phrase: Phrase) {
 
         val phrases = getPhrasesForCategory(
             PresetCategories.RECENTS.id
@@ -70,11 +76,11 @@ class PresetsRepository(val context: Context) : KoinComponent {
         }
     }
 
-    suspend fun addCategory(category: Category) {
+    suspend fun addCategory(category: CategoryDto) {
         database.categoryDao().insertCategory(category)
     }
 
-    suspend fun populateCategories(categories: List<Category>) {
+    suspend fun populateCategories(categories: List<CategoryDto>) {
         database.categoryDao().insertCategories(*categories.toTypedArray())
     }
 
@@ -90,7 +96,7 @@ class PresetsRepository(val context: Context) : KoinComponent {
         database.phraseDao().deletePhrases(*phrases.toTypedArray())
     }
 
-    suspend fun deleteCategory(category: Category) {
+    suspend fun deleteCategory(category: CategoryDto) {
         database.categoryDao().deleteCategory(category)
     }
 
@@ -98,15 +104,15 @@ class PresetsRepository(val context: Context) : KoinComponent {
         database.phraseDao().updatePhrase(phrase)
     }
 
-    suspend fun updateCategory(category: Category) {
+    suspend fun updateCategory(category: CategoryDto) {
         database.categoryDao().updateCategory(category)
     }
 
-    suspend fun updateCategories(categories: List<Category>) {
+    suspend fun updateCategories(categories: List<CategoryDto>) {
         database.categoryDao().updateCategories(*categories.toTypedArray())
     }
 
-    suspend fun getCategoryById(categoryId: String): Category {
+    suspend fun getCategoryById(categoryId: String): CategoryDto {
         return database.categoryDao().getCategoryById(categoryId)
     }
 
@@ -137,7 +143,7 @@ class PresetsRepository(val context: Context) : KoinComponent {
                 populatePhrases(phraseObjects)
             }
             database.categoryDao().insertCategories(
-                Category(
+                CategoryDto(
                     presetCategory.id,
                     System.currentTimeMillis(),
                     presetCategory.getNameId(),
