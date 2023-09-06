@@ -14,16 +14,12 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
 
     private val database = VocableDatabase.getVocableDatabase(context)
 
-    suspend fun getAllCategories(): List<CategoryDto> {
+    override suspend fun getAllCategories(): List<CategoryDto> {
         return database.categoryDao().getAllCategories()
     }
 
     override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
         return database.categoryDao().getAllCategoriesFlow()
-    }
-
-    suspend fun getUserGeneratedCategories(): List<CategoryDto> {
-        return database.categoryDao().getAllCategories()
     }
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
@@ -88,7 +84,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
 
-    suspend fun deletePhrase(phrase: Phrase) {
+    override suspend fun deletePhrase(phrase: Phrase) {
         database.phraseDao().deletePhrase(phrase)
     }
 
@@ -108,16 +104,12 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().updateCategory(category)
     }
 
-    suspend fun updateCategories(categories: List<CategoryDto>) {
+    override suspend fun updateCategories(categories: List<CategoryDto>) {
         database.categoryDao().updateCategories(*categories.toTypedArray())
     }
 
     suspend fun getCategoryById(categoryId: String): CategoryDto {
         return database.categoryDao().getCategoryById(categoryId)
-    }
-
-    suspend fun getNumberOfShownCategories(): Int {
-        return database.categoryDao().getNumberOfShownCategories()
     }
 
     //Initial DB populate
