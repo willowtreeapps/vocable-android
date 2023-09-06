@@ -7,11 +7,11 @@ import com.willowtree.vocable.room.Phrase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class LocalizedResourceUtility : KoinComponent {
+class LocalizedResourceUtility : KoinComponent, ILocalizedResourceUtility {
 
     val resources: Resources = get<Context>().resources
 
-    fun getTextFromCategory(category: CategoryDto?): String {
+    override fun getTextFromCategory(category: CategoryDto?): String {
 
         return category?.localizedName?.let {
             LocaleUtils.getTextForLocale(it)

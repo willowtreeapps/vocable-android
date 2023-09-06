@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
@@ -18,6 +16,8 @@ import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhraseListBinding>() {
 
@@ -35,7 +35,9 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         }
     }
 
-    private lateinit var editCategoriesViewModel: EditCategoriesViewModel
+    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
     private lateinit var category: CategoryDto
 
     private val onPhraseEdit = { phrase: Phrase ->
@@ -78,11 +80,6 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
                 adapter = CustomCategoryPhraseAdapter(it, numRows, onPhraseEdit, onPhraseDelete, category)
             }
         }
-
-        editCategoriesViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditCategoriesViewModel::class.java)
     }
 
     private fun showDeletePhraseDialog(phrase: Phrase) {
