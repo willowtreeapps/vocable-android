@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willowtree.vocable.BaseViewModel
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.launch
@@ -15,11 +15,11 @@ class EditCategoriesViewModel : BaseViewModel() {
 
     private val presetsRepository: PresetsRepository by inject()
 
-    private val liveOrderCategoryList = MutableLiveData<List<Category>>()
-    val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList
+    private val liveOrderCategoryList = MutableLiveData<List<CategoryDto>>()
+    val orderCategoryList: LiveData<List<CategoryDto>> = liveOrderCategoryList
 
-    private val liveAddRemoveCategoryList = MutableLiveData<List<Category>>()
-    val addRemoveCategoryList: LiveData<List<Category>> = liveAddRemoveCategoryList
+    private val liveAddRemoveCategoryList = MutableLiveData<List<CategoryDto>>()
+    val addRemoveCategoryList: LiveData<List<CategoryDto>> = liveAddRemoveCategoryList
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
@@ -27,7 +27,7 @@ class EditCategoriesViewModel : BaseViewModel() {
     private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
     val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
 
-    private var overallCategories = listOf<Category>()
+    private var overallCategories = listOf<CategoryDto>()
 
     private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
@@ -60,7 +60,7 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun deleteCategory(category: Category) {
+    fun deleteCategory(category: CategoryDto) {
         backgroundScope.launch {
 
             // Delete any phrases whose only associated category is the one being deleted
@@ -100,7 +100,7 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
+    fun deletePhraseFromCategory(phrase: Phrase, category: CategoryDto) {
         backgroundScope.launch {
 
             presetsRepository.deletePhrase(phrase)
@@ -118,16 +118,16 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun getUpdatedCategoryName(category: Category): String {
+    fun getUpdatedCategoryName(category: CategoryDto): String {
         val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
         return localizedResourceUtility.getTextFromCategory(updatedCategory)
     }
 
-    fun getUpdatedCategory(category: Category): Category {
+    fun getUpdatedCategory(category: CategoryDto): CategoryDto {
         return overallCategories.first { it.categoryId == category.categoryId }
     }
 
-    fun fetchCategoryPhrases(category: Category) {
+    fun fetchCategoryPhrases(category: CategoryDto) {
         backgroundScope.launch {
             val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
                 .sortedBy { it.sortOrder }
@@ -135,7 +135,7 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun moveCategoryUp(category: Category) {
+    fun moveCategoryUp(category: CategoryDto) {
         backgroundScope.launch {
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > 0) {
@@ -151,7 +151,7 @@ class EditCategoriesViewModel : BaseViewModel() {
         }
     }
 
-    fun moveCategoryDown(category: Category) {
+    fun moveCategoryDown(category: CategoryDto) {
         backgroundScope.launch {
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > -1) {

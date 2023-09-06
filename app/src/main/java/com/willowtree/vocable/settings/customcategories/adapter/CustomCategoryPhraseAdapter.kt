@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.EditCustomCategoryPhraseItemBinding
-import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
@@ -20,7 +19,7 @@ class CustomCategoryPhraseAdapter(
     private val numRows: Int,
     private val onPhraseEdit: (Phrase) -> Unit,
     private val onPhraseDelete: (Phrase) -> Unit,
-    private val category: Category
+    private val category: CategoryDto
 ) : RecyclerView.Adapter<CustomCategoryPhraseAdapter.CustomCategoryPhraseViewHolder>(),
     KoinComponent {
 

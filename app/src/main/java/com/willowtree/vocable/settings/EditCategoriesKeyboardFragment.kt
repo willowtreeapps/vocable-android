@@ -13,7 +13,7 @@ import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
-import com.willowtree.vocable.room.Category
+import com.willowtree.vocable.room.CategoryDto
 
 class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
@@ -24,7 +24,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
     private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
-    private var currentCategory: Category? = null
+    private var currentCategory: CategoryDto? = null
     private var currentCategoryText: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

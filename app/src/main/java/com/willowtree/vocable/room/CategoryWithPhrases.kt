@@ -1,11 +1,10 @@
 package com.willowtree.vocable.room
 
 import androidx.room.Embedded
-import androidx.room.Junction
 import androidx.room.Relation
 
 data class CategoryWithPhrases(
-    @Embedded val category: Category,
+    @Embedded val category: CategoryDto,
     @Relation(
         parentColumn = "category_id",
         entityColumn = "parent_category_id"
