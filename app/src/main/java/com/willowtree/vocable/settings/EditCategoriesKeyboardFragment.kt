@@ -5,11 +5,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
@@ -20,7 +19,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
     override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> =
         FragmentEditKeyboardBinding::inflate
 
-    private lateinit var viewModel: AddUpdateCategoryViewModel
+    private val viewModel: AddUpdateCategoryViewModel by viewModels()
 
     private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
@@ -31,11 +30,6 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         currentCategory = args.category
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(AddUpdateCategoryViewModel::class.java)
 
         binding.backButton.action = {
             val categoryTextChanged = binding.keyboardInput.text.toString() != currentCategoryText

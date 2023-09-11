@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.Phrase
-import java.util.*
+import java.util.Locale
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
@@ -29,7 +28,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
     private var phrase: Phrase? = null
     private var addNewPhrase = false
-    private lateinit var viewModel: EditPhrasesViewModel
+    private val viewModel: EditPhrasesViewModel by viewModels()
     private val args by navArgs<EditPhrasesKeyboardFragmentArgs>()
 
     override fun onCreateView(
@@ -85,11 +84,6 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
         val inputText = phraseText.ifEmpty { getString(R.string.keyboard_select_letters) }
 
         binding.keyboardInput.setText(inputText)
-
-        viewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditPhrasesViewModel::class.java)
 
         subscribeToViewModel()
     }

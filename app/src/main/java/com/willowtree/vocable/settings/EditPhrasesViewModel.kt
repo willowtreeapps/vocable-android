@@ -2,16 +2,17 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Phrase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
+import java.util.Locale
 
-class EditPhrasesViewModel : BaseViewModel() {
+class EditPhrasesViewModel : ViewModel(), KoinComponent {
 
     private val presetsRepository: PresetsRepository by inject()
 
@@ -19,14 +20,14 @@ class EditPhrasesViewModel : BaseViewModel() {
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
     fun updatePhrase(phrase: Phrase) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             presetsRepository.updatePhrase(phrase)
             liveShowPhraseAdded.postValue(true)
         }
     }
 
     fun addNewPhrase(phraseStr: String) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
             presetsRepository.addPhrase(
                 Phrase(
