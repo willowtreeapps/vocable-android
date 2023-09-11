@@ -5,11 +5,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.R
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
@@ -28,7 +27,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
         }
     }
 
-    private lateinit var viewModel: AddPhraseViewModel
+    private val viewModel: AddPhraseViewModel by viewModels()
     private val args: AddPhraseKeyboardFragmentArgs by navArgs()
     private lateinit var category: CategoryDto
     private var savedPhrase = ""
@@ -60,11 +59,6 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
                 }
             }
         }
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(AddPhraseViewModel::class.java)
 
         subscribeToViewModel()
     }

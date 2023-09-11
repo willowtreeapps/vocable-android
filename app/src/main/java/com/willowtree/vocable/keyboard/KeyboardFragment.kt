@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
@@ -18,13 +17,13 @@ import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.keyboard.adapter.KeyboardAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import java.util.*
+import java.util.Locale
 
 class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> =
         FragmentKeyboardBinding::inflate
-    private lateinit var viewModel: KeyboardViewModel
+    private val viewModel: KeyboardViewModel by viewModels()
     private lateinit var keys: Array<String>
 
     private val keyAction = { keyText: String ->
@@ -117,11 +116,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                 )
             }
         }
-
-        viewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(KeyboardViewModel::class.java)
     }
 
     private val allViews = mutableListOf<View>()

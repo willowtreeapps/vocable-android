@@ -2,13 +2,15 @@ package com.willowtree.vocable.splash
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class SplashViewModel : BaseViewModel() {
+class SplashViewModel : ViewModel(), KoinComponent {
 
     private val presetsRepository: PresetsRepository by inject()
 
@@ -22,7 +24,7 @@ class SplashViewModel : BaseViewModel() {
     }
 
     private fun populateDatabase() {
-        backgroundScope.launch {
+        viewModelScope.launch {
             if (sharedPrefs.getFirstTime()) {
                 presetsRepository.populateDatabase()
                 sharedPrefs.setFirstTime()
