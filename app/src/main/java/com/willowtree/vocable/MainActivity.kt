@@ -10,6 +10,7 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.core.view.isVisible
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val sharedPrefs: VocableSharedPreferences by inject()
     private val allViews = mutableListOf<View>()
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,11 +174,6 @@ class MainActivity : AppCompatActivity() {
                 updatePointer(it.x, it.y)
             }
         }
-
-        settingsViewModel = ViewModelProviders.of(
-            this,
-            BaseViewModelFactory()
-        ).get(SettingsViewModel::class.java)
         
         settingsViewModel.headTrackingEnabled.observe(this) {
             it?.let {

@@ -2,17 +2,17 @@ package com.willowtree.vocable.keyboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
 
-class KeyboardViewModel : BaseViewModel() {
+class KeyboardViewModel : ViewModel(), KoinComponent {
 
     companion object {
         const val PHRASE_ADDED_DELAY = 2000L
@@ -34,7 +34,7 @@ class KeyboardViewModel : BaseViewModel() {
         }
 
     private fun checkIfPhraseSaved() {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
             val isSaved = mySayingsPhrases.map { localizedResourceUtility.getTextFromPhrase(it) }.contains(currentText)
             liveIsPhraseSaved.postValue(isSaved)
