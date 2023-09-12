@@ -28,7 +28,7 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
     private var phrase: Phrase? = null
     private var addNewPhrase = false
-    private val viewModel: EditPhrasesViewModel by viewModels()
+    private val viewModel: EditPhrasesViewModel by viewModels({ requireActivity() })
     private val args by navArgs<EditPhrasesKeyboardFragmentArgs>()
 
     override fun onCreateView(
