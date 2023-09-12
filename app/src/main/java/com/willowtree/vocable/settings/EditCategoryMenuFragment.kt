@@ -25,7 +25,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
 
-    private val editCategoryMenuViewModel: EditCategoryMenuViewModel by viewModels()
+    private val editCategoryMenuViewModel: EditCategoryMenuViewModel by viewModels({ requireActivity() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

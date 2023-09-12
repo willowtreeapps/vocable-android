@@ -12,8 +12,7 @@ import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentSelectionModeBinding> = FragmentSelectionModeBinding::inflate
-    private var allViews = mutableListOf<View>()
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels({ requireActivity() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
