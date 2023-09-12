@@ -2,14 +2,16 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryDto
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class EditCategoryMenuViewModel : BaseViewModel() {
+class EditCategoryMenuViewModel : ViewModel(), KoinComponent {
 
     private val presetsRepository: PresetsRepository by inject()
 
@@ -20,21 +22,21 @@ class EditCategoryMenuViewModel : BaseViewModel() {
     val lastCategoryRemaining: LiveData<Boolean> = _lastCategoryRemaining
 
     fun updateCategoryById(categoryId: String) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             _lastCategoryRemaining.postValue(presetsRepository.getAllCategories().size == 1)
             _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
         }
     }
 
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             _currentCategory.value?.hidden = !showCategoryStatus
             _currentCategory.value?.let { presetsRepository.updateCategory(it) }
         }
     }
 
     fun deleteCategory() {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val category = _currentCategory.value
 
             // Delete any phrases whose only associated category is the one being deleted

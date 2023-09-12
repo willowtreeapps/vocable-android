@@ -2,14 +2,13 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.utils.VocableSharedPreferences
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class SettingsViewModel : BaseViewModel(), KoinComponent {
+class SettingsViewModel : ViewModel(), KoinComponent {
 
     private val sharedPrefs: VocableSharedPreferences by inject()
     private val presetsRepository: PresetsRepository by inject()

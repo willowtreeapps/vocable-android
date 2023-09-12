@@ -3,12 +3,11 @@ package com.willowtree.vocable.settings
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
-import com.willowtree.vocable.BaseViewModelFactory
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.NoSayTextButton
@@ -26,15 +25,10 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
 
-    private lateinit var editCategoryMenuViewModel: EditCategoryMenuViewModel
+    private val editCategoryMenuViewModel: EditCategoryMenuViewModel by viewModels({ requireActivity() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        editCategoryMenuViewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(EditCategoryMenuViewModel::class.java)
 
         editCategoryMenuViewModel.updateCategoryById(args.category.categoryId)
 

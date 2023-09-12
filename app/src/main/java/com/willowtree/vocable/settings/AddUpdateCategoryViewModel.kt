@@ -2,16 +2,18 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
 
-class AddUpdateCategoryViewModel : BaseViewModel() {
+class AddUpdateCategoryViewModel : ViewModel(), KoinComponent {
 
     companion object {
         private const val CATEGORY_MESSAGE_DELAY = 2000L
@@ -34,13 +36,13 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
     }
 
     private fun populateAllCategories() {
-        backgroundScope.launch {
+        viewModelScope.launch {
             allCategories = presetsRepository.getAllCategories()
         }
     }
 
     fun updateCategory(categoryId: String, updatedName: String) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             // Don't allow duplicate category names
             if (categoryNameExists(updatedName)) {
                 liveShowDuplicateCategoryMessage.postValue(true)
@@ -68,7 +70,7 @@ class AddUpdateCategoryViewModel : BaseViewModel() {
     }
 
     fun addCategory(categoryName: String) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             // Don't allow duplicate category names
             if (categoryNameExists(categoryName)) {
                 liveShowDuplicateCategoryMessage.postValue(true)

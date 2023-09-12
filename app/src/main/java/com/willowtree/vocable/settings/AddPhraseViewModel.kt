@@ -2,14 +2,16 @@ package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.willowtree.vocable.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
 
-class AddPhraseViewModel : BaseViewModel() {
+class AddPhraseViewModel : ViewModel(), KoinComponent {
 
     private val presetsRepository: PresetsRepository by inject()
 
@@ -17,7 +19,7 @@ class AddPhraseViewModel : BaseViewModel() {
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
     fun addNewPhrase(phraseStr: String, categoryId: String) {
-        backgroundScope.launch {
+        viewModelScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(categoryId)
             if (mySayingsPhrases.none {
                     it.localizedUtterance?.containsValue(phraseStr) == true

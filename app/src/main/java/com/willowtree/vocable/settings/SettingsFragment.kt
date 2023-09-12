@@ -10,9 +10,12 @@ import android.widget.GridLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateMargins
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.willowtree.vocable.*
+import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
+import com.willowtree.vocable.BuildConfig
+import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentSettingsBinding
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -25,7 +28,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     override val bindingInflater: BindingInflater<FragmentSettingsBinding> = FragmentSettingsBinding::inflate
-    private lateinit var viewModel: SettingsViewModel
     private var numColumns = 1
 
     override fun onCreateView(
@@ -97,11 +99,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 findNavController().navigate(R.id.action_settingsFragment_to_editCategoriesFragment)
             }
         }
-
-        viewModel = ViewModelProviders.of(
-            requireActivity(),
-            BaseViewModelFactory()
-        ).get(SettingsViewModel::class.java)
     }
 
 
