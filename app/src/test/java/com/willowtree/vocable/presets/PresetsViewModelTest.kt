@@ -50,7 +50,7 @@ class PresetsViewModelTest {
 
         assertEquals(
             listOf(
-                CategoryDto(
+                Category(
                     categoryId = "1",
                     creationDate = 0L,
                     resourceId = null,
@@ -89,7 +89,7 @@ class PresetsViewModelTest {
         vm.onCategorySelected("1")
 
         //TODO: PK - Turbine may make this less painful, punting for now
-        var category: CategoryDto? = null
+        var category: Category? = null
         val job = launch {
             vm.selectedCategory.collect {
                 category = it
@@ -98,7 +98,7 @@ class PresetsViewModelTest {
         job.cancel()
 
         assertEquals(
-            CategoryDto(
+            Category(
                 categoryId = "1",
                 creationDate = 0L,
                 resourceId = null,

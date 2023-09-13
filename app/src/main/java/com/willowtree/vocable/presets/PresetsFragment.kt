@@ -16,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
-import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
@@ -137,7 +136,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             val action =
                 presetsViewModel.selectedCategory.value?.let { category ->
                     PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(
-                        category
+                        category.asDto()
                     )
                 }
             if (action != null) {
@@ -216,7 +215,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 val action =
                     presetsViewModel.selectedCategory.value?.let { category ->
                         PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(
-                            category
+                            category.asDto()
                         )
                     }
                 if (action != null) {
@@ -243,7 +242,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         }
     }
 
-    private fun handleCategories(categories: List<CategoryDto>) {
+    private fun handleCategories(categories: List<Category>) {
         with(binding.categoryView) {
             val categoriesExist = categories.isNotEmpty()
             // if there are no categories to show (the user has hidden them all), then show the empty state
@@ -329,7 +328,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<CategoryDto>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun getMaxItemsPerPage(): Int = maxCategories
 
@@ -338,7 +337,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         fun getSize(): Int = items.size
 
-        fun getCategory(position: Int): CategoryDto {
+        fun getCategory(position: Int): Category {
             return if (position >= items.size) {
                 items[position % items.size]
             } else {

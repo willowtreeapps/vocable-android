@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
-import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,17 +22,17 @@ class PresetsViewModel(
     categoriesUseCase: CategoriesUseCase
 ) : ViewModel() {
 
-    val categoryList: LiveData<List<CategoryDto>> = categoriesUseCase.categories().asLiveData()
+    val categoryList: LiveData<List<Category>> = categoriesUseCase.categories().asLiveData()
 
     // Will only ever be null immediately on init
     private val liveSelectedCategoryId = MutableStateFlow<String?>(null)
-    val selectedCategory: StateFlow<CategoryDto?> = combine(
+    val selectedCategory: StateFlow<Category?> = combine(
         categoriesUseCase.categories(),
         liveSelectedCategoryId
     ) { categories, selectedId ->
         categories.find { it.categoryId == selectedId }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
-    val selectedCategoryLiveData: LiveData<CategoryDto?> = selectedCategory.asLiveData()
+    val selectedCategoryLiveData: LiveData<Category?> = selectedCategory.asLiveData()
 
     val currentPhrases: LiveData<List<Phrase?>> = liveSelectedCategoryId.map { categoryId ->
         if (categoryId == null) return@map emptyList<Phrase>()
