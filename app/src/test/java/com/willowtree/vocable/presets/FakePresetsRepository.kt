@@ -4,6 +4,8 @@ import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 
 class FakePresetsRepository : IPresetsRepository {
 
@@ -42,18 +44,30 @@ class FakePresetsRepository : IPresetsRepository {
     }
 
     override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
-        return _allCategories
+        return _allCategories.map { categoryDtos -> categoryDtos.sortedBy { it.sortOrder } }
     }
 
     override suspend fun getAllCategories(): List<CategoryDto> {
-        return _allCategories.value
+        return _allCategories.value.sortedBy { it.sortOrder }
     }
 
     override suspend fun deletePhrase(phrase: Phrase) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateCategories(categories: List<CategoryDto>) {
-        TODO("Not yet implemented")
+    override suspend fun updateCategories(updatedCategories: List<CategoryDto>) {
+        val allCategories = _allCategories.value.map { originalDto ->
+            updatedCategories.find { it.categoryId == originalDto.categoryId }
+                ?: originalDto
+        }
+        _allCategories.update { allCategories }
+    }
+
+    override suspend fun updateCategory(updatedCategory: CategoryDto) {
+        updateCategories(listOf(updatedCategory))
+    }
+
+    override suspend fun addCategory(category: CategoryDto) {
+        _allCategories.update { it + category }
     }
 }

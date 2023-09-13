@@ -72,7 +72,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         }
     }
 
-    suspend fun addCategory(category: CategoryDto) {
+    override suspend fun addCategory(category: CategoryDto) {
         database.categoryDao().insertCategory(category)
     }
 
@@ -100,7 +100,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().updatePhrase(phrase)
     }
 
-    suspend fun updateCategory(category: CategoryDto) {
+    override suspend fun updateCategory(category: CategoryDto) {
         database.categoryDao().updateCategory(category)
     }
 
