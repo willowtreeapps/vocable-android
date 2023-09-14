@@ -14,8 +14,8 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryPhrasesBinding
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
@@ -34,12 +34,13 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
 
     private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
-    private lateinit var category: CategoryDto
+    private lateinit var category: Category
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         category = args.category
+        binding.categoryTitle.text = editCategoriesViewModel.getCategoryName(category)
         if (category.categoryId != PresetCategories.RECENTS.id) {
             binding.editOptionsButton.isInvisible = true
         }
@@ -125,16 +126,6 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                // Get the most updated category name if the user changed it on the
-                // EditCategoriesKeyboardFragment screen
-                binding.categoryTitle.text =
-                    editCategoriesViewModel.getUpdatedCategoryName(args.category)
-                category = editCategoriesViewModel.getUpdatedCategory(args.category)
-            }
-        })
-
         editCategoriesViewModel.categoryPhraseList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 handlePhrases(it)

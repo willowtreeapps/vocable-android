@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.R
-import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.room.Phrase
 
 class AddPhraseKeyboardFragment : EditKeyboardFragment() {
@@ -29,7 +29,7 @@ class AddPhraseKeyboardFragment : EditKeyboardFragment() {
 
     private val viewModel: AddPhraseViewModel by viewModels()
     private val args: AddPhraseKeyboardFragmentArgs by navArgs()
-    private lateinit var category: CategoryDto
+    private lateinit var category: Category
     private var savedPhrase = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {

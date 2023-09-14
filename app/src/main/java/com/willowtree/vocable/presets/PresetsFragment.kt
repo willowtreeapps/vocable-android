@@ -136,7 +136,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             val action =
                 presetsViewModel.selectedCategory.value?.let { category ->
                     PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(
-                        category.asDto()
+                        category
                     )
                 }
             if (action != null) {
@@ -215,7 +215,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 val action =
                     presetsViewModel.selectedCategory.value?.let { category ->
                         PresetsFragmentDirections.actionPresetsFragmentToAddPhraseKeyboardFragment(
-                            category.asDto()
+                            category
                         )
                     }
                 if (action != null) {
