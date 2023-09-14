@@ -4,23 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
     private val presetsRepository: IPresetsRepository,
+    private val categoriesUseCase: CategoriesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility
 ) : ViewModel() {
 
-    private val liveOrderCategoryList = MutableLiveData<List<CategoryDto>>()
-    val orderCategoryList: LiveData<List<CategoryDto>> = liveOrderCategoryList
+    private val liveOrderCategoryList = MutableLiveData<List<Category>>()
+    val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList
 
-    private val liveAddRemoveCategoryList = MutableLiveData<List<CategoryDto>>()
-    val addRemoveCategoryList: LiveData<List<CategoryDto>> = liveAddRemoveCategoryList
+    private val liveAddRemoveCategoryList = MutableLiveData<List<Category>>()
+    val addRemoveCategoryList: LiveData<List<Category>> = liveAddRemoveCategoryList
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
@@ -28,14 +31,14 @@ class EditCategoriesViewModel(
     private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
     val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
 
-    private var overallCategories = listOf<CategoryDto>()
+    private var overallCategories = listOf<Category>()
 
     fun refreshCategories() {
         viewModelScope.launch {
 
             val oldCategories = overallCategories
 
-            overallCategories = presetsRepository.getAllCategories()
+            overallCategories = categoriesUseCase.categories().first()
             overallCategories = overallCategories.filter {!it.hidden} + overallCategories.filter {it.hidden}
 
 
@@ -59,7 +62,7 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun deletePhraseFromCategory(phrase: Phrase, category: CategoryDto) {
+    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
         viewModelScope.launch {
 
             presetsRepository.deletePhrase(phrase)
@@ -77,16 +80,11 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun getUpdatedCategoryName(category: CategoryDto): String {
-        val updatedCategory = overallCategories.firstOrNull { it.categoryId == category.categoryId }
-        return localizedResourceUtility.getTextFromCategory(updatedCategory)
+    fun getCategoryName(category: Category): String {
+        return localizedResourceUtility.getTextFromCategory(category)
     }
 
-    fun getUpdatedCategory(category: CategoryDto): CategoryDto {
-        return overallCategories.first { it.categoryId == category.categoryId }
-    }
-
-    fun fetchCategoryPhrases(category: CategoryDto) {
+    fun fetchCategoryPhrases(category: Category) {
         viewModelScope.launch {
             val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
                 .sortedBy { it.sortOrder }
@@ -94,7 +92,7 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun moveCategoryUp(category: CategoryDto) {
+    fun moveCategoryUp(category: Category) {
         viewModelScope.launch {
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > 0) {
@@ -105,12 +103,12 @@ class EditCategoriesViewModel(
                 overallCategories = overallCategories.sortedBy { it.sortOrder }
                 liveOrderCategoryList.postValue(overallCategories)
 
-                presetsRepository.updateCategories(listOf(category, previousCat))
+                categoriesUseCase.updateCategories(listOf(category, previousCat))
             }
         }
     }
 
-    fun moveCategoryDown(category: CategoryDto) {
+    fun moveCategoryDown(category: Category) {
         viewModelScope.launch {
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > -1) {
@@ -121,7 +119,7 @@ class EditCategoriesViewModel(
                 overallCategories = overallCategories.sortedBy { it.sortOrder }
                 liveOrderCategoryList.postValue(overallCategories)
 
-                presetsRepository.updateCategories(listOf(category, nextCat))
+                categoriesUseCase.updateCategories(listOf(category, nextCat))
             }
         }
     }

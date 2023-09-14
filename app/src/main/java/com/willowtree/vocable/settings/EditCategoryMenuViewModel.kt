@@ -4,19 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.CategoryDto
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class EditCategoryMenuViewModel : ViewModel(), KoinComponent {
+class EditCategoryMenuViewModel(
+    private val presetsRepository: PresetsRepository,
+    private val categoriesUseCase: CategoriesUseCase
+) : ViewModel() {
 
-    private val presetsRepository: PresetsRepository by inject()
-
-    private val _currentCategory = MutableLiveData<CategoryDto>()
-    val currentCategory: LiveData<CategoryDto> = _currentCategory
+    // TODO: PK - Does this need to be LiveData? Is it updating?
+    private val _currentCategory = MutableLiveData<Category>()
+    val currentCategory: LiveData<Category> = _currentCategory
 
     private val _lastCategoryRemaining = MutableLiveData<Boolean>()
     val lastCategoryRemaining: LiveData<Boolean> = _lastCategoryRemaining
@@ -24,14 +25,14 @@ class EditCategoryMenuViewModel : ViewModel(), KoinComponent {
     fun updateCategoryById(categoryId: String) {
         viewModelScope.launch {
             _lastCategoryRemaining.postValue(presetsRepository.getAllCategories().size == 1)
-            _currentCategory.postValue(presetsRepository.getCategoryById(categoryId))
+            _currentCategory.postValue(categoriesUseCase.getCategoryById(categoryId))
         }
     }
 
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
         viewModelScope.launch {
             _currentCategory.value?.hidden = !showCategoryStatus
-            _currentCategory.value?.let { presetsRepository.updateCategory(it) }
+            _currentCategory.value?.let { categoriesUseCase.updateCategory(it) }
         }
     }
 
@@ -66,7 +67,7 @@ class EditCategoryMenuViewModel : ViewModel(), KoinComponent {
 
             // Delete the category
             if (category != null) {
-                presetsRepository.deleteCategory(category)
+                categoriesUseCase.deleteCategory(category.categoryId)
             }
 
             // Update the sort order of remaining categories

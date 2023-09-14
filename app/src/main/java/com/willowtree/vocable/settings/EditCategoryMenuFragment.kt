@@ -3,18 +3,18 @@ package com.willowtree.vocable.settings
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.presets.PresetCategories
+import com.willowtree.vocable.presets.asDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>() {
 
@@ -25,7 +25,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     override val bindingInflater: BindingInflater<FragmentEditCategoryMenuBinding> =
         FragmentEditCategoryMenuBinding::inflate
 
-    private val editCategoryMenuViewModel: EditCategoryMenuViewModel by viewModels({ requireActivity() })
+    private val editCategoryMenuViewModel: EditCategoryMenuViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,10 +63,10 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpRenameCategoryButton() {
-        (binding.renameCategoryButton as NoSayTextButton).action = {
+        binding.renameCategoryButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
-                    editCategoryMenuViewModel.currentCategory.value
+                    editCategoryMenuViewModel.currentCategory.value?.asDto()
                 )
             if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                 findNavController().navigate(action)
@@ -114,10 +114,10 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             binding.editPhrasesButton.isEnabled = false
         } else {
             binding.editPhrasesButton.isEnabled = true
-            (binding.editPhrasesButton as NoSayTextButton).action  = {
+            binding.editPhrasesButton.action  = {
                 val action =
                     EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryPhrasesFragment(
-                        editCategoryMenuViewModel.currentCategory.value ?: args.category
+                        (editCategoryMenuViewModel.currentCategory.value ?: args.category)
                     )
                 if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                     findNavController().navigate(action)
