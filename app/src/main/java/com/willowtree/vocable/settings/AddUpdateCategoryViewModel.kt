@@ -8,17 +8,18 @@ import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
+import com.willowtree.vocable.utils.LocaleProvider
 import com.willowtree.vocable.utils.UUIDProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class AddUpdateCategoryViewModel(
     private val categoriesUseCase: CategoriesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility,
     private val uuidProvider: UUIDProvider,
-    private val dateProvider: DateProvider
+    private val dateProvider: DateProvider,
+    private val localeProvider: LocaleProvider
 ) : ViewModel() {
 
     companion object {
@@ -41,13 +42,13 @@ class AddUpdateCategoryViewModel(
 
             val toUpdate = categoriesUseCase.categories().first().firstOrNull { it.categoryId == categoryId }
             toUpdate?.let {
-                val currentName = it.localizedName?.get(Locale.getDefault().toString())
+                val currentName = it.localizedName?.get(localeProvider.getDefaultLocaleString())
 
                 if (currentName == updatedName) {
                     return@let
                 }
 
-                val updatedNameMap = mapOf(Locale.getDefault().toString() to updatedName)
+                val updatedNameMap = mapOf(localeProvider.getDefaultLocaleString() to updatedName)
 
                 categoriesUseCase.updateCategory(it.copy(localizedName = updatedNameMap))
                 liveShowCategoryUpdateMessage.postValue(true)
@@ -83,7 +84,7 @@ class AddUpdateCategoryViewModel(
                 uuidProvider.randomUUIDString(),
                 dateProvider.currentTimeMillis(),
                 null,
-                mapOf(Pair(Locale.getDefault().toString(), categoryName)),
+                mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName)),
                 false,
                 firstHiddenIndex
             )

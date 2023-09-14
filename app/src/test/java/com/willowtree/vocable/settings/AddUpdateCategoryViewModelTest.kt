@@ -8,6 +8,7 @@ import com.willowtree.vocable.presets.FakePresetsRepository
 import com.willowtree.vocable.room.createCategoryDto
 import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeDateProvider
+import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -34,7 +35,8 @@ class AddUpdateCategoryViewModelTest {
             categoriesUseCase,
             FakeLocalizedResourceUtility(),
             uuidProvider,
-            dateProvider
+            dateProvider,
+            FakeLocaleProvider()
         )
     }
 
