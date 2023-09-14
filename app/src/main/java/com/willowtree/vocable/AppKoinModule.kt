@@ -10,6 +10,8 @@ import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.JavaDateProvider
+import com.willowtree.vocable.utils.JavaLocaleProvider
+import com.willowtree.vocable.utils.LocaleProvider
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
@@ -28,8 +30,9 @@ object AppKoinModule {
         single { CategoriesUseCase(get()) }
         single { RandomUUIDProvider() } bind UUIDProvider::class
         single { JavaDateProvider() } bind DateProvider::class
+        single { JavaLocaleProvider() } bind LocaleProvider::class
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get()) }
-        viewModel { AddUpdateCategoryViewModel(get(), get(), get(), get()) }
+        viewModel { AddUpdateCategoryViewModel(get(), get(), get(), get(), get()) }
     }
 }
