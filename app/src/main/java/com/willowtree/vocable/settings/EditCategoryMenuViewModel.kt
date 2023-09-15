@@ -31,7 +31,7 @@ class EditCategoryMenuViewModel(
 
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
         viewModelScope.launch {
-            _currentCategory.value?.hidden = !showCategoryStatus
+            _currentCategory.value = _currentCategory.value?.withHidden(!showCategoryStatus)
             _currentCategory.value?.let { categoriesUseCase.updateCategory(it) }
         }
     }

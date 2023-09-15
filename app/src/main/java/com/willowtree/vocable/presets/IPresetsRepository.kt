@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 //TODO: PK - Rename this once we make the jump to rename [PresetsRepository] -> "RoomPresetsRepository"
 interface IPresetsRepository {
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase>
-    suspend fun addPhraseToRecents(phrase: Phrase)
 
     /**
      * Return all categories, sorted by [CategoryDto.sortOrder]
@@ -24,4 +23,6 @@ interface IPresetsRepository {
     suspend fun addCategory(category: CategoryDto)
     suspend fun getCategoryById(categoryId: String): CategoryDto
     suspend fun deleteCategory(categoryId: String)
+    suspend fun getRecentPhrases(): List<Phrase>
+    suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long)
 }

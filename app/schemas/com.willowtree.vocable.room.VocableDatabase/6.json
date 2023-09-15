@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "c1f1696aec199a504fbef00fc5a1e7f7",
+    "identityHash": "a9033de60bcb3d72d8a83008d49a9ad0",
     "entities": [
       {
         "tableName": "Category",
@@ -46,17 +46,17 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "category_id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Phrase",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parent_category_id` TEXT, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER, `localized_utterance` TEXT, `sort_order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "phraseId",
@@ -80,7 +80,7 @@
             "fieldPath": "lastSpokenDate",
             "columnName": "last_spoken_date",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "localizedUtterance",
@@ -96,10 +96,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "phrase_id"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -108,7 +108,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c1f1696aec199a504fbef00fc5a1e7f7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a9033de60bcb3d72d8a83008d49a9ad0')"
     ]
   }
 }

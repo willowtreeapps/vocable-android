@@ -50,7 +50,7 @@ class AddUpdateCategoryViewModel(
 
                 val updatedNameMap = mapOf(localeProvider.getDefaultLocaleString() to updatedName)
 
-                categoriesUseCase.updateCategory(it.copy(localizedName = updatedNameMap))
+                categoriesUseCase.updateCategory(it.withLocalizedName(updatedNameMap))
                 liveShowCategoryUpdateMessage.postValue(true)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)
@@ -75,12 +75,12 @@ class AddUpdateCategoryViewModel(
 
             // Increase the sort order of all hidden categories since the new one will be sorted
             // before them
-            val listToUpdate = allCategories.filter { it.hidden }
-            listToUpdate.forEach {
-                it.sortOrder++
+            val listToUpdate = allCategories.filter { it.hidden }.toMutableList()
+            listToUpdate.forEachIndexed { index, category ->
+                listToUpdate[index] = category.withSortOrder(category.sortOrder + 1)
             }
 
-            val newCategory = Category(
+            val newCategory = Category.StoredCategory(
                 uuidProvider.randomUUIDString(),
                 dateProvider.currentTimeMillis(),
                 null,

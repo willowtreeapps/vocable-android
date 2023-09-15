@@ -29,10 +29,11 @@ object AppKoinModule {
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility() } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get()) }
+        single { PhrasesUseCase(get(), get()) }
         single { RandomUUIDProvider() } bind UUIDProvider::class
         single { JavaDateProvider() } bind DateProvider::class
         single { JavaLocaleProvider() } bind LocaleProvider::class
-        viewModel { PresetsViewModel(get(), get()) }
+        viewModel { PresetsViewModel(get(), get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get(), get(), get()) }
         viewModel { EditCategoryMenuViewModel(get(), get()) }

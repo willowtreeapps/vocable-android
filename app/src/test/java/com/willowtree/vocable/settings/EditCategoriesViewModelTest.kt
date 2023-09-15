@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.presets.FakePresetsRepository
-import com.willowtree.vocable.presets.createCategory
+import com.willowtree.vocable.presets.createStoredCategory
 import com.willowtree.vocable.room.createCategoryDto
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.update
@@ -42,14 +42,14 @@ class EditCategoriesViewModelTest {
 
         assertEquals(
             listOf(
-                createCategory(categoryId = "1")
+                createStoredCategory(categoryId = "1")
             ),
             vm.orderCategoryList.value
         )
 
         assertEquals(
             listOf(
-                createCategory(categoryId = "1")
+                createStoredCategory(categoryId = "1")
             ),
             vm.addRemoveCategoryList.value
         )
