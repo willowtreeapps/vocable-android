@@ -12,8 +12,6 @@ import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.asCategory
-import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ViewModelOwner

@@ -25,8 +25,7 @@
         tools:layout="@layout/fragment_edit_keyboard">
         <argument
             android:name="category"
-            android:defaultValue="@null"
-            app:argType="com.willowtree.vocable.room.CategoryDto"
+            app:argType="com.willowtree.vocable.presets.Category"
             app:nullable="true" />
         <action
             android:id="@+id/action_editCategoriesKeyboardFragment_to_editCategoryMenuFragment"

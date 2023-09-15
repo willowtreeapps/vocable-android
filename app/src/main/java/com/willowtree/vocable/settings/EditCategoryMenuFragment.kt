@@ -11,7 +11,6 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.asDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -66,7 +65,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         binding.renameCategoryButton.action = {
             val action =
                 EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoriesKeyboardFragment(
-                    editCategoryMenuViewModel.currentCategory.value?.asDto()
+                    editCategoryMenuViewModel.currentCategory.value
                 )
             if (findNavController().currentDestination?.id == R.id.editCategoryMenuFragment) {
                 findNavController().navigate(action)

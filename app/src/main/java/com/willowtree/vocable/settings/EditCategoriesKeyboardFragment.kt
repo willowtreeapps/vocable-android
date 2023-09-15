@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
-import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.presets.Category
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
@@ -23,7 +23,7 @@ class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
     private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
-    private var currentCategory: CategoryDto? = null
+    private var currentCategory: Category? = null
     private var currentCategoryText: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
