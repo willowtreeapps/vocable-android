@@ -39,7 +39,8 @@ class EditCategoriesViewModel(
             val oldCategories = overallCategories
 
             overallCategories = categoriesUseCase.categories().first()
-            overallCategories = overallCategories.filter {!it.hidden} + overallCategories.filter {it.hidden}
+            overallCategories =
+                overallCategories.filter { !it.hidden } + overallCategories.filter { it.hidden }
 
 
             liveOrderCategoryList.postValue(overallCategories)
@@ -51,9 +52,11 @@ class EditCategoriesViewModel(
                     -1 -> {
                         liveLastViewedIndex.postValue(overallCategories.size - 1)
                     }
+
                     0 -> {
                         liveLastViewedIndex.postValue(0)
                     }
+
                     else -> {
                         liveLastViewedIndex.postValue(firstHiddenIndex - 1)
                     }
@@ -97,13 +100,16 @@ class EditCategoriesViewModel(
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > 0) {
                 val previousCat = overallCategories[catIndex - 1]
-                category.sortOrder--
-                previousCat.sortOrder++
 
                 overallCategories = overallCategories.sortedBy { it.sortOrder }
                 liveOrderCategoryList.postValue(overallCategories)
 
-                categoriesUseCase.updateCategories(listOf(category, previousCat))
+                categoriesUseCase.updateCategories(
+                    listOf(
+                        category.withSortOrder(category.sortOrder - 1),
+                        previousCat.withSortOrder(previousCat.sortOrder + 1)
+                    )
+                )
             }
         }
     }
@@ -113,13 +119,16 @@ class EditCategoriesViewModel(
             val catIndex = overallCategories.indexOf(category)
             if (catIndex > -1) {
                 val nextCat = overallCategories[catIndex + 1]
-                category.sortOrder++
-                nextCat.sortOrder--
 
                 overallCategories = overallCategories.sortedBy { it.sortOrder }
                 liveOrderCategoryList.postValue(overallCategories)
 
-                categoriesUseCase.updateCategories(listOf(category, nextCat))
+                categoriesUseCase.updateCategories(
+                    listOf(
+                        category.withSortOrder(category.sortOrder + 1),
+                        nextCat.withSortOrder(nextCat.sortOrder - 1)
+                    )
+                )
             }
         }
     }

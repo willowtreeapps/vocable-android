@@ -65,7 +65,7 @@ class AddUpdateCategoryViewModelTest {
 
         Assert.assertEquals(
             listOf(
-                Category(
+                Category.StoredCategory(
                     categoryId = "1",
                     creationDate = 0L,
                     resourceId = null,
@@ -73,7 +73,7 @@ class AddUpdateCategoryViewModelTest {
                     hidden = false,
                     sortOrder = 0
                 ),
-                Category(
+                Category.StoredCategory(
                     categoryId = "2",
                     creationDate = 0L,
                     resourceId = null,
@@ -84,6 +84,26 @@ class AddUpdateCategoryViewModelTest {
             ),
             categoriesUseCase.categories().first()
         )
+    }
+
+    @Test
+    fun `add category named recents fails`() {
+
+    }
+
+    @Test
+    fun `add category with hidden categories`() {
+
+    }
+
+    @Test
+    fun `move category up`() {
+
+    }
+
+    @Test
+    fun `move category down`() {
+
     }
 
     @Test
@@ -109,7 +129,7 @@ class AddUpdateCategoryViewModelTest {
 
         Assert.assertEquals(
             listOf(
-                Category(
+                Category.StoredCategory(
                     categoryId = "1",
                     creationDate = 0L,
                     resourceId = null,
@@ -120,6 +140,11 @@ class AddUpdateCategoryViewModelTest {
             ),
             categoriesUseCase.categories().first()
         )
+    }
+
+    @Test
+    fun `update recents category fails`() {
+
     }
 
 }

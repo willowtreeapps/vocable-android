@@ -3,11 +3,11 @@ package com.willowtree.vocable.presets
 import android.content.Context
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseSpokenDate
 import com.willowtree.vocable.room.VocableDatabase
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import java.util.Calendar
 import java.util.Locale
 
 class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepository {
@@ -26,61 +26,17 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: listOf()
     }
 
+    override suspend fun getRecentPhrases(): List<Phrase> = database.phraseDao().getRecentPhrases()
+
     suspend fun addPhrase(phrase: Phrase) {
         database.phraseDao().insertPhrase(phrase)
-    }
-
-    override suspend fun addPhraseToRecents(phrase: Phrase) {
-
-        val phrases = getPhrasesForCategory(
-            PresetCategories.RECENTS.id
-        )
-        val recentPhrase = phrases.firstOrNull {
-            it.localizedUtterance == phrase.localizedUtterance
-        }
-        if (recentPhrase == null) {
-            addPhrase(
-                Phrase(
-                    phraseId = 0L,
-                    parentCategoryId = PresetCategories.RECENTS.id,
-                    creationDate = Calendar.getInstance().timeInMillis,
-                    lastSpokenDate = Calendar.getInstance().timeInMillis,
-                    localizedUtterance = phrase.localizedUtterance,
-                    sortOrder = phrase.sortOrder
-                )
-            )
-            if (phrases.size > 7) {
-                phrases.minByOrNull {
-                    it.lastSpokenDate
-                }?.let {
-                    deletePhrase(
-                        it
-                    )
-                }
-            }
-        } else {
-            updatePhrase(
-                Phrase(
-                    recentPhrase.phraseId,
-                    PresetCategories.RECENTS.id,
-                    phrase.creationDate,
-                    Calendar.getInstance().timeInMillis,
-                    phrase.localizedUtterance,
-                    phrase.sortOrder
-                )
-            )
-        }
     }
 
     override suspend fun addCategory(category: CategoryDto) {
         database.categoryDao().insertCategory(category)
     }
 
-    suspend fun populateCategories(categories: List<CategoryDto>) {
-        database.categoryDao().insertCategories(*categories.toTypedArray())
-    }
-
-    suspend fun populatePhrases(phrases: List<Phrase>) {
+    private suspend fun populatePhrases(phrases: List<Phrase>) {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
 
@@ -98,6 +54,10 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
 
     suspend fun updatePhrase(phrase: Phrase) {
         database.phraseDao().updatePhrase(phrase)
+    }
+
+    override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
+        database.phraseDao().updatePhraseSpokenDate(PhraseSpokenDate(phraseId, lastSpokenDate))
     }
 
     override suspend fun updateCategory(category: CategoryDto) {
@@ -125,7 +85,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
                             0L,
                             presetCategory.id,
                             System.currentTimeMillis(),
-                            System.currentTimeMillis(),
+                            null,
                             mapOf(Pair(Locale.getDefault().toString(), context.getString(phrasesIds.getResourceId(index, -1)))),
                             phraseObjects.size
                         )
