@@ -4,8 +4,6 @@ import android.os.Parcelable
 import com.willowtree.vocable.room.CategoryDto
 import kotlinx.parcelize.Parcelize
 
-// TODO: PK - Making this sealed might not actually be buying us anything since
-//  all downstream code is using the categoryId. We'll see.
 sealed class Category : Parcelable {
     abstract val categoryId: String
     abstract val sortOrder: Int

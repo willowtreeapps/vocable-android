@@ -55,4 +55,96 @@ class EditCategoriesViewModelTest {
         )
     }
 
+    @Test
+    fun `move category up`() {
+        fakePresetsRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    sortOrder = 0
+                ),
+                createCategoryDto(
+                    categoryId = "2",
+                    sortOrder = 1
+                )
+            )
+        }
+        val vm = createViewModel()
+        vm.refreshCategories()
+        vm.moveCategoryUp("2")
+
+        assertEquals(
+            listOf(
+                createStoredCategory(
+                    categoryId = "2",
+                    sortOrder = 0
+                ),
+                createStoredCategory(
+                    categoryId = "1",
+                    sortOrder = 1
+                )
+            ),
+            vm.orderCategoryList.value
+        )
+        assertEquals(
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    sortOrder = 1
+                ),
+                createCategoryDto(
+                    categoryId = "2",
+                    sortOrder = 0
+                )
+            ),
+            fakePresetsRepository._allCategories.value
+        )
+    }
+
+    @Test
+    fun `move category down`() {
+        fakePresetsRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    sortOrder = 0
+                ),
+                createCategoryDto(
+                    categoryId = "2",
+                    sortOrder = 1
+                )
+            )
+        }
+        val vm = createViewModel()
+        vm.refreshCategories()
+        vm.moveCategoryDown("1")
+
+        assertEquals(
+            listOf(
+                createStoredCategory(
+                    categoryId = "2",
+                    sortOrder = 0
+                ),
+                createStoredCategory(
+                    categoryId = "1",
+                    sortOrder = 1
+                )
+            ),
+            vm.orderCategoryList.value
+        )
+        assertEquals(
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    sortOrder = 1
+                ),
+                createCategoryDto(
+                    categoryId = "2",
+                    sortOrder = 0
+                )
+            ),
+            fakePresetsRepository._allCategories.value
+        )
+    }
+
 }

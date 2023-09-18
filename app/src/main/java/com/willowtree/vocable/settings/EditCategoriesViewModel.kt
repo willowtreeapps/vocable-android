@@ -95,39 +95,59 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun moveCategoryUp(category: Category) {
+    fun moveCategoryUp(categoryId: String) {
         viewModelScope.launch {
-            val catIndex = overallCategories.indexOf(category)
+            val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
             if (catIndex > 0) {
                 val previousCat = overallCategories[catIndex - 1]
 
-                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                overallCategories = overallCategories.map {
+                    when (it.categoryId) {
+                        categoryId -> {
+                            it.withSortOrder(it.sortOrder - 1)
+                        }
+                        previousCat.categoryId -> {
+                            it.withSortOrder(it.sortOrder + 1)
+                        }
+                        else -> {
+                            it
+                        }
+                    }
+                }.sortedBy { it.sortOrder }
+
                 liveOrderCategoryList.postValue(overallCategories)
 
                 categoriesUseCase.updateCategories(
-                    listOf(
-                        category.withSortOrder(category.sortOrder - 1),
-                        previousCat.withSortOrder(previousCat.sortOrder + 1)
-                    )
+                    overallCategories
                 )
             }
         }
     }
 
-    fun moveCategoryDown(category: Category) {
+    fun moveCategoryDown(categoryId: String) {
         viewModelScope.launch {
-            val catIndex = overallCategories.indexOf(category)
+            val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
             if (catIndex > -1) {
                 val nextCat = overallCategories[catIndex + 1]
 
-                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                overallCategories = overallCategories.map {
+                    when (it.categoryId) {
+                        categoryId -> {
+                            it.withSortOrder(it.sortOrder + 1)
+                        }
+                        nextCat.categoryId -> {
+                            it.withSortOrder(it.sortOrder - 1)
+                        }
+                        else -> {
+                            it
+                        }
+                    }
+                }.sortedBy { it.sortOrder }
+
                 liveOrderCategoryList.postValue(overallCategories)
 
                 categoriesUseCase.updateCategories(
-                    listOf(
-                        category.withSortOrder(category.sortOrder + 1),
-                        nextCat.withSortOrder(nextCat.sortOrder - 1)
-                    )
+                    overallCategories
                 )
             }
         }

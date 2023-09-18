@@ -134,7 +134,7 @@ object VocableDatabaseMigrations {
     val MIGRATION_5_6: Migration = object : Migration(5, 6) {
         @SuppressLint("Range")
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
             data class PhraseToCategory(val phraseId: String, val categoryId: String)
 
