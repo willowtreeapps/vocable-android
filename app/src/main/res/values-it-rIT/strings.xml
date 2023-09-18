@@ -42,6 +42,7 @@
     <string name="discard">Scartare</string>
     <string name="are_you_sure">Sei sicuro?</string>
     <string name="back_warning">Tornare indietro prima di salvare cancellerà tutte le modifiche apportate.</string>
+    <string name="duplicate_phrase">Sorry, this phrase name already exists. Please try a different name.</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">Modifiche salvate</string>
     <string name="category_created">Categoria Creata</string>
@@ -139,10 +140,19 @@
     <string name="preset_trouble_breathing" formatted="false">Ho difficoltà a respirare</string>
     <string name="preset_need_jacket" formatted="false">Ho bisogno di una giacca</string>
     <string name="add_phrase">Aggiungi frase</string>
+    <string name="add_phrase_plus">+ Add Phrase</string>
+    <string name="add_category">Add Category</string>
     <string name="add_to_category">Aggiungi alla Categoria</string>
     <string name="no_custom_categories">Nessuna categoria personalizzata</string>
     <string name="create_custom_categories">Creare categorie personalizzate nel menu delle impostazioni per aggiungere frasi qui.</string>
     <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
     <string name="no_recent_phrases_title">No recently used phrases</string>
     <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
+    <string name="categories_edit_title">Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rename_category">Rename Category</string>
+    <string name="show_category">Mostra categoria</string>
+    <string name="edit_phrases">Edit Phrases</string>
+    <string name="remove_category">Rimuovere la categoria</string>
 </resources>
