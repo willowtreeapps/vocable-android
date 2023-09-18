@@ -14,8 +14,10 @@ class CategoriesUseCase(
     fun categories(): Flow<List<Category>> {
         return presetsRepository.getAllCategoriesFlow()
             .map { categoryDtoList -> categoryDtoList.map { it.asCategory() } }
-
     }
+
+    suspend fun getCategoryById(categoryId: String): Category =
+        presetsRepository.getCategoryById(categoryId).asCategory()
 
     suspend fun updateCategory(category: Category) {
         presetsRepository.updateCategory(category.asDto())
@@ -27,6 +29,10 @@ class CategoriesUseCase(
 
     suspend fun addCategory(category: Category) {
         presetsRepository.addCategory(category.asDto())
+    }
+
+    suspend fun deleteCategory(categoryId: String) {
+        presetsRepository.deleteCategory(categoryId)
     }
 
 }
