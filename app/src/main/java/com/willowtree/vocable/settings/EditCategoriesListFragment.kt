@@ -135,10 +135,10 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
                 !category.hidden && overallIndex + 1 < size
 
             moveCategoryUpButton.action = {
-                editCategoriesViewModel.moveCategoryUp(category)
+                editCategoriesViewModel.moveCategoryUp(category.categoryId)
             }
             moveCategoryDownButton.action = {
-                editCategoriesViewModel.moveCategoryDown(category)
+                editCategoriesViewModel.moveCategoryDown(category.categoryId)
             }
 
             individualEditCategoryButton.action = {

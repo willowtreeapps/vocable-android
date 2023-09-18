@@ -13,7 +13,7 @@ import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -63,7 +63,7 @@ class AddUpdateCategoryViewModelTest {
             "New Category"
         )
 
-        Assert.assertEquals(
+        assertEquals(
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
@@ -87,23 +87,48 @@ class AddUpdateCategoryViewModelTest {
     }
 
     @Test
-    fun `add category named recents fails`() {
+    fun `new category added before hidden categories`() {
+        presetsRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                createCategoryDto(
+                    categoryId = "2",
+                    hidden = true,
+                    sortOrder = 1
+                )
+            )
+        }
 
-    }
+        uuidProvider._uuid = "3"
+        val vm = createViewModel()
 
-    @Test
-    fun `add category with hidden categories`() {
+        vm.addCategory("New Category")
 
-    }
-
-    @Test
-    fun `move category up`() {
-
-    }
-
-    @Test
-    fun `move category down`() {
-
+        assertEquals(
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                createCategoryDto(
+                    categoryId = "2",
+                    hidden = true,
+                    sortOrder = 2
+                ),
+                createCategoryDto(
+                    categoryId = "3",
+                    hidden = false,
+                    sortOrder = 1,
+                    localizedName = mapOf("en_US" to "New Category")
+                )
+            ),
+            presetsRepository._allCategories.value
+        )
     }
 
     @Test
@@ -127,7 +152,7 @@ class AddUpdateCategoryViewModelTest {
 
         vm.updateCategory("1", "New Category")
 
-        Assert.assertEquals(
+        assertEquals(
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
@@ -140,11 +165,6 @@ class AddUpdateCategoryViewModelTest {
             ),
             categoriesUseCase.categories().first()
         )
-    }
-
-    @Test
-    fun `update recents category fails`() {
-
     }
 
 }
