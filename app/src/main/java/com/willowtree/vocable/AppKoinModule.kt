@@ -7,6 +7,7 @@ import com.willowtree.vocable.presets.PresetsRepository
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
+import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.JavaDateProvider
@@ -32,7 +33,8 @@ object AppKoinModule {
         single { JavaDateProvider() } bind DateProvider::class
         single { JavaLocaleProvider() } bind LocaleProvider::class
         viewModel { PresetsViewModel(get(), get()) }
-        viewModel { EditCategoriesViewModel(get(), get()) }
+        viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get(), get(), get()) }
+        viewModel { EditCategoryMenuViewModel(get(), get()) }
     }
 }

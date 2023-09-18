@@ -10,7 +10,7 @@ import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
-import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.room.Phrase
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
@@ -27,7 +27,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
 
         fun newInstance(
             phrases: List<Phrase>,
-            category: CategoryDto
+            category: Category
         ): CustomCategoryPhraseListFragment {
             return CustomCategoryPhraseListFragment().apply {
                 arguments = bundleOf(KEY_PHRASES to ArrayList(phrases), KEY_CATEGORY to category)
@@ -38,7 +38,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
         ViewModelOwner.from(requireActivity())
     })
-    private lateinit var category: CategoryDto
+    private lateinit var category: Category
 
     private val onPhraseEdit = { phrase: Phrase ->
         val action = EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToEditPhrasesKeyboardFragment(phrase)
@@ -57,7 +57,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getParcelable<CategoryDto>(KEY_CATEGORY)?.let {
+        arguments?.getParcelable<Category>(KEY_CATEGORY)?.let {
             category = it
         }
 
@@ -77,7 +77,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
                     )
                 )
                 setHasFixedSize(true)
-                adapter = CustomCategoryPhraseAdapter(it, numRows, onPhraseEdit, onPhraseDelete, category)
+                adapter = CustomCategoryPhraseAdapter(it, onPhraseEdit, onPhraseDelete)
             }
         }
     }

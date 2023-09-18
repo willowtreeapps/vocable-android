@@ -92,8 +92,8 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().deletePhrases(*phrases.toTypedArray())
     }
 
-    suspend fun deleteCategory(category: CategoryDto) {
-        database.categoryDao().deleteCategory(category)
+    override suspend fun deleteCategory(categoryId: String) {
+        database.categoryDao().deleteCategory(categoryId)
     }
 
     suspend fun updatePhrase(phrase: Phrase) {
@@ -108,7 +108,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().updateCategories(*categories.toTypedArray())
     }
 
-    suspend fun getCategoryById(categoryId: String): CategoryDto {
+    override suspend fun getCategoryById(categoryId: String): CategoryDto {
         return database.categoryDao().getCategoryById(categoryId)
     }
 

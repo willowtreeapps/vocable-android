@@ -22,4 +22,6 @@ interface IPresetsRepository {
     suspend fun updateCategories(categories: List<CategoryDto>)
     suspend fun updateCategory(category: CategoryDto)
     suspend fun addCategory(category: CategoryDto)
+    suspend fun getCategoryById(categoryId: String): CategoryDto
+    suspend fun deleteCategory(categoryId: String)
 }

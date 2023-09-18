@@ -12,7 +12,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.MainActivity
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
-import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -142,9 +142,9 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<CategoryDto>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
-        override fun setItems(items: List<CategoryDto>) {
+        override fun setItems(items: List<Category>) {
             super.setItems(items)
             setPagingButtonsEnabled(categoriesAdapter.numPages > 1)
         }
