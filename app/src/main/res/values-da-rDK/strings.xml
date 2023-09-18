@@ -42,6 +42,7 @@
     <string name="discard">Slet</string>
     <string name="are_you_sure">Er du sikker?</string>
     <string name="back_warning">Hvis du forlader uden at gemme vil dine ændringer blive slettet.</string>
+    <string name="duplicate_phrase">Sorry, this phrase name already exists. Please try a different name.</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">Dine ændringer er gemt</string>
     <string name="category_created">Kategori oprettet</string>
@@ -138,10 +139,19 @@
     <string name="preset_trouble_breathing" formatted="false">Jeg har svært ved at trække vejret</string>
     <string name="preset_need_jacket" formatted="false">Jeg vil gerne have en jakke</string>
     <string name="add_phrase">Tilføj Sætning</string>
+    <string name="add_phrase_plus">+ Add Phrase</string>
+    <string name="add_category">Add Category</string>
     <string name="add_to_category">Tilføje til kategorier</string>
     <string name="no_custom_categories">Ingen brugerkategorier</string>
     <string name="create_custom_categories">Opret brugerkategorier i indstillingsmenuen for at tilføje sætninger til dem her.</string>
     <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
     <string name="no_recent_phrases_title">No recently used phrases</string>
     <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
+    <string name="categories_edit_title">Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rename_category">Rename Category</string>
+    <string name="show_category">Vis Kategori</string>
+    <string name="edit_phrases">Edit Phrases</string>
+    <string name="remove_category">Fjern Kategori</string>
 </resources>
