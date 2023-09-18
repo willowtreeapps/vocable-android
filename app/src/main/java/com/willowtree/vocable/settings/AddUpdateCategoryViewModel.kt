@@ -4,42 +4,33 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.presets.Category
+import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.utils.ILocalizedResourceUtility
+import com.willowtree.vocable.utils.LocaleProvider
+import com.willowtree.vocable.utils.UUIDProvider
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import java.util.*
 
-class AddUpdateCategoryViewModel : ViewModel(), KoinComponent {
+class AddUpdateCategoryViewModel(
+    private val categoriesUseCase: CategoriesUseCase,
+    private val localizedResourceUtility: ILocalizedResourceUtility,
+    private val uuidProvider: UUIDProvider,
+    private val dateProvider: DateProvider,
+    private val localeProvider: LocaleProvider
+) : ViewModel() {
 
     companion object {
         private const val CATEGORY_MESSAGE_DELAY = 2000L
     }
-
-    private val presetsRepository: PresetsRepository by inject()
-
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     private val liveShowCategoryUpdateMessage = MutableLiveData<Boolean>()
     val showCategoryUpdateMessage: LiveData<Boolean> = liveShowCategoryUpdateMessage
 
     private val liveShowDuplicateCategoryMessage = MutableLiveData<Boolean>()
     val showDuplicateCategoryMessage: LiveData<Boolean> = liveShowDuplicateCategoryMessage
-
-    private var allCategories = listOf<CategoryDto>()
-
-    init {
-        populateAllCategories()
-    }
-
-    private fun populateAllCategories() {
-        viewModelScope.launch {
-            allCategories = presetsRepository.getAllCategories()
-        }
-    }
 
     fun updateCategory(categoryId: String, updatedName: String) {
         viewModelScope.launch {
@@ -49,19 +40,17 @@ class AddUpdateCategoryViewModel : ViewModel(), KoinComponent {
                 return@launch
             }
 
-            val toUpdate = allCategories.firstOrNull { it.categoryId == categoryId }
+            val toUpdate = categoriesUseCase.categories().first().firstOrNull { it.categoryId == categoryId }
             toUpdate?.let {
-                val currentName = it.localizedName?.get(Locale.getDefault().toString())
+                val currentName = it.localizedName?.get(localeProvider.getDefaultLocaleString())
 
                 if (currentName == updatedName) {
                     return@let
                 }
 
-                val updatedNameMap = mapOf(Locale.getDefault().toString() to updatedName)
+                val updatedNameMap = mapOf(localeProvider.getDefaultLocaleString() to updatedName)
 
-                it.localizedName = updatedNameMap ?: mapOf()
-
-                presetsRepository.updateCategory(it)
+                categoriesUseCase.updateCategory(it.copy(localizedName = updatedNameMap))
                 liveShowCategoryUpdateMessage.postValue(true)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)
@@ -71,6 +60,7 @@ class AddUpdateCategoryViewModel : ViewModel(), KoinComponent {
 
     fun addCategory(categoryName: String) {
         viewModelScope.launch {
+            val allCategories = categoriesUseCase.categories().first()
             // Don't allow duplicate category names
             if (categoryNameExists(categoryName)) {
                 liveShowDuplicateCategoryMessage.postValue(true)
@@ -90,21 +80,16 @@ class AddUpdateCategoryViewModel : ViewModel(), KoinComponent {
                 it.sortOrder++
             }
 
-            val newCategory = CategoryDto(
-                UUID.randomUUID().toString(),
-                System.currentTimeMillis(),
+            val newCategory = Category(
+                uuidProvider.randomUUIDString(),
+                dateProvider.currentTimeMillis(),
                 null,
-                mapOf(Pair(Locale.getDefault().toString(), categoryName)),
+                mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName)),
                 false,
                 firstHiddenIndex
             )
 
-            allCategories = allCategories
-                .toMutableList()
-                .apply { add(newCategory) }
-                .sortedBy { it.sortOrder }
-
-            with(presetsRepository) {
+            with(categoriesUseCase) {
                 addCategory(newCategory)
                 updateCategories(listToUpdate)
             }
@@ -116,7 +101,7 @@ class AddUpdateCategoryViewModel : ViewModel(), KoinComponent {
     }
 
     private suspend fun categoryNameExists(categoryName: String): Boolean {
-        val allCategories = presetsRepository.getAllCategories()
+        val allCategories = categoriesUseCase.categories().first()
         allCategories.forEach {
             val name = localizedResourceUtility.getTextFromCategory(it)
             if (name == categoryName) {
