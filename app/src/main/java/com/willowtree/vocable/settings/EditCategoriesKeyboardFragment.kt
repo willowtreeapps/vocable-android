@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,13 +12,14 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.room.CategoryDto
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCategoriesKeyboardFragment : EditKeyboardFragment() {
 
     override val bindingInflater: BindingInflater<FragmentEditKeyboardBinding> =
         FragmentEditKeyboardBinding::inflate
 
-    private val viewModel: AddUpdateCategoryViewModel by viewModels()
+    private val viewModel: AddUpdateCategoryViewModel by viewModel()
 
     private val args: EditCategoriesKeyboardFragmentArgs by navArgs()
 
