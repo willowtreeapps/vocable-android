@@ -6,8 +6,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import java.util.*
-import kotlin.collections.HashMap
-import kotlin.collections.LinkedHashSet
 
 @SuppressLint("Range")
 object VocableDatabaseMigrations {
@@ -155,7 +153,7 @@ object VocableDatabaseMigrations {
             crossRefCursor.close()
 
             val phraseCursor =
-                database.query("SELECT * FROM Phrase WHERE is_user_generated=TRUE")
+                database.query("SELECT * FROM Phrase WHERE is_user_generated=1")
             while (phraseCursor.moveToNext()) {
                 phraseToCategories.filter {
                     it.phraseId == phraseCursor.getString(
