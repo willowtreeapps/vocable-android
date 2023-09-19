@@ -3,9 +3,11 @@ package com.willowtree.vocable.presets
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
+import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.utils.FakeDateProvider
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +29,8 @@ class PresetsViewModelTest {
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
             fakePresetsRepository,
-            CategoriesUseCase(fakePresetsRepository)
+            CategoriesUseCase(fakePresetsRepository),
+            PhrasesUseCase(fakePresetsRepository, FakeDateProvider())
         )
     }
 
@@ -50,7 +53,7 @@ class PresetsViewModelTest {
 
         assertEquals(
             listOf(
-                Category(
+                Category.StoredCategory(
                     categoryId = "1",
                     creationDate = 0L,
                     resourceId = null,
@@ -98,7 +101,7 @@ class PresetsViewModelTest {
         job.cancel()
 
         assertEquals(
-            Category(
+            Category.StoredCategory(
                 categoryId = "1",
                 creationDate = 0L,
                 resourceId = null,
@@ -168,6 +171,123 @@ class PresetsViewModelTest {
                     sortOrder = 0
                 ),
                 null
+            ),
+            vm.currentPhrases.getOrAwaitValue()
+        )
+    }
+
+    @Test
+    fun `non recents are sorted by sort order`() {
+        fakePresetsRepository._allCategories.update {
+            listOf(
+                CategoryDto(
+                    categoryId = "2",
+                    creationDate = 0L,
+                    resourceId = null,
+                    localizedName = mapOf("en_US" to "category"),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            )
+        }
+        fakePresetsRepository._categoriesToPhrases = mapOf(
+            "2" to listOf(
+                Phrase(
+                    phraseId = 1L,
+                    parentCategoryId = "2",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    sortOrder = 1
+                ),
+                Phrase(
+                    phraseId = 2L,
+                    parentCategoryId = "2",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    sortOrder = 0
+                )
+            )
+        )
+        val vm = createViewModel()
+        vm.onCategorySelected("2")
+        assertEquals(
+            listOf(
+                Phrase(
+                    phraseId = 2L,
+                    parentCategoryId = "2",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    sortOrder = 0
+                ),
+                Phrase(
+                    phraseId = 1L,
+                    parentCategoryId = "2",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    sortOrder = 1
+                ),
+                null
+            ),
+            vm.currentPhrases.getOrAwaitValue()
+        )
+    }
+
+    @Test
+    fun `recents are not sorted by sort order`() {
+        fakePresetsRepository._allCategories.update {
+            listOf(
+                CategoryDto(
+                    categoryId = PresetCategories.RECENTS.id,
+                    creationDate = 0L,
+                    resourceId = null,
+                    localizedName = mapOf("en_US" to "category"),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            )
+        }
+        fakePresetsRepository._recentPhrases = listOf(
+            Phrase(
+                phraseId = 1L,
+                parentCategoryId = PresetCategories.RECENTS.id,
+                creationDate = 0L,
+                lastSpokenDate = 0L,
+                localizedUtterance = mapOf("en_US" to "Hello"),
+                sortOrder = 1
+            ),
+            Phrase(
+                phraseId = 2L,
+                parentCategoryId = PresetCategories.RECENTS.id,
+                creationDate = 0L,
+                lastSpokenDate = 0L,
+                localizedUtterance = mapOf("en_US" to "Goodbye"),
+                sortOrder = 0
+            )
+        )
+        val vm = createViewModel()
+        vm.onCategorySelected(PresetCategories.RECENTS.id)
+        assertEquals(
+            listOf(
+                Phrase(
+                    phraseId = 1L,
+                    parentCategoryId = PresetCategories.RECENTS.id,
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    sortOrder = 1
+                ),
+                Phrase(
+                    phraseId = 2L,
+                    parentCategoryId = PresetCategories.RECENTS.id,
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    sortOrder = 0
+                )
             ),
             vm.currentPhrases.getOrAwaitValue()
         )

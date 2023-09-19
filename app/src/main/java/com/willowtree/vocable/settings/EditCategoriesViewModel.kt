@@ -39,7 +39,8 @@ class EditCategoriesViewModel(
             val oldCategories = overallCategories
 
             overallCategories = categoriesUseCase.categories().first()
-            overallCategories = overallCategories.filter {!it.hidden} + overallCategories.filter {it.hidden}
+            overallCategories =
+                overallCategories.filter { !it.hidden } + overallCategories.filter { it.hidden }
 
 
             liveOrderCategoryList.postValue(overallCategories)
@@ -51,9 +52,11 @@ class EditCategoriesViewModel(
                     -1 -> {
                         liveLastViewedIndex.postValue(overallCategories.size - 1)
                     }
+
                     0 -> {
                         liveLastViewedIndex.postValue(0)
                     }
+
                     else -> {
                         liveLastViewedIndex.postValue(firstHiddenIndex - 1)
                     }
@@ -92,34 +95,60 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun moveCategoryUp(category: Category) {
+    fun moveCategoryUp(categoryId: String) {
         viewModelScope.launch {
-            val catIndex = overallCategories.indexOf(category)
+            val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
             if (catIndex > 0) {
                 val previousCat = overallCategories[catIndex - 1]
-                category.sortOrder--
-                previousCat.sortOrder++
 
-                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                overallCategories = overallCategories.map {
+                    when (it.categoryId) {
+                        categoryId -> {
+                            it.withSortOrder(it.sortOrder - 1)
+                        }
+                        previousCat.categoryId -> {
+                            it.withSortOrder(it.sortOrder + 1)
+                        }
+                        else -> {
+                            it
+                        }
+                    }
+                }.sortedBy { it.sortOrder }
+
                 liveOrderCategoryList.postValue(overallCategories)
 
-                categoriesUseCase.updateCategories(listOf(category, previousCat))
+                categoriesUseCase.updateCategories(
+                    overallCategories
+                )
             }
         }
     }
 
-    fun moveCategoryDown(category: Category) {
+    fun moveCategoryDown(categoryId: String) {
         viewModelScope.launch {
-            val catIndex = overallCategories.indexOf(category)
+            val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
             if (catIndex > -1) {
                 val nextCat = overallCategories[catIndex + 1]
-                category.sortOrder++
-                nextCat.sortOrder--
 
-                overallCategories = overallCategories.sortedBy { it.sortOrder }
+                overallCategories = overallCategories.map {
+                    when (it.categoryId) {
+                        categoryId -> {
+                            it.withSortOrder(it.sortOrder + 1)
+                        }
+                        nextCat.categoryId -> {
+                            it.withSortOrder(it.sortOrder - 1)
+                        }
+                        else -> {
+                            it
+                        }
+                    }
+                }.sortedBy { it.sortOrder }
+
                 liveOrderCategoryList.postValue(overallCategories)
 
-                categoriesUseCase.updateCategories(listOf(category, nextCat))
+                categoriesUseCase.updateCategories(
+                    overallCategories
+                )
             }
         }
     }

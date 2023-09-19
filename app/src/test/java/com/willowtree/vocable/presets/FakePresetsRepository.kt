@@ -35,12 +35,19 @@ class FakePresetsRepository : IPresetsRepository {
         )
     )
 
+    var _recentPhrases = listOf(
+        Phrase(
+            phraseId = 1L,
+            parentCategoryId = "1",
+            creationDate = 0L,
+            lastSpokenDate = 0L,
+            localizedUtterance = null,
+            sortOrder = 0
+        )
+    )
+
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return _categoriesToPhrases[categoryId]!! // go ahead and blow up if our test data isn't valid
-    }
-
-    override suspend fun addPhraseToRecents(phrase: Phrase) {
-        TODO("Not yet implemented")
     }
 
     override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
@@ -76,6 +83,11 @@ class FakePresetsRepository : IPresetsRepository {
     }
 
     override suspend fun deleteCategory(categoryId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getRecentPhrases(): List<Phrase> = _recentPhrases
+    override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
         TODO("Not yet implemented")
     }
 }

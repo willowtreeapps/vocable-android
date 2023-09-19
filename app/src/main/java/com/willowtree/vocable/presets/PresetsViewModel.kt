@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.room.Phrase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 
 class PresetsViewModel(
     private val presetsRepository: IPresetsRepository,
-    categoriesUseCase: CategoriesUseCase
+    categoriesUseCase: CategoriesUseCase,
+    private val phrasesUseCase: PhrasesUseCase
 ) : ViewModel() {
 
     val categoryList: LiveData<List<Category>> = categoriesUseCase.categories().asLiveData()
@@ -36,13 +38,15 @@ class PresetsViewModel(
 
     val currentPhrases: LiveData<List<Phrase?>> = liveSelectedCategoryId.map { categoryId ->
         if (categoryId == null) return@map emptyList<Phrase>()
-        val phrases: MutableList<Phrase?> = if (categoryId == PresetCategories.RECENTS.id) {
-            presetsRepository.getPhrasesForCategory(categoryId)
-                .sortedBy { it.lastSpokenDate }.reversed().toMutableList()
-        } else {
-            presetsRepository.getPhrasesForCategory(categoryId)
-                .sortedBy { it.sortOrder }.toMutableList()
-        }
+        val phrases: MutableList<Phrase?> = phrasesUseCase.getPhrasesForCategory(categoryId)
+            .run {
+                if (categoryId != PresetCategories.RECENTS.id) {
+                    sortedBy { it.sortOrder }
+                } else {
+                    this
+                }
+            }
+            .toMutableList()
         //Add null to end of normal non empty category phrase list for the "+ Add Phrase" button
         if (categoryId != PresetCategories.RECENTS.id && categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
             phrases.add(null)
@@ -65,7 +69,7 @@ class PresetsViewModel(
 
     fun addToRecents(phrase: Phrase) {
         viewModelScope.launch {
-            presetsRepository.addPhraseToRecents(phrase)
+            phrasesUseCase.phraseSpoken(phrase.phraseId)
         }
     }
 

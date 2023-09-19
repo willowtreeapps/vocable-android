@@ -27,7 +27,7 @@ class CategoriesUseCase(
         presetsRepository.updateCategories(categories.map { it.asDto() })
     }
 
-    suspend fun addCategory(category: Category) {
+    suspend fun addCategory(category: Category.StoredCategory) {
         presetsRepository.addCategory(category.asDto())
     }
 
