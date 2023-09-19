@@ -20,6 +20,9 @@ interface PhraseDao {
     @Update
     suspend fun updatePhrase(phrase: Phrase)
 
-    @Query("SELECT * FROM Phrase WHERE phrase_id=:id")
-    fun getPhraseById(id: String): Phrase
+    @Update(entity = Phrase::class)
+    suspend fun updatePhraseSpokenDate(phraseSpokenDate: PhraseSpokenDate)
+
+    @Query("SELECT * FROM Phrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
+    suspend fun getRecentPhrases(): List<Phrase>
 }

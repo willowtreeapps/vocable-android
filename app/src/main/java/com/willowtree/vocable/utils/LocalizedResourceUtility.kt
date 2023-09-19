@@ -12,7 +12,6 @@ class LocalizedResourceUtility : KoinComponent, ILocalizedResourceUtility {
     val resources: Resources = get<Context>().resources
 
     override fun getTextFromCategory(category: Category?): String {
-
         return category?.localizedName?.let {
             LocaleUtils.getTextForLocale(it)
         } ?: category?.resourceId?.let {
