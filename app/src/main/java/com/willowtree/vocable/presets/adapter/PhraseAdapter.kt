@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.PhraseButtonAddBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
 
 class PhraseAdapter(
-    private val phrases: List<Phrase?>,
+    private val phrases: List<PhraseDto?>,
     private val numRows: Int,
-    private val phraseClickAction: ((Phrase) -> Unit)?,
+    private val phraseClickAction: ((PhraseDto) -> Unit)?,
     private val phraseAddClickAction: (() -> Unit)?
 ) :
     RecyclerView.Adapter<PhraseAdapter.PhraseViewHolder>(), KoinComponent {

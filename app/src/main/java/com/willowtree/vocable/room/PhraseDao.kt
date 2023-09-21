@@ -6,23 +6,23 @@ import androidx.room.*
 interface PhraseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPhrase(phrase: Phrase)
+    suspend fun insertPhrase(phrase: PhraseDto)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPhrases(vararg phrases: Phrase)
+    suspend fun insertPhrases(vararg phrases: PhraseDto)
 
     @Delete
-    suspend fun deletePhrase(phrase: Phrase)
+    suspend fun deletePhrase(phrase: PhraseDto)
 
     @Delete
-    suspend fun deletePhrases(vararg phrases: Phrase)
+    suspend fun deletePhrases(vararg phrases: PhraseDto)
 
     @Update
-    suspend fun updatePhrase(phrase: Phrase)
+    suspend fun updatePhrase(phrase: PhraseDto)
 
-    @Update(entity = Phrase::class)
+    @Update(entity = PhraseDto::class)
     suspend fun updatePhraseSpokenDate(phraseSpokenDate: PhraseSpokenDate)
 
     @Query("SELECT * FROM Phrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
-    suspend fun getRecentPhrases(): List<Phrase>
+    suspend fun getRecentPhrases(): List<PhraseDto>
 }

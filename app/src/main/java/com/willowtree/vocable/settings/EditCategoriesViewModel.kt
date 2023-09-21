@@ -8,7 +8,7 @@ import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -28,8 +28,8 @@ class EditCategoriesViewModel(
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
 
-    private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
-    val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
+    private val liveCategoryPhraseList = MutableLiveData<List<PhraseDto>>()
+    val categoryPhraseList: LiveData<List<PhraseDto>> = liveCategoryPhraseList
 
     private var overallCategories = listOf<Category>()
 
@@ -65,7 +65,7 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
+    fun deletePhraseFromCategory(phrase: PhraseDto, category: Category) {
         viewModelScope.launch {
 
             presetsRepository.deletePhrase(phrase)
