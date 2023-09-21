@@ -10,7 +10,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.presets.adapter.PhraseAdapter
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,7 +23,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
 
-        fun newInstance(phrases: List<Phrase?>): PhrasesFragment {
+        fun newInstance(phrases: List<PhraseDto?>): PhrasesFragment {
             return PhrasesFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList(KEY_PHRASES, ArrayList(phrases))
@@ -45,7 +45,7 @@ class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
         val numColumns = resources.getInteger(R.integer.phrases_columns)
         val numRows = resources.getInteger(R.integer.phrases_rows)
 
-        val phrases = arguments?.getParcelableArrayList<Phrase?>(KEY_PHRASES)
+        val phrases = arguments?.getParcelableArrayList<PhraseDto?>(KEY_PHRASES)
         phrases?.let {
             with(binding.phrasesContainer) {
                 layoutManager = GridLayoutManager(requireContext(), numColumns)

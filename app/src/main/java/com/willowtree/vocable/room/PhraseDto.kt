@@ -6,9 +6,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Entity
+@Entity(tableName = "Phrase")
 @Parcelize
-data class Phrase(
+data class PhraseDto(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "phrase_id") val phraseId: Long,
     @ColumnInfo(name = "parent_category_id") val parentCategoryId: String?,
     @ColumnInfo(name = "creation_date") val creationDate: Long,

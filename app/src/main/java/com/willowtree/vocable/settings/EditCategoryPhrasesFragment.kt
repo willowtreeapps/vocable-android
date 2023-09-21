@@ -16,7 +16,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryPhrasesBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import org.koin.androidx.viewmodel.ViewModelOwner
@@ -137,7 +137,7 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
         return emptyList()
     }
 
-    private fun handlePhrases(phrases: List<Phrase>) {
+    private fun handlePhrases(phrases: List<PhraseDto>) {
         binding.emptyPhrasesText.isVisible = phrases.isEmpty()
         binding.emptyAddPhraseButton.isVisible = phrases.isEmpty()
         binding.editCategoryPhraseHolder.isVisible = phrases.isNotEmpty()
@@ -169,9 +169,9 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<PhraseDto>(fm, viewLifecycleOwner.lifecycle) {
 
-        override fun setItems(items: List<Phrase>) {
+        override fun setItems(items: List<PhraseDto>) {
             super.setItems(items)
             setPagingButtonsEnabled(numPages > 1)
         }

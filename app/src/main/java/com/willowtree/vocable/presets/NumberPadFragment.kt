@@ -11,7 +11,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentNumberPadBinding
 import com.willowtree.vocable.presets.adapter.PhraseAdapter
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 
 class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
@@ -20,7 +20,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
         private const val KEY_PHRASES = "KEY_PHRASES"
         const val MAX_PHRASES = 12
 
-        fun newInstance(phrases: List<Phrase?>) = NumberPadFragment().apply {
+        fun newInstance(phrases: List<PhraseDto?>) = NumberPadFragment().apply {
             arguments = bundleOf(KEY_PHRASES to ArrayList(phrases))
         }
     }
@@ -38,7 +38,7 @@ class NumberPadFragment : BaseFragment<FragmentNumberPadBinding>() {
         val numColumns = resources.getInteger(R.integer.number_pad_columns)
         val numRows = resources.getInteger(R.integer.number_pad_rows)
 
-        val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
+        val phrases = arguments?.getParcelableArrayList<PhraseDto>(KEY_PHRASES)
 
         phrases?.let {
             with(binding.phrasesContainer) {

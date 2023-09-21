@@ -11,14 +11,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 
 class AddPhraseKeyboardFragment : EditKeyboardFragment() {
 
     companion object {
         private const val KEY_PHRASE = "KEY_PHRASE"
 
-        fun newInstance(phrase: Phrase?): EditPhrasesKeyboardFragment {
+        fun newInstance(phrase: PhraseDto?): EditPhrasesKeyboardFragment {
             return EditPhrasesKeyboardFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_PHRASE, phrase)

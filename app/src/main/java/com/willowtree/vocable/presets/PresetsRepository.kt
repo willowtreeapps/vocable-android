@@ -2,7 +2,7 @@ package com.willowtree.vocable.presets
 
 import android.content.Context
 import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.PhraseSpokenDate
 import com.willowtree.vocable.room.VocableDatabase
 import kotlinx.coroutines.flow.Flow
@@ -22,13 +22,13 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         return database.categoryDao().getAllCategoriesFlow()
     }
 
-    override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
+    override suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> {
         return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: listOf()
     }
 
-    override suspend fun getRecentPhrases(): List<Phrase> = database.phraseDao().getRecentPhrases()
+    override suspend fun getRecentPhrases(): List<PhraseDto> = database.phraseDao().getRecentPhrases()
 
-    suspend fun addPhrase(phrase: Phrase) {
+    suspend fun addPhrase(phrase: PhraseDto) {
         database.phraseDao().insertPhrase(phrase)
     }
 
@@ -36,15 +36,15 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().insertCategory(category)
     }
 
-    private suspend fun populatePhrases(phrases: List<Phrase>) {
+    private suspend fun populatePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
 
-    override suspend fun deletePhrase(phrase: Phrase) {
+    override suspend fun deletePhrase(phrase: PhraseDto) {
         database.phraseDao().deletePhrase(phrase)
     }
 
-    suspend fun deletePhrases(phrases: List<Phrase>) {
+    suspend fun deletePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().deletePhrases(*phrases.toTypedArray())
     }
 
@@ -52,7 +52,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().deleteCategory(categoryId)
     }
 
-    suspend fun updatePhrase(phrase: Phrase) {
+    suspend fun updatePhrase(phrase: PhraseDto) {
         database.phraseDao().updatePhrase(phrase)
     }
 
@@ -78,10 +78,10 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
             if (presetCategory != PresetCategories.RECENTS && presetCategory != PresetCategories.MY_SAYINGS) {
                 val phrasesIds =
                     get<Context>().resources.obtainTypedArray(presetCategory.getArrayId())
-                val phraseObjects = mutableListOf<Phrase>()
+                val phraseObjects = mutableListOf<PhraseDto>()
                 for (index in 0 until phrasesIds.length()) {
                     phraseObjects.add(
-                        Phrase(
+                        PhraseDto(
                             0L,
                             presetCategory.id,
                             System.currentTimeMillis(),

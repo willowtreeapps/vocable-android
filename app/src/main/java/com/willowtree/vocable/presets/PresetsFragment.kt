@@ -16,7 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
@@ -293,7 +293,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         })
     }
 
-    private fun handlePhrases(phrases: List<Phrase?>) {
+    private fun handlePhrases(phrases: List<PhraseDto?>) {
         binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
         binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
 
@@ -347,9 +347,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<PhraseDto?>(fm, viewLifecycleOwner.lifecycle) {
 
-        override fun setItems(items: List<Phrase?>) {
+        override fun setItems(items: List<PhraseDto?>) {
             super.setItems(items)
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
         }
