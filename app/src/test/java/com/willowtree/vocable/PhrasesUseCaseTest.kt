@@ -1,6 +1,7 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.FakePresetsRepository
+import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
@@ -32,7 +33,7 @@ class PhrasesUseCaseTest {
 
         assertEquals(
             listOf(
-                PhraseDto(
+                Phrase(
                     phraseId = 1L,
                     parentCategoryId = "1",
                     creationDate = 0L,
