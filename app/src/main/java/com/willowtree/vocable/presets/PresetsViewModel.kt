@@ -7,7 +7,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.PhrasesUseCase
-import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -66,7 +65,7 @@ class PresetsViewModel(
         liveSelectedCategoryId.update { categoryId }
     }
 
-    fun addToRecents(phrase: PhraseDto) {
+    fun addToRecents(phrase: Phrase) {
         viewModelScope.launch {
             phrasesUseCase.phraseSpoken(phrase.phraseId)
         }
