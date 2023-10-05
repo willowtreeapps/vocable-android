@@ -58,7 +58,7 @@ class FakePresetsRepository : IPresetsRepository {
         return _allCategories.value.sortedBy { it.sortOrder }
     }
 
-    override suspend fun deletePhrase(phrase: PhraseDto) {
+    override suspend fun deletePhrase(phraseId: Long) {
         TODO("Not yet implemented")
     }
 
@@ -88,6 +88,10 @@ class FakePresetsRepository : IPresetsRepository {
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
     override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updatePhrase(phrase: PhraseDto) {
         TODO("Not yet implemented")
     }
 }
