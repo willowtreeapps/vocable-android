@@ -29,4 +29,8 @@ class PhrasesUseCase(
     suspend fun updatePhrase(phrase: Phrase) {
         presetsRepository.updatePhrase(phrase.asDto())
     }
+
+    suspend fun addPhrase(phrase: Phrase) {
+        presetsRepository.addPhrase(phrase.asDto())
+    }
 }

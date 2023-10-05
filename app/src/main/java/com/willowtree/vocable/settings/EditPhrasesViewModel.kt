@@ -8,7 +8,6 @@ import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -32,8 +31,8 @@ class EditPhrasesViewModel : ViewModel(), KoinComponent {
     fun addNewPhrase(phraseStr: String) {
         viewModelScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
-            presetsRepository.addPhrase(
-                PhraseDto(
+            phrasesUseCase.addPhrase(
+                Phrase(
                     0L,
                     PresetCategories.RECENTS.id,
                     System.currentTimeMillis(),

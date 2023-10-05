@@ -26,4 +26,5 @@ interface IPresetsRepository {
     suspend fun getRecentPhrases(): List<PhraseDto>
     suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long)
     suspend fun updatePhrase(phrase: PhraseDto)
+    suspend fun addPhrase(phrase: PhraseDto)
 }
