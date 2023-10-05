@@ -7,7 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.PhrasesUseCase
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,9 +36,9 @@ class PresetsViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
     val selectedCategoryLiveData: LiveData<Category?> = selectedCategory.asLiveData()
 
-    val currentPhrases: LiveData<List<Phrase?>> = liveSelectedCategoryId.map { categoryId ->
-        if (categoryId == null) return@map emptyList<Phrase>()
-        val phrases: MutableList<Phrase?> = phrasesUseCase.getPhrasesForCategory(categoryId)
+    val currentPhrases: LiveData<List<PhraseDto?>> = liveSelectedCategoryId.map { categoryId ->
+        if (categoryId == null) return@map emptyList<PhraseDto>()
+        val phrases: MutableList<PhraseDto?> = phrasesUseCase.getPhrasesForCategory(categoryId)
             .run {
                 if (categoryId != PresetCategories.RECENTS.id) {
                     sortedBy { it.sortOrder }
@@ -67,7 +67,7 @@ class PresetsViewModel(
         liveSelectedCategoryId.update { categoryId }
     }
 
-    fun addToRecents(phrase: Phrase) {
+    fun addToRecents(phrase: PhraseDto) {
         viewModelScope.launch {
             phrasesUseCase.phraseSpoken(phrase.phraseId)
         }

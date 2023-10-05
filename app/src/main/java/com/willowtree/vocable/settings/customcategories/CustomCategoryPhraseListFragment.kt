@@ -11,7 +11,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
@@ -26,7 +26,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         private const val KEY_CATEGORY = "KEY_CATEGORY"
 
         fun newInstance(
-            phrases: List<Phrase>,
+            phrases: List<PhraseDto>,
             category: Category
         ): CustomCategoryPhraseListFragment {
             return CustomCategoryPhraseListFragment().apply {
@@ -40,14 +40,14 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     })
     private lateinit var category: Category
 
-    private val onPhraseEdit = { phrase: Phrase ->
+    private val onPhraseEdit = { phrase: PhraseDto ->
         val action = EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToEditPhrasesKeyboardFragment(phrase)
         if (findNavController().currentDestination?.id == R.id.editCategoryPhrasesFragment) {
             findNavController().navigate(action)
         }
     }
 
-    private val onPhraseDelete = { phrase: Phrase ->
+    private val onPhraseDelete = { phrase: PhraseDto ->
         showDeletePhraseDialog(phrase)
     }
 
@@ -64,7 +64,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
         val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
 
-        val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
+        val phrases = arguments?.getParcelableArrayList<PhraseDto>(KEY_PHRASES)
 
         phrases?.let {
             with(binding.customCategoryPhraseHolder) {
@@ -82,7 +82,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         }
     }
 
-    private fun showDeletePhraseDialog(phrase: Phrase) {
+    private fun showDeletePhraseDialog(phrase: PhraseDto) {
 
         with(binding.deleteConfirmation) {
             dialogTitle.setText(R.string.are_you_sure)

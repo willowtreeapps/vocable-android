@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -19,7 +19,7 @@ class EditPhrasesViewModel : ViewModel(), KoinComponent {
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
-    fun updatePhrase(phrase: Phrase) {
+    fun updatePhrase(phrase: PhraseDto) {
         viewModelScope.launch {
             presetsRepository.updatePhrase(phrase)
             liveShowPhraseAdded.postValue(true)
@@ -30,7 +30,7 @@ class EditPhrasesViewModel : ViewModel(), KoinComponent {
         viewModelScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
             presetsRepository.addPhrase(
-                Phrase(
+                PhraseDto(
                     0L,
                     PresetCategories.RECENTS.id,
                     System.currentTimeMillis(),
