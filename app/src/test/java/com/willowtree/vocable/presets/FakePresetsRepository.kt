@@ -1,7 +1,7 @@
 package com.willowtree.vocable.presets
 
 import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -24,7 +24,7 @@ class FakePresetsRepository : IPresetsRepository {
 
     var _categoriesToPhrases = mapOf(
         "1" to listOf(
-            Phrase(
+            PhraseDto(
                 phraseId = 1L,
                 parentCategoryId = "1",
                 creationDate = 0L,
@@ -36,7 +36,7 @@ class FakePresetsRepository : IPresetsRepository {
     )
 
     var _recentPhrases = listOf(
-        Phrase(
+        PhraseDto(
             phraseId = 1L,
             parentCategoryId = "1",
             creationDate = 0L,
@@ -46,7 +46,7 @@ class FakePresetsRepository : IPresetsRepository {
         )
     )
 
-    override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
+    override suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> {
         return _categoriesToPhrases[categoryId]!! // go ahead and blow up if our test data isn't valid
     }
 
@@ -58,7 +58,7 @@ class FakePresetsRepository : IPresetsRepository {
         return _allCategories.value.sortedBy { it.sortOrder }
     }
 
-    override suspend fun deletePhrase(phrase: Phrase) {
+    override suspend fun deletePhrase(phrase: PhraseDto) {
         TODO("Not yet implemented")
     }
 
@@ -86,7 +86,7 @@ class FakePresetsRepository : IPresetsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getRecentPhrases(): List<Phrase> = _recentPhrases
+    override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
     override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
         TODO("Not yet implemented")
     }

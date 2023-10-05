@@ -2,7 +2,7 @@ package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.FakePresetsRepository
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -19,7 +19,7 @@ class PhrasesUseCaseTest {
     @Test
     fun `phrases for recents category pulls recents`() = runTest {
         presetsRepository._recentPhrases = listOf(
-            Phrase(
+            PhraseDto(
                 phraseId = 1L,
                 parentCategoryId = "1",
                 creationDate = 0L,
@@ -32,7 +32,7 @@ class PhrasesUseCaseTest {
 
         assertEquals(
             listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = "1",
                     creationDate = 0L,

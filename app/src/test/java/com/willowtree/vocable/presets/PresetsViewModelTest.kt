@@ -6,7 +6,7 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -137,7 +137,7 @@ class PresetsViewModelTest {
         }
         fakePresetsRepository._categoriesToPhrases = mapOf(
             "1" to listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = "1",
                     creationDate = 0L,
@@ -147,7 +147,7 @@ class PresetsViewModelTest {
                 )
             ),
             "2" to listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -162,7 +162,7 @@ class PresetsViewModelTest {
 
         assertEquals(
             listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -192,7 +192,7 @@ class PresetsViewModelTest {
         }
         fakePresetsRepository._categoriesToPhrases = mapOf(
             "2" to listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -200,7 +200,7 @@ class PresetsViewModelTest {
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
                 ),
-                Phrase(
+                PhraseDto(
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -214,7 +214,7 @@ class PresetsViewModelTest {
         vm.onCategorySelected("2")
         assertEquals(
             listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -222,7 +222,7 @@ class PresetsViewModelTest {
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
                 ),
-                Phrase(
+                PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -251,7 +251,7 @@ class PresetsViewModelTest {
             )
         }
         fakePresetsRepository._recentPhrases = listOf(
-            Phrase(
+            PhraseDto(
                 phraseId = 1L,
                 parentCategoryId = PresetCategories.RECENTS.id,
                 creationDate = 0L,
@@ -259,7 +259,7 @@ class PresetsViewModelTest {
                 localizedUtterance = mapOf("en_US" to "Hello"),
                 sortOrder = 1
             ),
-            Phrase(
+            PhraseDto(
                 phraseId = 2L,
                 parentCategoryId = PresetCategories.RECENTS.id,
                 creationDate = 0L,
@@ -272,7 +272,7 @@ class PresetsViewModelTest {
         vm.onCategorySelected(PresetCategories.RECENTS.id)
         assertEquals(
             listOf(
-                Phrase(
+                PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,
@@ -280,7 +280,7 @@ class PresetsViewModelTest {
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
                 ),
-                Phrase(
+                PhraseDto(
                     phraseId = 2L,
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,

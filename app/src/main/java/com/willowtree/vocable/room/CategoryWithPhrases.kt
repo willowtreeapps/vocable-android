@@ -9,5 +9,5 @@ data class CategoryWithPhrases(
         parentColumn = "category_id",
         entityColumn = "parent_category_id"
     )
-    val phrases: List<Phrase>?
+    val phrases: List<PhraseDto>?
 )

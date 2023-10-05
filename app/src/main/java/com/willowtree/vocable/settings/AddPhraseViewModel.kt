@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.Phrase
+import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -25,7 +25,7 @@ class AddPhraseViewModel : ViewModel(), KoinComponent {
                     it.localizedUtterance?.containsValue(phraseStr) == true
             }) {
                 presetsRepository.addPhrase(
-                    Phrase(
+                    PhraseDto(
                         0L,
                         categoryId,
                         System.currentTimeMillis(),
