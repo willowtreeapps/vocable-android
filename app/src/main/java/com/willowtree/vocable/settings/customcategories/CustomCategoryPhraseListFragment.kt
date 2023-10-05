@@ -12,7 +12,6 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter

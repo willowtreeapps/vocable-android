@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,7 +22,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> =
         FragmentKeyboardBinding::inflate
-    private val viewModel: KeyboardViewModel by viewModels()
     private lateinit var keys: Array<String>
 
     private val keyAction = { keyText: String ->
@@ -39,7 +37,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             )
         }
 
-        viewModel.currentText = binding.keyboardInput.text.toString()
         binding.keyboardInput.setSelection(binding.keyboardInput.text.length)
     }
 
@@ -85,13 +82,11 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         binding.keyboardClearButton.action = {
             binding.keyboardInput.setText(R.string.keyboard_select_letters)
-            viewModel.currentText = ""
         }
 
         binding.keyboardSpaceButton.action = {
             if (!isDefaultTextVisible() && binding.keyboardInput.text?.endsWith(' ') == false) {
                 binding.keyboardInput.append(" ")
-                viewModel.currentText = binding.keyboardInput.text.toString()
             }
         }
 
@@ -103,7 +98,6 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
                     if (text.isNullOrEmpty()) {
                         setText(R.string.keyboard_select_letters)
                     }
-                    viewModel.currentText = this.text.toString()
                 }
             }
         }

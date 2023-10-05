@@ -10,22 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.room.PhraseDto
 import java.util.Locale
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
-
-    companion object {
-        private const val KEY_PHRASE = "KEY_PHRASE"
-
-        fun newInstance(phrase: PhraseDto?): EditPhrasesKeyboardFragment {
-            return EditPhrasesKeyboardFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_PHRASE, phrase)
-                }
-            }
-        }
-    }
 
     private var phrase: Phrase? = null
     private var addNewPhrase = false

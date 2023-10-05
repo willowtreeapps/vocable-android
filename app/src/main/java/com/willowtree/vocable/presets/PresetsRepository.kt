@@ -28,7 +28,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = database.phraseDao().getRecentPhrases()
 
-    suspend fun addPhrase(phrase: PhraseDto) {
+    override suspend fun addPhrase(phrase: PhraseDto) {
         database.phraseDao().insertPhrase(phrase)
     }
 

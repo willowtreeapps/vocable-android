@@ -17,7 +17,6 @@ import com.willowtree.vocable.databinding.FragmentEditCategoryPhrasesBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import org.koin.androidx.viewmodel.ViewModelOwner
