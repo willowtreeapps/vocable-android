@@ -1,6 +1,7 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.FakePresetsRepository
+import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
@@ -32,7 +33,7 @@ class PhrasesUseCaseTest {
 
         assertEquals(
             listOf(
-                PhraseDto(
+                Phrase(
                     phraseId = 1L,
                     parentCategoryId = "1",
                     creationDate = 0L,
@@ -46,8 +47,34 @@ class PhrasesUseCaseTest {
     }
 
     @Test
-    fun `phrases for stored category pulls stored`() {
+    fun `phrases for stored category pulls stored`() = runTest {
+        presetsRepository._categoriesToPhrases = mapOf(
+            "category" to listOf(
+                PhraseDto(
+                    phraseId = 1L,
+                    parentCategoryId = "1",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = null,
+                    sortOrder = 0
+                )
+            )
+        )
+        val useCase = createUseCase()
 
+        assertEquals(
+            listOf(
+                Phrase(
+                    phraseId = 1L,
+                    parentCategoryId = "1",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = null,
+                    sortOrder = 0
+                )
+            ),
+            useCase.getPhrasesForCategory("category")
+        )
     }
 
 }
