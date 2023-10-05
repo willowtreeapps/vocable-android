@@ -47,8 +47,34 @@ class PhrasesUseCaseTest {
     }
 
     @Test
-    fun `phrases for stored category pulls stored`() {
+    fun `phrases for stored category pulls stored`() = runTest {
+        presetsRepository._categoriesToPhrases = mapOf(
+            "category" to listOf(
+                PhraseDto(
+                    phraseId = 1L,
+                    parentCategoryId = "1",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = null,
+                    sortOrder = 0
+                )
+            )
+        )
+        val useCase = createUseCase()
 
+        assertEquals(
+            listOf(
+                Phrase(
+                    phraseId = 1L,
+                    parentCategoryId = "1",
+                    creationDate = 0L,
+                    lastSpokenDate = 0L,
+                    localizedUtterance = null,
+                    sortOrder = 0
+                )
+            ),
+            useCase.getPhrasesForCategory("category")
+        )
     }
 
 }
