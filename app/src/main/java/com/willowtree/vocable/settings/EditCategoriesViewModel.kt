@@ -5,16 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.IPresetsRepository
-import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
-    private val presetsRepository: IPresetsRepository,
+    private val phrasesUseCase: PhrasesUseCase,
     private val categoriesUseCase: CategoriesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility
 ) : ViewModel() {
@@ -28,8 +27,8 @@ class EditCategoriesViewModel(
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
 
-    private val liveCategoryPhraseList = MutableLiveData<List<PhraseDto>>()
-    val categoryPhraseList: LiveData<List<PhraseDto>> = liveCategoryPhraseList
+    private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
+    val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
 
     private var overallCategories = listOf<Category>()
 
@@ -65,18 +64,10 @@ class EditCategoriesViewModel(
         }
     }
 
-    fun deletePhraseFromCategory(phrase: PhraseDto, category: Category) {
+    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
         viewModelScope.launch {
 
-            presetsRepository.deletePhrase(phrase)
-            presetsRepository.getPhrasesForCategory(PresetCategories.RECENTS.id)
-                .firstOrNull {
-                    it.localizedUtterance == phrase.localizedUtterance
-                }?.let {
-                    presetsRepository.deletePhrase(
-                        it
-                    )
-                }
+            phrasesUseCase.deletePhrase(phrase.phraseId)
 
             // Refresh phrase list
             fetchCategoryPhrases(category)
@@ -89,7 +80,7 @@ class EditCategoriesViewModel(
 
     fun fetchCategoryPhrases(category: Category) {
         viewModelScope.launch {
-            val phrasesForCategory = presetsRepository.getPhrasesForCategory(category.categoryId)
+            val phrasesForCategory = phrasesUseCase.getPhrasesForCategory(category.categoryId)
                 .sortedBy { it.sortOrder }
             liveCategoryPhraseList.postValue(phrasesForCategory)
         }

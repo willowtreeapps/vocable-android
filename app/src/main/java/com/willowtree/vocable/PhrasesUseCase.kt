@@ -3,6 +3,7 @@ package com.willowtree.vocable
 import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
+import com.willowtree.vocable.presets.asDto
 import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.utils.DateProvider
 
@@ -19,5 +20,13 @@ class PhrasesUseCase(
 
     suspend fun phraseSpoken(phraseId: Long) {
         presetsRepository.updatePhraseLastSpoken(phraseId, dateProvider.currentTimeMillis())
+    }
+
+    suspend fun deletePhrase(phraseId: Long) {
+        presetsRepository.deletePhrase(phraseId)
+    }
+
+    suspend fun updatePhrase(phrase: Phrase) {
+        presetsRepository.updatePhrase(phrase.asDto())
     }
 }
