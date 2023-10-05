@@ -28,7 +28,6 @@ class PresetsViewModelTest {
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
-            fakePresetsRepository,
             CategoriesUseCase(fakePresetsRepository),
             PhrasesUseCase(fakePresetsRepository, FakeDateProvider())
         )
@@ -162,7 +161,7 @@ class PresetsViewModelTest {
 
         assertEquals(
             listOf(
-                PhraseDto(
+                Phrase(
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -214,7 +213,7 @@ class PresetsViewModelTest {
         vm.onCategorySelected("2")
         assertEquals(
             listOf(
-                PhraseDto(
+                Phrase(
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -222,7 +221,7 @@ class PresetsViewModelTest {
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
                 ),
-                PhraseDto(
+                Phrase(
                     phraseId = 1L,
                     parentCategoryId = "2",
                     creationDate = 0L,
@@ -272,7 +271,7 @@ class PresetsViewModelTest {
         vm.onCategorySelected(PresetCategories.RECENTS.id)
         assertEquals(
             listOf(
-                PhraseDto(
+                Phrase(
                     phraseId = 1L,
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,
@@ -280,7 +279,7 @@ class PresetsViewModelTest {
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
                 ),
-                PhraseDto(
+                Phrase(
                     phraseId = 2L,
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,

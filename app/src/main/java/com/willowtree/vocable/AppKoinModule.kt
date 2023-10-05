@@ -33,7 +33,7 @@ object AppKoinModule {
         single { RandomUUIDProvider() } bind UUIDProvider::class
         single { JavaDateProvider() } bind DateProvider::class
         single { JavaLocaleProvider() } bind LocaleProvider::class
-        viewModel { PresetsViewModel(get(), get(), get()) }
+        viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get(), get(), get()) }
         viewModel { EditCategoryMenuViewModel(get(), get()) }
