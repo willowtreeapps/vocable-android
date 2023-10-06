@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
-import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.LocaleProvider
-import com.willowtree.vocable.utils.UUIDProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -17,8 +15,6 @@ import kotlinx.coroutines.launch
 class AddUpdateCategoryViewModel(
     private val categoriesUseCase: CategoriesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility,
-    private val uuidProvider: UUIDProvider,
-    private val dateProvider: DateProvider,
     private val localeProvider: LocaleProvider
 ) : ViewModel() {
 
@@ -48,9 +44,10 @@ class AddUpdateCategoryViewModel(
                     return@let
                 }
 
-                val updatedNameMap = mapOf(localeProvider.getDefaultLocaleString() to updatedName)
+                val updatedNameMap = it.localizedName?.toMutableMap() ?: mutableMapOf()
+                updatedNameMap[localeProvider.getDefaultLocaleString()] = updatedName
 
-                categoriesUseCase.updateCategory(it.withLocalizedName(updatedNameMap))
+                categoriesUseCase.updateCategoryName(it.categoryId, updatedNameMap)
                 liveShowCategoryUpdateMessage.postValue(true)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)
@@ -80,18 +77,9 @@ class AddUpdateCategoryViewModel(
                 listToUpdate[index] = category.withSortOrder(category.sortOrder + 1)
             }
 
-            val newCategory = Category.StoredCategory(
-                uuidProvider.randomUUIDString(),
-                dateProvider.currentTimeMillis(),
-                null,
-                mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName)),
-                false,
-                firstHiddenIndex
-            )
-
             with(categoriesUseCase) {
-                addCategory(newCategory)
-                updateCategories(listToUpdate)
+                addCategory(categoryName, firstHiddenIndex)
+                updateCategorySortOrders(listToUpdate.map { CategorySortOrder(it.categoryId, it.sortOrder) })
             }
 
             liveShowCategoryUpdateMessage.postValue(true)

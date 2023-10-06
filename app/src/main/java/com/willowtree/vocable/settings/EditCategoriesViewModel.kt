@@ -8,6 +8,7 @@ import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -108,8 +109,10 @@ class EditCategoriesViewModel(
 
                 liveOrderCategoryList.postValue(overallCategories)
 
-                categoriesUseCase.updateCategories(
-                    overallCategories
+                categoriesUseCase.updateCategorySortOrders(
+                    overallCategories.map {
+                        CategorySortOrder(it.categoryId, it.sortOrder)
+                    }
                 )
             }
         }
@@ -137,8 +140,10 @@ class EditCategoriesViewModel(
 
                 liveOrderCategoryList.postValue(overallCategories)
 
-                categoriesUseCase.updateCategories(
-                    overallCategories
+                categoriesUseCase.updateCategorySortOrders(
+                    overallCategories.map {
+                        CategorySortOrder(it.categoryId, it.sortOrder)
+                    }
                 )
             }
         }

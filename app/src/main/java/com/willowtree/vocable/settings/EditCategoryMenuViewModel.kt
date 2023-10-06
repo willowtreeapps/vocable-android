@@ -8,6 +8,7 @@ import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.room.CategorySortOrder
 import kotlinx.coroutines.launch
 
 class EditCategoryMenuViewModel(
@@ -32,7 +33,12 @@ class EditCategoryMenuViewModel(
     fun updateHiddenStatus(showCategoryStatus: Boolean) {
         viewModelScope.launch {
             _currentCategory.value = _currentCategory.value?.withHidden(!showCategoryStatus)
-            _currentCategory.value?.let { categoriesUseCase.updateCategory(it) }
+            _currentCategory.value?.let {
+                categoriesUseCase.updateCategoryHidden(
+                    it.categoryId,
+                    it.hidden
+                )
+            }
         }
     }
 
@@ -78,7 +84,12 @@ class EditCategoryMenuViewModel(
                 it.sortOrder--
             }
             if (categoriesToUpdate.isNotEmpty()) {
-                presetsRepository.updateCategories(categoriesToUpdate)
+                categoriesUseCase.updateCategorySortOrders(categoriesToUpdate.map {
+                    CategorySortOrder(
+                        it.categoryId,
+                        it.sortOrder
+                    )
+                })
             }
         }
     }

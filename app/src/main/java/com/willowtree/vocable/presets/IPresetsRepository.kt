@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.flow.Flow
 
@@ -18,8 +19,9 @@ interface IPresetsRepository {
      */
     suspend fun getAllCategories(): List<CategoryDto>
     suspend fun deletePhrase(phraseId: Long)
-    suspend fun updateCategories(categories: List<CategoryDto>)
-    suspend fun updateCategory(category: CategoryDto)
+    suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
+    suspend fun updateCategoryName(categoryId: String, localizedName: Map<String, String>)
+    suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
     suspend fun addCategory(category: CategoryDto)
     suspend fun getCategoryById(categoryId: String): CategoryDto
     suspend fun deleteCategory(categoryId: String)
