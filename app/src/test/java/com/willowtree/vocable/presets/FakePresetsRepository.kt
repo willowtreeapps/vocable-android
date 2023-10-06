@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,16 +63,37 @@ class FakePresetsRepository : IPresetsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateCategories(updatedCategories: List<CategoryDto>) {
-        val allCategories = _allCategories.value.map { originalDto ->
-            updatedCategories.find { it.categoryId == originalDto.categoryId }
-                ?: originalDto
+    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        _allCategories.update { allCategories ->
+            allCategories.map { categoryDto ->
+                val sortOrderUpdate =
+                    categorySortOrders.firstOrNull { it.categoryId == categoryDto.categoryId }
+                if (sortOrderUpdate != null) {
+                    categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+                } else {
+                    categoryDto
+                }
+            }
         }
-        _allCategories.update { allCategories }
     }
 
-    override suspend fun updateCategory(updatedCategory: CategoryDto) {
-        updateCategories(listOf(updatedCategory))
+    override suspend fun updateCategoryName(
+        categoryId: String,
+        localizedName: Map<String, String>
+    ) {
+        _allCategories.update { allCategories ->
+            allCategories.map {
+                if (it.categoryId == categoryId) {
+                    it.copy(localizedName = localizedName)
+                } else {
+                    it
+                }
+            }
+        }
+    }
+
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun addCategory(category: CategoryDto) {
