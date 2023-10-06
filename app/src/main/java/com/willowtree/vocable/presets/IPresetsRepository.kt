@@ -17,7 +17,7 @@ interface IPresetsRepository {
      * Return all categories, sorted by [CategoryDto.sortOrder]
      */
     suspend fun getAllCategories(): List<CategoryDto>
-    suspend fun deletePhrase(phrase: PhraseDto)
+    suspend fun deletePhrase(phraseId: Long)
     suspend fun updateCategories(categories: List<CategoryDto>)
     suspend fun updateCategory(category: CategoryDto)
     suspend fun addCategory(category: CategoryDto)
@@ -25,4 +25,6 @@ interface IPresetsRepository {
     suspend fun deleteCategory(categoryId: String)
     suspend fun getRecentPhrases(): List<PhraseDto>
     suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long)
+    suspend fun updatePhrase(phrase: PhraseDto)
+    suspend fun addPhrase(phrase: PhraseDto)
 }

@@ -9,24 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.R
-import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.presets.Phrase
 import java.util.Locale
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
-    companion object {
-        private const val KEY_PHRASE = "KEY_PHRASE"
-
-        fun newInstance(phrase: PhraseDto?): EditPhrasesKeyboardFragment {
-            return EditPhrasesKeyboardFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_PHRASE, phrase)
-                }
-            }
-        }
-    }
-
-    private var phrase: PhraseDto? = null
+    private var phrase: Phrase? = null
     private var addNewPhrase = false
     private val viewModel: EditPhrasesViewModel by viewModels({ requireActivity() })
     private val args by navArgs<EditPhrasesKeyboardFragmentArgs>()
@@ -64,17 +52,15 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
                             phrase?.localizedUtterance?.toMutableMap()?.apply {
                                 put(Locale.getDefault().toString(), text.toString())
                             }
-                        phrase?.localizedUtterance = phraseUtterance ?: mapOf()
-                        if (phrase == null) {
+                        val updatedPhrase =
+                            phrase?.copy(localizedUtterance = phraseUtterance ?: mapOf())
+                        if (updatedPhrase == null) {
                             viewModel.addNewPhrase(text.toString())
                             addNewPhrase = true
                         } else {
-                            phrase?.let { updatedPhrase ->
-                                viewModel.updatePhrase(updatedPhrase)
-                                addNewPhrase = false
-                            }
+                            viewModel.updatePhrase(updatedPhrase)
+                            addNewPhrase = false
                         }
-
                     }
                 }
             }

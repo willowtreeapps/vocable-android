@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.willowtree.vocable.PhrasesUseCase
+import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetsRepository
-import com.willowtree.vocable.room.PhraseDto
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -15,13 +16,14 @@ import java.util.Locale
 class EditPhrasesViewModel : ViewModel(), KoinComponent {
 
     private val presetsRepository: PresetsRepository by inject()
+    private val phrasesUseCase: PhrasesUseCase by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
-    fun updatePhrase(phrase: PhraseDto) {
+    fun updatePhrase(phrase: Phrase) {
         viewModelScope.launch {
-            presetsRepository.updatePhrase(phrase)
+            phrasesUseCase.updatePhrase(phrase)
             liveShowPhraseAdded.postValue(true)
         }
     }
@@ -29,8 +31,8 @@ class EditPhrasesViewModel : ViewModel(), KoinComponent {
     fun addNewPhrase(phraseStr: String) {
         viewModelScope.launch {
             val mySayingsPhrases = presetsRepository.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
-            presetsRepository.addPhrase(
-                PhraseDto(
+            phrasesUseCase.addPhrase(
+                Phrase(
                     0L,
                     PresetCategories.RECENTS.id,
                     System.currentTimeMillis(),
