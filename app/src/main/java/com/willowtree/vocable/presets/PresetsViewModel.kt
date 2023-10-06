@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.PhrasesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PresetsViewModel(
-    categoriesUseCase: CategoriesUseCase,
+    categoriesUseCase: ICategoriesUseCase,
     private val phrasesUseCase: PhrasesUseCase
 ) : ViewModel() {
 

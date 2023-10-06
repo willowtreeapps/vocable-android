@@ -8,9 +8,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PresetCategoriesRepositoryTest {
-    private fun createRepository(): PresetCategoriesRepository {
-        return PresetCategoriesRepository(ApplicationProvider.getApplicationContext())
+class RoomPresetCategoriesRepositoryTest {
+    private fun createRepository(): RoomPresetCategoriesRepository {
+        return RoomPresetCategoriesRepository(ApplicationProvider.getApplicationContext())
     }
 
     @Test
