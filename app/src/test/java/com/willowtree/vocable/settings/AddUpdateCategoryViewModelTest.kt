@@ -69,7 +69,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = null,
                     hidden = false,
@@ -77,7 +76,6 @@ class AddUpdateCategoryViewModelTest {
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "New Category"),
                     hidden = false,
@@ -158,7 +156,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "New Category"),
                     hidden = false,
@@ -194,7 +191,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "New Category", "es_US" to "Spanish"),
                     hidden = false,

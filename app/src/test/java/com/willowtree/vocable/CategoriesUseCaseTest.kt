@@ -55,7 +55,6 @@ class CategoriesUseCaseTest {
                 ),
                 Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = 2,
                     localizedName = mapOf("en_US" to "Other"),
                     hidden = false,

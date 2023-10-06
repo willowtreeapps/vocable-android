@@ -61,7 +61,6 @@ class PresetsViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "category"),
                     hidden = false,
@@ -109,7 +108,6 @@ class PresetsViewModelTest {
         assertEquals(
             Category.StoredCategory(
                 categoryId = "1",
-                creationDate = 0L,
                 resourceId = null,
                 localizedName = mapOf("en_US" to "category"),
                 hidden = false,
