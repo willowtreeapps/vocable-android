@@ -18,7 +18,6 @@ sealed class Category : Parcelable {
     @Parcelize
     data class StoredCategory(
         override val categoryId: String,
-        val creationDate: Long,
         override val resourceId: Int?,
         override val localizedName: Map<String, String>?,
         override var hidden: Boolean,
@@ -33,10 +32,10 @@ sealed class Category : Parcelable {
 
     @Parcelize
     data class Recents(
-        override val hidden: Boolean,
-        override val sortOrder: Int,
+        override val resourceId: Int?,
         override val localizedName: Map<String, String>?,
-        override val resourceId: Int?
+        override val hidden: Boolean,
+        override val sortOrder: Int
     ) : Category() {
         override val categoryId: String = PresetCategories.RECENTS.id
         override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
@@ -50,15 +49,14 @@ sealed class Category : Parcelable {
 fun CategoryDto.asCategory(): Category {
     return if (categoryId == PresetCategories.RECENTS.id) {
         Category.Recents(
-            hidden = hidden,
-            sortOrder = sortOrder,
+            resourceId = resourceId,
             localizedName = localizedName,
-            resourceId = resourceId
+            hidden = hidden,
+            sortOrder = sortOrder
         )
     } else {
         Category.StoredCategory(
             categoryId,
-            creationDate,
             resourceId,
             localizedName,
             hidden,
