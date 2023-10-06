@@ -32,7 +32,10 @@ class CategoriesUseCase(
     suspend fun getCategoryById(categoryId: String): Category =
         presetsRepository.getCategoryById(categoryId).asCategory()
 
-    override suspend fun updateCategoryName(categoryId: String, localizedName: Map<String, String>) {
+    override suspend fun updateCategoryName(
+        categoryId: String,
+        localizedName: Map<String, String>
+    ) {
         presetsRepository.updateCategoryName(categoryId, localizedName)
     }
 

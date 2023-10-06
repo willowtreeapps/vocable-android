@@ -252,8 +252,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             binding.phrasesForwardButton.isVisible = categoriesExist
             binding.categoryBackButton.isVisible = categoriesExist
             binding.categoryForwardButton.isVisible = categoriesExist
-            binding.emptyAddPhraseButton.isVisible = categoriesExist
-            binding.emptyPhrasesText.isVisible = categoriesExist
 
             binding.emptyCategoriesText.isVisible = !categoriesExist
 

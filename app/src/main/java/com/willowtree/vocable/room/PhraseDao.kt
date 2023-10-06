@@ -25,4 +25,7 @@ interface PhraseDao {
 
     @Query("SELECT * FROM Phrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
     suspend fun getRecentPhrases(): List<PhraseDto>
+
+    @Query("SELECT * FROM Phrase WHERE parent_category_id == :categoryId")
+    suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto>
 }
