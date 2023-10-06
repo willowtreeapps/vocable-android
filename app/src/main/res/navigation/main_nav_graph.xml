@@ -65,8 +65,7 @@
         tools:layout="@layout/fragment_edit_keyboard">
         <argument
             android:name="phrase"
-            app:argType="com.willowtree.vocable.presets.Phrase"
-            app:nullable="true" />
+            app:argType="com.willowtree.vocable.presets.Phrase" />
     </fragment>
     <fragment
         android:id="@+id/addPhraseKeyboardFragment"

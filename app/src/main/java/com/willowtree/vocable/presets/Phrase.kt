@@ -14,16 +14,6 @@ data class Phrase(
     val sortOrder: Int
 ) : Parcelable
 
-fun Phrase.asDto(): PhraseDto =
-    PhraseDto(
-        phraseId,
-        parentCategoryId,
-        creationDate,
-        lastSpokenDate,
-        localizedUtterance,
-        sortOrder
-    )
-
 fun PhraseDto.asPhrase(): Phrase =
     Phrase(
         phraseId,

@@ -3,6 +3,7 @@ package com.willowtree.vocable.presets
 import android.content.Context
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.room.PhraseLocalizedUtterance
 import com.willowtree.vocable.room.PhraseSpokenDate
 import com.willowtree.vocable.room.VocableDatabase
 import kotlinx.coroutines.flow.Flow
@@ -52,8 +53,8 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().deleteCategory(categoryId)
     }
 
-    override suspend fun updatePhrase(phrase: PhraseDto) {
-        database.phraseDao().updatePhrase(phrase)
+    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
+        database.phraseDao().updatePhraseLocalizedUtterance(PhraseLocalizedUtterance(phraseId, localizedUtterance))
     }
 
     override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
