@@ -12,7 +12,6 @@ sealed class Category : Parcelable {
     abstract val resourceId: Int?
 
     abstract fun withSortOrder(sortOrder: Int): Category
-    abstract fun withLocalizedName(localizedName: Map<String, String>?): Category
     abstract fun withHidden(hidden: Boolean): Category
 
     @Parcelize
@@ -24,9 +23,6 @@ sealed class Category : Parcelable {
         override var sortOrder: Int
     ) : Category() {
         override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
-        override fun withLocalizedName(localizedName: Map<String, String>?): Category =
-            copy(localizedName = localizedName)
-
         override fun withHidden(hidden: Boolean): Category = copy(hidden = hidden)
     }
 
@@ -39,9 +35,18 @@ sealed class Category : Parcelable {
     ) : Category() {
         override val categoryId: String = PresetCategories.RECENTS.id
         override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
-        override fun withLocalizedName(localizedName: Map<String, String>?): Category =
-            copy(localizedName = localizedName)
+        override fun withHidden(hidden: Boolean): Category = copy(hidden = hidden)
+    }
 
+    @Parcelize
+    data class PresetCategory(
+        override val categoryId: String,
+        override val sortOrder: Int,
+        override val hidden: Boolean,
+        override val resourceId: Int
+    ) : Category() {
+        override val localizedName: Map<String, String>? = null
+        override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
         override fun withHidden(hidden: Boolean): Category = copy(hidden = hidden)
     }
 }
