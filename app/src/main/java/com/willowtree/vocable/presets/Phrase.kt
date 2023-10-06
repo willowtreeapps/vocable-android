@@ -7,9 +7,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Phrase(
     val phraseId: Long,
-    val parentCategoryId: String?,
-    val creationDate: Long,
-    val lastSpokenDate: Long?,
     val localizedUtterance: Map<String, String>?,
     val sortOrder: Int
 ) : Parcelable
@@ -17,9 +14,6 @@ data class Phrase(
 fun PhraseDto.asPhrase(): Phrase =
     Phrase(
         phraseId,
-        parentCategoryId,
-        creationDate,
-        lastSpokenDate,
         localizedUtterance,
         sortOrder
     )
