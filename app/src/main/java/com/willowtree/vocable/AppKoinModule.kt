@@ -32,7 +32,7 @@ object AppKoinModule {
         single { PresetsRepository(get()) } bind IPresetsRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility() } bind ILocalizedResourceUtility::class
-        single { CategoriesUseCase(get(), get(), get(), get(), get(), get()) }
+        single { CategoriesUseCase(get(), get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
         single { PhrasesUseCase(get(), get()) }
         single { RandomUUIDProvider() } bind UUIDProvider::class
         single { JavaDateProvider() } bind DateProvider::class

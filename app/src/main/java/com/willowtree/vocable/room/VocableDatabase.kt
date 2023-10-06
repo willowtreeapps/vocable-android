@@ -1,12 +1,18 @@
 package com.willowtree.vocable.room
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [CategoryDto::class, PhraseDto::class, PresetCategoryDto::class], version = 7)
+@Database(
+    entities = [CategoryDto::class, PhraseDto::class, PresetCategoryDto::class],
+    version = 7,
+    // TODO: PK - May be able to consolidate 6 and 7 since we never released 6
+    autoMigrations = [AutoMigration(from = 6, to = 7)]
+)
 @TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
 
