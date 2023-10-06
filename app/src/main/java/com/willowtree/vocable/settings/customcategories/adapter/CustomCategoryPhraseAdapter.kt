@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.EditCustomCategoryPhraseItemBinding
-import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.utils.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class CustomCategoryPhraseAdapter(
-    private var phrases: List<PhraseDto>,
-    private val onPhraseEdit: (PhraseDto) -> Unit,
-    private val onPhraseDelete: (PhraseDto) -> Unit,
+    private var phrases: List<Phrase>,
+    private val onPhraseEdit: (Phrase) -> Unit,
+    private val onPhraseDelete: (Phrase) -> Unit,
 ) : RecyclerView.Adapter<CustomCategoryPhraseAdapter.CustomCategoryPhraseViewHolder>(),
     KoinComponent {
 
@@ -26,7 +26,7 @@ class CustomCategoryPhraseAdapter(
         private val binding: EditCustomCategoryPhraseItemBinding =
             EditCustomCategoryPhraseItemBinding.bind(itemView)
 
-        fun bind(phrase: PhraseDto, onPhraseEdit: (PhraseDto) -> Unit, onPhraseDelete: (PhraseDto) -> Unit) {
+        fun bind(phrase: Phrase, onPhraseEdit: (Phrase) -> Unit, onPhraseDelete: (Phrase) -> Unit) {
             (binding.phraseTextButton as NoSayTextButton).text = localizedResourceUtility.getTextFromPhrase(phrase)
 
             binding.phraseTextButton.action = {

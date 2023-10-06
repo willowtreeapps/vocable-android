@@ -28,7 +28,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = database.phraseDao().getRecentPhrases()
 
-    suspend fun addPhrase(phrase: PhraseDto) {
+    override suspend fun addPhrase(phrase: PhraseDto) {
         database.phraseDao().insertPhrase(phrase)
     }
 
@@ -40,8 +40,8 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
 
-    override suspend fun deletePhrase(phrase: PhraseDto) {
-        database.phraseDao().deletePhrase(phrase)
+    override suspend fun deletePhrase(phraseId: Long) {
+        database.phraseDao().deletePhrase(phraseId)
     }
 
     suspend fun deletePhrases(phrases: List<PhraseDto>) {
@@ -52,7 +52,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().deleteCategory(categoryId)
     }
 
-    suspend fun updatePhrase(phrase: PhraseDto) {
+    override suspend fun updatePhrase(phrase: PhraseDto) {
         database.phraseDao().updatePhrase(phrase)
     }
 

@@ -11,8 +11,8 @@ interface PhraseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhrases(vararg phrases: PhraseDto)
 
-    @Delete
-    suspend fun deletePhrase(phrase: PhraseDto)
+    @Query("DELETE FROM Phrase WHERE phrase_id == :phraseId")
+    suspend fun deletePhrase(phraseId: Long)
 
     @Delete
     suspend fun deletePhrases(vararg phrases: PhraseDto)

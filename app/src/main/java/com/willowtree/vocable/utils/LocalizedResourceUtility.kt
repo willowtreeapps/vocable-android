@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.room.PhraseDto
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -21,12 +20,6 @@ class LocalizedResourceUtility : KoinComponent, ILocalizedResourceUtility {
             } else {
                 ""
             }
-        } ?: ""
-    }
-
-    fun getTextFromPhrase(phrase: PhraseDto?): String {
-        return phrase?.localizedUtterance?.let {
-            LocaleUtils.getTextForLocale(it)
         } ?: ""
     }
 
