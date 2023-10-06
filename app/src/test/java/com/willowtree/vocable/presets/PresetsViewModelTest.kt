@@ -163,9 +163,6 @@ class PresetsViewModelTest {
             listOf(
                 Phrase(
                     phraseId = 2L,
-                    parentCategoryId = "2",
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
                 ),
@@ -215,17 +212,11 @@ class PresetsViewModelTest {
             listOf(
                 Phrase(
                     phraseId = 2L,
-                    parentCategoryId = "2",
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
                 ),
                 Phrase(
                     phraseId = 1L,
-                    parentCategoryId = "2",
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
                 ),
@@ -273,17 +264,11 @@ class PresetsViewModelTest {
             listOf(
                 Phrase(
                     phraseId = 1L,
-                    parentCategoryId = PresetCategories.RECENTS.id,
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
                 ),
                 Phrase(
                     phraseId = 2L,
-                    parentCategoryId = PresetCategories.RECENTS.id,
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
                 )
