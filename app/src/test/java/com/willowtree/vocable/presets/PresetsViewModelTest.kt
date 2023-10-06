@@ -161,7 +161,7 @@ class PresetsViewModelTest {
 
         assertEquals(
             listOf(
-                Phrase(
+                CustomPhrase(
                     phraseId = 2L,
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
@@ -210,12 +210,12 @@ class PresetsViewModelTest {
         vm.onCategorySelected("2")
         assertEquals(
             listOf(
-                Phrase(
+                CustomPhrase(
                     phraseId = 2L,
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
                 ),
-                Phrase(
+                CustomPhrase(
                     phraseId = 1L,
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
@@ -262,12 +262,12 @@ class PresetsViewModelTest {
         vm.onCategorySelected(PresetCategories.RECENTS.id)
         assertEquals(
             listOf(
-                Phrase(
+                CustomPhrase(
                     phraseId = 1L,
                     localizedUtterance = mapOf("en_US" to "Hello"),
                     sortOrder = 1
                 ),
-                Phrase(
+                CustomPhrase(
                     phraseId = 2L,
                     localizedUtterance = mapOf("en_US" to "Goodbye"),
                     sortOrder = 0
