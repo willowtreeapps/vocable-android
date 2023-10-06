@@ -1,15 +1,13 @@
 package com.willowtree.vocable.presets
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeDateProvider
-import com.willowtree.vocable.utils.FakeLocaleProvider
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,26 +25,21 @@ class PresetsViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val fakePresetsRepository = FakePresetsRepository()
+    private val fakeCategoriesUseCase = FakeCategoriesUseCase()
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
-            CategoriesUseCase(
-                fakePresetsRepository,
-                ConstantUUIDProvider(),
-                FakeDateProvider(),
-                FakeLocaleProvider()
-            ),
+            fakeCategoriesUseCase,
             PhrasesUseCase(fakePresetsRepository, FakeDateProvider())
         )
     }
 
     @Test
     fun `category list passed through`() {
-        fakePresetsRepository._allCategories.update {
+        fakeCategoriesUseCase._categories.update {
             listOf(
-                CategoryDto(
+                Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "category"),
                     hidden = false,
@@ -73,19 +66,17 @@ class PresetsViewModelTest {
 
     @Test
     fun `selected category set`() = runTest(UnconfinedTestDispatcher()) {
-        fakePresetsRepository._allCategories.update {
+        fakeCategoriesUseCase._categories.update {
             listOf(
-                CategoryDto(
+                Category.StoredCategory(
                     categoryId = "1",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "category"),
                     hidden = false,
                     sortOrder = 0
                 ),
-                CategoryDto(
+                Category.StoredCategory(
                     categoryId = "2",
-                    creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "second category"),
                     hidden = false,

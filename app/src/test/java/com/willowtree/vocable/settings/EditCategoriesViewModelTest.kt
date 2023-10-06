@@ -1,15 +1,12 @@
 package com.willowtree.vocable.settings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.FakePresetsRepository
 import com.willowtree.vocable.presets.createStoredCategory
-import com.willowtree.vocable.room.createCategoryDto
-import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeDateProvider
-import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.update
 import org.junit.Assert.assertEquals
@@ -25,20 +22,21 @@ class EditCategoriesViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val fakePresetsRepository = FakePresetsRepository()
+    private val categoriesUseCase = FakeCategoriesUseCase()
 
     private fun createViewModel(): EditCategoriesViewModel {
         return EditCategoriesViewModel(
             PhrasesUseCase(fakePresetsRepository, FakeDateProvider()),
-            CategoriesUseCase(fakePresetsRepository, ConstantUUIDProvider(), FakeDateProvider(), FakeLocaleProvider()),
+            categoriesUseCase,
             FakeLocalizedResourceUtility()
         )
     }
 
     @Test
     fun `categories are populated`() {
-        fakePresetsRepository._allCategories.update {
+        categoriesUseCase._categories.update {
             listOf(
-                createCategoryDto(categoryId = "1")
+                createStoredCategory(categoryId = "1")
             )
         }
         val vm = createViewModel()
@@ -61,13 +59,13 @@ class EditCategoriesViewModelTest {
 
     @Test
     fun `move category up`() {
-        fakePresetsRepository._allCategories.update {
+        categoriesUseCase._categories.update {
             listOf(
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "1",
                     sortOrder = 0
                 ),
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "2",
                     sortOrder = 1
                 )
@@ -92,28 +90,28 @@ class EditCategoriesViewModelTest {
         )
         assertEquals(
             listOf(
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "1",
                     sortOrder = 1
                 ),
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "2",
                     sortOrder = 0
                 )
             ),
-            fakePresetsRepository._allCategories.value
+            categoriesUseCase._categories.value
         )
     }
 
     @Test
     fun `move category down`() {
-        fakePresetsRepository._allCategories.update {
+        categoriesUseCase._categories.update {
             listOf(
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "1",
                     sortOrder = 0
                 ),
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "2",
                     sortOrder = 1
                 )
@@ -138,16 +136,16 @@ class EditCategoriesViewModelTest {
         )
         assertEquals(
             listOf(
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "1",
                     sortOrder = 1
                 ),
-                createCategoryDto(
+                createStoredCategory(
                     categoryId = "2",
                     sortOrder = 0
                 )
             ),
-            fakePresetsRepository._allCategories.value
+            categoriesUseCase._categories.value
         )
     }
 
