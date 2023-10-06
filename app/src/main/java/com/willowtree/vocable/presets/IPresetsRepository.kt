@@ -25,6 +25,6 @@ interface IPresetsRepository {
     suspend fun deleteCategory(categoryId: String)
     suspend fun getRecentPhrases(): List<PhraseDto>
     suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long)
-    suspend fun updatePhrase(phrase: PhraseDto)
+    suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>)
     suspend fun addPhrase(phrase: PhraseDto)
 }

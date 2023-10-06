@@ -17,11 +17,11 @@ interface PhraseDao {
     @Delete
     suspend fun deletePhrases(vararg phrases: PhraseDto)
 
-    @Update
-    suspend fun updatePhrase(phrase: PhraseDto)
-
     @Update(entity = PhraseDto::class)
     suspend fun updatePhraseSpokenDate(phraseSpokenDate: PhraseSpokenDate)
+
+    @Update(entity = PhraseDto::class)
+    suspend fun updatePhraseLocalizedUtterance(phraseLocalizedUtterance: PhraseLocalizedUtterance)
 
     @Query("SELECT * FROM Phrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
     suspend fun getRecentPhrases(): List<PhraseDto>
