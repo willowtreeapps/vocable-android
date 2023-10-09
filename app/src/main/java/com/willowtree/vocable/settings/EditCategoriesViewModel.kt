@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.willowtree.vocable.CategoriesUseCase
+import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
     private val phrasesUseCase: PhrasesUseCase,
-    private val categoriesUseCase: CategoriesUseCase,
+    private val categoriesUseCase: ICategoriesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility
 ) : ViewModel() {
 

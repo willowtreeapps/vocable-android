@@ -26,7 +26,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
     }
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> {
-        return database.categoryDao().getCategoryWithPhrases(categoryId)?.phrases ?: listOf()
+        return database.phraseDao().getPhrasesForCategory(categoryId)
     }
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = database.phraseDao().getRecentPhrases()
@@ -101,17 +101,6 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
                 phrasesIds.recycle()
                 populatePhrases(phraseObjects)
             }
-            database.categoryDao().insertCategories(
-                CategoryDto(
-                    presetCategory.id,
-                    System.currentTimeMillis(),
-                    presetCategory.getNameId(),
-                    null,
-                    false,
-                    presetCategory.initialSortOrder
-                )
-
-            )
         }
     }
 }
