@@ -3,8 +3,8 @@ package com.willowtree.vocable
 import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.asDto
 import com.willowtree.vocable.presets.asPhrase
+import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.DateProvider
 
 class PhrasesUseCase(
@@ -26,11 +26,18 @@ class PhrasesUseCase(
         presetsRepository.deletePhrase(phraseId)
     }
 
-    suspend fun updatePhrase(phrase: Phrase) {
-        presetsRepository.updatePhrase(phrase.asDto())
+    suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
+        presetsRepository.updatePhrase(phraseId, localizedUtterance)
     }
 
-    suspend fun addPhrase(phrase: Phrase) {
-        presetsRepository.addPhrase(phrase.asDto())
+    suspend fun addPhrase(localizedUtterance: Map<String, String>, parentCategoryId: String) {
+        presetsRepository.addPhrase(PhraseDto(
+            0L,
+            parentCategoryId,
+            dateProvider.currentTimeMillis(),
+            null,
+            localizedUtterance,
+            presetsRepository.getPhrasesForCategory(parentCategoryId).size
+        ))
     }
 }

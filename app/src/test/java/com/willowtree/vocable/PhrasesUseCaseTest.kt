@@ -35,9 +35,6 @@ class PhrasesUseCaseTest {
             listOf(
                 Phrase(
                     phraseId = 1L,
-                    parentCategoryId = "1",
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = null,
                     sortOrder = 0
                 )
@@ -66,9 +63,6 @@ class PhrasesUseCaseTest {
             listOf(
                 Phrase(
                     phraseId = 1L,
-                    parentCategoryId = "1",
-                    creationDate = 0L,
-                    lastSpokenDate = 0L,
                     localizedUtterance = null,
                     sortOrder = 0
                 )
