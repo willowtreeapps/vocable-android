@@ -22,7 +22,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.util.*
-import kotlin.collections.HashMap
 
 @RunWith(AndroidJUnit4::class)
 class MigrationTest {
@@ -338,8 +337,8 @@ class MigrationTest {
             ), categories
         )
 
-        val customPhrases = db.categoryDao().getCategoryWithPhrases("custom")?.phrases
-        val recentPhrases = db.categoryDao().getCategoryWithPhrases("recents")?.phrases
+        val customPhrases = db.phraseDao().getPhrasesForCategory("custom")
+        val recentPhrases = db.phraseDao().getPhrasesForCategory("recents")
         assertEquals(
             listOf(
                 PhraseDto(
