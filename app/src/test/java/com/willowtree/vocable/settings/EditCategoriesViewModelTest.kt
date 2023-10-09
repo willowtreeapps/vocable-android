@@ -7,7 +7,9 @@ import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.FakePresetsRepository
 import com.willowtree.vocable.presets.createStoredCategory
 import com.willowtree.vocable.room.createCategoryDto
+import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeDateProvider
+import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.update
 import org.junit.Assert.assertEquals
@@ -27,7 +29,7 @@ class EditCategoriesViewModelTest {
     private fun createViewModel(): EditCategoriesViewModel {
         return EditCategoriesViewModel(
             PhrasesUseCase(fakePresetsRepository, FakeDateProvider()),
-            CategoriesUseCase(fakePresetsRepository),
+            CategoriesUseCase(fakePresetsRepository, ConstantUUIDProvider(), FakeDateProvider(), FakeLocaleProvider()),
             FakeLocalizedResourceUtility()
         )
     }

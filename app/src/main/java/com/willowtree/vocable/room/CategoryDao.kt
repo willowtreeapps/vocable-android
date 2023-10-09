@@ -24,11 +24,11 @@ interface CategoryDao {
     @Query("DELETE FROM Category WHERE category_id = :categoryId")
     suspend fun deleteCategory(categoryId: String)
 
-    @Update
-    suspend fun updateCategory(category: CategoryDto)
+    @Update(entity = CategoryDto::class)
+    suspend fun updateCategory(categoryLocalizedName: CategoryLocalizedName)
 
-    @Update
-    suspend fun updateCategories(vararg categories: CategoryDto)
+    @Update(entity = CategoryDto::class)
+    suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
 
     @Query("SELECT COUNT(*) FROM Category WHERE NOT hidden")
     suspend fun getNumberOfShownCategories(): Int

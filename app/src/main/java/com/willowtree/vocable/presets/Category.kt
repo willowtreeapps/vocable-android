@@ -66,25 +66,3 @@ fun CategoryDto.asCategory(): Category {
         )
     }
 }
-
-fun Category.asDto(): CategoryDto {
-    return when (this) {
-        is Category.Recents -> CategoryDto(
-            categoryId = PresetCategories.RECENTS.id,
-            creationDate = 0L,
-            resourceId = resourceId,
-            localizedName = localizedName,
-            hidden = hidden,
-            sortOrder = sortOrder
-        )
-
-        is Category.StoredCategory -> CategoryDto(
-            categoryId,
-            creationDate,
-            resourceId,
-            localizedName,
-            hidden,
-            sortOrder
-        )
-    }
-}
