@@ -4,15 +4,21 @@ import android.os.Parcelable
 import com.willowtree.vocable.room.PhraseDto
 import kotlinx.parcelize.Parcelize
 
+sealed class Phrase : Parcelable {
+    abstract val phraseId: Long
+    abstract val localizedUtterance: Map<String, String>?
+    abstract val sortOrder: Int
+}
+
 @Parcelize
-data class Phrase(
-    val phraseId: Long,
-    val localizedUtterance: Map<String, String>?,
-    val sortOrder: Int
-) : Parcelable
+data class CustomPhrase(
+    override val phraseId: Long,
+    override val localizedUtterance: Map<String, String>?,
+    override val sortOrder: Int
+) : Phrase(), Parcelable
 
 fun PhraseDto.asPhrase(): Phrase =
-    Phrase(
+    CustomPhrase(
         phraseId,
         localizedUtterance,
         sortOrder
