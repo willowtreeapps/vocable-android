@@ -25,17 +25,19 @@ class AddUpdateCategoryViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val presetsRepository = FakePresetsRepository()
-    private val categoriesUseCase = CategoriesUseCase(presetsRepository)
     private val uuidProvider = ConstantUUIDProvider()
     private val dateProvider = FakeDateProvider()
+    private val presetsRepository = FakePresetsRepository()
+    private val categoriesUseCase = CategoriesUseCase(
+        presetsRepository, uuidProvider,
+        dateProvider,
+        FakeLocaleProvider()
+    )
 
     private fun createViewModel(): AddUpdateCategoryViewModel {
         return AddUpdateCategoryViewModel(
             categoriesUseCase,
             FakeLocalizedResourceUtility(),
-            uuidProvider,
-            dateProvider,
             FakeLocaleProvider()
         )
     }
@@ -132,7 +134,7 @@ class AddUpdateCategoryViewModelTest {
     }
 
     @Test
-    fun `category updated`() = runTest {
+    fun `category name updated`() = runTest {
         presetsRepository._allCategories.update {
             listOf(
                 createCategoryDto(
@@ -159,6 +161,42 @@ class AddUpdateCategoryViewModelTest {
                     creationDate = 0L,
                     resourceId = null,
                     localizedName = mapOf("en_US" to "New Category"),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            ),
+            categoriesUseCase.categories().first()
+        )
+    }
+
+    @Test
+    fun `category name updated does not wipe other locale`() = runTest {
+        presetsRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "1",
+                    creationDate = 0L,
+                    resourceId = null,
+                    localizedName = mapOf("en_US" to "Category", "es_US" to "Spanish"),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            )
+        }
+        uuidProvider._uuid = "2"
+        dateProvider._currentTimeMillis = 0L
+
+        val vm = createViewModel()
+
+        vm.updateCategory("1", "New Category")
+
+        assertEquals(
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    creationDate = 0L,
+                    resourceId = null,
+                    localizedName = mapOf("en_US" to "New Category", "es_US" to "Spanish"),
                     hidden = false,
                     sortOrder = 0
                 )

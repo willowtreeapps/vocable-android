@@ -7,7 +7,9 @@ import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeDateProvider
+import com.willowtree.vocable.utils.FakeLocaleProvider
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -28,7 +30,12 @@ class PresetsViewModelTest {
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
-            CategoriesUseCase(fakePresetsRepository),
+            CategoriesUseCase(
+                fakePresetsRepository,
+                ConstantUUIDProvider(),
+                FakeDateProvider(),
+                FakeLocaleProvider()
+            ),
             PhrasesUseCase(fakePresetsRepository, FakeDateProvider())
         )
     }

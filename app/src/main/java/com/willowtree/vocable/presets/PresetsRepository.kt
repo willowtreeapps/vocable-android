@@ -2,6 +2,8 @@ package com.willowtree.vocable.presets
 
 import android.content.Context
 import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.room.CategoryLocalizedName
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.PhraseLocalizedUtterance
 import com.willowtree.vocable.room.PhraseSpokenDate
@@ -45,6 +47,10 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().deletePhrase(phraseId)
     }
 
+    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        database.categoryDao().updateCategorySortOrders(categorySortOrders)
+    }
+
     suspend fun deletePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().deletePhrases(*phrases.toTypedArray())
     }
@@ -61,12 +67,12 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().updatePhraseSpokenDate(PhraseSpokenDate(phraseId, lastSpokenDate))
     }
 
-    override suspend fun updateCategory(category: CategoryDto) {
-        database.categoryDao().updateCategory(category)
+    override suspend fun updateCategoryName(categoryId: String, localizedName: Map<String, String>) {
+        database.categoryDao().updateCategory(CategoryLocalizedName(categoryId, localizedName))
     }
 
-    override suspend fun updateCategories(categories: List<CategoryDto>) {
-        database.categoryDao().updateCategories(*categories.toTypedArray())
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getCategoryById(categoryId: String): CategoryDto {

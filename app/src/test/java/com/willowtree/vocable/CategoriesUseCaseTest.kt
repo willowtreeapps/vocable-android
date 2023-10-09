@@ -4,6 +4,9 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.FakePresetsRepository
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.createCategoryDto
+import com.willowtree.vocable.utils.ConstantUUIDProvider
+import com.willowtree.vocable.utils.FakeDateProvider
+import com.willowtree.vocable.utils.FakeLocaleProvider
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
@@ -15,7 +18,12 @@ class CategoriesUseCaseTest {
     private val fakePresetsRepository = FakePresetsRepository()
 
     private fun createUseCase(): CategoriesUseCase {
-        return CategoriesUseCase(fakePresetsRepository)
+        return CategoriesUseCase(
+            fakePresetsRepository,
+            ConstantUUIDProvider(),
+            FakeDateProvider(),
+            FakeLocaleProvider()
+        )
     }
 
     @Test
