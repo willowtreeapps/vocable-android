@@ -91,7 +91,7 @@ class FakePresetsRepository : IPresetsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updatePhrase(phrase: PhraseDto) {
+    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
         TODO("Not yet implemented")
     }
 

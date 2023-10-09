@@ -14,7 +14,7 @@ import java.util.Locale
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
-    private var phrase: Phrase? = null
+    private lateinit var phrase: Phrase
     private var addNewPhrase = false
     private val viewModel: EditPhrasesViewModel by viewModels({ requireActivity() })
     private val args by navArgs<EditPhrasesKeyboardFragmentArgs>()
@@ -49,18 +49,11 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
                 binding.keyboardInput.text.let { text ->
                     if (text.isNotBlank()) {
                         val phraseUtterance =
-                            phrase?.localizedUtterance?.toMutableMap()?.apply {
+                            phrase.localizedUtterance?.toMutableMap()?.apply {
                                 put(Locale.getDefault().toString(), text.toString())
                             }
-                        val updatedPhrase =
-                            phrase?.copy(localizedUtterance = phraseUtterance ?: mapOf())
-                        if (updatedPhrase == null) {
-                            viewModel.addNewPhrase(text.toString())
-                            addNewPhrase = true
-                        } else {
-                            viewModel.updatePhrase(updatedPhrase)
-                            addNewPhrase = false
-                        }
+                        viewModel.updatePhrase(phrase.phraseId, phraseUtterance ?: emptyMap())
+                        addNewPhrase = false
                     }
                 }
             }
