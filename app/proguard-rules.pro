@@ -30,3 +30,9 @@
 -keepnames class androidx.navigation.fragment.NavHostFragment
 -keepnames class com.willowtree.vocable.room.Category
 -keepnames class com.willowtree.vocable.room.Phrase
+
+-dontwarn com.google.ar.sceneform.animation.AnimationEngine
+-dontwarn com.google.ar.sceneform.animation.AnimationLibraryLoader
+-dontwarn com.google.ar.sceneform.assets.Loader
+-dontwarn com.google.ar.sceneform.assets.ModelData
+-dontwarn com.google.devtools.build.android.desugar.runtime.ThrowableExtension
