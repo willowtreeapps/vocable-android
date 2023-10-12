@@ -50,3 +50,28 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: service_account.json
         run: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "internal"
+
+      - name: Decode Keystore
+        if: github.event_name != 'pull_request'
+        env:
+          ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
+        run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
+
+      - name: Build & Assemble Release APK
+        if: github.event_name != 'pull_request'
+        env:
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: "1.0"
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          ./gradlew assembleRelease
+
+      - name: Upload to Play Store
+        if: github.event_name != 'pull_request'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CREDENTIALS }}
+          packageName: com.willowtree.vocable
+          releaseFiles: app/build/outputs/apk/release/app-release.apk
+          track: alpha
