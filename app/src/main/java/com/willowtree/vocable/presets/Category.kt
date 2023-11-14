@@ -2,13 +2,14 @@ package com.willowtree.vocable.presets
 
 import android.os.Parcelable
 import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.parcelize.Parcelize
 
 sealed class Category : Parcelable {
     abstract val categoryId: String
     abstract val sortOrder: Int
     abstract val hidden: Boolean
-    abstract val localizedName: Map<String, String>?
+    abstract val localizedName: LocalesWithText?
     abstract val resourceId: Int?
 
     abstract fun withSortOrder(sortOrder: Int): Category
@@ -18,7 +19,7 @@ sealed class Category : Parcelable {
     data class StoredCategory(
         override val categoryId: String,
         override val resourceId: Int?,
-        override val localizedName: Map<String, String>?,
+        override val localizedName: LocalesWithText?,
         override var hidden: Boolean,
         override var sortOrder: Int
     ) : Category() {
@@ -29,7 +30,7 @@ sealed class Category : Parcelable {
     @Parcelize
     data class Recents(
         override val resourceId: Int?,
-        override val localizedName: Map<String, String>?,
+        override val localizedName: LocalesWithText?,
         override val hidden: Boolean,
         override val sortOrder: Int
     ) : Category() {
@@ -45,7 +46,7 @@ sealed class Category : Parcelable {
         override val hidden: Boolean,
         override val resourceId: Int
     ) : Category() {
-        override val localizedName: Map<String, String>? = null
+        override val localizedName: LocalesWithText? = null
         override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
         override fun withHidden(hidden: Boolean): Category = copy(hidden = hidden)
     }

@@ -2,6 +2,7 @@ package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.room.CategorySortOrder
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,7 +27,7 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
 
     override suspend fun updateCategoryName(
         categoryId: String,
-        localizedName: Map<String, String>
+        localizedName: LocalesWithText
     ) {
         _categories.update { categories ->
             categories.map {
@@ -44,7 +45,7 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
             it + Category.StoredCategory(
                 "",
                 null,
-                mapOf("en_US" to categoryName),
+                LocalesWithText(mapOf("en_US" to categoryName)),
                 false,
                 sortOrder
             )
