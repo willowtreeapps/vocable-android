@@ -14,7 +14,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditKeyboardBinding
 import com.willowtree.vocable.keyboard.adapter.KeyboardAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 import java.util.*
 

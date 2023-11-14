@@ -1,10 +1,12 @@
 package com.willowtree.vocable.room
 
+import com.willowtree.vocable.utils.locale.LocalesWithText
+
 fun createCategoryDto(
     categoryId: String,
     creationDate: Long = 0L,
     resourceId: Int? = null,
-    localizedName: Map<String, String>? = mapOf("en_US" to "category"),
+    localizedName: LocalesWithText? = LocalesWithText(mapOf("en_US" to "category")),
     hidden: Boolean = false,
     sortOrder: Int = 0
 ): CategoryDto = CategoryDto(

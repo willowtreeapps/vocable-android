@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -26,7 +27,7 @@ class AddPhraseViewModel : ViewModel(), KoinComponent {
                     it.localizedUtterance?.containsValue(phraseStr) == true
                 }) {
                 phrasesUseCase.addPhrase(
-                    mapOf(Pair(Locale.getDefault().toString(), phraseStr)),
+                    LocalesWithText(mapOf(Pair(Locale.getDefault().toString(), phraseStr))),
                     categoryId
                 )
                 liveShowPhraseAdded.postValue(true)

@@ -1,4 +1,4 @@
-package com.willowtree.vocable.utils
+package com.willowtree.vocable.utils.locale
 
 import java.util.Locale
 

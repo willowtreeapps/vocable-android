@@ -15,9 +15,9 @@ import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.JavaDateProvider
-import com.willowtree.vocable.utils.JavaLocaleProvider
-import com.willowtree.vocable.utils.LocaleProvider
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.locale.JavaLocaleProvider
+import com.willowtree.vocable.utils.locale.LocaleProvider
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.VocableSharedPreferences
