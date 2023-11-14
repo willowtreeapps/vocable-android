@@ -24,7 +24,7 @@ private fun LocaleString.toLocale(): Locale {
  */
 @Parcelize
 data class LocalesWithText(
-    val languagesTextMap: Map<LocaleString, String>
+    val localesTextMap: Map<LocaleString, String>
 ) : Parcelable {
 
     /**
@@ -32,13 +32,13 @@ data class LocalesWithText(
      * @param localeString The localeString to match against
      * @return The string corresponding to the given localeString.
      */
-    operator fun get(localeString: LocaleString): String? = languagesTextMap[localeString]
+    operator fun get(localeString: LocaleString): String? = localesTextMap[localeString]
 
     /**
      * Gets the string corresponding to the given locale matched against LocaleString.
      * @param locale The locale to match against turned into String
      */
-    private operator fun get(locale: Locale): String? = languagesTextMap[locale.toString()]
+    private operator fun get(locale: Locale): String? = localesTextMap[locale.toString()]
 
     /**
      * Sets the string corresponding to the given localeString.
@@ -47,7 +47,7 @@ data class LocalesWithText(
      * @return A new LocalesWithText with the given localeString and text added to the map
      */
     operator fun set(localeString: LocaleString, text: String): LocalesWithText {
-        return LocalesWithText(languagesTextMap.toMutableMap().apply {
+        return LocalesWithText(localesTextMap.toMutableMap().apply {
             this[localeString] = text
         })
     }
@@ -55,14 +55,14 @@ data class LocalesWithText(
     /**
      * Checks if the contains the given string.
      */
-    fun containsValue(phraseStr: String): Boolean = languagesTextMap.containsValue(phraseStr)
+    fun containsValue(phraseStr: String): Boolean = localesTextMap.containsValue(phraseStr)
 
     /**
      * Gets a list of all the languages in the map
      * @return A list of all the languages in the map, keys.toList()
      */
     @IgnoredOnParcel
-    val languages: List<LocaleString> = languagesTextMap.keys.toList()
+    val locales: List<LocaleString> = localesTextMap.keys.toList()
 
     /**
      * Gets a TextWithLocale that contains the text to be displayed and/or spoken and the
@@ -86,7 +86,7 @@ data class LocalesWithText(
                 text = this[it]
             }
             if (text == null) {
-                languages.firstOrNull()?.let {
+                locales.firstOrNull()?.let {
                     locale = it.toLocale()
                     text = this[it]
                 }
