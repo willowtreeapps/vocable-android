@@ -2,17 +2,22 @@ package com.willowtree.vocable.settings
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
+import com.willowtree.vocable.settings.selectionmode.HeadTrackingPermissionState
+import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentSelectionModeBinding> = FragmentSelectionModeBinding::inflate
-    private val viewModel: SettingsViewModel by viewModels({ requireActivity() })
+    private val viewModel: SelectionModeViewModel by viewModel(owner = {
+        ViewModelOwner.from(requireActivity())
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,22 +26,17 @@ class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
             findNavController().popBackStack()
         }
 
-        binding.selectionModeOptions.apply {
-            headTrackingContainer.action = {
-                headTrackingSwitch.isChecked = !headTrackingSwitch.isChecked
+        viewModel.headTrackingPermissionState.observe(viewLifecycleOwner) {
+            binding.selectionModeOptions.headTrackingSwitch.isChecked = it == HeadTrackingPermissionState.Enabled
+        }
+
+        binding.selectionModeOptions.headTrackingContainer.setOnClickListener {
+            if (!binding.selectionModeOptions.headTrackingSwitch.isChecked) {
+                viewModel.requestHeadTracking()
+            } else {
+                viewModel.disableHeadTracking()
             }
         }
-
-        binding.selectionModeOptions.headTrackingSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onHeadTrackingChecked(isChecked)
-        }
-        subscribeToViewModel()
-    }
-
-    private fun subscribeToViewModel() {
-        viewModel.headTrackingEnabled.observe(viewLifecycleOwner, Observer {
-            binding.selectionModeOptions.headTrackingSwitch.isChecked = it
-        })
     }
 
     override fun getAllViews(): List<View> {
