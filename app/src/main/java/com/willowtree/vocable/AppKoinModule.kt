@@ -2,6 +2,7 @@ package com.willowtree.vocable
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.PresetsRepository
@@ -12,6 +13,7 @@ import com.willowtree.vocable.room.StoredCategoriesRepository
 import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
+import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.JavaDateProvider
@@ -43,5 +45,7 @@ object AppKoinModule {
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
         viewModel { EditCategoryMenuViewModel(get(), get()) }
+        viewModel { SelectionModeViewModel() }
+        viewModel { FaceTrackingViewModel() }
     }
 }
