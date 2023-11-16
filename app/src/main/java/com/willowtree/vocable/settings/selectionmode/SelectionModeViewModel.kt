@@ -7,9 +7,9 @@ import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class SelectionModeViewModel : ViewModel(), KoinComponent {
-
-    private val sharedPrefs: VocableSharedPreferences by inject()
+class SelectionModeViewModel(
+    private val sharedPrefs: VocableSharedPreferences
+) : ViewModel() {
 
     private val liveHeadTrackingPermissionState: MutableLiveData<HeadTrackingPermissionState> = MutableLiveData()
     val headTrackingPermissionState: LiveData<HeadTrackingPermissionState> = liveHeadTrackingPermissionState

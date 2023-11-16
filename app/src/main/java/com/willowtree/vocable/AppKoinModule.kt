@@ -45,7 +45,7 @@ object AppKoinModule {
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
         viewModel { EditCategoryMenuViewModel(get(), get()) }
-        viewModel { SelectionModeViewModel() }
+        viewModel { SelectionModeViewModel(get()) }
         viewModel { FaceTrackingViewModel() }
     }
 }
