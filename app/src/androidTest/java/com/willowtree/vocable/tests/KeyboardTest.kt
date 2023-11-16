@@ -16,8 +16,7 @@ class KeyboardScreenTest : BaseTest() {
     private val keyboardScreen = KeyboardScreen()
     private val mainScreen = MainScreen()
 
-    @Ignore
-    @Test
+     @Test
     fun verifyKeyboardButtonBringsUpKeyboard() {
         navigateToKeyboard()
 
@@ -27,7 +26,6 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyPhraseAppearsWhenTyped() {
         navigateToKeyboard()
@@ -38,7 +36,6 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyBackspaceRemovesLetters() {
         navigateToKeyboard()
@@ -50,7 +47,6 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyClearResetsInput() {
         navigateToKeyboard()
@@ -62,7 +58,6 @@ class KeyboardScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyPresetsButtonReturnsToHome() {
         navigateToKeyboard()

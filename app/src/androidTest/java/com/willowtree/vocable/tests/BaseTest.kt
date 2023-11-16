@@ -1,12 +1,12 @@
 package com.willowtree.vocable.tests
 
-import android.content.Intent
+import android.Manifest
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.rule.ActivityTestRule
+import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
@@ -19,7 +19,6 @@ import org.junit.Rule
 import org.junit.rules.TestName
 import timber.log.Timber
 import java.io.File
-import java.lang.NullPointerException
 import java.util.concurrent.TimeUnit
 
 open class BaseTest {
@@ -34,6 +33,9 @@ open class BaseTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(SplashActivity::class.java)
+
+    @get:Rule
+    var mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA)
 
     @Rule
     fun getTestName(): TestName = name
@@ -76,7 +78,8 @@ open class BaseTest {
 
         // Catch the exception if the popup doesn't appear so we don't fail the tests
         try {
-            device.wait(Until.findObject(By.text("CONTINUE")), 10000).click()
+            device.wait(Until.findObject(By.text("CONTINUE")), 10000)
+            device.pressBack()
         }
         catch (e: NullPointerException) {
             Timber.d("Test", "Popup not found, continuing with test")
