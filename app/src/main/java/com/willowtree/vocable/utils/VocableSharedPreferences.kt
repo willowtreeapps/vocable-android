@@ -8,7 +8,9 @@ import com.willowtree.vocable.settings.SensitivityFragment
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class VocableSharedPreferences : KoinComponent {
+class VocableSharedPreferences :
+    IVocableSharedPreferences,
+    KoinComponent {
 
     companion object {
         private const val PREFERENCES_NAME =
@@ -34,52 +36,52 @@ class VocableSharedPreferences : KoinComponent {
         ) as EncryptedSharedPreferences
     }
 
-    fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
+    override fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
         listeners.forEach {
             encryptedPrefs.registerOnSharedPreferenceChangeListener(it)
         }
     }
 
-    fun unregisterOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
+    override fun unregisterOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
         listeners.forEach {
             encryptedPrefs.unregisterOnSharedPreferenceChangeListener(it)
         }
     }
 
-    fun getMySayings(): List<String> {
+    override fun getMySayings(): List<String> {
         encryptedPrefs.getStringSet(KEY_MY_SAYINGS, setOf())?.let {
             return it.toList()
         }
         return listOf()
     }
 
-    fun setMySayings(mySayings: Set<String>) {
+    override fun setMySayings(mySayings: Set<String>) {
         encryptedPrefs.edit().putStringSet(KEY_MY_SAYINGS, mySayings).apply()
     }
 
-    fun getDwellTime(): Long = encryptedPrefs.getLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
+    override fun getDwellTime(): Long = encryptedPrefs.getLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
 
-    fun setDwellTime(time: Long) {
+    override fun setDwellTime(time: Long) {
         encryptedPrefs.edit().putLong(KEY_DWELL_TIME, time).apply()
     }
 
-    fun getSensitivity(): Float = encryptedPrefs.getFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
+    override fun getSensitivity(): Float = encryptedPrefs.getFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
 
-    fun setSensitivity(sensitivity: Float) {
+    override fun setSensitivity(sensitivity: Float) {
         encryptedPrefs.edit().putFloat(KEY_SENSITIVITY, sensitivity).apply()
     }
 
-    fun setHeadTrackingEnabled(enabled: Boolean) {
+    override fun setHeadTrackingEnabled(enabled: Boolean) {
         encryptedPrefs.edit().putBoolean(KEY_HEAD_TRACKING_ENABLED, enabled).apply()
     }
 
-    fun getHeadTrackingEnabled(): Boolean =
+    override fun getHeadTrackingEnabled(): Boolean =
         encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
 
-    fun setFirstTime() {
+    override fun setFirstTime() {
         encryptedPrefs.edit().putBoolean(KEY_FIRST_TIME, false).apply()
     }
 
-    fun getFirstTime(): Boolean =
+    override fun getFirstTime(): Boolean =
         encryptedPrefs.getBoolean(KEY_FIRST_TIME, true)
 }

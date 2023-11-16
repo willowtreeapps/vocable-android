@@ -3,12 +3,10 @@ package com.willowtree.vocable.settings.selectionmode
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.willowtree.vocable.utils.VocableSharedPreferences
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import com.willowtree.vocable.utils.IVocableSharedPreferences
 
 class SelectionModeViewModel(
-    private val sharedPrefs: VocableSharedPreferences
+    private val sharedPrefs: IVocableSharedPreferences
 ) : ViewModel() {
 
     private val liveHeadTrackingPermissionState: MutableLiveData<HeadTrackingPermissionState> = MutableLiveData()
