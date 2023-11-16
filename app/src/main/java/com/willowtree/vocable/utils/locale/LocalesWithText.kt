@@ -42,8 +42,8 @@ data class LocalesWithText(
 
     /**
      * Sets the string corresponding to the given localeString.
-     * @param localeString
-     * @param text
+     * @param localeString String version of the locale
+     * @param text for the localeString
      * @return A new LocalesWithText with the given localeString and text added to the map
      */
     operator fun set(localeString: LocaleString, text: String): LocalesWithText {
