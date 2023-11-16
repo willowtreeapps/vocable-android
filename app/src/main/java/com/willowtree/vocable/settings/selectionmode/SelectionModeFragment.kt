@@ -8,8 +8,6 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.willowtree.vocable.settings.selectionmode.HeadTrackingPermissionState
-import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
 
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
