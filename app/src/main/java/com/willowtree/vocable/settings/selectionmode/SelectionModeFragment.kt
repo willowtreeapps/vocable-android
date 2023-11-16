@@ -2,15 +2,14 @@ package com.willowtree.vocable.settings.selectionmode
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
-import com.willowtree.vocable.settings.selectionmode.HeadTrackingPermissionState
-import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.willowtree.vocable.settings.selectionmode.HeadTrackingPermissionState
+import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
 
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
