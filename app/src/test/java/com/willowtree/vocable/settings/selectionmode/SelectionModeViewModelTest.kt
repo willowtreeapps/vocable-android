@@ -3,8 +3,8 @@ package com.willowtree.vocable.settings.selectionmode
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
-import com.willowtree.vocable.utils.FakeVocableSharedPreferences
-import com.willowtree.vocable.utils.IVocableSharedPreferences
+import com.willowtree.vocable.utils.FakeFaceTrackingPermissions
+import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -18,76 +18,53 @@ class SelectionModeViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private fun createViewModel(sharedPreferences: IVocableSharedPreferences): SelectionModeViewModel {
-        return SelectionModeViewModel(sharedPreferences)
+    private fun createViewModel(permissions: IFaceTrackingPermissions): SelectionModeViewModel {
+        return SelectionModeViewModel(permissions)
     }
 
-    private fun createSharedPrefs(headTrackingEnabled: Boolean): IVocableSharedPreferences {
-        return FakeVocableSharedPreferences(headTrackingEnabled = headTrackingEnabled)
-    }
-
-    @Test
-    fun `permission state Requested on init if head tracking Enabled`() = runTest {
-
-        val viewModel = createViewModel(createSharedPrefs(headTrackingEnabled = true))
-
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.PermissionRequested)
+    private fun createTrackingPermissions(headTrackingEnabled: Boolean): IFaceTrackingPermissions {
+        return FakeFaceTrackingPermissions(headTrackingEnabled)
     }
 
     @Test
-    fun `permission state Disabled on init if head tracking disabled`() = runTest {
+    fun `headTrackingEnabled true on init if head tracking Enabled`() = runTest {
 
-        val viewModel = createViewModel(createSharedPrefs(headTrackingEnabled = false))
+        val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = true))
 
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.Disabled)
+        assert(viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 
     @Test
-    fun `requestHeadTracking() sets permission state to PermissionRequested`() = runTest {
+    fun `headTrackingEnabled false on init if head tracking disabled`() = runTest {
+
+        val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = false))
+
+        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
+    }
+
+    @Test
+    fun `requestHeadTracking() sets headTrackingEnabled to false`() = runTest {
 
         // Setting false so its not Requested on init
-        val viewModel = createViewModel(createSharedPrefs(headTrackingEnabled = false))
+        val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = false))
 
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.Disabled)
+        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
 
         viewModel.requestHeadTracking()
 
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.PermissionRequested)
+        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 
     @Test
-    fun `enableHeadTracking() sets permission state to Enabled`() = runTest {
-
-        val sharedPreference = createSharedPrefs(headTrackingEnabled = false)
-        assert(!sharedPreference.getHeadTrackingEnabled())
-
-        // Setting false so its not Requested on init
-        val viewModel = createViewModel(sharedPreference)
-
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.Disabled)
-
-        viewModel.enableHeadTracking()
-
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.Enabled)
-        // Check shared preferences is updated
-        assert(sharedPreference.getHeadTrackingEnabled())
-    }
-
-    @Test
-    fun `disableHeadTracking() sets permission state to Disabled`() = runTest {
-
-        val sharedPreference = createSharedPrefs(headTrackingEnabled = true)
-        assert(sharedPreference.getHeadTrackingEnabled())
+    fun `disableHeadTracking() sets headTrackingEnabled to false`() = runTest {
 
         // Setting true so its not Disabled on init
-        val viewModel = createViewModel(sharedPreference)
+        val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = true))
 
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.PermissionRequested)
+        assert(viewModel.headTrackingEnabled.getOrAwaitValue())
 
         viewModel.disableHeadTracking()
 
-        assert(viewModel.headTrackingPermissionState.getOrAwaitValue() is HeadTrackingPermissionState.Disabled)
-        // Check shared preferences is updated
-        assert(!sharedPreference.getHeadTrackingEnabled())
+        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 }

@@ -34,6 +34,8 @@
         android:id="@+id/pointer_view"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:background="@drawable/pointer_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
