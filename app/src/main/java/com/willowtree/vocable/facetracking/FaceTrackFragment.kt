@@ -40,9 +40,6 @@ class FaceTrackFragment : ArFragment() {
         }
     }
 
-    /**
-     * These being in `onActivityCreated` seem to be mandatory, but I'm not sure why.
-     */
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -79,6 +76,8 @@ class FaceTrackFragment : ArFragment() {
      *
      * Funnels permission work back into Activity to allow it to be handle in a singular place.
      * More importantly we DO NOT allow the super to be called. Denied permissions will trigger built in dialogs and ultimately close the app
+     *
+     * This is ultimately a result of our dependency on [ArFragment], which we would like to move away from
      */
     @Deprecated(
         "Deprecated,  but it is what is used",

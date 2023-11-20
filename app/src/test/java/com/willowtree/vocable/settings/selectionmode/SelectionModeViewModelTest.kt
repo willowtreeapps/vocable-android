@@ -27,7 +27,7 @@ class SelectionModeViewModelTest {
     }
 
     @Test
-    fun `permission state Requested on init if head tracking E=enabled`() = runTest {
+    fun `permission state Requested on init if head tracking Enabled`() = runTest {
 
         val viewModel = createViewModel(createSharedPrefs(headTrackingEnabled = true))
 
@@ -35,7 +35,7 @@ class SelectionModeViewModelTest {
     }
 
     @Test
-    fun `permission state Disabled on init if head tracking enabled`() = runTest {
+    fun `permission state Disabled on init if head tracking disabled`() = runTest {
 
         val viewModel = createViewModel(createSharedPrefs(headTrackingEnabled = false))
 

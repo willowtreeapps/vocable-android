@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity(),
         binding.pointerView.isVisible = false
         setContentView(binding.root)
 
-        val shouldForceDisableHeadTracking = !BuildConfig.USE_HEAD_TRACKING
-        val isNotSupportedDevice = !checkIsSupportedDeviceOrFinish()
+        val canUseHeadTracking = BuildConfig.USE_HEAD_TRACKING
+        val isSupportedDevice = checkIsSupportedDeviceOrFinish()
 
-        if (!shouldForceDisableHeadTracking && !isNotSupportedDevice) {
+        if (canUseHeadTracking && isSupportedDevice) {
             selectionModeViewModel.headTrackingPermissionState.observe(this) { headTrackingState ->
                 when (headTrackingState) {
                     HeadTrackingPermissionState.PermissionRequested -> requestPermissions()
@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(),
                 }
             }
         }
+
 
         faceTrackingViewModel.showError.observe(this) { showError ->
             if (!sharedPrefs.getHeadTrackingEnabled()) {
@@ -113,6 +114,14 @@ class MainActivity : AppCompatActivity(),
                     .beginTransaction()
                     .replace(R.id.face_fragment, FaceTrackFragment())
                     .commitAllowingStateLoss()
+            } else {
+                window
+                    .decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    .or(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+                    .or(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                    .or(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                    .or(View.SYSTEM_UI_FLAG_FULLSCREEN)
+                    .or(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
             }
 
             faceTrackingViewModel.pointerLocation.observe(this) {
