@@ -74,7 +74,7 @@ class VocableSharedPreferences : KoinComponent {
     }
 
     fun getHeadTrackingEnabled(): Boolean =
-        encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, false)
+        encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
 
     fun setFirstTime() {
         encryptedPrefs.edit().putBoolean(KEY_FIRST_TIME, false).apply()
