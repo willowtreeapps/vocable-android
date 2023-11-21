@@ -16,7 +16,7 @@ jobs:
       matrix:
         python-version: [ 3.8, 3.9, '3.10', '3.11' ]
         kiwitcms-url: [ vocable.wtadev.com ]
-        make-command: [ junit.xml ]
+        make-command: [ ci, check-build, junit.xml ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
