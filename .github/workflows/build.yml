@@ -41,6 +41,9 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testDebug
 
+        name: Run UI Tests
+        run: ./gradlew connectedDebugAndroidTest
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3

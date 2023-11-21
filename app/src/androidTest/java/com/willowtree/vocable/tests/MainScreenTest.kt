@@ -21,7 +21,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
+  //  @Ignore
     @Test
     fun verifyClickingPhraseUpdatesCurrentText() {
         mainScreen.apply {
@@ -38,7 +38,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
+    //@Ignore
     @Test
     fun verifyDefaultSayingsInCategoriesExist() {
         mainScreen.apply {
@@ -47,7 +47,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
+    //@Ignore
     @Test
     fun verifySelectingCategoryChangesPhrases() {
         mainScreen.apply {
