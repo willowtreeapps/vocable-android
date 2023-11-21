@@ -12,7 +12,7 @@ class MainScreenTest : BaseTest() {
 
     private val mainScreen = MainScreen()
 
-    @Ignore
+//    @Ignore
     @Test
     fun verifyDefaultTextAppears() {
         mainScreen.apply {
@@ -30,7 +30,7 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
+    //@Ignore
     @Test
     fun verifyDefaultCategoriesExist() {
         mainScreen.apply {

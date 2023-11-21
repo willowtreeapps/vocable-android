@@ -11,7 +11,7 @@ import org.hamcrest.CoreMatchers.instanceOf
 
 class MainScreen {
 
-    val defaultCategories = arrayOf("General", "Basic Needs", "Personal Care", "Conversation", "Environment", "123", "My Sayings")
+    val defaultCategories = arrayOf("General", "Basic Needs", "Personal Care", "Conversation", "Environment", "123", "Recents")
     val defaultPhraseGeneral = arrayOf("Please", "Yes", "Maybe", "I don't know", "Thank you", "No", "Please wait", "I didn't mean to say that")
     val defaultPhraseBasicNeeds = arrayOf("I need to go to the restroom", "I am hungry", "I am hot", "I am fine", "I am thirsty", "I am cold", "I am tired", "I am good")
 

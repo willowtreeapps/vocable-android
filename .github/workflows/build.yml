@@ -11,6 +11,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ 3.8, 3.9, '3.10', '3.11' ]
+        kiwitcms-url: [ vocable.wtadev.com ]
+        make-command: [ ci, check-build, junit.xml ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,6 +28,16 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Python dependencies
+        run: |
+          pip install -U pip wheel
+        # pip install -r devel.txt
+
       - name: Run Unit Tests
         run: ./gradlew testDebug
 
@@ -31,6 +47,16 @@ jobs:
         with:
           name: test-results
           path: app/build/reports/
+
+      - name: make ${{ matrix.make-command }}
+        run: |
+          export TCMS_PRODUCT=$GITHUB_REPOSITORY
+          # branch name or pull/123
+          export TCMS_PRODUCT_VERSION=$(echo $GITHUB_REF | sed "s|refs/heads/||" | sed "s|refs/||" | sed "s|/merge||")
+          # short commit number
+          export TCMS_BUILD=$(echo $GITHUB_SHA | cut -c1-7)
+
+          make ${{ matrix.make-command }}
 
       - name: Assemble Debug Variant
         env:
