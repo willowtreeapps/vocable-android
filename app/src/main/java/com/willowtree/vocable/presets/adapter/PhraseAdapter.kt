@@ -9,7 +9,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.PhraseButtonAddBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
 import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.Locale

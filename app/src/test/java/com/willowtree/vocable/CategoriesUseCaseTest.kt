@@ -8,6 +8,7 @@ import com.willowtree.vocable.room.createCategoryDto
 import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeDateProvider
 import com.willowtree.vocable.utils.FakeLocaleProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
@@ -37,12 +38,12 @@ class CategoriesUseCaseTest {
             listOf(
                 createCategoryDto(
                     "customCategory1",
-                    localizedName = mapOf("en_US" to "Custom"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "Custom")),
                     resourceId = 1
                 ),
                 createCategoryDto(
                     "customCategory2",
-                    localizedName = mapOf("en_US" to "Other"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "Other")),
                     resourceId = 2
                 )
             )
@@ -64,14 +65,14 @@ class CategoriesUseCaseTest {
                 Category.StoredCategory(
                     categoryId = "customCategory1",
                     resourceId = 1,
-                    localizedName = mapOf("en_US" to "Custom"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "Custom")),
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "customCategory2",
                     resourceId = 2,
-                    localizedName = mapOf("en_US" to "Other"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "Other")),
                     hidden = false,
                     sortOrder = 0
                 ),

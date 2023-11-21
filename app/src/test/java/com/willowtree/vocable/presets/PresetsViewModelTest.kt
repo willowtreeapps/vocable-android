@@ -8,6 +8,7 @@ import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -41,7 +42,7 @@ class PresetsViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -55,7 +56,7 @@ class PresetsViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -71,14 +72,14 @@ class PresetsViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "second category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -100,7 +101,7 @@ class PresetsViewModelTest {
             Category.StoredCategory(
                 categoryId = "1",
                 resourceId = null,
-                localizedName = mapOf("en_US" to "category"),
+                localizedName = LocalesWithText(mapOf("en_US" to "category")),
                 hidden = false,
                 sortOrder = 0
             ),
@@ -116,7 +117,7 @@ class PresetsViewModelTest {
                     categoryId = "1",
                     creationDate = 0L,
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 ),
@@ -124,7 +125,7 @@ class PresetsViewModelTest {
                     categoryId = "2",
                     creationDate = 0L,
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "second category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -137,7 +138,7 @@ class PresetsViewModelTest {
                     parentCategoryId = "1",
                     creationDate = 0L,
                     lastSpokenDate = 0L,
-                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 0
                 )
             ),
@@ -147,7 +148,7 @@ class PresetsViewModelTest {
                     parentCategoryId = "2",
                     creationDate = 0L,
                     lastSpokenDate = 0L,
-                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 )
             )
@@ -159,7 +160,7 @@ class PresetsViewModelTest {
             listOf(
                 CustomPhrase(
                     phraseId = 2L,
-                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 ),
                 null
@@ -176,7 +177,7 @@ class PresetsViewModelTest {
                     categoryId = "2",
                     creationDate = 0L,
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -189,7 +190,7 @@ class PresetsViewModelTest {
                     parentCategoryId = "2",
                     creationDate = 0L,
                     lastSpokenDate = 0L,
-                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1
                 ),
                 PhraseDto(
@@ -197,7 +198,7 @@ class PresetsViewModelTest {
                     parentCategoryId = "2",
                     creationDate = 0L,
                     lastSpokenDate = 0L,
-                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 )
             )
@@ -208,12 +209,12 @@ class PresetsViewModelTest {
             listOf(
                 CustomPhrase(
                     phraseId = 2L,
-                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 ),
                 CustomPhrase(
                     phraseId = 1L,
-                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1
                 ),
                 null
@@ -230,7 +231,7 @@ class PresetsViewModelTest {
                     categoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -242,7 +243,7 @@ class PresetsViewModelTest {
                 parentCategoryId = PresetCategories.RECENTS.id,
                 creationDate = 0L,
                 lastSpokenDate = 0L,
-                localizedUtterance = mapOf("en_US" to "Hello"),
+                localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                 sortOrder = 1
             ),
             PhraseDto(
@@ -250,7 +251,7 @@ class PresetsViewModelTest {
                 parentCategoryId = PresetCategories.RECENTS.id,
                 creationDate = 0L,
                 lastSpokenDate = 0L,
-                localizedUtterance = mapOf("en_US" to "Goodbye"),
+                localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                 sortOrder = 0
             )
         )
@@ -260,12 +261,12 @@ class PresetsViewModelTest {
             listOf(
                 CustomPhrase(
                     phraseId = 1L,
-                    localizedUtterance = mapOf("en_US" to "Hello"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1
                 ),
                 CustomPhrase(
                     phraseId = 2L,
-                    localizedUtterance = mapOf("en_US" to "Goodbye"),
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 )
             ),

@@ -6,6 +6,7 @@ import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
 
 class PhrasesUseCase(
     private val presetsRepository: IPresetsRepository,
@@ -26,11 +27,11 @@ class PhrasesUseCase(
         presetsRepository.deletePhrase(phraseId)
     }
 
-    suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
+    suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
         presetsRepository.updatePhrase(phraseId, localizedUtterance)
     }
 
-    suspend fun addPhrase(localizedUtterance: Map<String, String>, parentCategoryId: String) {
+    suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
         presetsRepository.addPhrase(PhraseDto(
             0L,
             parentCategoryId,

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.Phrase
-import java.util.Locale
+import com.willowtree.vocable.utils.locale.LocalesWithText
 
 class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
 
@@ -48,11 +48,8 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
             if (!isDefaultTextVisible()) {
                 binding.keyboardInput.text.let { text ->
                     if (text.isNotBlank()) {
-                        val phraseUtterance =
-                            phrase.localizedUtterance?.toMutableMap()?.apply {
-                                put(Locale.getDefault().toString(), text.toString())
-                            }
-                        viewModel.updatePhrase(phrase.phraseId, phraseUtterance ?: emptyMap())
+                        val languageWithText = phrase.localizedUtterance ?: LocalesWithText(emptyMap())
+                        viewModel.updatePhrase(phrase.phraseId, languageWithText)
                         addNewPhrase = false
                     }
                 }

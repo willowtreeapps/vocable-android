@@ -8,8 +8,9 @@ import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.StoredCategoriesRepository
 import com.willowtree.vocable.utils.DateProvider
-import com.willowtree.vocable.utils.LocaleProvider
 import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.utils.locale.LocaleProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -34,7 +35,7 @@ class CategoriesUseCase(
 
     override suspend fun updateCategoryName(
         categoryId: String,
-        localizedName: Map<String, String>
+        localizedName: LocalesWithText
     ) {
         presetsRepository.updateCategoryName(categoryId, localizedName)
     }
@@ -53,7 +54,7 @@ class CategoriesUseCase(
                 uuidProvider.randomUUIDString(),
                 dateProvider.currentTimeMillis(),
                 null,
-                mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName)),
+                LocalesWithText(mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName))),
                 false,
                 sortOrder
             )

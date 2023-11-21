@@ -1,9 +1,11 @@
 package com.willowtree.vocable.presets
 
+import com.willowtree.vocable.utils.locale.LocalesWithText
+
 fun createStoredCategory(
     categoryId: String,
     resourceId: Int? = null,
-    localizedName: Map<String, String>? = mapOf("en_US" to "category"),
+    localizedName: LocalesWithText? = LocalesWithText(mapOf("en_US" to "category")),
     hidden: Boolean = false,
     sortOrder: Int = 0
 ): Category.StoredCategory = Category.StoredCategory(
