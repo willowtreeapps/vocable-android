@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
-import com.willowtree.vocable.utils.LocaleProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.utils.locale.LocaleProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -37,17 +38,16 @@ class AddUpdateCategoryViewModel(
             }
 
             val toUpdate = categoriesUseCase.categories().first().firstOrNull { it.categoryId == categoryId }
-            toUpdate?.let {
-                val currentName = it.localizedName?.get(localeProvider.getDefaultLocaleString())
+            toUpdate?.localizedName?.let { localizedNames ->
 
+                val currentName = localizedNames[localeProvider.getDefaultLocaleString()]
                 if (currentName == updatedName) {
                     return@let
                 }
 
-                val updatedNameMap = it.localizedName?.toMutableMap() ?: mutableMapOf()
-                updatedNameMap[localeProvider.getDefaultLocaleString()] = updatedName
+                val updatedLocalizedNames: LocalesWithText = localizedNames.set(localeProvider.getDefaultLocaleString(), updatedName)
 
-                categoriesUseCase.updateCategoryName(it.categoryId, updatedNameMap)
+                categoriesUseCase.updateCategoryName(toUpdate.categoryId, updatedLocalizedNames)
                 liveShowCategoryUpdateMessage.postValue(true)
                 delay(CATEGORY_MESSAGE_DELAY)
                 liveShowCategoryUpdateMessage.postValue(false)

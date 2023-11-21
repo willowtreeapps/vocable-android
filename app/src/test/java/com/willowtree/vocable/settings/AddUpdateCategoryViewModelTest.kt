@@ -6,6 +6,7 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
@@ -75,7 +76,7 @@ class AddUpdateCategoryViewModelTest {
                 Category.StoredCategory(
                     categoryId = "",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "New Category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "New Category")),
                     hidden = false,
                     sortOrder = 1
                 )
@@ -91,7 +92,7 @@ class AddUpdateCategoryViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "Category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "Category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -107,7 +108,7 @@ class AddUpdateCategoryViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "New Category"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "New Category")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -123,7 +124,7 @@ class AddUpdateCategoryViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "Category", "es_US" to "Spanish"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "Category", "es_US" to "Spanish")),
                     hidden = false,
                     sortOrder = 0
                 )
@@ -139,7 +140,7 @@ class AddUpdateCategoryViewModelTest {
                 Category.StoredCategory(
                     categoryId = "1",
                     resourceId = null,
-                    localizedName = mapOf("en_US" to "New Category", "es_US" to "Spanish"),
+                    localizedName = LocalesWithText(mapOf("en_US" to "New Category", "es_US" to "Spanish")),
                     hidden = false,
                     sortOrder = 0
                 )

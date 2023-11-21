@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "Category")
@@ -12,7 +13,7 @@ data class CategoryDto(
     @PrimaryKey @ColumnInfo(name = "category_id") val categoryId: String,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
     @ColumnInfo(name = "resource_id") val resourceId: Int?,
-    @ColumnInfo(name = "localized_name") var localizedName: Map<String, String>?,
+    @ColumnInfo(name = "localized_name") var localizedName: LocalesWithText?,
     var hidden: Boolean,
     @ColumnInfo(name = "sort_order") var sortOrder: Int
 ) : Parcelable

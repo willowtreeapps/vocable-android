@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.PhrasesUseCase
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -16,7 +17,7 @@ class EditPhrasesViewModel : ViewModel(), KoinComponent {
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
-    fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
+    fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
         viewModelScope.launch {
             phrasesUseCase.updatePhrase(phraseId, localizedUtterance)
             liveShowPhraseAdded.postValue(true)
