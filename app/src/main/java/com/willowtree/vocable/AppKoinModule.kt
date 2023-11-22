@@ -14,7 +14,16 @@ import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
-import com.willowtree.vocable.utils.*
+import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.utils.ILocalizedResourceUtility
+import com.willowtree.vocable.utils.IVocableSharedPreferences
+import com.willowtree.vocable.utils.JavaDateProvider
+import com.willowtree.vocable.utils.RandomUUIDProvider
+import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.VocableSharedPreferences
+import com.willowtree.vocable.utils.locale.JavaLocaleProvider
+import com.willowtree.vocable.utils.locale.LocaleProvider
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
