@@ -6,7 +6,6 @@ import com.google.ar.core.AugmentedFace
 import com.google.ar.core.Config
 import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
-import com.vmadalin.easypermissions.EasyPermissions
 import java.util.EnumSet
 
 class FaceTrackFragment : ArFragment() {
@@ -75,7 +74,7 @@ class FaceTrackFragment : ArFragment() {
         ReplaceWith("Nothing, this is what AR is expecting")
     )
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, requireActivity())
+        requireActivity().onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 }

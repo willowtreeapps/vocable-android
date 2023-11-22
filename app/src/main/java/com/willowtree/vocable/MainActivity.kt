@@ -42,12 +42,12 @@ class MainActivity : ScopeActivity() {
         setContentView(binding.root)
 
         faceTrackingManager.initialize(
-            object : FaceTrackingPointerUpdates {
+            faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
                 override fun toggleVisibility(visible: Boolean) {
                     binding.pointerView.isVisible = visible
                 }
-            }
-        )
+            })
+
 
         faceTrackingViewModel.showError.observe(this) { showError ->
             if (!sharedPrefs.getHeadTrackingEnabled()) {
@@ -179,15 +179,6 @@ class MainActivity : ScopeActivity() {
             view2Coords[1] + view2.measuredHeight
         )
         return rect.contains(view2Rect.centerX(), view2Rect.centerY())
-    }
-
-    /**
-     * PERMISSIONS
-     */
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        faceTrackingManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 }
