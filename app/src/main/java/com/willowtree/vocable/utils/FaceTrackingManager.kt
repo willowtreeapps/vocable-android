@@ -1,17 +1,25 @@
 package com.willowtree.vocable.utils
 
 import android.Manifest
+import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.hardware.display.DisplayManager
+import android.net.Uri
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.Surface
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.ar.core.ArCoreApk
-import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.R
 import com.willowtree.vocable.facetracking.FaceTrackFragment
@@ -30,11 +38,10 @@ interface FaceTrackingPointerUpdates {
 class FaceTrackingManager(
     private val activity: AppCompatActivity,
     private val faceTrackingPermissions: IFaceTrackingPermissions,
-) : EasyPermissions.PermissionCallbacks {
+) {
 
     companion object {
         private const val minOpenGlVersion = 3.0
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 5504
     }
 
     val displayMetrics = DisplayMetrics()
@@ -104,7 +111,7 @@ class FaceTrackingManager(
     }
 
     private fun togglePointerVisible(visible: Boolean) {
-        faceTrackingPointerUpdates?.toggleVisibility(if (!BuildConfig.USE_HEAD_TRACKING) false else visible)
+        faceTrackingPointerUpdates.toggleVisibility(if (!BuildConfig.USE_HEAD_TRACKING) false else visible)
     }
 
     /**
@@ -201,34 +208,83 @@ class FaceTrackingManager(
 
     //region Permissions
 
+    private val permissionLauncher: ActivityResultLauncher<String> =
+        activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                faceTrackingPermissions.enableFaceTracking()
+            } else {
+                faceTrackingPermissions.disableFaceTracking()
+                permissionSettingsDialog.show()
+            }
+        }
+
+    private val permissionResultLauncher: ActivityResultLauncher<String> =
+        activity.registerForActivityResult(object : ActivityResultContract<String, Boolean>() {
+            override fun createIntent(context: Context, input: String): Intent {
+                return Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", activity.packageName, null)
+                }
+            }
+
+            override fun parseResult(resultCode: Int, intent: Intent?): Boolean {
+                return when (resultCode) {
+                    Activity.RESULT_OK, Activity.RESULT_CANCELED -> true
+                    else -> false
+                }
+            }
+        }) { result ->
+            if (result) {
+                permissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+
+    private val permissionRationaleDialog by lazy {
+        AlertDialog.Builder(activity)
+            .setTitle(activity.getString(R.string.permissions_rationale_title))
+            .setPositiveButton(activity.getString(R.string.permissions_confirm)) { _, _ ->
+                permissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+            .setNegativeButton(activity.getString(R.string.permissions_cancel)) { dialog, _ ->
+                faceTrackingPermissions.disableFaceTracking()
+                dialog.dismiss()
+            }
+            .setOnDismissListener { dialog ->
+                faceTrackingPermissions.disableFaceTracking()
+                dialog.dismiss()
+            }.create()
+    }
+
+    private val permissionSettingsDialog by lazy {
+        AlertDialog.Builder(activity)
+            .setTitle(activity.getString(R.string.permissions_missing_dialog_title))
+            .setMessage(activity.getString(R.string.permissions_missing_dialog_body))
+            .setPositiveButton(activity.getString(R.string.permissions_confirm)) { _, _ ->
+                permissionResultLauncher.launch(Manifest.permission.CAMERA)
+            }
+            .setNegativeButton(activity.getString(R.string.permissions_cancel)) { dialog, _ ->
+                faceTrackingPermissions.disableFaceTracking()
+                dialog.dismiss()
+            }
+            .create()
+    }
+
     private fun requestPermissions() {
-        if (EasyPermissions.hasPermissions(activity, Manifest.permission.CAMERA)) {
+
+        // Bypass check if we already have permission
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             faceTrackingPermissions.enableFaceTracking()
-        } else {
-            // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(
-                host = activity,
-                rationale = "Allow camera permissions to enable Head Tracking.",
-                requestCode = REQUEST_CAMERA_PERMISSION_CODE,
-                perms = arrayOf(Manifest.permission.CAMERA)
-            )
+            return
         }
-    }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(activity, perms)) {
-            SettingsDialog.Builder(activity).build().show()
-        } else {
-            faceTrackingPermissions.disableFaceTracking()
+        // Permission has been denied before, show rationale
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
+            permissionRationaleDialog.show()
+            return
         }
-    }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        requestPermissions()
+        // Ask for permissions.
+        permissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
     //endregion Permissions
