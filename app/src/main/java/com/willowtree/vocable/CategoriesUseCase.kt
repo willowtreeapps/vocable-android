@@ -4,20 +4,17 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.IPresetsRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.asCategory
-import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.StoredCategoriesRepository
-import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.UUIDProvider
-import com.willowtree.vocable.utils.locale.LocalesWithText
 import com.willowtree.vocable.utils.locale.LocaleProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CategoriesUseCase(
     private val presetsRepository: IPresetsRepository,
     private val uuidProvider: UUIDProvider,
-    private val dateProvider: DateProvider,
     private val localeProvider: LocaleProvider,
     private val storedCategoriesRepository: StoredCategoriesRepository,
     private val presetCategoriesRepository: PresetCategoriesRepository
@@ -49,10 +46,9 @@ class CategoriesUseCase(
     }
 
     override suspend fun addCategory(categoryName: String, sortOrder: Int) {
-        presetsRepository.addCategory(
-            CategoryDto(
+        storedCategoriesRepository.addCategory(
+            Category.StoredCategory(
                 uuidProvider.randomUUIDString(),
-                dateProvider.currentTimeMillis(),
                 null,
                 LocalesWithText(mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName))),
                 false,
