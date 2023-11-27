@@ -1,6 +1,7 @@
 package com.willowtree.vocable.room
 
 import android.content.Context
+import com.willowtree.vocable.presets.Category
 import kotlinx.coroutines.flow.Flow
 
 class RoomStoredCategoriesRepository(context: Context) : StoredCategoriesRepository {
@@ -8,5 +9,18 @@ class RoomStoredCategoriesRepository(context: Context) : StoredCategoriesReposit
 
     override fun getAllCategories(): Flow<List<CategoryDto>> {
         return database.categoryDao().getAllCategoriesFlow()
+    }
+
+    override suspend fun addCategory(category: Category.StoredCategory) {
+        database.categoryDao().insertCategory(
+            CategoryDto(
+                category.categoryId,
+                0L,
+                category.resourceId,
+                category.localizedName,
+                category.hidden,
+                category.sortOrder
+            )
+        )
     }
 }
