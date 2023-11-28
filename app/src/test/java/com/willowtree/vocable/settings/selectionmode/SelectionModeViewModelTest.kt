@@ -6,6 +6,8 @@ import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.utils.FakeFaceTrackingPermissions
 import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,7 +33,7 @@ class SelectionModeViewModelTest {
 
         val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = true))
 
-        assert(viewModel.headTrackingEnabled.getOrAwaitValue())
+        assertTrue(viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 
     @Test
@@ -39,7 +41,7 @@ class SelectionModeViewModelTest {
 
         val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = false))
 
-        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
+        assertFalse(viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 
     @Test
@@ -48,11 +50,11 @@ class SelectionModeViewModelTest {
         // Setting false so its not Requested on init
         val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = false))
 
-        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
+        assertFalse(viewModel.headTrackingEnabled.getOrAwaitValue())
 
         viewModel.requestHeadTracking()
 
-        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
+        assertFalse(viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 
     @Test
@@ -61,10 +63,10 @@ class SelectionModeViewModelTest {
         // Setting true so its not Disabled on init
         val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = true))
 
-        assert(viewModel.headTrackingEnabled.getOrAwaitValue())
+        assertTrue(viewModel.headTrackingEnabled.getOrAwaitValue())
 
         viewModel.disableHeadTracking()
 
-        assert(!viewModel.headTrackingEnabled.getOrAwaitValue())
+        assertFalse(viewModel.headTrackingEnabled.getOrAwaitValue())
     }
 }

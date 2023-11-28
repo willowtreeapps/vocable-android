@@ -25,7 +25,7 @@ import org.koin.dsl.module
 object AppKoinModule {
 
     fun getModule() = module {
-        // Activity Scope
+
         scope<MainActivity> {
             scoped {
                 FaceTrackingManager(get(), get())
