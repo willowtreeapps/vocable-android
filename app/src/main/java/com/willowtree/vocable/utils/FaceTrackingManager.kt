@@ -50,7 +50,7 @@ class FaceTrackingManager(
 
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
-        if (BuildConfig.USE_HEAD_TRACKING && checkIsSupportedDeviceOrFinish()) {
+        if (BuildConfig.USE_HEAD_TRACKING && checkIsSupportedDevice()) {
             CoroutineScope(Dispatchers.Main).launch {
                 faceTrackingPermissions.permissionState.collect { headTrackingState ->
                     when (headTrackingState) {
@@ -117,11 +117,10 @@ class FaceTrackingManager(
      *
      * Disables Permissions if the device is not supported.
      */
-    private fun checkIsSupportedDeviceOrFinish(): Boolean {
+    private fun checkIsSupportedDevice(): Boolean {
         if (ArCoreApk.getInstance().checkAvailability(activity) === ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE) {
             Timber.e("TAG", "Augmented Faces requires ARCore.")
             Toast.makeText(activity, "Augmented Faces requires ARCore", Toast.LENGTH_LONG).show()
-            activity.finish()
             return false
         }
         val openGlVersionString =
@@ -131,7 +130,6 @@ class FaceTrackingManager(
         if (java.lang.Double.parseDouble(openGlVersionString) < minOpenGlVersion) {
             Timber.e("TAG", "Sceneform requires OpenGL ES 3.0 later")
             Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG).show()
-            faceTrackingPermissions.disableFaceTracking()
             return false
         }
         return true
@@ -201,9 +199,7 @@ class FaceTrackingManager(
         }
     }
 
-    /**
-     * PERMISSIONS
-     */
+    //region Permissions
 
     private fun requestPermissions() {
         if (EasyPermissions.hasPermissions(activity, Manifest.permission.CAMERA)) {
@@ -234,5 +230,7 @@ class FaceTrackingManager(
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         requestPermissions()
     }
+
+    //endregion Permissions
 
 }
