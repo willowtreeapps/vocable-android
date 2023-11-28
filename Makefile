@@ -18,7 +18,7 @@ test:
 
 .PHONY: junit.xml
 junit.xml:
-	./tests/bin/make-junit.xml
+	./make-junit.xml
 
 
 .PHONY: check-build
