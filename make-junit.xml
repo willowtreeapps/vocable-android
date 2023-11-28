@@ -3,9 +3,9 @@
     set -e
 
     # Execute this from the project root directory
-#    nose2 --verbose --plugin nose2.plugins.junitxml --junit-xml
+    nose2 --verbose --plugin nose2.plugins.junitxml --junit-xml
 
-#    ./tcms-junit.xml-plugin --verbose \
+    ./tcms-junit.xml-plugin --verbose \
 #    nose2-junit.xml \
 #    tests/data/9.xml \
 #    tests/data/mocha.js.xml
