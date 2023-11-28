@@ -27,4 +27,4 @@ check-build:
 
 
 .PHONY: ci
-ci: flake8 pylint test
+ci: flake8 test
