@@ -1,0 +1,10 @@
+-r requirements.txt
+
+black
+nose2[coverage_plugin]
+coverage
+flake8
+pylint
+twine
+pyOpenSSL
+readme_renderer[md]
