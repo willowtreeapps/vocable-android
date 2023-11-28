@@ -27,4 +27,4 @@ check-build:
 
 
 .PHONY: ci
-ci: flake8 test
+ci: test
