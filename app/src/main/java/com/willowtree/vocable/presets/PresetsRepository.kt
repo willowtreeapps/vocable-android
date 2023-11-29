@@ -36,10 +36,6 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().insertPhrase(phrase)
     }
 
-    override suspend fun addCategory(category: CategoryDto) {
-        database.categoryDao().insertCategory(category)
-    }
-
     private suspend fun populatePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }

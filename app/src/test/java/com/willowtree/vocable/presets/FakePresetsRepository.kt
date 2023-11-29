@@ -97,10 +97,6 @@ class FakePresetsRepository : IPresetsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addCategory(category: CategoryDto) {
-        _allCategories.update { it + category }
-    }
-
     override suspend fun getCategoryById(categoryId: String): CategoryDto {
         TODO("Not yet implemented")
     }
