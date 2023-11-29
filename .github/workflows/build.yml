@@ -16,7 +16,7 @@ jobs:
       matrix:
         python-version: [ 3.8]
         kiwitcms-url: [ vocable.wtadev.com ]
-        make-command: [ ci, junit.xml ]
+        make-command: [ junit.xml ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
           path: app/build/reports/
 
 
-      - name: make ${{ matrix.make-command }}
+      - name: Send result to Kiwi
         run: |
           export TCMS_PRODUCT=$GITHUB_REPOSITORY
           # branch name or pull/123
