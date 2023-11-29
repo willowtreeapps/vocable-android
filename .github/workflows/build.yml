@@ -51,16 +51,17 @@ jobs:
           name: test-results
           path: app/build/reports/
 
-
-      - name: Send result to Kiwi
-        run: |
-          export TCMS_PRODUCT=$GITHUB_REPOSITORY
-          # branch name or pull/123
-          export TCMS_PRODUCT_VERSION=$(echo $GITHUB_REF | sed "s|refs/heads/||" | sed "s|refs/||" | sed "s|/merge||")
-          # short commit number
-          export TCMS_BUILD=$(echo $GITHUB_SHA | cut -c1-7)
-
-          make ${{ matrix.make-command }}
+      - name: Activate kiwitcms plugin
+        uses: vector-im/kiwitcms-upload-action@v1
+        with:
+            file-pattern: ./app/build/reports/*.xml
+            kiwi-username: ${{ secrets.TCMS_USERNAME }}
+            kiwi-password: ${{ secrets.TCMS_PASSWORD }}
+            product: "Vocable Android"
+            product-version: "1.3.4"
+            build-id: ${{ github.sha }}
+            suite-name: "Vocable Android 2022"
+            summary-template: '$name'
 
       - name: Assemble Debug Variant
         env:
