@@ -16,8 +16,8 @@ test:
 	nose2 -v --with-coverage --coverage tcms_junit_plugin
 
 
-.PHONY: junit.xml
-junit.xml:
+.PHONY: export-kiwi
+export:
 	./make-junit.xml
 
 
