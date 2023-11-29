@@ -55,8 +55,8 @@ jobs:
         uses: vector-im/kiwitcms-upload-action@v1
         with:
             file-pattern: ./app/build/reports/*.xml
-            kiwi-username: ${{ secrets.TCMS_USERNAME }}
-            kiwi-password: ${{ secrets.TCMS_PASSWORD }}
+            kiwi-username: kiwi_bot
+            kiwi-password: UgAco3GdHhLEyU7zZNZ8
             kiwi-url: "https://vocable.wtadev.com"
             product: "Vocable Android"
             product-version: "1.3.4"
