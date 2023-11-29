@@ -6,15 +6,12 @@ import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
-import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentSelectionModeBinding> = FragmentSelectionModeBinding::inflate
-    private val viewModel: SelectionModeViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val viewModel: SelectionModeViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,8 +20,8 @@ class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
             findNavController().popBackStack()
         }
 
-        viewModel.headTrackingPermissionState.observe(viewLifecycleOwner) {
-            binding.selectionModeOptions.headTrackingSwitch.isChecked = it == HeadTrackingPermissionState.Enabled
+        viewModel.headTrackingEnabled.observe(viewLifecycleOwner) {
+            binding.selectionModeOptions.headTrackingSwitch.isChecked = it
         }
 
         binding.selectionModeOptions.headTrackingContainer.setOnClickListener {
