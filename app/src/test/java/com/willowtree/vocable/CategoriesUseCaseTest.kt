@@ -3,10 +3,10 @@ package com.willowtree.vocable
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.FakePresetCategoriesRepository
 import com.willowtree.vocable.presets.FakePresetsRepository
+import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.FakeStoredCategoriesRepository
 import com.willowtree.vocable.room.createCategoryDto
 import com.willowtree.vocable.utils.ConstantUUIDProvider
-import com.willowtree.vocable.utils.FakeDateProvider
 import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
@@ -25,7 +25,6 @@ class CategoriesUseCaseTest {
         return CategoriesUseCase(
             fakePresetsRepository,
             ConstantUUIDProvider(),
-            FakeDateProvider(),
             FakeLocaleProvider(),
             fakeStoredCategoriesRepository,
             fakePresetCategoriesRepository
@@ -84,6 +83,56 @@ class CategoriesUseCaseTest {
                 )
             ),
             useCase.categories().first()
+        )
+    }
+
+    @Test
+    fun `category added to stored repository`() = runTest {
+        fakeStoredCategoriesRepository._allCategories.update { emptyList() }
+
+        fakePresetCategoriesRepository._presetCategories = listOf(
+            Category.PresetCategory(
+                categoryId = "presetCategory",
+                sortOrder = 3,
+                hidden = false,
+                resourceId = 0
+            )
+        )
+
+        val useCase = createUseCase()
+
+        useCase.addCategory("My Category", 0)
+
+        assertEquals(
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    resourceId = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "My Category")),
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                Category.PresetCategory(
+                    categoryId = "presetCategory",
+                    sortOrder = 3,
+                    hidden = false,
+                    resourceId = 0
+                ),
+            ),
+            useCase.categories().first()
+        )
+        assertEquals(
+            listOf(
+                CategoryDto(
+                    categoryId = "1",
+                    creationDate = 0L,
+                    resourceId = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "My Category")),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            ),
+            fakeStoredCategoriesRepository._allCategories.first()
         )
     }
 
