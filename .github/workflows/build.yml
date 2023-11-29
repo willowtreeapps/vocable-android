@@ -16,7 +16,7 @@ jobs:
       matrix:
         python-version: [ 3.8]
         kiwitcms-url: [ vocable.wtadev.com ]
-        make-command: [ junit.xml ]
+        make-command: [ export-kiwi ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
