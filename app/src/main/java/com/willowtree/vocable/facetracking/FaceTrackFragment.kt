@@ -7,18 +7,10 @@ import com.google.ar.core.Config
 import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
 import com.vmadalin.easypermissions.EasyPermissions
-import com.willowtree.vocable.settings.selectionmode.HeadTrackingPermissionState
-import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.EnumSet
-
 
 class FaceTrackFragment : ArFragment() {
 
-    private val selectionModeViewModel: SelectionModeViewModel by viewModel(owner = {
-        ViewModelOwner.from(this)
-    })
     private val viewModel: FaceTrackingViewModel by activityViewModels()
 
     override fun getSessionConfiguration(session: Session): Config {
@@ -34,9 +26,8 @@ class FaceTrackFragment : ArFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        selectionModeViewModel.headTrackingPermissionState.observe(this) { headTrackingPermissionState ->
-            if (headTrackingPermissionState == HeadTrackingPermissionState.PermissionRequested) return@observe
-            enableFaceTracking(headTrackingPermissionState == HeadTrackingPermissionState.Enabled)
+        viewModel.headTrackingEnabledLd.observe(this) {
+            enableFaceTracking(it)
         }
     }
 
