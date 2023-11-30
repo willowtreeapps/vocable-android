@@ -52,7 +52,7 @@ jobs:
           path: app/build/reports/
 
       - name: Activate kiwitcms plugin
-        uses: vector-im/kiwitcms-upload-action@v1
+        uses: vector-im/kiwitcms-upload-action@v2
         with:
             file-pattern: ./app/build/reports/*.xml
             kiwi-username: kiwi_bot
