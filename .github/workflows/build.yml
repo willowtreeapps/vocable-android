@@ -57,12 +57,12 @@ jobs:
             file-pattern: ./app/build/reports/*.xml
             kiwi-username: kiwi_bot
             kiwi-password: UgAco3GdHhLEyU7zZNZ8
-            kiwi-url: "https://vocable.wtadev.com"
+            kiwi-url: "https://vocable.wtadev.com/xml-rpc/"
             product: "Vocable Android"
             product-version: "1.3.4"
             build-id: ${{ github.sha }}
             suite-name: "Vocable Android 2022"
-            summary-template: '$name'
+#            summary-template: '$name'
 
       - name: Assemble Debug Variant
         env:

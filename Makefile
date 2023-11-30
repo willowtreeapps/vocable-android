@@ -18,7 +18,7 @@ test:
 
 .PHONY: export-kiwi
 export:
-	./make-junit.xml
+	./app/build/test-results/testDebugUnitTest/*.xml
 
 
 .PHONY: check-build
