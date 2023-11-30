@@ -59,7 +59,7 @@ jobs:
             kiwi-password: UgAco3GdHhLEyU7zZNZ8
             kiwi-url: "https://vocable.wtadev.com/xml-rpc/"
             product: "Vocable Android"
-            product-version: "1.4"
+            product-version: "main"
             build-id: ${{ github.sha }}
             suite-name: "Vocable Android 2022"
 #            summary-template: '$name'
