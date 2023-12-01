@@ -51,18 +51,28 @@ jobs:
           name: test-results
           path: app/build/reports/
 
-      - name: Activate kiwitcms plugin
-        uses: vector-im/kiwitcms-upload-action@v2
-        with:
-            file-pattern: ./app/build/reports/*.xml
-            kiwi-username: kiwi_bot
-            kiwi-password: UgAco3GdHhLEyU7zZNZ8
-            kiwi-url: "https://vocable.wtadev.com/xml-rpc/"
-            product: "Vocable Android"
-            product-version: "main"
-            build-id: ${{ github.sha }}
-            suite-name: "Vocable Android 2022"
-#            summary-template: '$name'
+      - name: Install kiwitcms plugin
+        run: |
+          pip install git+https://github.com/kiwitcms/junit.xml-plugin@v12.2
+          cat > ~/.tcms.conf << _EOF
+          [tcms]
+          url = "https://vocable.wtadev.com/xml-rpc/"
+          username = kiwi_bot
+          password = UgAco3GdHhLEyU7zZNZ8
+          _EOF
+        shell: bash
+
+      - name: Run kiwitcms export
+        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") --summary-template '$name' ./app/build/reports/*.xml
+        shell: bash
+        env:
+            TCMS_PREFIX: "Vocable Android 2022"
+            #        TCMS_PLAN_ID - if defined will create test runs under this TestPlan
+            #        TCMS_PARENT_PLAN - if defined newly created TestPlan will be a child of this one
+            #        TCMS_RUN_ID - if defined will report results to this TestRun
+            TCMS_PRODUCT: "Vocable Android"
+            TCMS_PRODUCT_VERSION: "1.4"
+            TCMS_BUILD: ${{ github.sha }}
 
       - name: Assemble Debug Variant
         env:
