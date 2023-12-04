@@ -3,6 +3,7 @@ package com.willowtree.vocable.presets
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -16,7 +17,7 @@ class FakePresetsRepository : IPresetsRepository {
                 categoryId = "1",
                 creationDate = 0L,
                 resourceId = null,
-                localizedName = mapOf("en_US" to "category"),
+                localizedName = LocalesWithText( mapOf("en_US" to "category")),
                 hidden = false,
                 sortOrder = 0
             )
@@ -30,7 +31,7 @@ class FakePresetsRepository : IPresetsRepository {
                 parentCategoryId = "1",
                 creationDate = 0L,
                 lastSpokenDate = 0L,
-                localizedUtterance = mapOf("en_US" to "Hello"),
+                localizedUtterance =LocalesWithText(  mapOf("en_US" to "Hello")),
                 sortOrder = 0
             )
         )
@@ -79,7 +80,7 @@ class FakePresetsRepository : IPresetsRepository {
 
     override suspend fun updateCategoryName(
         categoryId: String,
-        localizedName: Map<String, String>
+        localizedName: LocalesWithText
     ) {
         _allCategories.update { allCategories ->
             allCategories.map {
@@ -96,10 +97,6 @@ class FakePresetsRepository : IPresetsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addCategory(category: CategoryDto) {
-        _allCategories.update { it + category }
-    }
-
     override suspend fun getCategoryById(categoryId: String): CategoryDto {
         TODO("Not yet implemented")
     }
@@ -113,7 +110,7 @@ class FakePresetsRepository : IPresetsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
+    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
         TODO("Not yet implemented")
     }
 

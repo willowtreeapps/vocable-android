@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -322,7 +323,7 @@ class MigrationTest {
                     "custom",
                     0L,
                     null,
-                    mapOf("english" to "custom"),
+                    LocalesWithText( mapOf("english" to "custom")),
                     false,
                     7
                 ),
@@ -330,7 +331,7 @@ class MigrationTest {
                     "recents",
                     0L,
                     null,
-                    mapOf("english" to "recents"),
+                    LocalesWithText( mapOf("english" to "recents")),
                     false,
                     8
                 )
@@ -346,7 +347,7 @@ class MigrationTest {
                     "custom",
                     0L,
                     0L,
-                    mapOf("english" to "hi"),
+                    LocalesWithText(  mapOf("english" to "hi")),
                     0
                 )
             ), customPhrases
@@ -358,7 +359,7 @@ class MigrationTest {
                     "recents",
                     0L,
                     0L,
-                    mapOf("english" to "hi"),
+                    LocalesWithText(  mapOf("english" to "hi")),
                     0
                 )
             ), recentPhrases
