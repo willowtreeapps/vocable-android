@@ -16,7 +16,7 @@ import com.willowtree.vocable.customviews.CategoryButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel

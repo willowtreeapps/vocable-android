@@ -7,7 +7,9 @@ import androidx.lifecycle.*
 import com.google.ar.core.AugmentedFace
 import com.google.ar.sceneform.math.Vector3
 import com.willowtree.vocable.R
+import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import com.willowtree.vocable.utils.VocableSharedPreferences
+import com.willowtree.vocable.utils.isEnabled
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -18,6 +20,9 @@ class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
     companion object {
         private const val FACE_DETECTION_TIMEOUT = 1000
     }
+
+    private val headTrackingPermissions: IFaceTrackingPermissions by inject()
+    val headTrackingEnabledLd = headTrackingPermissions.permissionState.asLiveData().map { it.isEnabled() }
 
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
@@ -31,6 +36,7 @@ class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
                 VocableSharedPreferences.KEY_SENSITIVITY -> {
                     sensitivity = sharedPrefs.getSensitivity()
                 }
+
                 VocableSharedPreferences.KEY_HEAD_TRACKING_ENABLED -> {
                     headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
                 }
@@ -105,6 +111,7 @@ class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
                         oldVector = Vector3(x, y, z)
                         liveAdjustedVector.postValue(oldVector)
                     }
+
                     else -> {
                         if (!isTablet) {
                             y *= 2F

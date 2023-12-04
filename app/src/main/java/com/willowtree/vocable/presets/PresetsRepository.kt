@@ -8,6 +8,7 @@ import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.PhraseLocalizedUtterance
 import com.willowtree.vocable.room.PhraseSpokenDate
 import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -35,10 +36,6 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().insertPhrase(phrase)
     }
 
-    override suspend fun addCategory(category: CategoryDto) {
-        database.categoryDao().insertCategory(category)
-    }
-
     private suspend fun populatePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
@@ -59,7 +56,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.categoryDao().deleteCategory(categoryId)
     }
 
-    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: Map<String, String>) {
+    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
         database.phraseDao().updatePhraseLocalizedUtterance(PhraseLocalizedUtterance(phraseId, localizedUtterance))
     }
 
@@ -67,7 +64,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
         database.phraseDao().updatePhraseSpokenDate(PhraseSpokenDate(phraseId, lastSpokenDate))
     }
 
-    override suspend fun updateCategoryName(categoryId: String, localizedName: Map<String, String>) {
+    override suspend fun updateCategoryName(categoryId: String, localizedName: LocalesWithText) {
         database.categoryDao().updateCategory(CategoryLocalizedName(categoryId, localizedName))
     }
 
@@ -93,7 +90,7 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
                             presetCategory.id,
                             System.currentTimeMillis(),
                             null,
-                            mapOf(Pair(Locale.getDefault().toString(), context.getString(phrasesIds.getResourceId(index, -1)))),
+                            LocalesWithText(mapOf(Pair(Locale.getDefault().toString(), context.getString(phrasesIds.getResourceId(index, -1))))),
                             phraseObjects.size
                         )
                     )

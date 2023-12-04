@@ -11,7 +11,7 @@ import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.utils.LocalizedResourceUtility
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

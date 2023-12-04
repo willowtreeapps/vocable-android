@@ -55,7 +55,7 @@
         tools:layout="@layout/fragment_timing_sensitivity" />
     <fragment
         android:id="@+id/selectionModeFragment"
-        android:name="com.willowtree.vocable.settings.SelectionModeFragment"
+        android:name="com.willowtree.vocable.settings.selectionmode.SelectionModeFragment"
         android:label="SelectionModeFragment"
         tools:layout="@layout/fragment_selection_mode" />
     <fragment

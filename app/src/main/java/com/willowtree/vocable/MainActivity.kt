@@ -1,116 +1,71 @@
 package com.willowtree.vocable
 
-import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Rect
-import android.hardware.display.DisplayManager
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.google.ar.core.ArCoreApk
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.databinding.ActivityMainBinding
-import com.willowtree.vocable.facetracking.FaceTrackFragment
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
-import com.willowtree.vocable.settings.SettingsViewModel
-import com.willowtree.vocable.utils.VocableSharedPreferences
+import com.willowtree.vocable.utils.FaceTrackingManager
+import com.willowtree.vocable.utils.FaceTrackingPointerUpdates
+import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import org.koin.android.ext.android.inject
-import timber.log.Timber
+import org.koin.androidx.scope.ScopeActivity
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ScopeActivity() {
 
-    private val minOpenGlVersion = 3.0
-    private val displayMetrics = DisplayMetrics()
     private var currentView: View? = null
-    private lateinit var viewModel: FaceTrackingViewModel
     private var paused = false
     private lateinit var binding: ActivityMainBinding
-    private val sharedPrefs: VocableSharedPreferences by inject()
+    private val sharedPrefs: IVocableSharedPreferences by inject()
     private val allViews = mutableListOf<View>()
-    private val settingsViewModel: SettingsViewModel by viewModels()
+
+    private val faceTrackingManager: FaceTrackingManager by inject()
+
+    private val faceTrackingViewModel: FaceTrackingViewModel by viewModel(owner = {
+        ViewModelOwner.from(this)
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val shouldForceDisableHeadTracking = !BuildConfig.USE_HEAD_TRACKING
-        val isNotSupportedDevice = !checkIsSupportedDeviceOrFinish()
-
-        if (shouldForceDisableHeadTracking || isNotSupportedDevice) {
-            return
-        }
-
-        if (supportFragmentManager.findFragmentById(R.id.face_fragment) == null && BuildConfig.USE_HEAD_TRACKING) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.face_fragment, FaceTrackFragment())
-                .commitAllowingStateLoss()
-        } else {
-            window
-                .decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                .or(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
-                .or(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-                .or(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-                .or(View.SYSTEM_UI_FLAG_FULLSCREEN)
-                .or(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        }
-
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        viewModel = ViewModelProviders.of(this).get(FaceTrackingViewModel::class.java)
-        subscribeToViewModel()
-
-        val displayListener = object : DisplayManager.DisplayListener {
-
-            private var orientation = windowManager.defaultDisplay.rotation
-
-            override fun onDisplayChanged(displayId: Int) {
-                val newOrientation = windowManager.defaultDisplay.rotation
-                // Only reset FaceTrackFragment if device is rotated 180 degrees
-                when (orientation) {
-                    Surface.ROTATION_0 -> {
-                        if (newOrientation == Surface.ROTATION_180) {
-                            resetFaceTrackFragment("${Surface.ROTATION_180}")
-                        }
-                    }
-                    Surface.ROTATION_90 -> {
-                        if (newOrientation == Surface.ROTATION_270) {
-                            resetFaceTrackFragment("${Surface.ROTATION_270}")
-                        }
-                    }
-                    Surface.ROTATION_180 -> {
-                        if (newOrientation == Surface.ROTATION_0) {
-                            resetFaceTrackFragment("${Surface.ROTATION_0}")
-                        }
-                    }
-                    Surface.ROTATION_270 -> {
-                        if (newOrientation == Surface.ROTATION_90) {
-                            resetFaceTrackFragment("${Surface.ROTATION_90}")
-                        }
-                    }
-                }
-                orientation = newOrientation
-            }
-
-            override fun onDisplayAdded(displayId: Int) = Unit
-
-            override fun onDisplayRemoved(displayId: Int) = Unit
-        }
-        val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-        displayManager.registerDisplayListener(displayListener, null)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        faceTrackingManager.initialize(
+            object : FaceTrackingPointerUpdates {
+                override fun toggleVisibility(visible: Boolean) {
+                    binding.pointerView.isVisible = visible
+                }
+            }
+        )
+
+        faceTrackingViewModel.showError.observe(this) { showError ->
+            if (!sharedPrefs.getHeadTrackingEnabled()) {
+                getPointerView().isVisible = false
+                getErrorView().isVisible = false
+                return@observe
+            }
+            if (showError) {
+                (currentView as? PointerListener)?.onPointerExit()
+            }
+            getErrorView().isVisible = showError
+            getPointerView().isVisible = !showError
+        }
+
+
+        faceTrackingViewModel.pointerLocation.observe(this) {
+            updatePointer(it.x, it.y)
+        }
 
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
@@ -122,15 +77,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!BuildConfig.USE_HEAD_TRACKING) {
-            binding.pointerView.isVisible = false
-        } else {
-            binding.pointerView.isVisible = sharedPrefs.getHeadTrackingEnabled()
-        }
     }
 
     override fun onDestroy() {
@@ -154,37 +100,6 @@ class MainActivity : AppCompatActivity() {
         allViews.clear()
     }
 
-    fun subscribeToViewModel() {
-        viewModel.showError.observe(this, Observer {
-            if (!sharedPrefs.getHeadTrackingEnabled()) {
-                getPointerView().isVisible = false
-                getErrorView().isVisible = false
-                return@Observer
-            }
-            it?.let {
-                if (it) {
-                    (currentView as? PointerListener)?.onPointerExit()
-                }
-                getErrorView().isVisible = it
-                getPointerView().isVisible = !it
-            }
-        })
-        viewModel.pointerLocation.observe(this) {
-            it?.let {
-                updatePointer(it.x, it.y)
-            }
-        }
-        
-        settingsViewModel.headTrackingEnabled.observe(this) {
-            it?.let {
-                val faceFragment = supportFragmentManager.findFragmentById(R.id.face_fragment)
-                if (faceFragment is FaceTrackFragment) {
-                    faceFragment.enableFaceTracking(it)
-                }
-            }
-        }
-    }
-
     private fun getAllChildViews(viewGroup: ViewGroup) {
         viewGroup.children.forEach {
             if (it is PointerListener) {
@@ -203,35 +118,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * If the device rotates 180 degrees (portrait to portrait/landscape to landscape), the
-     * activity won't be destroyed and recreated. This means that the FaceTrackFragment will not
-     * reset its camera positioning. The only way to reset it currently is to create a new
-     * instance of the fragment and add it to the activity.
-     * @param tag The tag to use for the FaceTrackFragment, should be unique to the orientation
-     */
-    private fun resetFaceTrackFragment(tag: String) {
-        if (!supportFragmentManager.isDestroyed && supportFragmentManager.findFragmentByTag(tag) == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.face_fragment, FaceTrackFragment(), tag)
-                .commitAllowingStateLoss()
-        }
-    }
-
     private fun updatePointer(x: Float, y: Float) {
         var newX = x
         var newY = y
         if (x < 0) {
             newX = 0f
-        } else if (x > displayMetrics.widthPixels) {
-            newX = displayMetrics.widthPixels.toFloat()
+        } else if (x > faceTrackingManager.displayMetrics.widthPixels) {
+            newX = faceTrackingManager.displayMetrics.widthPixels.toFloat()
         }
 
         if (y < 0) {
             newY = 0f
-        } else if (y > displayMetrics.heightPixels) {
-            newY = displayMetrics.heightPixels.toFloat()
+        } else if (y > faceTrackingManager.displayMetrics.heightPixels) {
+            newY = faceTrackingManager.displayMetrics.heightPixels.toFloat()
         }
         getPointerView().updatePointerPosition(newX, newY)
         getPointerView().bringToFront()
@@ -283,33 +182,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run
-     * on this device.
-     *
-     *
-     * Sceneform requires Android N on the device as well as OpenGL 3.0 capabilities.
-     *
-     *
-     * Finishes the activity if Sceneform can not run
+     * PERMISSIONS
      */
-    private fun checkIsSupportedDeviceOrFinish(): Boolean {
-        if (ArCoreApk.getInstance().checkAvailability(this) === ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE) {
-            Timber.e("TAG", "Augmented Faces requires ARCore.")
-            Toast.makeText(this, "Augmented Faces requires ARCore", Toast.LENGTH_LONG).show()
-            finish()
-            return false
-        }
-        val openGlVersionString =
-            (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
-                .deviceConfigurationInfo
-                .glEsVersion
-        if (java.lang.Double.parseDouble(openGlVersionString) < minOpenGlVersion) {
-            Timber.e("TAG", "Sceneform requires OpenGL ES 3.0 later")
-            Toast.makeText(this, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
-                .show()
-            finish()
-            return false
-        }
-        return true
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        faceTrackingManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
 }
