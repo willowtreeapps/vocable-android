@@ -51,7 +51,7 @@ jobs:
           name: test-results
           path: app/build/reports/
 
-      - name: Install kiwitcms plugin
+      - name: Install kiwitcms plugin and create config
         run: |
           pip install git+https://github.com/kiwitcms/junit.xml-plugin@v12.2.999
           cat > ~/.tcms.conf << _EOF
@@ -67,7 +67,7 @@ jobs:
         shell: bash
         env:
             TCMS_PREFIX: "Vocable Android 2022"
-                    TCMS_PLAN_ID - "8"
+            TCMS_PLAN_ID: "8"
             #        TCMS_PARENT_PLAN - if defined newly created TestPlan will be a child of this one
             #        TCMS_RUN_ID - if defined will report results to this TestRun
             TCMS_PRODUCT: "Vocable Android"
