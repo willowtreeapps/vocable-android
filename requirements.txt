@@ -1,4 +1,4 @@
 junitparser>=1.1.0
-tcms-api==12.2
+tcms-api==12.2.999
 nose-tap
 kiwitcms-junit.xml-plugin
