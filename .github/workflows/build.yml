@@ -13,10 +13,6 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
-      matrix:
-        python-version: [ 3.8]
-        kiwitcms-url: [ vocable.wtadev.com ]
-        make-command: [ export-kiwi ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -61,9 +57,6 @@ jobs:
           password = UgAco3GdHhLEyU7zZNZ8
           _EOF
         shell: bash
-
-      - name: Nose coverage
-        run: nose2 -v --with-coverage --coverage tcms_junit_plugin ./app/build/reports/*.xml
 
       - name: Run kiwitcms export
         run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") --summary-template '${classname}.${name}' filename.xml ./app/build/reports/*.xml
