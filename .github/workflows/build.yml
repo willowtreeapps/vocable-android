@@ -53,17 +53,19 @@ jobs:
 
       - name: Install kiwitcms plugin and create config
         run: |
-          pip install git+https://github.com/kiwitcms/junit.xml-plugin
+          pip install git+https://github.com/kiwitcms/junit.xml-plugin@v12.2.999
           cat > ~/.tcms.conf << _EOF
           [tcms]
           url = https://vocable.wtadev.com/xml-rpc/
           username = kiwi_bot
           password = UgAco3GdHhLEyU7zZNZ8
           _EOF
+          sudo cp .ssl/*.pem /usr/lib/ssl/certs/
+          sudo update-ca-certificates --fresh
         shell: bash
 
       - name: Run kiwitcms export
-        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") ./app/build/reports/*.xml
+        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") --summary-template ./app/build/reports/*.xml
         shell: bash
         env:
             TCMS_PREFIX: "Vocable Android 2022"
