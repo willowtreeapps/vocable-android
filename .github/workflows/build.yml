@@ -60,8 +60,6 @@ jobs:
           username = kiwi_bot
           password = UgAco3GdHhLEyU7zZNZ8
           _EOF
-          sudo cp .ssl/*.pem /usr/lib/ssl/certs/
-          sudo update-ca-certificates --fresh
         shell: bash
 
       - name: Run kiwitcms export
