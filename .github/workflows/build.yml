@@ -63,7 +63,7 @@ jobs:
         shell: bash
 
       - name: Run kiwitcms export
-        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") --summary-template ./app/build/reports/*.xml
+        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") --summary-template '$name' ./app/build/reports/*.xml
         shell: bash
         env:
             TCMS_PREFIX: "Vocable Android 2022"
