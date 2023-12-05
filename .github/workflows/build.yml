@@ -71,7 +71,7 @@ jobs:
             #        TCMS_PARENT_PLAN - if defined newly created TestPlan will be a child of this one
             #        TCMS_RUN_ID - if defined will report results to this TestRun
             TCMS_PRODUCT: "Vocable Android"
-            TCMS_PRODUCT_VERSION: "1.4"
+            TCMS_PRODUCT_VERSION: ${{ github.ref }}
             TCMS_BUILD: ${{ github.sha }}
 
       - name: Assemble Debug Variant
