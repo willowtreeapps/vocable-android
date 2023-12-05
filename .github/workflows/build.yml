@@ -51,6 +51,9 @@ jobs:
           name: test-results
           path: app/build/reports/
 
+      - name: Nose coverage
+        run: nose2 -v --with-coverage --coverage tcms_junit_plugin
+
       - name: Install kiwitcms plugin and create config
         run: |
           pip install git+https://github.com/kiwitcms/junit.xml-plugin@v12.2.999
