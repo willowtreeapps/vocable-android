@@ -63,7 +63,7 @@ jobs:
         shell: bash
 
       - name: Run kiwitcms export
-        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") --summary-template '$name' ./app/build/reports/*.xml
+        run: tcms-junit.xml-plugin $([ "false" == "true" ] && echo "-v") ./app/build/reports/*.xml
         shell: bash
         env:
             TCMS_PREFIX: "Vocable Android 2022"
@@ -71,7 +71,7 @@ jobs:
             #        TCMS_PARENT_PLAN - if defined newly created TestPlan will be a child of this one
             #        TCMS_RUN_ID - if defined will report results to this TestRun
             TCMS_PRODUCT: "Vocable Android"
-            TCMS_PRODUCT_VERSION: ${{ github.ref }}
+            TCMS_PRODUCT_VERSION: "1.4"
             TCMS_BUILD: ${{ github.sha }}
 
       - name: Assemble Debug Variant
