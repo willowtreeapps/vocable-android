@@ -53,7 +53,7 @@ jobs:
 
       - name: Install kiwitcms plugin and create config
         run: |
-          pip install git+https://github.com/kiwitcms/junit.xml-plugin@v12.2.999
+          pip install git+https://github.com/kiwitcms/junit.xml-plugin
           cat > ~/.tcms.conf << _EOF
           [tcms]
           url = https://vocable.wtadev.com/xml-rpc/
