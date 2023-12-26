@@ -26,7 +26,8 @@
         <argument
             android:name="category"
             app:argType="com.willowtree.vocable.presets.Category"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_editCategoriesKeyboardFragment_to_editCategoryMenuFragment"
             app:destination="@id/editCategoryMenuFragment" />
