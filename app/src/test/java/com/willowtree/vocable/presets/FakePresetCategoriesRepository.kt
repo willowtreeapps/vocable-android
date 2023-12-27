@@ -1,5 +1,7 @@
 package com.willowtree.vocable.presets
 
+import com.willowtree.vocable.room.CategorySortOrder
+
 class FakePresetCategoriesRepository : PresetCategoriesRepository {
 
     var _presetCategories = listOf(
@@ -13,5 +15,17 @@ class FakePresetCategoriesRepository : PresetCategoriesRepository {
 
     override suspend fun getPresetCategories(): List<Category.PresetCategory> {
         return _presetCategories
+    }
+
+    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        _presetCategories = _presetCategories.map { categoryDto ->
+            val sortOrderUpdate =
+                categorySortOrders.firstOrNull { it.categoryId == categoryDto.categoryId }
+            if (sortOrderUpdate != null) {
+                categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+            } else {
+                categoryDto
+            }
+        }
     }
 }

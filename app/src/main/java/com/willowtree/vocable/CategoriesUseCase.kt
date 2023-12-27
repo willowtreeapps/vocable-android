@@ -42,7 +42,8 @@ class CategoriesUseCase(
     }
 
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
-        presetsRepository.updateCategorySortOrders(categorySortOrders)
+        presetCategoriesRepository.updateCategorySortOrders(categorySortOrders)
+        storedCategoriesRepository.updateCategorySortOrders(categorySortOrders)
     }
 
     override suspend fun addCategory(categoryName: String, sortOrder: Int) {
