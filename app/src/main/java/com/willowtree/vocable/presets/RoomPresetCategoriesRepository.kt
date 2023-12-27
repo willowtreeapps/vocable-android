@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PresetCategoryDto
 import com.willowtree.vocable.room.VocableDatabase
 import kotlinx.coroutines.sync.Mutex
@@ -32,5 +33,9 @@ class RoomPresetCategoriesRepository(
                     )
                 }
         }
+    }
+
+    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        database.presetCategoryDao().updateCategorySortOrders(categorySortOrders)
     }
 }

@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface StoredCategoriesRepository {
     fun getAllCategories(): Flow<List<CategoryDto>>
     suspend fun addCategory(category: Category.StoredCategory)
+    suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
 }
