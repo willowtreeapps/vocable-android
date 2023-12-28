@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CategoriesUseCase(
-    private val presetsRepository: ILegacyCategoriesAndPhrasesRepository,
+    private val legacyCategoriesAndPhrasesRepository: ILegacyCategoriesAndPhrasesRepository,
     private val uuidProvider: UUIDProvider,
     private val localeProvider: LocaleProvider,
     private val storedCategoriesRepository: StoredCategoriesRepository,
@@ -27,18 +27,21 @@ class CategoriesUseCase(
             }
     }
 
-    suspend fun getCategoryById(categoryId: String): Category =
-        presetsRepository.getCategoryById(categoryId).asCategory()
+    override suspend fun getCategoryById(categoryId: String): Category {
+        return storedCategoriesRepository.getCategoryById(categoryId)?.asCategory()
+            ?: presetCategoriesRepository.getCategoryById(categoryId)
+            ?: throw IllegalArgumentException("Category with id $categoryId not found")
+    }
 
     override suspend fun updateCategoryName(
         categoryId: String,
         localizedName: LocalesWithText
     ) {
-        presetsRepository.updateCategoryName(categoryId, localizedName)
+        legacyCategoriesAndPhrasesRepository.updateCategoryName(categoryId, localizedName)
     }
 
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
-        presetsRepository.updateCategoryHidden(categoryId, hidden)
+        legacyCategoriesAndPhrasesRepository.updateCategoryHidden(categoryId, hidden)
     }
 
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
@@ -59,7 +62,7 @@ class CategoriesUseCase(
     }
 
     suspend fun deleteCategory(categoryId: String) {
-        presetsRepository.deleteCategory(categoryId)
+        legacyCategoriesAndPhrasesRepository.deleteCategory(categoryId)
     }
 
 }

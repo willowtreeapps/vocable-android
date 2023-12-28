@@ -72,10 +72,6 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCategoryById(categoryId: String): CategoryDto {
-        return database.categoryDao().getCategoryById(categoryId)
-    }
-
     //Initial DB populate
     suspend fun populateDatabase() {
         PresetCategories.values().forEach { presetCategory ->

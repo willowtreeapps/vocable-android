@@ -10,4 +10,5 @@ interface ICategoriesUseCase {
     suspend fun updateCategoryName(categoryId: String, localizedName: LocalesWithText)
     suspend fun addCategory(categoryName: String, sortOrder: Int)
     suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
+    suspend fun getCategoryById(categoryId: String): Category
 }

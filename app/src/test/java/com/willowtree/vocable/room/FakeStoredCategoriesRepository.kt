@@ -50,4 +50,8 @@ class FakeStoredCategoriesRepository : StoredCategoriesRepository {
             }
         }
     }
+
+    override suspend fun getCategoryById(categoryId: String): CategoryDto? {
+        return _allCategories.value.firstOrNull { it.categoryId == categoryId }
+    }
 }

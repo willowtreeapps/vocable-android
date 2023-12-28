@@ -27,4 +27,7 @@ class RoomStoredCategoriesRepository(context: Context) : StoredCategoriesReposit
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
         database.categoryDao().updateCategorySortOrders(categorySortOrders)
     }
+
+    override suspend fun getCategoryById(categoryId: String): CategoryDto? =
+        database.categoryDao().getCategoryById(categoryId)
 }

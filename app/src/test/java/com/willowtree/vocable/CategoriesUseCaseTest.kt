@@ -1,8 +1,8 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.FakePresetCategoriesRepository
 import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.presets.FakePresetCategoriesRepository
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.FakeStoredCategoriesRepository
@@ -183,6 +183,50 @@ class CategoriesUseCaseTest {
                 )
             ),
             useCase.categories().first()
+        )
+    }
+
+    @Test
+    fun `get category by id returns presets and stored`() = runTest {
+        fakeStoredCategoriesRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "storedCategory",
+                    localizedName = null,
+                    sortOrder = 0
+                )
+            )
+        }
+
+        fakePresetCategoriesRepository._presetCategories = listOf(
+            Category.PresetCategory(
+                categoryId = "presetCategory",
+                sortOrder = 1,
+                hidden = false,
+                resourceId = 0
+            )
+        )
+
+        val useCase = createUseCase()
+
+        assertEquals(
+            Category.StoredCategory(
+                "storedCategory",
+                resourceId = null,
+                localizedName = null,
+                hidden = false,
+                sortOrder = 0
+            ),
+            useCase.getCategoryById("storedCategory")
+        )
+        assertEquals(
+            Category.PresetCategory(
+                "presetCategory",
+                sortOrder = 1,
+                hidden = false,
+                resourceId = 0
+            ),
+            useCase.getCategoryById("presetCategory")
         )
     }
 

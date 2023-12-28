@@ -28,4 +28,8 @@ class FakePresetCategoriesRepository : PresetCategoriesRepository {
             }
         }
     }
+
+    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory {
+        return _presetCategories.first { it.categoryId == categoryId }
+    }
 }
