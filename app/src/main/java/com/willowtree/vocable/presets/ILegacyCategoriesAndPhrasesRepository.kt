@@ -6,8 +6,9 @@ import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 
-//TODO: PK - Rename this once we make the jump to rename [PresetsRepository] -> "RoomPresetsRepository"
-interface IPresetsRepository {
+@Deprecated("This is the old way of accessing categories and phrases. Prefer using" +
+        " ICategoriesUseCase instead.")
+interface ILegacyCategoriesAndPhrasesRepository {
     suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto>
 
     /**

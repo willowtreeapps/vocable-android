@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-class FakePresetsRepository : IPresetsRepository {
+class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepository {
 
     val _allCategories = MutableStateFlow(
         listOf(

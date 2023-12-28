@@ -7,12 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.room.CategorySortOrder
 import kotlinx.coroutines.launch
 
 class EditCategoryMenuViewModel(
-    private val presetsRepository: PresetsRepository,
+    private val presetsRepository: LegacyCategoriesAndPhrasesRepository,
     private val categoriesUseCase: CategoriesUseCase
 ) : ViewModel() {
 

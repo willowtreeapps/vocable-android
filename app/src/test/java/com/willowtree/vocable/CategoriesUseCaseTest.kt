@@ -2,7 +2,7 @@ package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.FakePresetCategoriesRepository
-import com.willowtree.vocable.presets.FakePresetsRepository
+import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.FakeStoredCategoriesRepository
@@ -17,7 +17,7 @@ import org.junit.Test
 
 class CategoriesUseCaseTest {
 
-    private val fakePresetsRepository = FakePresetsRepository()
+    private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val fakeStoredCategoriesRepository = FakeStoredCategoriesRepository()
     private val fakePresetCategoriesRepository = FakePresetCategoriesRepository()
 

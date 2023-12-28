@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
-import com.willowtree.vocable.presets.FakePresetsRepository
+import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.createStoredCategory
 import com.willowtree.vocable.utils.FakeDateProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
@@ -21,7 +21,7 @@ class EditCategoriesViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val fakePresetsRepository = FakePresetsRepository()
+    private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val categoriesUseCase = FakeCategoriesUseCase()
 
     private fun createViewModel(): EditCategoriesViewModel {
