@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.PhrasesUseCase
-import com.willowtree.vocable.presets.PresetsRepository
+import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -14,7 +14,7 @@ import java.util.Locale
 
 class AddPhraseViewModel : ViewModel(), KoinComponent {
 
-    private val presetsRepository: PresetsRepository by inject()
+    private val presetsRepository: LegacyCategoriesAndPhrasesRepository by inject()
     private val phrasesUseCase: PhrasesUseCase by inject()
 
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()

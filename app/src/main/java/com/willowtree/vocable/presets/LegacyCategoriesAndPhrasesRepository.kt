@@ -14,7 +14,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import java.util.Locale
 
-class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepository {
+class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent, ILegacyCategoriesAndPhrasesRepository {
 
     private val database = VocableDatabase.getVocableDatabase(context)
 
