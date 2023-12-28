@@ -38,4 +38,14 @@ class RoomPresetCategoriesRepository(
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
         database.presetCategoryDao().updateCategorySortOrders(categorySortOrders)
     }
+
+    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory? =
+        database.presetCategoryDao().getPresetCategoryById(categoryId)?.let {
+            Category.PresetCategory(
+                it.categoryId,
+                it.sortOrder,
+                it.hidden,
+                PresetCategories.values().first { presetCategory -> presetCategory.id == it.categoryId }.getNameId()
+            )
+        }
 }
