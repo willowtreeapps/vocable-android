@@ -97,10 +97,6 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCategoryById(categoryId: String): CategoryDto {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun deleteCategory(categoryId: String) {
         TODO("Not yet implemented")
     }

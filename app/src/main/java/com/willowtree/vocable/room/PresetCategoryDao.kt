@@ -15,4 +15,7 @@ interface PresetCategoryDao {
 
     @Update(entity = PresetCategoryDto::class)
     suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
+
+    @Query("SELECT * FROM PresetCategory WHERE category_id = :categoryId")
+    suspend fun getPresetCategoryById(categoryId: String): PresetCategoryDto?
 }

@@ -65,4 +65,8 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
             }
         }
     }
+
+    override suspend fun getCategoryById(categoryId: String): Category {
+        return _categories.value.first { it.categoryId == categoryId }
+    }
 }
