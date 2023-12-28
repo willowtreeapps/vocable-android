@@ -1,6 +1,10 @@
 package com.willowtree.vocable.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,7 +23,7 @@ interface CategoryDao {
     fun getAllCategoriesFlow(): Flow<List<CategoryDto>>
 
     @Query("SELECT * FROM Category WHERE category_id = :categoryId")
-    suspend fun getCategoryById(categoryId: String): CategoryDto
+    suspend fun getCategoryById(categoryId: String): CategoryDto?
 
     @Query("DELETE FROM Category WHERE category_id = :categoryId")
     suspend fun deleteCategory(categoryId: String)
