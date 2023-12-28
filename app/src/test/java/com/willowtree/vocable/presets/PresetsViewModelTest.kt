@@ -25,7 +25,7 @@ class PresetsViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val fakePresetsRepository = FakePresetsRepository()
+    private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val fakeCategoriesUseCase = FakeCategoriesUseCase()
 
     private fun createViewModel(): PresetsViewModel {
