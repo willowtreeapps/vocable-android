@@ -4,8 +4,8 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.FakePresetCategoriesRepository
 import com.willowtree.vocable.presets.FakePresetsRepository
 import com.willowtree.vocable.room.CategoryDto
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.FakeStoredCategoriesRepository
-import com.willowtree.vocable.room.createCategoryDto
 import com.willowtree.vocable.utils.ConstantUUIDProvider
 import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
@@ -135,5 +135,71 @@ class CategoriesUseCaseTest {
             fakeStoredCategoriesRepository._allCategories.first()
         )
     }
+
+    @Test
+    fun `sort order updated`() = runTest {
+        fakeStoredCategoriesRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "storedCategory",
+                    localizedName = null,
+                    sortOrder = 0
+                )
+            )
+        }
+
+        fakePresetCategoriesRepository._presetCategories = listOf(
+            Category.PresetCategory(
+                categoryId = "presetCategory",
+                sortOrder = 1,
+                hidden = false,
+                resourceId = 0
+            )
+        )
+
+        val useCase = createUseCase()
+
+        useCase.updateCategorySortOrders(
+            listOf(
+                CategorySortOrder("storedCategory", 1),
+                CategorySortOrder("presetCategory", 0)
+            )
+        )
+
+        assertEquals(
+            listOf(
+                Category.StoredCategory(
+                    "storedCategory",
+                    resourceId = null,
+                    localizedName = null,
+                    hidden = false,
+                    sortOrder = 1
+                ),
+                Category.PresetCategory(
+                    "presetCategory",
+                    sortOrder = 0,
+                    hidden = false,
+                    resourceId = 0
+                )
+            ),
+            useCase.categories().first()
+        )
+    }
+
+    private fun createCategoryDto(
+        categoryId: String,
+        creationDate: Long = 0L,
+        resourceId: Int? = null,
+        localizedName: LocalesWithText? = LocalesWithText(mapOf("en_US" to "category")),
+        hidden: Boolean = false,
+        sortOrder: Int = 0
+    ): CategoryDto = CategoryDto(
+        categoryId = categoryId,
+        creationDate = creationDate,
+        resourceId = resourceId,
+        localizedName = localizedName,
+        hidden = hidden,
+        sortOrder = sortOrder,
+    )
 
 }

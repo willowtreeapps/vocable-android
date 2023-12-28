@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 class FakeStoredCategoriesRepository : StoredCategoriesRepository {
-    val _allCategories = MutableStateFlow(
+    var _allCategories = MutableStateFlow(
         listOf(
             CategoryDto(
                 "categoryId",
@@ -34,6 +34,20 @@ class FakeStoredCategoriesRepository : StoredCategoriesRepository {
                 category.hidden,
                 category.sortOrder
             )
+        }
+    }
+
+    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        _allCategories.update { allCategories ->
+            allCategories.map { categoryDto ->
+                val sortOrderUpdate =
+                    categorySortOrders.firstOrNull { it.categoryId == categoryDto.categoryId }
+                if (sortOrderUpdate != null) {
+                    categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+                } else {
+                    categoryDto
+                }
+            }
         }
     }
 }
