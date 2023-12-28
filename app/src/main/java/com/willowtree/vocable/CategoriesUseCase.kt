@@ -1,7 +1,7 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.IPresetsRepository
+import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.asCategory
 import com.willowtree.vocable.room.CategorySortOrder
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CategoriesUseCase(
-    private val presetsRepository: IPresetsRepository,
+    private val presetsRepository: ILegacyCategoriesAndPhrasesRepository,
     private val uuidProvider: UUIDProvider,
     private val localeProvider: LocaleProvider,
     private val storedCategoriesRepository: StoredCategoriesRepository,
