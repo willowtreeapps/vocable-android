@@ -12,8 +12,7 @@ import com.google.ar.core.ArCoreApk
 import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.R
 import com.willowtree.vocable.facetracking.FaceTrackFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -35,42 +34,34 @@ class FaceTrackingManager(
 
     val displayMetrics = DisplayMetrics()
 
-    private val cameraPermissionsHelper = CameraPermissionsHelper(activity)
     private lateinit var faceTrackingPointerUpdates: FaceTrackingPointerUpdates
 
     /**
      * Initializes the FaceTrackingManager and begins listening to [IFaceTrackingPermissions.PermissionState] updates.
      * @param faceTrackingPointerUpdates The interface for updating user facing AR UI elements
      */
-    fun initialize(faceTrackingPointerUpdates: FaceTrackingPointerUpdates) {
+    suspend fun initialize(faceTrackingPointerUpdates: FaceTrackingPointerUpdates) {
         this.faceTrackingPointerUpdates = faceTrackingPointerUpdates
 
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         if (BuildConfig.USE_HEAD_TRACKING && checkIsSupportedDevice()) {
+            coroutineScope {
+                launch {
+                    faceTrackingPermissions.permissionState.collect { headTrackingState ->
+                        when (headTrackingState) {
+                            IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
+                                faceTrackingPermissions.requestFaceTracking()
+                            }
 
-            cameraPermissionsHelper.permissionCallback = { isGranted ->
-                if (isGranted) {
-                    faceTrackingPermissions.enableFaceTracking()
-                } else {
-                    faceTrackingPermissions.disableFaceTracking()
-                }
-            }
+                            IFaceTrackingPermissions.PermissionState.Enabled -> {
+                                togglePointerVisible(true)
+                                setupArTracking()
+                            }
 
-            CoroutineScope(Dispatchers.Main).launch {
-                faceTrackingPermissions.permissionState.collect { headTrackingState ->
-                    when (headTrackingState) {
-                        IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
-                            cameraPermissionsHelper.requestPermissions()
-                        }
-
-                        IFaceTrackingPermissions.PermissionState.Enabled -> {
-                            togglePointerVisible(true)
-                            setupArTracking()
-                        }
-
-                        IFaceTrackingPermissions.PermissionState.Disabled -> {
-                            togglePointerVisible(false)
+                            IFaceTrackingPermissions.PermissionState.Disabled -> {
+                                togglePointerVisible(false)
+                            }
                         }
                     }
                 }

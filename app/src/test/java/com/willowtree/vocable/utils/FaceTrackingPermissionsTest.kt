@@ -1,5 +1,10 @@
 package com.willowtree.vocable.utils
 
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkStatic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -7,13 +12,25 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FaceTrackingPermissionsTest {
 
+    @Before
+    fun setup() {
+        mockkStatic(ContextCompat::class)
+        every {
+            ContextCompat.checkSelfPermission(any(), any())
+        } returns PackageManager.PERMISSION_DENIED
+    }
+
     private fun createFaceTrackingPermissions(sharedPreferences: IVocableSharedPreferences): IFaceTrackingPermissions {
-        return FaceTrackingPermissions(sharedPreferences)
+        return FaceTrackingPermissions(
+            sharedPreferences = sharedPreferences,
+            activity = mockk(relaxed = true)
+        )
     }
 
     private fun createSharedPrefs(headTrackingEnabled: Boolean): IVocableSharedPreferences {

@@ -30,9 +30,13 @@ object AppKoinModule {
             scoped {
                 FaceTrackingManager(get(), get())
             }
+            scoped<IFaceTrackingPermissions> {
+                FaceTrackingPermissions(get(), get())
+            }
+            viewModel { FaceTrackingViewModel(get()) }
+            viewModel { SelectionModeViewModel(get()) }
         }
 
-        single { FaceTrackingPermissions(get()) } bind IFaceTrackingPermissions::class
         single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
         single { PresetsRepository(get()) } bind IPresetsRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
@@ -48,7 +52,5 @@ object AppKoinModule {
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
         viewModel { EditCategoryMenuViewModel(get(), get()) }
-        viewModel { SelectionModeViewModel(get()) }
-        viewModel { FaceTrackingViewModel() }
     }
 }

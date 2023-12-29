@@ -6,15 +6,20 @@ import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.scope.scopeActivity
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
 
     override val bindingInflater: BindingInflater<FragmentSelectionModeBinding> = FragmentSelectionModeBinding::inflate
-    private val viewModel: SelectionModeViewModel by viewModel()
+    private lateinit var viewModel: SelectionModeViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = requireNotNull(scopeActivity?.getViewModel()) {
+            "SelectionModeFragment requires parent to be a ScopeActivity"
+        }
 
         binding.selectionModeBackButton.action = {
             findNavController().popBackStack()

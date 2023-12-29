@@ -184,8 +184,7 @@
     <string name="permissions_missing_dialog_title">Required Permissions Unavailable</string>
     <string name="permissions_missing_dialog_body">Camera permissions are required to use the Head Tracking feature. Please enable them in the app settings.</string>
     <string name="permissions_confirm">OK</string>
-    <string name="permissions_cancel">Cancel</string>
-    <string name="permissions_rationale_title">Camera permissions are needed to enable Head Tracking.</string>
+    <string name="permissions_rationale_title">Camera permissions are needed to enable Head Tracking</string>
 
     <string name="rename_category">Rename Category</string>
     <string name="show_category">Show Category</string>
