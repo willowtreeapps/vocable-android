@@ -29,7 +29,17 @@ class FakePresetCategoriesRepository : PresetCategoriesRepository {
         }
     }
 
-    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory {
-        return _presetCategories.first { it.categoryId == categoryId }
+    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory? {
+        return _presetCategories.firstOrNull { it.categoryId == categoryId }
+    }
+
+    override suspend fun hidePresetCategory(categoryId: String) {
+        _presetCategories = _presetCategories.map { categoryDto ->
+            if (categoryDto.categoryId == categoryId) {
+                categoryDto.copy(hidden = true)
+            } else {
+                categoryDto
+            }
+        }
     }
 }

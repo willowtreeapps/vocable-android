@@ -24,16 +24,33 @@ class FakeStoredCategoriesRepository : StoredCategoriesRepository {
         return _allCategories
     }
 
-    override suspend fun addCategory(category: Category.StoredCategory) {
-        _allCategories.update {
-            it + CategoryDto(
-                category.categoryId,
-                0L,
-                category.resourceId,
-                category.localizedName,
-                category.hidden,
-                category.sortOrder
-            )
+    override suspend fun upsertCategory(category: Category.StoredCategory) {
+        _allCategories.update { allCategories ->
+            if (allCategories.none { it.categoryId == category.categoryId }) {
+                allCategories + CategoryDto(
+                    category.categoryId,
+                    0L,
+                    category.resourceId,
+                    category.localizedName,
+                    category.hidden,
+                    category.sortOrder
+                )
+            } else {
+                allCategories.map { categoryDto ->
+                    if (categoryDto.categoryId == category.categoryId) {
+                        CategoryDto(
+                            category.categoryId,
+                            0L,
+                            category.resourceId,
+                            category.localizedName,
+                            category.hidden,
+                            category.sortOrder
+                        )
+                    } else {
+                        categoryDto
+                    }
+                }
+            }
         }
     }
 
