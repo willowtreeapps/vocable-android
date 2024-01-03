@@ -29,7 +29,7 @@ class CategoriesUseCase(
 
     override suspend fun getCategoryById(categoryId: String): Category {
         return storedCategoriesRepository.getCategoryById(categoryId)?.asCategory()
-            ?: presetCategoriesRepository.getCategoryById(categoryId)
+            ?: presetCategoriesRepository.getCategoryById(categoryId)?.let { if (it.hidden) null else it }
             ?: throw IllegalArgumentException("Category with id $categoryId not found")
     }
 
@@ -37,7 +37,32 @@ class CategoriesUseCase(
         categoryId: String,
         localizedName: LocalesWithText
     ) {
-        legacyCategoriesAndPhrasesRepository.updateCategoryName(categoryId, localizedName)
+        val storedCategory = storedCategoriesRepository.getCategoryById(categoryId)
+        if (storedCategory != null) {
+            storedCategoriesRepository.upsertCategory(
+                Category.StoredCategory(
+                    storedCategory.categoryId,
+                    localizedName,
+                    storedCategory.hidden,
+                    storedCategory.sortOrder
+                )
+            )
+        } else {
+            val presetCategory = presetCategoriesRepository.getCategoryById(categoryId)
+            if (presetCategory != null) {
+                presetCategoriesRepository.hidePresetCategory(categoryId)
+                storedCategoriesRepository.upsertCategory(
+                    Category.StoredCategory(
+                        presetCategory.categoryId,
+                        localizedName,
+                        presetCategory.hidden,
+                        presetCategory.sortOrder
+                    )
+                )
+            } else {
+                throw IllegalArgumentException("Category with id $categoryId not found")
+            }
+        }
     }
 
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
@@ -50,10 +75,9 @@ class CategoriesUseCase(
     }
 
     override suspend fun addCategory(categoryName: String, sortOrder: Int) {
-        storedCategoriesRepository.addCategory(
+        storedCategoriesRepository.upsertCategory(
             Category.StoredCategory(
                 uuidProvider.randomUUIDString(),
-                null,
                 LocalesWithText(mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName))),
                 false,
                 sortOrder
