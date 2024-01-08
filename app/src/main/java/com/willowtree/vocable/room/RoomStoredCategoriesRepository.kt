@@ -11,7 +11,7 @@ class RoomStoredCategoriesRepository(context: Context) : StoredCategoriesReposit
         return database.categoryDao().getAllCategoriesFlow()
     }
 
-    override suspend fun addCategory(category: Category.StoredCategory) {
+    override suspend fun upsertCategory(category: Category.StoredCategory) {
         database.categoryDao().insertCategory(
             CategoryDto(
                 category.categoryId,

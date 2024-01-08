@@ -7,7 +7,7 @@ import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 
 @Deprecated("This is the old way of accessing categories and phrases. Prefer using" +
-        " ICategoriesUseCase instead.")
+        " ICategoriesUseCase and PhrasesUseCase instead.")
 interface ILegacyCategoriesAndPhrasesRepository {
     suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto>
 
