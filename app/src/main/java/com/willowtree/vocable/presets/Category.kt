@@ -18,11 +18,11 @@ sealed class Category : Parcelable {
     @Parcelize
     data class StoredCategory(
         override val categoryId: String,
-        override val resourceId: Int?,
         override val localizedName: LocalesWithText?,
         override var hidden: Boolean,
         override var sortOrder: Int
     ) : Category() {
+        override val resourceId: Int? = null
         override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
         override fun withHidden(hidden: Boolean): Category = copy(hidden = hidden)
     }
@@ -63,7 +63,6 @@ fun CategoryDto.asCategory(): Category {
     } else {
         Category.StoredCategory(
             categoryId,
-            resourceId,
             localizedName,
             hidden,
             sortOrder
