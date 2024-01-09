@@ -42,8 +42,6 @@ class FaceTrackingManager(
      */
     suspend fun initialize(faceTrackingPointerUpdates: FaceTrackingPointerUpdates) {
 
-        faceTrackingPermissions.initialize()
-
         this.faceTrackingPointerUpdates = faceTrackingPointerUpdates
 
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
