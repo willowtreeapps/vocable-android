@@ -1,7 +1,10 @@
 package com.willowtree.vocable.utils
 
+import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import com.willowtree.vocable.utils.permissions.FakePermissionRegisterForLaunch
+import com.willowtree.vocable.utils.permissions.FakePermissionsDialogShower
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -14,6 +17,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.any
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FaceTrackingPermissionsTest {
@@ -26,10 +30,14 @@ class FaceTrackingPermissionsTest {
         } returns PackageManager.PERMISSION_DENIED
     }
 
+    private val fakePermissionRegisterForLaunch = FakePermissionRegisterForLaunch()
+
     private fun createFaceTrackingPermissions(sharedPreferences: IVocableSharedPreferences): IFaceTrackingPermissions {
         return FaceTrackingPermissions(
             sharedPreferences = sharedPreferences,
-            activity = mockk(relaxed = true)
+            activity = mockk(relaxed = true),
+            permissionRequester = fakePermissionRegisterForLaunch,
+            permissionsDialogShower = FakePermissionsDialogShower(),
         )
     }
 
@@ -75,46 +83,43 @@ class FaceTrackingPermissionsTest {
     }
 
     @Test
-    fun `enableFaceTracking() sets permission state to Enabled`() = runTest {
-
-        val sharedPreference = createSharedPrefs(headTrackingEnabled = false)
-        assertFalse(sharedPreference.getHeadTrackingEnabled())
-
-        // Setting false so its not Requested on init
-        val permissions = createFaceTrackingPermissions(sharedPreference)
-
-        advanceUntilIdle()
-
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
-
-        permissions.enableFaceTracking()
-
-        advanceUntilIdle()
-
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Enabled)
-        // Check shared preferences is updated
-        assertTrue(sharedPreference.getHeadTrackingEnabled())
-    }
-
-    @Test
     fun `disableFaceTracking() sets permission state to Disabled`() = runTest {
-
         val sharedPreference = createSharedPrefs(headTrackingEnabled = true)
         assertTrue(sharedPreference.getHeadTrackingEnabled())
 
-        // Setting true so its not Disabled on init
         val permissions = createFaceTrackingPermissions(sharedPreference)
-
         advanceUntilIdle()
-
         assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
-
         permissions.disableFaceTracking()
 
         advanceUntilIdle()
-
         assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
-        // Check shared preferences is updated
         assertFalse(sharedPreference.getHeadTrackingEnabled())
+    }
+
+    @Test
+    fun `when requestFaceTracking successful, permission state set to enabled`() = runTest {
+        val sharedPreference = createSharedPrefs(headTrackingEnabled = false)
+        val permissions = createFaceTrackingPermissions(sharedPreference)
+        advanceUntilIdle()
+
+        permissions.requestFaceTracking()
+        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
+
+        fakePermissionRegisterForLaunch.triggerActivityResult(contract = Manifest.permission.CAMERA, result = true)
+        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Enabled)
+    }
+
+    @Test
+    fun `when requestFaceTracking unsuccessful, permission state set to disabled`() = runTest {
+        val sharedPreference = createSharedPrefs(headTrackingEnabled = false)
+        val permissions = createFaceTrackingPermissions(sharedPreference)
+        advanceUntilIdle()
+
+        permissions.requestFaceTracking()
+        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
+
+        fakePermissionRegisterForLaunch.triggerActivityResult(contract = Manifest.permission.CAMERA, result = false)
+        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
     }
 }
