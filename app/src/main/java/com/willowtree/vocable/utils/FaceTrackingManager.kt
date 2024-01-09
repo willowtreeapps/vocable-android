@@ -41,6 +41,9 @@ class FaceTrackingManager(
      * @param faceTrackingPointerUpdates The interface for updating user facing AR UI elements
      */
     suspend fun initialize(faceTrackingPointerUpdates: FaceTrackingPointerUpdates) {
+
+        faceTrackingPermissions.initialize()
+
         this.faceTrackingPointerUpdates = faceTrackingPointerUpdates
 
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -50,10 +53,6 @@ class FaceTrackingManager(
                 launch {
                     faceTrackingPermissions.permissionState.collect { headTrackingState ->
                         when (headTrackingState) {
-                            IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
-                                faceTrackingPermissions.requestFaceTracking()
-                            }
-
                             IFaceTrackingPermissions.PermissionState.Enabled -> {
                                 togglePointerVisible(true)
                                 setupArTracking()
@@ -61,6 +60,10 @@ class FaceTrackingManager(
 
                             IFaceTrackingPermissions.PermissionState.Disabled -> {
                                 togglePointerVisible(false)
+                            }
+
+                            IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
+                                // No-op
                             }
                         }
                     }

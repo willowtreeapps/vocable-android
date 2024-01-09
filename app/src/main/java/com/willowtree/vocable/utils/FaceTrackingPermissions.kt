@@ -7,34 +7,41 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.willowtree.vocable.R
 import com.willowtree.vocable.utils.IFaceTrackingPermissions.PermissionState.Disabled
 import com.willowtree.vocable.utils.IFaceTrackingPermissions.PermissionState.Enabled
 import com.willowtree.vocable.utils.IFaceTrackingPermissions.PermissionState.PermissionRequested
+import com.willowtree.vocable.utils.permissions.PermissionRequestLauncher
+import com.willowtree.vocable.utils.permissions.PermissionRequester
+import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
 import kotlinx.coroutines.flow.MutableStateFlow
-
 
 class FaceTrackingPermissions(
     private val sharedPreferences: IVocableSharedPreferences,
-    private val activity: AppCompatActivity
+    private val activity: AppCompatActivity,
+    private val permissionsDialogShower: PermissionsDialogShower,
+    permissionRequester: PermissionRequester,
 ) : IFaceTrackingPermissions {
 
-   override val permissionState: MutableStateFlow<IFaceTrackingPermissions.PermissionState> =
+    override val permissionState: MutableStateFlow<IFaceTrackingPermissions.PermissionState> =
         // We check for permissions on startup, if we have them or receive them `permissionState` will be updated
         MutableStateFlow(if (sharedPreferences.getHeadTrackingEnabled()) PermissionRequested else Disabled)
+
+    override fun initialize() {
+        if (sharedPreferences.getHeadTrackingEnabled()) {
+            requestFaceTracking()
+        }
+    }
 
     override fun requestFaceTracking() {
         permissionState.tryEmit(PermissionRequested)
         requestPermissions()
     }
 
-    override fun enableFaceTracking() {
+    private fun enableFaceTracking() {
         sharedPreferences.setHeadTrackingEnabled(true)
         permissionState.tryEmit(Enabled)
     }
@@ -44,18 +51,18 @@ class FaceTrackingPermissions(
         permissionState.tryEmit(Disabled)
     }
 
-    private val permissionLauncher: ActivityResultLauncher<String> =
-        activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+    private val permissionLauncher: PermissionRequestLauncher =
+        permissionRequester.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 enableFaceTracking()
             } else {
                 disableFaceTracking()
-                permissionSettingsDialog.show()
+                showRequestPermissionsDialogFromSettings()
             }
         }
 
-    private val permissionResultLauncher: ActivityResultLauncher<String> =
-        activity.registerForActivityResult(object : ActivityResultContract<String, Boolean>() {
+    private val permissionRequestViaSettingsLauncher: PermissionRequestLauncher =
+        permissionRequester.registerForActivityResult(object : ActivityResultContract<String, Boolean>() {
             override fun createIntent(context: Context, input: String): Intent {
                 return Intent().apply {
                     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -69,41 +76,12 @@ class FaceTrackingPermissions(
                     else -> false
                 }
             }
-        }) { result ->
-            if (result) {
+        }) { isGranted ->
+            if (isGranted) {
                 permissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
 
-    private val permissionRationaleDialog by lazy {
-        AlertDialog.Builder(activity)
-            .setTitle(activity.getString(R.string.permissions_rationale_title))
-            .setPositiveButton(activity.getString(R.string.permissions_confirm)) { _, _ ->
-                permissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-            .setNegativeButton(activity.getString(R.string.settings_dialog_cancel)) { dialog, _ ->
-                disableFaceTracking()
-                dialog.dismiss()
-            }
-            .setOnDismissListener { dialog ->
-                disableFaceTracking()
-                dialog.dismiss()
-            }.create()
-    }
-
-    private val permissionSettingsDialog by lazy {
-        AlertDialog.Builder(activity)
-            .setTitle(activity.getString(R.string.permissions_missing_dialog_title))
-            .setMessage(activity.getString(R.string.permissions_missing_dialog_body))
-            .setPositiveButton(activity.getString(R.string.permissions_confirm)) { _, _ ->
-                permissionResultLauncher.launch(Manifest.permission.CAMERA)
-            }
-            .setNegativeButton(activity.getString(R.string.settings_dialog_cancel)) { dialog, _ ->
-                disableFaceTracking()
-                dialog.dismiss()
-            }
-            .create()
-    }
 
     private fun requestPermissions() {
         // Bypass check if we already have permission
@@ -114,11 +92,28 @@ class FaceTrackingPermissions(
 
         // Permission has been denied before, show rationale
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
-            permissionRationaleDialog.show()
+            showPermissionsRationaleDialog()
             return
         }
 
         // Ask for permissions. We are showing rationale here as a primer
         permissionLauncher.launch(Manifest.permission.CAMERA)
+    }
+
+    private fun showPermissionsRationaleDialog() {
+        permissionsDialogShower.showPermissionDialog(
+            onPositiveClick = { permissionLauncher.launch(Manifest.permission.CAMERA) },
+            onNegativeClick = ::disableFaceTracking,
+            onDismiss = ::disableFaceTracking,
+        )
+    }
+
+    private fun showRequestPermissionsDialogFromSettings() {
+        permissionsDialogShower.showSettingsPermissionDialog(
+            onPositiveClick = {
+                permissionRequestViaSettingsLauncher.launch(Manifest.permission.CAMERA)
+            },
+            onNegativeClick = ::disableFaceTracking,
+        )
     }
 }

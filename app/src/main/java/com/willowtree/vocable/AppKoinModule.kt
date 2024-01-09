@@ -18,6 +18,10 @@ import com.willowtree.vocable.utils.*
 import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
+import com.willowtree.vocable.utils.permissions.ActivityPermissionRegisterForLaunch
+import com.willowtree.vocable.utils.permissions.ActivityPermissionsDialogShower
+import com.willowtree.vocable.utils.permissions.PermissionRequester
+import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -30,8 +34,14 @@ object AppKoinModule {
             scoped {
                 FaceTrackingManager(get(), get())
             }
+            scoped<PermissionsDialogShower> {
+                ActivityPermissionsDialogShower(get())
+            }
+            scoped<PermissionRequester> {
+                ActivityPermissionRegisterForLaunch(get())
+            }
             scoped<IFaceTrackingPermissions> {
-                FaceTrackingPermissions(get(), get())
+                FaceTrackingPermissions(get(), get(), get(), get())
             }
             viewModel { FaceTrackingViewModel(get()) }
             viewModel { SelectionModeViewModel(get()) }

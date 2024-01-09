@@ -13,9 +13,9 @@ interface IFaceTrackingPermissions {
 
     val permissionState: MutableStateFlow<PermissionState>
 
-    fun requestFaceTracking()
+    fun initialize()
 
-    fun enableFaceTracking()
+    fun requestFaceTracking()
 
     fun disableFaceTracking()
 }
