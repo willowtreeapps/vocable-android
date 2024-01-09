@@ -27,29 +27,7 @@ class FaceTrackingPermissions(
 ) : IFaceTrackingPermissions {
 
     override val permissionState: MutableStateFlow<IFaceTrackingPermissions.PermissionState> =
-        // We check for permissions on startup, if we have them or receive them `permissionState` will be updated
-        MutableStateFlow(if (sharedPreferences.getHeadTrackingEnabled()) PermissionRequested else Disabled)
-
-    override fun initialize() {
-        if (sharedPreferences.getHeadTrackingEnabled()) {
-            requestFaceTracking()
-        }
-    }
-
-    override fun requestFaceTracking() {
-        permissionState.tryEmit(PermissionRequested)
-        requestPermissions()
-    }
-
-    private fun enableFaceTracking() {
-        sharedPreferences.setHeadTrackingEnabled(true)
-        permissionState.tryEmit(Enabled)
-    }
-
-    override fun disableFaceTracking() {
-        sharedPreferences.setHeadTrackingEnabled(false)
-        permissionState.tryEmit(Disabled)
-    }
+        MutableStateFlow(Disabled)
 
     private val permissionLauncher: PermissionRequestLauncher =
         permissionRequester.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -82,6 +60,27 @@ class FaceTrackingPermissions(
             }
         }
 
+    init {
+        // We check for permissions on startup, if we have them or receive them `permissionState` will be updated
+        if (sharedPreferences.getHeadTrackingEnabled()) {
+            requestFaceTracking()
+        }
+    }
+
+    override fun requestFaceTracking() {
+        permissionState.tryEmit(PermissionRequested)
+        requestPermissions()
+    }
+
+    private fun enableFaceTracking() {
+        sharedPreferences.setHeadTrackingEnabled(true)
+        permissionState.tryEmit(Enabled)
+    }
+
+    override fun disableFaceTracking() {
+        sharedPreferences.setHeadTrackingEnabled(false)
+        permissionState.tryEmit(Disabled)
+    }
 
     private fun requestPermissions() {
         // Bypass check if we already have permission
