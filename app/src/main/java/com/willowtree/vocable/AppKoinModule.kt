@@ -4,8 +4,8 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
-import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
@@ -19,9 +19,12 @@ import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import com.willowtree.vocable.utils.permissions.ActivityPermissionRegisterForLaunch
+import com.willowtree.vocable.utils.permissions.ActivityPermissionsChecker
 import com.willowtree.vocable.utils.permissions.ActivityPermissionsDialogShower
 import com.willowtree.vocable.utils.permissions.PermissionRequester
+import com.willowtree.vocable.utils.permissions.PermissionsChecker
 import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -40,8 +43,11 @@ object AppKoinModule {
             scoped<PermissionRequester> {
                 ActivityPermissionRegisterForLaunch(get())
             }
+            scoped<PermissionsChecker> {
+                ActivityPermissionsChecker(get())
+            }
             scoped<IFaceTrackingPermissions> {
-                FaceTrackingPermissions(get(), get(), get(), get())
+                FaceTrackingPermissions(get(), androidContext().packageName, get(), get(), get())
             }
             viewModel { FaceTrackingViewModel(get()) }
             viewModel { SelectionModeViewModel(get()) }

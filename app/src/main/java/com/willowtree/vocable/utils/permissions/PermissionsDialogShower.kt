@@ -2,7 +2,7 @@ package com.willowtree.vocable.utils.permissions
 
 interface PermissionsDialogShower {
 
-    fun showPermissionDialog(
+    fun showPermissionRationaleDialog(
         onPositiveClick: () -> Unit,
         onNegativeClick: () -> Unit,
         onDismiss: () -> Unit,

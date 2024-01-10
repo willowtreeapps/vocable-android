@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 interface IFaceTrackingPermissions {
 
     sealed interface PermissionState {
-        object PermissionRequested : PermissionState
         object Enabled : PermissionState
         object Disabled : PermissionState
     }

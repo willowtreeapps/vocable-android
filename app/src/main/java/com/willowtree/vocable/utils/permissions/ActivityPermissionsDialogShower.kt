@@ -8,7 +8,7 @@ class ActivityPermissionsDialogShower(
     private val activity: AppCompatActivity,
 ) : PermissionsDialogShower {
 
-    override fun showPermissionDialog(
+    override fun showPermissionRationaleDialog(
         onPositiveClick: () -> Unit,
         onNegativeClick: () -> Unit,
         onDismiss: () -> Unit,
