@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.customviews.PointerView
 import com.willowtree.vocable.databinding.ActivityMainBinding
@@ -16,10 +17,11 @@ import com.willowtree.vocable.utils.FaceTrackingPointerUpdates
 import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.ScopeActivity
 import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.scope.getViewModel
 
 class MainActivity : ScopeActivity() {
 
@@ -31,23 +33,24 @@ class MainActivity : ScopeActivity() {
 
     private val faceTrackingManager: FaceTrackingManager by inject()
 
-    private val faceTrackingViewModel: FaceTrackingViewModel by viewModel(owner = {
-        ViewModelOwner.from(this)
-    })
+    private lateinit var faceTrackingViewModel: FaceTrackingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        faceTrackingViewModel = scope.getViewModel(owner = { ViewModelOwner.from(this) })
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        faceTrackingManager.initialize(
-            object : FaceTrackingPointerUpdates {
-                override fun toggleVisibility(visible: Boolean) {
-                    binding.pointerView.isVisible = visible
-                }
-            }
-        )
+        lifecycleScope.launch {
+            faceTrackingManager.initialize(
+                faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
+                    override fun toggleVisibility(visible: Boolean) {
+                        binding.pointerView.isVisible = visible
+                    }
+                })
+        }
 
         faceTrackingViewModel.showError.observe(this) { showError ->
             if (!sharedPrefs.getHeadTrackingEnabled()) {
@@ -179,15 +182,6 @@ class MainActivity : ScopeActivity() {
             view2Coords[1] + view2.measuredHeight
         )
         return rect.contains(view2Rect.centerX(), view2Rect.centerY())
-    }
-
-    /**
-     * PERMISSIONS
-     */
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        faceTrackingManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 }

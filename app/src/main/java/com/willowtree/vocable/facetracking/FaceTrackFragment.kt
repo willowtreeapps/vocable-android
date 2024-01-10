@@ -6,7 +6,6 @@ import com.google.ar.core.AugmentedFace
 import com.google.ar.core.Config
 import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
-import com.vmadalin.easypermissions.EasyPermissions
 import java.util.EnumSet
 
 class FaceTrackFragment : ArFragment() {
@@ -58,24 +57,10 @@ class FaceTrackFragment : ArFragment() {
         }
     }
 
-    /**
-     * This scenario should only happen if Permissions where given, which launches this fragment, and then revoked.
-     *
-     * ie. headTrackingEnabled = true, but no permissions
-     *
-     * This fragment will attempt to create its own permissions, bypassing the usual triggers but ultimately putting it back into flow.
-     *
-     * Funnels permission work back into Activity to allow it to be handle in a singular place.
-     * More importantly we DO NOT allow the super to be called. Denied permissions will trigger built in dialogs and ultimately close the app
-     *
-     * This is ultimately a result of our dependency on [ArFragment], which we would like to move away from
-     */
     @Deprecated(
-        "Deprecated,  but it is what is used",
-        ReplaceWith("Nothing, this is what AR is expecting")
+        "Permission requesting now handled by FaceTrackingManager",
+        ReplaceWith("FaceTrackingManager")
     )
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, requireActivity())
-    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) { }
 
 }

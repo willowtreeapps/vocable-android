@@ -15,13 +15,14 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 
-class FaceTrackingViewModel : ViewModel(), LifecycleObserver, KoinComponent {
+class FaceTrackingViewModel(
+    headTrackingPermissions: IFaceTrackingPermissions,
+) : ViewModel(), LifecycleObserver, KoinComponent {
 
     companion object {
         private const val FACE_DETECTION_TIMEOUT = 1000
     }
 
-    private val headTrackingPermissions: IFaceTrackingPermissions by inject()
     val headTrackingEnabledLd = headTrackingPermissions.permissionState.asLiveData().map { it.isEnabled() }
 
     private val viewModelJob = SupervisorJob()

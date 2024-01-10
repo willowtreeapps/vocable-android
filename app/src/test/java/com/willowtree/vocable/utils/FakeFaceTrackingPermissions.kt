@@ -12,10 +12,6 @@ class FakeFaceTrackingPermissions(enabled: Boolean) : IFaceTrackingPermissions {
         permissionState.tryEmit(IFaceTrackingPermissions.PermissionState.PermissionRequested)
     }
 
-    override fun enableFaceTracking() {
-        permissionState.tryEmit(IFaceTrackingPermissions.PermissionState.Enabled)
-    }
-
     override fun disableFaceTracking() {
         permissionState.tryEmit(IFaceTrackingPermissions.PermissionState.Disabled)
     }
