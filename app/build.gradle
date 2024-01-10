@@ -15,8 +15,8 @@ android {
         applicationId "com.willowtree.vocable"
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 28
-        versionName "1.5.1"
+        versionCode 30
+        versionName "1.5.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
