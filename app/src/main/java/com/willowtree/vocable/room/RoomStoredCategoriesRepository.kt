@@ -30,4 +30,8 @@ class RoomStoredCategoriesRepository(context: Context) : StoredCategoriesReposit
 
     override suspend fun getCategoryById(categoryId: String): CategoryDto? =
         database.categoryDao().getCategoryById(categoryId)
+
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        database.categoryDao().updateCategoryHidden(StoredCategoryHidden(categoryId, hidden))
+    }
 }
