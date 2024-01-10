@@ -10,6 +10,7 @@ enum class PresetCategories(val id: String, val initialSortOrder: Int) {
     ENVIRONMENT("preset_environment_category_id", 4 ),
     USER_KEYPAD("preset_user_keypad", 5),
     RECENTS("preset_recents", 6),
+    @Deprecated("This is being filtered out from the UI already. Remove this.")
     MY_SAYINGS("preset_user_favorites", 7);
 
     fun getArrayId(): Int {

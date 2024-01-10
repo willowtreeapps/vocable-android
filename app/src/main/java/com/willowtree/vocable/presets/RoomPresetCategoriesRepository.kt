@@ -1,57 +1,82 @@
 package com.willowtree.vocable.presets
 
-import android.content.Context
-import com.willowtree.vocable.room.PresetCategoryHidden
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PresetCategoryDto
+import com.willowtree.vocable.room.PresetCategoryHidden
 import com.willowtree.vocable.room.VocableDatabase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class RoomPresetCategoriesRepository(
-    context: Context
+    private val database: VocableDatabase
 ) : PresetCategoriesRepository {
     // Needed because we're checking database contents and making updates based
     // on them. Multiple callers may call at once.
     private val categoryMutex = Mutex()
-    private val database = VocableDatabase.getVocableDatabase(context)
 
-    override suspend fun getPresetCategories(): List<Category.PresetCategory> {
-        return categoryMutex.withLock {
-            val presetDtos = database.presetCategoryDao().getPresetCategoryDtos()
+    override fun getPresetCategories(): Flow<List<Category.PresetCategory>> {
+        return database.presetCategoryDao().getAllPresetCategoriesFlow().map {
+            it.map {
+                Category.PresetCategory(
+                    it.categoryId,
+                    it.sortOrder,
+                    it.hidden,
+                    PresetCategories.values()
+                        .first { presetCategory -> presetCategory.id == it.categoryId }
+                        .getNameId()
+                )
+            }
+        }.onStart { ensurePopulated() }
+    }
+
+    private suspend fun ensurePopulated() {
+        categoryMutex.withLock {
+            val dbPresets = database.presetCategoryDao().getAllPresetCategoriesFlow().first()
             PresetCategories.values().filter { it != PresetCategories.MY_SAYINGS }
-                .mapIndexed { i, presetCategory ->
-                    var presetDto = presetDtos.firstOrNull { it.categoryId == presetCategory.id }
-                    if (presetDto == null) {
-                        presetDto = PresetCategoryDto(presetCategory.id, false, i)
-                        database.presetCategoryDao().insertPresetCategory(presetDto)
-                    }
-                    Category.PresetCategory(
-                        presetCategory.id,
-                        presetDto.sortOrder,
-                        presetDto.hidden,
-                        presetCategory.getNameId()
-                    )
-                }
+                .filter { presetCategory -> dbPresets.none { it.categoryId == presetCategory.id } }
+                .map { presetCategory -> populatePresetCategory(presetCategory.id) }
         }
     }
 
+    private suspend fun populatePresetCategory(categoryId: String) {
+        val presetCategory = PresetCategories.values().firstOrNull { it.id == categoryId } ?: error(
+            "Unknown preset category id: $categoryId"
+        )
+        val newPresetDto = PresetCategoryDto(categoryId, false, presetCategory.initialSortOrder)
+        database.presetCategoryDao().insertPresetCategory(newPresetDto)
+        Category.PresetCategory(
+            newPresetDto.categoryId,
+            newPresetDto.sortOrder,
+            newPresetDto.hidden,
+            presetCategory.getNameId()
+        )
+    }
+
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        ensurePopulated()
         database.presetCategoryDao().updateCategorySortOrders(categorySortOrders)
     }
 
-    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory? =
-        database.presetCategoryDao().getPresetCategoryById(categoryId)?.let {
+    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory? {
+        ensurePopulated()
+        return database.presetCategoryDao().getPresetCategoryById(categoryId)?.let {
             Category.PresetCategory(
                 it.categoryId,
                 it.sortOrder,
                 it.hidden,
                 PresetCategories.values()
-                    .first { presetCategory -> presetCategory.id == it.categoryId }.getNameId()
+                    .first { presetCategory -> presetCategory.id == it.categoryId }
+                    .getNameId()
             )
         }
+    }
 
     override suspend fun hidePresetCategory(categoryId: String) {
+        ensurePopulated()
         database.presetCategoryDao().updateCategoryHidden(PresetCategoryHidden(categoryId, true))
     }
 }
