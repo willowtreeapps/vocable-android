@@ -1,7 +1,7 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.CustomPhrase
-import com.willowtree.vocable.presets.FakePresetsRepository
+import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
@@ -11,7 +11,7 @@ import org.junit.Test
 
 class PhrasesUseCaseTest {
 
-    private val presetsRepository = FakePresetsRepository()
+    private val presetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
 
     private fun createUseCase(): PhrasesUseCase {
         return PhrasesUseCase(presetsRepository, FakeDateProvider())

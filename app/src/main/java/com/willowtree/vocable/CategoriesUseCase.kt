@@ -1,7 +1,7 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.IPresetsRepository
+import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.asCategory
 import com.willowtree.vocable.room.CategorySortOrder
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CategoriesUseCase(
-    private val presetsRepository: IPresetsRepository,
+    private val legacyCategoriesAndPhrasesRepository: ILegacyCategoriesAndPhrasesRepository,
     private val uuidProvider: UUIDProvider,
     private val localeProvider: LocaleProvider,
     private val storedCategoriesRepository: StoredCategoriesRepository,
@@ -27,29 +27,57 @@ class CategoriesUseCase(
             }
     }
 
-    suspend fun getCategoryById(categoryId: String): Category =
-        presetsRepository.getCategoryById(categoryId).asCategory()
+    override suspend fun getCategoryById(categoryId: String): Category {
+        return storedCategoriesRepository.getCategoryById(categoryId)?.asCategory()
+            ?: presetCategoriesRepository.getCategoryById(categoryId)?.let { if (it.hidden) null else it }
+            ?: throw IllegalArgumentException("Category with id $categoryId not found")
+    }
 
     override suspend fun updateCategoryName(
         categoryId: String,
         localizedName: LocalesWithText
     ) {
-        presetsRepository.updateCategoryName(categoryId, localizedName)
+        val storedCategory = storedCategoriesRepository.getCategoryById(categoryId)
+        if (storedCategory != null) {
+            storedCategoriesRepository.upsertCategory(
+                Category.StoredCategory(
+                    storedCategory.categoryId,
+                    localizedName,
+                    storedCategory.hidden,
+                    storedCategory.sortOrder
+                )
+            )
+        } else {
+            val presetCategory = presetCategoriesRepository.getCategoryById(categoryId)
+            if (presetCategory != null) {
+                presetCategoriesRepository.hidePresetCategory(categoryId)
+                storedCategoriesRepository.upsertCategory(
+                    Category.StoredCategory(
+                        presetCategory.categoryId,
+                        localizedName,
+                        presetCategory.hidden,
+                        presetCategory.sortOrder
+                    )
+                )
+            } else {
+                throw IllegalArgumentException("Category with id $categoryId not found")
+            }
+        }
     }
 
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
-        presetsRepository.updateCategoryHidden(categoryId, hidden)
+        legacyCategoriesAndPhrasesRepository.updateCategoryHidden(categoryId, hidden)
     }
 
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
-        presetsRepository.updateCategorySortOrders(categorySortOrders)
+        presetCategoriesRepository.updateCategorySortOrders(categorySortOrders)
+        storedCategoriesRepository.updateCategorySortOrders(categorySortOrders)
     }
 
     override suspend fun addCategory(categoryName: String, sortOrder: Int) {
-        storedCategoriesRepository.addCategory(
+        storedCategoriesRepository.upsertCategory(
             Category.StoredCategory(
                 uuidProvider.randomUUIDString(),
-                null,
                 LocalesWithText(mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName))),
                 false,
                 sortOrder
@@ -58,7 +86,7 @@ class CategoriesUseCase(
     }
 
     suspend fun deleteCategory(categoryId: String) {
-        presetsRepository.deleteCategory(categoryId)
+        legacyCategoriesAndPhrasesRepository.deleteCategory(categoryId)
     }
 
 }

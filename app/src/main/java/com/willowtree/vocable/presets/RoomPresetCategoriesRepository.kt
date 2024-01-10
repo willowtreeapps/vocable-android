@@ -1,6 +1,8 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
+import com.willowtree.vocable.room.CategoryHidden
+import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PresetCategoryDto
 import com.willowtree.vocable.room.VocableDatabase
 import kotlinx.coroutines.sync.Mutex
@@ -32,5 +34,24 @@ class RoomPresetCategoriesRepository(
                     )
                 }
         }
+    }
+
+    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+        database.presetCategoryDao().updateCategorySortOrders(categorySortOrders)
+    }
+
+    override suspend fun getCategoryById(categoryId: String): Category.PresetCategory? =
+        database.presetCategoryDao().getPresetCategoryById(categoryId)?.let {
+            Category.PresetCategory(
+                it.categoryId,
+                it.sortOrder,
+                it.hidden,
+                PresetCategories.values()
+                    .first { presetCategory -> presetCategory.id == it.categoryId }.getNameId()
+            )
+        }
+
+    override suspend fun hidePresetCategory(categoryId: String) {
+        database.presetCategoryDao().updateCategoryHidden(CategoryHidden(categoryId, true))
     }
 }

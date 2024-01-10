@@ -3,6 +3,7 @@ package com.willowtree.vocable.room
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface PresetCategoryDao {
@@ -11,4 +12,13 @@ interface PresetCategoryDao {
 
     @Query("SELECT * FROM PresetCategory")
     suspend fun getPresetCategoryDtos(): List<PresetCategoryDto>
+
+    @Update(entity = PresetCategoryDto::class)
+    suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
+
+    @Update(entity = PresetCategoryDto::class)
+    suspend fun updateCategoryHidden(categoryHidden: CategoryHidden)
+
+    @Query("SELECT * FROM PresetCategory WHERE category_id = :categoryId")
+    suspend fun getPresetCategoryById(categoryId: String): PresetCategoryDto?
 }

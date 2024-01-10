@@ -14,7 +14,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import java.util.Locale
 
-class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepository {
+class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent, ILegacyCategoriesAndPhrasesRepository {
 
     private val database = VocableDatabase.getVocableDatabase(context)
 
@@ -70,10 +70,6 @@ class PresetsRepository(val context: Context) : KoinComponent, IPresetsRepositor
 
     override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
         TODO("Not yet implemented")
-    }
-
-    override suspend fun getCategoryById(categoryId: String): CategoryDto {
-        return database.categoryDao().getCategoryById(categoryId)
     }
 
     //Initial DB populate
