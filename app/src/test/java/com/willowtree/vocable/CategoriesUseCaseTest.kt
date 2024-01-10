@@ -277,6 +277,33 @@ class CategoriesUseCaseTest {
         )
     }
 
+    @Test
+    fun `update category hidden updates stored category`() = runTest {
+        fakeStoredCategoriesRepository._allCategories.update {
+            listOf(
+                createCategoryDto(
+                    categoryId = "storedCategory1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory1")),
+                    hidden = false
+                )
+            )
+        }
+
+        val useCase = createUseCase()
+
+        useCase.updateCategoryHidden("storedCategory1", true)
+
+        assertEquals(
+            Category.StoredCategory(
+                "storedCategory1",
+                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory1")),
+                hidden = true,
+                sortOrder = 0
+            ),
+            useCase.getCategoryById("storedCategory1")
+        )
+    }
+
     private fun createCategoryDto(
         categoryId: String,
         creationDate: Long = 0L,
