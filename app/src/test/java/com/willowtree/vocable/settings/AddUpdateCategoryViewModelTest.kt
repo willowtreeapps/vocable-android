@@ -38,14 +38,12 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = null,
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
-                    resourceId = null,
                     localizedName = null,
                     hidden = true,
                     sortOrder = 1
@@ -61,21 +59,18 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = null,
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
-                    resourceId = null,
                     localizedName = null,
                     hidden = true,
                     sortOrder = 2
                 ),
                 Category.StoredCategory(
                     categoryId = "",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "New Category")),
                     hidden = false,
                     sortOrder = 1
@@ -91,7 +86,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "Category")),
                     hidden = false,
                     sortOrder = 0
@@ -107,7 +101,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "New Category")),
                     hidden = false,
                     sortOrder = 0
@@ -123,7 +116,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "Category", "es_US" to "Spanish")),
                     hidden = false,
                     sortOrder = 0
@@ -139,7 +131,6 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "New Category", "es_US" to "Spanish")),
                     hidden = false,
                     sortOrder = 0

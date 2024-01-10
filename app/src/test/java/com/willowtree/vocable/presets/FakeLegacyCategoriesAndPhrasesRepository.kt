@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-class FakePresetsRepository : IPresetsRepository {
+class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepository {
 
     val _allCategories = MutableStateFlow(
         listOf(
@@ -94,10 +94,6 @@ class FakePresetsRepository : IPresetsRepository {
     }
 
     override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getCategoryById(categoryId: String): CategoryDto {
         TODO("Not yet implemented")
     }
 

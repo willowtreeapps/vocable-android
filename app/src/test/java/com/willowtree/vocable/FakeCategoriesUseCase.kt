@@ -13,7 +13,6 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
         listOf(
             Category.StoredCategory(
                 "categoryId",
-                0,
                 null,
                 false,
                 0
@@ -44,7 +43,6 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
         _categories.update {
             it + Category.StoredCategory(
                 "",
-                null,
                 LocalesWithText(mapOf("en_US" to categoryName)),
                 false,
                 sortOrder
@@ -64,5 +62,9 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
                 }
             }
         }
+    }
+
+    override suspend fun getCategoryById(categoryId: String): Category {
+        return _categories.value.first { it.categoryId == categoryId }
     }
 }

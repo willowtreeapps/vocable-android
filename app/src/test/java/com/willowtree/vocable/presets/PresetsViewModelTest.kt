@@ -25,7 +25,7 @@ class PresetsViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val fakePresetsRepository = FakePresetsRepository()
+    private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val fakeCategoriesUseCase = FakeCategoriesUseCase()
 
     private fun createViewModel(): PresetsViewModel {
@@ -41,7 +41,6 @@ class PresetsViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
@@ -55,7 +54,6 @@ class PresetsViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
@@ -71,14 +69,12 @@ class PresetsViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "second category")),
                     hidden = false,
                     sortOrder = 0
@@ -100,7 +96,6 @@ class PresetsViewModelTest {
         assertEquals(
             Category.StoredCategory(
                 categoryId = "1",
-                resourceId = null,
                 localizedName = LocalesWithText(mapOf("en_US" to "category")),
                 hidden = false,
                 sortOrder = 0
