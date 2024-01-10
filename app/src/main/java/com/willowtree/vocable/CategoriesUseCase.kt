@@ -10,7 +10,7 @@ import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 
 class CategoriesUseCase(
     private val legacyCategoriesAndPhrasesRepository: ILegacyCategoriesAndPhrasesRepository,
@@ -20,12 +20,13 @@ class CategoriesUseCase(
     private val presetCategoriesRepository: PresetCategoriesRepository
 ) : ICategoriesUseCase {
 
-    override fun categories(): Flow<List<Category>> {
-        return storedCategoriesRepository.getAllCategories()
-            .map { categoryDtoList ->
-                categoryDtoList.map { it.asCategory() } + presetCategoriesRepository.getPresetCategories()
-            }
-    }
+    override fun categories(): Flow<List<Category>> =
+        combine(
+            storedCategoriesRepository.getAllCategories(),
+            presetCategoriesRepository.getPresetCategories()
+        ) { storedCategories, presetCategories ->
+            storedCategories.map { it.asCategory() } + presetCategories
+        }
 
     override suspend fun getCategoryById(categoryId: String): Category {
         return storedCategoriesRepository.getCategoryById(categoryId)?.asCategory()
