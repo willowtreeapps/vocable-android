@@ -15,7 +15,7 @@ android {
         applicationId "com.willowtree.vocable"
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 30
+        versionCode 212
         versionName "1.5.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -24,9 +24,17 @@ android {
             }
         }
     }
+    signingConfigs {
+        release {
+            storeFile rootProject.file("vocable-release.jks")
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+        }
+    }
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
