@@ -1,13 +1,9 @@
 package com.willowtree.vocable.utils
 
 import android.Manifest
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
 import com.willowtree.vocable.utils.permissions.FakePermissionRegisterForLaunch
+import com.willowtree.vocable.utils.permissions.FakePermissionsChecker
 import com.willowtree.vocable.utils.permissions.FakePermissionsDialogShower
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkStatic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -15,29 +11,30 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FaceTrackingPermissionsTest {
 
-    @Before
-    fun setup() {
-        mockkStatic(ContextCompat::class)
-        every {
-            ContextCompat.checkSelfPermission(any(), any())
-        } returns PackageManager.PERMISSION_DENIED
-    }
-
     private val fakePermissionRegisterForLaunch = FakePermissionRegisterForLaunch()
+    private val fakePermissionsDialogShower = FakePermissionsDialogShower()
 
-    private fun createFaceTrackingPermissions(sharedPreferences: IVocableSharedPreferences): IFaceTrackingPermissions {
+    private fun createFaceTrackingPermissions(
+        sharedPreferences: IVocableSharedPreferences = createSharedPrefs(
+            headTrackingEnabled = false
+        ),
+        hasPermissions: Boolean = false,
+        shouldShowRequestPermissionRationale: Boolean = false,
+    ): IFaceTrackingPermissions {
         return FaceTrackingPermissions(
             sharedPreferences = sharedPreferences,
-            activity = mockk(relaxed = true),
+            packageName = "com.willowtree.vocable",
+            hasPermissionsChecker = FakePermissionsChecker(
+                hasPermissions = hasPermissions,
+                shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale,
+            ),
             permissionRequester = fakePermissionRegisterForLaunch,
-            permissionsDialogShower = FakePermissionsDialogShower(),
+            permissionsDialogShower = fakePermissionsDialogShower,
         )
     }
 
@@ -46,40 +43,21 @@ class FaceTrackingPermissionsTest {
     }
 
     @Test
-    fun `permission state Requested on init if head tracking Enabled`() = runTest {
-
+    fun `permission state Enabled on init if head tracking Enabled`() = runTest {
         val permissions = createFaceTrackingPermissions(createSharedPrefs(headTrackingEnabled = true))
 
         advanceUntilIdle()
 
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
+        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Enabled)
     }
 
     @Test
     fun `permission state Disabled on init if head tracking disabled`() = runTest {
-
         val permissions = createFaceTrackingPermissions(createSharedPrefs(headTrackingEnabled = false))
 
         advanceUntilIdle()
 
         assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
-    }
-
-    @Test
-    fun `requestFaceTracking() sets permission state to PermissionRequested`() = runTest {
-
-        // Setting false so its not Requested on init
-        val permissions = createFaceTrackingPermissions(createSharedPrefs(headTrackingEnabled = false))
-
-        advanceUntilIdle()
-
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
-
-        permissions.requestFaceTracking()
-
-        advanceUntilIdle()
-
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
     }
 
     @Test
@@ -89,37 +67,149 @@ class FaceTrackingPermissionsTest {
 
         val permissions = createFaceTrackingPermissions(sharedPreference)
         advanceUntilIdle()
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
+
         permissions.disableFaceTracking()
 
         advanceUntilIdle()
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
+        assertEquals(
+            permissions.permissionState.first(),
+            IFaceTrackingPermissions.PermissionState.Disabled,
+        )
         assertFalse(sharedPreference.getHeadTrackingEnabled())
     }
 
     @Test
     fun `when requestFaceTracking successful, permission state set to enabled`() = runTest {
-        val sharedPreference = createSharedPrefs(headTrackingEnabled = false)
-        val permissions = createFaceTrackingPermissions(sharedPreference)
-        advanceUntilIdle()
-
+        val permissions = createFaceTrackingPermissions()
         permissions.requestFaceTracking()
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
 
-        fakePermissionRegisterForLaunch.triggerActivityResult(contract = Manifest.permission.CAMERA, result = true)
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Enabled)
+        fakePermissionRegisterForLaunch.triggerActivityResult(
+            contract = Manifest.permission.CAMERA,
+            result = true
+        )
+        assertEquals(
+            permissions.permissionState.first(),
+            IFaceTrackingPermissions.PermissionState.Enabled,
+        )
     }
 
     @Test
-    fun `when requestFaceTracking unsuccessful, permission state set to disabled`() = runTest {
-        val sharedPreference = createSharedPrefs(headTrackingEnabled = false)
-        val permissions = createFaceTrackingPermissions(sharedPreference)
+    fun `when requestFaceTracking successful, permission rationale dialogs not shown`() = runTest {
+        val permissions = createFaceTrackingPermissions()
+
+        permissions.requestFaceTracking()
+        fakePermissionRegisterForLaunch.triggerActivityResult(
+            contract = Manifest.permission.CAMERA,
+            result = true
+        )
+
+        assertEquals(0, fakePermissionsDialogShower.showPermissionRationaleDialogCalledCount)
+        assertEquals(0, fakePermissionsDialogShower.showSettingsPermissionDialogCalledCount)
+    }
+
+    @Test
+    fun `when requestFaceTracking() denied, permission state set to disabled`() = runTest {
+        val permissions = createFaceTrackingPermissions()
+
+        permissions.requestFaceTracking()
+        fakePermissionRegisterForLaunch.triggerActivityResult(
+            contract = Manifest.permission.CAMERA,
+            result = false
+        )
+
+        assertEquals(
+            permissions.permissionState.first(),
+            IFaceTrackingPermissions.PermissionState.Disabled,
+        )
+    }
+
+    @Test
+    fun `when rationale should be shown, requestFaceTracking() shows only permission rationale dialog`() = runTest {
+        val permissions = createFaceTrackingPermissions(
+            shouldShowRequestPermissionRationale = true
+        )
         advanceUntilIdle()
 
         permissions.requestFaceTracking()
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.PermissionRequested)
 
-        fakePermissionRegisterForLaunch.triggerActivityResult(contract = Manifest.permission.CAMERA, result = false)
-        assertEquals(permissions.permissionState.first(), IFaceTrackingPermissions.PermissionState.Disabled)
+        assertEquals(1, fakePermissionsDialogShower.showPermissionRationaleDialogCalledCount)
+        assertEquals(0, fakePermissionsDialogShower.showSettingsPermissionDialogCalledCount)
+    }
+
+    @Test
+    fun `when rationale should be shown, requestFaceTracking() shows dialog and onPositiveClick launches permissionLauncher`() =
+        runTest {
+            val permissions = createFaceTrackingPermissions(
+                shouldShowRequestPermissionRationale = true
+            )
+            advanceUntilIdle()
+
+            permissions.requestFaceTracking()
+
+            assertEquals(1, fakePermissionsDialogShower.showPermissionRationaleDialogCalledCount)
+            assertEquals(0, fakePermissionsDialogShower.showSettingsPermissionDialogCalledCount)
+            fakePermissionsDialogShower.permissionDialogOnPositiveClick.invoke()
+            assertEquals(1, fakePermissionRegisterForLaunch.launchCount)
+        }
+
+    @Test
+    fun `when permission rationale should be shown, rationale dialog shown and onNegativeClick launches permissionLauncher`() =
+        runTest {
+            val sharedPreferences = createSharedPrefs(headTrackingEnabled = true)
+
+            // requestFaceTracking() called implicitly in init block when headTrackingEnabled is true
+            createFaceTrackingPermissions(
+                sharedPreferences = sharedPreferences,
+                shouldShowRequestPermissionRationale = true
+            )
+            advanceUntilIdle()
+
+            assertEquals(1, fakePermissionsDialogShower.showPermissionRationaleDialogCalledCount)
+            assertEquals(0, fakePermissionsDialogShower.showSettingsPermissionDialogCalledCount)
+            fakePermissionsDialogShower.permissionDialogOnNegativeClick.invoke()
+            assertFalse(
+                "Head tracking should be disabled if user denies dialog",
+                sharedPreferences.getHeadTrackingEnabled()
+            )
+        }
+
+    @Test
+    fun `given initial rationale dialog denied, settings dialog rationale shown and updates head tracking when enabled`() = runTest {
+        val sharedPreferences = createSharedPrefs(headTrackingEnabled = false)
+        val permissions = createFaceTrackingPermissions(
+            sharedPreferences = sharedPreferences,
+            shouldShowRequestPermissionRationale = true,
+        )
+        advanceUntilIdle()
+
+        // Launch initial rationale dialog, deny permissions
+        permissions.requestFaceTracking()
+        fakePermissionsDialogShower.permissionDialogOnPositiveClick.invoke()
+
+        assertFalse(
+            "headTrackingEnabled should be set as false after permission failure, but it was true",
+            sharedPreferences.getHeadTrackingEnabled()
+        )
+        assertEquals(1, fakePermissionsDialogShower.showPermissionRationaleDialogCalledCount)
+        assertEquals(0, fakePermissionsDialogShower.showSettingsPermissionDialogCalledCount)
+
+        // Settings dialog launched on failure of initial rationale, accept permissions
+        fakePermissionRegisterForLaunch.triggerActivityResult(
+            contract = Manifest.permission.CAMERA,
+            result = false
+        )
+        fakePermissionsDialogShower.permissionDialogOnPositiveClick.invoke()
+        fakePermissionRegisterForLaunch.triggerActivityResult(
+            contract = Manifest.permission.CAMERA,
+            result = true
+        )
+
+        assertEquals(1, fakePermissionsDialogShower.showPermissionRationaleDialogCalledCount)
+        assertEquals(1, fakePermissionsDialogShower.showSettingsPermissionDialogCalledCount)
+        assertEquals(1, fakePermissionRegisterForLaunch.launchCount)
+        assertTrue(
+            "Head tracking should be true after permission success, but it was false",
+            sharedPreferences.getHeadTrackingEnabled()
+        )
     }
 }
