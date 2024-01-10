@@ -1,6 +1,5 @@
 package com.willowtree.vocable.utils
 
-import android.Manifest
 import android.app.ActivityManager
 import android.content.Context
 import android.hardware.display.DisplayManager
@@ -10,13 +9,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.ar.core.ArCoreApk
-import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.R
 import com.willowtree.vocable.facetracking.FaceTrackFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -30,11 +26,10 @@ interface FaceTrackingPointerUpdates {
 class FaceTrackingManager(
     private val activity: AppCompatActivity,
     private val faceTrackingPermissions: IFaceTrackingPermissions,
-) : EasyPermissions.PermissionCallbacks {
+) {
 
     companion object {
         private const val minOpenGlVersion = 3.0
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 5504
     }
 
     val displayMetrics = DisplayMetrics()
@@ -45,26 +40,29 @@ class FaceTrackingManager(
      * Initializes the FaceTrackingManager and begins listening to [IFaceTrackingPermissions.PermissionState] updates.
      * @param faceTrackingPointerUpdates The interface for updating user facing AR UI elements
      */
-    fun initialize(faceTrackingPointerUpdates: FaceTrackingPointerUpdates) {
+    suspend fun initialize(faceTrackingPointerUpdates: FaceTrackingPointerUpdates) {
+
         this.faceTrackingPointerUpdates = faceTrackingPointerUpdates
 
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         if (BuildConfig.USE_HEAD_TRACKING && checkIsSupportedDevice()) {
-            CoroutineScope(Dispatchers.Main).launch {
-                faceTrackingPermissions.permissionState.collect { headTrackingState ->
-                    when (headTrackingState) {
-                        IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
-                            requestPermissions()
-                        }
+            coroutineScope {
+                launch {
+                    faceTrackingPermissions.permissionState.collect { headTrackingState ->
+                        when (headTrackingState) {
+                            IFaceTrackingPermissions.PermissionState.Enabled -> {
+                                togglePointerVisible(true)
+                                setupArTracking()
+                            }
 
-                        IFaceTrackingPermissions.PermissionState.Enabled -> {
-                            togglePointerVisible(true)
-                            setupArTracking()
-                        }
+                            IFaceTrackingPermissions.PermissionState.Disabled -> {
+                                togglePointerVisible(false)
+                            }
 
-                        IFaceTrackingPermissions.PermissionState.Disabled -> {
-                            togglePointerVisible(false)
+                            IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
+                                // No-op
+                            }
                         }
                     }
                 }
@@ -104,7 +102,7 @@ class FaceTrackingManager(
     }
 
     private fun togglePointerVisible(visible: Boolean) {
-        faceTrackingPointerUpdates?.toggleVisibility(if (!BuildConfig.USE_HEAD_TRACKING) false else visible)
+        faceTrackingPointerUpdates.toggleVisibility(if (!BuildConfig.USE_HEAD_TRACKING) false else visible)
     }
 
     /**
@@ -198,39 +196,4 @@ class FaceTrackingManager(
                 .commitAllowingStateLoss()
         }
     }
-
-    //region Permissions
-
-    private fun requestPermissions() {
-        if (EasyPermissions.hasPermissions(activity, Manifest.permission.CAMERA)) {
-            faceTrackingPermissions.enableFaceTracking()
-        } else {
-            // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(
-                host = activity,
-                rationale = "Allow camera permissions to enable Head Tracking.",
-                requestCode = REQUEST_CAMERA_PERMISSION_CODE,
-                perms = arrayOf(Manifest.permission.CAMERA)
-            )
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(activity, perms)) {
-            SettingsDialog.Builder(activity).build().show()
-        } else {
-            faceTrackingPermissions.disableFaceTracking()
-        }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        requestPermissions()
-    }
-
-    //endregion Permissions
-
 }

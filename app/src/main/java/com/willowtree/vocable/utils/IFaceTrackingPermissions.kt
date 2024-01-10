@@ -15,8 +15,6 @@ interface IFaceTrackingPermissions {
 
     fun requestFaceTracking()
 
-    fun enableFaceTracking()
-
     fun disableFaceTracking()
 }
 

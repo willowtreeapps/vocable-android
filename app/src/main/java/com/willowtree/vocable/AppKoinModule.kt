@@ -18,6 +18,10 @@ import com.willowtree.vocable.utils.*
 import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
+import com.willowtree.vocable.utils.permissions.ActivityPermissionRegisterForLaunch
+import com.willowtree.vocable.utils.permissions.ActivityPermissionsDialogShower
+import com.willowtree.vocable.utils.permissions.PermissionRequester
+import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -30,9 +34,19 @@ object AppKoinModule {
             scoped {
                 FaceTrackingManager(get(), get())
             }
+            scoped<PermissionsDialogShower> {
+                ActivityPermissionsDialogShower(get())
+            }
+            scoped<PermissionRequester> {
+                ActivityPermissionRegisterForLaunch(get())
+            }
+            scoped<IFaceTrackingPermissions> {
+                FaceTrackingPermissions(get(), get(), get(), get())
+            }
+            viewModel { FaceTrackingViewModel(get()) }
+            viewModel { SelectionModeViewModel(get()) }
         }
 
-        single { FaceTrackingPermissions(get()) } bind IFaceTrackingPermissions::class
         single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
         single { LegacyCategoriesAndPhrasesRepository(get()) } bind ILegacyCategoriesAndPhrasesRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
@@ -48,7 +62,5 @@ object AppKoinModule {
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
         viewModel { EditCategoryMenuViewModel(get(), get()) }
-        viewModel { SelectionModeViewModel(get()) }
-        viewModel { FaceTrackingViewModel() }
     }
 }
