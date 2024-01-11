@@ -75,8 +75,8 @@ class RoomPresetCategoriesRepository(
         }
     }
 
-    override suspend fun hidePresetCategory(categoryId: String) {
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
         ensurePopulated()
-        database.presetCategoryDao().updateCategoryHidden(PresetCategoryHidden(categoryId, true))
+        database.presetCategoryDao().updateCategoryHidden(PresetCategoryHidden(categoryId, hidden))
     }
 }
