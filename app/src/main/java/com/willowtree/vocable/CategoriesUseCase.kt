@@ -30,7 +30,7 @@ class CategoriesUseCase(
 
     override suspend fun getCategoryById(categoryId: String): Category {
         return storedCategoriesRepository.getCategoryById(categoryId)?.asCategory()
-            ?: presetCategoriesRepository.getCategoryById(categoryId)?.let { if (it.hidden) null else it }
+            ?: presetCategoriesRepository.getCategoryById(categoryId)
             ?: throw IllegalArgumentException("Category with id $categoryId not found")
     }
 
@@ -51,7 +51,7 @@ class CategoriesUseCase(
         } else {
             val presetCategory = presetCategoriesRepository.getCategoryById(categoryId)
             if (presetCategory != null) {
-                presetCategoriesRepository.hidePresetCategory(categoryId)
+                presetCategoriesRepository.updateCategoryHidden(categoryId, true)
                 storedCategoriesRepository.upsertCategory(
                     Category.StoredCategory(
                         presetCategory.categoryId,
@@ -67,6 +67,7 @@ class CategoriesUseCase(
     }
 
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        presetCategoriesRepository.updateCategoryHidden(categoryId, hidden)
         storedCategoriesRepository.updateCategoryHidden(categoryId, hidden)
     }
 
