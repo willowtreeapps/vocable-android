@@ -4,8 +4,8 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
-import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
@@ -14,7 +14,16 @@ import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
-import com.willowtree.vocable.utils.*
+import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.utils.FaceTrackingManager
+import com.willowtree.vocable.utils.FaceTrackingPermissions
+import com.willowtree.vocable.utils.IFaceTrackingPermissions
+import com.willowtree.vocable.utils.ILocalizedResourceUtility
+import com.willowtree.vocable.utils.IVocableSharedPreferences
+import com.willowtree.vocable.utils.JavaDateProvider
+import com.willowtree.vocable.utils.RandomUUIDProvider
+import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
@@ -22,6 +31,7 @@ import com.willowtree.vocable.utils.permissions.ActivityPermissionRegisterForLau
 import com.willowtree.vocable.utils.permissions.ActivityPermissionsDialogShower
 import com.willowtree.vocable.utils.permissions.PermissionRequester
 import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -50,7 +60,7 @@ object AppKoinModule {
         single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
         single { LegacyCategoriesAndPhrasesRepository(get()) } bind ILegacyCategoriesAndPhrasesRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { LocalizedResourceUtility() } bind ILocalizedResourceUtility::class
+        single { LocalizedResourceUtility(androidContext().resources) } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
         single { PhrasesUseCase(get(), get()) }
         single { RandomUUIDProvider() } bind UUIDProvider::class

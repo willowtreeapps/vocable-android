@@ -82,12 +82,23 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
                 for (index in 0 until phrasesIds.length()) {
                     phraseObjects.add(
                         PhraseDto(
-                            0L,
-                            presetCategory.id,
-                            System.currentTimeMillis(),
-                            null,
-                            LocalesWithText(mapOf(Pair(Locale.getDefault().toString(), context.getString(phrasesIds.getResourceId(index, -1))))),
-                            phraseObjects.size
+                            phraseId = 0L,
+                            parentCategoryId = presetCategory.id,
+                            creationDate = System.currentTimeMillis(),
+                            lastSpokenDate = null,
+                            localizedUtterance = LocalesWithText(
+                                mapOf(
+                                    Pair(
+                                        Locale.getDefault().toString(),
+                                        context.getString(phrasesIds.getResourceId(index, -1))
+                                    )
+                                )
+                            ),
+                            // TODO: MPV #467- We will populate via utteranceStringRes here once we have the
+                            //       database set up to use utteranceStringRes instead of localizedUtterance
+                            //       for presets
+                            utteranceStringRes = null,
+                            sortOrder = phraseObjects.size,
                         )
                     )
                 }
