@@ -1,7 +1,7 @@
 package com.willowtree.vocable.presets
 
 import android.content.Context
-import com.willowtree.vocable.room.CategoryHidden
+import com.willowtree.vocable.room.PresetCategoryHidden
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PresetCategoryDto
 import com.willowtree.vocable.room.VocableDatabase
@@ -52,6 +52,6 @@ class RoomPresetCategoriesRepository(
         }
 
     override suspend fun hidePresetCategory(categoryId: String) {
-        database.presetCategoryDao().updateCategoryHidden(CategoryHidden(categoryId, true))
+        database.presetCategoryDao().updateCategoryHidden(PresetCategoryHidden(categoryId, true))
     }
 }

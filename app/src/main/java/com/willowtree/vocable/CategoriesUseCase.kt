@@ -66,7 +66,7 @@ class CategoriesUseCase(
     }
 
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
-        legacyCategoriesAndPhrasesRepository.updateCategoryHidden(categoryId, hidden)
+        storedCategoriesRepository.updateCategoryHidden(categoryId, hidden)
     }
 
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
