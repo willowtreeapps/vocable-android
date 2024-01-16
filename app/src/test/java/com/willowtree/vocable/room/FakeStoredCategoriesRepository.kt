@@ -71,4 +71,16 @@ class FakeStoredCategoriesRepository : StoredCategoriesRepository {
     override suspend fun getCategoryById(categoryId: String): CategoryDto? {
         return _allCategories.value.firstOrNull { it.categoryId == categoryId }
     }
+
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        _allCategories.update { allCategories ->
+            allCategories.map { categoryDto ->
+                if (categoryDto.categoryId == categoryId) {
+                    categoryDto.copy(hidden = hidden)
+                } else {
+                    categoryDto
+                }
+            }
+        }
+    }
 }

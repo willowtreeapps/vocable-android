@@ -36,4 +36,7 @@ interface CategoryDao {
 
     @Query("SELECT COUNT(*) FROM Category WHERE NOT hidden")
     suspend fun getNumberOfShownCategories(): Int
+
+    @Update(entity = CategoryDto::class)
+    suspend fun updateCategoryHidden(categoryHidden: StoredCategoryHidden)
 }
