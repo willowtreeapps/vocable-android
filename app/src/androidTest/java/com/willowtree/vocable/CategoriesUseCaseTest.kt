@@ -302,5 +302,20 @@ class CategoriesUseCaseTest {
         )
     }
 
+    @Test
+    fun update_category_hidden_updates_preset_category() = runTest {
+        val useCase = createUseCase()
 
+        useCase.updateCategoryHidden(PresetCategories.BASIC_NEEDS.id, true)
+
+        assertEquals(
+            Category.PresetCategory(
+                PresetCategories.BASIC_NEEDS.id,
+                sortOrder = 1,
+                hidden = true,
+                resourceId = R.string.preset_basic_needs
+            ),
+            useCase.getCategoryById(PresetCategories.BASIC_NEEDS.id)
+        )
+    }
 }
