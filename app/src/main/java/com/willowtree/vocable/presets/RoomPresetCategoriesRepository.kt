@@ -19,8 +19,8 @@ class RoomPresetCategoriesRepository(
     private val categoryMutex = Mutex()
 
     override fun getPresetCategories(): Flow<List<Category.PresetCategory>> {
-        return database.presetCategoryDao().getAllPresetCategoriesFlow().map {
-            it.map {
+        return database.presetCategoryDao().getAllPresetCategoriesFlow().map { presetCategories ->
+            presetCategories.map {
                 Category.PresetCategory(
                     it.categoryId,
                     it.sortOrder,
