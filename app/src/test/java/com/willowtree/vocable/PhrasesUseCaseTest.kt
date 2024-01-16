@@ -5,6 +5,7 @@ import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.FakeDateProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -12,6 +13,9 @@ import org.junit.Test
 class PhrasesUseCaseTest {
 
     private val presetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
+    private val testLocalesWithText = LocalesWithText(
+        mapOf("en" to "text")
+    )
 
     private fun createUseCase(): PhrasesUseCase {
         return PhrasesUseCase(presetsRepository, FakeDateProvider())
@@ -25,7 +29,7 @@ class PhrasesUseCaseTest {
                 parentCategoryId = "1",
                 creationDate = 0L,
                 lastSpokenDate = 0L,
-                localizedUtterance = null,
+                localizedUtterance = testLocalesWithText,
                 sortOrder = 0
             )
         )
@@ -35,7 +39,7 @@ class PhrasesUseCaseTest {
             listOf(
                 CustomPhrase(
                     phraseId = 1L,
-                    localizedUtterance = null,
+                    localizedUtterance = testLocalesWithText,
                     sortOrder = 0
                 )
             ),
@@ -52,7 +56,7 @@ class PhrasesUseCaseTest {
                     parentCategoryId = "1",
                     creationDate = 0L,
                     lastSpokenDate = 0L,
-                    localizedUtterance = null,
+                    localizedUtterance = testLocalesWithText,
                     sortOrder = 0
                 )
             )
@@ -63,7 +67,7 @@ class PhrasesUseCaseTest {
             listOf(
                 CustomPhrase(
                     phraseId = 1L,
-                    localizedUtterance = null,
+                    localizedUtterance = testLocalesWithText,
                     sortOrder = 0
                 )
             ),
