@@ -83,7 +83,7 @@ class CategoriesUseCaseTest {
                     hidden = false,
                     sortOrder = 0
                 ),
-                *presetCategories.toTypedArray()
+                *presetCategoriesRepository.getPresetCategories().first().toTypedArray()
             ),
             useCase.categories().first()
         )
@@ -103,7 +103,7 @@ class CategoriesUseCaseTest {
                     hidden = false,
                     sortOrder = 0
                 ),
-                *presetCategories.toTypedArray()
+                *presetCategoriesRepository.getPresetCategories().first().toTypedArray()
             ),
             useCase.categories().first()
         )
@@ -117,52 +117,6 @@ class CategoriesUseCaseTest {
             useCase.getCategoryById("1")
         )
     }
-
-    private val presetCategories = listOf(
-        Category.PresetCategory(
-            categoryId = PresetCategories.GENERAL.id,
-            sortOrder = 0,
-            hidden = false,
-            resourceId = PresetCategories.GENERAL.getNameId()
-        ),
-        Category.PresetCategory(
-            categoryId = PresetCategories.BASIC_NEEDS.id,
-            sortOrder = 1,
-            hidden = false,
-            resourceId = PresetCategories.BASIC_NEEDS.getNameId()
-        ),
-        Category.PresetCategory(
-            categoryId = PresetCategories.PERSONAL_CARE.id,
-            sortOrder = 2,
-            hidden = false,
-            resourceId = PresetCategories.PERSONAL_CARE.getNameId()
-        ),
-        Category.PresetCategory(
-            categoryId = PresetCategories.CONVERSATION.id,
-            sortOrder = 3,
-            hidden = false,
-            resourceId = PresetCategories.CONVERSATION.getNameId()
-        ),
-        Category.PresetCategory(
-            categoryId = PresetCategories.ENVIRONMENT.id,
-            sortOrder = 4,
-            hidden = false,
-            resourceId = PresetCategories.ENVIRONMENT.getNameId()
-        ),
-        Category.PresetCategory(
-            categoryId = PresetCategories.USER_KEYPAD.id,
-            sortOrder = 5,
-            hidden = false,
-            resourceId = PresetCategories.USER_KEYPAD.getNameId()
-        ),
-        Category.PresetCategory(
-            categoryId = PresetCategories.RECENTS.id,
-            sortOrder = 6,
-            hidden = false,
-            resourceId = PresetCategories.RECENTS.getNameId()
-        )
-    )
-
 
     @Test
     fun sort_order_updated() = runTest {
@@ -305,7 +259,6 @@ class CategoriesUseCaseTest {
     fun update_category_name_hides_preset_category_and_creates_stored_category_with_new_name() =
         runTest {
             val useCase = createUseCase()
-            useCase.categories()
 
             useCase.updateCategoryName(
                 PresetCategories.BASIC_NEEDS.id,
