@@ -48,12 +48,6 @@ class RoomPresetCategoriesRepository(
         )
         val newPresetDto = PresetCategoryDto(categoryId, false, presetCategory.initialSortOrder)
         database.presetCategoryDao().insertPresetCategory(newPresetDto)
-        Category.PresetCategory(
-            newPresetDto.categoryId,
-            newPresetDto.sortOrder,
-            newPresetDto.hidden,
-            presetCategory.getNameId()
-        )
     }
 
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
