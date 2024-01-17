@@ -30,11 +30,11 @@ data class CustomPhrase(
 data class PresetPhrase(
     override val phraseId: Long,
     override val sortOrder: Int,
-    val utteranceStringRes: Int?,
+    val utteranceStringRes: Int,
 ) : Phrase() {
 
     override fun text(resources: Resources): String {
-        return resources.getString(utteranceStringRes ?: 0)
+        return resources.getString(utteranceStringRes)
     }
 }
 
