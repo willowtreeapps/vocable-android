@@ -34,4 +34,8 @@ class RoomStoredCategoriesRepository(
     override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
         database.categoryDao().updateCategoryHidden(StoredCategoryHidden(categoryId, hidden))
     }
+
+    override suspend fun deleteCategory(categoryId: String) {
+        database.categoryDao().deleteCategory(categoryId)
+    }
 }

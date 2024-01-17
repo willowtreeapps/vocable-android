@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import com.willowtree.vocable.room.CategorySortOrder
+import com.willowtree.vocable.room.PresetCategoryDeleted
 import com.willowtree.vocable.room.PresetCategoryDto
 import com.willowtree.vocable.room.PresetCategoryHidden
 import com.willowtree.vocable.room.VocableDatabase
@@ -20,16 +21,17 @@ class RoomPresetCategoriesRepository(
 
     override fun getPresetCategories(): Flow<List<Category.PresetCategory>> {
         return database.presetCategoryDao().getAllPresetCategoriesFlow().map { presetCategories ->
-            presetCategories.map {
-                Category.PresetCategory(
-                    it.categoryId,
-                    it.sortOrder,
-                    it.hidden,
-                    PresetCategories.values()
-                        .first { presetCategory -> presetCategory.id == it.categoryId }
-                        .getNameId()
-                )
-            }
+            presetCategories.filterNot { it.deleted }
+                .map {
+                    Category.PresetCategory(
+                        it.categoryId,
+                        it.sortOrder,
+                        it.hidden,
+                        PresetCategories.values()
+                            .first { presetCategory -> presetCategory.id == it.categoryId }
+                            .getNameId()
+                    )
+                }
         }.onStart { ensurePopulated() }
     }
 
@@ -46,7 +48,12 @@ class RoomPresetCategoriesRepository(
         val presetCategory = PresetCategories.values().firstOrNull { it.id == categoryId } ?: error(
             "Unknown preset category id: $categoryId"
         )
-        val newPresetDto = PresetCategoryDto(categoryId, false, presetCategory.initialSortOrder)
+        val newPresetDto = PresetCategoryDto(
+            categoryId = categoryId,
+            hidden = false,
+            sortOrder = presetCategory.initialSortOrder,
+            deleted = false
+        )
         database.presetCategoryDao().insertPresetCategory(newPresetDto)
     }
 
@@ -72,5 +79,10 @@ class RoomPresetCategoriesRepository(
     override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
         ensurePopulated()
         database.presetCategoryDao().updateCategoryHidden(PresetCategoryHidden(categoryId, hidden))
+    }
+
+    override suspend fun deleteCategory(categoryId: String) {
+        ensurePopulated()
+        database.presetCategoryDao().updateCategoryDeleted(PresetCategoryDeleted(categoryId, true))
     }
 }
