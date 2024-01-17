@@ -80,6 +80,8 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
                     get<Context>().resources.obtainTypedArray(presetCategory.getArrayId())
                 val phraseObjects = mutableListOf<PhraseDto>()
                 for (index in 0 until phrasesIds.length()) {
+                    // TODO: MPV #467- We will populate via a new table for preset phrases here
+                    //                 instead once we have the new table created
                     phraseObjects.add(
                         PhraseDto(
                             phraseId = 0L,
@@ -94,10 +96,6 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
                                     )
                                 )
                             ),
-                            // TODO: MPV #467- We will populate via utteranceStringRes here once we have the
-                            //       database set up to use utteranceStringRes instead of localizedUtterance
-                            //       for presets
-                            utteranceStringRes = null,
                             sortOrder = phraseObjects.size,
                         )
                     )

@@ -21,13 +21,6 @@ class LocalizedResourceUtility(
     }
 
     fun getTextFromPhrase(phrase: Phrase?): String {
-        return phrase?.utteranceStringRes?.let {
-            if (it != 0 && it != -1) {
-                resources.getString(it)
-            } else {
-                null
-            }
-        } ?: phrase?.localizedUtterance?.localizedText?.text() ?: ""
-
+        return phrase?.text(resources) ?: ""
     }
 }
