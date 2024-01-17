@@ -32,10 +32,14 @@ jobs:
           name: test-results
           path: app/build/reports/
 
-      - name: Assemble Debug Variant
+      - name: Build & Assemble Release APK
+        if: github.event_name != 'pull_request'
         env:
           VERSION_CODE: ${{ github.run_number }}
-        run: ./gradlew assembleDebug
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          ./gradlew assembleRelease
 
       - name: Install Firebase CLI
         if: github.event_name != 'pull_request'
@@ -49,22 +53,13 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GOOGLE_APPLICATION_CREDENTIALS: service_account.json
-        run: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "internal"
+        run: firebase appdistribution:distribute app/build/outputs/apk/release/app-release.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "internal"
 
       - name: Decode Keystore
         if: github.event_name != 'pull_request'
         env:
           ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
         run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
-
-      - name: Build & Assemble Release APK
-        if: github.event_name != 'pull_request'
-        env:
-          VERSION_CODE: ${{ github.run_number }}
-          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-        run: |
-          ./gradlew assembleRelease
 
       - name: Upload to Play Store
         if: github.event_name != 'pull_request'
