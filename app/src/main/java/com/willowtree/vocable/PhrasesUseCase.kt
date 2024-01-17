@@ -38,7 +38,6 @@ class PhrasesUseCase(
             creationDate = dateProvider.currentTimeMillis(),
             lastSpokenDate = null,
             localizedUtterance = localizedUtterance,
-            utteranceStringRes = null,
             sortOrder = presetsRepository.getPhrasesForCategory(parentCategoryId).size
         ))
     }

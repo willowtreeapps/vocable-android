@@ -3,11 +3,12 @@ package com.willowtree.vocable.room
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.parcelize.Parcelize
 
+// TODO: MPV- this will become the table for exclusively custom phrases, and we will create a new,
+//            separate table for the presets. Upcoming MR will handle this
 @Entity(tableName = "Phrase")
 @Parcelize
 data class PhraseDto(
@@ -17,26 +18,4 @@ data class PhraseDto(
     @ColumnInfo(name = "last_spoken_date") val lastSpokenDate: Long?,
     @ColumnInfo(name = "localized_utterance") val localizedUtterance: LocalesWithText?,
     @ColumnInfo(name = "sort_order") val sortOrder: Int,
-    @Ignore
-    @ColumnInfo(name = "utterance_string_res") val utteranceStringRes: Int? = null,
-) : Parcelable {
-
-    // TODO: Remove this when we un-ignore [utteranceStringRes]. This constructor is needed for
-    //       Room to be able to instantiate the class b/c it doesn't know about utteranceStringRes
-    constructor(
-        phraseId: Long,
-        parentCategoryId: String?,
-        creationDate: Long,
-        lastSpokenDate: Long?,
-        localizedUtterance: LocalesWithText?,
-        sortOrder: Int,
-    ) : this(
-        phraseId = phraseId,
-        parentCategoryId = parentCategoryId,
-        creationDate = creationDate,
-        lastSpokenDate = lastSpokenDate,
-        localizedUtterance = localizedUtterance,
-        sortOrder = sortOrder,
-        utteranceStringRes = null,
-    )
-}
+) : Parcelable
