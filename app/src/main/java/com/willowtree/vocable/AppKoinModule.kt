@@ -32,6 +32,7 @@ import com.willowtree.vocable.utils.permissions.ActivityPermissionRegisterForLau
 import com.willowtree.vocable.utils.permissions.ActivityPermissionsDialogShower
 import com.willowtree.vocable.utils.permissions.PermissionRequester
 import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -60,7 +61,7 @@ object AppKoinModule {
         single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
         single { LegacyCategoriesAndPhrasesRepository(get(), get()) } bind ILegacyCategoriesAndPhrasesRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { LocalizedResourceUtility() } bind ILocalizedResourceUtility::class
+        single { LocalizedResourceUtility(androidContext().resources) } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
         single { PhrasesUseCase(get(), get()) }
         single { RandomUUIDProvider() } bind UUIDProvider::class
