@@ -61,7 +61,6 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           VERSION_CODE: ${{ github.run_number }}
-          VERSION_NAME: "1.0"
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: |
