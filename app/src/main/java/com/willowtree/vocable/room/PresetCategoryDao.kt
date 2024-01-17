@@ -22,4 +22,7 @@ interface PresetCategoryDao {
 
     @Query("SELECT * FROM PresetCategory WHERE category_id != 'preset_user_favorites'")
     fun getAllPresetCategoriesFlow(): Flow<List<PresetCategoryDto>>
+
+    @Update(entity = PresetCategoryDto::class)
+    suspend fun updateCategoryDeleted(categoryDeleted: PresetCategoryDeleted)
 }

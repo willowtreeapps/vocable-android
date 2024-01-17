@@ -1,7 +1,6 @@
 package com.willowtree.vocable
 
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.asCategory
 import com.willowtree.vocable.room.CategorySortOrder
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class CategoriesUseCase(
-    private val legacyCategoriesAndPhrasesRepository: ILegacyCategoriesAndPhrasesRepository,
     private val uuidProvider: UUIDProvider,
     private val localeProvider: LocaleProvider,
     private val storedCategoriesRepository: StoredCategoriesRepository,
@@ -88,7 +86,8 @@ class CategoriesUseCase(
     }
 
     suspend fun deleteCategory(categoryId: String) {
-        legacyCategoriesAndPhrasesRepository.deleteCategory(categoryId)
+        storedCategoriesRepository.deleteCategory(categoryId)
+        presetCategoriesRepository.deleteCategory(categoryId)
     }
 
 }
