@@ -33,12 +33,12 @@ class PhrasesUseCase(
 
     suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
         presetsRepository.addPhrase(PhraseDto(
-            0L,
-            parentCategoryId,
-            dateProvider.currentTimeMillis(),
-            null,
-            localizedUtterance,
-            presetsRepository.getPhrasesForCategory(parentCategoryId).size
+            phraseId = 0L,
+            parentCategoryId = parentCategoryId,
+            creationDate = dateProvider.currentTimeMillis(),
+            lastSpokenDate = null,
+            localizedUtterance = localizedUtterance,
+            sortOrder = presetsRepository.getPhrasesForCategory(parentCategoryId).size
         ))
     }
 }
