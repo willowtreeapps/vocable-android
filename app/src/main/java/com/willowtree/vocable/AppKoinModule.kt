@@ -10,6 +10,7 @@ import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
 import com.willowtree.vocable.room.StoredCategoriesRepository
+import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
@@ -58,7 +59,7 @@ object AppKoinModule {
         }
 
         single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
-        single { LegacyCategoriesAndPhrasesRepository(get()) } bind ILegacyCategoriesAndPhrasesRepository::class
+        single { LegacyCategoriesAndPhrasesRepository(get(), get()) } bind ILegacyCategoriesAndPhrasesRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility(androidContext().resources) } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
@@ -68,6 +69,7 @@ object AppKoinModule {
         single { JavaLocaleProvider() } bind LocaleProvider::class
         single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
         single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
+        single { VocableDatabase.getVocableDatabase(get()) }
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }

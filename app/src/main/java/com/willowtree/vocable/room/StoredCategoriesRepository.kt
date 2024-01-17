@@ -8,4 +8,5 @@ interface StoredCategoriesRepository {
     suspend fun upsertCategory(category: Category.StoredCategory)
     suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
     suspend fun getCategoryById(categoryId: String): CategoryDto?
+    suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
 }
