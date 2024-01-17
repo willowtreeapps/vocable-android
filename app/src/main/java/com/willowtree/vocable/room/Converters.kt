@@ -33,10 +33,10 @@ object Converters : KoinComponent {
 
     @TypeConverter
     @JvmStatic
-    fun stringMapToLanguagesWithText(localesWithText: LocalesWithText): String {
+    fun stringMapToLanguagesWithText(localesWithText: LocalesWithText?): String {
         val type = Types.newParameterizedType(Map::class.java, LocaleString::class.java, String::class.java)
         val adapter: JsonAdapter<Map<LocaleString, String>> = moshi.adapter(type)
-        return adapter.toJson(localesWithText.localesTextMap)
+        return adapter.toJson(localesWithText?.localesTextMap)
     }
 
     @TypeConverter
