@@ -8,8 +8,12 @@ import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
+import com.willowtree.vocable.room.PresetPhrasesRepository
+import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
+import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.StoredCategoriesRepository
+import com.willowtree.vocable.room.StoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
@@ -69,6 +73,8 @@ object AppKoinModule {
         single { JavaLocaleProvider() } bind LocaleProvider::class
         single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
         single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
+        single { RoomStoredPhrasesRepository(get()) } bind StoredPhrasesRepository::class
+        single { RoomPresetPhrasesRepository(get()) } bind PresetPhrasesRepository::class
         single { VocableDatabase.getVocableDatabase(get()) }
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
