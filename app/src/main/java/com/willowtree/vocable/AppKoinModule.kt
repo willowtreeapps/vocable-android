@@ -35,8 +35,6 @@ import com.willowtree.vocable.utils.permissions.PermissionRequester
 import com.willowtree.vocable.utils.permissions.PermissionsChecker
 import com.willowtree.vocable.utils.permissions.PermissionsRationaleDialogShower
 import org.koin.android.ext.koin.androidContext
-import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
