@@ -10,11 +10,21 @@ import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
 import com.willowtree.vocable.room.StoredCategoriesRepository
+import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
-import com.willowtree.vocable.utils.*
+import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.utils.FaceTrackingManager
+import com.willowtree.vocable.utils.FaceTrackingPermissions
+import com.willowtree.vocable.utils.IFaceTrackingPermissions
+import com.willowtree.vocable.utils.ILocalizedResourceUtility
+import com.willowtree.vocable.utils.IVocableSharedPreferences
+import com.willowtree.vocable.utils.JavaDateProvider
+import com.willowtree.vocable.utils.RandomUUIDProvider
+import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
@@ -24,6 +34,8 @@ import com.willowtree.vocable.utils.permissions.ActivityPermissionsRationaleDial
 import com.willowtree.vocable.utils.permissions.PermissionRequester
 import com.willowtree.vocable.utils.permissions.PermissionsChecker
 import com.willowtree.vocable.utils.permissions.PermissionsRationaleDialogShower
+import org.koin.android.ext.koin.androidContext
+import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
@@ -54,9 +66,9 @@ object AppKoinModule {
         }
 
         single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
-        single { LegacyCategoriesAndPhrasesRepository(get()) } bind ILegacyCategoriesAndPhrasesRepository::class
+        single { LegacyCategoriesAndPhrasesRepository(get(), get()) } bind ILegacyCategoriesAndPhrasesRepository::class
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { LocalizedResourceUtility() } bind ILocalizedResourceUtility::class
+        single { LocalizedResourceUtility(androidContext().resources) } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
         single { PhrasesUseCase(get(), get()) }
         single { RandomUUIDProvider() } bind UUIDProvider::class
@@ -64,6 +76,7 @@ object AppKoinModule {
         single { JavaLocaleProvider() } bind LocaleProvider::class
         single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
         single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
+        single { VocableDatabase.getVocableDatabase(get()) }
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }

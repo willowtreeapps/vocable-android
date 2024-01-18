@@ -14,9 +14,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import java.util.Locale
 
-class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent, ILegacyCategoriesAndPhrasesRepository {
-
-    private val database = VocableDatabase.getVocableDatabase(context)
+class LegacyCategoriesAndPhrasesRepository(
+    val context: Context,
+    private val database: VocableDatabase
+) : KoinComponent, ILegacyCategoriesAndPhrasesRepository {
 
     override suspend fun getAllCategories(): List<CategoryDto> {
         return database.categoryDao().getAllCategories()
@@ -30,7 +31,8 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
         return database.phraseDao().getPhrasesForCategory(categoryId)
     }
 
-    override suspend fun getRecentPhrases(): List<PhraseDto> = database.phraseDao().getRecentPhrases()
+    override suspend fun getRecentPhrases(): List<PhraseDto> =
+        database.phraseDao().getRecentPhrases()
 
     override suspend fun addPhrase(phrase: PhraseDto) {
         database.phraseDao().insertPhrase(phrase)
@@ -57,7 +59,8 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
     }
 
     override suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
-        database.phraseDao().updatePhraseLocalizedUtterance(PhraseLocalizedUtterance(phraseId, localizedUtterance))
+        database.phraseDao()
+            .updatePhraseLocalizedUtterance(PhraseLocalizedUtterance(phraseId, localizedUtterance))
     }
 
     override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
@@ -80,14 +83,23 @@ class LegacyCategoriesAndPhrasesRepository(val context: Context) : KoinComponent
                     get<Context>().resources.obtainTypedArray(presetCategory.getArrayId())
                 val phraseObjects = mutableListOf<PhraseDto>()
                 for (index in 0 until phrasesIds.length()) {
+                    // TODO: MPV #467- We will populate via a new table for preset phrases here
+                    //                 instead once we have the new table created
                     phraseObjects.add(
                         PhraseDto(
-                            0L,
-                            presetCategory.id,
-                            System.currentTimeMillis(),
-                            null,
-                            LocalesWithText(mapOf(Pair(Locale.getDefault().toString(), context.getString(phrasesIds.getResourceId(index, -1))))),
-                            phraseObjects.size
+                            phraseId = 0L,
+                            parentCategoryId = presetCategory.id,
+                            creationDate = System.currentTimeMillis(),
+                            lastSpokenDate = null,
+                            localizedUtterance = LocalesWithText(
+                                mapOf(
+                                    Pair(
+                                        Locale.getDefault().toString(),
+                                        context.getString(phrasesIds.getResourceId(index, -1))
+                                    )
+                                )
+                            ),
+                            sortOrder = phraseObjects.size,
                         )
                     )
                 }
