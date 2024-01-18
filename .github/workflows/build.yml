@@ -32,6 +32,12 @@ jobs:
           name: test-results
           path: app/build/reports/
 
+      - name: Decode Keystore
+        if: github.event_name != 'pull_request'
+        env:
+          ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
+        run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
+
       - name: Build & Assemble Release APK
         if: github.event_name != 'pull_request'
         env:
@@ -54,12 +60,6 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: service_account.json
         run: firebase appdistribution:distribute app/build/outputs/apk/release/app-release.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "internal"
-
-      - name: Decode Keystore
-        if: github.event_name != 'pull_request'
-        env:
-          ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
-        run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
 
       - name: Upload to Play Store
         if: github.event_name != 'pull_request'
