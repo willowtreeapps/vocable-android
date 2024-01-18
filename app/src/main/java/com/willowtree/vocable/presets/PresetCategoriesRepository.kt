@@ -8,4 +8,5 @@ interface PresetCategoriesRepository {
     suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
     suspend fun getCategoryById(categoryId: String): Category.PresetCategory?
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
+    suspend fun deleteCategory(categoryId: String)
 }

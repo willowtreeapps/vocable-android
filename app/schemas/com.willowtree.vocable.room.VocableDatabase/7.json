@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "8470b9d2d5d0ffc958410af9b6617d9c",
+    "identityHash": "28b987c427dc9804607123519e691e78",
     "entities": [
       {
         "tableName": "Category",
@@ -106,7 +106,7 @@
       },
       {
         "tableName": "PresetCategory",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, `deleted` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -125,6 +125,12 @@
             "columnName": "sort_order",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "deleted",
+            "columnName": "deleted",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -140,7 +146,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8470b9d2d5d0ffc958410af9b6617d9c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '28b987c427dc9804607123519e691e78')"
     ]
   }
 }

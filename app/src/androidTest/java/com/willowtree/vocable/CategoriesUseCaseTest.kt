@@ -4,7 +4,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.CategorySortOrder
@@ -33,14 +32,8 @@ class CategoriesUseCaseTest {
         database
     )
 
-    private val legacyCategoriesAndPhrasesRepository = LegacyCategoriesAndPhrasesRepository(
-        ApplicationProvider.getApplicationContext(),
-        database
-    )
-
     private fun createUseCase(): CategoriesUseCase {
         return CategoriesUseCase(
-            legacyCategoriesAndPhrasesRepository,
             ConstantUUIDProvider(),
             FakeLocaleProvider(),
             storedCategoriesRepository,
@@ -316,6 +309,40 @@ class CategoriesUseCaseTest {
                 resourceId = R.string.preset_basic_needs
             ),
             useCase.getCategoryById(PresetCategories.BASIC_NEEDS.id)
+        )
+    }
+
+    @Test
+    fun delete_stored_category() = runTest {
+        storedCategoriesRepository.upsertCategory(
+            Category.StoredCategory(
+                "storedCategory1",
+                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory1")),
+                hidden = false,
+                sortOrder = 0
+            )
+        )
+
+        val useCase = createUseCase()
+
+        useCase.deleteCategory("storedCategory1")
+
+        assertEquals(
+            presetCategoriesRepository.getPresetCategories().first(),
+            useCase.categories().first()
+        )
+    }
+
+    @Test
+    fun delete_preset_category() = runTest {
+        val useCase = createUseCase()
+
+        useCase.deleteCategory(PresetCategories.BASIC_NEEDS.id)
+
+        assertEquals(
+            presetCategoriesRepository.getPresetCategories().first()
+                .filter { it.categoryId != PresetCategories.BASIC_NEEDS.id },
+            useCase.categories().first()
         )
     }
 }
