@@ -13,14 +13,14 @@ import com.willowtree.vocable.utils.IFaceTrackingPermissions.PermissionState.Ena
 import com.willowtree.vocable.utils.permissions.PermissionRequestLauncher
 import com.willowtree.vocable.utils.permissions.PermissionRequester
 import com.willowtree.vocable.utils.permissions.PermissionsChecker
-import com.willowtree.vocable.utils.permissions.PermissionsDialogShower
+import com.willowtree.vocable.utils.permissions.PermissionsRationaleDialogShower
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class FaceTrackingPermissions(
     private val sharedPreferences: IVocableSharedPreferences,
     private val packageName: String,
     private val hasPermissionsChecker: PermissionsChecker,
-    private val permissionsDialogShower: PermissionsDialogShower,
+    private val permissionsRationaleDialogShower: PermissionsRationaleDialogShower,
     permissionRequester: PermissionRequester,
 ) : IFaceTrackingPermissions {
 
@@ -33,7 +33,7 @@ class FaceTrackingPermissions(
                 enableFaceTracking()
             } else {
                 disableFaceTracking()
-                showRequestPermissionsDialogFromSettings()
+                showSettingsPermissionRationaleDialog()
             }
         }
 
@@ -93,15 +93,15 @@ class FaceTrackingPermissions(
     }
 
     private fun showPermissionsRationaleDialog() {
-        permissionsDialogShower.showPermissionRationaleDialog(
+        permissionsRationaleDialogShower.showPermissionRationaleDialog(
             onPositiveClick = { permissionLauncher.launch(Manifest.permission.CAMERA) },
             onNegativeClick = ::disableFaceTracking,
             onDismiss = ::disableFaceTracking,
         )
     }
 
-    private fun showRequestPermissionsDialogFromSettings() {
-        permissionsDialogShower.showSettingsPermissionDialog(
+    private fun showSettingsPermissionRationaleDialog() {
+        permissionsRationaleDialogShower.showSettingsPermissionRationaleDialog(
             onPositiveClick = {
                 permissionRequestViaSettingsLauncher.launch(Manifest.permission.CAMERA)
             },
