@@ -27,9 +27,7 @@
   <fields>;
 }
 
--keepnames class androidx.navigation.fragment.NavHostFragment
--keepnames class com.willowtree.vocable.room.Category
--keepnames class com.willowtree.vocable.room.Phrase
+-keepnames class * extends android.os.Parcelable
 
 -dontwarn com.google.ar.sceneform.animation.AnimationEngine
 -dontwarn com.google.ar.sceneform.animation.AnimationLibraryLoader
