@@ -8,7 +8,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [CategoryDto::class, PhraseDto::class, PresetCategoryDto::class],
+    entities = [
+        CategoryDto::class,
+        PhraseDto::class,
+        PresetCategoryDto::class,
+        PresetPhraseDto::class
+    ],
     version = 7,
     // TODO: PK - May be able to consolidate 6 and 7 since we never released 6
     autoMigrations = [AutoMigration(from = 6, to = 7)]
@@ -40,6 +45,8 @@ abstract class VocableDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
     abstract fun phraseDao(): PhraseDao
+
+    abstract fun presetPhrasesDao(): PresetPhrasesDao
 
     abstract fun presetCategoryDao(): PresetCategoryDao
 }
