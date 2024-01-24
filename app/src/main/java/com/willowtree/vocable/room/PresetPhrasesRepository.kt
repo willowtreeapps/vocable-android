@@ -1,7 +1,8 @@
 package com.willowtree.vocable.room
 
-// TODO: MPV #467- this will take over the responsibilities for storing and fetching preset
-//                 phrases from the [ILegacyCategoriesAndPhrasesRepository]
+import com.willowtree.vocable.presets.PresetPhrase
+
 interface PresetPhrasesRepository {
-    suspend fun addPhrase(phrase: PresetPhraseDto)
+    suspend fun populateDatabase()
+    suspend fun getAllPresetPhrases(): List<PresetPhrase>
 }

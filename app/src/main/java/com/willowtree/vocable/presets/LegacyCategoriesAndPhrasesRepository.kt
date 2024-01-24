@@ -42,7 +42,7 @@ class LegacyCategoriesAndPhrasesRepository(
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
 
-    override suspend fun deletePhrase(phraseId: Long) {
+    override suspend fun deletePhrase(phraseId: String) {
         database.phraseDao().deletePhrase(phraseId)
     }
 
@@ -58,12 +58,12 @@ class LegacyCategoriesAndPhrasesRepository(
         database.categoryDao().deleteCategory(categoryId)
     }
 
-    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
+    override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
         database.phraseDao()
             .updatePhraseLocalizedUtterance(PhraseLocalizedUtterance(phraseId, localizedUtterance))
     }
 
-    override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
+    override suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long) {
         database.phraseDao().updatePhraseSpokenDate(PhraseSpokenDate(phraseId, lastSpokenDate))
     }
 
@@ -83,8 +83,6 @@ class LegacyCategoriesAndPhrasesRepository(
                     get<Context>().resources.obtainTypedArray(presetCategory.getArrayId())
                 val phraseObjects = mutableListOf<PhraseDto>()
                 for (index in 0 until phrasesIds.length()) {
-                    // TODO: MPV #467- We will populate via a new table for preset phrases here
-                    //                 instead once we have the new table created
                     phraseObjects.add(
                         PhraseDto(
                             phraseId = 0L,

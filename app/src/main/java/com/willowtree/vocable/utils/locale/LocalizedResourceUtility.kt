@@ -1,19 +1,19 @@
 package com.willowtree.vocable.utils.locale
 
-import android.content.res.Resources
+import android.content.Context
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import org.koin.core.component.KoinComponent
 
 class LocalizedResourceUtility(
-    val resources: Resources
+    private val context: Context,
 ) : KoinComponent, ILocalizedResourceUtility {
 
     override fun getTextFromCategory(category: Category?): String {
         return category?.localizedName?.localizedText?.text() ?: category?.resourceId?.let {
             if (it != 0) {
-                resources.getString(it)
+                context.resources.getString(it)
             } else {
                 ""
             }
@@ -21,6 +21,6 @@ class LocalizedResourceUtility(
     }
 
     fun getTextFromPhrase(phrase: Phrase?): String {
-        return phrase?.text(resources) ?: ""
+        return phrase?.text(context) ?: ""
     }
 }

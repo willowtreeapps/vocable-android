@@ -17,7 +17,7 @@ class EditPhrasesViewModel : ViewModel(), KoinComponent {
     private val liveShowPhraseAdded = MutableLiveData<Boolean>()
     val showPhraseAdded: LiveData<Boolean> = liveShowPhraseAdded
 
-    fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
+    fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
         viewModelScope.launch {
             phrasesUseCase.updatePhrase(phraseId, localizedUtterance)
             liveShowPhraseAdded.postValue(true)

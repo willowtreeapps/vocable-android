@@ -12,7 +12,7 @@ interface PhraseDao {
     suspend fun insertPhrases(vararg phrases: PhraseDto)
 
     @Query("DELETE FROM Phrase WHERE phrase_id == :phraseId")
-    suspend fun deletePhrase(phraseId: Long)
+    suspend fun deletePhrase(phraseId: String)
 
     @Delete
     suspend fun deletePhrases(vararg phrases: PhraseDto)

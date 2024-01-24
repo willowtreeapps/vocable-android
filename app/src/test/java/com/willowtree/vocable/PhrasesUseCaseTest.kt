@@ -38,7 +38,7 @@ class PhrasesUseCaseTest {
         assertEquals(
             listOf(
                 CustomPhrase(
-                    phraseId = 1L,
+                    phraseId = "1",
                     localizedUtterance = testLocalesWithText,
                     sortOrder = 0
                 )
@@ -66,7 +66,7 @@ class PhrasesUseCaseTest {
         assertEquals(
             listOf(
                 CustomPhrase(
-                    phraseId = 1L,
+                    phraseId = "1",
                     localizedUtterance = testLocalesWithText,
                     sortOrder = 0
                 )
