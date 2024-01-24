@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -13,6 +14,8 @@ import org.koin.core.component.inject
 class SplashViewModel : ViewModel(), KoinComponent {
 
     private val presetsRepository: LegacyCategoriesAndPhrasesRepository by inject()
+
+    private val newPresetsRepository: RoomPresetPhrasesRepository by inject()
 
     private val sharedPrefs: VocableSharedPreferences by inject()
 
@@ -27,6 +30,7 @@ class SplashViewModel : ViewModel(), KoinComponent {
         viewModelScope.launch {
             if (sharedPrefs.getFirstTime()) {
                 presetsRepository.populateDatabase()
+                newPresetsRepository.populateDatabase()
                 sharedPrefs.setFirstTime()
             }
 

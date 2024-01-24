@@ -7,8 +7,6 @@ import androidx.room.PrimaryKey
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.parcelize.Parcelize
 
-// TODO: MPV- this will become the table for exclusively custom phrases, and we will create a new,
-//            separate table for the presets. Upcoming MR will handle this
 @Entity(tableName = "Phrase")
 @Parcelize
 data class PhraseDto(

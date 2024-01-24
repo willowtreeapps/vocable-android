@@ -19,15 +19,15 @@ class PhrasesUseCase(
         return legacyPhrasesRepository.getPhrasesForCategory(categoryId).map { it.asPhrase() }
     }
 
-    override suspend fun phraseSpoken(phraseId: Long) {
+    override suspend fun phraseSpoken(phraseId: String) {
         legacyPhrasesRepository.updatePhraseLastSpoken(phraseId, dateProvider.currentTimeMillis())
     }
 
-    override suspend fun deletePhrase(phraseId: Long) {
+    override suspend fun deletePhrase(phraseId: String) {
         legacyPhrasesRepository.deletePhrase(phraseId)
     }
 
-    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
+    override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
         legacyPhrasesRepository.updatePhrase(phraseId, localizedUtterance)
     }
 

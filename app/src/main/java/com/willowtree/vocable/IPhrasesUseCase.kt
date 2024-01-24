@@ -7,11 +7,11 @@ interface IPhrasesUseCase {
 
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase>
 
-    suspend fun phraseSpoken(phraseId: Long)
+    suspend fun phraseSpoken(phraseId: String)
 
-    suspend fun deletePhrase(phraseId: Long)
+    suspend fun deletePhrase(phraseId: String)
 
-    suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText)
+    suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText)
 
     suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String)
 }
