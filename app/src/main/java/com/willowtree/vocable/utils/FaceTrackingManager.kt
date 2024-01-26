@@ -59,10 +59,6 @@ class FaceTrackingManager(
                             IFaceTrackingPermissions.PermissionState.Disabled -> {
                                 togglePointerVisible(false)
                             }
-
-                            IFaceTrackingPermissions.PermissionState.PermissionRequested -> {
-                                // No-op
-                            }
                         }
                     }
                 }

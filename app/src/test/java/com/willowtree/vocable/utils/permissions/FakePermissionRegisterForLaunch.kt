@@ -6,6 +6,9 @@ class FakePermissionRegisterForLaunch  : PermissionRequester {
 
     private var callbacks = mutableMapOf<String, (Boolean) -> Unit>()
 
+    val launchCount: Int
+        get() = callbacks.size
+
     override fun registerForActivityResult(
         contract: ActivityResultContract<String, Boolean>,
         activityResultCallback: (Boolean) -> Unit,
