@@ -4,11 +4,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.willowtree.vocable.R
 
-class ActivityPermissionsDialogShower(
+class ActivityPermissionsRationaleDialogShower(
     private val activity: AppCompatActivity,
-) : PermissionsDialogShower {
+) : PermissionsRationaleDialogShower {
 
-    override fun showPermissionDialog(
+    override fun showPermissionRationaleDialog(
         onPositiveClick: () -> Unit,
         onNegativeClick: () -> Unit,
         onDismiss: () -> Unit,
@@ -30,7 +30,7 @@ class ActivityPermissionsDialogShower(
 
     }
 
-    override fun showSettingsPermissionDialog(
+    override fun showSettingsPermissionRationaleDialog(
         onPositiveClick: () -> Unit,
         onNegativeClick: () -> Unit,
     ) {
