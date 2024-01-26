@@ -20,13 +20,13 @@ interface ILegacyCategoriesAndPhrasesRepository {
      * Return all categories, sorted by [CategoryDto.sortOrder]
      */
     suspend fun getAllCategories(): List<CategoryDto>
-    suspend fun deletePhrase(phraseId: Long)
+    suspend fun deletePhrase(phraseId: String)
     suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
     suspend fun updateCategoryName(categoryId: String, localizedName: LocalesWithText)
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
     suspend fun deleteCategory(categoryId: String)
     suspend fun getRecentPhrases(): List<PhraseDto>
-    suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long)
-    suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText)
+    suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long)
+    suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText)
     suspend fun addPhrase(phrase: PhraseDto)
 }

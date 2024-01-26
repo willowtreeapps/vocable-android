@@ -154,7 +154,7 @@ class PresetsViewModelTest {
         assertEquals(
             listOf(
                 CustomPhrase(
-                    phraseId = 2L,
+                    phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 ),
@@ -203,12 +203,12 @@ class PresetsViewModelTest {
         assertEquals(
             listOf(
                 CustomPhrase(
-                    phraseId = 2L,
+                    phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 ),
                 CustomPhrase(
-                    phraseId = 1L,
+                    phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1
                 ),
@@ -255,12 +255,12 @@ class PresetsViewModelTest {
         assertEquals(
             listOf(
                 CustomPhrase(
-                    phraseId = 1L,
+                    phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1
                 ),
                 CustomPhrase(
-                    phraseId = 2L,
+                    phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 )

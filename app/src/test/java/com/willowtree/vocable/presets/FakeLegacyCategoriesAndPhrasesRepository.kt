@@ -60,7 +60,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
         return _allCategories.value.sortedBy { it.sortOrder }
     }
 
-    override suspend fun deletePhrase(phraseId: Long) {
+    override suspend fun deletePhrase(phraseId: String) {
         TODO("Not yet implemented")
     }
 
@@ -102,11 +102,11 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
     }
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
-    override suspend fun updatePhraseLastSpoken(phraseId: Long, lastSpokenDate: Long) {
+    override suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updatePhrase(phraseId: Long, localizedUtterance: LocalesWithText) {
+    override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
         TODO("Not yet implemented")
     }
 
