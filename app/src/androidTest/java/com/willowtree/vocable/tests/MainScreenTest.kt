@@ -1,9 +1,11 @@
 package com.willowtree.vocable.tests
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertTextMatches
 import org.junit.Ignore
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -12,7 +14,6 @@ class MainScreenTest : BaseTest() {
 
     private val mainScreen = MainScreen()
 
-    @Ignore
     @Test
     fun verifyDefaultTextAppears() {
         mainScreen.apply {
@@ -21,7 +22,6 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyClickingPhraseUpdatesCurrentText() {
         mainScreen.apply {
@@ -30,7 +30,6 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyDefaultCategoriesExist() {
         mainScreen.apply {
@@ -38,7 +37,6 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifyDefaultSayingsInCategoriesExist() {
         mainScreen.apply {
@@ -47,7 +45,6 @@ class MainScreenTest : BaseTest() {
         }
     }
 
-    @Ignore
     @Test
     fun verifySelectingCategoryChangesPhrases() {
         mainScreen.apply {
