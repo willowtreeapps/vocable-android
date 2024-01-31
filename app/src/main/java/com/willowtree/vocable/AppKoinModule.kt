@@ -72,14 +72,14 @@ object AppKoinModule {
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility(androidContext()) } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get(), get(), get(), get()) } bind ICategoriesUseCase::class
-        single { PhrasesUseCase(get(), get()) }
+        single { PhrasesUseCase(get(), get(), get(), get()) } bind IPhrasesUseCase::class
         single { RandomUUIDProvider() } bind UUIDProvider::class
         single { JavaDateProvider() } bind DateProvider::class
         single { JavaLocaleProvider() } bind LocaleProvider::class
         single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
         single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
-        single { RoomStoredPhrasesRepository(get()) } bind StoredPhrasesRepository::class
-        single { RoomPresetPhrasesRepository(get()) } bind PresetPhrasesRepository::class
+        single { RoomStoredPhrasesRepository(get(), get()) } bind StoredPhrasesRepository::class
+        single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
         single { VocableDatabase.getVocableDatabase(get()) }
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }

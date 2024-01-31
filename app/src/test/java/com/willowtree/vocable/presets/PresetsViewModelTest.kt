@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
+import com.willowtree.vocable.PhrasesUseCaseTest
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
@@ -27,11 +28,17 @@ class PresetsViewModelTest {
 
     private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val fakeCategoriesUseCase = FakeCategoriesUseCase()
+    private val fakePhrasesUseCase = PhrasesUseCase(
+        legacyPhrasesRepository = fakePresetsRepository,
+        storedPhrasesRepository = PhrasesUseCaseTest.StubStoredPhrasesRepository(),
+        presetPhrasesRepository = PhrasesUseCaseTest.StubPresetPhrasesRepository(),
+        dateProvider = FakeDateProvider(),
+    )
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
             fakeCategoriesUseCase,
-            PhrasesUseCase(fakePresetsRepository, FakeDateProvider())
+            fakePhrasesUseCase,
         )
     }
 
@@ -156,7 +163,7 @@ class PresetsViewModelTest {
                 CustomPhrase(
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                    sortOrder = 0
+                    sortOrder = 0,
                 ),
                 null
             ),
@@ -205,12 +212,12 @@ class PresetsViewModelTest {
                 CustomPhrase(
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                    sortOrder = 0
+                    sortOrder = 0,
                 ),
                 CustomPhrase(
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
-                    sortOrder = 1
+                    sortOrder = 1,
                 ),
                 null
             ),
@@ -257,12 +264,12 @@ class PresetsViewModelTest {
                 CustomPhrase(
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
-                    sortOrder = 1
+                    sortOrder = 1,
                 ),
                 CustomPhrase(
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                    sortOrder = 0
+                    sortOrder = 0,
                 )
             ),
             vm.currentPhrases.getOrAwaitValue()
