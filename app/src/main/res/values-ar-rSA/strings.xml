@@ -1,148 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-    <!-- Presets -->
-    <string name="select_something">Select something below to speak.</string>
-    <string name="phrases_page_number">Page %1d of %2d</string>
-    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
-    <string name="custom_category_empty"><b>You don\'t have any phrases saved yet.</b></string>
-    <!-- Settings Page -->
-    <string name="settings">Settings</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="contact_developers">Contact Developers</string>
-    <string name="settings_head_tracking">Head Tracking</string>
-    <string name="settings_dialog_title">Leaving the app</string>
-    <string name="settings_dialog_message">You\'re about to be taken outside the app. You may lose head tracking control.</string>
-    <string name="settings_dialog_continue">Continue</string>
-    <string name="settings_dialog_cancel">Cancel</string>
-    <!-- Settings Options -->
-    <string name="settings_edit_saying">My Sayings</string>
-    <string name="settings_edit_categories">Categories and Phrases</string>
-    <string name="settings_selection_mode">Selection Mode</string>
-    <string name="settings_reset_app">Reset App Settings</string>
-    <!-- Selection Mode -->
-    <string name="selection_mode_title">Selection Mode</string>
-    <!-- Button Text -->
-    <string name="button_pause">Pause</string>
-    <string name="button_resume">Resume</string>
-    <!-- Errors -->
-    <string name="error_move_closer">Please move closer to the device.</string>
-    <!-- Keyboard Layout -->
-    <string name="keyboard_select_letters">Start typing…</string>
-    <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Saved to %1s</string>
-    <string name="removed_successfully">Removed from %1s</string>
-    <!-- Edit Sayings -->
-    <string name="delete">Delete</string>
-    <string name="delete_warning">Removed phrases cannot be restored.</string>
-    <string name="new_phrase_saved">New phrase saved</string>
-    <string name="contiue_editing">Continue editing</string>
-    <string name="discard">Discard</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="back_warning">Going back before saving will clear any edits made.</string>
-    <!-- Edit Keyboard -->
-    <string name="changes_saved">Changes Saved</string>
-    <string name="category_created">Category Created</string>
-    <string name="duplicate_category">Sorry, this category name already exists. Please try a different name.</string>
-    <!-- Timing and Sensitivity -->
-    <string name="timing_sensitivity_title">Timing and Sensitivity</string>
-    <string name="hover_time_text">Hover Time</string>
-    <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
-    <string name="hover_time_amount_text">        <xliff:g example="5" id="time">%s</xliff:g> seconds
+<resources>
+  <string name="app_name">Vocable</string>
+  <string name="select_something">إختر شيئ بالأسفل لتقوله.</string>
+  <string name="phrases_page_number">صفحه %1d من %2d</string>
+  <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+  <string name="my_sayings_empty_handset_port">&lt;b&gt;ستظهر ملاحظاتك\nهنا.&lt;/b&gt;\n\nانتقل إلى لوحة المفاتيح، ثم اكتب شيئا ثم حدد \"&lt;unk&gt;\" لحفظه هنا.</string>
+  <string name="my_sayings_empty_handset_land">&lt;b&gt;ستظهر ملاحظاتك\nهنا.&lt;/b&gt;\n\nانتقل إلى لوحة المفاتيح، ثم اكتب شيئا ثم حدد \"&lt;unk&gt;\" لحفظه هنا.</string>
+  <string name="my_sayings_empty_settings">
+    <b>ليس لديك أي أقوال محفوظة حتى الآن. حدد \"+\" في أعلى اليمين لإضافة شيء ما.</b>
+  </string>
+  <string name="custom_category_empty">
+    <b>ليس لديك أي عبارات محفوظة حتى الآن.</b>
+  </string>
+  <string name="settings">الإعدادات</string>
+  <string name="privacy_policy">حقوق الخصوصية</string>
+  <string name="contact_developers">تواصل مع المطورين</string>
+  <string name="version">V %s</string>
+  <string name="settings_head_tracking">تعقب الرأس</string>
+  <string name="settings_dialog_title">مغادرة التطبيق</string>
+  <string name="settings_dialog_message">أنت على وشك إخراجك من التطبيق القابل للتقييم. قد تفقد السيطرة على تتبع الرأس.</string>
+  <string name="settings_dialog_continue">استمر</string>
+  <string name="settings_dialog_cancel">إلغاء</string>
+  <string name="settings_edit_saying">عباراتي</string>
+  <string name="settings_edit_categories">Categories and Phrases</string>
+  <string name="settings_selection_mode">إختيار النمط</string>
+  <string name="settings_reset_app">العودة إلي إعدادات التطبيق</string>
+  <string name="selection_mode_title">Selection Mode</string>
+  <string name="button_pause">إيقاف مؤقت</string>
+  <string name="button_resume">إستكمال</string>
+  <string name="error_move_closer">من فضلك إقترب أكثر من الجهاز.</string>
+  <string name="keyboard_select_letters">ابدأ الكتابة…</string>
+  <string name="saved_successfully">Saved to %1s</string>
+  <string name="removed_successfully">Removed from %1s</string>
+  <string name="delete">حذف</string>
+  <string name="delete_warning">Phrases that are deleted cannot be retrieved.</string>
+  <string name="new_phrase_saved">تم حفظ عبارة جديدة</string>
+  <string name="contiue_editing">تكميل التحرير</string>
+  <string name="discard">تجاهل</string>
+  <string name="are_you_sure">هل أنت متأكد؟</string>
+  <string name="back_warning">العودة للخلف قبل الحفظ سوف يمحوا كل التعديلات التي تمت.</string>
+  <string name="changes_saved">تم حفظ التغييرات</string>
+  <string name="category_created">تم إنشاء الفئة</string>
+  <string name="duplicate_category">عذرا ، هذه الفئة موجودة بالفعل. الرجاء محاولة اسم آخر.</string>
+  <string name="timing_sensitivity_title">التوقيت و حساسيت الإستجابة</string>
+  <string name="hover_time_text">الوقت تحوم</string>
+  <string name="cursor_sensitivity_text">حساسية المؤشر</string>
+  <string name="hover_time_amount_text">
+        &lt;xliff:g example=\"5\" id=\"time\"&gt;%s&lt;/xliff:g&gt; ثوان
     </string>
-    <string name="hover_time_one_text">1 second</string>
-    <string name="cursor_sensitivity_low">Low</string>
-    <string name="cursor_sensitivity_medium">Medium</string>
-    <string name="cursor_sensitivity_high">High</string>
-    <!-- Categories -->
-    <string name="category_123">123</string>
-    <string name="category_123_yes">Yes</string>
-    <string name="category_123_no">No</string>
-    <!-- Keypad Numbers -->
-    <!-- Edit Categories -->
-    <string name="edit_categories_title">Categories and Phrases</string>
-    <!-- Edit Category Options -->
-    <string name="edit_category_show_category_text">Show Category</string>
-    <string name="edit_category_remove_category_text">Remove Category</string>
-    <string name="removed_cant_be_restored">Removed categories can not be restored.</string>
-    <!-- Presets -->
-    <string name="preset_general" formatted="false">General</string>
-    <string name="preset_basic_needs" formatted="false">Basic Needs</string>
-    <string name="preset_personal_care" formatted="false">Personal Care</string>
-    <string name="preset_conversation" formatted="false">Conversation</string>
-    <string name="preset_environment" formatted="false">Environment</string>
-    <string name="preset_user_keypad" formatted="false">123</string>
-    <string name="preset_user_favorites" formatted="false">My Sayings</string>
-    <string name="preset_recents" formatted="false">Recents</string>
-    <string name="preset_need_restroom" formatted="false">I need to go to the restroom</string>
-    <string name="preset_im_thirsty" formatted="false">I am thirsty</string>
-    <string name="preset_im_hungry" formatted="false">I am hungry</string>
-    <string name="preset_im_cold" formatted="false">I am cold</string>
-    <string name="preset_im_hot" formatted="false">I am hot</string>
-    <string name="preset_im_tired" formatted="false">I am tired</string>
-    <string name="preset_im_fine" formatted="false">I am fine</string>
-    <string name="preset_im_good" formatted="false">I am good</string>
-    <string name="preset_im_uncomfortable" formatted="false">I am uncomfortable</string>
-    <string name="preset_im_in_pain" formatted="false">I am in pain</string>
-    <string name="preset_im_finished" formatted="false">I am finished</string>
-    <string name="preset_want_lie_down" formatted="false">I want to lie down</string>
-    <string name="preset_want_sit_up" formatted="false">I want to sit up</string>
-    <string name="preset_hello" formatted="false">Hello</string>
-    <string name="preset_good_morning" formatted="false">Good morning</string>
-    <string name="preset_good_evening" formatted="false">Good evening</string>
-    <string name="preset_pleased_to_meet_you" formatted="false">Pleased to meet you</string>
-    <string name="preset_how_is_day" formatted="false">How is your day?</string>
-    <string name="preset_how_are_you" formatted="false">How are you?</string>
-    <string name="preset_how_is_it_going" formatted="false">How\'s it going?</string>
-    <string name="preset_how_was_your_weekend" formatted="false">How was your weekend?</string>
-    <string name="preset_goodbye" formatted="false">Goodbye</string>
-    <string name="preset_okay" formatted="false">Okay</string>
-    <string name="preset_bad" formatted="false">Bad</string>
-    <string name="preset_good" formatted="false">Good</string>
-    <string name="preset_that_makes_sense" formatted="false">That makes sense</string>
-    <string name="preset_i_like_it" formatted="false">I like it</string>
-    <string name="preset_please_stop" formatted="false">Please stop</string>
-    <string name="preset_i_do_not_agree" formatted="false">I do not agree</string>
-    <string name="preset_please_repeat" formatted="false">Please repeat what you said</string>
-    <string name="preset_please" formatted="false">Please</string>
-    <string name="preset_thank_you" formatted="false">Thank you</string>
-    <string name="preset_yes" formatted="false">Yes</string>
-    <string name="preset_no" formatted="false">No</string>
-    <string name="preset_maybe" formatted="false">Maybe</string>
-    <string name="preset_please_wait" formatted="false">Please wait</string>
-    <string name="preset_i_dont_know" formatted="false">I don\'t know</string>
-    <string name="preset_i_didnt_mean_say_that" formatted="false">I didn\'t mean to say that</string>
-    <string name="preset_be_patient" formatted="false">Please be patient</string>
-    <string name="preset_turn_on_lights" formatted="false">Please turn the lights on</string>
-    <string name="preset_turn_off_lights" formatted="false">Please turn the lights off</string>
-    <string name="preset_no_visitors" formatted="false">No visitors please</string>
-    <string name="preset_like_visitors" formatted="false">I would like visitors</string>
-    <string name="preset_be_quiet" formatted="false">Please be quiet</string>
-    <string name="preset_like_to_talk" formatted="false">I would like to talk</string>
-    <string name="preset_tv_on" formatted="false">Please turn the TV on</string>
-    <string name="preset_tv_off" formatted="false">Please turn the TV off</string>
-    <string name="preset_volume_up" formatted="false">Please turn the volume up</string>
-    <string name="preset_volume_down" formatted="false">Please turn the volume down</string>
-    <string name="preset_open_blinds" formatted="false">Please open the blinds</string>
-    <string name="preset_close_blinds" formatted="false">Please close the blinds</string>
-    <string name="preset_open_window" formatted="false">Please open the window</string>
-    <string name="preset_close_window" formatted="false">Please close the window</string>
-    <string name="preset_need_medication" formatted="false">I need my medication</string>
-    <string name="preset_need_bath" formatted="false">I need a bath</string>
-    <string name="preset_need_shower" formatted="false">I need a shower</string>
-    <string name="preset_need_wash_face" formatted="false">I need to wash my face</string>
-    <string name="preset_want_brush_hair" formatted="false">I need to brush my hair</string>
-    <string name="preset_fix_pillow" formatted="false">Please fix my pillow</string>
-    <string name="preset_need_spit" formatted="false">I need to spit</string>
-    <string name="preset_trouble_breathing" formatted="false">I am having trouble breathing</string>
-    <string name="preset_need_jacket" formatted="false">I need a jacket</string>
-    <string name="add_phrase">Add Phrase</string>
-    <string name="add_to_category">Add to Category</string>
-    <string name="no_custom_categories">No custom categories</string>
-    <string name="create_custom_categories">Create custom categories in the settings menu to add phrases to them here.</string>
-    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
-    <string name="no_recent_phrases_title">No recently used phrases</string>
-    <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
+  <string name="hover_time_one_text">1 ثانية</string>
+  <string name="cursor_sensitivity_low">أدنى</string>
+  <string name="cursor_sensitivity_medium">متوسط</string>
+  <string name="cursor_sensitivity_high">مرتفع</string>
+  <string name="category_123">123</string>
+  <string name="category_123_yes">نعم</string>
+  <string name="category_123_no">لا</string>
+  <string name="category_123_0">0</string>
+  <string name="category_123_1">1</string>
+  <string name="category_123_2">2</string>
+  <string name="category_123_3">3</string>
+  <string name="category_123_4">4</string>
+  <string name="category_123_5">5</string>
+  <string name="category_123_6">6</string>
+  <string name="category_123_7">7</string>
+  <string name="category_123_8">8</string>
+  <string name="category_123_9">9</string>
+  <string name="edit_categories_title">Categories and Phrases</string>
+  <string name="edit_categories_button_number">%1d. %2s</string>
+  <string name="edit_category_show_category_text">إظهار الفئة</string>
+  <string name="edit_category_remove_category_text">إزالة فئة</string>
+  <string name="removed_cant_be_restored">الفئات التي تم حذفها لا يمكن استرجاعها.</string>
+  <string name="preset_general">جنرال لواء</string>
+  <string name="preset_basic_needs">الاحتياجات الأساسية</string>
+  <string name="preset_personal_care">الرعاية الشخصية</string>
+  <string name="preset_conversation">المحادثه</string>
+  <string name="preset_environment">ديكور</string>
+  <string name="preset_user_keypad">123</string>
+  <string name="preset_user_favorites">My Sayings</string>
+  <string name="preset_recents">Recents</string>
+  <string name="preset_need_restroom">أنا بحاجة للذهاب إلى الحمام</string>
+  <string name="preset_im_thirsty">أنا أشعر بالعطش</string>
+  <string name="preset_im_hungry">أنا جائع</string>
+  <string name="preset_im_cold">أنا بارد</string>
+  <string name="preset_im_hot">أنا حار</string>
+  <string name="preset_im_tired">أنا متعب</string>
+  <string name="preset_im_fine">أنا بخير</string>
+  <string name="preset_im_good">أنا جيد</string>
+  <string name="preset_im_uncomfortable">أنا غير مريح</string>
+  <string name="preset_im_in_pain">أنا في ألم</string>
+  <string name="preset_im_finished">لقد انتهيت</string>
+  <string name="preset_want_lie_down">أريد أن أكذب للأسفل</string>
+  <string name="preset_want_sit_up">أود أن أجلس</string>
+  <string name="preset_hello">مرحبا</string>
+  <string name="preset_good_morning">صباح الخير</string>
+  <string name="preset_good_evening">مساء الخير</string>
+  <string name="preset_pleased_to_meet_you">ممتن لمقابلتك</string>
+  <string name="preset_how_is_day">كيف يومك؟</string>
+  <string name="preset_how_are_you">كيف حالك؟</string>
+  <string name="preset_how_is_it_going">كيف الحال أو كيف تسير الأمور؟</string>
+  <string name="preset_how_was_your_weekend">كيف كانت عطلة نهاية الأسبوع؟</string>
+  <string name="preset_goodbye">وداعًا</string>
+  <string name="preset_okay"> حسناً</string>
+  <string name="preset_bad">سيء</string>
+  <string name="preset_good">ممتاز</string>
+  <string name="preset_that_makes_sense">تمامًا</string>
+  <string name="preset_i_like_it">أحب ذلك</string>
+  <string name="preset_please_stop">توقف أرجوك</string>
+  <string name="preset_i_do_not_agree">لا أوافق</string>
+  <string name="preset_please_repeat">من فضلك كرر ما قلته</string>
+  <string name="preset_please">الرجاء</string>
+  <string name="preset_thank_you">شكرا لك</string>
+  <string name="preset_yes">Yes</string>
+  <string name="preset_no">No</string>
+  <string name="preset_maybe">ربما</string>
+  <string name="preset_please_wait">الرجاء الانتظار</string>
+  <string name="preset_i_dont_know">لا أعلم</string>
+  <string name="preset_i_didnt_mean_say_that">لم أكن أقصد أن أقول</string>
+  <string name="preset_be_patient">يرجى التحلي بالصبر</string>
+  <string name="preset_turn_on_lights">الرجاء تشغيل الأضواء</string>
+  <string name="preset_turn_off_lights">يرجى إطفاء الأنوار</string>
+  <string name="preset_no_visitors">لا يوجد زوار من فضلك</string>
+  <string name="preset_like_visitors">أريد الزوار</string>
+  <string name="preset_be_quiet">يرجى هادئ</string>
+  <string name="preset_like_to_talk">اريد ان اتحدث</string>
+  <string name="preset_tv_on">يرجى تشغيل التلفزيون</string>
+  <string name="preset_tv_off">الرجاء إيقاف تشغيل التلفزيون</string>
+  <string name="preset_volume_up">يرجى رفع مستوى الصوت</string>
+  <string name="preset_volume_down">يرجى خفض الصوت</string>
+  <string name="preset_open_blinds">الرجاء فتح الستائر</string>
+  <string name="preset_close_blinds">الرجاء إغلاق الستائر</string>
+  <string name="preset_open_window">الرجاء فتح النافذة</string>
+  <string name="preset_close_window">الرجاء إغلاق النافذة</string>
+  <string name="preset_need_medication">أنا بحاجة إلى دوائي</string>
+  <string name="preset_need_bath">أنا بحاجة إلى أخذ حمام</string>
+  <string name="preset_need_shower">أنا بحاجة إلى الاستحمام</string>
+  <string name="preset_need_wash_face">أحتاج إلى غسيل وجهي</string>
+  <string name="preset_want_brush_hair">أحتاج إلى فرشاة شعري</string>
+  <string name="preset_fix_pillow">الرجاء إصلاح وسادتي</string>
+  <string name="preset_need_spit">أنا بحاجة إلى البصق</string>
+  <string name="preset_trouble_breathing">أواجه صعوبة في التنفس</string>
+  <string name="preset_need_jacket">أحتاج إلى سترة</string>
+  <string name="add_phrase">Add Phrase</string>
+  <string name="add_category">Add Category</string>
+  <string name="add_to_category">Add to Category</string>
+  <string name="no_custom_categories">No custom categories</string>
+  <string name="create_custom_categories">Create custom categories in the settings menu to add phrases to them here.</string>
+  <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
+  <string name="no_recent_phrases_title">No recently used phrases</string>
+  <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
 </resources>
