@@ -4,12 +4,14 @@ import android.content.Context
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetPhrase
 import com.willowtree.vocable.presets.asPhrase
+import com.willowtree.vocable.utils.DateProvider
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.koin.core.context.GlobalContext.get
 
 class RoomPresetPhrasesRepository(
     private val database: VocableDatabase,
+    private val dateProvider: DateProvider,
 ) : PresetPhrasesRepository {
 
     private val phrasesMutex = Mutex()
@@ -21,6 +23,15 @@ class RoomPresetPhrasesRepository(
     override suspend fun getAllPresetPhrases(): List<PresetPhrase> {
         return database.presetPhrasesDao().getAllPresetPhrases()
             .map(PresetPhraseDto::asPhrase)
+    }
+
+    override suspend fun updatePhraseLastSpokenTime(phraseId: String) {
+        database.presetPhrasesDao().updatePhraseSpokenDate(
+            PhraseSpokenDate(
+                phraseId = phraseId,
+                lastSpokenDate = dateProvider.currentTimeMillis()
+            )
+        )
     }
 
     private suspend fun ensurePopulated() {

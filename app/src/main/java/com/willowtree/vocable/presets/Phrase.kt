@@ -44,9 +44,9 @@ data class PresetPhrase(
 
 fun PhraseDto.asPhrase(): Phrase =
     CustomPhrase(
-        phraseId.toString(),
-        sortOrder,
-        localizedUtterance,
+        phraseId = phraseId.toString(),
+        sortOrder = sortOrder,
+        localizedUtterance = localizedUtterance,
     )
 
 fun PresetPhraseDto.asPhrase(): PresetPhrase =
