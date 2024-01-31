@@ -53,7 +53,6 @@ class PhrasesUseCaseTest {
                     phraseId = "1",
                     localizedUtterance = testLocalesWithText,
                     sortOrder = 0,
-                    lastSpokenDate = 0L,
                 )
             ),
             useCase.getPhrasesForCategory(PresetCategories.RECENTS.id)
@@ -82,7 +81,6 @@ class PhrasesUseCaseTest {
                     phraseId = "1",
                     localizedUtterance = testLocalesWithText,
                     sortOrder = 0,
-                    lastSpokenDate = 0L,
                 )
             ),
             useCase.getPhrasesForCategory("category")

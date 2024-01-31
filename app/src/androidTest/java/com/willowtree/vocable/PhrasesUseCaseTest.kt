@@ -4,7 +4,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredPhrasesRepository
@@ -43,6 +42,8 @@ class PhrasesUseCaseTest {
         )
     }
 
+    // TODO: Update this test to rely on getPresetPhrasesForCategory(Recents) instead of directly
+    //       once that has been updated to handle both preset and stored phrases
     @Test
     fun phrase_spoken_updates_stored_and_preset() = runTest {
         val useCase = createUseCase()
@@ -65,15 +66,14 @@ class PhrasesUseCaseTest {
 
         assertEquals(
             123L,
-            presetPhrasesRepository.getAllPresetPhrases()
+            database.presetPhrasesDao().getAllPresetPhrases()
                 .first { it.phraseId == "category_123_0" }
                 .lastSpokenDate
         )
         assertEquals(
             456L,
             database.phraseDao().getPhrasesForCategory(PresetCategories.GENERAL.id)
-                .map { it.asPhrase() }
-                .first { it.phraseId == "1" }
+                .first { it.phraseId == 1L }
                 .lastSpokenDate
         )
     }
