@@ -5,11 +5,15 @@ import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.room.PresetPhrasesRepository
+import com.willowtree.vocable.room.StoredPhrasesRepository
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 
 class PhrasesUseCase(
     private val legacyPhrasesRepository: ILegacyCategoriesAndPhrasesRepository,
+    private val storedPhrasesRepository: StoredPhrasesRepository,
+    private val presetPhrasesRepository: PresetPhrasesRepository,
     private val dateProvider: DateProvider,
 ) : IPhrasesUseCase {
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
@@ -19,8 +23,9 @@ class PhrasesUseCase(
         return legacyPhrasesRepository.getPhrasesForCategory(categoryId).map { it.asPhrase() }
     }
 
-    override suspend fun phraseSpoken(phraseId: String) {
-        legacyPhrasesRepository.updatePhraseLastSpoken(phraseId, dateProvider.currentTimeMillis())
+    override suspend fun updatePhraseLastSpokenTime(phraseId: String) {
+        storedPhrasesRepository.updatePhraseLastSpokenTime(phraseId)
+        presetPhrasesRepository.updatePhraseLastSpokenTime(phraseId)
     }
 
     override suspend fun deletePhrase(phraseId: String) {
