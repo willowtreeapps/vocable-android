@@ -66,7 +66,6 @@ class RoomPresetPhrasesRepositoryTest {
                         PresetPhrase(
                             phraseId = phraseEntryName,
                             sortOrder = index,
-                            lastSpokenDate = null,
                         )
                     )
                 }

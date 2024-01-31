@@ -164,7 +164,6 @@ class PresetsViewModelTest {
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
-                    lastSpokenDate = 0L,
                 ),
                 null
             ),
@@ -214,13 +213,11 @@ class PresetsViewModelTest {
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
-                    lastSpokenDate = 0L,
                 ),
                 CustomPhrase(
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1,
-                    lastSpokenDate = 0L,
                 ),
                 null
             ),
@@ -268,13 +265,11 @@ class PresetsViewModelTest {
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1,
-                    lastSpokenDate = 0L,
                 ),
                 CustomPhrase(
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
-                    lastSpokenDate = 0L,
                 )
             ),
             vm.currentPhrases.getOrAwaitValue()
