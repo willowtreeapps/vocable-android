@@ -42,7 +42,7 @@
     <string name="discard">تجاهل</string>
     <string name="are_you_sure">هل أنت متأكد؟</string>
     <string name="back_warning">العودة للخلف قبل الحفظ سوف يمحوا كل التعديلات التي تمت.</string>
-    <string name="duplicate_phrase">Sorry, this phrase name already exists. Please try a different name.</string>
+    <string name="duplicate_phrase">عذرا ، هذه الفئة موجودة بالفعل. الرجاء محاولة اسم آخر.</string>
     <!-- Edit Keyboard -->
     <string name="changes_saved">تم حفظ التغييرات</string>
     <string name="category_created">تم إنشاء الفئة</string>
@@ -148,7 +148,7 @@
     <string name="all_categories_hidden_text">تم إخفاء جميع الفئات الخاصة بك. يمكنك إظهارها مرة أخرى من صفحة إعدادات الفئة.</string>
     <string name="no_recent_phrases_title">لا توجد عبارات مستخدمة مؤخرًا</string>
     <string name="no_recent_phrases_message">ابدأ في استخدام التطبيق لرؤية أحدث العبارات المستخدمة هنا.</string>
-    <string name="categories_edit_title">Categories</string>
+    <string name="categories_edit_title">تصنيف</string>
     <!-- Camera Permissions -->
     <string name="permissions_missing_dialog_title">Required Permissions Unavailable</string>
     <string name="permissions_missing_dialog_body">Camera permissions are required to use the Head Tracking feature. Please enable them in the app settings.</string>
