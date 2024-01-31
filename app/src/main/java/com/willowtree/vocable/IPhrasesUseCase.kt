@@ -7,7 +7,7 @@ interface IPhrasesUseCase {
 
     suspend fun getPhrasesForCategory(categoryId: String): List<Phrase>
 
-    suspend fun phraseSpoken(phraseId: String)
+    suspend fun updatePhraseLastSpokenTime(phraseId: String)
 
     suspend fun deletePhrase(phraseId: String)
 

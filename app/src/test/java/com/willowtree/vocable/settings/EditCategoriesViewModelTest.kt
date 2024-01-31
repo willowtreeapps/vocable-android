@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
+import com.willowtree.vocable.PhrasesUseCaseTest
 import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.createStoredCategory
 import com.willowtree.vocable.utils.FakeDateProvider
@@ -26,7 +27,12 @@ class EditCategoriesViewModelTest {
 
     private fun createViewModel(): EditCategoriesViewModel {
         return EditCategoriesViewModel(
-            PhrasesUseCase(fakePresetsRepository, FakeDateProvider()),
+            PhrasesUseCase(
+                legacyPhrasesRepository = fakePresetsRepository,
+                storedPhrasesRepository = PhrasesUseCaseTest.StubStoredPhrasesRepository(),
+                presetPhrasesRepository = PhrasesUseCaseTest.StubPresetPhrasesRepository(),
+                dateProvider = FakeDateProvider(),
+            ),
             categoriesUseCase,
             FakeLocalizedResourceUtility()
         )
