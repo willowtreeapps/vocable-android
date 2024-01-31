@@ -11,6 +11,7 @@ import kotlinx.parcelize.Parcelize
 sealed interface Phrase : Parcelable {
     val phraseId: String
     val sortOrder: Int
+    val lastSpokenDate: Long?
     fun text(context: Context): String
 }
 
@@ -19,6 +20,7 @@ data class CustomPhrase(
     override val phraseId: String,
     override val sortOrder: Int,
     val localizedUtterance: LocalesWithText?,
+    override val lastSpokenDate: Long?,
 ) : Phrase, Parcelable {
 
     override fun text(context: Context): String {
@@ -30,6 +32,7 @@ data class CustomPhrase(
 data class PresetPhrase(
     override val phraseId: String,
     override val sortOrder: Int,
+    override val lastSpokenDate: Long?,
 ) : Phrase {
 
     override fun text(context: Context): String {
@@ -44,13 +47,15 @@ data class PresetPhrase(
 
 fun PhraseDto.asPhrase(): Phrase =
     CustomPhrase(
-        phraseId.toString(),
-        sortOrder,
-        localizedUtterance,
+        phraseId = phraseId.toString(),
+        sortOrder = sortOrder,
+        localizedUtterance = localizedUtterance,
+        lastSpokenDate = lastSpokenDate,
     )
 
 fun PresetPhraseDto.asPhrase(): PresetPhrase =
     PresetPhrase(
         phraseId = phraseId,
         sortOrder = sortOrder,
+        lastSpokenDate = lastSpokenDate,
     )

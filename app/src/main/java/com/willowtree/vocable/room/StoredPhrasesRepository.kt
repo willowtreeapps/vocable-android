@@ -4,4 +4,5 @@ package com.willowtree.vocable.room
 //                 phrases from the [ILegacyCategoriesAndPhrasesRepository]
 interface StoredPhrasesRepository {
     suspend fun addPhrase(phrase: PhraseDto)
+    suspend fun updatePhraseLastSpokenTime(phraseId: String)
 }

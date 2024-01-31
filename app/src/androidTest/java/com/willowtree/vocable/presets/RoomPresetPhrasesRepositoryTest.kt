@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.utility.FakeDateProvider
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -18,7 +19,8 @@ class RoomPresetPhrasesRepositoryTest {
             database = Room.inMemoryDatabaseBuilder(
                 ApplicationProvider.getApplicationContext(),
                 VocableDatabase::class.java
-            ).build()
+            ).build(),
+            dateProvider = FakeDateProvider()
         )
     }
 
@@ -64,6 +66,7 @@ class RoomPresetPhrasesRepositoryTest {
                         PresetPhrase(
                             phraseId = phraseEntryName,
                             sortOrder = index,
+                            lastSpokenDate = null,
                         )
                     )
                 }
