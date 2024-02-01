@@ -1,8 +1,10 @@
 package com.willowtree.vocable.room
 
-// TODO: MPV #467- this will take over the responsibilities for storing and fetching stored
-//                 phrases from the [ILegacyCategoriesAndPhrasesRepository]
+import com.willowtree.vocable.presets.Phrase
+
 interface StoredPhrasesRepository {
     suspend fun addPhrase(phrase: PhraseDto)
     suspend fun updatePhraseLastSpokenTime(phraseId: String)
+    suspend fun getRecentPhrases(): List<Phrase>
+    suspend fun getPhrasesForCategory(categoryId: String): List<Phrase>
 }
