@@ -140,7 +140,7 @@
     <string name="preset_trouble_breathing" formatted="false">أواجه صعوبة في التنفس</string>
     <string name="preset_need_jacket" formatted="false">أحتاج إلى سترة</string>
     <string name="add_phrase">أضف عبارة</string>
-    <string name="add_phrase_plus">+ Add Phrase</string>
+    <string name="add_phrase_plus">+ أضف عبارة</string>
     <string name="add_category">أضف فئة</string>
     <string name="add_to_category">أضف إلى فئة</string>
     <string name="no_custom_categories">لا يوجد فئات مخصصة</string>
