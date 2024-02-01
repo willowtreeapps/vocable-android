@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- Presets -->
-    <string name="select_something">Select something below to speak.</string>
+    <string name="select_something">Sélectionnez quelque chose ci-dessous pour parler.</string>
     <string name="phrases_page_number">Page %1d sur %2d</string>
     <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
     <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
