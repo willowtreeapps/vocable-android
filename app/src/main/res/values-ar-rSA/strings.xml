@@ -150,12 +150,12 @@
     <string name="no_recent_phrases_message">ابدأ في استخدام التطبيق لرؤية أحدث العبارات المستخدمة هنا.</string>
     <string name="categories_edit_title">تصنيف</string>
     <!-- Camera Permissions -->
-    <string name="permissions_missing_dialog_title">Required Permissions Unavailable</string>
-    <string name="permissions_missing_dialog_body">Camera permissions are required to use the Head Tracking feature. Please enable them in the app settings.</string>
-    <string name="permissions_confirm">OK</string>
-    <string name="permissions_rationale_title">Camera permissions are needed to enable Head Tracking</string>
-    <string name="rename_category">Rename Category</string>
-    <string name="show_category">Show Category</string>
-    <string name="edit_phrases">Edit Phrases</string>
+    <string name="permissions_missing_dialog_title">الأذونات المطلوبة غير متوفرة</string>
+    <string name="permissions_missing_dialog_body">أذونات الكاميرا مطلوبة لاستخدام ميزة تتبع الرأس. يرجى تمكينها في إعدادات التطبيق.</string>
+    <string name="permissions_confirm">تماماً</string>
+    <string name="permissions_rationale_title">أذونات الكاميرا مطلوبة لاستخدام تتبع الرأس</string>
+    <string name="rename_category">إعادة تسمية فئة</string>
+    <string name="show_category">إظهار الفئة</string>
+    <string name="edit_phrases">تحرير العبارات</string>
     <string name="remove_category">ازالة فئة</string>
 </resources>
