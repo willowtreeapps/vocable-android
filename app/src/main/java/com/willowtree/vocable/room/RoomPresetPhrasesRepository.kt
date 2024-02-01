@@ -10,7 +10,7 @@ import kotlinx.coroutines.sync.withLock
 import org.koin.core.context.GlobalContext.get
 
 class RoomPresetPhrasesRepository(
-    private val database: VocableDatabase,
+    private val presetPhrasesDao: PresetPhrasesDao,
     private val dateProvider: DateProvider,
 ) : PresetPhrasesRepository {
 
@@ -21,12 +21,12 @@ class RoomPresetPhrasesRepository(
     }
 
     override suspend fun getAllPresetPhrases(): List<PresetPhrase> {
-        return database.presetPhrasesDao().getAllPresetPhrases()
+        return presetPhrasesDao.getAllPresetPhrases()
             .map(PresetPhraseDto::asPhrase)
     }
 
     override suspend fun updatePhraseLastSpokenTime(phraseId: String) {
-        database.presetPhrasesDao().updatePhraseSpokenDate(
+        presetPhrasesDao.updatePhraseSpokenDate(
             PhraseSpokenDate(
                 phraseId = phraseId,
                 lastSpokenDate = dateProvider.currentTimeMillis()
@@ -34,9 +34,17 @@ class RoomPresetPhrasesRepository(
         )
     }
 
+    override suspend fun getRecentPhrases(): List<PresetPhrase> {
+        return presetPhrasesDao.getRecentPhrases().map { it.asPhrase()}
+    }
+
+    override suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhrase> {
+        return presetPhrasesDao.getPhrasesForCategory(categoryId).map { it.asPhrase() }
+    }
+
     private suspend fun ensurePopulated() {
         phrasesMutex.withLock {
-            val existingPresetPhrases = database.presetPhrasesDao().getAllPresetPhrases()
+            val existingPresetPhrases = presetPhrasesDao.getAllPresetPhrases()
             val existingResourceIdStrings = existingPresetPhrases.map { it.phraseId }.toSet()
 
             PresetCategories.values().forEach { presetCategory ->
@@ -68,6 +76,6 @@ class RoomPresetPhrasesRepository(
     }
 
     private suspend fun addPhrases(presetPhrases: List<PresetPhraseDto>) {
-        database.presetPhrasesDao().insertPhrases(presetPhrases)
+        presetPhrasesDao.insertPhrases(presetPhrases)
     }
 }

@@ -2,12 +2,10 @@ package com.willowtree.vocable.settings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
+import com.willowtree.vocable.FakePhrasesUseCase
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.PhrasesUseCase
-import com.willowtree.vocable.PhrasesUseCaseTest
 import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.createStoredCategory
-import com.willowtree.vocable.utils.FakeDateProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.update
 import org.junit.Assert.assertEquals
@@ -24,15 +22,11 @@ class EditCategoriesViewModelTest {
 
     private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val categoriesUseCase = FakeCategoriesUseCase()
+    private val phrasesUseCase = FakePhrasesUseCase()
 
     private fun createViewModel(): EditCategoriesViewModel {
         return EditCategoriesViewModel(
-            PhrasesUseCase(
-                legacyPhrasesRepository = fakePresetsRepository,
-                storedPhrasesRepository = PhrasesUseCaseTest.StubStoredPhrasesRepository(),
-                presetPhrasesRepository = PhrasesUseCaseTest.StubPresetPhrasesRepository(),
-                dateProvider = FakeDateProvider(),
-            ),
+            phrasesUseCase,
             categoriesUseCase,
             FakeLocalizedResourceUtility()
         )

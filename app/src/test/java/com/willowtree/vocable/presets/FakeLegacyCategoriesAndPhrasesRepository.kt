@@ -30,7 +30,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
                 phraseId = 1L,
                 parentCategoryId = "1",
                 creationDate = 0L,
-                lastSpokenDate = 0L,
+                lastSpokenDate = null,
                 localizedUtterance =LocalesWithText(  mapOf("en_US" to "Hello")),
                 sortOrder = 0
             )
@@ -42,7 +42,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
             phraseId = 1L,
             parentCategoryId = "1",
             creationDate = 0L,
-            lastSpokenDate = 0L,
+            lastSpokenDate = null,
             localizedUtterance = null,
             sortOrder = 0
         )

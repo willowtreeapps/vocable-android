@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
-import com.willowtree.vocable.PhrasesUseCase
+import com.willowtree.vocable.IPhrasesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.room.CategorySortOrder
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
-    private val phrasesUseCase: PhrasesUseCase,
+    private val phrasesUseCase: IPhrasesUseCase,
     private val categoriesUseCase: ICategoriesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility
 ) : ViewModel() {

@@ -2,13 +2,11 @@ package com.willowtree.vocable.presets
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
+import com.willowtree.vocable.FakePhrasesUseCase
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.PhrasesUseCase
-import com.willowtree.vocable.PhrasesUseCaseTest
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.FakeDateProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,14 +24,8 @@ class PresetsViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val fakePresetsRepository = FakeLegacyCategoriesAndPhrasesRepository()
     private val fakeCategoriesUseCase = FakeCategoriesUseCase()
-    private val fakePhrasesUseCase = PhrasesUseCase(
-        legacyPhrasesRepository = fakePresetsRepository,
-        storedPhrasesRepository = PhrasesUseCaseTest.StubStoredPhrasesRepository(),
-        presetPhrasesRepository = PhrasesUseCaseTest.StubPresetPhrasesRepository(),
-        dateProvider = FakeDateProvider(),
-    )
+    private val fakePhrasesUseCase = FakePhrasesUseCase()
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
@@ -113,7 +105,7 @@ class PresetsViewModelTest {
 
     @Test
     fun `current phrases updated when category ID changed`() {
-        fakePresetsRepository._allCategories.update {
+        fakePhrasesUseCase._allCategories.update {
             listOf(
                 CategoryDto(
                     categoryId = "1",
@@ -133,13 +125,13 @@ class PresetsViewModelTest {
                 )
             )
         }
-        fakePresetsRepository._categoriesToPhrases = mapOf(
+        fakePhrasesUseCase._categoriesToPhrases = mapOf(
             "1" to listOf(
                 PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = "1",
                     creationDate = 0L,
-                    lastSpokenDate = 0L,
+                    lastSpokenDate = null,
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 0
                 )
@@ -149,7 +141,7 @@ class PresetsViewModelTest {
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
-                    lastSpokenDate = 0L,
+                    lastSpokenDate = null,
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 )
@@ -164,6 +156,7 @@ class PresetsViewModelTest {
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
+                    lastSpokenDate = null,
                 ),
                 null
             ),
@@ -173,7 +166,7 @@ class PresetsViewModelTest {
 
     @Test
     fun `non recents are sorted by sort order`() {
-        fakePresetsRepository._allCategories.update {
+        fakePhrasesUseCase._allCategories.update {
             listOf(
                 CategoryDto(
                     categoryId = "2",
@@ -185,13 +178,13 @@ class PresetsViewModelTest {
                 )
             )
         }
-        fakePresetsRepository._categoriesToPhrases = mapOf(
+        fakePhrasesUseCase._categoriesToPhrases = mapOf(
             "2" to listOf(
                 PhraseDto(
                     phraseId = 1L,
                     parentCategoryId = "2",
                     creationDate = 0L,
-                    lastSpokenDate = 0L,
+                    lastSpokenDate = null,
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1
                 ),
@@ -199,7 +192,7 @@ class PresetsViewModelTest {
                     phraseId = 2L,
                     parentCategoryId = "2",
                     creationDate = 0L,
-                    lastSpokenDate = 0L,
+                    lastSpokenDate = null,
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0
                 )
@@ -213,11 +206,13 @@ class PresetsViewModelTest {
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
+                    lastSpokenDate = null,
                 ),
                 CustomPhrase(
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1,
+                    lastSpokenDate = null,
                 ),
                 null
             ),
@@ -227,7 +222,7 @@ class PresetsViewModelTest {
 
     @Test
     fun `recents are not sorted by sort order`() {
-        fakePresetsRepository._allCategories.update {
+        fakePhrasesUseCase._allCategories.update {
             listOf(
                 CategoryDto(
                     categoryId = PresetCategories.RECENTS.id,
@@ -239,22 +234,24 @@ class PresetsViewModelTest {
                 )
             )
         }
-        fakePresetsRepository._recentPhrases = listOf(
-            PhraseDto(
-                phraseId = 1L,
-                parentCategoryId = PresetCategories.RECENTS.id,
-                creationDate = 0L,
-                lastSpokenDate = 0L,
-                localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
-                sortOrder = 1
-            ),
-            PhraseDto(
-                phraseId = 2L,
-                parentCategoryId = PresetCategories.RECENTS.id,
-                creationDate = 0L,
-                lastSpokenDate = 0L,
-                localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                sortOrder = 0
+        fakePhrasesUseCase._categoriesToPhrases = mapOf(
+            PresetCategories.RECENTS.id to listOf(
+                PhraseDto(
+                    phraseId = 1L,
+                    parentCategoryId = PresetCategories.RECENTS.id,
+                    creationDate = 0L,
+                    lastSpokenDate = null,
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
+                    sortOrder = 1
+                ),
+                PhraseDto(
+                    phraseId = 2L,
+                    parentCategoryId = PresetCategories.RECENTS.id,
+                    creationDate = 0L,
+                    lastSpokenDate = null,
+                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
+                    sortOrder = 0
+                )
             )
         )
         val vm = createViewModel()
@@ -265,11 +262,13 @@ class PresetsViewModelTest {
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1,
+                    lastSpokenDate = null,
                 ),
                 CustomPhrase(
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
+                    lastSpokenDate = null,
                 )
             ),
             vm.currentPhrases.getOrAwaitValue()
