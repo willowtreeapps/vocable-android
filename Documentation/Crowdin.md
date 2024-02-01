@@ -15,6 +15,9 @@ sync schedule is currently set to 1 hour, or you have the option to hit the "Syn
 integration page (linked at the top of this file). This PR should involve only string resource
 files.
 
+A CrowdIn integration should automatically create a config file, `crowdin.yml`, at the root of the
+project.
+
 POTENTIAL PITFALLS
 
 * At one point, we saw multiple trees appear under the "Sources" tab. It's unclear as to exactly
@@ -28,20 +31,3 @@ POTENTIAL PITFALLS
   can be active on a single GitHub repo. I.e. if something isn't working with the current
   integration, you will either need to get its creator to fix it, or delete it and make a new one of
   your own.
-
-CROWDIN CONFIGURATION FILE
-A CrowdIn integration should automatically create a config file, `crowdin.yml`, at the root of the
-project. It should be set up as follows:
-
-```
-files:
-#    path to strings that should be translated
-- source: app/src/main/res/values/strings.xml
-#    path to translated files
-    translation: /app/src/main/res/values-%android_code%/%original_file_name%
-#    whether attributes (xml tags) should be translated. 0 - no, 1 - yes
-    translate_attributes: 0
-#    whether long translations should be split into multiple string resources. 0 - no, 1 - yes
-    content_segmentation: 0
-```
-
