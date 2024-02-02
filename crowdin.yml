@@ -1,5 +1,9 @@
 files:
+    #    path to strings that should be translated
   - source: app/src/main/res/values/strings.xml
+    #    path to translated files
     translation: /app/src/main/res/values-%android_code%/%original_file_name%
+    #    whether attributes (xml tags) should be translated. 0 - no, 1 - yes
     translate_attributes: 0
+    #    whether long translations should be split into multiple string resources. 0 - no, 1 - yes
     content_segmentation: 0
