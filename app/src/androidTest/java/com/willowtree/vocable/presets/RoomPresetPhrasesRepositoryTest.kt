@@ -16,10 +16,10 @@ import org.junit.runner.RunWith
 class RoomPresetPhrasesRepositoryTest {
     private fun createRepository(): RoomPresetPhrasesRepository {
         return RoomPresetPhrasesRepository(
-            database = Room.inMemoryDatabaseBuilder(
+            presetPhrasesDao = Room.inMemoryDatabaseBuilder(
                 ApplicationProvider.getApplicationContext(),
                 VocableDatabase::class.java
-            ).build(),
+            ).build().presetPhrasesDao(),
             dateProvider = FakeDateProvider()
         )
     }
@@ -66,6 +66,7 @@ class RoomPresetPhrasesRepositoryTest {
                         PresetPhrase(
                             phraseId = phraseEntryName,
                             sortOrder = index,
+                            lastSpokenDate = null
                         )
                     )
                 }

@@ -1,8 +1,10 @@
 package com.willowtree.vocable
 
+import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.willowtree.vocable.presets.CustomPhrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
@@ -26,7 +28,10 @@ class PhrasesUseCaseTest {
     ).build()
 
     private val dateProvider = FakeDateProvider()
-    private val presetPhrasesRepository = RoomPresetPhrasesRepository(database, dateProvider)
+    private val presetPhrasesRepository = RoomPresetPhrasesRepository(
+        presetPhrasesDao = database.presetPhrasesDao(),
+        dateProvider = dateProvider,
+    )
     private val storedPhrasesRepository = RoomStoredPhrasesRepository(database, dateProvider)
     private val legacyRepository = StubLegacyCategoriesAndPhrasesRepository()
     private val testLocalesWithText = LocalesWithText(
@@ -38,14 +43,12 @@ class PhrasesUseCaseTest {
             legacyPhrasesRepository = legacyRepository,
             storedPhrasesRepository = storedPhrasesRepository,
             presetPhrasesRepository = presetPhrasesRepository,
-            dateProvider = FakeDateProvider()
+            dateProvider = dateProvider
         )
     }
 
-    // TODO: Update this test to rely on getPresetPhrasesForCategory(Recents) instead of directly
-    //       once that has been updated to handle both preset and stored phrases
     @Test
-    fun phrase_spoken_updates_stored_and_preset() = runTest {
+    fun getPhrasesForRecentsCategory_returnsRecentPhrases() = runTest {
         val useCase = createUseCase()
         presetPhrasesRepository.populateDatabase()
         storedPhrasesRepository.addPhrase(
@@ -58,23 +61,100 @@ class PhrasesUseCaseTest {
                 sortOrder = 0
             )
         )
+        dateProvider.time = 101L
+        presetPhrasesRepository.updatePhraseLastSpokenTime("category_123_0")
 
-        dateProvider.time = 123L
-        useCase.updatePhraseLastSpokenTime("category_123_0")
-        dateProvider.time = 456L
-        useCase.updatePhraseLastSpokenTime("1")
+        val recentPhrases = useCase.getPhrasesForCategory(PresetCategories.RECENTS.id)
 
+        assertEquals(2, recentPhrases.size)
+        assertEquals("1", recentPhrases[1].phraseId)
+        assertEquals("category_123_0", recentPhrases[0].phraseId)
+    }
+
+    @Test
+    fun getPhrasesForRecentsCategory_limitedToEightPhrases() = runTest {
+        val useCase = createUseCase()
+        // Add 10 phrases to recents for both stored and preset phrase repos
+        for (i in 0..9) {
+            storedPhrasesRepository.addPhrase(
+                PhraseDto(
+                    phraseId = i.toLong(),
+                    localizedUtterance = testLocalesWithText,
+                    parentCategoryId = PresetCategories.GENERAL.id,
+                    creationDate = 0L,
+                    lastSpokenDate = i.toLong(),
+                    sortOrder = 0
+                )
+            )
+            dateProvider.time = 5L
+            presetPhrasesRepository.updatePhraseLastSpokenTime("category_123_$i")
+        }
+
+        val recentPhrases = useCase.getPhrasesForCategory(PresetCategories.RECENTS.id)
+        assertEquals(8, recentPhrases.size)
+    }
+
+    @Test
+    fun getPhrasesForCategory_getsPresetPhrases() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+
+        val entryNames = getResourceNamesForCategory("category_general")
         assertEquals(
-            123L,
-            database.presetPhrasesDao().getAllPresetPhrases()
-                .first { it.phraseId == "category_123_0" }
-                .lastSpokenDate
+            entryNames,
+            useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map {
+                it.phraseId
+            }
         )
+    }
+
+    private fun getResourceNamesForCategory(categoryId: String): List<String> {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val res = context.resources
+        val arrayId = res.getIdentifier(categoryId, "array", context.packageName)
+        val typedArray = res.obtainTypedArray(arrayId)
+        val entryNames = mutableListOf<String>()
+        for (i in 0 until typedArray.length()) {
+            entryNames.add(res.getResourceEntryName(typedArray.getResourceId(i, 0)))
+        }
+        typedArray.recycle()
+        return entryNames.toList()
+    }
+
+    @Test
+    fun getPhrasesForCategory_getsStoredPhrasesInCategory() = runTest {
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = 1L,
+                parentCategoryId = "category",
+                creationDate = 0L,
+                lastSpokenDate = null,
+                localizedUtterance = testLocalesWithText,
+                sortOrder = 0
+            )
+        )
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = 2L,
+                parentCategoryId = "not-category",
+                creationDate = 0L,
+                lastSpokenDate = null,
+                localizedUtterance = testLocalesWithText,
+                sortOrder = 0
+            )
+        )
+        val useCase = createUseCase()
+
         assertEquals(
-            456L,
-            database.phraseDao().getPhrasesForCategory(PresetCategories.GENERAL.id)
-                .first { it.phraseId == 1L }
-                .lastSpokenDate
+            listOf(
+                CustomPhrase(
+                    phraseId = "1",
+                    localizedUtterance = testLocalesWithText,
+                    sortOrder = 0,
+                    lastSpokenDate = null,
+                )
+            ),
+            useCase.getPhrasesForCategory("category")
         )
     }
 }

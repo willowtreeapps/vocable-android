@@ -3,7 +3,6 @@ package com.willowtree.vocable
 import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.PresetPhrasesRepository
 import com.willowtree.vocable.room.StoredPhrasesRepository
@@ -18,9 +17,12 @@ class PhrasesUseCase(
 ) : IPhrasesUseCase {
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         if (categoryId == PresetCategories.RECENTS.id) {
-            return legacyPhrasesRepository.getRecentPhrases().map { it.asPhrase() }
+            val presets = presetPhrasesRepository.getRecentPhrases()
+            val stored = storedPhrasesRepository.getRecentPhrases()
+            return (presets + stored).sortedByDescending { it.lastSpokenDate }.take(8)
         }
-        return legacyPhrasesRepository.getPhrasesForCategory(categoryId).map { it.asPhrase() }
+        return storedPhrasesRepository.getPhrasesForCategory(categoryId) +
+                presetPhrasesRepository.getPhrasesForCategory(categoryId)
     }
 
     override suspend fun updatePhraseLastSpokenTime(phraseId: String) {
