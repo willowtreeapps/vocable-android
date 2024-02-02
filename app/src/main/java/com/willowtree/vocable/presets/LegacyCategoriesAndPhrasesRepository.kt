@@ -6,7 +6,6 @@ import com.willowtree.vocable.room.CategoryLocalizedName
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.PhraseLocalizedUtterance
-import com.willowtree.vocable.room.PhraseSpokenDate
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
@@ -34,10 +33,6 @@ class LegacyCategoriesAndPhrasesRepository(
     override suspend fun getRecentPhrases(): List<PhraseDto> =
         database.phraseDao().getRecentPhrases()
 
-    override suspend fun addPhrase(phrase: PhraseDto) {
-        database.phraseDao().insertPhrase(phrase)
-    }
-
     private suspend fun populatePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().insertPhrases(*phrases.toTypedArray())
     }
@@ -61,10 +56,6 @@ class LegacyCategoriesAndPhrasesRepository(
     override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
         database.phraseDao()
             .updatePhraseLocalizedUtterance(PhraseLocalizedUtterance(phraseId, localizedUtterance))
-    }
-
-    override suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long) {
-        database.phraseDao().updatePhraseSpokenDate(PhraseSpokenDate(phraseId, lastSpokenDate))
     }
 
     override suspend fun updateCategoryName(categoryId: String, localizedName: LocalesWithText) {

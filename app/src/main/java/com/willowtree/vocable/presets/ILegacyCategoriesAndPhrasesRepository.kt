@@ -26,7 +26,5 @@ interface ILegacyCategoriesAndPhrasesRepository {
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
     suspend fun deleteCategory(categoryId: String)
     suspend fun getRecentPhrases(): List<PhraseDto>
-    suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long)
     suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText)
-    suspend fun addPhrase(phrase: PhraseDto)
 }
