@@ -39,7 +39,7 @@ class PhrasesUseCase(
     }
 
     override suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
-        legacyPhrasesRepository.addPhrase(PhraseDto(
+        storedPhrasesRepository.addPhrase(PhraseDto(
             phraseId = 0L,
             parentCategoryId = parentCategoryId,
             creationDate = dateProvider.currentTimeMillis(),

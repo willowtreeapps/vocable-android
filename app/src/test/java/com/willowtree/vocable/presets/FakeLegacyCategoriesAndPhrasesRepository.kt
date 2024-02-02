@@ -102,15 +102,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
     }
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
-    override suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addPhrase(phrase: PhraseDto) {
         TODO("Not yet implemented")
     }
 }

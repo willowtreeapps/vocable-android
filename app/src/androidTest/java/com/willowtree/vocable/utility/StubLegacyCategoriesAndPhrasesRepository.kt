@@ -32,11 +32,6 @@ class StubLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = error("Not implemented")
 
-    override suspend fun updatePhraseLastSpoken(phraseId: String, lastSpokenDate: Long)
-        = error("Not implemented")
-
     override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText)
         = error("Not implemented")
-
-    override suspend fun addPhrase(phrase: PhraseDto) = error("Not implemented")
 }
