@@ -17,4 +17,10 @@ interface PresetPhrasesDao {
 
     @Update(entity = PresetPhraseDto::class)
     suspend fun updatePhraseSpokenDate(phraseSpokenDate: PhraseSpokenDate)
+
+    @Query("SELECT * FROM PresetPhrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
+    suspend fun getRecentPhrases(): List<PresetPhraseDto>
+
+    @Query("SELECT * FROM PresetPhrase WHERE parent_category_id = :categoryId")
+    suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhraseDto>
 }

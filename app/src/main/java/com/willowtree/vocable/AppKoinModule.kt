@@ -8,6 +8,7 @@ import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
+import com.willowtree.vocable.room.PresetPhrasesDao
 import com.willowtree.vocable.room.PresetPhrasesRepository
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
@@ -81,6 +82,7 @@ object AppKoinModule {
         single { RoomStoredPhrasesRepository(get(), get()) } bind StoredPhrasesRepository::class
         single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
         single { VocableDatabase.getVocableDatabase(get()) }
+        single { VocableDatabase.getVocableDatabase(get()).presetPhrasesDao() } bind PresetPhrasesDao::class
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
