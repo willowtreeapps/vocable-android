@@ -34,10 +34,10 @@ class CategoryButton @JvmOverloads constructor(
 
     fun setUpDisplayAndAction(
         category: Category,
-        onCategorySelected: (String) -> Unit
+        onCategorySelected: () -> Unit
     ) {
         this.category = category
-        this.action = { onCategorySelected(category.categoryId) }
+        this.action = onCategorySelected
         this.text = localizedResourceUtility.getTextFromCategory(category)
 
     }
