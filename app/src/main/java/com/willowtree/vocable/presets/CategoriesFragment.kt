@@ -57,7 +57,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
             with(categoryButton.root) {
                 setUpDisplayAndAction(
                     category = category
-                ) { viewModel::onCategorySelected }
+                ) { viewModel.onCategorySelected(category.categoryId) }
                 if (!isTablet && index > 0 && index + 1 == maxCategories) {
                     layoutParams = (layoutParams as LinearLayout.LayoutParams).apply {
                         marginStart = 0
