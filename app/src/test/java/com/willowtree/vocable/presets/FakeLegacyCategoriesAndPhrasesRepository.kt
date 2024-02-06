@@ -27,7 +27,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
     var _categoriesToPhrases = mapOf(
         "1" to listOf(
             PhraseDto(
-                phraseId = 1L,
+                phraseId = "1",
                 parentCategoryId = "1",
                 creationDate = 0L,
                 lastSpokenDate = null,
@@ -39,7 +39,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
 
     var _recentPhrases = listOf(
         PhraseDto(
-            phraseId = 1L,
+            phraseId = "1",
             parentCategoryId = "1",
             creationDate = 0L,
             lastSpokenDate = null,
@@ -102,7 +102,4 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
     }
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
-    override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
-        TODO("Not yet implemented")
-    }
 }

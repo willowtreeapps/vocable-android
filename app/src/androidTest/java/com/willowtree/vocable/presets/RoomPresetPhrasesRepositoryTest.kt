@@ -66,7 +66,8 @@ class RoomPresetPhrasesRepositoryTest {
                         PresetPhrase(
                             phraseId = phraseEntryName,
                             sortOrder = index,
-                            lastSpokenDate = null
+                            lastSpokenDate = null,
+                            parentCategoryId = presetCategory.id
                         )
                     )
                 }

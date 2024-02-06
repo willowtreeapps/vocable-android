@@ -23,4 +23,10 @@ interface PresetPhrasesDao {
 
     @Query("SELECT * FROM PresetPhrase WHERE parent_category_id = :categoryId")
     suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhraseDto>
+
+    @Query("SELECT * FROM PresetPhrase WHERE phrase_id = :phraseId")
+    suspend fun getPhrase(phraseId: String): PresetPhraseDto?
+
+    @Query("UPDATE PresetPhrase SET hidden = :hidden WHERE phrase_id = :phraseId")
+    suspend fun updatePhraseHidden(phraseId: String, hidden: Boolean)
 }
