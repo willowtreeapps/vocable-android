@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "Phrase")
 @Parcelize
 data class PhraseDto(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "phrase_id") val phraseId: Long,
+    @PrimaryKey @ColumnInfo(name = "phrase_id") val phraseId: String,
     @ColumnInfo(name = "parent_category_id") val parentCategoryId: String?,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
     @ColumnInfo(name = "last_spoken_date") val lastSpokenDate: Long?,

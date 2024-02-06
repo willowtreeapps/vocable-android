@@ -28,4 +28,7 @@ interface PhraseDao {
 
     @Query("SELECT * FROM Phrase WHERE parent_category_id == :categoryId")
     suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto>
+
+    @Query("SELECT * FROM Phrase WHERE phrase_id == :phraseId")
+    suspend fun getPhrase(phraseId: String): PhraseDto?
 }

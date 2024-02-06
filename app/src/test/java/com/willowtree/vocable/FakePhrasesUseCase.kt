@@ -25,7 +25,7 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     var _categoriesToPhrases = mapOf(
         "1" to listOf(
             PhraseDto(
-                phraseId = 1L,
+                phraseId = "1",
                 parentCategoryId = "1",
                 creationDate = 0L,
                 lastSpokenDate = null,

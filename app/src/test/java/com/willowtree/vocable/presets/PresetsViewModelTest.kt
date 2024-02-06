@@ -128,7 +128,7 @@ class PresetsViewModelTest {
         fakePhrasesUseCase._categoriesToPhrases = mapOf(
             "1" to listOf(
                 PhraseDto(
-                    phraseId = 1L,
+                    phraseId = "1",
                     parentCategoryId = "1",
                     creationDate = 0L,
                     lastSpokenDate = null,
@@ -138,7 +138,7 @@ class PresetsViewModelTest {
             ),
             "2" to listOf(
                 PhraseDto(
-                    phraseId = 2L,
+                    phraseId = "2",
                     parentCategoryId = "2",
                     creationDate = 0L,
                     lastSpokenDate = null,
@@ -157,6 +157,7 @@ class PresetsViewModelTest {
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
                     lastSpokenDate = null,
+                    parentCategoryId = "2",
                 ),
                 null
             ),
@@ -181,7 +182,7 @@ class PresetsViewModelTest {
         fakePhrasesUseCase._categoriesToPhrases = mapOf(
             "2" to listOf(
                 PhraseDto(
-                    phraseId = 1L,
+                    phraseId = "1",
                     parentCategoryId = "2",
                     creationDate = 0L,
                     lastSpokenDate = null,
@@ -189,7 +190,7 @@ class PresetsViewModelTest {
                     sortOrder = 1
                 ),
                 PhraseDto(
-                    phraseId = 2L,
+                    phraseId = "2",
                     parentCategoryId = "2",
                     creationDate = 0L,
                     lastSpokenDate = null,
@@ -207,12 +208,14 @@ class PresetsViewModelTest {
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
                     lastSpokenDate = null,
+                    parentCategoryId = "2",
                 ),
                 CustomPhrase(
                     phraseId = "1",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1,
                     lastSpokenDate = null,
+                    parentCategoryId = "2",
                 ),
                 null
             ),
@@ -237,7 +240,7 @@ class PresetsViewModelTest {
         fakePhrasesUseCase._categoriesToPhrases = mapOf(
             PresetCategories.RECENTS.id to listOf(
                 PhraseDto(
-                    phraseId = 1L,
+                    phraseId = "1",
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,
                     lastSpokenDate = null,
@@ -245,7 +248,7 @@ class PresetsViewModelTest {
                     sortOrder = 1
                 ),
                 PhraseDto(
-                    phraseId = 2L,
+                    phraseId = "2",
                     parentCategoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,
                     lastSpokenDate = null,
@@ -263,12 +266,14 @@ class PresetsViewModelTest {
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                     sortOrder = 1,
                     lastSpokenDate = null,
+                    parentCategoryId = PresetCategories.RECENTS.id,
                 ),
                 CustomPhrase(
                     phraseId = "2",
                     localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
                     sortOrder = 0,
                     lastSpokenDate = null,
+                    parentCategoryId = PresetCategories.RECENTS.id,
                 )
             ),
             vm.currentPhrases.getOrAwaitValue()
