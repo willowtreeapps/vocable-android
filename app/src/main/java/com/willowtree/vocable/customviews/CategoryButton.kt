@@ -2,7 +2,10 @@ package com.willowtree.vocable.customviews
 
 import android.content.Context
 import android.util.AttributeSet
+import com.willowtree.vocable.presets.Category
+import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import kotlinx.coroutines.*
+import org.koin.core.component.inject
 
 /**
  * A subclass of AppCompatRadioButton that represents a category on the main screen
@@ -15,8 +18,10 @@ class CategoryButton @JvmOverloads constructor(
     PointerListener {
 
     private var buttonJob: Job? = null
+    var category: Category? = null
     private val backgroundScope = CoroutineScope(Dispatchers.IO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
+    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     init {
         isEnabled = false
@@ -25,6 +30,16 @@ class CategoryButton @JvmOverloads constructor(
             sayText(text)
             performAction()
         }
+    }
+
+    fun setUpDisplayAndAction(
+        category: Category,
+        onCategorySelected: () -> Unit
+    ) {
+        this.category = category
+        this.action = onCategorySelected
+        this.text = localizedResourceUtility.getTextFromCategory(category)
+
     }
 
     override fun onPointerEnter() {
