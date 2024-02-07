@@ -156,8 +156,7 @@ class PhrasesUseCaseTest {
                     phraseId = "1",
                     localizedUtterance = testLocalesWithText,
                     sortOrder = 0,
-                    lastSpokenDate = null,
-                    parentCategoryId = "category"
+                    lastSpokenDate = null
                 )
             ),
             useCase.getPhrasesForCategory("category")

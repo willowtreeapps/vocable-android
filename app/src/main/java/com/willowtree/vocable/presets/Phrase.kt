@@ -12,7 +12,6 @@ sealed interface Phrase : Parcelable {
     val phraseId: String
     val sortOrder: Int
     val lastSpokenDate: Long?
-    val parentCategoryId: String?
 
     fun text(context: Context): String
 }
@@ -23,7 +22,6 @@ data class CustomPhrase(
     override val sortOrder: Int,
     val localizedUtterance: LocalesWithText?,
     override val lastSpokenDate: Long?,
-    override val parentCategoryId: String?,
 ) : Phrase, Parcelable {
 
     override fun text(context: Context): String {
@@ -36,7 +34,7 @@ data class PresetPhrase(
     override val phraseId: String,
     override val sortOrder: Int,
     override val lastSpokenDate: Long?,
-    override val parentCategoryId: String?,
+    val parentCategoryId: String?,
 ) : Phrase {
 
     override fun text(context: Context): String {
@@ -55,7 +53,6 @@ fun PhraseDto.asPhrase(): Phrase =
         sortOrder = sortOrder,
         localizedUtterance = localizedUtterance,
         lastSpokenDate = lastSpokenDate,
-        parentCategoryId = parentCategoryId,
     )
 
 fun PresetPhraseDto.asPhrase(): PresetPhrase =
