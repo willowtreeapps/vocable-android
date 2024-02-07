@@ -181,9 +181,12 @@ class PhrasesUseCaseTest {
 
         useCase.updatePhrase(phraseId, localizedUtterance)
 
-        val updatedPhrase = useCase.getPhrasesForCategory("category")
-            .single() as CustomPhrase
-        assertEquals(localizedUtterance, updatedPhrase.localizedUtterance)
+        val updatedPhrases = useCase.getPhrasesForCategory("category")
+        assertEquals(updatedPhrases.size, 1)
+        assertEquals(
+            localizedUtterance,
+            (updatedPhrases[0] as CustomPhrase).localizedUtterance
+        )
     }
 
     @Test
