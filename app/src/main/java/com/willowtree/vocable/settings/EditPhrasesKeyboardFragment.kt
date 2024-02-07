@@ -50,17 +50,14 @@ class EditPhrasesKeyboardFragment : EditKeyboardFragment() {
             if (!isDefaultTextVisible()) {
                 binding.keyboardInput.text.let { text ->
                     if (text.isNotBlank()) {
-                        when (val savingPhrase = phrase) {
+                        val localesWithText = when (val savingPhrase = phrase) {
                             is CustomPhrase -> {
-                                val languageWithText = savingPhrase.localizedUtterance
-                                    ?: LocalesWithText(emptyMap())
-                                viewModel.updatePhrase(savingPhrase.phraseId, languageWithText)
-                                addNewPhrase = false
+                                savingPhrase.localizedUtterance ?: LocalesWithText(emptyMap())
                             }
-                            is PresetPhrase -> {
-                                error("Preset phrases can not currently be edited: $savingPhrase")
-                            }
+                            is PresetPhrase -> LocalesWithText(mapOf("en" to text.toString()))
                         }
+                        viewModel.updatePhrase(phrase.phraseId, localesWithText)
+                        addNewPhrase = false
                     }
                 }
             }

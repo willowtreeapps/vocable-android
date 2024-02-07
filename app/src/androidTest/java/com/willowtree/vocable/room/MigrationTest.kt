@@ -343,7 +343,7 @@ class MigrationTest {
         assertEquals(
             listOf(
                 PhraseDto(
-                    1L,
+                    "1",
                     "custom",
                     0L,
                     0L,
@@ -355,7 +355,7 @@ class MigrationTest {
         assertEquals(
             listOf(
                 PhraseDto(
-                    2L,
+                    "2",
                     "recents",
                     0L,
                     0L,
