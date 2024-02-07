@@ -35,11 +35,29 @@ class RoomPresetPhrasesRepository(
     }
 
     override suspend fun getRecentPhrases(): List<PresetPhrase> {
-        return presetPhrasesDao.getRecentPhrases().map { it.asPhrase()}
+        return presetPhrasesDao.getRecentPhrases()
+            .filterHiddenPresets()
+            .map { it.asPhrase()}
     }
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhrase> {
-        return presetPhrasesDao.getPhrasesForCategory(categoryId).map { it.asPhrase() }
+        return presetPhrasesDao.getPhrasesForCategory(categoryId)
+            .filterHiddenPresets()
+            .map { it.asPhrase() }
+    }
+
+    override suspend fun getPhrase(phraseId: String): PresetPhrase? {
+        return presetPhrasesDao.getPhrase(phraseId)
+            .takeIf { it?.hidden != true }
+            ?.asPhrase()
+    }
+
+    override suspend fun updatePhraseHidden(phraseId: String, hidden: Boolean) {
+        presetPhrasesDao.updatePhraseHidden(phraseId, hidden)
+    }
+
+    private fun List<PresetPhraseDto>.filterHiddenPresets() : List<PresetPhraseDto> {
+        return filterNot { it.hidden }
     }
 
     private suspend fun ensurePopulated() {

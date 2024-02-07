@@ -12,6 +12,7 @@ import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
 import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.test.runTest
@@ -43,17 +44,21 @@ class PhrasesUseCaseTest {
             legacyPhrasesRepository = legacyRepository,
             storedPhrasesRepository = storedPhrasesRepository,
             presetPhrasesRepository = presetPhrasesRepository,
-            dateProvider = dateProvider
+            dateProvider = dateProvider,
+            uuidProvider = object : UUIDProvider {
+                override fun randomUUIDString(): String = "random"
+            }
         )
     }
 
     @Test
     fun getPhrasesForRecentsCategory_returnsRecentPhrases() = runTest {
         val useCase = createUseCase()
+        val phraseId = "1"
         presetPhrasesRepository.populateDatabase()
         storedPhrasesRepository.addPhrase(
             PhraseDto(
-                phraseId = 1L,
+                phraseId = phraseId,
                 localizedUtterance = testLocalesWithText,
                 parentCategoryId = PresetCategories.GENERAL.id,
                 creationDate = 0L,
@@ -67,7 +72,7 @@ class PhrasesUseCaseTest {
         val recentPhrases = useCase.getPhrasesForCategory(PresetCategories.RECENTS.id)
 
         assertEquals(2, recentPhrases.size)
-        assertEquals("1", recentPhrases[1].phraseId)
+        assertEquals(phraseId, recentPhrases[1].phraseId)
         assertEquals("category_123_0", recentPhrases[0].phraseId)
     }
 
@@ -78,7 +83,7 @@ class PhrasesUseCaseTest {
         for (i in 0..9) {
             storedPhrasesRepository.addPhrase(
                 PhraseDto(
-                    phraseId = i.toLong(),
+                    phraseId = i.toString(),
                     localizedUtterance = testLocalesWithText,
                     parentCategoryId = PresetCategories.GENERAL.id,
                     creationDate = 0L,
@@ -125,7 +130,7 @@ class PhrasesUseCaseTest {
     fun getPhrasesForCategory_getsStoredPhrasesInCategory() = runTest {
         storedPhrasesRepository.addPhrase(
             PhraseDto(
-                phraseId = 1L,
+                phraseId = "1",
                 parentCategoryId = "category",
                 creationDate = 0L,
                 lastSpokenDate = null,
@@ -135,7 +140,7 @@ class PhrasesUseCaseTest {
         )
         storedPhrasesRepository.addPhrase(
             PhraseDto(
-                phraseId = 2L,
+                phraseId = "2",
                 parentCategoryId = "not-category",
                 creationDate = 0L,
                 lastSpokenDate = null,
@@ -151,10 +156,50 @@ class PhrasesUseCaseTest {
                     phraseId = "1",
                     localizedUtterance = testLocalesWithText,
                     sortOrder = 0,
-                    lastSpokenDate = null,
+                    lastSpokenDate = null
                 )
             ),
             useCase.getPhrasesForCategory("category")
         )
+    }
+
+    @Test
+    fun updatePhrase_updatesCustomPhrase() = runTest {
+        val useCase = createUseCase()
+        val phraseId = "1"
+        val localizedUtterance = LocalesWithText(mapOf("en" to "updated text"))
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = phraseId,
+                parentCategoryId = "category",
+                creationDate = 0L,
+                lastSpokenDate = null,
+                localizedUtterance = testLocalesWithText,
+                sortOrder = 0
+            )
+        )
+
+        useCase.updatePhrase(phraseId, localizedUtterance)
+
+        val updatedPhrases = useCase.getPhrasesForCategory("category")
+        assertEquals(updatedPhrases.size, 1)
+        assertEquals(
+            localizedUtterance,
+            (updatedPhrases[0] as CustomPhrase).localizedUtterance
+        )
+    }
+
+    @Test
+    fun updatePhrase_updatesPresetPhrase() = runTest {
+        val useCase = createUseCase()
+        presetPhrasesRepository.populateDatabase()
+        val phraseId = "category_123_0"
+        val localizedUtterance = LocalesWithText(mapOf("en" to "updated text"))
+
+        useCase.updatePhrase(phraseId, localizedUtterance)
+
+        val newCustomPhrase = useCase.getPhrasesForCategory(PresetCategories.USER_KEYPAD.id)
+            .singleOrNull { it.phraseId == phraseId } as CustomPhrase
+        assertEquals(localizedUtterance, newCustomPhrase.localizedUtterance)
     }
 }

@@ -73,7 +73,7 @@ object AppKoinModule {
         single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { LocalizedResourceUtility(androidContext()) } bind ILocalizedResourceUtility::class
         single { CategoriesUseCase(get(), get(), get(), get()) } bind ICategoriesUseCase::class
-        single { PhrasesUseCase(get(), get(), get(), get()) } bind IPhrasesUseCase::class
+        single { PhrasesUseCase(get(), get(), get(), get(), get()) } bind IPhrasesUseCase::class
         single { RandomUUIDProvider() } bind UUIDProvider::class
         single { JavaDateProvider() } bind DateProvider::class
         single { JavaLocaleProvider() } bind LocaleProvider::class
