@@ -12,8 +12,7 @@ import kotlinx.parcelize.Parcelize
 data class CategoryDto(
     @PrimaryKey @ColumnInfo(name = "category_id") val categoryId: String,
     @ColumnInfo(name = "creation_date") val creationDate: Long,
-    @ColumnInfo(name = "resource_id") val resourceId: Int?,
-    @ColumnInfo(name = "localized_name") var localizedName: LocalesWithText?,
+    @ColumnInfo(name = "localized_name") var localizedName: LocalesWithText,
     var hidden: Boolean,
     @ColumnInfo(name = "sort_order") var sortOrder: Int
 ) : Parcelable

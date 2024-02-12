@@ -116,7 +116,6 @@ class PresetsViewModelTest {
                 CategoryDto(
                     categoryId = "1",
                     creationDate = 0L,
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
@@ -124,7 +123,6 @@ class PresetsViewModelTest {
                 CategoryDto(
                     categoryId = "2",
                     creationDate = 0L,
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "second category")),
                     hidden = false,
                     sortOrder = 0
@@ -177,7 +175,6 @@ class PresetsViewModelTest {
                 CategoryDto(
                     categoryId = "2",
                     creationDate = 0L,
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0
@@ -233,7 +230,6 @@ class PresetsViewModelTest {
                 CategoryDto(
                     categoryId = PresetCategories.RECENTS.id,
                     creationDate = 0L,
-                    resourceId = null,
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
                     sortOrder = 0

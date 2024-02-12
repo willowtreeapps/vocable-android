@@ -127,6 +127,7 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
 
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:2.3.1"

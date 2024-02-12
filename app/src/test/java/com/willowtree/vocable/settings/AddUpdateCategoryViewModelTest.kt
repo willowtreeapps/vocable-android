@@ -38,13 +38,13 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    localizedName = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
-                    localizedName = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory2")),
                     hidden = true,
                     sortOrder = 1
                 )
@@ -59,13 +59,13 @@ class AddUpdateCategoryViewModelTest {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
-                    localizedName = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
                     hidden = false,
                     sortOrder = 0
                 ),
                 Category.StoredCategory(
                     categoryId = "2",
-                    localizedName = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory2")),
                     hidden = true,
                     sortOrder = 2
                 ),
@@ -81,7 +81,7 @@ class AddUpdateCategoryViewModelTest {
     }
 
     @Test
-    fun `category name updated`() = runTest {
+    fun `stored category name updated`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 Category.StoredCategory(

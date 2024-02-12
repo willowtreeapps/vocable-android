@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "f525cce9d37cdc1e795319014f0de6bb",
+    "identityHash": "85eddb23319bc66076dc3049648b8948",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `resource_id` INTEGER, `localized_name` TEXT, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `localized_name` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`category_id`))",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -21,16 +21,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "resourceId",
-            "columnName": "resource_id",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "localizedName",
             "columnName": "localized_name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "hidden",
@@ -196,7 +190,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f525cce9d37cdc1e795319014f0de6bb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '85eddb23319bc66076dc3049648b8948')"
     ]
   }
 }

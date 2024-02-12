@@ -16,7 +16,7 @@ import androidx.room.TypeConverters
     ],
     version = 7,
     // TODO: PK - May be able to consolidate 6 and 7 since we never released 6
-    autoMigrations = [AutoMigration(from = 6, to = 7)]
+    autoMigrations = [AutoMigration(from = 6, to = 7, spec = Version7Migration::class)]
 )
 @TypeConverters(Converters::class)
 abstract class VocableDatabase : RoomDatabase() {
