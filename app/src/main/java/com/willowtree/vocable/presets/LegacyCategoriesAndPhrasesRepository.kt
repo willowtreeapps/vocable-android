@@ -42,7 +42,7 @@ class LegacyCategoriesAndPhrasesRepository(
         database.categoryDao().updateCategorySortOrders(categorySortOrders)
     }
 
-    suspend fun deletePhrases(phrases: List<PhraseDto>) {
+    override suspend fun deletePhrases(phrases: List<PhraseDto>) {
         database.phraseDao().deletePhrases(*phrases.toTypedArray())
     }
 

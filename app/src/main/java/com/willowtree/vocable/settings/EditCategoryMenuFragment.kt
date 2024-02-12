@@ -56,7 +56,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
         })
         binding.showCategorySwitch.apply {
             setOnCheckedChangeListener { _, isChecked ->
-                editCategoryMenuViewModel.updateHiddenStatus(isChecked)
+                editCategoryMenuViewModel.updateCategoryShown(isChecked)
             }
         }
     }

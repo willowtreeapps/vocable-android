@@ -67,4 +67,22 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
     override suspend fun getCategoryById(categoryId: String): Category {
         return _categories.value.first { it.categoryId == categoryId }
     }
+
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        _categories.update { categories ->
+            categories.map {
+                if (it.categoryId == categoryId) {
+                    it.copy(hidden = hidden)
+                } else {
+                    it
+                }
+            }
+        }
+    }
+
+    override suspend fun deleteCategory(categoryId: String) {
+        _categories.update { categories ->
+            categories.filter { it.categoryId != categoryId }
+        }
+    }
 }

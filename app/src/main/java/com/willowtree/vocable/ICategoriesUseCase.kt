@@ -11,4 +11,6 @@ interface ICategoriesUseCase {
     suspend fun addCategory(categoryName: String, sortOrder: Int)
     suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>)
     suspend fun getCategoryById(categoryId: String): Category
+    suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
+    suspend fun deleteCategory(categoryId: String)
 }
