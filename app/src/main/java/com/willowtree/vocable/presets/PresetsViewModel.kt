@@ -22,7 +22,9 @@ class PresetsViewModel(
     private val phrasesUseCase: IPhrasesUseCase
 ) : ViewModel() {
 
-    val categoryList: LiveData<List<Category>> = categoriesUseCase.categories().asLiveData()
+    val categoryList: LiveData<List<Category>> = categoriesUseCase.categories()
+        .map { categories -> categories.filter { !it.hidden } }
+        .asLiveData()
 
     // Will only ever be null immediately on init
     private val liveSelectedCategoryId = MutableStateFlow<String?>(null)
@@ -57,7 +59,9 @@ class PresetsViewModel(
 
     init {
         viewModelScope.launch {
-            liveSelectedCategoryId.update { categoriesUseCase.categories().first().first().categoryId }
+            liveSelectedCategoryId.update {
+                categoriesUseCase.categories().first().first().categoryId
+            }
         }
     }
 
