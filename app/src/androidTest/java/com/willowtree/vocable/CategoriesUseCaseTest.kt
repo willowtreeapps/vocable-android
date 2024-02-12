@@ -116,7 +116,7 @@ class CategoriesUseCaseTest {
         storedCategoriesRepository.upsertCategory(
             Category.StoredCategory(
                 "storedCategory",
-                localizedName = null,
+                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
                 hidden = false,
                 sortOrder = 7 // PresetCategories take up the first 6
             )
@@ -135,7 +135,7 @@ class CategoriesUseCaseTest {
             listOf(
                 Category.StoredCategory(
                     "storedCategory",
-                    localizedName = null,
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
                     hidden = false,
                     sortOrder = 6
                 ),
@@ -143,43 +143,36 @@ class CategoriesUseCaseTest {
                     categoryId = PresetCategories.GENERAL.id,
                     sortOrder = 0,
                     hidden = false,
-                    resourceId = PresetCategories.GENERAL.getNameId()
                 ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.BASIC_NEEDS.id,
                     sortOrder = 1,
                     hidden = false,
-                    resourceId = PresetCategories.BASIC_NEEDS.getNameId()
                 ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.PERSONAL_CARE.id,
                     sortOrder = 2,
                     hidden = false,
-                    resourceId = PresetCategories.PERSONAL_CARE.getNameId()
                 ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.CONVERSATION.id,
                     sortOrder = 3,
                     hidden = false,
-                    resourceId = PresetCategories.CONVERSATION.getNameId()
                 ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.ENVIRONMENT.id,
                     sortOrder = 4,
                     hidden = false,
-                    resourceId = PresetCategories.ENVIRONMENT.getNameId()
                 ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.USER_KEYPAD.id,
                     sortOrder = 5,
                     hidden = false,
-                    resourceId = PresetCategories.USER_KEYPAD.getNameId()
                 ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.RECENTS.id,
                     sortOrder = 7,
                     hidden = false,
-                    resourceId = PresetCategories.RECENTS.getNameId()
                 )
             ),
             useCase.categories().first()
@@ -191,7 +184,7 @@ class CategoriesUseCaseTest {
         storedCategoriesRepository.upsertCategory(
             Category.StoredCategory(
                 "storedCategory",
-                localizedName = null,
+                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
                 hidden = false,
                 sortOrder = 0
             )
@@ -202,7 +195,7 @@ class CategoriesUseCaseTest {
         assertEquals(
             Category.StoredCategory(
                 "storedCategory",
-                localizedName = null,
+                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
                 hidden = false,
                 sortOrder = 0
             ),
@@ -213,7 +206,6 @@ class CategoriesUseCaseTest {
                 PresetCategories.BASIC_NEEDS.id,
                 sortOrder = 1,
                 hidden = false,
-                resourceId = R.string.preset_basic_needs
             ),
             useCase.getCategoryById(PresetCategories.BASIC_NEEDS.id)
         )
@@ -306,7 +298,6 @@ class CategoriesUseCaseTest {
                 PresetCategories.BASIC_NEEDS.id,
                 sortOrder = 1,
                 hidden = true,
-                resourceId = R.string.preset_basic_needs
             ),
             useCase.getCategoryById(PresetCategories.BASIC_NEEDS.id)
         )

@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
-import com.willowtree.vocable.utils.locale.LocalesWithText
 import com.willowtree.vocable.utils.locale.LocaleProvider
+import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -37,21 +38,20 @@ class AddUpdateCategoryViewModel(
                 return@launch
             }
 
-            val toUpdate = categoriesUseCase.categories().first().firstOrNull { it.categoryId == categoryId }
-            toUpdate?.localizedName?.let { localizedNames ->
+            val toUpdate = categoriesUseCase.categories().first().first { it.categoryId == categoryId }
 
-                val currentName = localizedNames[localeProvider.getDefaultLocaleString()]
-                if (currentName == updatedName) {
-                    return@let
-                }
-
-                val updatedLocalizedNames: LocalesWithText = localizedNames.set(localeProvider.getDefaultLocaleString(), updatedName)
-
-                categoriesUseCase.updateCategoryName(toUpdate.categoryId, updatedLocalizedNames)
-                liveShowCategoryUpdateMessage.postValue(true)
-                delay(CATEGORY_MESSAGE_DELAY)
-                liveShowCategoryUpdateMessage.postValue(false)
+            val localesWithText = when(toUpdate) {
+                is Category.PresetCategory -> LocalesWithText(mapOf(localeProvider.getDefaultLocaleString() to updatedName))
+                is Category.StoredCategory -> toUpdate.localizedName
+                is Category.Recents -> throw IllegalArgumentException("Cannot update Recents category name!")
             }
+
+            val updatedLocalizedNames: LocalesWithText = localesWithText.set(localeProvider.getDefaultLocaleString(), updatedName)
+
+            categoriesUseCase.updateCategoryName(toUpdate.categoryId, updatedLocalizedNames)
+            liveShowCategoryUpdateMessage.postValue(true)
+            delay(CATEGORY_MESSAGE_DELAY)
+            liveShowCategoryUpdateMessage.postValue(false)
         }
     }
 
