@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
+@Deprecated("This fake is too complex, tests using it should migrate to integration tests with" +
+        "the actual data sources.")
 class FakeCategoriesUseCase : ICategoriesUseCase {
 
     val _categories = MutableStateFlow<List<Category>>(

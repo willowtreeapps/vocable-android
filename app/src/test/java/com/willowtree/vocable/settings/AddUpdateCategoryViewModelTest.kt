@@ -14,6 +14,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
+@Deprecated("We should migrate this over to androidTest, as the Fake CategoriesUseCase is" +
+        "getting too complex.")
 class AddUpdateCategoryViewModelTest {
 
     @get:Rule
