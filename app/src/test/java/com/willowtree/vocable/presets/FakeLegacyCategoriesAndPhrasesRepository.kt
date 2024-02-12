@@ -102,4 +102,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
     }
 
     override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
+    override suspend fun deletePhrases(phrases: List<PhraseDto>) {
+        TODO("Not yet implemented")
+    }
 }

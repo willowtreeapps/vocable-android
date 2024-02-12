@@ -64,7 +64,7 @@ class CategoriesUseCase(
         }
     }
 
-    suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
         presetCategoriesRepository.updateCategoryHidden(categoryId, hidden)
         storedCategoriesRepository.updateCategoryHidden(categoryId, hidden)
     }
@@ -85,7 +85,7 @@ class CategoriesUseCase(
         )
     }
 
-    suspend fun deleteCategory(categoryId: String) {
+    override suspend fun deleteCategory(categoryId: String) {
         storedCategoriesRepository.deleteCategory(categoryId)
         presetCategoriesRepository.deleteCategory(categoryId)
     }
