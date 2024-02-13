@@ -241,7 +241,7 @@ class CategoriesUseCaseTest {
     }
 
     @Test
-    fun update_category_name_hides_preset_category_and_creates_stored_category_with_new_name() =
+    fun update_category_name_deletes_preset_category_and_creates_stored_category_with_new_name() =
         runTest {
             val useCase = createUseCase()
 
@@ -258,6 +258,11 @@ class CategoriesUseCaseTest {
                     localizedName = LocalesWithText(mapOf("en_US" to "newPresetCategory1")),
                 ),
                 useCase.getCategoryById(PresetCategories.BASIC_NEEDS.id)
+            )
+            assertEquals(
+                1,
+                useCase.categories().first()
+                    .filter { it.categoryId == PresetCategories.BASIC_NEEDS.id }.size
             )
         }
 
