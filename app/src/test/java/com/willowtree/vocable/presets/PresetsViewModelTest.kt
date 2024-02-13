@@ -35,13 +35,19 @@ class PresetsViewModelTest {
     }
 
     @Test
-    fun `category list passed through`() {
+    fun `category list passed through and filters hidden`() {
         fakeCategoriesUseCase._categories.update {
             listOf(
                 Category.StoredCategory(
                     categoryId = "1",
                     localizedName = LocalesWithText(mapOf("en_US" to "category")),
                     hidden = false,
+                    sortOrder = 0
+                ),
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = true,
                     sortOrder = 0
                 )
             )
