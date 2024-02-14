@@ -14,7 +14,6 @@ class FakePhrasesUseCase : IPhrasesUseCase {
             CategoryDto(
                 categoryId = "1",
                 creationDate = 0L,
-                resourceId = null,
                 localizedName = LocalesWithText(mapOf("en_US" to "category")),
                 hidden = false,
                 sortOrder = 0

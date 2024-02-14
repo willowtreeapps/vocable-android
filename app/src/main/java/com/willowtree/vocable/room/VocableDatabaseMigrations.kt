@@ -3,6 +3,7 @@ package com.willowtree.vocable.room
 import android.annotation.SuppressLint
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.willowtree.vocable.R
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import java.util.*
@@ -101,7 +102,7 @@ object VocableDatabaseMigrations {
 
             }
 
-            database.execSQL("INSERT INTO Category_New (category_id, creation_date, is_user_generated, resource_id, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, ${PresetCategories.MY_SAYINGS.getNameId()}, null, 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
+            database.execSQL("INSERT INTO Category_New (category_id, creation_date, is_user_generated, resource_id, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, ${R.string.preset_user_favorites}, null, 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
 
             var sortOrder = 0
             myLocalizedSayings.forEach { localizedSaying ->
