@@ -8,11 +8,16 @@ import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.ConstantUUIDProvider
 import com.willowtree.vocable.FakeLocaleProvider
 import com.willowtree.vocable.MainDispatcherRule
+import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.presets.Category
+import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
+import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
+import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.utility.FakeDateProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import kotlinx.coroutines.test.runTest
@@ -43,11 +48,30 @@ class AddUpdateCategoryViewModelTest {
         database
     )
 
+    private val storedPhrasesRepository = RoomStoredPhrasesRepository(
+        database,
+        FakeDateProvider()
+    )
+
+    private val presetPhrasesRepository = RoomPresetPhrasesRepository(
+        database.presetPhrasesDao(),
+        FakeDateProvider()
+    )
+
+    private val phrasesUseCase = PhrasesUseCase(
+        FakeLegacyCategoriesAndPhrasesRepository(),
+        storedPhrasesRepository,
+        presetPhrasesRepository,
+        FakeDateProvider(),
+        ConstantUUIDProvider()
+    )
+
     private val categoriesUseCase = CategoriesUseCase(
         ConstantUUIDProvider(),
         FakeLocaleProvider(),
         storedCategoriesRepository,
-        presetCategoriesRepository
+        presetCategoriesRepository,
+        phrasesUseCase
     )
 
     private fun createViewModel(): AddUpdateCategoryViewModel {

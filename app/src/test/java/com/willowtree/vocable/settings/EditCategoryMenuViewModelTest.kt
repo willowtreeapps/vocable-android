@@ -73,4 +73,26 @@ class EditCategoryMenuViewModelTest {
         )
     }
 
+    @Test
+    fun `delete category`() = runTest {
+        categoriesUseCase._categories.update {
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            )
+        }
+
+        val vm = createViewModel()
+        vm.updateCategoryById("1")
+        vm.deleteCategory()
+
+        assertTrue(
+            categoriesUseCase.getCategoryById("1") == null
+        )
+    }
+
 }

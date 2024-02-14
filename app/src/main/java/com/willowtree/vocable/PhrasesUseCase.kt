@@ -35,7 +35,8 @@ class PhrasesUseCase(
     }
 
     override suspend fun deletePhrase(phraseId: String) {
-        legacyPhrasesRepository.deletePhrase(phraseId)
+        storedPhrasesRepository.deletePhrase(phraseId)
+        presetPhrasesRepository.deletePhrase(phraseId)
     }
 
     override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {

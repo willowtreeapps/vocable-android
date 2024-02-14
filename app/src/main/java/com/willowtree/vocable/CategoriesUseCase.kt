@@ -15,7 +15,8 @@ class CategoriesUseCase(
     private val uuidProvider: UUIDProvider,
     private val localeProvider: LocaleProvider,
     private val storedCategoriesRepository: StoredCategoriesRepository,
-    private val presetCategoriesRepository: PresetCategoriesRepository
+    private val presetCategoriesRepository: PresetCategoriesRepository,
+    private val phrasesUseCase: PhrasesUseCase
 ) : ICategoriesUseCase {
 
     override fun categories(): Flow<List<Category>> =
@@ -86,6 +87,10 @@ class CategoriesUseCase(
     }
 
     override suspend fun deleteCategory(categoryId: String) {
+        phrasesUseCase.getPhrasesForCategory(categoryId).forEach {
+            phrasesUseCase.deletePhrase(it.phraseId)
+        }
+
         storedCategoriesRepository.deleteCategory(categoryId)
         presetCategoriesRepository.deleteCategory(categoryId)
     }

@@ -4,11 +4,16 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.presets.Category
+import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.CategorySortOrder
+import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
+import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.utility.FakeDateProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -32,12 +37,31 @@ class CategoriesUseCaseTest {
         database
     )
 
+    private val storedPhrasesRepository = RoomStoredPhrasesRepository(
+        database,
+        FakeDateProvider()
+    )
+
+    private val presetPhrasesRepository = RoomPresetPhrasesRepository(
+        database.presetPhrasesDao(),
+        FakeDateProvider()
+    )
+
+    private val phrasesUseCase = PhrasesUseCase(
+        FakeLegacyCategoriesAndPhrasesRepository(),
+        storedPhrasesRepository,
+        presetPhrasesRepository,
+        FakeDateProvider(),
+        ConstantUUIDProvider()
+    )
+
     private fun createUseCase(): CategoriesUseCase {
         return CategoriesUseCase(
             ConstantUUIDProvider(),
             FakeLocaleProvider(),
             storedCategoriesRepository,
-            presetCategoriesRepository
+            presetCategoriesRepository,
+            phrasesUseCase
         )
     }
 
@@ -309,7 +333,7 @@ class CategoriesUseCaseTest {
     }
 
     @Test
-    fun delete_stored_category() = runTest {
+    fun delete_stored_category_deletes_phrases_updates_sort_order() = runTest {
         storedCategoriesRepository.upsertCategory(
             Category.StoredCategory(
                 "storedCategory1",
@@ -318,6 +342,14 @@ class CategoriesUseCaseTest {
                 sortOrder = 0
             )
         )
+        storedPhrasesRepository.addPhrase(PhraseDto(
+            phraseId = "phrase1",
+            parentCategoryId = "storedCategory1",
+            creationDate = 0L,
+            lastSpokenDate = null,
+            localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
+            sortOrder = 0
+        ))
 
         val useCase = createUseCase()
 
@@ -327,10 +359,15 @@ class CategoriesUseCaseTest {
             presetCategoriesRepository.getPresetCategories().first(),
             useCase.categories().first()
         )
+
+        assertEquals(
+            storedPhrasesRepository.getPhrase("phrase1"),
+            null
+        )
     }
 
     @Test
-    fun delete_preset_category() = runTest {
+    fun delete_preset_category_deletes_phrases_updates_sort_order() = runTest {
         val useCase = createUseCase()
 
         useCase.deleteCategory(PresetCategories.BASIC_NEEDS.id)
