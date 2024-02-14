@@ -322,7 +322,6 @@ class MigrationTest {
                 CategoryDto(
                     "custom",
                     0L,
-                    null,
                     LocalesWithText( mapOf("english" to "custom")),
                     false,
                     7
@@ -330,7 +329,6 @@ class MigrationTest {
                 CategoryDto(
                     "recents",
                     0L,
-                    null,
                     LocalesWithText( mapOf("english" to "recents")),
                     false,
                     8

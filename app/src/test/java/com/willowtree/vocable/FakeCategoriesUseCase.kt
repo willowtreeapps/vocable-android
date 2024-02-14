@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
+@Deprecated("This fake is too complex, tests using it should migrate to integration tests with" +
+        "the actual data sources.")
 class FakeCategoriesUseCase : ICategoriesUseCase {
 
-    val _categories = MutableStateFlow(
+    val _categories = MutableStateFlow<List<Category>>(
         listOf(
             Category.StoredCategory(
                 "categoryId",
-                null,
+                LocalesWithText(mapOf("en_US" to "storedCategory")),
                 false,
                 0
             )
@@ -31,7 +33,17 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
         _categories.update { categories ->
             categories.map {
                 if (it.categoryId == categoryId) {
-                    it.copy(localizedName = localizedName)
+                    when (it) {
+                        is Category.StoredCategory -> it.copy(localizedName = localizedName)
+                        is Category.PresetCategory -> Category.StoredCategory(
+                            it.categoryId,
+                            localizedName,
+                            it.hidden,
+                            it.sortOrder
+                        )
+
+                        is Category.Recents -> it
+                    }
                 } else {
                     it
                 }
@@ -56,7 +68,11 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
                 val sortOrderUpdate =
                     categorySortOrders.firstOrNull { it.categoryId == categoryDto.categoryId }
                 if (sortOrderUpdate != null) {
-                    categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+                    when(categoryDto) {
+                        is Category.StoredCategory -> categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+                        is Category.PresetCategory -> categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+                        is Category.Recents -> categoryDto.copy(sortOrder = sortOrderUpdate.sortOrder)
+                    }
                 } else {
                     categoryDto
                 }
@@ -72,7 +88,11 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
         _categories.update { categories ->
             categories.map {
                 if (it.categoryId == categoryId) {
-                    it.copy(hidden = hidden)
+                    when(it) {
+                        is Category.StoredCategory -> it.copy(hidden = hidden)
+                        is Category.PresetCategory -> it.copy(hidden = hidden)
+                        is Category.Recents -> it.copy(hidden = hidden)
+                    }
                 } else {
                     it
                 }

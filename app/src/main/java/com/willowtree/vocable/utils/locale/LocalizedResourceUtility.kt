@@ -11,13 +11,7 @@ class LocalizedResourceUtility(
 ) : KoinComponent, ILocalizedResourceUtility {
 
     override fun getTextFromCategory(category: Category?): String {
-        return category?.localizedName?.localizedText?.text() ?: category?.resourceId?.let {
-            if (it != 0) {
-                context.resources.getString(it)
-            } else {
-                ""
-            }
-        } ?: ""
+        return category?.text(context) ?: ""
     }
 
     fun getTextFromPhrase(phrase: Phrase?): String {

@@ -16,7 +16,6 @@ class RoomStoredCategoriesRepository(
             CategoryDto(
                 category.categoryId,
                 0L,
-                category.resourceId,
                 category.localizedName,
                 category.hidden,
                 category.sortOrder

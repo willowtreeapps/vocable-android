@@ -26,10 +26,7 @@ class RoomPresetCategoriesRepository(
                     Category.PresetCategory(
                         it.categoryId,
                         it.sortOrder,
-                        it.hidden,
-                        PresetCategories.values()
-                            .first { presetCategory -> presetCategory.id == it.categoryId }
-                            .getNameId()
+                        it.hidden
                     )
                 }
         }.onStart { ensurePopulated() }
@@ -68,10 +65,7 @@ class RoomPresetCategoriesRepository(
             Category.PresetCategory(
                 it.categoryId,
                 it.sortOrder,
-                it.hidden,
-                PresetCategories.values()
-                    .first { presetCategory -> presetCategory.id == it.categoryId }
-                    .getNameId()
+                it.hidden
             )
         }
     }

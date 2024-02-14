@@ -29,7 +29,6 @@ class RoomPresetCategoriesRepositoryTest {
                     it.id,
                     it.initialSortOrder,
                     false,
-                    it.getNameId()
                 )
             },
             repository.getPresetCategories().first()
