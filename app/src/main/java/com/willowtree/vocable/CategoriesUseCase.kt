@@ -49,7 +49,7 @@ class CategoriesUseCase(
         } else {
             val presetCategory = presetCategoriesRepository.getCategoryById(categoryId)
             if (presetCategory != null) {
-                presetCategoriesRepository.updateCategoryHidden(categoryId, true)
+                presetCategoriesRepository.deleteCategory(categoryId)
                 storedCategoriesRepository.upsertCategory(
                     Category.StoredCategory(
                         presetCategory.categoryId,
