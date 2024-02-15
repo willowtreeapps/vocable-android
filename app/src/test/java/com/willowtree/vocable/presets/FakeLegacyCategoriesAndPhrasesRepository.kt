@@ -59,10 +59,6 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
         return _allCategories.value.sortedBy { it.sortOrder }
     }
 
-    override suspend fun deletePhrase(phraseId: String) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
         _allCategories.update { allCategories ->
             allCategories.map { categoryDto ->

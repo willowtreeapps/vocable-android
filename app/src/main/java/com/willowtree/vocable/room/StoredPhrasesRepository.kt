@@ -14,4 +14,5 @@ interface StoredPhrasesRepository {
         phraseId: String,
         localizedUtterance: LocalesWithText,
     )
+    suspend fun deletePhrase(phraseId: String)
 }

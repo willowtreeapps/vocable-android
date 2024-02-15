@@ -35,12 +35,14 @@ class PhrasesUseCase(
     }
 
     override suspend fun deletePhrase(phraseId: String) {
-        legacyPhrasesRepository.deletePhrase(phraseId)
+        storedPhrasesRepository.deletePhrase(phraseId)
+        presetPhrasesRepository.deletePhrase(phraseId)
     }
 
     override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
         val phrase = storedPhrasesRepository.getPhrase(phraseId)
             ?: presetPhrasesRepository.getPhrase(phraseId)
+                .takeIf { it != null && !it.deleted }
         when (phrase) {
             is CustomPhrase -> {
                 storedPhrasesRepository.updatePhraseLocalizedUtterance(
@@ -49,10 +51,7 @@ class PhrasesUseCase(
                 )
             }
             is PresetPhrase -> {
-                presetPhrasesRepository.updatePhraseHidden(
-                    phraseId = phraseId,
-                    hidden = true,
-                )
+                presetPhrasesRepository.deletePhrase(phraseId = phraseId)
                 // add a custom phrase to "shadow" over the preset
                 storedPhrasesRepository.addPhrase(
                     PhraseDto(
