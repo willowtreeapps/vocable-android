@@ -202,4 +202,39 @@ class PhrasesUseCaseTest {
             .singleOrNull { it.phraseId == phraseId } as CustomPhrase
         assertEquals(localizedUtterance, newCustomPhrase.localizedUtterance)
     }
+
+    @Test
+    fun deletePhrase_deletesFromStoredRepository() = runTest {
+        val useCase = createUseCase()
+        val customPhraseId = "1"
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = customPhraseId,
+                localizedUtterance = testLocalesWithText,
+                parentCategoryId = PresetCategories.GENERAL.id,
+                creationDate = 0L,
+                lastSpokenDate = 100L,
+                sortOrder = 0
+            )
+        )
+
+        useCase.deletePhrase(customPhraseId)
+
+        val storedPhrase = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id)
+            .firstOrNull { it.phraseId == customPhraseId }
+        assertEquals(null, storedPhrase)
+    }
+
+    @Test
+    fun deletePhrase_deletesFromPresetRepository() = runTest {
+        val useCase = createUseCase()
+        val presetPhraseId = "category_123_0"
+        presetPhrasesRepository.populateDatabase()
+
+        useCase.deletePhrase(presetPhraseId)
+
+        val presetPhrase = useCase.getPhrasesForCategory(PresetCategories.USER_KEYPAD.id)
+            .firstOrNull { it.phraseId == presetPhraseId }
+        assertEquals(null, presetPhrase)
+    }
 }

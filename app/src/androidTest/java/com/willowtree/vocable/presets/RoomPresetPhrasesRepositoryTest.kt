@@ -67,7 +67,8 @@ class RoomPresetPhrasesRepositoryTest {
                             phraseId = phraseEntryName,
                             sortOrder = index,
                             lastSpokenDate = null,
-                            parentCategoryId = presetCategory.id
+                            parentCategoryId = presetCategory.id,
+                            deleted = false,
                         )
                     )
                 }

@@ -17,8 +17,6 @@ class StubLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
 
     override suspend fun getAllCategories() = error("Not implemented")
 
-    override suspend fun deletePhrase(phraseId: String) = error("Not implemented")
-
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) =
         error("Not implemented")
 

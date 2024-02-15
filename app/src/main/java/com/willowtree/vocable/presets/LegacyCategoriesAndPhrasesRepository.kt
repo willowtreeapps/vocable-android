@@ -30,14 +30,6 @@ class LegacyCategoriesAndPhrasesRepository(
     override suspend fun getRecentPhrases(): List<PhraseDto> =
         database.phraseDao().getRecentPhrases()
 
-    private suspend fun populatePhrases(phrases: List<PhraseDto>) {
-        database.phraseDao().insertPhrases(*phrases.toTypedArray())
-    }
-
-    override suspend fun deletePhrase(phraseId: String) {
-        database.phraseDao().deletePhrase(phraseId)
-    }
-
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
         database.categoryDao().updateCategorySortOrders(categorySortOrders)
     }

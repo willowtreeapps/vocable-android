@@ -34,6 +34,7 @@ data class PresetPhrase(
     override val phraseId: String,
     override val sortOrder: Int,
     override val lastSpokenDate: Long?,
+    val deleted: Boolean,
     val parentCategoryId: String?,
 ) : Phrase {
 
@@ -49,7 +50,7 @@ data class PresetPhrase(
 
 fun PhraseDto.asPhrase(): Phrase =
     CustomPhrase(
-        phraseId = phraseId.toString(),
+        phraseId = phraseId,
         sortOrder = sortOrder,
         localizedUtterance = localizedUtterance,
         lastSpokenDate = lastSpokenDate,
@@ -60,5 +61,6 @@ fun PresetPhraseDto.asPhrase(): PresetPhrase =
         phraseId = phraseId,
         sortOrder = sortOrder,
         lastSpokenDate = lastSpokenDate,
-        parentCategoryId = parentCategoryId
+        parentCategoryId = parentCategoryId,
+        deleted = deleted,
     )
