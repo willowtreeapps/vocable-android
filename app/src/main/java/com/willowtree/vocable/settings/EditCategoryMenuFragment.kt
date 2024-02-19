@@ -3,7 +3,10 @@ package com.willowtree.vocable.settings
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.willowtree.vocable.BaseFragment
@@ -12,6 +15,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoryMenuBinding
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,6 +45,15 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             setUpEditPhrasesButton()
             setUpRemoveCategoryButton()
             setUpCategoryTitle()
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                editCategoryMenuViewModel.popBackStack.collect {
+                    if (it) {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
         }
     }
 
@@ -84,8 +97,6 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                     resources.getString(R.string.delete)
                 dialogPositiveButton.action = {
                     editCategoryMenuViewModel.deleteCategory()
-
-                    findNavController().popBackStack()
                 }
                 dialogNegativeButton.text = resources.getString(R.string.settings_dialog_cancel)
                 dialogNegativeButton.action = {
@@ -94,7 +105,8 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
                 }
             }
         }
-        binding.removeCategoryButton.isEnabled = editCategoryMenuViewModel.lastCategoryRemaining.value == false
+        binding.removeCategoryButton.isEnabled =
+            editCategoryMenuViewModel.lastCategoryRemaining.value == false
     }
 
     private fun toggleDialogVisibility(visible: Boolean) {
@@ -113,7 +125,7 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
             binding.editPhrasesButton.isEnabled = false
         } else {
             binding.editPhrasesButton.isEnabled = true
-            binding.editPhrasesButton.action  = {
+            binding.editPhrasesButton.action = {
                 val action =
                     EditCategoryMenuFragmentDirections.actionEditCategoryMenuFragmentToEditCategoryPhrasesFragment(
                         (editCategoryMenuViewModel.currentCategory.value ?: args.category)

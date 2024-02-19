@@ -86,6 +86,6 @@ object AppKoinModule {
         viewModel { PresetsViewModel(get(), get()) }
         viewModel { EditCategoriesViewModel(get(), get(), get()) }
         viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
-        viewModel { EditCategoryMenuViewModel(get(), get()) }
+        viewModel { EditCategoryMenuViewModel(get()) }
     }
 }
