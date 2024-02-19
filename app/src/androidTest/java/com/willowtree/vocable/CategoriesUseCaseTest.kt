@@ -5,10 +5,16 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
+import com.willowtree.vocable.presets.PresetPhrase
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
 import com.willowtree.vocable.room.CategorySortOrder
+import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
+import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.utility.FakeDateProvider
+import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -32,12 +38,29 @@ class CategoriesUseCaseTest {
         database
     )
 
+    private val presetPhrasesRepository = RoomPresetPhrasesRepository(
+        database.presetPhrasesDao(),
+        FakeDateProvider()
+    )
+
+    private val storedPhrasesRepository = RoomStoredPhrasesRepository(
+        database,
+        FakeDateProvider()
+    )
+
     private fun createUseCase(): CategoriesUseCase {
         return CategoriesUseCase(
             ConstantUUIDProvider(),
             FakeLocaleProvider(),
             storedCategoriesRepository,
-            presetCategoriesRepository
+            presetCategoriesRepository,
+            PhrasesUseCase(
+                StubLegacyCategoriesAndPhrasesRepository(),
+                storedPhrasesRepository,
+                presetPhrasesRepository,
+                FakeDateProvider(),
+                ConstantUUIDProvider()
+            )
         )
     }
 
@@ -318,6 +341,14 @@ class CategoriesUseCaseTest {
                 sortOrder = 0
             )
         )
+        storedPhrasesRepository.addPhrase(PhraseDto(
+            phraseId = "phrase1",
+            parentCategoryId = "storedCategory1",
+            creationDate = 0,
+            lastSpokenDate = null,
+            localizedUtterance = LocalesWithText(mapOf("en_US" to "phrase1")),
+            sortOrder = 0
+        ))
 
         val useCase = createUseCase()
 
@@ -326,6 +357,10 @@ class CategoriesUseCaseTest {
         assertEquals(
             presetCategoriesRepository.getPresetCategories().first(),
             useCase.categories().first()
+        )
+        assertEquals(
+            null,
+            storedPhrasesRepository.getPhrase("phrase1")
         )
     }
 
@@ -339,6 +374,11 @@ class CategoriesUseCaseTest {
             presetCategoriesRepository.getPresetCategories().first()
                 .filter { it.categoryId != PresetCategories.BASIC_NEEDS.id },
             useCase.categories().first()
+        )
+
+        assertEquals(
+            emptyList<PresetPhrase>(),
+            presetPhrasesRepository.getPhrasesForCategory(PresetCategories.BASIC_NEEDS.id)
         )
     }
 }
