@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "85eddb23319bc66076dc3049648b8948",
+    "identityHash": "594aeaa35a106dec45ceb3c0c04fb345",
     "entities": [
       {
         "tableName": "Category",
@@ -138,7 +138,7 @@
       },
       {
         "tableName": "PresetPhrase",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` TEXT NOT NULL, `parent_category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER, `sort_order` INTEGER NOT NULL, `hidden` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`phrase_id` TEXT NOT NULL, `parent_category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `last_spoken_date` INTEGER, `sort_order` INTEGER NOT NULL, `deleted` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))",
         "fields": [
           {
             "fieldPath": "phraseId",
@@ -171,8 +171,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "hidden",
-            "columnName": "hidden",
+            "fieldPath": "deleted",
+            "columnName": "deleted",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -190,7 +190,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '85eddb23319bc66076dc3049648b8948')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '594aeaa35a106dec45ceb3c0c04fb345')"
     ]
   }
 }

@@ -1,6 +1,5 @@
 package com.willowtree.vocable.room
 
-import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetPhrase
 
 interface PresetPhrasesRepository {
@@ -9,6 +8,6 @@ interface PresetPhrasesRepository {
     suspend fun updatePhraseLastSpokenTime(phraseId: String)
     suspend fun getRecentPhrases() : List<PresetPhrase>
     suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhrase>
-    suspend fun getPhrase(phraseId: String): Phrase?
-    suspend fun updatePhraseHidden(phraseId: String, hidden: Boolean)
+    suspend fun getPhrase(phraseId: String): PresetPhrase?
+    suspend fun deletePhrase(phraseId: String)
 }

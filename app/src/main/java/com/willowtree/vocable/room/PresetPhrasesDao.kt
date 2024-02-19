@@ -27,6 +27,6 @@ interface PresetPhrasesDao {
     @Query("SELECT * FROM PresetPhrase WHERE phrase_id = :phraseId")
     suspend fun getPhrase(phraseId: String): PresetPhraseDto?
 
-    @Query("UPDATE PresetPhrase SET hidden = :hidden WHERE phrase_id = :phraseId")
-    suspend fun updatePhraseHidden(phraseId: String, hidden: Boolean)
+    @Query("UPDATE PresetPhrase SET deleted = :deleted WHERE phrase_id = :phraseId")
+    suspend fun deletePhrase(phraseId: String, deleted: Boolean)
 }
