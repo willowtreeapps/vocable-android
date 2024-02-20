@@ -5,7 +5,6 @@ import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.FakeLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
@@ -25,7 +24,6 @@ class EditCategoryMenuViewModelTest {
 
     private fun createViewModel(): EditCategoryMenuViewModel {
         return EditCategoryMenuViewModel(
-            FakeLegacyCategoriesAndPhrasesRepository(),
             categoriesUseCase
         )
     }
