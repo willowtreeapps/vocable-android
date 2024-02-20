@@ -105,4 +105,12 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
             categories.filter { it.categoryId != categoryId }
         }
     }
+
+    override suspend fun moveCategoryUp(categoryId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun moveCategoryDown(categoryId: String) {
+        TODO("Not yet implemented")
+    }
 }

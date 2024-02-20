@@ -7,7 +7,6 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetPhrase
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
-import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
@@ -135,33 +134,16 @@ class CategoriesUseCaseTest {
     }
 
     @Test
-    fun sort_order_updated() = runTest {
-        storedCategoriesRepository.upsertCategory(
-            Category.StoredCategory(
-                "storedCategory",
-                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
-                hidden = false,
-                sortOrder = 7 // PresetCategories take up the first 6
-            )
-        )
-
+    fun category_moved_up() = runTest {
         val useCase = createUseCase()
+        useCase.addCategory("storedCategory")
+        val category = useCase.categories().first()
+            .first { it.text(ApplicationProvider.getApplicationContext()) == "storedCategory" }
 
-        useCase.updateCategorySortOrders(
-            listOf(
-                CategorySortOrder("storedCategory", 6),
-                CategorySortOrder(PresetCategories.RECENTS.id, 7)
-            )
-        )
+        useCase.moveCategoryUp(category.categoryId)
 
         assertEquals(
             listOf(
-                Category.StoredCategory(
-                    "storedCategory",
-                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
-                    hidden = false,
-                    sortOrder = 6
-                ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.GENERAL.id,
                     sortOrder = 0,
@@ -192,10 +174,187 @@ class CategoriesUseCaseTest {
                     sortOrder = 5,
                     hidden = false,
                 ),
+                Category.StoredCategory(
+                    "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
+                    hidden = false,
+                    sortOrder = 6
+                ),
                 Category.PresetCategory(
                     categoryId = PresetCategories.RECENTS.id,
                     sortOrder = 7,
                     hidden = false,
+                )
+            ),
+            useCase.categories().first()
+        )
+    }
+
+    @Test
+    fun category_moved_up_hidden_present() = runTest {
+        val useCase = createUseCase()
+        useCase.addCategory("storedCategory")
+        val category = useCase.categories().first()
+            .first { it.text(ApplicationProvider.getApplicationContext()) == "storedCategory" }
+
+        useCase.updateCategoryHidden(PresetCategories.RECENTS.id, true)
+
+        useCase.moveCategoryUp(category.categoryId)
+
+        assertEquals(
+            listOf(
+                Category.PresetCategory(
+                    categoryId = PresetCategories.GENERAL.id,
+                    sortOrder = 0,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.BASIC_NEEDS.id,
+                    sortOrder = 1,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.PERSONAL_CARE.id,
+                    sortOrder = 2,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.CONVERSATION.id,
+                    sortOrder = 3,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.ENVIRONMENT.id,
+                    sortOrder = 4,
+                    hidden = false,
+                ),
+                Category.StoredCategory(
+                    "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
+                    hidden = false,
+                    sortOrder = 5
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.USER_KEYPAD.id,
+                    sortOrder = 7,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.RECENTS.id,
+                    sortOrder = 6,
+                    hidden = true,
+                )
+            ),
+            useCase.categories().first()
+        )
+    }
+
+    @Test
+    fun category_moved_down() = runTest {
+        val useCase = createUseCase()
+        useCase.addCategory("storedCategory")
+
+        useCase.moveCategoryDown(PresetCategories.RECENTS.id)
+
+        assertEquals(
+            listOf(
+                Category.PresetCategory(
+                    categoryId = PresetCategories.GENERAL.id,
+                    sortOrder = 0,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.BASIC_NEEDS.id,
+                    sortOrder = 1,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.PERSONAL_CARE.id,
+                    sortOrder = 2,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.CONVERSATION.id,
+                    sortOrder = 3,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.ENVIRONMENT.id,
+                    sortOrder = 4,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.USER_KEYPAD.id,
+                    sortOrder = 5,
+                    hidden = false,
+                ),
+                Category.StoredCategory(
+                    "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
+                    hidden = false,
+                    sortOrder = 6
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.RECENTS.id,
+                    sortOrder = 7,
+                    hidden = false,
+                )
+            ),
+            useCase.categories().first()
+        )
+    }
+
+    @Test
+    fun category_moved_down_hidden_present() = runTest {
+        val useCase = createUseCase()
+        useCase.addCategory("storedCategory")
+
+        useCase.updateCategoryHidden(PresetCategories.RECENTS.id, true)
+
+        useCase.moveCategoryDown(PresetCategories.USER_KEYPAD.id)
+
+        assertEquals(
+            listOf(
+                Category.PresetCategory(
+                    categoryId = PresetCategories.GENERAL.id,
+                    sortOrder = 0,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.BASIC_NEEDS.id,
+                    sortOrder = 1,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.PERSONAL_CARE.id,
+                    sortOrder = 2,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.CONVERSATION.id,
+                    sortOrder = 3,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.ENVIRONMENT.id,
+                    sortOrder = 4,
+                    hidden = false,
+                ),
+                Category.StoredCategory(
+                    "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
+                    hidden = false,
+                    sortOrder = 5
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.USER_KEYPAD.id,
+                    sortOrder = 7,
+                    hidden = false,
+                ),
+                Category.PresetCategory(
+                    categoryId = PresetCategories.RECENTS.id,
+                    sortOrder = 6,
+                    hidden = true,
                 )
             ),
             useCase.categories().first()
@@ -341,14 +500,16 @@ class CategoriesUseCaseTest {
                 sortOrder = 0
             )
         )
-        storedPhrasesRepository.addPhrase(PhraseDto(
-            phraseId = "phrase1",
-            parentCategoryId = "storedCategory1",
-            creationDate = 0,
-            lastSpokenDate = null,
-            localizedUtterance = LocalesWithText(mapOf("en_US" to "phrase1")),
-            sortOrder = 0
-        ))
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = "phrase1",
+                parentCategoryId = "storedCategory1",
+                creationDate = 0,
+                lastSpokenDate = null,
+                localizedUtterance = LocalesWithText(mapOf("en_US" to "phrase1")),
+                sortOrder = 0
+            )
+        )
 
         val useCase = createUseCase()
 
