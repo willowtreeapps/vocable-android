@@ -35,54 +35,6 @@ class AddUpdateCategoryViewModelTest {
     }
 
     @Test
-    fun `new category added before hidden categories`() {
-        categoriesUseCase._categories.update {
-            listOf(
-                Category.StoredCategory(
-                    categoryId = "1",
-                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
-                    hidden = false,
-                    sortOrder = 0
-                ),
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory2")),
-                    hidden = true,
-                    sortOrder = 1
-                )
-            )
-        }
-
-        val vm = createViewModel()
-
-        vm.addCategory("New Category")
-
-        assertEquals(
-            listOf(
-                Category.StoredCategory(
-                    categoryId = "1",
-                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory")),
-                    hidden = false,
-                    sortOrder = 0
-                ),
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "storedCategory2")),
-                    hidden = true,
-                    sortOrder = 2
-                ),
-                Category.StoredCategory(
-                    categoryId = "",
-                    localizedName = LocalesWithText(mapOf("en_US" to "New Category")),
-                    hidden = false,
-                    sortOrder = 1
-                )
-            ),
-            categoriesUseCase._categories.value
-        )
-    }
-
-    @Test
     fun `stored category name updated`() = runTest {
         categoriesUseCase._categories.update {
             listOf(

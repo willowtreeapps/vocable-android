@@ -109,17 +109,17 @@ class CategoriesUseCaseTest {
     fun category_stored() = runTest {
         val useCase = createUseCase()
 
-        useCase.addCategory("My Category", 0)
+        useCase.addCategory("My Category")
 
         assertEquals(
             listOf(
+                *presetCategoriesRepository.getPresetCategories().first().toTypedArray(),
                 Category.StoredCategory(
                     categoryId = "1",
                     localizedName = LocalesWithText(mapOf("en_US" to "My Category")),
                     hidden = false,
-                    sortOrder = 0
+                    sortOrder = 7
                 ),
-                *presetCategoriesRepository.getPresetCategories().first().toTypedArray()
             ),
             useCase.categories().first()
         )
@@ -128,7 +128,7 @@ class CategoriesUseCaseTest {
                 categoryId = "1",
                 localizedName = LocalesWithText(mapOf("en_US" to "My Category")),
                 hidden = false,
-                sortOrder = 0
+                sortOrder = 7
             ),
             useCase.getCategoryById("1")
         )
@@ -379,6 +379,24 @@ class CategoriesUseCaseTest {
         assertEquals(
             emptyList<PresetPhrase>(),
             presetPhrasesRepository.getPhrasesForCategory(PresetCategories.BASIC_NEEDS.id)
+        )
+    }
+
+    @Test
+    fun category_added_before_hidden() = runTest {
+        val useCase = createUseCase()
+        useCase.updateCategoryHidden(PresetCategories.BASIC_NEEDS.id, true)
+
+        useCase.addCategory("New category")
+
+        assertEquals(
+            Category.StoredCategory(
+                categoryId = "1",
+                localizedName = LocalesWithText(mapOf("en_US" to "New category")),
+                hidden = false,
+                sortOrder = 7
+            ),
+            useCase.categories().first()[6]
         )
     }
 }

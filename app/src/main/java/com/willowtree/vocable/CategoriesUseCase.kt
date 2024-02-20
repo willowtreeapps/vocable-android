@@ -10,6 +10,8 @@ import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class CategoriesUseCase(
     private val uuidProvider: UUIDProvider,
@@ -25,6 +27,14 @@ class CategoriesUseCase(
             presetCategoriesRepository.getPresetCategories()
         ) { storedCategories, presetCategories ->
             storedCategories.map { it.asCategory() } + presetCategories
+        }.map {
+            it.sortedBy { category ->
+                if (category.hidden) {
+                    Int.MAX_VALUE
+                } else {
+                    category.sortOrder
+                }
+            }
         }
 
     override suspend fun getCategoryById(categoryId: String): Category {
@@ -75,13 +85,15 @@ class CategoriesUseCase(
         storedCategoriesRepository.updateCategorySortOrders(categorySortOrders)
     }
 
-    override suspend fun addCategory(categoryName: String, sortOrder: Int) {
+    override suspend fun addCategory(categoryName: String) {
+        val allCategories = categories().first()
+
         storedCategoriesRepository.upsertCategory(
             Category.StoredCategory(
                 uuidProvider.randomUUIDString(),
                 LocalesWithText(mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName))),
                 false,
-                sortOrder
+                allCategories.size
             )
         )
     }
