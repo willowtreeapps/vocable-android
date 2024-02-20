@@ -20,7 +20,7 @@ class CategoriesUseCase(
     private val presetCategoriesRepository: PresetCategoriesRepository,
     private val phrasesUseCase: PhrasesUseCase
 ) : ICategoriesUseCase {
-
+    
     override fun categories(): Flow<List<Category>> =
         combine(
             storedCategoriesRepository.getAllCategories(),
@@ -93,7 +93,7 @@ class CategoriesUseCase(
                 uuidProvider.randomUUIDString(),
                 LocalesWithText(mapOf(Pair(localeProvider.getDefaultLocaleString(), categoryName))),
                 false,
-                allCategories.size
+                allCategories.maxOf { it.sortOrder } + 1
             )
         )
     }
@@ -104,6 +104,48 @@ class CategoriesUseCase(
         }
         storedCategoriesRepository.deleteCategory(categoryId)
         presetCategoriesRepository.deleteCategory(categoryId)
+    }
+
+    override suspend fun moveCategoryUp(categoryId: String) {
+        val overallCategories = categories().first()
+        val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
+
+        val category = overallCategories[catIndex]
+        val previousCategory = overallCategories[catIndex - 1]
+
+        updateCategorySortOrders(
+            listOf(
+                CategorySortOrder(
+                    categoryId = category.categoryId,
+                    sortOrder = previousCategory.sortOrder
+                ),
+                CategorySortOrder(
+                    categoryId = previousCategory.categoryId,
+                    sortOrder = category.sortOrder
+                )
+            )
+        )
+    }
+
+    override suspend fun moveCategoryDown(categoryId: String) {
+        val overallCategories = categories().first()
+        val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
+
+        val category = overallCategories[catIndex]
+        val nextCategory = overallCategories[catIndex + 1]
+
+        updateCategorySortOrders(
+            listOf(
+                CategorySortOrder(
+                    categoryId = category.categoryId,
+                    sortOrder = nextCategory.sortOrder
+                ),
+                CategorySortOrder(
+                    categoryId = nextCategory.categoryId,
+                    sortOrder = category.sortOrder
+                )
+            )
+        )
     }
 
 }
