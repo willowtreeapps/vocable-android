@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
@@ -57,30 +56,7 @@ class AddUpdateCategoryViewModel(
 
     fun addCategory(categoryName: String) {
         viewModelScope.launch {
-            val allCategories = categoriesUseCase.categories().first()
-            // Don't allow duplicate category names
-            if (categoryNameExists(categoryName)) {
-                liveShowDuplicateCategoryMessage.postValue(true)
-                return@launch
-            }
-
-            // Get the index of the first hidden category to find the sort order of new category
-            var firstHiddenIndex = allCategories.indexOfFirst { it.hidden }
-            if (firstHiddenIndex == -1) {
-                firstHiddenIndex = allCategories.size
-            }
-
-            // Increase the sort order of all hidden categories since the new one will be sorted
-            // before them
-            val listToUpdate = allCategories.filter { it.hidden }.toMutableList()
-            listToUpdate.forEachIndexed { index, category ->
-                listToUpdate[index] = category.withSortOrder(category.sortOrder + 1)
-            }
-
-            with(categoriesUseCase) {
-                addCategory(categoryName, firstHiddenIndex)
-                updateCategorySortOrders(listToUpdate.map { CategorySortOrder(it.categoryId, it.sortOrder) })
-            }
+            categoriesUseCase.addCategory(categoryName)
 
             liveShowCategoryUpdateMessage.postValue(true)
             delay(CATEGORY_MESSAGE_DELAY)
