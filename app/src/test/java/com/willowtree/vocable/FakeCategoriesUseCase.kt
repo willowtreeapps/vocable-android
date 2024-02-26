@@ -51,13 +51,13 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
         }
     }
 
-    override suspend fun addCategory(categoryName: String, sortOrder: Int) {
+    override suspend fun addCategory(categoryName: String) {
         _categories.update {
             it + Category.StoredCategory(
                 "",
                 LocalesWithText(mapOf("en_US" to categoryName)),
                 false,
-                sortOrder
+                0
             )
         }
     }
