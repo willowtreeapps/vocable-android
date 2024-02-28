@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.CategoriesUseCase
-import com.willowtree.vocable.ConstantUUIDProvider
+import com.willowtree.vocable.FakeUUIDProvider
 import com.willowtree.vocable.FakeLocaleProvider
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
@@ -59,7 +59,7 @@ class AddUpdateCategoryViewModelTest {
     )
 
     private val categoriesUseCase = CategoriesUseCase(
-        ConstantUUIDProvider(),
+        FakeUUIDProvider(),
         FakeLocaleProvider(),
         storedCategoriesRepository,
         presetCategoriesRepository,
@@ -68,7 +68,7 @@ class AddUpdateCategoryViewModelTest {
             storedPhrasesRepository,
             presetPhrasesRepository,
             FakeDateProvider(),
-            ConstantUUIDProvider()
+            FakeUUIDProvider()
         )
     )
 
