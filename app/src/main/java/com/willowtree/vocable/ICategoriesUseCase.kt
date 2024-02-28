@@ -13,4 +13,6 @@ interface ICategoriesUseCase {
     suspend fun getCategoryById(categoryId: String): Category
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
     suspend fun deleteCategory(categoryId: String)
+    suspend fun moveCategoryUp(categoryId: String)
+    suspend fun moveCategoryDown(categoryId: String)
 }
