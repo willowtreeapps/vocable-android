@@ -49,7 +49,7 @@ class CategoriesUseCaseTest {
 
     private fun createUseCase(): CategoriesUseCase {
         return CategoriesUseCase(
-            ConstantUUIDProvider(),
+            FakeUUIDProvider(),
             FakeLocaleProvider(),
             storedCategoriesRepository,
             presetCategoriesRepository,
@@ -58,47 +58,32 @@ class CategoriesUseCaseTest {
                 storedPhrasesRepository,
                 presetPhrasesRepository,
                 FakeDateProvider(),
-                ConstantUUIDProvider()
+                FakeUUIDProvider()
             )
         )
     }
 
     @Test
     fun preset_and_stored_categories_returned() = runTest {
-        storedCategoriesRepository.upsertCategory(
-            Category.StoredCategory(
-                "storedCategory1",
-                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory1")),
-                hidden = false,
-                sortOrder = 0
-            )
-        )
-        storedCategoriesRepository.upsertCategory(
-            Category.StoredCategory(
-                "storedCategory2",
-                localizedName = LocalesWithText(mapOf("en_US" to "storedCategory2")),
-                hidden = false,
-                sortOrder = 0
-            )
-        )
-
         val useCase = createUseCase()
+        useCase.addCategory("storedCategory1")
+        useCase.addCategory("storedCategory2")
 
         assertEquals(
             listOf(
+                *presetCategoriesRepository.getPresetCategories().first().toTypedArray(),
                 Category.StoredCategory(
-                    categoryId = "storedCategory1",
+                    categoryId = "1",
                     localizedName = LocalesWithText(mapOf("en_US" to "storedCategory1")),
                     hidden = false,
-                    sortOrder = 0
+                    sortOrder = 7
                 ),
                 Category.StoredCategory(
-                    categoryId = "storedCategory2",
+                    categoryId = "2",
                     localizedName = LocalesWithText(mapOf("en_US" to "storedCategory2")),
                     hidden = false,
-                    sortOrder = 0
+                    sortOrder = 8
                 ),
-                *presetCategoriesRepository.getPresetCategories().first().toTypedArray()
             ),
             useCase.categories().first()
         )
