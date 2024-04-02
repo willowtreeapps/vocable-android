@@ -31,7 +31,7 @@ class VocableApp : Application() {
         startKoin {
             androidContext(this@VocableApp)
 
-            modules(listOf(AppKoinModule.getModule()))
+            modules(vocableKoinModule)
         }
     }
 }
