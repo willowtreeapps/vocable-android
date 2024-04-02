@@ -32,6 +32,25 @@ jobs:
           name: test-results
           path: app/build/reports/
 
+      - name: Assemble
+        env:
+          VERSION_CODE: ${{ github.run_number }}
+        run: ./gradlew assembleDebug assembleDebugAndroidTest
+
+      - name: Decode Firebase Service Account JSON
+        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
+
+      - name: 'Run Device Tests on Firebase Test Lab'
+        if: github.event_name != 'pull_request' # Not running on PRs for now since UI tests are flaky
+        run: |
+          gcloud auth login --cred-file=service_account.json
+          gcloud config set project vocable-fcb07
+          gcloud firebase test android run \
+            --app app/build/outputs/apk/debug/app-debug.apk \
+            --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+            --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
+            --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
+
       - name: Decode Keystore
         if: github.event_name != 'pull_request'
         env:
