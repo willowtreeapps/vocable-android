@@ -9,8 +9,10 @@ import com.willowtree.vocable.IPhrasesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.room.CategorySortOrder
+import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
@@ -24,6 +26,11 @@ class EditCategoriesViewModel(
 
     private val liveAddRemoveCategoryList = MutableLiveData<List<Category>>()
     val addRemoveCategoryList: LiveData<List<Category>> = liveAddRemoveCategoryList
+
+    val categoryPages = categoriesUseCase.categories().map { categories ->
+        val pageSize = 8
+        categories.chunked(pageSize).map { EditCategoriesPage(it) }
+    }
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
@@ -98,9 +105,11 @@ class EditCategoriesViewModel(
                         categoryId -> {
                             it.withSortOrder(it.sortOrder - 1)
                         }
+
                         previousCat.categoryId -> {
                             it.withSortOrder(it.sortOrder + 1)
                         }
+
                         else -> {
                             it
                         }
@@ -129,9 +138,11 @@ class EditCategoriesViewModel(
                         categoryId -> {
                             it.withSortOrder(it.sortOrder + 1)
                         }
+
                         nextCat.categoryId -> {
                             it.withSortOrder(it.sortOrder - 1)
                         }
+
                         else -> {
                             it
                         }
