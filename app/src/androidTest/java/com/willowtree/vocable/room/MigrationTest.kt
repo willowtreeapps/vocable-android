@@ -14,11 +14,13 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.willowtree.vocable.presets.PresetCategories
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -26,6 +28,9 @@ import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class MigrationTest {
+
+    @get:Rule
+    val vocableKoinTestRule = VocableKoinTestRule()
 
     companion object {
         private const val TEST_DB = "migration-test"

@@ -13,16 +13,21 @@ import com.willowtree.vocable.room.RoomStoredCategoriesRepository
 import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CategoriesUseCaseTest {
+
+    @get:Rule
+    val vocableKoinTestRule = VocableKoinTestRule()
 
     private val database = Room.inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),

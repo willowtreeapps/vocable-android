@@ -1,5 +1,6 @@
 package com.willowtree.vocable.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -25,7 +26,7 @@ class VocableSharedPreferences :
         const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
     }
 
-    private val encryptedPrefs: EncryptedSharedPreferences by lazy {
+    private val encryptedPrefs: SharedPreferences by lazy {
         val context = get<Context>()
         EncryptedSharedPreferences.create(
             PREFERENCES_NAME,
@@ -33,7 +34,7 @@ class VocableSharedPreferences :
             context,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        ) as EncryptedSharedPreferences
+        )
     }
 
     override fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
@@ -84,4 +85,9 @@ class VocableSharedPreferences :
 
     override fun getFirstTime(): Boolean =
         encryptedPrefs.getBoolean(KEY_FIRST_TIME, true)
+
+    @SuppressLint("ApplySharedPref")
+    fun clearAll() {
+        encryptedPrefs.edit().clear().commit()
+    }
 }
