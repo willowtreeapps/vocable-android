@@ -14,8 +14,6 @@ import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlin.math.ceil
-import kotlin.math.min
 
 class EditCategoriesViewModel(
     private val phrasesUseCase: IPhrasesUseCase,
@@ -31,13 +29,7 @@ class EditCategoriesViewModel(
 
     val categoryPages = categoriesUseCase.categories().map { categories ->
         val pageSize = 8
-        val pageCount = ceil(categories.size / pageSize.toFloat()).toInt()
-
-        (0 until pageCount).map {
-            val start = it * pageSize
-            val end = min((it + 1) * pageSize, categories.size)
-            EditCategoriesPage(categories.subList(start, end))
-        }
+        categories.chunked(pageSize).map { EditCategoriesPage(it) }
     }
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
@@ -113,9 +105,11 @@ class EditCategoriesViewModel(
                         categoryId -> {
                             it.withSortOrder(it.sortOrder - 1)
                         }
+
                         previousCat.categoryId -> {
                             it.withSortOrder(it.sortOrder + 1)
                         }
+
                         else -> {
                             it
                         }
@@ -144,9 +138,11 @@ class EditCategoriesViewModel(
                         categoryId -> {
                             it.withSortOrder(it.sortOrder + 1)
                         }
+
                         nextCat.categoryId -> {
                             it.withSortOrder(it.sortOrder - 1)
                         }
+
                         else -> {
                             it
                         }
