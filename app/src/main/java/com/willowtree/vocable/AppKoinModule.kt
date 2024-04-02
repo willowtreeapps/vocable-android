@@ -8,7 +8,6 @@ import com.willowtree.vocable.presets.LegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.presets.PresetCategoriesRepository
 import com.willowtree.vocable.presets.PresetsViewModel
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
-import com.willowtree.vocable.room.PresetPhrasesDao
 import com.willowtree.vocable.room.PresetPhrasesRepository
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredCategoriesRepository
@@ -44,48 +43,51 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-object AppKoinModule {
 
-    fun getModule() = module {
+val vocableKoinModule = module {
 
-        scope<MainActivity> {
-            scoped {
-                FaceTrackingManager(get(), get())
-            }
-            scoped<PermissionsRationaleDialogShower> {
-                ActivityPermissionsRationaleDialogShower(get())
-            }
-            scoped<PermissionRequester> {
-                ActivityPermissionRegisterForLaunch(get())
-            }
-            scoped<PermissionsChecker> {
-                ActivityPermissionsChecker(get())
-            }
-            scoped<IFaceTrackingPermissions> {
-                FaceTrackingPermissions(get(), androidContext().packageName, get(), get(), get())
-            }
-            viewModel { FaceTrackingViewModel(get()) }
-            viewModel { SelectionModeViewModel(get()) }
+    scope<MainActivity> {
+        scoped {
+            FaceTrackingManager(get(), get())
         }
-
-        single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
-        single { LegacyCategoriesAndPhrasesRepository(get(), get()) } bind ILegacyCategoriesAndPhrasesRepository::class
-        single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { LocalizedResourceUtility(androidContext()) } bind ILocalizedResourceUtility::class
-        single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
-        single { PhrasesUseCase(get(), get(), get(), get(), get()) } bind IPhrasesUseCase::class
-        single { RandomUUIDProvider() } bind UUIDProvider::class
-        single { JavaDateProvider() } bind DateProvider::class
-        single { JavaLocaleProvider() } bind LocaleProvider::class
-        single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
-        single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
-        single { RoomStoredPhrasesRepository(get(), get()) } bind StoredPhrasesRepository::class
-        single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
-        single { VocableDatabase.getVocableDatabase(get()) }
-        single { VocableDatabase.getVocableDatabase(get()).presetPhrasesDao() } bind PresetPhrasesDao::class
-        viewModel { PresetsViewModel(get(), get()) }
-        viewModel { EditCategoriesViewModel(get(), get(), get()) }
-        viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
-        viewModel { EditCategoryMenuViewModel(get()) }
+        scoped<PermissionsRationaleDialogShower> {
+            ActivityPermissionsRationaleDialogShower(get())
+        }
+        scoped<PermissionRequester> {
+            ActivityPermissionRegisterForLaunch(get())
+        }
+        scoped<PermissionsChecker> {
+            ActivityPermissionsChecker(get())
+        }
+        scoped<IFaceTrackingPermissions> {
+            FaceTrackingPermissions(get(), androidContext().packageName, get(), get(), get())
+        }
+        viewModel { FaceTrackingViewModel(get()) }
+        viewModel { SelectionModeViewModel(get()) }
     }
+
+    single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
+    single {
+        LegacyCategoriesAndPhrasesRepository(
+            get(),
+            get()
+        )
+    } bind ILegacyCategoriesAndPhrasesRepository::class
+    single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
+    single { LocalizedResourceUtility(androidContext()) } bind ILocalizedResourceUtility::class
+    single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
+    single { PhrasesUseCase(get(), get(), get(), get(), get()) } bind IPhrasesUseCase::class
+    single { RandomUUIDProvider() } bind UUIDProvider::class
+    single { JavaDateProvider() } bind DateProvider::class
+    single { JavaLocaleProvider() } bind LocaleProvider::class
+    single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
+    single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
+    single { RoomStoredPhrasesRepository(get(), get()) } bind StoredPhrasesRepository::class
+    single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
+    single { VocableDatabase.createVocableDatabase(get()) }
+    single { get<VocableDatabase>().presetPhrasesDao() }
+    viewModel { PresetsViewModel(get(), get()) }
+    viewModel { EditCategoriesViewModel(get(), get(), get()) }
+    viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
+    viewModel { EditCategoryMenuViewModel(get()) }
 }

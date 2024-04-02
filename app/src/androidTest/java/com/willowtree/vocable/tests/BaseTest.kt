@@ -1,6 +1,5 @@
 package com.willowtree.vocable.tests
 
-import android.Manifest
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
@@ -10,6 +9,7 @@ import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.R
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
@@ -32,6 +32,9 @@ open class BaseTest {
     private val name = TestName()
 
     @get:Rule
+    val vocableKoinTestRule = VocableKoinTestRule()
+
+    @get:Rule
     val activityRule = ActivityScenarioRule(SplashActivity::class.java)
 
     @get:Rule
@@ -48,7 +51,7 @@ open class BaseTest {
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
         // and dismiss the full screen immersive popup on android if it is
-        firstLaunch = getInstrumentation().targetContext.filesDir.listFiles().isEmpty()
+        firstLaunch = getInstrumentation().targetContext.filesDir.listFiles()?.isEmpty() ?: true
         if (firstLaunch) {
             takeScreenshot("InitialSetup")
         }

@@ -22,24 +22,12 @@ import androidx.room.TypeConverters
 abstract class VocableDatabase : RoomDatabase() {
 
     companion object {
-        private var vocableDatabase: VocableDatabase? = null
         private const val DATABASE_NAME = "VocableDatabase"
 
-        fun getVocableDatabase(context: Context): VocableDatabase {
-            if (vocableDatabase == null) {
-                vocableDatabase =
-                    Room.databaseBuilder(context, VocableDatabase::class.java, DATABASE_NAME)
-                        .addMigrations(
-                            VocableDatabaseMigrations.MIGRATION_1_2,
-                            VocableDatabaseMigrations.MIGRATION_2_3,
-                            VocableDatabaseMigrations.MIGRATION_3_4,
-                            VocableDatabaseMigrations.MIGRATION_4_5,
-                            VocableDatabaseMigrations.MIGRATION_5_6
-                        )
-                        .build()
-            }
-            return vocableDatabase as VocableDatabase
-        }
+        fun createVocableDatabase(context: Context): VocableDatabase =
+            Room.databaseBuilder(context, VocableDatabase::class.java, DATABASE_NAME)
+                .addVocableMigrations()
+                .build()
     }
 
     abstract fun categoryDao(): CategoryDao
@@ -51,3 +39,11 @@ abstract class VocableDatabase : RoomDatabase() {
     abstract fun presetCategoryDao(): PresetCategoryDao
 }
 
+fun RoomDatabase.Builder<VocableDatabase>.addVocableMigrations() =
+    addMigrations(
+        VocableDatabaseMigrations.MIGRATION_1_2,
+        VocableDatabaseMigrations.MIGRATION_2_3,
+        VocableDatabaseMigrations.MIGRATION_3_4,
+        VocableDatabaseMigrations.MIGRATION_4_5,
+        VocableDatabaseMigrations.MIGRATION_5_6
+    )

@@ -11,17 +11,22 @@ import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
 class PhrasesUseCaseTest {
+
+    @get:Rule
+    val vocableKoinTestRule = VocableKoinTestRule()
 
     private val database = Room.inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),
