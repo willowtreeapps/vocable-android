@@ -41,7 +41,6 @@ jobs:
         run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
 
       - name: 'Run Device Tests on Firebase Test Lab'
-        if: github.event_name != 'pull_request' # Not running on PRs for now since UI tests are flaky
         run: |
           gcloud auth login --cred-file=service_account.json
           gcloud config set project vocable-fcb07

@@ -9,15 +9,14 @@ import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
-import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.R
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.SplashScreenIdlingResource
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
-import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -79,13 +78,11 @@ open class BaseTest {
     private fun dismissARCoreDialog() {
         val device = UiDevice.getInstance(getInstrumentation())
 
-        // Catch the exception if the popup doesn't appear so we don't fail the tests
-        try {
-            device.wait(Until.findObject(By.text("CONTINUE")), 10000)
+        val result = device.wait(Until.findObject(By.text("CONTINUE")), 10000)
+        if (result != null) {
+            // Only press back if the dialog is displayed. Otherwise this will press back on the
+            // activity which will cause the test to fail.
             device.pressBack()
-        }
-        catch (e: NullPointerException) {
-            Timber.d("Test", "Popup not found, continuing with test")
         }
     }
 }
