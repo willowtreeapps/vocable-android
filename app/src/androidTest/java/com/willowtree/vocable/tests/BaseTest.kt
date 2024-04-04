@@ -47,7 +47,6 @@ open class BaseTest {
         if (firstLaunch) {
             takeScreenshot("InitialSetup")
         }
-        dismissARCoreDialog()
     }
 
     /* This function will take a screenshot of the application and copy it to the sd card path
@@ -60,17 +59,5 @@ open class BaseTest {
         getInstrumentation().uiAutomation.executeShellCommand(
             "run-as com.willowtree.vocable cp $file /sdcard/Pictures/$fileName.png"
         )
-    }
-
-    // This function dismisses the ar core/play services dialog if it is displayed
-    private fun dismissARCoreDialog() {
-        val device = UiDevice.getInstance(getInstrumentation())
-
-        val result = device.wait(Until.findObject(By.text("CONTINUE")), 10000)
-        if (result != null) {
-            // Only press back if the dialog is displayed. Otherwise this will press back on the
-            // activity which will cause the test to fail.
-            device.pressBack()
-        }
     }
 }

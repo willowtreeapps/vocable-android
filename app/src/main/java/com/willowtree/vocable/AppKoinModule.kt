@@ -30,6 +30,8 @@ import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.JavaDateProvider
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.VocableEnvironment
+import com.willowtree.vocable.utils.VocableEnvironmentImpl
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
@@ -92,6 +94,7 @@ val vocableKoinModule = module {
     single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
     single { VocableDatabase.createVocableDatabase(get()) }
     single { get<VocableDatabase>().presetPhrasesDao() }
+    single<VocableEnvironment> { VocableEnvironmentImpl() }
     viewModel { PresetsViewModel(get(), get()) }
     viewModel { EditCategoriesViewModel(get(), get(), get()) }
     viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
