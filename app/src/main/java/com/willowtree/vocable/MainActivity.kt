@@ -43,14 +43,14 @@ class MainActivity : ScopeActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launch {
-            faceTrackingManager.initialize(
-                faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
-                    override fun toggleVisibility(visible: Boolean) {
-                        binding.pointerView.isVisible = visible
-                    }
-                })
-        }
+//        lifecycleScope.launch {
+//            faceTrackingManager.initialize(
+//                faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
+//                    override fun toggleVisibility(visible: Boolean) {
+//                        binding.pointerView.isVisible = visible
+//                    }
+//                })
+//        }
 
         faceTrackingViewModel.showError.observe(this) { showError ->
             if (!sharedPrefs.getHeadTrackingEnabled()) {

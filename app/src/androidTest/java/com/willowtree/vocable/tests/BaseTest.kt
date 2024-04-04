@@ -47,7 +47,7 @@ open class BaseTest {
         if (firstLaunch) {
             takeScreenshot("InitialSetup")
         }
-        dismissARCoreDialog()
+//        dismissARCoreDialog()
     }
 
     /* This function will take a screenshot of the application and copy it to the sd card path
