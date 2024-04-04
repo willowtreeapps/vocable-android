@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.IPhrasesUseCase
+import com.willowtree.vocable.utils.MainActivityIdlingResourceContainer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 
 open class PresetsViewModel(
     private val categoriesUseCase: ICategoriesUseCase,
-    private val phrasesUseCase: IPhrasesUseCase
+    private val phrasesUseCase: IPhrasesUseCase,
+    private val idlingResourceContainer: MainActivityIdlingResourceContainer
 ) : ViewModel() {
 
     val categoryList: LiveData<List<Category>> = categoriesUseCase.categories()
@@ -55,6 +57,7 @@ open class PresetsViewModel(
         if (categoryId != PresetCategories.RECENTS.id && categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
             phrases.add(null)
         }
+        idlingResourceContainer.setIdle()
         return phrases
     }
 
