@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PresetsViewModel(
-    categoriesUseCase: ICategoriesUseCase,
+open class PresetsViewModel(
+    private val categoriesUseCase: ICategoriesUseCase,
     private val phrasesUseCase: IPhrasesUseCase
 ) : ViewModel() {
 
@@ -36,8 +36,12 @@ class PresetsViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
     val selectedCategoryLiveData: LiveData<Category?> = selectedCategory.asLiveData()
 
-    val currentPhrases: LiveData<List<Phrase?>> = liveSelectedCategoryId.map { categoryId ->
-        if (categoryId == null) return@map emptyList<Phrase>()
+    val currentPhrases: LiveData<List<Phrase?>> = liveSelectedCategoryId
+        .map(::mapCategoryIdToPhrases)
+        .asLiveData()
+
+    protected open suspend fun mapCategoryIdToPhrases(categoryId: String?): List<Phrase?> {
+        if (categoryId == null) return emptyList()
         val phrases: MutableList<Phrase?> = phrasesUseCase.getPhrasesForCategory(categoryId)
             .run {
                 if (categoryId != PresetCategories.RECENTS.id) {
@@ -51,8 +55,8 @@ class PresetsViewModel(
         if (categoryId != PresetCategories.RECENTS.id && categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
             phrases.add(null)
         }
-        return@map phrases
-    }.asLiveData()
+        return phrases
+    }
 
     private val liveNavToAddPhrase = MutableLiveData<Boolean>()
     val navToAddPhrase: LiveData<Boolean> = liveNavToAddPhrase
