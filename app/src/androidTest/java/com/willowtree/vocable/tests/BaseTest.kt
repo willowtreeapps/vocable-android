@@ -49,7 +49,7 @@ open class BaseTest {
         if (firstLaunch) {
             takeScreenshot("InitialSetup")
         }
-        dismissARCoreDialog()
+//        dismissARCoreDialog()
     }
 
     @After
