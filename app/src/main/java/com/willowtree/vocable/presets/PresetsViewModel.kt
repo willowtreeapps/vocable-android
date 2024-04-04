@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PresetsViewModel(
-    categoriesUseCase: ICategoriesUseCase,
+open class PresetsViewModel(
+    private val categoriesUseCase: ICategoriesUseCase,
     private val phrasesUseCase: IPhrasesUseCase
 ) : ViewModel() {
 
@@ -59,9 +59,13 @@ class PresetsViewModel(
 
     init {
         viewModelScope.launch {
-            liveSelectedCategoryId.update {
-                categoriesUseCase.categories().first().first().categoryId
-            }
+            initCategoryId()
+        }
+    }
+
+    protected open suspend fun initCategoryId() {
+        liveSelectedCategoryId.update {
+            categoriesUseCase.categories().first().first().categoryId
         }
     }
 
