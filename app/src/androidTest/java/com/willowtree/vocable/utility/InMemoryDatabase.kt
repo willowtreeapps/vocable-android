@@ -6,14 +6,10 @@ import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.room.addVocableMigrations
 import org.koin.dsl.module
 
-fun VocableDatabase.Companion.getInMemoryVocableDatabase() = Room
+fun getInMemoryVocableDatabase() = Room
     .inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),
         VocableDatabase::class.java
     )
     .addVocableMigrations()
     .build()
-
-val inMemoryDatabaseModule = module {
-    single { VocableDatabase.getInMemoryVocableDatabase() }
-}
