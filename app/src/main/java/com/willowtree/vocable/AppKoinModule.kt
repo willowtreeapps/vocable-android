@@ -28,6 +28,8 @@ import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.JavaDateProvider
+import com.willowtree.vocable.utils.MainActivityIdlingResourceContainer
+import com.willowtree.vocable.utils.MainActivityIdlingResourceContainerImpl
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.VocableEnvironment
@@ -95,7 +97,8 @@ val vocableKoinModule = module {
     single { VocableDatabase.createVocableDatabase(get()) }
     single { get<VocableDatabase>().presetPhrasesDao() }
     single<VocableEnvironment> { VocableEnvironmentImpl() }
-    viewModel { PresetsViewModel(get(), get()) }
+    single<MainActivityIdlingResourceContainer> { MainActivityIdlingResourceContainerImpl() }
+    viewModel { PresetsViewModel(get(), get(), get()) }
     viewModel { EditCategoriesViewModel(get(), get(), get()) }
     viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
     viewModel { EditCategoryMenuViewModel(get()) }

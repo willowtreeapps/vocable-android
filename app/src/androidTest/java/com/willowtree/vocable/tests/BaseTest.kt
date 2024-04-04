@@ -4,9 +4,7 @@ import androidx.test.espresso.IdlingPolicies
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
-import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.utility.MainActivityIdlingTestRule
 import com.willowtree.vocable.utility.VocableKoinTestRule
