@@ -19,6 +19,8 @@ import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
+import com.willowtree.vocable.splash.SplashActivity
+import com.willowtree.vocable.splash.SplashViewModel
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.FaceTrackingManager
 import com.willowtree.vocable.utils.FaceTrackingPermissions
@@ -45,6 +47,10 @@ import org.koin.dsl.module
 
 
 val vocableKoinModule = module {
+
+    scope<SplashActivity> {
+        viewModel { SplashViewModel(get(), get()) }
+    }
 
     scope<MainActivity> {
         scoped {
