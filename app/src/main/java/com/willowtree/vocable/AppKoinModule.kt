@@ -28,8 +28,8 @@ import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.JavaDateProvider
-import com.willowtree.vocable.utils.MainActivityIdlingResourceContainer
-import com.willowtree.vocable.utils.MainActivityIdlingResourceContainerImpl
+import com.willowtree.vocable.utils.IdlingResourceContainer
+import com.willowtree.vocable.utils.IdlingResourceContainerImpl
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.VocableEnvironment
@@ -46,6 +46,7 @@ import com.willowtree.vocable.utils.permissions.PermissionsChecker
 import com.willowtree.vocable.utils.permissions.PermissionsRationaleDialogShower
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -53,7 +54,7 @@ import org.koin.dsl.module
 val vocableKoinModule = module {
 
     scope<SplashActivity> {
-        viewModel { SplashViewModel(get(), get()) }
+        viewModel { SplashViewModel(get(), get(), get(named<SplashViewModel>())) }
     }
 
     scope<MainActivity> {
@@ -76,6 +77,8 @@ val vocableKoinModule = module {
         viewModel { SelectionModeViewModel(get()) }
     }
 
+    single<IdlingResourceContainer>(named<SplashViewModel>()) { IdlingResourceContainerImpl() }
+    single<IdlingResourceContainer>(named<PresetsViewModel>()) { IdlingResourceContainerImpl() }
     single { VocableSharedPreferences() } bind IVocableSharedPreferences::class
     single {
         LegacyCategoriesAndPhrasesRepository(
@@ -97,8 +100,8 @@ val vocableKoinModule = module {
     single { VocableDatabase.createVocableDatabase(get()) }
     single { get<VocableDatabase>().presetPhrasesDao() }
     single<VocableEnvironment> { VocableEnvironmentImpl() }
-    single<MainActivityIdlingResourceContainer> { MainActivityIdlingResourceContainerImpl() }
-    viewModel { PresetsViewModel(get(), get(), get()) }
+    single<IdlingResourceContainer> { IdlingResourceContainerImpl() }
+    viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>())) }
     viewModel { EditCategoriesViewModel(get(), get(), get()) }
     viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
     viewModel { EditCategoryMenuViewModel(get()) }

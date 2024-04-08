@@ -7,7 +7,7 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.MainActivityIdlingResourceContainerImpl
+import com.willowtree.vocable.utils.IdlingResourceContainerImpl
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ class PresetsViewModelTest {
 
     private val fakeCategoriesUseCase = FakeCategoriesUseCase()
     private val fakePhrasesUseCase = FakePhrasesUseCase()
-    private val prodIdlingResourceContainer = MainActivityIdlingResourceContainerImpl()
+    private val prodIdlingResourceContainer = IdlingResourceContainerImpl()
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(

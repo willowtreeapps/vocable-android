@@ -36,7 +36,6 @@ open class BaseTest {
 
     @Before
     open fun setup() {
-        IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
 
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
