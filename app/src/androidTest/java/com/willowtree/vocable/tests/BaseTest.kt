@@ -1,18 +1,16 @@
 package com.willowtree.vocable.tests
 
-import androidx.test.espresso.IdlingPolicies
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import com.willowtree.vocable.splash.SplashActivity
-import com.willowtree.vocable.utility.MainActivityIdlingTestRule
+import com.willowtree.vocable.utility.IdlingResourceTestRule
 import com.willowtree.vocable.utility.VocableKoinTestRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 open class BaseTest {
 
@@ -23,7 +21,7 @@ open class BaseTest {
     val vocableKoinTestRule = VocableKoinTestRule()
 
     @get:Rule(order = 1)
-    val mainActivityIdlingTestRule = MainActivityIdlingTestRule()
+    val idlingResourceTestRule = IdlingResourceTestRule()
 
     @get:Rule(order = 2)
     val activityRule = ActivityScenarioRule(SplashActivity::class.java)
@@ -36,8 +34,6 @@ open class BaseTest {
 
     @Before
     open fun setup() {
-        IdlingPolicies.setIdlingResourceTimeout(10, TimeUnit.SECONDS)
-
         // Since the build machine gets wiped after every run we can check the file storage
         // of the emulator to determine if this is a first time launch
         // and dismiss the full screen immersive popup on android if it is
