@@ -5,20 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
-import com.willowtree.vocable.IPhrasesUseCase
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
-import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
-    private val phrasesUseCase: IPhrasesUseCase,
-    private val categoriesUseCase: ICategoriesUseCase,
-    private val localizedResourceUtility: ILocalizedResourceUtility
+    private val categoriesUseCase: ICategoriesUseCase
 ) : ViewModel() {
 
     private val liveOrderCategoryList = MutableLiveData<List<Category>>()
@@ -34,9 +29,6 @@ class EditCategoriesViewModel(
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
-
-    private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
-    val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
 
     private var overallCategories = listOf<Category>()
 
@@ -69,28 +61,6 @@ class EditCategoriesViewModel(
                     }
                 }
             }
-        }
-    }
-
-    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
-        viewModelScope.launch {
-
-            phrasesUseCase.deletePhrase(phrase.phraseId)
-
-            // Refresh phrase list
-            fetchCategoryPhrases(category)
-        }
-    }
-
-    fun getCategoryName(category: Category): String {
-        return localizedResourceUtility.getTextFromCategory(category)
-    }
-
-    fun fetchCategoryPhrases(category: Category) {
-        viewModelScope.launch {
-            val phrasesForCategory = phrasesUseCase.getPhrasesForCategory(category.categoryId)
-                .sortedBy { it.sortOrder }
-            liveCategoryPhraseList.postValue(phrasesForCategory)
         }
     }
 
