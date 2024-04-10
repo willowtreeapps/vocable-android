@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
@@ -20,7 +19,8 @@ import kotlin.math.min
 
 class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
 
-    override val bindingInflater: BindingInflater<FragmentEditCategoriesBinding> = FragmentEditCategoriesBinding::inflate
+    override val bindingInflater: BindingInflater<FragmentEditCategoriesBinding> =
+        FragmentEditCategoriesBinding::inflate
 
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
@@ -41,6 +41,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
                         true
                     )
                 }
+
                 else -> {
                     binding.editCategoriesViewPager.setCurrentItem(currentPosition - 1, true)
                 }
@@ -52,6 +53,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
                 categoriesAdapter.itemCount - 1 -> {
                     binding.editCategoriesViewPager.setCurrentItem(0, true)
                 }
+
                 else -> {
                     binding.editCategoriesViewPager.setCurrentItem(currentPosition + 1, true)
                 }
@@ -61,24 +63,29 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
 
         maxEditCategories = resources.getInteger(R.integer.max_edit_categories)
 
-        binding.editCategoriesViewPager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                val pageNum = position % categoriesAdapter.numPages + 1
-                binding.categoryPageNumber.text = getString(
-                    R.string.phrases_page_number,
-                    pageNum,
-                    categoriesAdapter.numPages
-                )
+        binding.editCategoriesViewPager.apply {
+            isSaveEnabled = false
+            adapter = categoriesAdapter
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    val pageNum = position % categoriesAdapter.numPages + 1
+                    post {
+                        binding.categoryPageNumber.text = getString(
+                            R.string.phrases_page_number,
+                            pageNum,
+                            categoriesAdapter.numPages
+                        )
+                    }
 
-                activity?.let { activity ->
-                    allViews.clear()
-                    if (activity is MainActivity) {
-                        activity.resetAllViews()
+                    activity?.let { activity ->
+                        allViews.clear()
+                        if (activity is MainActivity) {
+                            activity.resetAllViews()
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
 
         binding.backButton.action = {
             findNavController().popBackStack()
@@ -100,45 +107,23 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.addRemoveCategoryList.observe(viewLifecycleOwner, Observer {
+        editCategoriesViewModel.categoryList.observe(viewLifecycleOwner) {
             it?.let { categories ->
-                binding.editCategoriesViewPager.apply {
-                    isSaveEnabled = false
-                    adapter = categoriesAdapter
-                    categoriesAdapter.setItems(categories)
-                    // Move adapter to middle so user can scroll both directions
-                    val middle = categoriesAdapter.itemCount / 2
-                    if (middle % categoriesAdapter.numPages == 0) {
-                        setCurrentItem(middle, false)
-                    } else {
-                        val mod = middle % categoriesAdapter.numPages
-                        setCurrentItem(
-                            middle + (categoriesAdapter.numPages - mod),
-                            false
-                        )
-                    }
-                }
+                categoriesAdapter.setItems(categories)
             }
-        })
+        }
 
-        editCategoriesViewModel.lastViewedIndex.observe(viewLifecycleOwner, Observer {
+        editCategoriesViewModel.lastViewedIndex.observe(viewLifecycleOwner) {
             it?.let { index ->
                 val pageNum = index / maxEditCategories
-                val middle = categoriesAdapter.itemCount / 2
-                val toScrollTo = if (middle % categoriesAdapter.numPages == 0) {
-                    middle + pageNum
-                } else {
-                    val mod = middle % categoriesAdapter.numPages
-                    middle + (categoriesAdapter.numPages - mod) + pageNum
-                }
                 // Wait until view pager has finished its layout
                 binding.editCategoriesViewPager.post {
-                    if (isAdded && binding.editCategoriesViewPager.currentItem != toScrollTo) {
-                        binding.editCategoriesViewPager.setCurrentItem(toScrollTo, false)
+                    if (isAdded && binding.editCategoriesViewPager.currentItem != pageNum) {
+                        binding.editCategoriesViewPager.setCurrentItem(pageNum, false)
                     }
                 }
             }
-        })
+        }
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :

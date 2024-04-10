@@ -3,6 +3,7 @@ package com.willowtree.vocable.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.presets.Category
@@ -16,11 +17,11 @@ class EditCategoriesViewModel(
     private val categoriesUseCase: ICategoriesUseCase
 ) : ViewModel() {
 
-    private val liveOrderCategoryList = MutableLiveData<List<Category>>()
-    val orderCategoryList: LiveData<List<Category>> = liveOrderCategoryList
-
-    private val liveAddRemoveCategoryList = MutableLiveData<List<Category>>()
-    val addRemoveCategoryList: LiveData<List<Category>> = liveAddRemoveCategoryList
+    val categoryList: LiveData<List<Category>> = categoriesUseCase.categories()
+        .map { categories ->
+            categories.sortedBy { it.sortOrder }
+        }
+        .asLiveData()
 
     val categoryPages = categoriesUseCase.categories().map { categories ->
         val pageSize = 8
@@ -40,10 +41,6 @@ class EditCategoriesViewModel(
             overallCategories = categoriesUseCase.categories().first()
             overallCategories =
                 overallCategories.filter { !it.hidden } + overallCategories.filter { it.hidden }
-
-
-            liveOrderCategoryList.postValue(overallCategories)
-            liveAddRemoveCategoryList.postValue(overallCategories)
 
             // Check if a new category was added and scroll to it
             if (oldCategories.isNotEmpty() && oldCategories.size < overallCategories.size) {
@@ -84,9 +81,7 @@ class EditCategoriesViewModel(
                             it
                         }
                     }
-                }.sortedBy { it.sortOrder }
-
-                liveOrderCategoryList.postValue(overallCategories)
+                }
 
                 categoriesUseCase.updateCategorySortOrders(
                     overallCategories.map {
@@ -117,9 +112,7 @@ class EditCategoriesViewModel(
                             it
                         }
                     }
-                }.sortedBy { it.sortOrder }
-
-                liveOrderCategoryList.postValue(overallCategories)
+                }
 
                 categoriesUseCase.updateCategorySortOrders(
                     overallCategories.map {
