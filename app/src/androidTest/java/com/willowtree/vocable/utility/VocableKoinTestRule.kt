@@ -11,15 +11,15 @@ import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 
 class VocableKoinTestRule(
-    private vararg val testModules: Module
+    private vararg val additionalTestModules: Module
 ): TestWatcher() {
     override fun starting(description: Description?) {
         startKoin {
             androidContext(InstrumentationRegistry.getInstrumentation().targetContext.applicationContext)
             modules(
                 vocableKoinModule +
-                inMemoryDatabaseModule +
-                testModules.toList()
+                vocableTestModule +
+                additionalTestModules.toList()
             )
         }.koin.apply {
             get<VocableSharedPreferences>().clearAll()

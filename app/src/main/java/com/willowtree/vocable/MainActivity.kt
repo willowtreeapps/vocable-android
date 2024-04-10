@@ -15,6 +15,8 @@ import com.willowtree.vocable.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.utils.FaceTrackingManager
 import com.willowtree.vocable.utils.FaceTrackingPointerUpdates
 import com.willowtree.vocable.utils.IVocableSharedPreferences
+import com.willowtree.vocable.utils.VocableEnvironment
+import com.willowtree.vocable.utils.VocableEnvironmentType
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.coroutines.launch
@@ -32,6 +34,7 @@ class MainActivity : ScopeActivity() {
     private val allViews = mutableListOf<View>()
 
     private val faceTrackingManager: FaceTrackingManager by inject()
+    private val environment: VocableEnvironment by inject()
 
     private lateinit var faceTrackingViewModel: FaceTrackingViewModel
 
@@ -43,13 +46,15 @@ class MainActivity : ScopeActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launch {
-            faceTrackingManager.initialize(
-                faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
-                    override fun toggleVisibility(visible: Boolean) {
-                        binding.pointerView.isVisible = visible
-                    }
-                })
+        if (environment.environmentType != VocableEnvironmentType.TESTING) {
+            lifecycleScope.launch {
+                faceTrackingManager.initialize(
+                    faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
+                        override fun toggleVisibility(visible: Boolean) {
+                            binding.pointerView.isVisible = visible
+                        }
+                    })
+            }
         }
 
         faceTrackingViewModel.showError.observe(this) { showError ->

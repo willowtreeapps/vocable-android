@@ -20,6 +20,8 @@ import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesViewModel
 import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
+import com.willowtree.vocable.splash.SplashActivity
+import com.willowtree.vocable.splash.SplashViewModel
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.FaceTrackingManager
 import com.willowtree.vocable.utils.FaceTrackingPermissions
@@ -27,8 +29,12 @@ import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.JavaDateProvider
+import com.willowtree.vocable.utils.MainActivityIdlingResourceContainer
+import com.willowtree.vocable.utils.MainActivityIdlingResourceContainerImpl
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.VocableEnvironment
+import com.willowtree.vocable.utils.VocableEnvironmentImpl
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.locale.JavaLocaleProvider
 import com.willowtree.vocable.utils.locale.LocaleProvider
@@ -46,6 +52,10 @@ import org.koin.dsl.module
 
 
 val vocableKoinModule = module {
+
+    scope<SplashActivity> {
+        viewModel { SplashViewModel(get(), get()) }
+    }
 
     scope<MainActivity> {
         scoped {
@@ -87,7 +97,9 @@ val vocableKoinModule = module {
     single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
     single { VocableDatabase.createVocableDatabase(get()) }
     single { get<VocableDatabase>().presetPhrasesDao() }
-    viewModel { PresetsViewModel(get(), get()) }
+    single<VocableEnvironment> { VocableEnvironmentImpl() }
+    single<MainActivityIdlingResourceContainer> { MainActivityIdlingResourceContainerImpl() }
+    viewModel { PresetsViewModel(get(), get(), get()) }
     viewModel { EditCategoriesViewModel(get()) }
     viewModel { EditCategoryPhrasesViewModel(get(), get()) }
     viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
