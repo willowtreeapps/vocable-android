@@ -7,16 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class SplashViewModel : ViewModel(), KoinComponent {
+class SplashViewModel(
+    private val newPresetsRepository: RoomPresetPhrasesRepository,
+    private val sharedPrefs: VocableSharedPreferences
+) : ViewModel() {
 
-    private val newPresetsRepository: RoomPresetPhrasesRepository by inject()
-
-    private val sharedPrefs: VocableSharedPreferences by inject()
-
-    private val liveExitSplash = MutableLiveData<Boolean>()
+    private val liveExitSplash = MutableLiveData(false)
     val exitSplash: LiveData<Boolean> = liveExitSplash
 
     init {
