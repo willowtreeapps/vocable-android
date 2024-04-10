@@ -2,11 +2,9 @@ package com.willowtree.vocable.settings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
-import com.willowtree.vocable.FakePhrasesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.presets.createStoredCategory
 import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
-import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
@@ -23,13 +21,10 @@ class EditCategoriesViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val categoriesUseCase = FakeCategoriesUseCase()
-    private val phrasesUseCase = FakePhrasesUseCase()
 
     private fun createViewModel(): EditCategoriesViewModel {
         return EditCategoriesViewModel(
-            phrasesUseCase,
-            categoriesUseCase,
-            FakeLocalizedResourceUtility()
+            categoriesUseCase
         )
     }
 
