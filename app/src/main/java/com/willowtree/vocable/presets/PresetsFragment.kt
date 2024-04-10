@@ -16,7 +16,7 @@ import com.willowtree.vocable.*
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.utils.SpokenText
-import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import com.willowtree.vocable.utils.LegacyFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -324,7 +324,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
+        LegacyFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun getMaxItemsPerPage(): Int = maxCategories
 
@@ -343,7 +343,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
+        LegacyFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun setItems(items: List<Phrase?>) {
             super.setItems(items)
