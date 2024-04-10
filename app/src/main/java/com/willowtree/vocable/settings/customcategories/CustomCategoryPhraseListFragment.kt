@@ -12,8 +12,8 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
+import com.willowtree.vocable.settings.EditCategoryPhrasesViewModel
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import org.koin.androidx.viewmodel.ViewModelOwner
@@ -35,7 +35,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         }
     }
 
-    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
+    private val editCategoriesViewModel: EditCategoryPhrasesViewModel by viewModel(owner = {
         ViewModelOwner.from(requireActivity())
     })
     private lateinit var category: Category
@@ -62,7 +62,6 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         }
 
         val numColumns = resources.getInteger(R.integer.custom_category_phrase_columns)
-        val numRows = resources.getInteger(R.integer.custom_category_phrase_rows)
 
         val phrases = arguments?.getParcelableArrayList<Phrase>(KEY_PHRASES)
 
