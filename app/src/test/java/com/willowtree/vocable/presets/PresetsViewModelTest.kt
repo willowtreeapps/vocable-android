@@ -7,8 +7,9 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.MainActivityIdlingResourceContainerImpl
+import com.willowtree.vocable.utils.IdlingResourceContainerImpl
 import com.willowtree.vocable.utils.locale.LocalesWithText
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +28,7 @@ class PresetsViewModelTest {
 
     private val fakeCategoriesUseCase = FakeCategoriesUseCase()
     private val fakePhrasesUseCase = FakePhrasesUseCase()
-    private val prodIdlingResourceContainer = MainActivityIdlingResourceContainerImpl()
+    private val prodIdlingResourceContainer = IdlingResourceContainerImpl()
 
     private fun createViewModel(): PresetsViewModel {
         return PresetsViewModel(
@@ -71,6 +72,7 @@ class PresetsViewModelTest {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `selected category set`() = runTest(UnconfinedTestDispatcher()) {
         fakeCategoriesUseCase._categories.update {
