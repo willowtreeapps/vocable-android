@@ -17,7 +17,7 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
-import com.willowtree.vocable.utils.LegacyFragmentStateAdapter
+import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -104,17 +104,16 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
             }
         }
 
-        binding.editCategoryPhraseHolder.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                val pageNum = position % phrasesAdapter.numPages + 1
-                binding.editCategoryPageNumber.text = getString(
-                    R.string.phrases_page_number,
-                    pageNum,
-                    phrasesAdapter.numPages
-                )
-            }
-        })
+        binding.editCategoryPhraseHolder.apply {
+            isSaveEnabled = false
+            adapter = phrasesAdapter
+            registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    post { updatePageNumber() }
+                }
+            })
+        }
 
         subscribeToViewModel()
 
@@ -144,34 +143,27 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
         binding.editCategoryPageNumber.isVisible = phrases.isNotEmpty()
 
         if (phrases.isNotEmpty()) {
-            with(binding.editCategoryPhraseHolder) {
-                isSaveEnabled = false
-
-                adapter = phrasesAdapter
-
-                phrasesAdapter.setItems(phrases)
-
-                // Move adapter to middle so user can scroll both directions
-                val middle = phrasesAdapter.itemCount / 2
-                if (middle % phrasesAdapter.numPages == 0) {
-                    setCurrentItem(middle, false)
-                } else {
-                    val mod = middle % phrasesAdapter.numPages
-                    setCurrentItem(
-                        middle + (phrasesAdapter.numPages - mod),
-                        false
-                    )
-                }
-            }
+            phrasesAdapter.setItems(phrases)
         }
     }
 
+    private fun updatePageNumber() {
+        val currentPage = binding.editCategoryPhraseHolder.currentItem
+        val pageNum = currentPage % phrasesAdapter.numPages + 1
+        binding.editCategoryPageNumber.text = getString(
+            R.string.phrases_page_number,
+            pageNum,
+            phrasesAdapter.numPages
+        )
+    }
+
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        LegacyFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun setItems(items: List<Phrase>) {
             super.setItems(items)
             setPagingButtonsEnabled(numPages > 1)
+            updatePageNumber()
         }
 
         private fun setPagingButtonsEnabled(enable: Boolean) {
