@@ -5,6 +5,7 @@ import com.willowtree.vocable.room.CategorySortOrder
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 @Deprecated("This fake is too complex, tests using it should migrate to integration tests with" +
@@ -23,7 +24,15 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
     )
 
     override fun categories(): Flow<List<Category>> {
-        return _categories
+        return _categories.map {
+            it.sortedBy { category ->
+                if (category.hidden) {
+                    Int.MAX_VALUE
+                } else {
+                    category.sortOrder
+                }
+            }
+        }
     }
 
     override suspend fun updateCategoryName(

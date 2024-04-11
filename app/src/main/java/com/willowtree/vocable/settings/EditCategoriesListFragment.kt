@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.presets.Category
@@ -102,21 +101,23 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.orderCategoryList.observe(viewLifecycleOwner) { list ->
+        editCategoriesViewModel.categoryList.observe(viewLifecycleOwner) { list ->
             list?.let { overallList ->
                 val hiddenCategories = overallList.filter { it.hidden }
                 if (endPosition > overallList.size) {
                     endPosition = overallList.size - 1
                 }
-                overallList.subList(startPosition, endPosition)
-                    .forEachIndexed { index, category ->
-                        bindCategoryEditButton(
-                            editButtonList[index],
-                            category,
-                            startPosition + index,
-                            overallList.size - hiddenCategories.size
-                        )
-                    }
+                if (startPosition <= endPosition) {
+                    overallList.subList(startPosition, endPosition)
+                        .forEachIndexed { index, category ->
+                            bindCategoryEditButton(
+                                editButtonList[index],
+                                category,
+                                startPosition + index,
+                                overallList.size - hiddenCategories.size
+                            )
+                        }
+                }
             }
         }
     }
@@ -128,7 +129,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
         size: Int
     ) {
         with(editButtonBinding) {
-            (individualEditCategoryButton as NoSayTextButton).text = localizedResourceUtility.getTextFromCategory(category)
+            individualEditCategoryButton.text = localizedResourceUtility.getTextFromCategory(category)
 
             moveCategoryUpButton.isEnabled = !category.hidden && overallIndex > 0
             moveCategoryDownButton.isEnabled =
