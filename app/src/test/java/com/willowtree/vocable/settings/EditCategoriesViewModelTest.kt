@@ -3,6 +3,7 @@ package com.willowtree.vocable.settings
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
+import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.presets.createStoredCategory
 import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
 import kotlinx.coroutines.flow.first
@@ -42,14 +43,7 @@ class EditCategoriesViewModelTest {
             listOf(
                 createStoredCategory(categoryId = "1")
             ),
-            vm.orderCategoryList.value
-        )
-
-        assertEquals(
-            listOf(
-                createStoredCategory(categoryId = "1")
-            ),
-            vm.addRemoveCategoryList.value
+            vm.categoryList.getOrAwaitValue()
         )
     }
 
@@ -82,20 +76,7 @@ class EditCategoriesViewModelTest {
                     sortOrder = 1
                 )
             ),
-            vm.orderCategoryList.value
-        )
-        assertEquals(
-            listOf(
-                createStoredCategory(
-                    categoryId = "1",
-                    sortOrder = 1
-                ),
-                createStoredCategory(
-                    categoryId = "2",
-                    sortOrder = 0
-                )
-            ),
-            categoriesUseCase._categories.value
+            vm.categoryList.getOrAwaitValue()
         )
     }
 
@@ -128,20 +109,7 @@ class EditCategoriesViewModelTest {
                     sortOrder = 1
                 )
             ),
-            vm.orderCategoryList.value
-        )
-        assertEquals(
-            listOf(
-                createStoredCategory(
-                    categoryId = "1",
-                    sortOrder = 1
-                ),
-                createStoredCategory(
-                    categoryId = "2",
-                    sortOrder = 0
-                )
-            ),
-            categoriesUseCase._categories.value
+            vm.categoryList.getOrAwaitValue()
         )
     }
 

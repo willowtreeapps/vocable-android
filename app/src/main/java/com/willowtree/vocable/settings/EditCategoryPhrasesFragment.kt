@@ -17,7 +17,7 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
-import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import com.willowtree.vocable.utils.LegacyFragmentStateAdapter
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -167,7 +167,7 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
+        LegacyFragmentStateAdapter<Phrase>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun setItems(items: List<Phrase>) {
             super.setItems(items)

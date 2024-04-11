@@ -14,7 +14,12 @@ import kotlin.math.min
  * with new data. This custom class solves this issue by giving unique ids to each fragment and
  * updating the ids every time the data set is changed with setItems().
  */
-abstract class VocableFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Lifecycle) :
+@Deprecated("""
+    The newer VocableFragmentStateAdapter uses a more efficient way of updating the data set and
+    notifying the adapter of changes. Any classes that extend this class should be migrated to
+    extend VocableFragmentStateAdapter instead.
+ """)
+abstract class LegacyFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fm, lifecycle) {
 
     protected val items = mutableListOf<T>()
@@ -22,7 +27,11 @@ abstract class VocableFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Li
     var numPages = 0
 
     override fun getItemCount(): Int {
-        return numPages
+        return if (items.isEmpty() || getMaxItemsPerPage() >= items.size) {
+            1
+        } else {
+            Int.MAX_VALUE
+        }
     }
 
     @CallSuper
@@ -33,18 +42,13 @@ abstract class VocableFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Li
             addAll(items)
         }
 
-        val oldNumPages = numPages
         numPages = if (items.isEmpty() || getMaxItemsPerPage() >= items.size) {
             1
         } else {
             ceil(items.size / getMaxItemsPerPage().toDouble()).toInt()
         }
 
-        if (numPages > oldNumPages) {
-            notifyItemInserted(numPages - 1)
-        } else if (numPages < oldNumPages) {
-            notifyItemRemoved(oldNumPages - 1)
-        }
+        notifyDataSetChanged()
     }
 
     override fun getItemId(position: Int): Long {
