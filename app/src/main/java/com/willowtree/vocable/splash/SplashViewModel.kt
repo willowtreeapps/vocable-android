@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.room.RoomPresetPhrasesRepository
+import com.willowtree.vocable.utils.IdlingResourceContainer
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
     private val newPresetsRepository: RoomPresetPhrasesRepository,
-    private val sharedPrefs: VocableSharedPreferences
+    private val sharedPrefs: VocableSharedPreferences,
+    private val idlingResourceContainer: IdlingResourceContainer
 ) : ViewModel() {
 
     private val liveExitSplash = MutableLiveData(false)
@@ -22,12 +24,14 @@ class SplashViewModel(
 
     private fun populateDatabase() {
         viewModelScope.launch {
-            if (sharedPrefs.getFirstTime()) {
-                newPresetsRepository.populateDatabase()
-                sharedPrefs.setFirstTime()
-            }
+            idlingResourceContainer.run {
+                if (sharedPrefs.getFirstTime()) {
+                    newPresetsRepository.populateDatabase()
+                    sharedPrefs.setFirstTime()
+                }
 
-            liveExitSplash.postValue(true)
+                liveExitSplash.postValue(true)
+            }
         }
     }
 }
