@@ -17,11 +17,7 @@ class EditCategoriesViewModel(
     private val categoriesUseCase: ICategoriesUseCase
 ) : ViewModel() {
 
-    val categoryList: LiveData<List<Category>> = categoriesUseCase.categories()
-        .map { categories ->
-            categories.sortedBy { it.sortOrder }
-        }
-        .asLiveData()
+    val categoryList: LiveData<List<Category>> = categoriesUseCase.categories().asLiveData()
 
     val categoryPages = categoriesUseCase.categories().map { categories ->
         val pageSize = 8
@@ -39,8 +35,6 @@ class EditCategoriesViewModel(
             val oldCategories = overallCategories
 
             overallCategories = categoriesUseCase.categories().first()
-            overallCategories =
-                overallCategories.filter { !it.hidden } + overallCategories.filter { it.hidden }
 
             // Check if a new category was added and scroll to it
             if (oldCategories.isNotEmpty() && oldCategories.size < overallCategories.size) {
@@ -63,63 +57,44 @@ class EditCategoriesViewModel(
 
     fun moveCategoryUp(categoryId: String) {
         viewModelScope.launch {
-            val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
-            if (catIndex > 0) {
-                val previousCat = overallCategories[catIndex - 1]
+            val categories = categoriesUseCase.categories().first()
+            val catIndex = categories.indexOfFirst { it.categoryId == categoryId }
+            if (catIndex in 1 until categories.size) {
+                val category = categories[catIndex]
+                val previousCat = categories[catIndex - 1]
 
-                overallCategories = overallCategories.map {
-                    when (it.categoryId) {
-                        categoryId -> {
-                            it.withSortOrder(it.sortOrder - 1)
-                        }
-
-                        previousCat.categoryId -> {
-                            it.withSortOrder(it.sortOrder + 1)
-                        }
-
-                        else -> {
-                            it
-                        }
-                    }
-                }
-
-                categoriesUseCase.updateCategorySortOrders(
-                    overallCategories.map {
-                        CategorySortOrder(it.categoryId, it.sortOrder)
-                    }
-                )
+                swapSortOrders(categories, previousCat, category)
             }
         }
     }
 
     fun moveCategoryDown(categoryId: String) {
         viewModelScope.launch {
-            val catIndex = overallCategories.indexOfFirst { it.categoryId == categoryId }
-            if (catIndex > -1) {
-                val nextCat = overallCategories[catIndex + 1]
+            val categories = categoriesUseCase.categories().first()
+            val catIndex = categories.indexOfFirst { it.categoryId == categoryId }
+            if (catIndex in 0 until categories.size - 1) {
+                val category = categories[catIndex]
+                val nextCat = categories[catIndex + 1]
 
-                overallCategories = overallCategories.map {
-                    when (it.categoryId) {
-                        categoryId -> {
-                            it.withSortOrder(it.sortOrder + 1)
-                        }
-
-                        nextCat.categoryId -> {
-                            it.withSortOrder(it.sortOrder - 1)
-                        }
-
-                        else -> {
-                            it
-                        }
-                    }
-                }
-
-                categoriesUseCase.updateCategorySortOrders(
-                    overallCategories.map {
-                        CategorySortOrder(it.categoryId, it.sortOrder)
-                    }
-                )
+                swapSortOrders(categories, category, nextCat)
             }
         }
+    }
+
+    private suspend fun swapSortOrders(
+        categories: List<Category>,
+        leftCategory: Category,
+        rightCategory: Category
+    ) {
+        categoriesUseCase.updateCategorySortOrders(
+            categories.map {
+                val sortOrder = when (it.categoryId) {
+                    rightCategory.categoryId -> leftCategory.sortOrder
+                    leftCategory.categoryId -> rightCategory.sortOrder
+                    else -> it.sortOrder
+                }
+                CategorySortOrder(it.categoryId, sortOrder)
+            }
+        )
     }
 }
