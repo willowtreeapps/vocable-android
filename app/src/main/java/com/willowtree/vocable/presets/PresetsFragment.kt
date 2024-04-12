@@ -194,6 +194,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         presetsViewModel.apply {
             categoryList.observe(viewLifecycleOwner, ::handleCategories)
             currentPhrases.observe(viewLifecycleOwner, ::handlePhrases)
+            selectedCategoryLiveData.observe(viewLifecycleOwner, ::handleSelectedCategory)
         }
 
         presetsViewModel.navToAddPhrase.observe(viewLifecycleOwner) {
@@ -245,20 +246,21 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             isSaveEnabled = false
             adapter = categoriesAdapter
             categoriesAdapter.setItems(categories)
+        }
+    }
 
-            presetsViewModel.selectedCategoryLiveData.observe(viewLifecycleOwner) { selectedCategory ->
-                for (i in 0 until categoriesAdapter.numPages) {
-                    val pageCategories = categoriesAdapter.getItemsByPosition(i)
+    private fun handleSelectedCategory(selectedCategory: Category?) {
+        with(binding.categoryView) {
+            for (i in 0 until categoriesAdapter.numPages) {
+                val pageCategories = categoriesAdapter.getItemsByPosition(i)
 
-                    if (pageCategories.find { it.categoryId == selectedCategory?.categoryId } != null) {
-                        setCurrentItem(i, false)
-                        break
-                    }
-
+                if (pageCategories.find { it.categoryId == selectedCategory?.categoryId } != null) {
+                    setCurrentItem(i, false)
+                    break
                 }
-                recentsCategorySelected =
-                    selectedCategory?.categoryId == PresetCategories.RECENTS.id
             }
+            recentsCategorySelected =
+                selectedCategory?.categoryId == PresetCategories.RECENTS.id
         }
     }
 
