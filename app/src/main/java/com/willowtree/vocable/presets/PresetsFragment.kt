@@ -9,14 +9,16 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.willowtree.vocable.*
+import com.willowtree.vocable.BaseFragment
+import com.willowtree.vocable.BindingInflater
+import com.willowtree.vocable.MainActivity
+import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.utils.SpokenText
-import com.willowtree.vocable.utils.LegacyFragmentStateAdapter
+import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,27 +48,17 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
         maxCategories = resources.getInteger(R.integer.max_categories)
         isPortraitMode =
-            resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+            resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
         isTabletMode = resources.getBoolean(R.bool.is_tablet)
 
         binding.categoryForwardButton.action = {
             when (val currentPosition = binding.categoryView.currentItem) {
                 categoriesAdapter.itemCount - 1 -> {
-                    binding.categoryView.setCurrentItem(0, true)
-                    //When in portrait mode, the phrases update on category forward and backward buttons
-                    if (isPortraitMode && !isTabletMode) {
-                        presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(0).categoryId)
-                    }
+                    selectCategory(0)
                 }
+
                 else -> {
-                    binding.categoryView.setCurrentItem(currentPosition + 1, true)
-                    if (isPortraitMode && !isTabletMode) {
-                        presetsViewModel.onCategorySelected(
-                            categoriesAdapter.getCategory(
-                                currentPosition + 1
-                            ).categoryId
-                        )
-                    }
+                    selectCategory(currentPosition + 1)
                 }
             }
         }
@@ -74,24 +66,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         binding.categoryBackButton.action = {
             when (val currentPosition = binding.categoryView.currentItem) {
                 0 -> {
-                    binding.categoryView.setCurrentItem(categoriesAdapter.itemCount - 1, true)
-                    if (isPortraitMode && !isTabletMode) {
-                        presetsViewModel.onCategorySelected(
-                            categoriesAdapter.getCategory(
-                                categoriesAdapter.itemCount - 1
-                            ).categoryId
-                        )
-                    }
+                    selectCategory(categoriesAdapter.itemCount - 1)
                 }
+
                 else -> {
-                    binding.categoryView.setCurrentItem(currentPosition - 1, true)
-                    if (isPortraitMode && !isTabletMode) {
-                        presetsViewModel.onCategorySelected(
-                            categoriesAdapter.getCategory(
-                                currentPosition - 1
-                            ).categoryId
-                        )
-                    }
+                    selectCategory(currentPosition - 1)
                 }
             }
         }
@@ -101,6 +80,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 phrasesAdapter.itemCount - 1 -> {
                     binding.phrasesView.setCurrentItem(0, true)
                 }
+
                 else -> {
                     binding.phrasesView.setCurrentItem(currentPosition + 1, true)
                 }
@@ -112,6 +92,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 0 -> {
                     binding.phrasesView.setCurrentItem(phrasesAdapter.itemCount - 1, true)
                 }
+
                 else -> {
                     binding.phrasesView.setCurrentItem(currentPosition - 1, true)
                 }
@@ -148,13 +129,6 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         binding.categoryView.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-
-                binding.phrasesPageNumber.text = getString(
-                    R.string.phrases_page_number,
-                    1,
-                    1
-                )
-
                 activity?.let { activity ->
                     allViews.clear()
                     if (activity is MainActivity) {
@@ -169,12 +143,15 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             override fun onPageSelected(position: Int) {
 
                 val pageNum = position % phrasesAdapter.numPages + 1
-
-                binding.phrasesPageNumber.text = getString(
-                    R.string.phrases_page_number,
-                    pageNum,
-                    phrasesAdapter.numPages
-                )
+                binding.phrasesPageNumber.apply {
+                    post {
+                        text = getString(
+                            R.string.phrases_page_number,
+                            pageNum,
+                            phrasesAdapter.numPages
+                        )
+                    }
+                }
 
                 activity?.let { activity ->
                     allViews.clear()
@@ -190,25 +167,37 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         subscribeToViewModel()
     }
 
+    private fun selectCategory(newPosition: Int) {
+        binding.categoryView.setCurrentItem(newPosition, true)
+        if (isPortraitMode && !isTabletMode) {
+            presetsViewModel.onCategorySelected(
+                categoriesAdapter.getCategory(
+                    newPosition
+                ).categoryId
+            )
+        }
+    }
+
     private fun subscribeToViewModel() {
-        SpokenText.observe(viewLifecycleOwner, Observer {
+        SpokenText.observe(viewLifecycleOwner) {
             binding.currentText.text = if (it.isNullOrBlank()) {
                 getString(R.string.select_something)
             } else {
                 it
             }
-        })
+        }
 
-        VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner, Observer {
+        VocableTextToSpeech.isSpeaking.observe(viewLifecycleOwner) {
             binding.speakerIcon.isVisible = it
-        })
+        }
 
         presetsViewModel.apply {
             categoryList.observe(viewLifecycleOwner, ::handleCategories)
             currentPhrases.observe(viewLifecycleOwner, ::handlePhrases)
+            selectedCategoryLiveData.observe(viewLifecycleOwner, ::handleSelectedCategory)
         }
 
-        presetsViewModel.navToAddPhrase.observe(viewLifecycleOwner, Observer {
+        presetsViewModel.navToAddPhrase.observe(viewLifecycleOwner) {
             if (it) {
                 val action =
                     presetsViewModel.selectedCategory.value?.let { category ->
@@ -220,7 +209,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                     findNavController().navigate(action)
                 }
             }
-        })
+        }
     }
 
     override fun getAllViews(): List<View> {
@@ -257,41 +246,29 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
             isSaveEnabled = false
             adapter = categoriesAdapter
             categoriesAdapter.setItems(categories)
-
-            // The categories ViewPager position will initially be set to the middle so that the
-            // user can scroll in both directions. Upon subsequent config changes, the position
-            // will be set to the closest page to the middle which contains the selected category.
-            var targetPosition = categoriesAdapter.itemCount / 2
-
-            if (targetPosition % categoriesAdapter.numPages != 0) {
-                targetPosition %= categoriesAdapter.numPages
-            }
-            presetsViewModel.selectedCategoryLiveData.observe(viewLifecycleOwner, Observer{ selectedCategory ->
-                for (i in targetPosition until targetPosition + categoriesAdapter.numPages) {
-                    val pageCategories = categoriesAdapter.getItemsByPosition(i)
-
-                    if (pageCategories.find { it.categoryId == selectedCategory?.categoryId } != null) {
-                        targetPosition = i
-                        break
-                    }
-                }
-                setCurrentItem(targetPosition, false)
-                presetsViewModel.selectedCategoryLiveData.removeObservers(viewLifecycleOwner)
-                presetsViewModel.onCategorySelected(categoriesAdapter.getCategory(targetPosition).categoryId)
-                observeRecents()
-            })
         }
     }
 
-    private fun observeRecents() {
-        presetsViewModel.selectedCategoryLiveData.observe(viewLifecycleOwner, Observer { selectedCategory ->
-            recentsCategorySelected = selectedCategory?.categoryId == PresetCategories.RECENTS.id
-        })
+    private fun handleSelectedCategory(selectedCategory: Category?) {
+        with(binding.categoryView) {
+            for (i in 0 until categoriesAdapter.numPages) {
+                val pageCategories = categoriesAdapter.getItemsByPosition(i)
+
+                if (pageCategories.find { it.categoryId == selectedCategory?.categoryId } != null) {
+                    setCurrentItem(i, false)
+                    break
+                }
+            }
+            recentsCategorySelected =
+                selectedCategory?.categoryId == PresetCategories.RECENTS.id
+        }
     }
 
     private fun handlePhrases(phrases: List<Phrase?>) {
-        binding.emptyPhrasesText.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
-        binding.emptyAddPhraseButton.isVisible = phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
+        binding.emptyPhrasesText.isVisible =
+            phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
+        binding.emptyAddPhraseButton.isVisible =
+            phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
 
         binding.noRecentsTitle.isVisible = phrases.isEmpty() && recentsCategorySelected
         binding.noRecentsMessage.isVisible = phrases.isEmpty() && recentsCategorySelected
@@ -309,22 +286,11 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
                 }
 
             phrasesAdapter.setItems(phrases)
-            // Move adapter to middle so user can scroll both directions
-            val middle = phrasesAdapter.itemCount / 2
-            if (middle % phrasesAdapter.numPages == 0) {
-                setCurrentItem(middle, false)
-            } else {
-                val mod = middle % phrasesAdapter.numPages
-                setCurrentItem(
-                    middle + (phrasesAdapter.numPages - mod),
-                    false
-                )
-            }
         }
     }
 
     inner class CategoriesPagerAdapter(fm: FragmentManager) :
-        LegacyFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Category>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun getMaxItemsPerPage(): Int = maxCategories
 
@@ -343,7 +309,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        LegacyFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
 
         override fun setItems(items: List<Phrase?>) {
             super.setItems(items)
