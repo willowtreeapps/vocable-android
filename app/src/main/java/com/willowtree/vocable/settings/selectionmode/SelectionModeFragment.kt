@@ -29,7 +29,7 @@ class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
             binding.selectionModeOptions.headTrackingSwitch.isChecked = it
         }
 
-        binding.selectionModeOptions.headTrackingContainer.setOnClickListener {
+        binding.selectionModeOptions.headTrackingContainer.action = {
             if (!binding.selectionModeOptions.headTrackingSwitch.isChecked) {
                 viewModel.requestHeadTracking()
             } else {
