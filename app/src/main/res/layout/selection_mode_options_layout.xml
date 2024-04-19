@@ -7,39 +7,12 @@
     android:columnCount="@integer/selection_modes_columns"
     android:rowCount="@integer/selection_modes_rows">
 
-    <com.willowtree.vocable.customviews.VocableConstraintLayout
-        android:id="@+id/head_tracking_container"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/selection_mode_button_height"
+    <com.willowtree.vocable.customviews.SwitchButton
+        android:id="@+id/selection_mode_switch"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_marginEnd="@dimen/selection_mode_button_end_margin"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_marginBottom="@dimen/selection_mode_buttom_bottom_margin"
-        android:background="@drawable/settings_group_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/SelectionModeButton"
-            android:text="@string/settings_head_tracking"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/head_tracking_switch"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/head_tracking_switch"
-            style="@style/SelectionModeButtonSwitch"
-            android:clickable="false"
-            android:focusable="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </com.willowtree.vocable.customviews.VocableConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtree.vocable.customviews.VocableConstraintLayout
         android:id="@+id/placeholder_container"
@@ -54,13 +27,13 @@
 
         <TextView
             android:id="@+id/placeholder_text"
-            style="@style/SelectionModeButton"
+            style="@style/SwitchButtonText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/placeholder_switch" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/placeholder_switch"
-            style="@style/SelectionModeButtonSwitch"
+            style="@style/SwitchButtonSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
