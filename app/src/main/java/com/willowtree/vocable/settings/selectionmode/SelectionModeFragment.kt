@@ -5,6 +5,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
+import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentSelectionModeBinding
 import org.koin.androidx.scope.scopeActivity
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -25,12 +26,14 @@ class SelectionModeFragment : BaseFragment<FragmentSelectionModeBinding>() {
             findNavController().popBackStack()
         }
 
+        binding.selectionModeOptions.selectionModeSwitch.text = (getString(R.string.settings_head_tracking))
+
         viewModel.headTrackingEnabled.observe(viewLifecycleOwner) {
-            binding.selectionModeOptions.headTrackingSwitch.isChecked = it
+            binding.selectionModeOptions.selectionModeSwitch.isChecked = it
         }
 
-        binding.selectionModeOptions.headTrackingContainer.action = {
-            if (!binding.selectionModeOptions.headTrackingSwitch.isChecked) {
+        binding.selectionModeOptions.selectionModeSwitch.action = {
+            if (!binding.selectionModeOptions.selectionModeSwitch.isChecked) {
                 viewModel.requestHeadTracking()
             } else {
                 viewModel.disableHeadTracking()
