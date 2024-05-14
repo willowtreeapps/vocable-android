@@ -352,15 +352,18 @@
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
-    <style name="SelectionModeButton" parent="ScalableText">
+    <style name="VocableSwitchText" parent="ScalableText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:layout_marginStart">@dimen/settings_margin_default</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/settings_option_button_padding</item>
         <item name="android:textColor">@color/vocable_button_text_color</item>
-        <item name="autoSizeMaxTextSize">@dimen/settings_label_text_size</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+        <item name="autoSizeMaxTextSize">@dimen/settings_button_text_size</item>
     </style>
 
-    <style name="SelectionModeButtonSwitch">
+    <style name="VocableSwitch">
         <item name="android:layout_width">@dimen/settings_switch_width</item>
         <item name="android:layout_height">@dimen/settings_switch_height</item>
         <item name="android:layout_marginTop">@dimen/settings_margin_default</item>
