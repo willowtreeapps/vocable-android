@@ -7,7 +7,7 @@
     android:columnCount="@integer/selection_modes_columns"
     android:rowCount="@integer/selection_modes_rows">
 
-    <com.willowtree.vocable.customviews.SwitchButton
+    <com.willowtree.vocable.customviews.VocableSwitch
         android:id="@+id/selection_mode_switch"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
@@ -27,13 +27,13 @@
 
         <TextView
             android:id="@+id/placeholder_text"
-            style="@style/SwitchButtonText"
+            style="@style/VocableSwitchText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/placeholder_switch" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/placeholder_switch"
-            style="@style/SwitchButtonSwitch"
+            style="@style/VocableSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
