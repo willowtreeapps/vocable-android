@@ -238,7 +238,7 @@
     <dimen name="edit_category_pager_margin_bottom">44dp</dimen>
     <dimen name="edit_individual_category_padding_start">20dp</dimen>
     <dimen name="edit_individual_category_padding_end">0dp</dimen>
-    <dimen name="edit_individual_category_padding">10dp</dimen>
+    <dimen name="edit_individual_category_padding">5dp</dimen>
     <dimen name="edit_individual_category_margin_top">20dp</dimen>
 
     <!-- Edit Categories List -->
