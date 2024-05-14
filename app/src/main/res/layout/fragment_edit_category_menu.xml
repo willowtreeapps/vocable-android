@@ -49,8 +49,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/category_title"/>
 
-    <com.willowtree.vocable.customviews.SwitchButton
-        android:id="@+id/show_category_container"
+    <com.willowtree.vocable.customviews.VocableSwitch
+        android:id="@+id/show_category_switch"
         android:layout_width="0dp"
         android:layout_height="@dimen/selection_mode_button_height"
         android:layout_marginTop="10dp"
@@ -71,7 +71,7 @@
         android:text="@string/edit_phrases"
         app:layout_constraintStart_toStartOf="@id/edit_options_back_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/show_category_container"/>
+        app:layout_constraintTop_toBottomOf="@id/show_category_switch"/>
 
     <com.willowtree.vocable.customviews.NoSayTextButton
         android:id="@+id/remove_category_button"

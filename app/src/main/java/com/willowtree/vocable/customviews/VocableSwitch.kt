@@ -4,14 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.willowtree.vocable.R
-import com.willowtree.vocable.databinding.SwitchButtonLayoutBinding
+import com.willowtree.vocable.databinding.VocableSwitchLayoutBinding
 
-class SwitchButton @JvmOverloads constructor(
+class VocableSwitch @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : VocableConstraintLayout(context, attrs, defStyle){
-    var binding: SwitchButtonLayoutBinding
+    var binding: VocableSwitchLayoutBinding
     var isChecked: Boolean
         set(value) {
             binding.toggleSwitch.isChecked = value
@@ -24,7 +24,7 @@ class SwitchButton @JvmOverloads constructor(
         }
 
     init{
-        binding = SwitchButtonLayoutBinding.inflate(LayoutInflater.from(context), this)
+        binding = VocableSwitchLayoutBinding.inflate(LayoutInflater.from(context), this)
         binding.root.setBackgroundResource(R.drawable.settings_group_background)
     }
 

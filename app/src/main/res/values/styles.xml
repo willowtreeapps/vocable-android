@@ -352,7 +352,7 @@
         <item name="android:textSize">@dimen/settings_button_text_size</item>
     </style>
 
-    <style name="SwitchButtonText" parent="ScalableText">
+    <style name="VocableSwitchText" parent="ScalableText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -363,7 +363,7 @@
         <item name="autoSizeMaxTextSize">@dimen/settings_button_text_size</item>
     </style>
 
-    <style name="SwitchButtonSwitch">
+    <style name="VocableSwitch">
         <item name="android:layout_width">@dimen/settings_switch_width</item>
         <item name="android:layout_height">@dimen/settings_switch_height</item>
         <item name="android:layout_marginTop">@dimen/settings_margin_default</item>

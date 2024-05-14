@@ -64,12 +64,12 @@ class EditCategoryMenuFragment : BaseFragment<FragmentEditCategoryMenuBinding>()
     }
 
     private fun setUpShowCategoryButton() {
-        binding.showCategoryContainer.text = getString(R.string.edit_category_show_category_text)
+        binding.showCategorySwitch.text = getString(R.string.edit_category_show_category_text)
         editCategoryMenuViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
-            binding.showCategoryContainer.isChecked = !it.hidden
+            binding.showCategorySwitch.isChecked = !it.hidden
         })
-        binding.showCategoryContainer.action = {
-            val showCategory = !binding.showCategoryContainer.isChecked
+        binding.showCategorySwitch.action = {
+            val showCategory = !binding.showCategorySwitch.isChecked
             editCategoryMenuViewModel.updateCategoryShown(showCategory)
         }
     }

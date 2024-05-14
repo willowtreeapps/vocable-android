@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/toggle_title"
-        style="@style/SwitchButtonText"
+        style="@style/VocableSwitchText"
         android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/toggle_switch"
@@ -16,7 +16,7 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/toggle_switch"
-        style="@style/SwitchButtonSwitch"
+        style="@style/VocableSwitch"
         android:clickable="false"
         android:focusable="false"
         app:layout_constraintBottom_toBottomOf="parent"
