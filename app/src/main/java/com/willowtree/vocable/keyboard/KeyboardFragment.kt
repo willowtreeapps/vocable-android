@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,11 +15,14 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.FragmentKeyboardBinding
 import com.willowtree.vocable.keyboard.adapter.KeyboardAdapter
+import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import com.willowtree.vocable.utils.VocableTextToSpeech
 import java.util.Locale
 
 class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
+
+    private val viewModel: KeyboardFragmentViewModel by viewModels()
 
     override val bindingInflater: BindingInflater<FragmentKeyboardBinding> =
         FragmentKeyboardBinding::inflate
@@ -104,10 +108,12 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
 
         binding.keyboardSpeakButton.action = {
             if (!isDefaultTextVisible()) {
+                val text = binding.keyboardInput.text?.toString() ?: ""
                 VocableTextToSpeech.speak(
                     Locale.getDefault(),
-                    binding.keyboardInput.text?.toString() ?: ""
+                    text
                 )
+                viewModel.addNewPhrase(text, PresetCategories.RECENTS.id)
             }
         }
     }

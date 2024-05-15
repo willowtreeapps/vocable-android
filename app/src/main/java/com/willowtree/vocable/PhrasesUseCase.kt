@@ -79,4 +79,15 @@ class PhrasesUseCase(
             sortOrder = legacyPhrasesRepository.getPhrasesForCategory(parentCategoryId).size
         ))
     }
+
+    suspend fun addPhraseSpokenNow(localizedUtterance: LocalesWithText, parentCategoryId: String) {
+        storedPhrasesRepository.addPhrase(PhraseDto(
+            phraseId = uuidProvider.randomUUIDString(),
+            parentCategoryId = parentCategoryId,
+            creationDate = dateProvider.currentTimeMillis(),
+            lastSpokenDate = dateProvider.currentTimeMillis(),
+            localizedUtterance = localizedUtterance,
+            sortOrder = legacyPhrasesRepository.getPhrasesForCategory(parentCategoryId).size
+        ))
+    }
 }
