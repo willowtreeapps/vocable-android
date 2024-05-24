@@ -1,11 +1,9 @@
 package com.willowtree.vocable.tests
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertTextMatches
-import org.junit.Ignore
-import org.junit.Rule
+import com.willowtree.vocable.utility.tap
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -50,6 +48,89 @@ class MainScreenTest : BaseTest() {
         mainScreen.apply {
             scrollRightAndTapCurrentCategory(1)
             verifyGivenPhrasesDisplay(defaultPhraseBasicNeeds)
+        }
+    }
+
+    @Test
+    fun verifyNextCategoryShownAfterNavigatingToAndHidingFirstPresetCategory() {
+        mainScreen.apply {
+            // already defaults to being on the first category
+
+            // navigate to Show Category toggle
+            settingsNavigationButton.tap()
+            editCategoriesButton.tap()
+            editGeneralCategoryButton.tap()
+            showCategorySwitch.tap()
+            // exit
+            editOptionsBackButton.tap()
+            backButton.tap()
+            closeSettingsButton.tap()
+
+            // verify basic needs is shown: Category button and Phrases
+            verifyGivenCategoryDisplay("Basic Needs")
+            verifyGivenPhrasesDisplay(defaultPhraseBasicNeeds)
+        }
+    }
+
+    @Test
+    fun verifyFirstCategoryIsShownAfterNavigatingToAndHidingLastPresetCategory() {
+        mainScreen.apply {
+            // navigate to last category
+            categoryBackButton.tap()
+
+            // navigate to Show Category toggle
+            settingsNavigationButton.tap()
+            editCategoriesButton.tap()
+            categoryForwardButton.tap()
+            editRecentCategoryButton.tap()
+            showCategorySwitch.tap()
+            // exit
+            editOptionsBackButton.tap()
+            backButton.tap()
+            closeSettingsButton.tap()
+
+            // verify General is shown
+            verifyGivenCategoryDisplay("General")
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+        }
+    }
+
+    @Test
+    fun verifyNothingChangesWhenNextCategoryIsHidden() {
+        mainScreen.apply {
+            // navigate to Show Category toggle
+            settingsNavigationButton.tap()
+            editCategoriesButton.tap()
+            editBasicNeedsCategoryButton.tap()
+            showCategorySwitch.tap()
+            // exit
+            editOptionsBackButton.tap()
+            backButton.tap()
+            closeSettingsButton.tap()
+
+            // verify General is shown
+            verifyGivenCategoryDisplay("General")
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+        }
+    }
+
+    @Test
+    fun verifyNothingChangesWhenPreviousCategoryIsHidden() {
+        mainScreen.apply {
+            // navigate to Show Category toggle
+            settingsNavigationButton.tap()
+            editCategoriesButton.tap()
+            categoryForwardButton.tap()
+            editRecentCategoryButton.tap()
+            showCategorySwitch.tap()
+            // exit
+            editOptionsBackButton.tap()
+            backButton.tap()
+            closeSettingsButton.tap()
+
+            // verify General is shown
+            verifyGivenCategoryDisplay("General")
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
         }
     }
 }
