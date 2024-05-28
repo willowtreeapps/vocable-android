@@ -2,8 +2,11 @@ package com.willowtree.vocable.tests
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
+import com.willowtree.vocable.screens.KeyboardScreen
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertTextMatches
+import com.willowtree.vocable.utility.tap
+import kotlinx.coroutines.delay
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
@@ -13,6 +16,7 @@ import org.junit.runner.RunWith
 class MainScreenTest : BaseTest() {
 
     private val mainScreen = MainScreen()
+    private val keyboardScreen = KeyboardScreen()
 
     @Test
     fun verifyDefaultTextAppears() {
@@ -46,10 +50,43 @@ class MainScreenTest : BaseTest() {
     }
 
     @Test
-    fun verifySelectingCategoryChangesPhrases() {
+    fun verifySelectingCategoryChangesPhrasesWhenNavigatingRight() {
         mainScreen.apply {
             scrollRightAndTapCurrentCategory(1)
             verifyGivenPhrasesDisplay(defaultPhraseBasicNeeds)
+        }
+    }
+
+    @Test
+    fun verifySelectingCategoryChangesPhrasesWhenNavigatingLeft() {
+        mainScreen.apply {
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+            scrollRightAndTapCurrentCategory(2)
+            scrollLeft(1)
+            verifyGivenPhrasesDisplay(defaultPhraseBasicNeeds)
+            scrollLeft(1)
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+        }
+    }
+
+    @Test
+    fun verifyCategoryStaysAfterNavigatingToKeyboard() {
+        mainScreen.apply {
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+            scrollRightAndTapCurrentCategory(1)
+            verifyGivenPhrasesDisplay(defaultPhraseBasicNeeds)
+            keyboardNavitgationButton.tap()
+        }
+
+        Thread.sleep(10000)
+
+        keyboardScreen.apply {
+            keyboardPresetsButton.tap()
+        }
+
+        mainScreen.apply {
+            scrollLeft(1)
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
         }
     }
 }
