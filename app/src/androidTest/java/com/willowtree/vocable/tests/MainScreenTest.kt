@@ -70,7 +70,27 @@ class MainScreenTest : BaseTest() {
     }
 
     @Test
-    fun verifyCategoryStaysAfterNavigatingToKeyboard() {
+    fun verifyCategoryStaysAfterNavigatingToKeyboardImmediately() {
+        mainScreen.apply {
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+            scrollRightAndTapCurrentCategory(1)
+            verifyGivenPhrasesDisplay(defaultPhraseBasicNeeds)
+            keyboardNavitgationButton.tap()
+        }
+
+        keyboardScreen.apply {
+            keyboardPresetsButton.tap()
+        }
+
+        mainScreen.apply {
+            scrollLeft(1)
+            verifyGivenPhrasesDisplay(defaultPhraseGeneral)
+        }
+    }
+
+    @Test
+    // Bug: https://github.com/willowtreeapps/vocable-android/issues/531
+    fun verifyCategoryStaysAfterNavigatingToKeyboardAfterDelay() {
         mainScreen.apply {
             verifyGivenPhrasesDisplay(defaultPhraseGeneral)
             scrollRightAndTapCurrentCategory(1)
