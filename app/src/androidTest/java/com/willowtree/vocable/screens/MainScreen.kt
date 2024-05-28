@@ -32,6 +32,12 @@ class MainScreen {
        onView(withText(defaultCategories[currentCategory])).tap()
     }
 
+    fun scrollLeft(numTimesToScroll: Int) {
+        for (i in 1..numTimesToScroll) {
+            onView(withId(R.id.category_back_button)).tap()
+        }
+    }
+
     // Scrolls to the right numTimesToScroll times and then taps the current category
     fun scrollRightAndTapCurrentCategory(numTimesToScroll: Int) {
         for (i in 1..numTimesToScroll){

@@ -76,6 +76,5 @@ class KeyboardScreenTest : BaseTest() {
         mainScreen.apply {
             keyboardNavitgationButton.tap()
         }
-
     }
 }
