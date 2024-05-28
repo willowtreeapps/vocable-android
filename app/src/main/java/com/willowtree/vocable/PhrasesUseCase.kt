@@ -79,6 +79,10 @@ class PhrasesUseCase(
                 localizedUtterance = localizedUtterance,
                 sortOrder = legacyPhrasesRepository.getPhrasesForCategory(parentCategoryId).size
             ))
+        } else {
+            throw Exception("The 'Recents' category is not a true category -" +
+                    " it is a filter applied to true categories. Therefore, saving phrases from " +
+                    "the Recents 'category' is not supported.")
         }
     }
 }
