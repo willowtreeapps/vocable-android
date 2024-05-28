@@ -27,7 +27,7 @@
     <dimen name="edit_action_delete_width">88dp</dimen>
 
     <!-- Settings Options -->
-    <dimen name="settings_options_margin_bottom">16dp</dimen>
+    <dimen name="settings_options_margin_bottom">8dp</dimen>
     <dimen name="settings_link_button_bottom_margin">20dp</dimen>
     <dimen name="settings_options_margin_top">24dp</dimen>
     <dimen name="settings_version_text_bottom_margin">32dp</dimen>
