@@ -1,0 +1,30 @@
+name: Run Device Tests
+
+# read-write repo token
+# access to secrets
+on:
+  workflow_run:
+    workflows: ["Build & Test Project"]
+    types:
+      - completed
+
+jobs:
+  device-tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-test-artifact
+
+      - name: Decode Firebase Service Account JSON
+        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
+
+      - name: 'Run Device Tests on Firebase Test Lab'
+        run: |
+          gcloud auth login --cred-file=service_account.json
+          gcloud config set project vocable-fcb07
+          gcloud firebase test android run \
+            --app app-debug.apk \
+            --test app-debug-androidTest.apk \
+            --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
+            --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
