@@ -40,7 +40,7 @@ Use a list of common phrases provided by speech language pathologists, or create
 Type with your head or your hands.
 
 ## Roadmap
-For the current progress on features, please visit the [project board](https://github.com/willowtreeapps/vocable-android/projects/1).
+For the current progress on features, please visit the [project board](https://github.com/orgs/willowtreeapps/projects/50/views/1).
 
 For a high-level roadmap, see the [Vocable Roadmap](./ROADMAP.md)
 
