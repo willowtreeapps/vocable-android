@@ -15,6 +15,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: app-test-artifact
+          run_id: ${{github.event.workflow_run.id }}
 
       - name: Decode Firebase Service Account JSON
         run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
