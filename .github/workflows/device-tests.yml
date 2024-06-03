@@ -17,18 +17,15 @@ jobs:
           run-id: ${{github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Decode Firebase Service Account JSON
+        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
 
-#      - name: Decode Firebase Service Account JSON
-#        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
-#
-#      - name: 'Run Device Tests on Firebase Test Lab'
-#        run: |
-#          gcloud auth login --cred-file=service_account.json
-#          gcloud config set project vocable-fcb07
-#          gcloud firebase test android run \
-#            --app apk/debug/app-debug.apk \
-#            --test apk/androidTest/debug/app-debug-androidTest.apk \
-#            --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
-#            --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
+      - name: 'Run Device Tests on Firebase Test Lab'
+        run: |
+          gcloud auth login --cred-file=service_account.json
+          gcloud config set project vocable-fcb07
+          gcloud firebase test android run \
+            --app apk/debug/app-debug.apk \
+            --test apk/androidTest/debug/app-debug-androidTest.apk \
+            --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
+            --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
