@@ -14,7 +14,6 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: app-test-artifact
           run-id: ${{github.event.workflow_run.id }}
 
       - name: Decode Firebase Service Account JSON
@@ -25,7 +24,7 @@ jobs:
           gcloud auth login --cred-file=service_account.json
           gcloud config set project vocable-fcb07
           gcloud firebase test android run \
-            --app app-debug.apk \
-            --test app-debug-androidTest.apk \
+            --app apk/app-debug.apk \
+            --test apk/app-debug-androidTest.apk \
             --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
             --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
