@@ -1,12 +1,18 @@
 name: Run Device Tests
+# Run device tests using Firebase Test Lab
+#
+# This action is separated so that it can run on PRs coming from forks, without
+# giving those forks access to our repository secrets, which are necessary to run against Firebase.
+# There is also additional configuration so this workflow can be reused in our main workflow and block
+# deployments on UI test results.
 
-# read-write repo token
-# access to secrets
 on:
   workflow_run:
     workflows: ["Build & Test Project"]
+    branches-ignore: [main]
     types:
       - completed
+  workflow_call:
 
 jobs:
   device-tests:
@@ -14,6 +20,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: haya14busa/action-workflow_run-status@v1
+        if: ${{ github.event_name == 'workflow_run' }}
       - uses: actions/download-artifact@v4
         with:
           run-id: ${{github.event.workflow_run.id }}
