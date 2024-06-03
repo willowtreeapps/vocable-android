@@ -12,6 +12,7 @@ jobs:
   device-tests:
     runs-on: ubuntu-20.04
     steps:
+      - uses: haya14busa/action-workflow_run-status@v1
       - uses: actions/download-artifact@v4
         with:
           run-id: ${{github.event.workflow_run.id }}
