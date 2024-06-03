@@ -41,3 +41,4 @@ jobs:
     needs: build
     if: github.event_name != 'pull_request'
     uses: ./.github/workflows/pre-release-upload.yml
+    secrets: inherit
