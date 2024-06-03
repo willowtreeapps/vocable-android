@@ -1,11 +1,11 @@
 package com.willowtree.vocable.settings
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.presets.createStoredCategory
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -14,9 +14,6 @@ class EditCategoriesViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val categoriesUseCase = FakeCategoriesUseCase()
 
@@ -27,7 +24,7 @@ class EditCategoriesViewModelTest {
     }
 
     @Test
-    fun `categories are populated`() {
+    fun `categories are populated`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 createStoredCategory(categoryId = "1")
@@ -36,16 +33,18 @@ class EditCategoriesViewModelTest {
         val vm = createViewModel()
         vm.refreshCategories()
 
-        assertEquals(
-            listOf(
-                createStoredCategory(categoryId = "1")
-            ),
-            vm.categoryList.getOrAwaitValue()
-        )
+        vm.categoryList.test {
+            assertEquals(
+                listOf(
+                    createStoredCategory(categoryId = "1")
+                ),
+                awaitItem()
+            )
+        }
     }
 
     @Test
-    fun `move category up`() {
+    fun `move category up`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 createStoredCategory(
@@ -62,23 +61,25 @@ class EditCategoriesViewModelTest {
         vm.refreshCategories()
         vm.moveCategoryUp("2")
 
-        assertEquals(
-            listOf(
-                createStoredCategory(
-                    categoryId = "2",
-                    sortOrder = 0
+        vm.categoryList.test {
+            assertEquals(
+                listOf(
+                    createStoredCategory(
+                        categoryId = "2",
+                        sortOrder = 0
+                    ),
+                    createStoredCategory(
+                        categoryId = "1",
+                        sortOrder = 1
+                    )
                 ),
-                createStoredCategory(
-                    categoryId = "1",
-                    sortOrder = 1
-                )
-            ),
-            vm.categoryList.getOrAwaitValue()
-        )
+                awaitItem()
+            )
+        }
     }
 
     @Test
-    fun `move category down`() {
+    fun `move category down`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 createStoredCategory(
@@ -95,19 +96,21 @@ class EditCategoriesViewModelTest {
         vm.refreshCategories()
         vm.moveCategoryDown("1")
 
-        assertEquals(
-            listOf(
-                createStoredCategory(
-                    categoryId = "2",
-                    sortOrder = 0
+        vm.categoryList.test {
+            assertEquals(
+                listOf(
+                    createStoredCategory(
+                        categoryId = "2",
+                        sortOrder = 0
+                    ),
+                    createStoredCategory(
+                        categoryId = "1",
+                        sortOrder = 1
+                    )
                 ),
-                createStoredCategory(
-                    categoryId = "1",
-                    sortOrder = 1
-                )
-            ),
-            vm.categoryList.getOrAwaitValue()
-        )
+                awaitItem()
+            )
+        }
     }
 
 }
