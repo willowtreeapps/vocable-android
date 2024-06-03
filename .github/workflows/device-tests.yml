@@ -24,7 +24,7 @@ jobs:
           gcloud auth login --cred-file=service_account.json
           gcloud config set project vocable-fcb07
           gcloud firebase test android run \
-            --app apk/app-debug.apk \
-            --test apk/app-debug-androidTest.apk \
+            --app apk/debug/app-debug.apk \
+            --test apk/androidTest/debug/app-debug-androidTest.apk \
             --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
             --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
