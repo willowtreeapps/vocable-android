@@ -25,13 +25,6 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testDebug
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: app/build/reports/
-
       - name: Assemble
         env:
           VERSION_CODE: ${{ github.run_number }}
