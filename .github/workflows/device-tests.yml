@@ -17,7 +17,7 @@ on:
 jobs:
   device-tests:
     runs-on: ubuntu-20.04
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_call' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     steps:
       - uses: haya14busa/action-workflow_run-status@v1
         if: ${{ github.event_name == 'workflow_run' }}
