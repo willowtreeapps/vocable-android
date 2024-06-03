@@ -4,11 +4,13 @@ on:
   workflow_call:
 
 jobs:
+  device-tests:
+    uses: ./.github/workflows/device-tests.yml
+
   pre-release-upload:
+    needs: device-tests
     runs-on: ubuntu-20.04
     steps:
-      - uses: ./.github/workflows/device-tests.yml
-
       - name: Decode Keystore
         env:
           ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
