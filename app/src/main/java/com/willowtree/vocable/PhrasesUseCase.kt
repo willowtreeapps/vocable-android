@@ -70,7 +70,6 @@ class PhrasesUseCase(
     }
 
     override suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
-        // TODO
         storedPhrasesRepository.addPhrase(PhraseDto(
             phraseId = uuidProvider.randomUUIDString(),
             parentCategoryId = parentCategoryId,
