@@ -6,6 +6,7 @@ on:
 jobs:
   device-tests:
     uses: ./.github/workflows/device-tests.yml
+    secrets: inherit
 
   pre-release-upload:
     needs: device-tests
