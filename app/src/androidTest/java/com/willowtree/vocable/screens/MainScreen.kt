@@ -4,7 +4,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.willowtree.vocable.R
-import com.willowtree.vocable.customviews.NoSayTextButton
 import com.willowtree.vocable.customviews.VocableButton
 import com.willowtree.vocable.utility.tap
 import org.hamcrest.CoreMatchers.allOf
@@ -48,11 +47,6 @@ class MainScreen {
             onView(withText(phrase)).check(matches(isDisplayed()))
         }
     }
-
-    fun verifyGivenCategoryDisplay(category: String) {
-        onView(withText(category)).check(matches(isDisplayed()))
-    }
-
     // Taps on the selected phrase
     fun tapPhrase(phraseText: String) {
         onView(withText(phraseText)).tap()
@@ -67,34 +61,6 @@ class MainScreen {
     val currentText = onView(withId(R.id.current_text))
     val keyboardNavitgationButton = onView(withId(R.id.keyboard_button))
     val settingsNavigationButton = onView(withId(R.id.settings_button))
-
-    // Settings buttons
-    val editCategoriesButton = onView(withId(R.id.edit_categories_button))
-    val showCategorySwitch = onView(withId(R.id.show_category_switch))
-    val editOptionsBackButton = onView(withId(R.id.edit_options_back_button))
-    val backButton = onView(withId(R.id.back_button))
-    val closeSettingsButton = onView(withId(R.id.settings_close_button))
-    val editGeneralCategoryButton = onView(
-        allOf(
-            instanceOf(NoSayTextButton::class.java),
-            withId(R.id.individual_edit_category_button),
-            withText("General")
-        )
-    )
-    val editRecentCategoryButton = onView(
-        allOf(
-            instanceOf(NoSayTextButton::class.java),
-            withId(R.id.individual_edit_category_button),
-            withText("Recents")
-        )
-    )
-    val editBasicNeedsCategoryButton = onView(
-        allOf(
-            instanceOf(NoSayTextButton::class.java),
-            withId(R.id.individual_edit_category_button),
-            withText("Basic Needs")
-        )
-    )
 
     // Categories and preset phrases
     val categoryBackButton = onView(withId(R.id.category_back_button))
