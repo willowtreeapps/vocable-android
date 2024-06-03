@@ -5,10 +5,7 @@ import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.presets.createStoredCategory
-import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -110,48 +107,6 @@ class EditCategoriesViewModelTest {
                 )
             ),
             vm.categoryList.getOrAwaitValue()
-        )
-    }
-
-    @Test
-    fun `category pages are populated`() = runTest {
-        categoriesUseCase._categories.update {
-            listOf(
-                createStoredCategory(categoryId = "1"),
-                createStoredCategory(categoryId = "2"),
-                createStoredCategory(categoryId = "3"),
-                createStoredCategory(categoryId = "4"),
-                createStoredCategory(categoryId = "5"),
-                createStoredCategory(categoryId = "6"),
-                createStoredCategory(categoryId = "7"),
-                createStoredCategory(categoryId = "8"),
-                createStoredCategory(categoryId = "9"),
-            )
-        }
-        val vm = createViewModel()
-        vm.refreshCategories()
-
-        assertEquals(
-            listOf(
-                EditCategoriesPage(
-                    listOf(
-                        createStoredCategory(categoryId = "1"),
-                        createStoredCategory(categoryId = "2"),
-                        createStoredCategory(categoryId = "3"),
-                        createStoredCategory(categoryId = "4"),
-                        createStoredCategory(categoryId = "5"),
-                        createStoredCategory(categoryId = "6"),
-                        createStoredCategory(categoryId = "7"),
-                        createStoredCategory(categoryId = "8"),
-                    )
-                ),
-                EditCategoriesPage(
-                    listOf(
-                        createStoredCategory(categoryId = "9"),
-                    )
-                )
-            ),
-            vm.categoryPages.first()
         )
     }
 

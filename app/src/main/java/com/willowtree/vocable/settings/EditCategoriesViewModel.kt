@@ -8,9 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.room.CategorySortOrder
-import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class EditCategoriesViewModel(
@@ -18,11 +16,6 @@ class EditCategoriesViewModel(
 ) : ViewModel() {
 
     val categoryList: LiveData<List<Category>> = categoriesUseCase.categories().asLiveData()
-
-    val categoryPages = categoriesUseCase.categories().map { categories ->
-        val pageSize = 8
-        categories.chunked(pageSize).map { EditCategoriesPage(it) }
-    }
 
     private val liveLastViewedIndex = MutableLiveData<Int>()
     val lastViewedIndex: LiveData<Int> = liveLastViewedIndex
