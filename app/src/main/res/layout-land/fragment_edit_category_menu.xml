@@ -66,6 +66,10 @@
             android:id="@+id/show_category_switch"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/edit_individual_category_menu_margin"
+            android:layout_marginEnd="@dimen/edit_individual_category_menu_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

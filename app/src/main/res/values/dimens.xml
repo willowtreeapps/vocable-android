@@ -171,7 +171,7 @@
     <dimen name="settings_options_margin_top">32dp</dimen>
     <dimen name="settings_options_margin_bottom">64dp</dimen>
     <dimen name="setting_options_margin_horizontal">24dp</dimen>
-    <dimen name="settings_link_button_height">48dp</dimen>
+    <dimen name="settings_link_button_height">36dp</dimen>
     <dimen name="settings_link_button_end_margin">8dp</dimen>
     <dimen name="settings_link_button_bottom_margin">88dp</dimen>
     <dimen name="settings_link_button_padding">8dp</dimen>
@@ -240,6 +240,7 @@
     <dimen name="edit_individual_category_padding_end">0dp</dimen>
     <dimen name="edit_individual_category_padding">5dp</dimen>
     <dimen name="edit_individual_category_margin_top">20dp</dimen>
+    <dimen name="edit_individual_category_menu_margin">8dp</dimen>
 
     <!-- Edit Categories List -->
     <dimen name="edit_categories_list_button_width">56dp</dimen>
