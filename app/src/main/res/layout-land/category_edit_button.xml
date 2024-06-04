@@ -14,34 +14,35 @@
         android:id="@+id/individual_edit_category_button"
         style="@style/IndividualCategoryEditButton"
         android:layout_width="0dp"
-        android:layout_height="@dimen/settings_edit_individual_category_arrow_height"
+        android:layout_height="0dp"
         android:paddingStart="@dimen/edit_individual_category_padding_start"
         android:paddingEnd="@dimen/edit_individual_category_padding_end"
-        android:padding="@dimen/edit_individual_category_padding"
         android:layout_marginStart="@dimen/settings_option_button_margin"
         android:layout_marginTop="@dimen/settings_edit_individual_category_arrow_top"
         android:text="@string/settings"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/move_category_down_button"
         app:layout_constraintEnd_toEndOf="@id/category_container"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/move_category_up_button"
         android:layout_width="@dimen/settings_edit_individual_category_arrow_width"
-        android:layout_height="@dimen/settings_edit_individual_category_arrow_height"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/settings_edit_individual_category_arrow_top"
         android:padding="@dimen/settings_edit_individual_category_arrow_padding"
         android:scaleType="centerInside"
         android:background="@drawable/button_default_background"
         android:src="@drawable/ic_up_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.willowtree.vocable.customviews.VocableImageButton
         android:id="@+id/move_category_down_button"
         android:layout_width="@dimen/settings_edit_individual_category_arrow_width"
-        android:layout_height="@dimen/settings_edit_individual_category_arrow_height"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/settings_edit_individual_category_arrow_top"
         android:layout_marginStart="@dimen/settings_edit_individual_category_arrow_top"
         android:background="@drawable/button_default_background"
@@ -49,6 +50,7 @@
         android:padding="@dimen/settings_edit_individual_category_arrow_padding"
         android:scaleType="centerInside"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/move_category_up_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
