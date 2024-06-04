@@ -1,0 +1,5 @@
+[versions]
+turbine = "1.1.0"
+
+[libraries]
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
