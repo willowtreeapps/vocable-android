@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
@@ -12,6 +15,7 @@ import com.willowtree.vocable.databinding.CategoryEditButtonBinding
 import com.willowtree.vocable.databinding.FragmentEditCategoriesListBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -101,22 +105,26 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
     }
 
     private fun subscribeToViewModel() {
-        editCategoriesViewModel.categoryList.observe(viewLifecycleOwner) { list ->
-            list?.let { overallList ->
-                val hiddenCategories = overallList.filter { it.hidden }
-                if (endPosition > overallList.size) {
-                    endPosition = overallList.size - 1
-                }
-                if (startPosition <= endPosition) {
-                    overallList.subList(startPosition, endPosition)
-                        .forEachIndexed { index, category ->
-                            bindCategoryEditButton(
-                                editButtonList[index],
-                                category,
-                                startPosition + index,
-                                overallList.size - hiddenCategories.size
-                            )
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                editCategoriesViewModel.categoryList.collect { list ->
+                    list.let { overallList ->
+                        val hiddenCategories = overallList.filter { it.hidden }
+                        if (endPosition > overallList.size) {
+                            endPosition = overallList.size - 1
                         }
+                        if (startPosition <= endPosition) {
+                            overallList.subList(startPosition, endPosition)
+                                .forEachIndexed { index, category ->
+                                    bindCategoryEditButton(
+                                        editButtonList[index],
+                                        category,
+                                        startPosition + index,
+                                        overallList.size - hiddenCategories.size
+                                    )
+                                }
+                        }
+                    }
                 }
             }
         }
