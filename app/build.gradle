@@ -10,6 +10,7 @@ plugins {
 android {
     namespace 'com.willowtree.vocable'
     defaultConfig {
+        targetSdk 34
         applicationId "com.willowtree.vocable"
         //30 was the last versionCode used on Play Store before implementing CI with github actions
         versionCode Integer.valueOf(System.getenv("VERSION_CODE") ?: 1) + 30
