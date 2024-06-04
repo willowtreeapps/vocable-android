@@ -1,4 +1,4 @@
-package com.willowtree.vocable.utils
+package com.willowtree.vocable.basetest.utils
 
 import com.willowtree.vocable.utils.locale.LocaleProvider
 
