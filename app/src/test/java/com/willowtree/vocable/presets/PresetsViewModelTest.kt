@@ -114,6 +114,148 @@ class PresetsViewModelTest {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `selected category is hidden and next immediate category is shown`() = runTest(UnconfinedTestDispatcher()) {
+        fakeCategoriesUseCase._categories.update {
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = true,
+                    sortOrder = 0
+                ),
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = false,
+                    sortOrder = 1
+                )
+            )
+        }
+
+        val vm = createViewModel()
+
+        vm.onCategorySelected("1")
+
+        var category: Category? = null
+        val job = launch {
+            vm.selectedCategory.collect {
+                category = it
+            }
+        }
+        job.cancel()
+
+        assertEquals(
+            Category.StoredCategory(
+                categoryId = "2",
+                localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                hidden = false,
+                sortOrder = 1
+            ),
+            category
+        )
+
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `selected category (last in list) is hidden and first category is shown`() = runTest(UnconfinedTestDispatcher()) {
+        fakeCategoriesUseCase._categories.update {
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = false,
+                    sortOrder = 1
+                ),
+                Category.StoredCategory(
+                    categoryId = "3",
+                    localizedName = LocalesWithText(mapOf("en_US" to "third category")),
+                    hidden = true,
+                    sortOrder = 2
+                )
+            )
+        }
+
+        val vm = createViewModel()
+
+        vm.onCategorySelected("3")
+
+        var category: Category? = null
+        val job = launch {
+            vm.selectedCategory.collect {
+                category = it
+            }
+        }
+        job.cancel()
+
+        assertEquals(
+            Category.StoredCategory(
+                categoryId = "1",
+                localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                hidden = false,
+                sortOrder = 0
+            ),
+            category
+        )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `selected category is hidden and next non-hidden category is shown`() = runTest(UnconfinedTestDispatcher()) {
+        fakeCategoriesUseCase._categories.update {
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = true,
+                    sortOrder = 0
+                ),
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = false,
+                    sortOrder = 1
+                ),
+                Category.StoredCategory(
+                    categoryId = "3",
+                    localizedName = LocalesWithText(mapOf("en_US" to "third category")),
+                    hidden = true,
+                    sortOrder = 2
+                )
+            )
+        }
+
+        val vm = createViewModel()
+
+        vm.onCategorySelected("3")
+
+        var category: Category? = null
+        val job = launch {
+            vm.selectedCategory.collect {
+                category = it
+            }
+        }
+        job.cancel()
+
+        assertEquals(
+            Category.StoredCategory(
+                categoryId = "2",
+                localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                hidden = false,
+                sortOrder = 1
+            ),
+            category
+        )
+    }
+
     @Test
     fun `current phrases updated when category ID changed`() {
         fakePhrasesUseCase._allCategories.update {

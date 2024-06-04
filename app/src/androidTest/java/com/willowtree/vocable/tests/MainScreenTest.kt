@@ -1,11 +1,8 @@
 package com.willowtree.vocable.tests
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertTextMatches
-import org.junit.Ignore
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
