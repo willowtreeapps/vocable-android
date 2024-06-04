@@ -25,65 +25,20 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testDebug
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: app/build/reports/
-
       - name: Assemble
         env:
           VERSION_CODE: ${{ github.run_number }}
         run: ./gradlew assembleDebug assembleDebugAndroidTest
 
-      - name: Decode Firebase Service Account JSON
-        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
-
-      - name: 'Run Device Tests on Firebase Test Lab'
-        run: |
-          gcloud auth login --cred-file=service_account.json
-          gcloud config set project vocable-fcb07
-          gcloud firebase test android run \
-            --app app/build/outputs/apk/debug/app-debug.apk \
-            --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-            --device version=34,orientation=portrait,model=MediumPhone.arm,locale=en_US \
-            --test-runner-class com.willowtree.vocable.utility.VocableTestRunner
-
-      - name: Decode Keystore
-        if: github.event_name != 'pull_request'
-        env:
-          ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
-        run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
-
-      - name: Build & Assemble Release APK
-        if: github.event_name != 'pull_request'
-        env:
-          VERSION_CODE: ${{ github.run_number }}
-          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-        run: |
-          ./gradlew assembleRelease
-
-      - name: Install Firebase CLI
-        if: github.event_name != 'pull_request'
-        run: npm install -g firebase-tools
-
-      - name: Decode Firebase Service Account JSON
-        if: github.event_name != 'pull_request'
-        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE_64 }} | base64 -d > service_account.json
-
-      - name: Deploy to Firebase
-        if: github.event_name != 'pull_request'
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: service_account.json
-        run: firebase appdistribution:distribute app/build/outputs/apk/release/app-release.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "internal"
-
-      - name: Upload to Play Store
-        if: github.event_name != 'pull_request'
-        uses: r0adkll/upload-google-play@v1
+      - uses: actions/upload-artifact@v4
         with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CREDENTIALS }}
-          packageName: com.willowtree.vocable
-          releaseFiles: app/build/outputs/apk/release/app-release.apk
-          track: alpha
+          name: apk
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+
+  pre-release-upload:
+    needs: build
+    if: github.event_name != 'pull_request'
+    uses: ./.github/workflows/pre-release-upload.yml
+    secrets: inherit

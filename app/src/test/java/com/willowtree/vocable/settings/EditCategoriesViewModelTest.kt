@@ -1,12 +1,9 @@
 package com.willowtree.vocable.settings
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.presets.createStoredCategory
-import com.willowtree.vocable.settings.editcategories.EditCategoriesPage
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -18,9 +15,6 @@ class EditCategoriesViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private val categoriesUseCase = FakeCategoriesUseCase()
 
     private fun createViewModel(): EditCategoriesViewModel {
@@ -30,7 +24,7 @@ class EditCategoriesViewModelTest {
     }
 
     @Test
-    fun `categories are populated`() {
+    fun `categories are populated`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 createStoredCategory(categoryId = "1")
@@ -39,16 +33,18 @@ class EditCategoriesViewModelTest {
         val vm = createViewModel()
         vm.refreshCategories()
 
-        assertEquals(
-            listOf(
-                createStoredCategory(categoryId = "1")
-            ),
-            vm.categoryList.getOrAwaitValue()
-        )
+        vm.categoryList.test {
+            assertEquals(
+                listOf(
+                    createStoredCategory(categoryId = "1")
+                ),
+                awaitItem()
+            )
+        }
     }
 
     @Test
-    fun `move category up`() {
+    fun `move category up`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 createStoredCategory(
@@ -65,23 +61,25 @@ class EditCategoriesViewModelTest {
         vm.refreshCategories()
         vm.moveCategoryUp("2")
 
-        assertEquals(
-            listOf(
-                createStoredCategory(
-                    categoryId = "2",
-                    sortOrder = 0
+        vm.categoryList.test {
+            assertEquals(
+                listOf(
+                    createStoredCategory(
+                        categoryId = "2",
+                        sortOrder = 0
+                    ),
+                    createStoredCategory(
+                        categoryId = "1",
+                        sortOrder = 1
+                    )
                 ),
-                createStoredCategory(
-                    categoryId = "1",
-                    sortOrder = 1
-                )
-            ),
-            vm.categoryList.getOrAwaitValue()
-        )
+                awaitItem()
+            )
+        }
     }
 
     @Test
-    fun `move category down`() {
+    fun `move category down`() = runTest {
         categoriesUseCase._categories.update {
             listOf(
                 createStoredCategory(
@@ -98,61 +96,21 @@ class EditCategoriesViewModelTest {
         vm.refreshCategories()
         vm.moveCategoryDown("1")
 
-        assertEquals(
-            listOf(
-                createStoredCategory(
-                    categoryId = "2",
-                    sortOrder = 0
+        vm.categoryList.test {
+            assertEquals(
+                listOf(
+                    createStoredCategory(
+                        categoryId = "2",
+                        sortOrder = 0
+                    ),
+                    createStoredCategory(
+                        categoryId = "1",
+                        sortOrder = 1
+                    )
                 ),
-                createStoredCategory(
-                    categoryId = "1",
-                    sortOrder = 1
-                )
-            ),
-            vm.categoryList.getOrAwaitValue()
-        )
-    }
-
-    @Test
-    fun `category pages are populated`() = runTest {
-        categoriesUseCase._categories.update {
-            listOf(
-                createStoredCategory(categoryId = "1"),
-                createStoredCategory(categoryId = "2"),
-                createStoredCategory(categoryId = "3"),
-                createStoredCategory(categoryId = "4"),
-                createStoredCategory(categoryId = "5"),
-                createStoredCategory(categoryId = "6"),
-                createStoredCategory(categoryId = "7"),
-                createStoredCategory(categoryId = "8"),
-                createStoredCategory(categoryId = "9"),
+                awaitItem()
             )
         }
-        val vm = createViewModel()
-        vm.refreshCategories()
-
-        assertEquals(
-            listOf(
-                EditCategoriesPage(
-                    listOf(
-                        createStoredCategory(categoryId = "1"),
-                        createStoredCategory(categoryId = "2"),
-                        createStoredCategory(categoryId = "3"),
-                        createStoredCategory(categoryId = "4"),
-                        createStoredCategory(categoryId = "5"),
-                        createStoredCategory(categoryId = "6"),
-                        createStoredCategory(categoryId = "7"),
-                        createStoredCategory(categoryId = "8"),
-                    )
-                ),
-                EditCategoriesPage(
-                    listOf(
-                        createStoredCategory(categoryId = "9"),
-                    )
-                )
-            ),
-            vm.categoryPages.first()
-        )
     }
 
 }
