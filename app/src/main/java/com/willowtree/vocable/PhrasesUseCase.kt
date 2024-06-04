@@ -70,13 +70,19 @@ class PhrasesUseCase(
     }
 
     override suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
-        storedPhrasesRepository.addPhrase(PhraseDto(
-            phraseId = uuidProvider.randomUUIDString(),
-            parentCategoryId = parentCategoryId,
-            creationDate = dateProvider.currentTimeMillis(),
-            lastSpokenDate = null,
-            localizedUtterance = localizedUtterance,
-            sortOrder = legacyPhrasesRepository.getPhrasesForCategory(parentCategoryId).size
-        ))
+        if (parentCategoryId != PresetCategories.RECENTS.id) {
+            storedPhrasesRepository.addPhrase(PhraseDto(
+                phraseId = uuidProvider.randomUUIDString(),
+                parentCategoryId = parentCategoryId,
+                creationDate = dateProvider.currentTimeMillis(),
+                lastSpokenDate = null,
+                localizedUtterance = localizedUtterance,
+                sortOrder = legacyPhrasesRepository.getPhrasesForCategory(parentCategoryId).size
+            ))
+        } else {
+            throw Exception("The 'Recents' category is not a true category -" +
+                    " it is a filter applied to true categories. Therefore, saving phrases from " +
+                    "the Recents 'category' is not supported.")
+        }
     }
 }
