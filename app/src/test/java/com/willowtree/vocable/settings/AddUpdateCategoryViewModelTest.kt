@@ -3,8 +3,8 @@ package com.willowtree.vocable.settings
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
+import com.willowtree.vocable.basetest.utils.FakeLocaleProvider
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.utils.FakeLocaleProvider
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
