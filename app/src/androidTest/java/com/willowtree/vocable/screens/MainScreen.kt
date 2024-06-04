@@ -47,7 +47,6 @@ class MainScreen {
             onView(withText(phrase)).check(matches(isDisplayed()))
         }
     }
-
     // Taps on the selected phrase
     fun tapPhrase(phraseText: String) {
         onView(withText(phraseText)).tap()

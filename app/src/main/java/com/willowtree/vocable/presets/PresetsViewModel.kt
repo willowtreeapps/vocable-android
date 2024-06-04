@@ -34,7 +34,20 @@ class PresetsViewModel(
         categoriesUseCase.categories(),
         liveSelectedCategoryId
     ) { categories, selectedId ->
-        categories.find { it.categoryId == selectedId }
+        val currentCategory = categories.find { it.categoryId == selectedId }
+        if (currentCategory?.hidden == true) {
+            val newSortOrder = (currentCategory.sortOrder + 1)
+            val newCategory = categories.find { it.sortOrder == newSortOrder}
+            if (newCategory != null) {
+                liveSelectedCategoryId.update { newCategory.categoryId }
+                categories.find { it.sortOrder == newSortOrder}
+            } else {
+                liveSelectedCategoryId.update { categories.first().categoryId }
+                categories.first()
+            }
+        } else {
+            currentCategory
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
     val selectedCategoryLiveData: LiveData<Category?> = selectedCategory.asLiveData()
 
