@@ -1,5 +1,6 @@
-package com.willowtree.vocable.presets
+package com.willowtree.vocable.basetest.utils.presets
 
+import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.locale.LocalesWithText
 
 fun createStoredCategory(

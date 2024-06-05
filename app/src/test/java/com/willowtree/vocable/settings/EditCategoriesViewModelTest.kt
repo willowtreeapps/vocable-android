@@ -3,7 +3,7 @@ package com.willowtree.vocable.settings
 import app.cash.turbine.test
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.presets.createStoredCategory
+import com.willowtree.vocable.basetest.utils.presets.createStoredCategory
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
