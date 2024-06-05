@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 rootProject.name = "vocable-android"
 
 include(":app")
+include(":basetest")

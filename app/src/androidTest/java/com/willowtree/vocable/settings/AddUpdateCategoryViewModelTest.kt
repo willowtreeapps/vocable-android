@@ -6,9 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.FakeUUIDProvider
-import com.willowtree.vocable.FakeLocaleProvider
 import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.PhrasesUseCase
+import com.willowtree.vocable.basetest.utils.FakeLocaleProvider
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
