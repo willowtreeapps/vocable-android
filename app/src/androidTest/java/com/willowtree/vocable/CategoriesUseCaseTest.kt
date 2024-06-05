@@ -3,6 +3,7 @@ package com.willowtree.vocable
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.willowtree.vocable.basetest.utils.FakeLocaleProvider
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetPhrase
@@ -13,8 +14,8 @@ import com.willowtree.vocable.room.RoomStoredCategoriesRepository
 import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
-import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
