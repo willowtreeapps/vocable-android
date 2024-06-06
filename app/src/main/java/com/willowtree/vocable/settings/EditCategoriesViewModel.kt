@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.room.CategorySortOrder
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -48,45 +47,16 @@ class EditCategoriesViewModel(
     }
 
     fun moveCategoryUp(categoryId: String) {
-        viewModelScope.launch {
-            val categories = categoriesUseCase.categories().first()
-            val catIndex = categories.indexOfFirst { it.categoryId == categoryId }
-            if (catIndex in 1 until categories.size) {
-                val category = categories[catIndex]
-                val previousCat = categories[catIndex - 1]
 
-                swapSortOrders(categories, previousCat, category)
-            }
+        viewModelScope.launch {
+            categoriesUseCase.moveCategoryUp(categoryId)
         }
     }
 
     fun moveCategoryDown(categoryId: String) {
         viewModelScope.launch {
-            val categories = categoriesUseCase.categories().first()
-            val catIndex = categories.indexOfFirst { it.categoryId == categoryId }
-            if (catIndex in 0 until categories.size - 1) {
-                val category = categories[catIndex]
-                val nextCat = categories[catIndex + 1]
-
-                swapSortOrders(categories, category, nextCat)
-            }
+            categoriesUseCase.moveCategoryDown(categoryId)
         }
     }
 
-    private suspend fun swapSortOrders(
-        categories: List<Category>,
-        leftCategory: Category,
-        rightCategory: Category
-    ) {
-        categoriesUseCase.updateCategorySortOrders(
-            categories.map {
-                val sortOrder = when (it.categoryId) {
-                    rightCategory.categoryId -> leftCategory.sortOrder
-                    leftCategory.categoryId -> rightCategory.sortOrder
-                    else -> it.sortOrder
-                }
-                CategorySortOrder(it.categoryId, sortOrder)
-            }
-        )
-    }
 }
