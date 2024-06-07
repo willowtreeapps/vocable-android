@@ -27,7 +27,7 @@ class EditCategoriesViewModel(
 
             overallCategories = categoriesUseCase.categories().first()
 
-            // Check if a new category was added and scroll to it
+            // Check if a new category was added and scroll to it only immediately after added
             if (oldCategories.isNotEmpty() && oldCategories.size < overallCategories.size) {
                 when (val firstHiddenIndex = overallCategories.indexOfFirst { it.hidden }) {
                     -1 -> {
@@ -42,6 +42,9 @@ class EditCategoriesViewModel(
                         liveLastViewedIndex.postValue(firstHiddenIndex - 1)
                     }
                 }
+            }
+            else {
+                liveLastViewedIndex.postValue(0)
             }
         }
     }
