@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.willowtree.vocable.basetest.utils.FakeLocaleProvider
 import com.willowtree.vocable.presets.CustomPhrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.room.PhraseDto
@@ -11,8 +12,8 @@ import com.willowtree.vocable.room.RoomPresetPhrasesRepository
 import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
-import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import junit.framework.Assert.assertEquals
@@ -43,6 +44,7 @@ class PhrasesUseCaseTest {
     private val testLocalesWithText = LocalesWithText(
         mapOf("en" to "text")
     )
+    private val localeProvider = FakeLocaleProvider()
 
     private fun createUseCase(): PhrasesUseCase {
         return PhrasesUseCase(
@@ -52,7 +54,8 @@ class PhrasesUseCaseTest {
             dateProvider = dateProvider,
             uuidProvider = object : UUIDProvider {
                 override fun randomUUIDString(): String = "random"
-            }
+            },
+            localeProvider = localeProvider
         )
     }
 
@@ -172,24 +175,54 @@ class PhrasesUseCaseTest {
     fun updatePhrase_updatesCustomPhrase() = runTest {
         val useCase = createUseCase()
         val phraseId = "1"
-        val localizedUtterance = LocalesWithText(mapOf("en" to "updated text"))
         storedPhrasesRepository.addPhrase(
             PhraseDto(
                 phraseId = phraseId,
                 parentCategoryId = "category",
                 creationDate = 0L,
                 lastSpokenDate = null,
-                localizedUtterance = testLocalesWithText,
+                localizedUtterance = LocalesWithText(localeProvider.getDefaultLocaleString() to "text"),
                 sortOrder = 0
             )
         )
 
-        useCase.updatePhrase(phraseId, localizedUtterance)
+        useCase.updatePhrase(phraseId, "updated text")
 
         val updatedPhrases = useCase.getPhrasesForCategory("category")
         assertEquals(updatedPhrases.size, 1)
         assertEquals(
-            localizedUtterance,
+            LocalesWithText(localeProvider.getDefaultLocaleString() to "updated text"),
+            (updatedPhrases[0] as CustomPhrase).localizedUtterance
+        )
+    }
+
+    @Test
+    fun updatePhrase_updatesCustomPhrase_leaving_other_locale() = runTest {
+        val useCase = createUseCase()
+        val phraseId = "1"
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = phraseId,
+                parentCategoryId = "category",
+                creationDate = 0L,
+                lastSpokenDate = null,
+                localizedUtterance = LocalesWithText(
+                    localeProvider.getDefaultLocaleString() to "text",
+                    "other_locale" to "other text"
+                ),
+                sortOrder = 0
+            )
+        )
+
+        useCase.updatePhrase(phraseId, "updated text")
+
+        val updatedPhrases = useCase.getPhrasesForCategory("category")
+        assertEquals(updatedPhrases.size, 1)
+        assertEquals(
+            LocalesWithText(
+                localeProvider.getDefaultLocaleString() to "updated text",
+                "other_locale" to "other text"
+            ),
             (updatedPhrases[0] as CustomPhrase).localizedUtterance
         )
     }
@@ -199,9 +232,10 @@ class PhrasesUseCaseTest {
         val useCase = createUseCase()
         presetPhrasesRepository.populateDatabase()
         val phraseId = "category_123_0"
-        val localizedUtterance = LocalesWithText(mapOf("en" to "updated text"))
+        val localizedUtterance =
+            LocalesWithText(localeProvider.getDefaultLocaleString() to "updated text")
 
-        useCase.updatePhrase(phraseId, localizedUtterance)
+        useCase.updatePhrase(phraseId, "updated text")
 
         val newCustomPhrase = useCase.getPhrasesForCategory(PresetCategories.USER_KEYPAD.id)
             .singleOrNull { it.phraseId == phraseId } as CustomPhrase
