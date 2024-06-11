@@ -17,6 +17,7 @@ import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.utility.VocableKoinTestRule
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import com.willowtree.vocable.utils.locale.LocalesWithText
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -341,8 +342,8 @@ class MigrationTest {
             ), categories
         )
 
-        val customPhrases = db.phraseDao().getPhrasesForCategory("custom")
-        val recentPhrases = db.phraseDao().getPhrasesForCategory("recents")
+        val customPhrases = db.phraseDao().getPhrasesForCategory("custom").first()
+        val recentPhrases = db.phraseDao().getPhrasesForCategory("recents").first()
         assertEquals(
             listOf(
                 PhraseDto(
