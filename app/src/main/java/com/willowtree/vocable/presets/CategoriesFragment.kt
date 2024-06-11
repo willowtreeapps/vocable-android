@@ -15,8 +15,7 @@ import com.willowtree.vocable.customviews.CategoryButton
 import com.willowtree.vocable.customviews.PointerListener
 import com.willowtree.vocable.databinding.CategoriesFragmentBinding
 import com.willowtree.vocable.databinding.CategoryButtonBinding
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
 
@@ -35,9 +34,7 @@ class CategoriesFragment : BaseFragment<CategoriesFragmentBinding>() {
     override val bindingInflater: BindingInflater<CategoriesFragmentBinding> =
         CategoriesFragmentBinding::inflate
 
-    private val viewModel: PresetsViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val viewModel: PresetsViewModel by activityViewModel()
     private val allViews = mutableListOf<View>()
     private var maxCategories = 1
 

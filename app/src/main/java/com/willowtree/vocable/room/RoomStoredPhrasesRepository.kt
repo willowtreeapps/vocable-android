@@ -4,6 +4,8 @@ import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RoomStoredPhrasesRepository(
     private val database: VocableDatabase,
@@ -26,8 +28,18 @@ class RoomStoredPhrasesRepository(
         return database.phraseDao().getRecentPhrases().map { it.asPhrase() }
     }
 
+    override fun getRecentPhrasesFlow(): Flow<List<Phrase>> {
+        return database.phraseDao().getRecentPhrasesFlow()
+            .map { phraseList -> phraseList.map { it.asPhrase() } }
+    }
+
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return database.phraseDao().getPhrasesForCategory(categoryId).map { it.asPhrase() }
+    }
+
+    override fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<Phrase>> {
+        return database.phraseDao().getPhrasesForCategoryFlow(categoryId)
+            .map { phraseList -> phraseList.map { it.asPhrase() } }
     }
 
     override suspend fun getPhrase(phraseId: String): Phrase? {

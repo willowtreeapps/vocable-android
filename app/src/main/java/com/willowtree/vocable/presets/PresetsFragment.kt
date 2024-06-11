@@ -20,8 +20,7 @@ import com.willowtree.vocable.databinding.FragmentPresetsBinding
 import com.willowtree.vocable.utils.SpokenText
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import com.willowtree.vocable.utils.VocableTextToSpeech
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
 
@@ -34,9 +33,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     private var isPortraitMode = true
     private var isTabletMode = false
 
-    private val presetsViewModel: PresetsViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val presetsViewModel: PresetsViewModel by activityViewModel()
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
 

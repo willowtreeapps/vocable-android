@@ -6,12 +6,14 @@ safe-args = "2.6.0"
 google-services = "4.3.15"
 crashlytics = "2.8.1"
 androidx-test = "1.5.0"
+koin = "3.5.6"
 
 [libraries]
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test"}
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
