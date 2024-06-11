@@ -1,8 +1,9 @@
 package com.willowtree.vocable.settings
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.IPhrasesUseCase
 import com.willowtree.vocable.presets.Category
@@ -11,31 +12,21 @@ import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import kotlinx.coroutines.launch
 
 class EditCategoryPhrasesViewModel(
+    savedStateHandle: SavedStateHandle,
     private val phrasesUseCase: IPhrasesUseCase,
     private val localizedResourceUtility: ILocalizedResourceUtility
-): ViewModel() {
-    private val liveCategoryPhraseList = MutableLiveData<List<Phrase>>()
-    val categoryPhraseList: LiveData<List<Phrase>> = liveCategoryPhraseList
+) : ViewModel() {
+
+    val categoryPhraseList: LiveData<List<Phrase>> = phrasesUseCase.getPhrasesForCategoryFlow(savedStateHandle.get<Category>("category")!!.categoryId)
+        .asLiveData()
 
     fun getCategoryName(category: Category): String {
         return localizedResourceUtility.getTextFromCategory(category)
     }
 
-    fun fetchCategoryPhrases(category: Category) {
+    fun deletePhraseFromCategory(phrase: Phrase) {
         viewModelScope.launch {
-            val phrasesForCategory = phrasesUseCase.getPhrasesForCategory(category.categoryId)
-                .sortedBy { it.sortOrder }
-            liveCategoryPhraseList.postValue(phrasesForCategory)
-        }
-    }
-
-    fun deletePhraseFromCategory(phrase: Phrase, category: Category) {
-        viewModelScope.launch {
-
             phrasesUseCase.deletePhrase(phrase.phraseId)
-
-            // Refresh phrase list
-            fetchCategoryPhrases(category)
         }
     }
 }

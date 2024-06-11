@@ -79,8 +79,7 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
 
-    implementation 'io.insert-koin:koin-core:3.1.5'
-    implementation 'io.insert-koin:koin-android:3.1.5'
+    implementation(libs.koin.android)
 
     implementation "androidx.room:room-runtime:2.5.2"
     kapt "androidx.room:room-compiler:2.5.2"

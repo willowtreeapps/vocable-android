@@ -1,6 +1,12 @@
 package com.willowtree.vocable.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PhraseDao {
@@ -26,8 +32,14 @@ interface PhraseDao {
     @Query("SELECT * FROM Phrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
     suspend fun getRecentPhrases(): List<PhraseDto>
 
+    @Query("SELECT * FROM Phrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
+    fun getRecentPhrasesFlow(): Flow<List<PhraseDto>>
+
     @Query("SELECT * FROM Phrase WHERE parent_category_id == :categoryId")
     suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto>
+
+    @Query("SELECT * FROM Phrase WHERE parent_category_id == :categoryId")
+    fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<PhraseDto>>
 
     @Query("SELECT * FROM Phrase WHERE phrase_id == :phraseId")
     suspend fun getPhrase(phraseId: String): PhraseDto?

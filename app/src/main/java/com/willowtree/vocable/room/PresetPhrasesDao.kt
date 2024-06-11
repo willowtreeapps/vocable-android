@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PresetPhrasesDao {
@@ -21,8 +22,14 @@ interface PresetPhrasesDao {
     @Query("SELECT * FROM PresetPhrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
     suspend fun getRecentPhrases(): List<PresetPhraseDto>
 
+    @Query("SELECT * FROM PresetPhrase WHERE last_spoken_date IS NOT NULL ORDER BY last_spoken_date DESC LIMIT 8")
+    fun getRecentPhrasesFlow(): Flow<List<PresetPhraseDto>>
+
     @Query("SELECT * FROM PresetPhrase WHERE parent_category_id = :categoryId")
     suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhraseDto>
+
+    @Query("SELECT * FROM PresetPhrase WHERE parent_category_id = :categoryId")
+    fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<PresetPhraseDto>>
 
     @Query("SELECT * FROM PresetPhrase WHERE phrase_id = :phraseId")
     suspend fun getPhrase(phraseId: String): PresetPhraseDto?
