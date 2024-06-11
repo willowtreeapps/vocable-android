@@ -60,7 +60,8 @@ class EditCategoriesViewModelTest {
             storedPhrasesRepository,
             presetPhrasesRepository,
             FakeDateProvider(),
-            FakeUUIDProvider()
+            FakeUUIDProvider(),
+            FakeLocaleProvider()
         )
     )
 
