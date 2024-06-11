@@ -8,6 +8,7 @@ import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 
 class LegacyCategoriesAndPhrasesRepository(
@@ -24,11 +25,11 @@ class LegacyCategoriesAndPhrasesRepository(
     }
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> {
-        return database.phraseDao().getPhrasesForCategory(categoryId)
+        return database.phraseDao().getPhrasesForCategory(categoryId).first()
     }
 
     override suspend fun getRecentPhrases(): List<PhraseDto> =
-        database.phraseDao().getRecentPhrases()
+        database.phraseDao().getRecentPhrases().first()
 
     override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
         database.categoryDao().updateCategorySortOrders(categorySortOrders)

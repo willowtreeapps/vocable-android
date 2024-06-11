@@ -24,21 +24,13 @@ class RoomStoredPhrasesRepository(
         )
     }
 
-    override suspend fun getRecentPhrases(): List<Phrase> {
-        return database.phraseDao().getRecentPhrases().map { it.asPhrase() }
-    }
-
     override fun getRecentPhrasesFlow(): Flow<List<Phrase>> {
-        return database.phraseDao().getRecentPhrasesFlow()
+        return database.phraseDao().getRecentPhrases()
             .map { phraseList -> phraseList.map { it.asPhrase() } }
     }
 
-    override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
-        return database.phraseDao().getPhrasesForCategory(categoryId).map { it.asPhrase() }
-    }
-
     override fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<Phrase>> {
-        return database.phraseDao().getPhrasesForCategoryFlow(categoryId)
+        return database.phraseDao().getPhrasesForCategory(categoryId)
             .map { phraseList -> phraseList.map { it.asPhrase() } }
     }
 
