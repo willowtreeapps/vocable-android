@@ -7,11 +7,13 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.ICategoriesUseCase
 import com.willowtree.vocable.IPhrasesUseCase
+import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.IdlingResourceContainer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -23,7 +25,8 @@ import kotlinx.coroutines.launch
 class PresetsViewModel(
     private val categoriesUseCase: ICategoriesUseCase,
     private val phrasesUseCase: IPhrasesUseCase,
-    private val idlingResourceContainer: IdlingResourceContainer
+    private val idlingResourceContainer: IdlingResourceContainer,
+    private val localizedResourceUtility: ILocalizedResourceUtility
 ) : ViewModel() {
 
     val categoryList: LiveData<List<Category>> = categoriesUseCase.categories()
@@ -53,24 +56,30 @@ class PresetsViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
     val selectedCategoryLiveData: LiveData<Category?> = selectedCategory.asLiveData()
 
-    val currentPhrases: LiveData<List<Phrase?>> = selectedCategoryId
+    val currentPhrases: LiveData<List<PhraseGridItem>> = selectedCategoryId
         .filterNotNull()
         .flatMapLatest { categoryId ->
             phrasesUseCase.getPhrasesForCategoryFlow(categoryId).map { phrases ->
-                val phrasesToReturn = phrases.run {
+                val phraseGridItems: List<PhraseGridItem> = phrases.run {
                     if (categoryId != PresetCategories.RECENTS.id) {
                         sortedBy { it.sortOrder }
                     } else {
                         this
                     }
-                }.toMutableList<Phrase?>()
-                if (categoryId != PresetCategories.RECENTS.id && categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
-                    //Add null to end of normal non empty category phrase list for the "+ Add Phrase" button
-                    phrasesToReturn.add(null)
+                }.map {
+                    PhraseGridItem.Phrase(
+                        it.phraseId,
+                        localizedResourceUtility.getTextFromPhrase(it)
+                    )
                 }
-                phrasesToReturn
+                if (categoryId != PresetCategories.RECENTS.id && categoryId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
+                    phraseGridItems + PhraseGridItem.AddPhrase
+                } else {
+                    phraseGridItems
+                }
             }
         }
+        .distinctUntilChanged()
         .asLiveData()
 
     private val liveNavToAddPhrase = MutableLiveData<Boolean>()
@@ -90,10 +99,10 @@ class PresetsViewModel(
         selectedCategoryId.update { categoryId }
     }
 
-    fun addToRecents(phrase: Phrase) {
+    fun addToRecents(phraseId: String) {
         viewModelScope.launch {
             idlingResourceContainer.run {
-                phrasesUseCase.updatePhraseLastSpokenTime(phrase.phraseId)
+                phrasesUseCase.updatePhraseLastSpokenTime(phraseId)
             }
         }
     }

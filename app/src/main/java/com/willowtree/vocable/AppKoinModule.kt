@@ -101,7 +101,7 @@ val vocableKoinModule = module {
     single { VocableDatabase.createVocableDatabase(get()) }
     single { get<VocableDatabase>().presetPhrasesDao() }
     single<VocableEnvironment> { VocableEnvironmentImpl() }
-    viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>())) }
+    viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get()) }
     viewModel { EditCategoriesViewModel(get()) }
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
     viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
