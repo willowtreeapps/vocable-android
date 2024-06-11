@@ -8,6 +8,7 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.room.CategoryDto
 import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
 import com.willowtree.vocable.utils.IdlingResourceContainerImpl
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,7 +35,8 @@ class PresetsViewModelTest {
         return PresetsViewModel(
             fakeCategoriesUseCase,
             fakePhrasesUseCase,
-            prodIdlingResourceContainer
+            prodIdlingResourceContainer,
+            FakeLocalizedResourceUtility()
         )
     }
 
@@ -109,126 +111,129 @@ class PresetsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `selected category is hidden and next immediate category is shown`() = runTest(UnconfinedTestDispatcher()) {
-        fakeCategoriesUseCase._categories.update {
-            listOf(
-                Category.StoredCategory(
-                    categoryId = "1",
-                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                    hidden = true,
-                    sortOrder = 0
-                ),
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                    hidden = false,
-                    sortOrder = 1
+    fun `selected category is hidden and next immediate category is shown`() =
+        runTest(UnconfinedTestDispatcher()) {
+            fakeCategoriesUseCase._categories.update {
+                listOf(
+                    Category.StoredCategory(
+                        categoryId = "1",
+                        localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                        hidden = true,
+                        sortOrder = 0
+                    ),
+                    Category.StoredCategory(
+                        categoryId = "2",
+                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                        hidden = false,
+                        sortOrder = 1
+                    )
                 )
-            )
+            }
+
+            val vm = createViewModel()
+
+            vm.onCategorySelected("1")
+
+            vm.selectedCategory.test {
+                assertEquals(
+                    Category.StoredCategory(
+                        categoryId = "2",
+                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                        hidden = false,
+                        sortOrder = 1
+                    ),
+                    awaitItem()
+                )
+            }
         }
-
-        val vm = createViewModel()
-
-        vm.onCategorySelected("1")
-
-        vm.selectedCategory.test {
-            assertEquals(
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                    hidden = false,
-                    sortOrder = 1
-                ),
-                awaitItem()
-            )
-        }
-    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `selected category (last in list) is hidden and first category is shown`() = runTest(UnconfinedTestDispatcher()) {
-        fakeCategoriesUseCase._categories.update {
-            listOf(
-                Category.StoredCategory(
-                    categoryId = "1",
-                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                    hidden = false,
-                    sortOrder = 0
-                ),
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                    hidden = false,
-                    sortOrder = 1
-                ),
-                Category.StoredCategory(
-                    categoryId = "3",
-                    localizedName = LocalesWithText(mapOf("en_US" to "third category")),
-                    hidden = true,
-                    sortOrder = 2
+    fun `selected category (last in list) is hidden and first category is shown`() =
+        runTest(UnconfinedTestDispatcher()) {
+            fakeCategoriesUseCase._categories.update {
+                listOf(
+                    Category.StoredCategory(
+                        categoryId = "1",
+                        localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                        hidden = false,
+                        sortOrder = 0
+                    ),
+                    Category.StoredCategory(
+                        categoryId = "2",
+                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                        hidden = false,
+                        sortOrder = 1
+                    ),
+                    Category.StoredCategory(
+                        categoryId = "3",
+                        localizedName = LocalesWithText(mapOf("en_US" to "third category")),
+                        hidden = true,
+                        sortOrder = 2
+                    )
                 )
-            )
+            }
+
+            val vm = createViewModel()
+
+            vm.onCategorySelected("3")
+
+            vm.selectedCategory.test {
+                assertEquals(
+                    Category.StoredCategory(
+                        categoryId = "1",
+                        localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                        hidden = false,
+                        sortOrder = 0
+                    ),
+                    awaitItem()
+                )
+            }
         }
-
-        val vm = createViewModel()
-
-        vm.onCategorySelected("3")
-
-        vm.selectedCategory.test {
-            assertEquals(
-                Category.StoredCategory(
-                    categoryId = "1",
-                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                    hidden = false,
-                    sortOrder = 0
-                ),
-                awaitItem()
-            )
-        }
-    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `selected category is hidden and next non-hidden category is shown`() = runTest(UnconfinedTestDispatcher()) {
-        fakeCategoriesUseCase._categories.update {
-            listOf(
-                Category.StoredCategory(
-                    categoryId = "1",
-                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                    hidden = true,
-                    sortOrder = 0
-                ),
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                    hidden = false,
-                    sortOrder = 1
-                ),
-                Category.StoredCategory(
-                    categoryId = "3",
-                    localizedName = LocalesWithText(mapOf("en_US" to "third category")),
-                    hidden = true,
-                    sortOrder = 2
+    fun `selected category is hidden and next non-hidden category is shown`() =
+        runTest(UnconfinedTestDispatcher()) {
+            fakeCategoriesUseCase._categories.update {
+                listOf(
+                    Category.StoredCategory(
+                        categoryId = "1",
+                        localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                        hidden = true,
+                        sortOrder = 0
+                    ),
+                    Category.StoredCategory(
+                        categoryId = "2",
+                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                        hidden = false,
+                        sortOrder = 1
+                    ),
+                    Category.StoredCategory(
+                        categoryId = "3",
+                        localizedName = LocalesWithText(mapOf("en_US" to "third category")),
+                        hidden = true,
+                        sortOrder = 2
+                    )
                 )
-            )
+            }
+
+            val vm = createViewModel()
+
+            vm.onCategorySelected("3")
+
+            vm.selectedCategory.test {
+                assertEquals(
+                    Category.StoredCategory(
+                        categoryId = "2",
+                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                        hidden = false,
+                        sortOrder = 1
+                    ),
+                    awaitItem()
+                )
+            }
         }
-
-        val vm = createViewModel()
-
-        vm.onCategorySelected("3")
-
-        vm.selectedCategory.test {
-            assertEquals(
-                Category.StoredCategory(
-                    categoryId = "2",
-                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                    hidden = false,
-                    sortOrder = 1
-                ),
-                awaitItem()
-            )
-        }
-    }
 
     @Test
     fun `current phrases updated when category ID changed`() {
@@ -277,13 +282,11 @@ class PresetsViewModelTest {
 
         assertEquals(
             listOf(
-                CustomPhrase(
+                PhraseGridItem.Phrase(
                     phraseId = "2",
-                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                    sortOrder = 0,
-                    lastSpokenDate = null,
+                    text = "Goodbye",
                 ),
-                null
+                PhraseGridItem.AddPhrase
             ),
             vm.currentPhrases.getOrAwaitValue()
         )
@@ -326,19 +329,15 @@ class PresetsViewModelTest {
         vm.onCategorySelected("2")
         assertEquals(
             listOf(
-                CustomPhrase(
+                PhraseGridItem.Phrase(
                     phraseId = "2",
-                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                    sortOrder = 0,
-                    lastSpokenDate = null,
+                    text = "Goodbye",
                 ),
-                CustomPhrase(
+                PhraseGridItem.Phrase(
                     phraseId = "1",
-                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
-                    sortOrder = 1,
-                    lastSpokenDate = null,
+                    text = "Hello"
                 ),
-                null
+                PhraseGridItem.AddPhrase
             ),
             vm.currentPhrases.getOrAwaitValue()
         )
@@ -381,17 +380,13 @@ class PresetsViewModelTest {
         vm.onCategorySelected(PresetCategories.RECENTS.id)
         assertEquals(
             listOf(
-                CustomPhrase(
+                PhraseGridItem.Phrase(
                     phraseId = "1",
-                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
-                    sortOrder = 1,
-                    lastSpokenDate = null,
+                    text = "Hello",
                 ),
-                CustomPhrase(
+                PhraseGridItem.Phrase(
                     phraseId = "2",
-                    localizedUtterance = LocalesWithText(mapOf("en_US" to "Goodbye")),
-                    sortOrder = 0,
-                    lastSpokenDate = null,
+                    text = "Goodbye",
                 )
             ),
             vm.currentPhrases.getOrAwaitValue()
