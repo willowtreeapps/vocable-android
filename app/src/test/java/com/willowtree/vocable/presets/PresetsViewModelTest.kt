@@ -1,6 +1,7 @@
 package com.willowtree.vocable.presets
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.FakePhrasesUseCase
 import com.willowtree.vocable.MainDispatcherRule
@@ -11,7 +12,6 @@ import com.willowtree.vocable.utils.IdlingResourceContainerImpl
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -94,24 +94,17 @@ class PresetsViewModelTest {
         val vm = createViewModel()
         vm.onCategorySelected("1")
 
-        //TODO: PK - Turbine may make this less painful, punting for now
-        var category: Category? = null
-        val job = launch {
-            vm.selectedCategory.collect {
-                category = it
-            }
+        vm.selectedCategory.test {
+            assertEquals(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                awaitItem()
+            )
         }
-        job.cancel()
-
-        assertEquals(
-            Category.StoredCategory(
-                categoryId = "1",
-                localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                hidden = false,
-                sortOrder = 0
-            ),
-            category
-        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -138,24 +131,17 @@ class PresetsViewModelTest {
 
         vm.onCategorySelected("1")
 
-        var category: Category? = null
-        val job = launch {
-            vm.selectedCategory.collect {
-                category = it
-            }
+        vm.selectedCategory.test {
+            assertEquals(
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = false,
+                    sortOrder = 1
+                ),
+                awaitItem()
+            )
         }
-        job.cancel()
-
-        assertEquals(
-            Category.StoredCategory(
-                categoryId = "2",
-                localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                hidden = false,
-                sortOrder = 1
-            ),
-            category
-        )
-
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -188,23 +174,17 @@ class PresetsViewModelTest {
 
         vm.onCategorySelected("3")
 
-        var category: Category? = null
-        val job = launch {
-            vm.selectedCategory.collect {
-                category = it
-            }
+        vm.selectedCategory.test {
+            assertEquals(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                awaitItem()
+            )
         }
-        job.cancel()
-
-        assertEquals(
-            Category.StoredCategory(
-                categoryId = "1",
-                localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                hidden = false,
-                sortOrder = 0
-            ),
-            category
-        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -237,23 +217,17 @@ class PresetsViewModelTest {
 
         vm.onCategorySelected("3")
 
-        var category: Category? = null
-        val job = launch {
-            vm.selectedCategory.collect {
-                category = it
-            }
+        vm.selectedCategory.test {
+            assertEquals(
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = false,
+                    sortOrder = 1
+                ),
+                awaitItem()
+            )
         }
-        job.cancel()
-
-        assertEquals(
-            Category.StoredCategory(
-                categoryId = "2",
-                localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                hidden = false,
-                sortOrder = 1
-            ),
-            category
-        )
     }
 
     @Test
