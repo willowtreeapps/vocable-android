@@ -5,6 +5,8 @@ import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.presets.PresetPhrase
 import com.willowtree.vocable.presets.asPhrase
 import com.willowtree.vocable.utils.DateProvider
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.koin.core.context.GlobalContext.get
@@ -37,13 +39,23 @@ class RoomPresetPhrasesRepository(
     override suspend fun getRecentPhrases(): List<PresetPhrase> {
         return presetPhrasesDao.getRecentPhrases()
             .filterDeletedPresets()
-            .map { it.asPhrase()}
+            .map { it.asPhrase() }
+    }
+
+    override fun getRecentPhrasesFlow(): Flow<List<PresetPhrase>> {
+        return presetPhrasesDao.getRecentPhrasesFlow()
+            .map { phraseList -> phraseList.filterDeletedPresets().map { it.asPhrase() } }
     }
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<PresetPhrase> {
         return presetPhrasesDao.getPhrasesForCategory(categoryId)
             .filterDeletedPresets()
             .map { it.asPhrase() }
+    }
+
+    override fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<PresetPhrase>> {
+        return presetPhrasesDao.getPhrasesForCategoryFlow(categoryId)
+            .map { phraseList -> phraseList.filterDeletedPresets().map { it.asPhrase() } }
     }
 
     override suspend fun getPhrase(phraseId: String): PresetPhrase? {
@@ -54,7 +66,7 @@ class RoomPresetPhrasesRepository(
         presetPhrasesDao.deletePhrase(phraseId, deleted = true)
     }
 
-    private fun List<PresetPhraseDto>.filterDeletedPresets() : List<PresetPhraseDto> {
+    private fun List<PresetPhraseDto>.filterDeletedPresets(): List<PresetPhraseDto> {
         return filterNot { it.deleted }
     }
 

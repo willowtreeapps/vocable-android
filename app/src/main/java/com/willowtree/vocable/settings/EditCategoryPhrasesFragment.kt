@@ -18,7 +18,6 @@ import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.presets.PresetCategories
 import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseListFragment
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
-import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBinding>() {
@@ -27,9 +26,7 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
 
     override val bindingInflater: BindingInflater<FragmentEditCategoryPhrasesBinding> =
         FragmentEditCategoryPhrasesBinding::inflate
-    private val editCategoriesViewModel: EditCategoryPhrasesViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val editCategoriesViewModel: EditCategoryPhrasesViewModel by viewModel()
 
     private var maxPhrases = 1
     private lateinit var phrasesAdapter: PhrasesPagerAdapter
@@ -116,10 +113,6 @@ class EditCategoryPhrasesFragment : BaseFragment<FragmentEditCategoryPhrasesBind
         }
 
         subscribeToViewModel()
-
-        with(editCategoriesViewModel) {
-            fetchCategoryPhrases(args.category)
-        }
     }
 
     private fun subscribeToViewModel() {
