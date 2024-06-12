@@ -13,7 +13,6 @@ import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBindin
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
-import com.willowtree.vocable.settings.EditCategoryPhrasesViewModel
 import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,7 +33,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
         }
     }
 
-    private val editCategoriesViewModel: EditCategoryPhrasesViewModel by viewModel()
+    private val viewModel: CustomCategoryPhraseViewModel by viewModel()
     private lateinit var category: Category
 
     private val onPhraseEdit = { phrase: Phrase ->
@@ -88,7 +87,7 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
             with(dialogPositiveButton) {
                 setText(R.string.delete)
                 action = {
-                    editCategoriesViewModel.deletePhraseFromCategory(phrase)
+                    viewModel.deletePhraseFromCategory(phrase)
                     toggleDialogVisibility(false)
                 }
             }
