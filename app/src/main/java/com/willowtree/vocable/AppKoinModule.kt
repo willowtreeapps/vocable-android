@@ -19,6 +19,7 @@ import com.willowtree.vocable.settings.AddUpdateCategoryViewModel
 import com.willowtree.vocable.settings.EditCategoriesViewModel
 import com.willowtree.vocable.settings.EditCategoryMenuViewModel
 import com.willowtree.vocable.settings.EditCategoryPhrasesViewModel
+import com.willowtree.vocable.settings.customcategories.CustomCategoryPhraseViewModel
 import com.willowtree.vocable.settings.selectionmode.SelectionModeViewModel
 import com.willowtree.vocable.splash.SplashActivity
 import com.willowtree.vocable.splash.SplashViewModel
@@ -106,4 +107,5 @@ val vocableKoinModule = module {
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
     viewModel { AddUpdateCategoryViewModel(get(), get(), get()) }
     viewModel { EditCategoryMenuViewModel(get()) }
+    viewModel { CustomCategoryPhraseViewModel(get()) }
 }
