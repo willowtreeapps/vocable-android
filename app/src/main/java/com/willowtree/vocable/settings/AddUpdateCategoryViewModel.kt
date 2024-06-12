@@ -45,7 +45,7 @@ class AddUpdateCategoryViewModel(
                 is Category.Recents -> throw IllegalArgumentException("Cannot update Recents category name!")
             }
 
-            val updatedLocalizedNames: LocalesWithText = localesWithText.set(localeProvider.getDefaultLocaleString(), updatedName)
+            val updatedLocalizedNames: LocalesWithText = localesWithText.with(localeProvider.getDefaultLocaleString(), updatedName)
 
             categoriesUseCase.updateCategoryName(toUpdate.categoryId, updatedLocalizedNames)
             liveShowCategoryUpdateMessage.postValue(true)

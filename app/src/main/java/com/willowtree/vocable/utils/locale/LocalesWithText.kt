@@ -27,6 +27,8 @@ data class LocalesWithText(
     val localesTextMap: Map<LocaleString, String>
 ) : Parcelable {
 
+    constructor(vararg pairs: Pair<LocaleString, String>) : this(mapOf(*pairs))
+
     /**
      * Gets the string corresponding to the given localeString.
      * @param localeString The localeString to match against
@@ -46,7 +48,7 @@ data class LocalesWithText(
      * @param text for the localeString
      * @return A new LocalesWithText with the given localeString and text added to the map
      */
-    operator fun set(localeString: LocaleString, text: String): LocalesWithText {
+    fun with(localeString: LocaleString, text: String): LocalesWithText {
         return LocalesWithText(localesTextMap.toMutableMap().apply {
             this[localeString] = text
         })

@@ -11,7 +11,7 @@ interface IPhrasesUseCase {
 
     suspend fun deletePhrase(phraseId: String)
 
-    suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText)
+    suspend fun updatePhrase(phraseId: String, updatedPhrase: String)
 
     suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String)
 }

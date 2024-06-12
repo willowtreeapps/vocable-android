@@ -64,7 +64,8 @@ class CategoriesUseCaseTest {
                 storedPhrasesRepository,
                 presetPhrasesRepository,
                 FakeDateProvider(),
-                FakeUUIDProvider()
+                FakeUUIDProvider(),
+                FakeLocaleProvider()
             )
         )
     }

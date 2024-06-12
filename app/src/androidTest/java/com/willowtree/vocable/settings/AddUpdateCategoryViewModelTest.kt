@@ -68,7 +68,8 @@ class AddUpdateCategoryViewModelTest {
             storedPhrasesRepository,
             presetPhrasesRepository,
             FakeDateProvider(),
-            FakeUUIDProvider()
+            FakeUUIDProvider(),
+            FakeLocaleProvider()
         )
     )
 

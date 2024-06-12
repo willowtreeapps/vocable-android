@@ -28,9 +28,9 @@ import com.willowtree.vocable.utils.FaceTrackingPermissions
 import com.willowtree.vocable.utils.IFaceTrackingPermissions
 import com.willowtree.vocable.utils.ILocalizedResourceUtility
 import com.willowtree.vocable.utils.IVocableSharedPreferences
-import com.willowtree.vocable.utils.JavaDateProvider
 import com.willowtree.vocable.utils.IdlingResourceContainer
 import com.willowtree.vocable.utils.IdlingResourceContainerImpl
+import com.willowtree.vocable.utils.JavaDateProvider
 import com.willowtree.vocable.utils.RandomUUIDProvider
 import com.willowtree.vocable.utils.UUIDProvider
 import com.willowtree.vocable.utils.VocableEnvironment
@@ -90,7 +90,7 @@ val vocableKoinModule = module {
     single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
     single { LocalizedResourceUtility(androidContext()) } bind ILocalizedResourceUtility::class
     single { CategoriesUseCase(get(), get(), get(), get(), get()) } bind ICategoriesUseCase::class
-    single { PhrasesUseCase(get(), get(), get(), get(), get()) } bind IPhrasesUseCase::class
+    single { PhrasesUseCase(get(), get(), get(), get(), get(), get()) } bind IPhrasesUseCase::class
     single { RandomUUIDProvider() } bind UUIDProvider::class
     single { JavaDateProvider() } bind DateProvider::class
     single { JavaLocaleProvider() } bind LocaleProvider::class

@@ -45,7 +45,7 @@ class FakePhrasesUseCase : IPhrasesUseCase {
 
     override suspend fun deletePhrase(phraseId: String) = error("Not implemented")
 
-    override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
+    override suspend fun updatePhrase(phraseId: String, updatedPhrase: String) {
         error("Not implemented")
     }
 
