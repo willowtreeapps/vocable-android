@@ -7,6 +7,7 @@ import com.willowtree.vocable.room.PhraseDto
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 
 class FakePhrasesUseCase : IPhrasesUseCase {
 
@@ -41,7 +42,7 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     }
 
     override fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<Phrase>> {
-        TODO("Not yet implemented")
+        return flowOf(_categoriesToPhrases[categoryId]!!.map { it.asPhrase() })
     }
 
     override suspend fun updatePhraseLastSpokenTime(phraseId: String) {

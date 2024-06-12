@@ -14,6 +14,7 @@ import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 
 class PhrasesUseCase(
     private val legacyPhrasesRepository: ILegacyCategoriesAndPhrasesRepository,
@@ -24,13 +25,7 @@ class PhrasesUseCase(
     private val localeProvider: LocaleProvider
 ) : IPhrasesUseCase {
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
-        if (categoryId == PresetCategories.RECENTS.id) {
-            val presets = presetPhrasesRepository.getRecentPhrases()
-            val stored = storedPhrasesRepository.getRecentPhrases()
-            return (presets + stored).sortedByDescending { it.lastSpokenDate }.take(8)
-        }
-        return storedPhrasesRepository.getPhrasesForCategory(categoryId) +
-                presetPhrasesRepository.getPhrasesForCategory(categoryId)
+        return getPhrasesForCategoryFlow(categoryId).first()
     }
 
     override fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<Phrase>> {
