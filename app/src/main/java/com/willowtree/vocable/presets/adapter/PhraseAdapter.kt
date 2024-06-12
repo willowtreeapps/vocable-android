@@ -8,56 +8,51 @@ import androidx.recyclerview.widget.RecyclerView
 import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.PhraseButtonAddBinding
 import com.willowtree.vocable.databinding.PhraseButtonBinding
-import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import com.willowtree.vocable.presets.PhraseGridItem
 import java.util.Locale
 
 class PhraseAdapter(
-    private val phrases: List<Phrase?>,
+    private val phrases: List<PhraseGridItem>,
     private val numRows: Int,
-    private val phraseClickAction: ((Phrase) -> Unit)?,
+    private val phraseClickAction: ((String) -> Unit)?,
     private val phraseAddClickAction: (() -> Unit)?
-) :
-    RecyclerView.Adapter<PhraseAdapter.PhraseViewHolder>(), KoinComponent {
+) : RecyclerView.Adapter<PhraseAdapter.PhraseViewHolder>() {
 
     abstract inner class PhraseViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(text: String, position: Int)
+        abstract fun bind(position: Int)
     }
 
-    inner class PhraseItemViewHolder(itemView: View) : PhraseAdapter.PhraseViewHolder(itemView) {
+    inner class PhraseGridItemViewHolder(itemView: View) :
+        PhraseAdapter.PhraseViewHolder(itemView) {
 
-        override fun bind(text: String, position: Int) {
-            val binding = PhraseButtonBinding.bind(itemView)
-            binding.root.setText(text, Locale.getDefault())
-            binding.root.action = {
-                phrases[position]?.let { phraseClickAction?.invoke(it) }
+        override fun bind(position: Int) {
+            when (val gridItem = phrases[position]) {
+                is PhraseGridItem.Phrase -> {
+                    val binding = PhraseButtonBinding.bind(itemView)
+                    binding.root.setText(gridItem.text, Locale.getDefault())
+                    binding.root.action = {
+                        phraseClickAction?.invoke(gridItem.phraseId)
+                    }
+                }
+
+                PhraseGridItem.AddPhrase -> {
+                    val binding = PhraseButtonAddBinding.bind(itemView)
+                    binding.root.action = {
+                        phraseAddClickAction?.invoke()
+                    }
+                }
             }
         }
     }
-
-    inner class PhraseAddItemViewHolder(itemView: View) : PhraseAdapter.PhraseViewHolder(itemView) {
-
-        override fun bind(text: String, position: Int) {
-            val binding = PhraseButtonAddBinding.bind(itemView)
-            binding.root.action = {
-                phraseAddClickAction?.invoke()
-            }
-        }
-    }
-
-    private val localizedResourceUtility: LocalizedResourceUtility by inject()
 
     private var _minHeight: Int? = null
 
     override fun getItemViewType(position: Int): Int {
-        return if (phrases[position] == null) {
-            R.layout.phrase_button_add
-        } else {
-            R.layout.phrase_button
+        return when (phrases[position]) {
+            is PhraseGridItem.Phrase -> R.layout.phrase_button
+            PhraseGridItem.AddPhrase -> R.layout.phrase_button_add
         }
     }
 
@@ -74,16 +69,12 @@ class PhraseAdapter(
                 isInvisible = false
             }
         }
-        return if (viewType == R.layout.phrase_button_add) {
-            PhraseAddItemViewHolder(itemView)
-        } else {
-            PhraseItemViewHolder(itemView)
-        }
+
+        return PhraseGridItemViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: PhraseAdapter.PhraseViewHolder, position: Int) {
-        val text = localizedResourceUtility.getTextFromPhrase(phrases[position])
-        holder.bind(text, position)
+        holder.bind(position)
     }
 
     private fun getMinHeight(parent: ViewGroup): Int {

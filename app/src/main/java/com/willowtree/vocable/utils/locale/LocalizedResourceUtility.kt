@@ -13,7 +13,7 @@ class LocalizedResourceUtility(
         return category?.text(context) ?: ""
     }
 
-    fun getTextFromPhrase(phrase: Phrase?): String {
+    override fun getTextFromPhrase(phrase: Phrase?): String {
         return phrase?.text(context) ?: ""
     }
 }

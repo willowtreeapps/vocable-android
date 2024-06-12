@@ -261,7 +261,7 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
         }
     }
 
-    private fun handlePhrases(phrases: List<Phrase?>) {
+    private fun handlePhrases(phrases: List<PhraseGridItem>) {
         binding.emptyPhrasesText.isVisible =
             phrases.isEmpty() && !recentsCategorySelected && categoriesAdapter.getSize() > 0
         binding.emptyAddPhraseButton.isVisible =
@@ -306,9 +306,9 @@ class PresetsFragment : BaseFragment<FragmentPresetsBinding>() {
     }
 
     inner class PhrasesPagerAdapter(fm: FragmentManager) :
-        VocableFragmentStateAdapter<Phrase?>(fm, viewLifecycleOwner.lifecycle) {
+        VocableFragmentStateAdapter<PhraseGridItem>(fm, viewLifecycleOwner.lifecycle) {
 
-        override fun setItems(items: List<Phrase?>) {
+        override fun setItems(items: List<PhraseGridItem>) {
             super.setItems(items)
             setPagingButtonsEnabled(phrasesAdapter.numPages > 1)
         }
