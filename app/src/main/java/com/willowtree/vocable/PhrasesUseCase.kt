@@ -10,6 +10,7 @@ import com.willowtree.vocable.room.PresetPhrasesRepository
 import com.willowtree.vocable.room.StoredPhrasesRepository
 import com.willowtree.vocable.utils.DateProvider
 import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.utils.locale.LocaleProvider
 import com.willowtree.vocable.utils.locale.LocalesWithText
 
 class PhrasesUseCase(
@@ -18,6 +19,7 @@ class PhrasesUseCase(
     private val presetPhrasesRepository: PresetPhrasesRepository,
     private val dateProvider: DateProvider,
     private val uuidProvider: UUIDProvider,
+    private val localeProvider: LocaleProvider
 ) : IPhrasesUseCase {
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         if (categoryId == PresetCategories.RECENTS.id) {
@@ -39,12 +41,14 @@ class PhrasesUseCase(
         presetPhrasesRepository.deletePhrase(phraseId)
     }
 
-    override suspend fun updatePhrase(phraseId: String, localizedUtterance: LocalesWithText) {
+    override suspend fun updatePhrase(phraseId: String, updatedPhrase: String) {
         val phrase = storedPhrasesRepository.getPhrase(phraseId)
             ?: presetPhrasesRepository.getPhrase(phraseId)
-                .takeIf { it != null && !it.deleted }
+                .takeIf { it != null && !it.deleted }!!
         when (phrase) {
             is CustomPhrase -> {
+                val localizedUtterance = (phrase.localizedUtterance ?: LocalesWithText(emptyMap()))
+                    .with(localeProvider.getDefaultLocaleString(), updatedPhrase)
                 storedPhrasesRepository.updatePhraseLocalizedUtterance(
                     phraseId = phraseId,
                     localizedUtterance = localizedUtterance,
@@ -59,7 +63,7 @@ class PhrasesUseCase(
                         parentCategoryId = phrase.parentCategoryId,
                         creationDate = dateProvider.currentTimeMillis(),
                         lastSpokenDate = phrase.lastSpokenDate,
-                        localizedUtterance = localizedUtterance,
+                        localizedUtterance = LocalesWithText(mapOf(localeProvider.getDefaultLocaleString() to updatedPhrase)),
                         sortOrder = phrase.sortOrder
                     )
                 )
