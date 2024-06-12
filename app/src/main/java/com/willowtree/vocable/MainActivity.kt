@@ -22,8 +22,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.ScopeActivity
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.scope.getViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ScopeActivity() {
 
@@ -41,7 +40,7 @@ class MainActivity : ScopeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        faceTrackingViewModel = scope.getViewModel(owner = { ViewModelOwner.from(this) })
+        faceTrackingViewModel = getViewModel()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

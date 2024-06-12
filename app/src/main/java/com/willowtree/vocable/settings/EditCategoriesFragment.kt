@@ -17,8 +17,7 @@ import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import kotlin.math.min
 
 class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
@@ -27,9 +26,7 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
         FragmentEditCategoriesBinding::inflate
 
     private lateinit var categoriesAdapter: CategoriesPagerAdapter
-    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val editCategoriesViewModel: EditCategoriesViewModel by activityViewModel()
 
     private val allViews = mutableListOf<View>()
     private var maxEditCategories = 1

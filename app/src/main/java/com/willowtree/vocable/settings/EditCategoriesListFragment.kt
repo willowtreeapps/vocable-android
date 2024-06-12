@@ -17,8 +17,7 @@ import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.locale.LocalizedResourceUtility
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBinding>() {
 
@@ -41,9 +40,7 @@ class EditCategoriesListFragment : BaseFragment<FragmentEditCategoriesListBindin
 
     override val bindingInflater: BindingInflater<FragmentEditCategoriesListBinding> =
         FragmentEditCategoriesListBinding::inflate
-    private val editCategoriesViewModel: EditCategoriesViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val editCategoriesViewModel: EditCategoriesViewModel by activityViewModel()
     private var maxEditCategories = 1
 
     private var startPosition = 0

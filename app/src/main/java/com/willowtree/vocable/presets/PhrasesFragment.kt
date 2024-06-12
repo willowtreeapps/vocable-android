@@ -11,13 +11,10 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentPhrasesBinding
 import com.willowtree.vocable.presets.adapter.PhraseAdapter
 import com.willowtree.vocable.utils.ItemOffsetDecoration
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class PhrasesFragment : BaseFragment<FragmentPhrasesBinding>() {
-    private val presetsViewModel: PresetsViewModel by viewModel(owner = {
-        ViewModelOwner.from(requireActivity())
-    })
+    private val presetsViewModel: PresetsViewModel by activityViewModel()
 
     companion object {
         private const val KEY_PHRASES = "KEY_PHRASES"
