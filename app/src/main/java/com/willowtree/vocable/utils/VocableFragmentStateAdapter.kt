@@ -31,6 +31,7 @@ abstract class VocableFragmentStateAdapter<T>(fm: FragmentManager, lifecycle: Li
         with(this.items) {
             clear()
             addAll(items)
+            notifyDataSetChanged()
         }
 
         val oldNumPages = numPages
