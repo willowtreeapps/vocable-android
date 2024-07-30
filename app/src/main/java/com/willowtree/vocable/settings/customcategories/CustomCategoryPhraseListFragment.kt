@@ -1,11 +1,11 @@
 package com.willowtree.vocable.settings.customcategories
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.willowtree.vocable.BaseFragment
 import com.willowtree.vocable.BindingInflater
 import com.willowtree.vocable.R
@@ -13,8 +13,7 @@ import com.willowtree.vocable.databinding.FragmentCustomCategoryPhraseListBindin
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.presets.Phrase
 import com.willowtree.vocable.settings.EditCategoryPhrasesFragmentDirections
-import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseAdapter
-import com.willowtree.vocable.utils.ItemOffsetDecoration
+import com.willowtree.vocable.settings.customcategories.adapter.CustomCategoryPhraseGridAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhraseListBinding>() {
@@ -37,7 +36,10 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
     private lateinit var category: Category
 
     private val onPhraseEdit = { phrase: Phrase ->
-        val action = EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToEditPhrasesKeyboardFragment(phrase)
+        val action =
+            EditCategoryPhrasesFragmentDirections.actionEditCategoryPhrasesFragmentToEditPhrasesKeyboardFragment(
+                phrase
+            )
         if (findNavController().currentDestination?.id == R.id.editCategoryPhrasesFragment) {
             findNavController().navigate(action)
         }
@@ -63,16 +65,13 @@ class CustomCategoryPhraseListFragment : BaseFragment<FragmentCustomCategoryPhra
 
         phrases?.let {
             with(binding.customCategoryPhraseHolder) {
-                layoutManager = GridLayoutManager(requireContext(), numColumns)
-                addItemDecoration(
-                    ItemOffsetDecoration(
-                        requireContext(),
-                        R.dimen.edit_category_phrase_button_margin,
-                        it.size
-                    )
+                setNumColumns(numColumns)
+                adapter = CustomCategoryPhraseGridAdapter(
+                    context = requireContext(),
+                    phrases = it,
+                    onPhraseEdit = onPhraseEdit,
+                    onPhraseDelete = onPhraseDelete,
                 )
-                setHasFixedSize(true)
-                adapter = CustomCategoryPhraseAdapter(it, onPhraseEdit, onPhraseDelete)
             }
         }
     }
