@@ -1,19 +1,23 @@
 [versions]
 turbine = "1.1.0"
-kotlin = "1.8.10"
+kotlin = "2.0.20"
 agp = "8.4.1"
 safe-args = "2.6.0"
 google-services = "4.3.15"
 crashlytics = "2.8.1"
 androidx-test = "1.5.0"
 koin = "3.5.6"
+room = "2.6.1"
 
 [libraries]
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test"}
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
