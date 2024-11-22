@@ -14,4 +14,10 @@ class CustomCategoryPhraseViewModel(
             phrasesUseCase.deletePhrase(phrase.phraseId)
         }
     }
+
+    fun deletePhraseFromCategory(phrase: Phrase) {
+        viewModelScope.launch {
+            phrasesUseCase.deletePhrase(phrase.phraseId)
+        }
+    }
 }
