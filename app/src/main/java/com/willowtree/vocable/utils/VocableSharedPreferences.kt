@@ -24,6 +24,7 @@ class VocableSharedPreferences :
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = SensitivityFragment.DWELL_TIME_ONE_SECOND
         const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
+        private const val KEY_FEATURE_PREFIX = "feature_"
     }
 
     private val encryptedPrefs: SharedPreferences by lazy {
@@ -89,5 +90,13 @@ class VocableSharedPreferences :
     @SuppressLint("ApplySharedPref")
     fun clearAll() {
         encryptedPrefs.edit().clear().commit()
+    }
+
+    // Feature flag implementations
+    override fun getFeatureEnabled(key: String, defaultValue: Boolean): Boolean =
+        encryptedPrefs.getBoolean("${KEY_FEATURE_PREFIX}$key", defaultValue)
+
+    override fun setFeatureEnabled(key: String, enabled: Boolean) {
+        encryptedPrefs.edit().putBoolean("${KEY_FEATURE_PREFIX}$key", enabled).apply()
     }
 }

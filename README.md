@@ -50,6 +50,18 @@ We'd love to translate Vocable into as many languages as possible. If you'd like
 ## Contributing
 We love contributions! To get started, please see our [Contributing Guidelines](./CONTRIBUTING.md).
 
+### Feature Flags
+Vocable uses a feature flag system to manage the rollout of new features. There are two types of flags:
+
+1. **Build-time Flags**: Configured in `app/build.gradle` and controlled via build configuration. These are typically used for features that should be enabled/disabled based on the build type (debug/release).
+
+2. **Runtime Flags**: Managed through `SharedPreferences` and can be toggled at runtime. These are useful for features that need to be controlled dynamically, such as through a debug menu.
+
+To add a new feature flag:
+1. Add the build configuration in `app/build.gradle` if needed
+2. Declare the flag in `app/src/main/java/com/willowtree/vocable/utils/features/FeatureFlags.kt`
+3. Use `FeatureFlags.YOUR_FLAG.enabled` to check the flag state
+
 ## Device Requirements
 - [Android devices with ARCore](https://developers.google.com/ar/discover/supported-devices)
 
