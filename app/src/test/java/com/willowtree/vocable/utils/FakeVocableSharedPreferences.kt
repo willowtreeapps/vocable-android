@@ -11,6 +11,8 @@ class FakeVocableSharedPreferences(
     private var firstTime: Boolean = false
 ) : IVocableSharedPreferences {
 
+    private val featureFlags = mutableMapOf<String, Boolean>()
+
     override fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
         // no-op currently
     }
@@ -57,5 +59,12 @@ class FakeVocableSharedPreferences(
 
     override fun getFirstTime(): Boolean {
         return firstTime
+    }
+
+    override fun getFeatureEnabled(key: String, defaultValue: Boolean): Boolean =
+        featureFlags.getOrDefault(key, defaultValue)
+
+    override fun setFeatureEnabled(key: String, enabled: Boolean) {
+        featureFlags[key] = enabled
     }
 }

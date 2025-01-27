@@ -28,4 +28,9 @@ interface IVocableSharedPreferences {
     fun setFirstTime()
 
     fun getFirstTime(): Boolean
+
+    // Feature flag methods
+    fun getFeatureEnabled(key: String, defaultValue: Boolean): Boolean
+
+    fun setFeatureEnabled(key: String, enabled: Boolean)
 }

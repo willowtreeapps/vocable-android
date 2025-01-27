@@ -34,12 +34,14 @@ android {
         release {
             signingConfig signingConfigs.release
             buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
+            buildConfigField("boolean", "ENABLE_LISTEN_MODE", "false")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             def useHeadTracking = project.getProperties().getOrDefault("USE_HEAD_TRACKING", "true")
             buildConfigField("boolean", "USE_HEAD_TRACKING", useHeadTracking)
+            buildConfigField("boolean", "ENABLE_LISTEN_MODE", "true")
         }
     }
     viewBinding {
