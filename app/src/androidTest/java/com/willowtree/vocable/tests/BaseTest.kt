@@ -3,6 +3,7 @@ package com.willowtree.vocable.tests
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.willowtree.vocable.splash.SplashActivity
+import com.willowtree.vocable.utility.DisableAnimationsRule
 import com.willowtree.vocable.utility.IdlingResourceTestRule
 import com.willowtree.vocable.utility.VocableKoinTestRule
 import org.junit.Rule
@@ -17,6 +18,9 @@ open class BaseTest {
 
     @get:Rule(order = 2)
     val activityRule = ActivityScenarioRule(SplashActivity::class.java)
+
+    @get:Rule(order = 3)
+    val disableAnimationsRule = DisableAnimationsRule()
 
     @get:Rule
     var mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA)

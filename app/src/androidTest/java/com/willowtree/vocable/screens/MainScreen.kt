@@ -16,9 +16,17 @@ class MainScreen {
     val defaultPhraseBasicNeeds = arrayOf("I need to go to the restroom", "I am hungry", "I am hot", "I am fine", "I am thirsty", "I am cold", "I am tired", "I am good")
 
     fun verifyDefaultCategoriesExist() {
+        // First verify the first category is visible
+        onView(withId(R.id.category_view))
+            .check(matches(isDisplayed()))
+        
+        // Then verify each category
         for (category in defaultCategories) {
-            onView(allOf(withText(category), withParent(withId(R.id.category_button_container))))
-                .check(matches(isDisplayed()))
+            onView(allOf(
+                withText(category),
+                isDescendantOfA(withId(R.id.category_view))
+            )).check(matches(isDisplayed()))
+            
             categoryForwardButton.tap()
         }
     }
@@ -26,30 +34,43 @@ class MainScreen {
     // Scrolls to the left numTimesToScroll times and then taps the current category
     fun scrollLeftAndTapCurrentCategory(numTimesToScroll: Int) {
        for (i in 1..numTimesToScroll){
-            onView(withId(R.id.category_back_button)).tap()
+            categoryBackButton.tap()
        }
        val currentCategory = defaultCategories.size - (numTimesToScroll % defaultCategories.size)
-       onView(withText(defaultCategories[currentCategory])).tap()
+       onView(allOf(
+           withText(defaultCategories[currentCategory]),
+           isDescendantOfA(withId(R.id.category_view))
+       )).tap()
     }
 
     // Scrolls to the right numTimesToScroll times and then taps the current category
     fun scrollRightAndTapCurrentCategory(numTimesToScroll: Int) {
         for (i in 1..numTimesToScroll){
-            onView(withId(R.id.category_forward_button)).tap()
+            categoryForwardButton.tap()
         }
         val currentCategory = numTimesToScroll % defaultCategories.size
-        onView(withText(defaultCategories[currentCategory])).tap()
+        onView(allOf(
+            withText(defaultCategories[currentCategory]),
+            isDescendantOfA(withId(R.id.category_view))
+        )).tap()
     }
 
     // Verifies that the give phrase is shown on screen
     fun verifyGivenPhrasesDisplay(setOfPhrases: Array<String>) {
         for (phrase in setOfPhrases) {
-            onView(withText(phrase)).check(matches(isDisplayed()))
+            onView(allOf(
+                withText(phrase),
+                isDescendantOfA(withId(R.id.phrases_view))
+            )).check(matches(isDisplayed()))
         }
     }
+    
     // Taps on the selected phrase
     fun tapPhrase(phraseText: String) {
-        onView(withText(phraseText)).tap()
+        onView(allOf(
+            withText(phraseText),
+            isDescendantOfA(withId(R.id.phrases_view))
+        )).tap()
     }
 
     // This function verifies that we are on the Main Screen
@@ -65,7 +86,7 @@ class MainScreen {
     // Categories and preset phrases
     val categoryBackButton = onView(withId(R.id.category_back_button))
     val categoryForwardButton = onView(withId(R.id.category_forward_button))
-    val selectedCategory = onView(withId(R.id.category_button_container))
+    val categoryView = onView(withId(R.id.category_view))
 
     // First phrase of selected category
     val firstPhrase = onView(
@@ -83,5 +104,4 @@ class MainScreen {
 
     // Keyboard
     val keyboardCont = onView(withId(R.id.keyboard_key_holder))
-
 }

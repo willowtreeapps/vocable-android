@@ -6,7 +6,6 @@ import com.willowtree.vocable.screens.MainScreen
 import com.willowtree.vocable.utility.assertElementExists
 import com.willowtree.vocable.utility.assertTextMatches
 import com.willowtree.vocable.utility.tap
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -16,7 +15,7 @@ class KeyboardScreenTest : BaseTest() {
     private val keyboardScreen = KeyboardScreen()
     private val mainScreen = MainScreen()
 
-     @Test
+    @Test
     fun verifyKeyboardButtonBringsUpKeyboard() {
         navigateToKeyboard()
 
@@ -69,13 +68,11 @@ class KeyboardScreenTest : BaseTest() {
         mainScreen.apply {
             currentText.assertElementExists()
         }
-
     }
 
     private fun navigateToKeyboard() {
         mainScreen.apply {
             keyboardNavitgationButton.tap()
         }
-
     }
 }
