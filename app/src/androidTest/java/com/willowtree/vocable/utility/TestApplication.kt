@@ -1,8 +1,6 @@
 package com.willowtree.vocable.utility
 
 import android.app.Application
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.willowtree.vocable.utils.VocableSharedPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -17,7 +15,6 @@ class TestApplication : Application() {
             androidContext(this@TestApplication)
             modules(module {
                 single { VocableSharedPreferences() }
-                single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
             })
         }
     }
