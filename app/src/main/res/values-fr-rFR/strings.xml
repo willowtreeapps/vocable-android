@@ -3,9 +3,9 @@
     <!-- Presets -->
     <string name="select_something">Sélectionnez quelque chose ci-dessous pour parler.</string>
     <string name="phrases_page_number">Page %1d sur %2d</string>
-    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty"><b>Vos paroles apparaîtront\nici.</b>\n\nNaviguez vers le clavier, tapez quelque chose\n puis sélectionnez \"☆\" pour l\'enregistrer ici.</string>
+    <string name="my_sayings_empty_handset_port"><b>Vos paroles apparaîtront\nici.</b>\n\nNaviguez vers le clavier, tapez quelque chose puis sélectionnez \"☆\" pour l\'enregistrer ici.</string>
+    <string name="my_sayings_empty_handset_land"><b>Vos paroles apparaîtront\nici.</b>\n\nNaviguez vers le clavier, tapez quelque chose\n puis sélectionnez \"☆\" pour l\'enregistrer ici.</string>
     <string name="my_sayings_empty_settings"><b>Vous n\'avez rien d\'enregistré pour l\'instant. Sélectionnez le \"+\" en haut à droite pour ajouter quelque chose.</b></string>
     <string name="custom_category_empty"><b>Vous n\'avez pas encore de phrases enregistrée pour l\'instant.</b></string>
     <!-- Settings Page -->
@@ -39,7 +39,7 @@
     <string name="delete_warning">Les phrases retirées ne peuvent pas être restaurées.</string>
     <string name="new_phrase_saved">Nouvelle phrase enregistrée</string>
     <string name="contiue_editing">Continuer l\'édition</string>
-    <string name="discard">Jeter</string>
+    <string name="discard">Abandonner</string>
     <string name="are_you_sure">Vous êtes sûr ?</string>
     <string name="back_warning">Retourner en arrière sans avoir enregistré va annuler toutes les modifications apportées.</string>
     <string name="duplicate_phrase">Désolé, une phrase porte déjà ce nom. Essayez-en un autre.</string>
@@ -94,19 +94,19 @@
     <string name="preset_good_morning" formatted="false">Bonjour</string>
     <string name="preset_good_evening" formatted="false">Bonsoir</string>
     <string name="preset_pleased_to_meet_you" formatted="false">Heureux de vous rencontrer</string>
-    <string name="preset_how_is_day" formatted="false">Comment ça va?</string>
+    <string name="preset_how_is_day" formatted="false">Comment se passe votre journée ?</string>
     <string name="preset_how_are_you" formatted="false">Comment allez-vous ?</string>
-    <string name="preset_how_is_it_going" formatted="false">Ça va?</string>
-    <string name="preset_how_was_your_weekend" formatted="false">Comment était votre week-end?</string>
+    <string name="preset_how_is_it_going" formatted="false">Ça va ?</string>
+    <string name="preset_how_was_your_weekend" formatted="false">Comment était votre week-end ?</string>
     <string name="preset_goodbye" formatted="false">Au revoir</string>
     <string name="preset_okay" formatted="false">Ok</string>
     <string name="preset_bad" formatted="false">Mauvais</string>
     <string name="preset_good" formatted="false">Bon</string>
     <string name="preset_that_makes_sense" formatted="false">C\'est logique</string>
-    <string name="preset_i_like_it" formatted="false">Je l\'aime</string>
+    <string name="preset_i_like_it" formatted="false">J\'aime bien</string>
     <string name="preset_please_stop" formatted="false">Veuillez arrêter</string>
     <string name="preset_i_do_not_agree" formatted="false">Je ne suis pas d\'accord</string>
-    <string name="preset_please_repeat" formatted="false">Veuillez répéter</string>
+    <string name="preset_please_repeat" formatted="false">Pouvez-vous répéter ?</string>
     <string name="preset_please" formatted="false">S\'il vous plaît</string>
     <string name="preset_thank_you" formatted="false">Merci</string>
     <string name="preset_yes" formatted="false">Oui</string>
@@ -115,12 +115,12 @@
     <string name="preset_please_wait" formatted="false">Veuillez patienter</string>
     <string name="preset_i_dont_know" formatted="false">Je ne sais pas</string>
     <string name="preset_i_didnt_mean_say_that" formatted="false">Je ne voulais pas dire cela</string>
-    <string name="preset_be_patient" formatted="false">Veuillez patienter</string>
+    <string name="preset_be_patient" formatted="false">Soyez patient</string>
     <string name="preset_turn_on_lights" formatted="false">Veuillez allumer la lumière</string>
     <string name="preset_turn_off_lights" formatted="false">Veuillez éteindre la lumière</string>
     <string name="preset_no_visitors" formatted="false">Aucun visiteur s\'il vous plaît</string>
-    <string name="preset_like_visitors" formatted="false">Je voudrais des visiteurs</string>
-    <string name="preset_be_quiet" formatted="false">S\'il-vous-plaît, soyez silencieux</string>
+    <string name="preset_like_visitors" formatted="false">Je voudrais des visites</string>
+    <string name="preset_be_quiet" formatted="false">Taisez-vous s\'il vous plaît</string>
     <string name="preset_like_to_talk" formatted="false">Je voudrais parler</string>
     <string name="preset_tv_on" formatted="false">Veuillez allumer la TV</string>
     <string name="preset_tv_off" formatted="false">Veuillez éteindre la TV</string>
@@ -131,9 +131,9 @@
     <string name="preset_open_window" formatted="false">Veuillez ouvrir la fenêtre</string>
     <string name="preset_close_window" formatted="false">Veuillez fermer la fenêtre</string>
     <string name="preset_need_medication" formatted="false">Il me faut mes médicaments</string>
-    <string name="preset_need_bath" formatted="false">Je dois me baigner</string>
+    <string name="preset_need_bath" formatted="false">J\'ai besoin d\'un bain</string>
     <string name="preset_need_shower" formatted="false">J\'ai besoin d\'une douche</string>
-    <string name="preset_need_wash_face" formatted="false">Je dois me laver le visage</string>
+    <string name="preset_need_wash_face" formatted="false">J\'ai besoin de me laver le visage</string>
     <string name="preset_want_brush_hair" formatted="false">J\'ai besoin de me brosser les cheveux</string>
     <string name="preset_fix_pillow" formatted="false">Veuillez ajuster mon oreiller</string>
     <string name="preset_need_spit" formatted="false">Je dois cracher</string>
@@ -144,18 +144,18 @@
     <string name="add_category">Ajouter une catégorie</string>
     <string name="add_to_category">Ajouter à la catégorie</string>
     <string name="no_custom_categories">Pas de catégories personnalisées</string>
-    <string name="create_custom_categories">Create custom categories in the settings menu to add phrases to them here.</string>
-    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
+    <string name="create_custom_categories">Créez des catégories personnalisées dans le menu des paramètres pour y ajouter des phrases ici.</string>
+    <string name="all_categories_hidden_text">Toutes vos catégories ont été cachées. Vous pouvez les afficher à nouveau à partir de la page des paramètres de catégories.</string>
     <string name="no_recent_phrases_title">Aucune expression récemment utilisée</string>
-    <string name="no_recent_phrases_message">Commencez à utiliser l\'application voir vos phrases les plus récemment utilisées ici.</string>
+    <string name="no_recent_phrases_message">Commencez à utiliser l\'application pour voir vos expressions les plus récemment utilisées ici.</string>
     <string name="categories_edit_title">Catégories</string>
     <!-- Camera Permissions -->
-    <string name="permissions_missing_dialog_title">Required Permissions Unavailable</string>
-    <string name="permissions_missing_dialog_body">Camera permissions are required to use the Head Tracking feature. Please enable them in the app settings.</string>
+    <string name="permissions_missing_dialog_title">Autorisations requises indisponibles</string>
+    <string name="permissions_missing_dialog_body">Les autorisations d\'accès à l\'appareil photo sont nécessaires pour utiliser la fonctionnalité de suivi de tête (Head Tracking). Veuillez les activer dans les paramètres de l\'application.</string>
     <string name="permissions_confirm">OK</string>
-    <string name="permissions_rationale_title">Camera permissions are needed to enable Head Tracking</string>
+    <string name="permissions_rationale_title">Les autorisations d\'accès à l\'appareil photo sont nécessaires pour activer le suivi de tête (Head Tracking)</string>
     <string name="rename_category">Renommer la catégorie</string>
     <string name="show_category">Montrer la catégorie</string>
-    <string name="edit_phrases">Modifier les phrases</string>
+    <string name="edit_phrases">Modifier les expressions</string>
     <string name="remove_category">Supprimer la catégorie</string>
 </resources>
