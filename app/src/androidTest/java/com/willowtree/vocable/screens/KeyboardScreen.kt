@@ -25,7 +25,7 @@ class KeyboardScreen {
                 if(letters[i-1] == ' ')
                     keyboardSpaceButton.tap()
                 else
-                    onView(withText(letters[i - 1].toString().toUpperCase())).tap()
+                    onView(withText(letters[i - 1].toString().uppercase())).tap()
             } catch (e: NoMatchingViewException) {
                 //do nothing if the character isn't one we support
             }

@@ -16,17 +16,16 @@ class VocableApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
-        ViewPump.init(
-            ViewPump.builder()
-                .addInterceptor(
-                    CalligraphyInterceptor(
-                        CalligraphyConfig.Builder()
-                            .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
-                            .build()
-                    )
+        ViewPump.builder()
+            .addInterceptor(
+                CalligraphyInterceptor(
+                    CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                        .build()
                 )
-                .build()
-        )
+            )
+            .build()
+
 
         startKoin {
             androidContext(this@VocableApp)

@@ -18,6 +18,7 @@ import com.willowtree.vocable.utils.IVocableSharedPreferences
 import com.willowtree.vocable.utils.VocableEnvironment
 import com.willowtree.vocable.utils.VocableEnvironmentType
 import com.willowtree.vocable.utils.VocableTextToSpeech
+import io.github.inflationx.viewpump.ViewPump
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -83,7 +84,7 @@ class MainActivity : ScopeActivity() {
     }
 
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+        super.attachBaseContext(ViewPumpContextWrapper.Companion.wrap(newBase, ViewPump.builder().build()))
     }
 
     override fun onDestroy() {
