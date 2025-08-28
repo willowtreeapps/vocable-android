@@ -33,7 +33,7 @@ class KeyboardFragment : BaseFragment<FragmentKeyboardBinding>() {
             binding.keyboardInput.append(keyText)
         } else {
             binding.keyboardInput.append(
-                keyText.toLowerCase(Locale.getDefault())
+                keyText.lowercase(Locale.getDefault())
             )
         }
 
