@@ -59,3 +59,4 @@ app/keys/
 app/release/
 app/.DS_Store
 .DS_Store
+node_modules

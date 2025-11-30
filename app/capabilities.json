@@ -1,0 +1,13 @@
+{
+  "android": {
+    "platformName": "Android",
+    "appium:platformVersion": "12",
+    "appium:deviceName": "Android Emulator",
+    "appium:app": "/Users/albertacosta/Documents/GitHub/vocable-android/app/build/outputs/apk/debug/app-debug.apk",
+    "appium:automationName": "UiAutomator2",
+    "appium:ensureWebviewsHavePages": true,
+    "appium:nativeWebScreenshot": true,
+    "appium:newCommandTimeout": 3600,
+    "appium:connectHardwareKeyboard": true
+  }
+}
