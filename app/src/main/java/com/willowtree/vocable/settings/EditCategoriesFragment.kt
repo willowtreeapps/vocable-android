@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.willowtree.vocable.BaseFragment
@@ -16,6 +17,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.databinding.FragmentEditCategoriesBinding
 import com.willowtree.vocable.presets.Category
 import com.willowtree.vocable.utils.VocableFragmentStateAdapter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import kotlin.math.min
@@ -118,15 +120,12 @@ class EditCategoriesFragment : BaseFragment<FragmentEditCategoriesBinding>() {
             }
         }
 
-        editCategoriesViewModel.lastViewedIndex.observe(viewLifecycleOwner) {
-            it?.let { index ->
-                val pageNum = index / maxEditCategories
-                // Wait until view pager has finished its layout
-                binding.editCategoriesViewPager.post {
+        editCategoriesViewModel.viewModelScope.launch {
+            editCategoriesViewModel.liveLastViewedIndex.collect {
+                val pageNum = it/maxEditCategories
                     if (isAdded && binding.editCategoriesViewPager.currentItem != pageNum) {
                         binding.editCategoriesViewPager.setCurrentItem(pageNum, false)
                     }
-                }
             }
         }
     }

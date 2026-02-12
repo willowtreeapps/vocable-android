@@ -17,12 +17,16 @@ import com.willowtree.vocable.room.RoomStoredPhrasesRepository
 import com.willowtree.vocable.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
 import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
+import com.willowtree.vocable.utility.VocableKoinTestRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
 class EditCategoriesViewModelTest {
+
+    @get:Rule
+    val koinTestRule = VocableKoinTestRule()
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -69,6 +73,70 @@ class EditCategoriesViewModelTest {
         return EditCategoriesViewModel(
             categoriesUseCase
         )
+    }
+
+    // TODO: CC - the following 4 tests are flaky due to the way refreshCategories() is implemented
+    @Test
+    fun  refreshing_categories_without_adding_new_category_remains_at_first_index() = runTest {
+        val vm = createViewModel()
+        vm.refreshCategories()
+
+        vm.liveLastViewedIndex.test {
+            assertEquals(0, awaitItem())
+        }
+    }
+
+    @Test
+    fun  adding_new_category_and_refreshing_once_flips_to_new_categorys_index() = runTest {
+
+        val vm = createViewModel()
+        vm.refreshCategories()
+
+        categoriesUseCase.addCategory("new category")
+        vm.refreshCategories()
+
+        vm.liveLastViewedIndex.test {
+            assertEquals(0, awaitItem())
+            assertEquals(7, awaitItem())
+        }
+    }
+
+    @Test
+    fun  adding_new_category_and_refreshing_twice_flips_to_first_index() = runTest {
+        val vm = createViewModel()
+        vm.refreshCategories()
+
+        categoriesUseCase.addCategory("new category")
+
+        vm.refreshCategories()
+        vm.liveLastViewedIndex.test {
+            assertEquals(0, awaitItem())
+            assertEquals(7, awaitItem())
+        }
+
+        vm.refreshCategories()
+        vm.liveLastViewedIndex.test {
+            assertEquals(7, awaitItem())
+            assertEquals(0, awaitItem())
+        }
+    }
+
+    @Test
+    fun  adding_new_category_amongst_hidden_categories_and_refreshing_once_flips_to_last_non_hidden_index() = runTest {
+        val vm = createViewModel()
+        categoriesUseCase.updateCategoryHidden("preset_general", hidden = true)
+        categoriesUseCase.updateCategoryHidden("preset_basic_needs", hidden = true)
+
+        vm.refreshCategories()
+
+        categoriesUseCase.addCategory("new category")
+
+        vm.refreshCategories()
+        vm.liveLastViewedIndex.test {
+            assertEquals(0, awaitItem())
+            assertEquals(5, awaitItem())
+        }
+
     }
 
     @Test
