@@ -1,5 +1,7 @@
 package com.willowtree.vocable.utils.permissions
 
+import com.willowtree.vocable.core.permissions.PermissionsChecker
+
 class FakePermissionsChecker(
     private val hasPermissions: Boolean = false,
     private val shouldShowRequestPermissionRationale: Boolean = true,

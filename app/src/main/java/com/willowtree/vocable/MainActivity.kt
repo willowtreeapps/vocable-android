@@ -1,90 +1,87 @@
 package com.willowtree.vocable
 
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.children
-import androidx.core.view.isVisible
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.willowtree.vocable.customviews.PointerListener
-import com.willowtree.vocable.customviews.PointerView
-import com.willowtree.vocable.databinding.ActivityMainBinding
-import com.willowtree.vocable.facetracking.FaceTrackingViewModel
-import com.willowtree.vocable.utils.FaceTrackingManager
-import com.willowtree.vocable.utils.FaceTrackingPointerUpdates
-import com.willowtree.vocable.utils.IVocableSharedPreferences
-import com.willowtree.vocable.utils.VocableEnvironment
-import com.willowtree.vocable.utils.VocableEnvironmentType
-import com.willowtree.vocable.utils.VocableTextToSpeech
-import io.github.inflationx.viewpump.ViewPump
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import com.willowtree.vocable.core.ComposeGazeTarget
+import com.willowtree.vocable.core.FaceTrackingManager
+import com.willowtree.vocable.core.FaceTrackingPointerUpdates
+import com.willowtree.vocable.core.GazeInteractionManager
+import com.willowtree.vocable.core.IVocableSharedPreferences
+import com.willowtree.vocable.core.VocableEnvironment
+import com.willowtree.vocable.core.VocableEnvironmentType
+import com.willowtree.vocable.core.VocableTextToSpeech
+import com.willowtree.vocable.ui.VocableNavHost
+import com.willowtree.vocable.ui.base.MviScreen
+import com.willowtree.vocable.ui.facetracking.FaceTrackingEvent
+import com.willowtree.vocable.ui.facetracking.FaceTrackingScreen
+import com.willowtree.vocable.ui.theme.VocableTheme
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.ScopeActivity
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 class MainActivity : ScopeActivity() {
 
-    private var currentView: View? = null
-    private var paused = false
-    private lateinit var binding: ActivityMainBinding
     private val sharedPrefs: IVocableSharedPreferences by inject()
-    private val allViews = mutableListOf<View>()
-
     private val faceTrackingManager: FaceTrackingManager by inject()
     private val environment: VocableEnvironment by inject()
 
-    private lateinit var faceTrackingViewModel: FaceTrackingViewModel
+    private val faceTrackingViewModel: com.willowtree.vocable.ui.facetracking.FaceTrackingViewModel by viewModel()
+
+    private var pointerView: PointerView? = null
+    private var currentGazeTarget: ComposeGazeTarget? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        faceTrackingViewModel = getViewModel()
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         if (environment.environmentType != VocableEnvironmentType.TESTING) {
             lifecycleScope.launch {
                 faceTrackingManager.initialize(
                     faceTrackingPointerUpdates = object : FaceTrackingPointerUpdates {
                         override fun toggleVisibility(visible: Boolean) {
-                            binding.pointerView.isVisible = visible
+                            pointerView?.visibility = if (visible) View.VISIBLE else View.GONE
                         }
-                    })
+                    }
+                )
             }
         }
 
-        faceTrackingViewModel.showError.observe(this) { showError ->
-            if (!sharedPrefs.getHeadTrackingEnabled()) {
-                getPointerView().isVisible = false
-                getErrorView().isVisible = false
-                return@observe
+        lifecycleScope.launch {
+            faceTrackingViewModel.uiState.collectLatest { state ->
+                state.pointerLocation?.let { pointer ->
+                    updatePointer(pointer.x, pointer.y)
+                }
             }
-            if (showError) {
-                (currentView as? PointerListener)?.onPointerExit()
-            }
-            getErrorView().isVisible = showError
-            getPointerView().isVisible = !showError
-        }
-
-
-        faceTrackingViewModel.pointerLocation.observe(this) {
-            updatePointer(it.x, it.y)
         }
 
         supportActionBar?.hide()
         VocableTextToSpeech.initialize(this)
 
-        binding.mainNavHostFragment.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-            allViews.clear()
+        val composeView = androidx.compose.ui.platform.ComposeView(this).apply {
+            setContent {
+                VocableTheme {
+                    AppContent()
+                }
+            }
         }
-    }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ViewPumpContextWrapper.Companion.wrap(newBase, ViewPump.builder().build()))
+        setContentView(composeView)
     }
 
     override fun onDestroy() {
@@ -92,101 +89,84 @@ class MainActivity : ScopeActivity() {
         VocableTextToSpeech.shutdown()
     }
 
-    private fun getErrorView(): View = binding.errorView.root
-
-    private fun getPointerView(): PointerView = binding.pointerView
-
-    fun getAllViews(): List<View> {
-        if (allViews.isEmpty()) {
-            getAllChildViews(binding.parentLayout)
-            getAllFragmentViews()
-        }
-        return allViews
-    }
-
-    fun resetAllViews() {
-        allViews.clear()
-    }
-
-    private fun getAllChildViews(viewGroup: ViewGroup) {
-        viewGroup.children.forEach {
-            if (it is PointerListener) {
-                allViews.add(it)
-            } else if (it is ViewGroup) {
-                getAllChildViews(it)
-            }
-        }
-    }
-
-    private fun getAllFragmentViews() {
-        supportFragmentManager.fragments.forEach {
-            if (it is BaseFragment<*>) {
-                allViews.addAll(it.getAllViews())
-            }
-        }
-    }
-
-    private fun updatePointer(x: Float, y: Float) {
-        var newX = x
-        var newY = y
-        if (x < 0) {
-            newX = 0f
-        } else if (x > faceTrackingManager.displayMetrics.widthPixels) {
-            newX = faceTrackingManager.displayMetrics.widthPixels.toFloat()
+    @Composable
+    private fun AppContent() {
+        BackHandler {
+            finish()
         }
 
-        if (y < 0) {
-            newY = 0f
-        } else if (y > faceTrackingManager.displayMetrics.heightPixels) {
-            newY = faceTrackingManager.displayMetrics.heightPixels.toFloat()
-        }
-        getPointerView().updatePointerPosition(newX, newY)
-        getPointerView().bringToFront()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                VocableNavHost()
 
-        if (currentView == null) {
-            findIntersectingView()
-        } else {
-            if (!viewIntersects(currentView!!, getPointerView())) {
-                (currentView as? PointerListener)?.onPointerExit()
-                findIntersectingView()
-            }
-        }
-    }
-
-    private fun findIntersectingView() {
-        currentView = null
-        if (!paused) {
-            getAllViews().forEach {
-                if (viewIntersects(it, getPointerView())) {
-                    if (it.isEnabled && it.isVisible) {
-                        currentView = it
-                        (currentView as PointerListener).onPointerEnter()
-                        return
+                MviScreen(
+                    viewModel = faceTrackingViewModel,
+                    onEvent = { event ->
+                        when (event) {
+                            is FaceTrackingEvent.Speak ->
+                                VocableTextToSpeech.speak(Locale.getDefault(), event.text)
+                        }
                     }
+                ) { _ ->
+                    FaceTrackingScreen(viewModel = faceTrackingViewModel)
                 }
             }
         }
     }
 
-    private fun viewIntersects(view1: View, view2: View): Boolean {
-        val coords = IntArray(2)
-        view1.getLocationOnScreen(coords)
-        val rect = Rect(
-            coords[0],
-            coords[1],
-            coords[0] + view1.measuredWidth,
-            coords[1] + view1.measuredHeight
-        )
+    private fun updatePointer(x: Float, y: Float) {
+        val pointer = pointerView ?: return
 
-        val view2Coords = IntArray(2)
-        view2.getLocationOnScreen(view2Coords)
-        val view2Rect = Rect(
-            view2Coords[0],
-            view2Coords[1],
-            view2Coords[0] + view2.measuredWidth,
-            view2Coords[1] + view2.measuredHeight
-        )
-        return rect.contains(view2Rect.centerX(), view2Rect.centerY())
+        var newX = x
+        var newY = y
+        if (x < 0) newX = 0f
+        else if (x > faceTrackingManager.displayMetrics.widthPixels) {
+            newX = faceTrackingManager.displayMetrics.widthPixels.toFloat()
+        }
+        if (y < 0) newY = 0f
+        else if (y > faceTrackingManager.displayMetrics.heightPixels) {
+            newY = faceTrackingManager.displayMetrics.heightPixels.toFloat()
+        }
+
+        if (sharedPrefs.getHeadTrackingEnabled()) {
+            pointer.visibility = View.VISIBLE
+            pointer.bringToFront()
+            pointer.updatePointerPosition(newX, newY)
+            checkGazeInteractions(newX, newY, pointer)
+        } else {
+            pointer.visibility = View.GONE
+        }
     }
 
+    private fun checkGazeInteractions(pointerX: Float, pointerY: Float, pointerView: View) {
+        val pointerCenterX = pointerX + pointerView.width / 2
+        val pointerCenterY = pointerY + pointerView.height / 2
+
+        val hitTarget = GazeInteractionManager.getTargets().find { target ->
+            target.bounds.contains(pointerCenterX.toInt(), pointerCenterY.toInt())
+        }
+
+        if (currentGazeTarget != hitTarget) {
+            currentGazeTarget?.onExit()
+            currentGazeTarget = hitTarget
+            currentGazeTarget?.onEnter()
+        }
+    }
+}
+
+class PointerView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+
+    fun updatePointerPosition(x: Float, y: Float) {
+        translationX = x
+        translationY = y
+        invalidate()
+    }
 }

@@ -1,6 +1,6 @@
 package com.willowtree.vocable
 
-import com.willowtree.vocable.utils.UUIDProvider
+import com.willowtree.vocable.core.UUIDProvider
 
 class FakeUUIDProvider : UUIDProvider {
 

@@ -13,10 +13,15 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.willowtree.vocable.presets.PresetCategories
+import com.willowtree.vocable.data.room.CategoryDto
+import com.willowtree.vocable.data.room.Converters
+import com.willowtree.vocable.data.room.PhraseDto
+import com.willowtree.vocable.data.room.VocableDatabase
+import com.willowtree.vocable.data.room.VocableDatabaseMigrations
+import com.willowtree.vocable.domain.model.PresetCategories
 import com.willowtree.vocable.utility.VocableKoinTestRule
-import com.willowtree.vocable.utils.VocableSharedPreferences
-import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.core.VocableSharedPreferences
+import com.willowtree.vocable.core.locale.LocalesWithText
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -328,14 +333,14 @@ class MigrationTest {
                 CategoryDto(
                     "custom",
                     0L,
-                    LocalesWithText( mapOf("english" to "custom")),
+                    LocalesWithText(mapOf("english" to "custom")),
                     false,
                     7
                 ),
                 CategoryDto(
                     "recents",
                     0L,
-                    LocalesWithText( mapOf("english" to "recents")),
+                    LocalesWithText(mapOf("english" to "recents")),
                     false,
                     8
                 )
@@ -351,7 +356,7 @@ class MigrationTest {
                     "custom",
                     0L,
                     0L,
-                    LocalesWithText(  mapOf("english" to "hi")),
+                    LocalesWithText(mapOf("english" to "hi")),
                     0
                 )
             ), customPhrases
@@ -363,7 +368,7 @@ class MigrationTest {
                     "recents",
                     0L,
                     0L,
-                    LocalesWithText(  mapOf("english" to "hi")),
+                    LocalesWithText(mapOf("english" to "hi")),
                     0
                 )
             ), recentPhrases

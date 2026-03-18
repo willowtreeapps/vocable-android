@@ -2,9 +2,8 @@ package com.willowtree.vocable.utility
 
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
-import com.willowtree.vocable.presets.PresetsViewModel
-import com.willowtree.vocable.splash.SplashViewModel
-import com.willowtree.vocable.utils.IdlingResourceContainer
+import com.willowtree.vocable.ui.presets.PresetsViewModel
+import com.willowtree.vocable.core.IdlingResourceContainer
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import org.koin.core.component.KoinComponent
@@ -21,12 +20,12 @@ inline fun <reified T> Module.idlingResourceContainerOf() = single(named<T>()) {
 } bind IdlingResourceContainer::class
 
 val idlingResourceContainerModule = module {
-    idlingResourceContainerOf<SplashViewModel>()
+    idlingResourceContainerOf<com.willowtree.vocable.ui.splash.SplashViewModel>()
     idlingResourceContainerOf<PresetsViewModel>()
 }
 
 class IdlingResourceTestRule : TestWatcher(), KoinComponent {
-    private val splashActivityContainer: IdlingResourceContainerTestingImpl by inject(named<SplashViewModel>())
+    private val splashActivityContainer: IdlingResourceContainerTestingImpl by inject(named<com.willowtree.vocable.ui.splash.SplashViewModel>())
     private val mainActivityContainer: IdlingResourceContainerTestingImpl by inject(named<PresetsViewModel>())
 
     override fun starting(description: Description?) {

@@ -1,22 +1,26 @@
 package com.willowtree.vocable.presets
 
-import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.room.CategorySortOrder
-import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.data.room.CategoryDto
+import com.willowtree.vocable.data.room.CategorySortOrder
+import com.willowtree.vocable.data.room.PhraseDto
+import com.willowtree.vocable.core.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepository {
+/**
+ * Legacy fake kept only for older tests. The original shared interface no longer exists,
+ * so this fake now exposes the same API directly without implementing that removed type.
+ */
+class FakeLegacyCategoriesAndPhrasesRepository {
 
     val _allCategories = MutableStateFlow(
         listOf(
             CategoryDto(
                 categoryId = "1",
                 creationDate = 0L,
-                localizedName = LocalesWithText( mapOf("en_US" to "category")),
+                localizedName = LocalesWithText(mapOf("en_US" to "category")),
                 hidden = false,
                 sortOrder = 0
             )
@@ -30,7 +34,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
                 parentCategoryId = "1",
                 creationDate = 0L,
                 lastSpokenDate = null,
-                localizedUtterance =LocalesWithText(  mapOf("en_US" to "Hello")),
+                localizedUtterance = LocalesWithText(mapOf("en_US" to "Hello")),
                 sortOrder = 0
             )
         )
@@ -47,19 +51,19 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
         )
     )
 
-    override suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> {
+    suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> {
         return _categoriesToPhrases[categoryId]!! // go ahead and blow up if our test data isn't valid
     }
 
-    override fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
+    fun getAllCategoriesFlow(): Flow<List<CategoryDto>> {
         return _allCategories.map { categoryDtos -> categoryDtos.sortedBy { it.sortOrder } }
     }
 
-    override suspend fun getAllCategories(): List<CategoryDto> {
+    suspend fun getAllCategories(): List<CategoryDto> {
         return _allCategories.value.sortedBy { it.sortOrder }
     }
 
-    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
+    suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) {
         _allCategories.update { allCategories ->
             allCategories.map { categoryDto ->
                 val sortOrderUpdate =
@@ -73,7 +77,7 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
         }
     }
 
-    override suspend fun updateCategoryName(
+    suspend fun updateCategoryName(
         categoryId: String,
         localizedName: LocalesWithText
     ) {
@@ -88,16 +92,32 @@ class FakeLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepo
         }
     }
 
-    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
-        TODO("Not yet implemented")
+    suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) {
+        _allCategories.update { allCategories ->
+            allCategories.map {
+                if (it.categoryId == categoryId) {
+                    it.copy(hidden = hidden)
+                } else {
+                    it
+                }
+            }
+        }
     }
 
-    override suspend fun deleteCategory(categoryId: String) {
-        TODO("Not yet implemented")
+    suspend fun deleteCategory(categoryId: String) {
+        _allCategories.update { categories ->
+            categories.filterNot { it.categoryId == categoryId }
+        }
+        _categoriesToPhrases = _categoriesToPhrases - categoryId
     }
 
-    override suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
-    override suspend fun deletePhrases(phrases: List<PhraseDto>) {
-        TODO("Not yet implemented")
+    suspend fun getRecentPhrases(): List<PhraseDto> = _recentPhrases
+
+    suspend fun deletePhrases(phrases: List<PhraseDto>) {
+        val phraseIds = phrases.map { it.phraseId }.toSet()
+        _categoriesToPhrases = _categoriesToPhrases.mapValues { (_, categoryPhrases) ->
+            categoryPhrases.filterNot { it.phraseId in phraseIds }
+        }
+        _recentPhrases = _recentPhrases.filterNot { it.phraseId in phraseIds }
     }
 }

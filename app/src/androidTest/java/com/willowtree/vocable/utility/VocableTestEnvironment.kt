@@ -1,7 +1,7 @@
 package com.willowtree.vocable.utility
 
-import com.willowtree.vocable.utils.VocableEnvironment
-import com.willowtree.vocable.utils.VocableEnvironmentType
+import com.willowtree.vocable.core.VocableEnvironment
+import com.willowtree.vocable.core.VocableEnvironmentType
 
 class VocableTestEnvironment: VocableEnvironment {
     override val environmentType = VocableEnvironmentType.TESTING
