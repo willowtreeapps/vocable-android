@@ -1,35 +1,30 @@
 package com.willowtree.vocable.utility
 
-import com.willowtree.vocable.presets.ILegacyCategoriesAndPhrasesRepository
-import com.willowtree.vocable.room.CategorySortOrder
-import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.core.locale.LocalesWithText
+import com.willowtree.vocable.data.room.CategoryDto
+import com.willowtree.vocable.data.room.CategorySortOrder
+import com.willowtree.vocable.data.room.PhraseDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
+// Legacy stub retained only to avoid stale test compile failures during migration.
+// The legacy repository interface no longer exists in production code.
+class StubLegacyCategoriesAndPhrasesRepository {
+    suspend fun getPhrasesForCategory(categoryId: String): List<PhraseDto> = error("Not implemented")
 
-// Stub for legacy categories/phrases repository. We are using this stub to test the transition of
-// PhrasesUseCase from using the legacy categories/phrases repository to using the room-based
-// stored and preset phrases repositories. This stub ensures that none of the behavior/data in the
-// legacy repository is accidentally used in the testing of newly refactored tests.
-class StubLegacyCategoriesAndPhrasesRepository : ILegacyCategoriesAndPhrasesRepository {
-    override suspend fun getPhrasesForCategory(categoryId: String) = error("Not implemented")
+    fun getAllCategoriesFlow(): Flow<List<CategoryDto>> = flowOf(emptyList())
 
-    override fun getAllCategoriesFlow() = error("Not implemented")
+    suspend fun getAllCategories(): List<CategoryDto> = emptyList()
 
-    override suspend fun getAllCategories() = error("Not implemented")
+    suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) = Unit
 
-    override suspend fun updateCategorySortOrders(categorySortOrders: List<CategorySortOrder>) =
-        error("Not implemented")
+    suspend fun updateCategoryName(categoryId: String, localizedName: LocalesWithText) = Unit
 
-    override suspend fun updateCategoryName(categoryId: String, localizedName: LocalesWithText)
-        = error("Not implemented")
+    suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean) = Unit
 
-    override suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
-        = error("Not implemented")
+    suspend fun deleteCategory(categoryId: String) = Unit
 
-    override suspend fun deleteCategory(categoryId: String) = error("Not implemented")
+    suspend fun getRecentPhrases(): List<PhraseDto> = emptyList()
 
-    override suspend fun getRecentPhrases(): List<PhraseDto> = error("Not implemented")
-    override suspend fun deletePhrases(phrases: List<PhraseDto>) {
-        TODO("Not yet implemented")
-    }
+    suspend fun deletePhrases(phrases: List<PhraseDto>) = Unit
 }

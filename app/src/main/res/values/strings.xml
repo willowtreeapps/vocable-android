@@ -37,6 +37,7 @@
 
     <!-- Errors -->
     <string name="error_move_closer">Please move closer to the device.</string>
+    <string name="head_tracking_paused_message">Head tracking is paused.\nMove your head to resume.</string>
 
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Start typing…</string>
@@ -190,5 +191,15 @@
     <string name="show_category">Show Category</string>
     <string name="edit_phrases">Edit Phrases</string>
     <string name="remove_category">Remove Category</string>
+
+    <!-- Compose Migration Strings -->
+    <string name="preset_sayings_title">Preset Sayings</string>
+    <string name="keyboard_clear">Clear</string>
+    <string name="keyboard_space">Space</string>
+    <string name="keyboard_backspace">Backspace</string>
+    <string name="keyboard_speak">Speak</string>
+    <string name="close_settings">Close Settings</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 
 </resources>

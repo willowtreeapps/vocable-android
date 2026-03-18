@@ -1,6 +1,9 @@
 package com.willowtree.vocable.utils
 
 import android.Manifest
+import com.willowtree.vocable.core.FaceTrackingPermissions
+import com.willowtree.vocable.core.IFaceTrackingPermissions
+import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.utils.permissions.FakePermissionRegisterForLaunch
 import com.willowtree.vocable.utils.permissions.FakePermissionsChecker
 import com.willowtree.vocable.utils.permissions.FakePermissionsRationaleDialogShower

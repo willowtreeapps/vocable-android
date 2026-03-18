@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.willowtree.vocable.room.RoomPresetPhrasesRepository
-import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.domain.model.PresetCategories
+import com.willowtree.vocable.domain.model.PresetPhrase
+import com.willowtree.vocable.data.repository.RoomPresetPhrasesRepository
+import com.willowtree.vocable.data.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
 import com.willowtree.vocable.utility.VocableKoinTestRule
 import junit.framework.Assert.assertEquals

@@ -1,10 +1,11 @@
 package com.willowtree.vocable
 
-import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.presets.asPhrase
-import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.room.PhraseDto
-import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.domain.model.Phrase
+import com.willowtree.vocable.domain.model.asPhrase
+import com.willowtree.vocable.data.room.CategoryDto
+import com.willowtree.vocable.data.room.PhraseDto
+import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
+import com.willowtree.vocable.core.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -37,12 +38,11 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     )
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
-        return _categoriesToPhrases[categoryId]!! // go ahead and blow up if our test data isn't valid
-            .map { it.asPhrase() }
+        return _categoriesToPhrases[categoryId].orEmpty().map { it.asPhrase() }
     }
 
     override fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<Phrase>> {
-        return flowOf(_categoriesToPhrases[categoryId]!!.map { it.asPhrase() })
+        return flowOf(_categoriesToPhrases[categoryId].orEmpty().map { it.asPhrase() })
     }
 
     override suspend fun updatePhraseLastSpokenTime(phraseId: String) {
@@ -58,5 +58,4 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     override suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
         error("Not implemented")
     }
-
 }

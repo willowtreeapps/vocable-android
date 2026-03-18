@@ -1,6 +1,7 @@
 package com.willowtree.vocable.utils
 
 import android.content.SharedPreferences
+import com.willowtree.vocable.core.IVocableSharedPreferences
 
 
 class FakeVocableSharedPreferences(

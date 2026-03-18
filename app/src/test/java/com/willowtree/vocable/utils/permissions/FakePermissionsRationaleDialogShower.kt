@@ -1,5 +1,7 @@
 package com.willowtree.vocable.utils.permissions
 
+import com.willowtree.vocable.core.permissions.PermissionsRationaleDialogShower
+
 class FakePermissionsRationaleDialogShower : PermissionsRationaleDialogShower {
 
     var rationaleDialogShowedCount = 0

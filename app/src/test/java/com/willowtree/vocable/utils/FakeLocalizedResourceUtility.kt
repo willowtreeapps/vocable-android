@@ -1,9 +1,10 @@
 package com.willowtree.vocable.utils
 
-import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.CustomPhrase
-import com.willowtree.vocable.presets.Phrase
-import com.willowtree.vocable.presets.PresetPhrase
+import com.willowtree.vocable.core.ILocalizedResourceUtility
+import com.willowtree.vocable.domain.model.Category
+import com.willowtree.vocable.domain.model.CustomPhrase
+import com.willowtree.vocable.domain.model.Phrase
+import com.willowtree.vocable.domain.model.PresetPhrase
 
 class FakeLocalizedResourceUtility : ILocalizedResourceUtility {
     override fun getTextFromCategory(category: Category?): String {

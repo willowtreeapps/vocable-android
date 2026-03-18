@@ -1,6 +1,8 @@
 package com.willowtree.vocable.utils.permissions
 
 import androidx.activity.result.contract.ActivityResultContract
+import com.willowtree.vocable.core.permissions.PermissionRequestLauncher
+import com.willowtree.vocable.core.permissions.PermissionRequester
 
 class FakePermissionRegisterForLaunch  : PermissionRequester {
 
