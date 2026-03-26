@@ -82,8 +82,6 @@ class PhrasesUseCase(
                 )
 
             }
-
-            null -> throw IllegalArgumentException("Phrase with id $phraseId not found")
         }
     }
 

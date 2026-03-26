@@ -6,6 +6,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.data.room.CategoryDto
 import com.willowtree.vocable.core.locale.LocalesWithText
 import com.willowtree.vocable.core.locale.text
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 sealed class Category : Parcelable {
@@ -36,6 +37,7 @@ sealed class Category : Parcelable {
         override val hidden: Boolean,
         override val sortOrder: Int
     ) : Category() {
+        @IgnoredOnParcel
         override val categoryId: String = PresetCategories.RECENTS.id
         override fun withSortOrder(sortOrder: Int): Category = copy(sortOrder = sortOrder)
         override fun withHidden(hidden: Boolean): Category = copy(hidden = hidden)

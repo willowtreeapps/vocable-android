@@ -12,25 +12,25 @@ import java.util.*
 object VocableDatabaseMigrations {
 
     val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
+        override fun migrate(db: SupportSQLiteDatabase) {
             // Phrases no longer have to have unique utterances
-            database.execSQL("DROP INDEX index_Phrase_utterance")
+            db.execSQL("DROP INDEX index_Phrase_utterance")
         }
     }
 
     val MIGRATION_2_3: Migration = object : Migration(2, 3) {
         // Moving to new JSON schema
-        override fun migrate(database: SupportSQLiteDatabase) {
+        override fun migrate(db: SupportSQLiteDatabase) {
             //Create Category-Phrase relation
-            database.execSQL("CREATE TABLE CategoryPhraseCrossRef (category_id TEXT NOT NULL, phrase_id TEXT NOT NULL, PRIMARY KEY(category_id, phrase_id))")
+            db.execSQL("CREATE TABLE CategoryPhraseCrossRef (category_id TEXT NOT NULL, phrase_id TEXT NOT NULL, PRIMARY KEY(category_id, phrase_id))")
 
             // Create new Category and Phrase tables
-            database.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, localized_name TEXT NOT NULL, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
-            database.execSQL("CREATE TABLE Phrase_New (phrase_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, localized_utterance TEXT NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+            db.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, localized_name TEXT NOT NULL, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
+            db.execSQL("CREATE TABLE Phrase_New (phrase_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, localized_utterance TEXT NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
             // Get id of My Sayings category
             val categoryCursor =
-                database.query("SELECT identifier FROM Category WHERE name = 'My Sayings'")
+                db.query("SELECT identifier FROM Category WHERE name = 'My Sayings'")
             var categoryId = -1L
             while (categoryCursor.moveToNext()) {
                 categoryId = categoryCursor.getLong(categoryCursor.getColumnIndex("identifier"))
@@ -39,7 +39,7 @@ object VocableDatabaseMigrations {
 
             // Get My Sayings
             val phraseCursor =
-                database.query("SELECT utterance FROM Phrase WHERE category_id = $categoryId ORDER BY creation_date ASC")
+                db.query("SELECT utterance FROM Phrase WHERE category_id = $categoryId ORDER BY creation_date ASC")
             val mySayings = LinkedHashSet<String>()
             while (phraseCursor.moveToNext()) {
                 val saying = phraseCursor.getString(phraseCursor.getColumnIndex("utterance"))
@@ -51,26 +51,26 @@ object VocableDatabaseMigrations {
             VocableSharedPreferences().setMySayings(mySayings)
 
             // Delete old tables and rename new ones to match old names
-            database.execSQL("DROP TABLE Category")
-            database.execSQL("ALTER TABLE Category_New RENAME TO Category")
+            db.execSQL("DROP TABLE Category")
+            db.execSQL("ALTER TABLE Category_New RENAME TO Category")
 
-            database.execSQL("DROP TABLE Phrase")
-            database.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
+            db.execSQL("DROP TABLE Phrase")
+            db.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
         }
     }
 
     val MIGRATION_3_4: Migration = object : Migration(3, 4) {
         // Moving to new JSON schema
-        override fun migrate(database: SupportSQLiteDatabase) {
+        override fun migrate(db: SupportSQLiteDatabase) {
             // Create new Category, Phrase, & Cross Ref tables
-            database.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, resource_id INTEGER, localized_name TEXT, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
-            database.execSQL("CREATE TABLE Phrase_New (phrase_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
-            database.execSQL("CREATE TABLE CategoryPhraseCrossRef_New (category_id TEXT NOT NULL, phrase_id TEXT NOT NULL, PRIMARY KEY(category_id, phrase_id))")
+            db.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, resource_id INTEGER, localized_name TEXT, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
+            db.execSQL("CREATE TABLE Phrase_New (phrase_id TEXT NOT NULL, creation_date INTEGER NOT NULL, is_user_generated INTEGER NOT NULL, last_spoken_date INTEGER NOT NULL, resource_id INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+            db.execSQL("CREATE TABLE CategoryPhraseCrossRef_New (category_id TEXT NOT NULL, phrase_id TEXT NOT NULL, PRIMARY KEY(category_id, phrase_id))")
 
             // Get My Sayings
             val categoryId = PresetCategories.MY_SAYINGS.id
             val crossRefCursor =
-                database.query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
+                db.query("SELECT phrase_id FROM CategoryPhraseCrossRef WHERE category_id = '$categoryId'")
             val myLocalizedSayings = LinkedHashSet<String>()
             val phraseIds = mutableListOf<String>()
             while (crossRefCursor.moveToNext()) {
@@ -81,7 +81,7 @@ object VocableDatabaseMigrations {
 
             phraseIds.forEach {
                 val phraseCursor =
-                    database.query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
+                    db.query("SELECT localized_utterance FROM Phrase WHERE phrase_id = '$it'")
                 while (phraseCursor.moveToNext()) {
                     val saying =
                         phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
@@ -102,47 +102,47 @@ object VocableDatabaseMigrations {
 
             }
 
-            database.execSQL("INSERT INTO Category_New (category_id, creation_date, is_user_generated, resource_id, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, ${R.string.preset_user_favorites}, null, 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
+            db.execSQL("INSERT INTO Category_New (category_id, creation_date, is_user_generated, resource_id, localized_name, hidden, sort_order) VALUES ('${PresetCategories.MY_SAYINGS.id}', ${System.currentTimeMillis()}, 0, ${R.string.preset_user_favorites}, null, 0, ${PresetCategories.MY_SAYINGS.initialSortOrder})")
 
             var sortOrder = 0
             myLocalizedSayings.forEach { localizedSaying ->
                 val phraseId = UUID.randomUUID().toString()
                 val creationDate = System.currentTimeMillis()
-                database.execSQL("INSERT INTO Phrase_New (phrase_id, creation_date, is_user_generated, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$phraseId', $creationDate, 1, $creationDate, null, '$localizedSaying', ${sortOrder++})")
-                database.execSQL("INSERT INTO CategoryPhraseCrossRef_New (category_id, phrase_id) VALUES ('${PresetCategories.MY_SAYINGS.id}', '$phraseId')")
+                db.execSQL("INSERT INTO Phrase_New (phrase_id, creation_date, is_user_generated, last_spoken_date, resource_id, localized_utterance, sort_order) VALUES ('$phraseId', $creationDate, 1, $creationDate, null, '$localizedSaying', ${sortOrder++})")
+                db.execSQL("INSERT INTO CategoryPhraseCrossRef_New (category_id, phrase_id) VALUES ('${PresetCategories.MY_SAYINGS.id}', '$phraseId')")
             }
 
 
             // Delete old tables and rename new ones to match old names
-            database.execSQL("DROP TABLE Category")
-            database.execSQL("ALTER TABLE Category_New RENAME TO Category")
+            db.execSQL("DROP TABLE Category")
+            db.execSQL("ALTER TABLE Category_New RENAME TO Category")
 
-            database.execSQL("DROP TABLE Phrase")
-            database.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
+            db.execSQL("DROP TABLE Phrase")
+            db.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
 
-            database.execSQL("DROP TABLE CategoryPhraseCrossRef")
-            database.execSQL("ALTER TABLE CategoryPhraseCrossRef_New RENAME TO CategoryPhraseCrossRef")
+            db.execSQL("DROP TABLE CategoryPhraseCrossRef")
+            db.execSQL("ALTER TABLE CategoryPhraseCrossRef_New RENAME TO CategoryPhraseCrossRef")
         }
     }
 
     val MIGRATION_4_5: Migration = object : Migration(4, 5) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE CategoryPhraseCrossRef ADD COLUMN timestamp INTEGER")
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE CategoryPhraseCrossRef ADD COLUMN timestamp INTEGER")
         }
 
     }
 
     val MIGRATION_5_6: Migration = object : Migration(5, 6) {
         @SuppressLint("Range")
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE Phrase_New (phrase_id INTEGER NOT NULL,parent_category_id TEXT, creation_date INTEGER NOT NULL, last_spoken_date INTEGER, localized_utterance TEXT, sort_order INTEGER NOT NULL, PRIMARY KEY(phrase_id))")
 
             data class PhraseToCategory(val phraseId: String, val categoryId: String)
 
             val phraseToCategories = mutableListOf<PhraseToCategory>()
 
             val crossRefCursor =
-                database.query("SELECT * FROM CategoryPhraseCrossRef")
+                db.query("SELECT * FROM CategoryPhraseCrossRef")
             while (crossRefCursor.moveToNext()) {
                 phraseToCategories.add(
                     PhraseToCategory(
@@ -154,7 +154,7 @@ object VocableDatabaseMigrations {
             crossRefCursor.close()
 
             val phraseCursor =
-                database.query("SELECT * FROM Phrase WHERE is_user_generated=1")
+                db.query("SELECT * FROM Phrase WHERE is_user_generated=1")
             while (phraseCursor.moveToNext()) {
                 phraseToCategories.filter {
                     it.phraseId == phraseCursor.getString(
@@ -170,17 +170,17 @@ object VocableDatabaseMigrations {
                         phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                     val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
 
-                    database.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
+                    db.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
                 }
             }
             phraseCursor.close()
 
-            database.execSQL("DROP TABLE Phrase")
-            database.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
+            db.execSQL("DROP TABLE Phrase")
+            db.execSQL("ALTER TABLE Phrase_New RENAME TO Phrase")
 
-            database.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, resource_id INTEGER, localized_name TEXT, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
+            db.execSQL("CREATE TABLE Category_New (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, resource_id INTEGER, localized_name TEXT, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(category_id))")
             val categoriesCursor =
-                database.query("SELECT * FROM Category")
+                db.query("SELECT * FROM Category")
             while (categoriesCursor.moveToNext()) {
 
                 val categoryID =
@@ -200,13 +200,13 @@ object VocableDatabaseMigrations {
                 val hidden = categoriesCursor.getInt(categoriesCursor.getColumnIndex("hidden"))
                 val sortOrder =
                     categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
-                database.execSQL("INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$localizedName', '$hidden', '$sortOrder')")
+                db.execSQL("INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$localizedName', '$hidden', '$sortOrder')")
             }
 
             categoriesCursor.close()
-            database.execSQL("DROP TABLE Category")
-            database.execSQL("ALTER TABLE Category_New RENAME TO Category")
-            database.execSQL("DROP TABLE CategoryPhraseCrossRef")
+            db.execSQL("DROP TABLE Category")
+            db.execSQL("ALTER TABLE Category_New RENAME TO Category")
+            db.execSQL("DROP TABLE CategoryPhraseCrossRef")
 
         }
     }
