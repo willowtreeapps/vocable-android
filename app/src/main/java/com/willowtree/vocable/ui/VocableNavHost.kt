@@ -58,7 +58,6 @@ fun VocableNavHost(
 
         // ── Presets ───────────────────────────────────────────────────────────
         composable(ROUTE_PRESETS) {
-            val context = LocalContext.current
             PresetsScreen(
                 onNavigateToKeyboard = {
                     navController.navigate(ROUTE_KEYBOARD) {
@@ -208,8 +207,7 @@ fun VocableNavHost(
                 onBack = { navController.popBackStack() },
                 onAddPhrase = { id ->
                     val encodedCategoryId = URLEncoder.encode(id, Charsets.UTF_8.name())
-                    val encodedCategoryName = URLEncoder.encode(categoryId, Charsets.UTF_8.name())
-                    navController.navigate("$ROUTE_KEYBOARD/$encodedCategoryId/$encodedCategoryName")
+                    navController.navigate("$ROUTE_KEYBOARD/$encodedCategoryId/")
                 },
                 onEditPhrase = { phraseId, text ->
                     val encodedPhraseText = URLEncoder.encode(text, Charsets.UTF_8.name())
