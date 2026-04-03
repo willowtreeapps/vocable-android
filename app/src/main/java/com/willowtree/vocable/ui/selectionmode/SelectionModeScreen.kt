@@ -11,6 +11,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,10 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.components.GazeButton
+import com.willowtree.vocable.ui.settings.SettingsButton
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.ColorPrimaryDark
 import com.willowtree.vocable.ui.theme.SelectedColor
@@ -37,13 +42,28 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SelectionModeScreen(
     onBack: () -> Unit,
+    onVoiceSelection: () -> Unit,
     viewModel: SelectionModeViewModel = koinViewModel()
 ) {
     val enabled by viewModel.headTrackingEnabled.asFlow().collectAsStateWithLifecycle(initialValue = false)
+    val selectedVoiceLabel by viewModel.selectedVoiceLabel.collectAsStateWithLifecycle()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refreshVoiceLabel()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     SelectionModeContent(
         enabled = enabled,
+        selectedVoiceLabel = selectedVoiceLabel,
         onBack = onBack,
+        onVoiceSelection = onVoiceSelection,
         onToggleHeadTracking = {
             if (!enabled) {
                 viewModel.requestHeadTracking()
@@ -57,7 +77,9 @@ fun SelectionModeScreen(
 @Composable
 fun SelectionModeContent(
     enabled: Boolean,
+    selectedVoiceLabel: String,
     onBack: () -> Unit,
+    onVoiceSelection: () -> Unit,
     onToggleHeadTracking: () -> Unit
 ) {
     val buttonHeight = dimensionResource(id = R.dimen.selection_mode_button_height)
@@ -67,7 +89,7 @@ fun SelectionModeContent(
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, trackingButtonRef) = createRefs()
+        val (titleRef, backButtonRef, trackingButtonRef, voiceButtonRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         Text(
@@ -145,6 +167,19 @@ fun SelectionModeContent(
                 )
             }
         }
+
+        SettingsButton(
+            text = stringResource(R.string.settings_voice, selectedVoiceLabel),
+            onClick = onVoiceSelection,
+            modifier = Modifier
+                .height(buttonHeight)
+                .fillMaxWidth()
+                .constrainAs(voiceButtonRef) {
+                    top.linkTo(trackingButtonRef.bottom, margin = 16.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
     }
 }
 
@@ -154,7 +189,9 @@ fun SelectionModeScreenPreview() {
     VocableTheme {
         SelectionModeContent(
             enabled = true,
+            selectedVoiceLabel = "Default",
             onBack = {},
+            onVoiceSelection = {},
             onToggleHeadTracking = {}
         )
     }

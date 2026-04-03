@@ -3,13 +3,13 @@ package com.willowtree.vocable.core
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel.Companion.DWELL_TIME_ONE_SECOND
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel.Companion.MEDIUM_SENSITIVITY
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import androidx.core.content.edit
 
 class VocableSharedPreferences :
     IVocableSharedPreferences,
@@ -25,6 +25,7 @@ class VocableSharedPreferences :
         const val DEFAULT_SENSITIVITY = MEDIUM_SENSITIVITY
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = DWELL_TIME_ONE_SECOND
+        const val KEY_SELECTED_VOICE_NAME = "KEY_SELECTED_VOICE_NAME"
         const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
     }
 
@@ -80,6 +81,18 @@ class VocableSharedPreferences :
 
     override fun getHeadTrackingEnabled(): Boolean =
         encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
+
+    override fun setSelectedVoiceName(voiceName: String?) {
+        encryptedPrefs.edit {
+            if (voiceName == null) {
+                remove(KEY_SELECTED_VOICE_NAME)
+            } else {
+                putString(KEY_SELECTED_VOICE_NAME, voiceName)
+            }
+        }
+    }
+
+    override fun getSelectedVoiceName(): String? = encryptedPrefs.getString(KEY_SELECTED_VOICE_NAME, null)
 
     override fun setFirstTime() {
         encryptedPrefs.edit { putBoolean(KEY_FIRST_TIME, false) }

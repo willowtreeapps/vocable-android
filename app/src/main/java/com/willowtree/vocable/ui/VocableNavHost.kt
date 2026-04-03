@@ -3,6 +3,7 @@ package com.willowtree.vocable.ui
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +29,9 @@ import com.willowtree.vocable.ui.sensitivity.SensitivityScreen
 import com.willowtree.vocable.ui.settings.SettingsEvent
 import com.willowtree.vocable.ui.settings.SettingsScreen
 import com.willowtree.vocable.ui.settings.SettingsViewModel
+import com.willowtree.vocable.ui.voiceselection.VoiceSelectionEvent
+import com.willowtree.vocable.ui.voiceselection.VoiceSelectionScreen
+import com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.net.URLDecoder
@@ -44,6 +48,7 @@ private const val ROUTE_RENAME_CATEGORY = "renameCategory"
 private const val ROUTE_EDIT_PHRASE = "editPhrase"
 private const val ROUTE_SENSITIVITY = "sensitivity"
 private const val ROUTE_SELECTION_MODE = "selectionMode"
+private const val ROUTE_VOICE_SELECTION = "voiceSelection"
 
 @Composable
 fun VocableNavHost(
@@ -55,8 +60,6 @@ fun VocableNavHost(
         startDestination = ROUTE_PRESETS,
         modifier = modifier
     ) {
-
-        // ── Presets ───────────────────────────────────────────────────────────
         composable(ROUTE_PRESETS) {
             PresetsScreen(
                 onNavigateToKeyboard = {
@@ -74,7 +77,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Keyboard (General) ───────────────────────────────────────────────
         composable(ROUTE_KEYBOARD) {
             KeyboardScreen(
                 onNavigateToPresets = {
@@ -89,7 +91,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Keyboard (With Category Context) ─────────────────────────────────
         composable("$ROUTE_KEYBOARD/{categoryId}/{categoryName}") { backStack ->
             val categoryId = backStack.arguments?.getString("categoryId") ?: return@composable
             val encodedCategoryName = backStack.arguments?.getString("categoryName") ?: ""
@@ -103,7 +104,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Keyboard (Edit Phrase) ───────────────────────────────────────────
         composable("$ROUTE_EDIT_PHRASE/{phraseId}/{phraseText}") { backStack ->
             val phraseId = backStack.arguments?.getString("phraseId") ?: return@composable
             val encodedPhraseText = backStack.arguments?.getString("phraseText") ?: ""
@@ -119,7 +119,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Keyboard (Add/Rename Category) ───────────────────────────────────
         composable(ROUTE_ADD_CATEGORY) {
             KeyboardScreen(
                 categoryIdToEdit = null,
@@ -141,7 +140,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Settings ──────────────────────────────────────────────────────────
         composable(ROUTE_SETTINGS) {
             val settingsContext = LocalContext.current
             val viewModel: SettingsViewModel = koinViewModel()
@@ -153,7 +151,6 @@ fun VocableNavHost(
                     is SettingsEvent.OpenPrivacyPolicy -> settingsContext.startActivity(
                         Intent(Intent.ACTION_VIEW, event.url.toUri())
                     )
-
                     is SettingsEvent.ContactDevelopers -> settingsContext.startActivity(
                         Intent(Intent.ACTION_SENDTO).apply { data = event.mailTo.toUri() }
                     )
@@ -174,7 +171,6 @@ fun VocableNavHost(
             }
         }
 
-        // ── Edit Categories List ─────────────────────────────────────────────
         composable(ROUTE_EDIT_CATEGORIES) {
             EditCategoriesScreen(
                 onBack = { navController.popBackStack() },
@@ -185,7 +181,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Edit Category Menu ────────────────────────────────────────────────
         composable("$ROUTE_EDIT_CATEGORY_MENU/{categoryId}") { backStack ->
             val categoryId = backStack.arguments?.getString("categoryId") ?: return@composable
             EditCategoryMenuScreen(
@@ -199,7 +194,6 @@ fun VocableNavHost(
             )
         }
 
-        // ── Edit Category Phrases ─────────────────────────────────────────────
         composable("$ROUTE_EDIT_CATEGORY_PHRASES/{categoryId}") { backStack ->
             val categoryId = backStack.arguments?.getString("categoryId") ?: return@composable
             EditCategoryPhrasesScreen(
@@ -216,18 +210,43 @@ fun VocableNavHost(
             )
         }
 
-        // ── Sensitivity ───────────────────────────────────────────────────────
         composable(ROUTE_SENSITIVITY) {
             SensitivityScreen(onBack = { navController.popBackStack(ROUTE_SETTINGS, false) })
         }
 
-        // ── Selection Mode ────────────────────────────────────────────────────
         composable(ROUTE_SELECTION_MODE) {
             val selectionContext = LocalContext.current
             val mainActivity = selectionContext.findActivity() as? MainActivity
                 ?: error("VocableNavHost must be hosted in MainActivity")
             val vm: SelectionModeViewModel = mainActivity.getViewModel()
-            SelectionModeScreen(onBack = { navController.popBackStack(ROUTE_SETTINGS, false) }, viewModel = vm)
+            SelectionModeScreen(
+                onBack = { navController.popBackStack(ROUTE_SETTINGS, false) },
+                onVoiceSelection = { navController.navigate(ROUTE_VOICE_SELECTION) },
+                viewModel = vm
+            )
+        }
+
+        composable(ROUTE_VOICE_SELECTION) {
+            val voiceContext = LocalContext.current
+            val viewModel: VoiceSelectionViewModel = koinViewModel()
+            MviScreen(viewModel = viewModel, onEvent = { event ->
+                when (event) {
+                    VoiceSelectionEvent.NavigateBack -> navController.popBackStack()
+                    is VoiceSelectionEvent.LaunchTtsSettings -> voiceContext.startActivity(
+                        Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA).apply {
+                            event.enginePackage?.let { setPackage(it) }
+                        }
+                    )
+                }
+            }) { state ->
+                VoiceSelectionScreen(
+                    state = state,
+                    onBack = { navController.popBackStack() },
+                    onVoiceSelected = viewModel::onVoiceSelected,
+                    onDownloadVoice = viewModel::onDownloadVoice,
+                    onRefreshVoices = viewModel::refreshVoices
+                )
+            }
         }
     }
 }

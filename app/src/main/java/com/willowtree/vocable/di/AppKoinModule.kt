@@ -2,31 +2,7 @@ package com.willowtree.vocable.di
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.willowtree.vocable.domain.usecase.CategoriesUseCase
-import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
-import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.MainActivity
-import com.willowtree.vocable.domain.usecase.PhrasesUseCase
-import com.willowtree.vocable.data.repository.PresetCategoriesRepository
-import com.willowtree.vocable.data.repository.PresetPhrasesRepository
-import com.willowtree.vocable.data.repository.RoomPresetCategoriesRepository
-import com.willowtree.vocable.data.repository.RoomPresetPhrasesRepository
-import com.willowtree.vocable.data.repository.RoomStoredCategoriesRepository
-import com.willowtree.vocable.data.repository.RoomStoredPhrasesRepository
-import com.willowtree.vocable.data.repository.StoredCategoriesRepository
-import com.willowtree.vocable.data.repository.StoredPhrasesRepository
-import com.willowtree.vocable.data.room.VocableDatabase
-import com.willowtree.vocable.ui.editcategories.EditCategoriesViewModel
-import com.willowtree.vocable.ui.editcategorymenu.EditCategoryMenuViewModel
-import com.willowtree.vocable.ui.editphrases.EditCategoryPhrasesViewModel
-import com.willowtree.vocable.ui.facetracking.FaceTrackingViewModel
-import com.willowtree.vocable.ui.keyboard.KeyboardViewModel
-import com.willowtree.vocable.ui.presets.PresetsViewModel
-import com.willowtree.vocable.ui.selectionmode.SelectionModeViewModel
-import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel
-import com.willowtree.vocable.ui.settings.SettingsViewModel
-import com.willowtree.vocable.ui.splash.SplashActivity
-import com.willowtree.vocable.ui.splash.SplashViewModel
 import com.willowtree.vocable.core.DateProvider
 import com.willowtree.vocable.core.FaceTrackingManager
 import com.willowtree.vocable.core.FaceTrackingPermissions
@@ -50,6 +26,31 @@ import com.willowtree.vocable.core.permissions.ActivityPermissionsRationaleDialo
 import com.willowtree.vocable.core.permissions.PermissionRequester
 import com.willowtree.vocable.core.permissions.PermissionsChecker
 import com.willowtree.vocable.core.permissions.PermissionsRationaleDialogShower
+import com.willowtree.vocable.data.repository.PresetCategoriesRepository
+import com.willowtree.vocable.data.repository.PresetPhrasesRepository
+import com.willowtree.vocable.data.repository.RoomPresetCategoriesRepository
+import com.willowtree.vocable.data.repository.RoomPresetPhrasesRepository
+import com.willowtree.vocable.data.repository.RoomStoredCategoriesRepository
+import com.willowtree.vocable.data.repository.RoomStoredPhrasesRepository
+import com.willowtree.vocable.data.repository.StoredCategoriesRepository
+import com.willowtree.vocable.data.repository.StoredPhrasesRepository
+import com.willowtree.vocable.data.room.VocableDatabase
+import com.willowtree.vocable.domain.usecase.CategoriesUseCase
+import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
+import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
+import com.willowtree.vocable.domain.usecase.PhrasesUseCase
+import com.willowtree.vocable.ui.editcategories.EditCategoriesViewModel
+import com.willowtree.vocable.ui.editcategorymenu.EditCategoryMenuViewModel
+import com.willowtree.vocable.ui.editphrases.EditCategoryPhrasesViewModel
+import com.willowtree.vocable.ui.facetracking.FaceTrackingViewModel
+import com.willowtree.vocable.ui.keyboard.KeyboardViewModel
+import com.willowtree.vocable.ui.presets.PresetsViewModel
+import com.willowtree.vocable.ui.selectionmode.SelectionModeViewModel
+import com.willowtree.vocable.ui.settings.SettingsViewModel
+import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel
+import com.willowtree.vocable.ui.splash.SplashActivity
+import com.willowtree.vocable.ui.splash.SplashViewModel
+import com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
@@ -80,7 +81,7 @@ val vocableKoinModule = module {
 
         scoped { FaceTrackingManager(get(), get()) }
         viewModel { FaceTrackingViewModel(get()) }
-        viewModel { SelectionModeViewModel(get()) }
+        viewModel { SelectionModeViewModel(get(), get()) }
     }
 
     factory<IFaceTrackingPermissions> {
@@ -111,11 +112,12 @@ val vocableKoinModule = module {
     single { get<VocableDatabase>().presetPhrasesDao() }
     single<VocableEnvironment> { VocableEnvironmentImpl() }
 
-    viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get()) }
+    viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get(), get()) }
     viewModel { EditCategoriesViewModel(get()) }
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
     viewModel { EditCategoryMenuViewModel(get()) }
     viewModel { KeyboardViewModel() }
     viewModel { SettingsViewModel() }
     viewModel { SensitivityViewModel(get()) }
+    viewModel { VoiceSelectionViewModel(get()) }
 }

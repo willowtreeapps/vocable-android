@@ -5,6 +5,7 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.ui.settings.ExitDialogType
 import com.willowtree.vocable.ui.settings.SettingsEvent
 import com.willowtree.vocable.ui.settings.SettingsViewModel
+import com.willowtree.vocable.utils.FakeVocableSharedPreferences
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -15,7 +16,8 @@ class SettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private fun createViewModel(): SettingsViewModel = SettingsViewModel()
+    private fun createViewModel(selectedVoiceName: String? = null): SettingsViewModel =
+        SettingsViewModel(FakeVocableSharedPreferences(selectedVoiceName = selectedVoiceName))
 
     @Test
     fun `onEditCategories emits navigate event`() = runTest {
@@ -34,6 +36,16 @@ class SettingsViewModelTest {
         viewModel.event.test {
             viewModel.onSelectionMode()
             assertEquals(SettingsEvent.NavigateToSelectionMode, awaitItem())
+        }
+    }
+
+    @Test
+    fun `onVoiceSelection emits navigate event`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.event.test {
+            viewModel.onVoiceSelection()
+            assertEquals(SettingsEvent.NavigateToVoiceSelection, awaitItem())
         }
     }
 
@@ -70,5 +82,12 @@ class SettingsViewModelTest {
         }
 
         assertEquals(ExitDialogType.NONE, viewModel.uiState.value.dialogType)
+    }
+
+    @Test
+    fun `initial state shows selected voice label`() = runTest {
+        val viewModel = createViewModel(selectedVoiceName = "en-us-x-sfg#male_1-local")
+
+        assertEquals("en-us-x-sfg#male_1-local", viewModel.uiState.value.selectedVoiceLabel)
     }
 }

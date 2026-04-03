@@ -44,7 +44,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.Visibility
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.willowtree.vocable.R
-import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.domain.model.Category
 import com.willowtree.vocable.domain.model.PhraseGridItem
 import com.willowtree.vocable.domain.model.PresetCategories
@@ -56,7 +55,6 @@ import com.willowtree.vocable.ui.theme.SelectedColor
 import com.willowtree.vocable.ui.theme.TextColor
 import com.willowtree.vocable.ui.theme.VocableTheme
 import org.koin.androidx.compose.koinViewModel
-import java.util.Locale
 import kotlin.math.ceil
 
 @Composable
@@ -80,9 +78,7 @@ fun PresetsScreen(
         onNavigateToKeyboard = onNavigateToKeyboard,
         onNavigateToSettings = onNavigateToSettings,
         onPhraseClick = { phraseId, text ->
-            viewModel.onIntent(PresetsIntent.UpdateActiveText(text))
-            VocableTextToSpeech.speak(Locale.getDefault(), text)
-            viewModel.onIntent(PresetsIntent.AddToRecents(phraseId))
+            viewModel.onIntent(PresetsIntent.Speak(phraseId, text))
         }
     )
 }

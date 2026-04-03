@@ -2,14 +2,14 @@ package com.willowtree.vocable.ui.keyboard
 
 import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
-import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
-import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
-import com.willowtree.vocable.domain.model.Category
-import com.willowtree.vocable.ui.base.BaseViewModel
 import com.willowtree.vocable.core.ILocalizedResourceUtility
 import com.willowtree.vocable.core.VocableSharedPreferences
 import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.core.locale.LocalesWithText
+import com.willowtree.vocable.domain.model.Category
+import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
+import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
+import com.willowtree.vocable.ui.base.BaseViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -35,11 +35,10 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
         }
 
     init {
-        // Init state with shared prefs which acts as truth for the toggle
         updateHeadTrackingState()
         sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
     }
-    
+
     fun setContext(
         categoryId: String? = null,
         isCategoryEdit: Boolean = false,
@@ -47,14 +46,14 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
         initialText: String? = null,
         saveCategoryId: String? = null
     ) {
-        updateState { 
+        updateState {
             copy(
                 categoryIdToEdit = categoryId,
                 isCategoryEdit = isCategoryEdit,
                 phraseIdToEdit = phraseIdToEdit,
                 inputText = initialText ?: "",
                 saveCategoryId = saveCategoryId
-            ) 
+            )
         }
     }
 
@@ -78,10 +77,9 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
             val newText = if (current.isEmpty()) {
                 key
             } else {
-                // If the string ends with a sentence terminator and a space, we capitalize the new key
-                val isNewSentence = current.endsWith(". ") || 
-                                    current.endsWith("? ") || 
-                                    current.endsWith("! ")
+                val isNewSentence = current.endsWith(". ") ||
+                    current.endsWith("? ") ||
+                    current.endsWith("! ")
                 if (isNewSentence) {
                     current + key
                 } else {
@@ -93,8 +91,7 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
     }
 
     fun onSpace() {
-        updateState { 
-            // Avoid double spaces if already ends with space
+        updateState {
             if (inputText.endsWith(" ")) {
                 this
             } else {
@@ -115,43 +112,44 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
 
     fun onSpeak() {
         if (uiState.value.isCategoryEdit || uiState.value.phraseIdToEdit != null) {
-            // "Speak" action is mapped to "Save" in edit modes if we repurpose it or show a checkmark instead
             saveEdit()
             return
         }
 
         val text = uiState.value.inputText
         if (text.isNotBlank()) {
-            VocableTextToSpeech.speak(Locale.getDefault(), text)
+            VocableTextToSpeech.speak(
+                locale = Locale.getDefault(),
+                text = text,
+                selectedVoiceName = sharedPrefs.getSelectedVoiceName()
+            )
         }
     }
-    
+
     fun saveEdit() {
         val state = uiState.value
         val text = state.inputText
         if (text.isBlank()) return
-        
+
         viewModelScope.launch {
             if (state.isCategoryEdit) {
-                 if (state.categoryIdToEdit != null) {
-                    // rename
+                if (state.categoryIdToEdit != null) {
                     categoriesUseCase.updateCategoryName(
                         state.categoryIdToEdit,
                         LocalesWithText(mapOf(Locale.getDefault().toString() to text))
                     )
-                 } else {
-                    // add new
+                } else {
                     categoriesUseCase.addCategory(text)
-                 }
-                 sendEvent(KeyboardEvent.ShowToast("Category saved"))
-                 sendEvent(KeyboardEvent.NavigateBack)
+                }
+                sendEvent(KeyboardEvent.ShowToast("Category saved"))
+                sendEvent(KeyboardEvent.NavigateBack)
             } else if (state.phraseIdToEdit != null) {
-                 phrasesUseCase.updatePhrase(
+                phrasesUseCase.updatePhrase(
                     state.phraseIdToEdit,
                     text
-                 )
-                 sendEvent(KeyboardEvent.ShowToast("Phrase updated"))
-                 sendEvent(KeyboardEvent.NavigateBack)
+                )
+                sendEvent(KeyboardEvent.ShowToast("Phrase updated"))
+                sendEvent(KeyboardEvent.NavigateBack)
             }
         }
     }
@@ -168,20 +166,19 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
 
         viewModelScope.launch {
             val categories = categoriesUseCase.categories().first()
-            
-            // Priority: Use provided category context, otherwise default to "My Sayings"
+
             val targetCategoryId = if (state.saveCategoryId != null) {
                 state.saveCategoryId
             } else {
-                var mySayingsCategory = categories.find { 
-                    it is Category.StoredCategory && localizedResourceUtility.getTextFromCategory(it) == "My Sayings" 
+                var mySayingsCategory = categories.find {
+                    it is Category.StoredCategory && localizedResourceUtility.getTextFromCategory(it) == "My Sayings"
                 }
-    
+
                 if (mySayingsCategory == null) {
                     categoriesUseCase.addCategory("My Sayings")
                     val updatedCategories = categoriesUseCase.categories().first()
-                    mySayingsCategory = updatedCategories.find { 
-                        it is Category.StoredCategory && localizedResourceUtility.getTextFromCategory(it) == "My Sayings" 
+                    mySayingsCategory = updatedCategories.find {
+                        it is Category.StoredCategory && localizedResourceUtility.getTextFromCategory(it) == "My Sayings"
                     }
                 }
                 mySayingsCategory?.categoryId
@@ -201,8 +198,7 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
                         categoryId
                     )
                     sendEvent(KeyboardEvent.ShowToast("Phrase saved successfully"))
-                    
-                    // If we navigated here explicitly to save to a specific category, auto-close
+
                     if (state.saveCategoryId != null) {
                         sendEvent(KeyboardEvent.NavigateBack)
                     } else {

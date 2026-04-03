@@ -9,6 +9,7 @@ class FakeVocableSharedPreferences(
     private var dwellTime: Long = 0,
     private var sensitivity: Float = 0f,
     private var headTrackingEnabled: Boolean = false,
+    private var selectedVoiceName: String? = null,
     private var firstTime: Boolean = false
 ) : IVocableSharedPreferences {
 
@@ -50,6 +51,14 @@ class FakeVocableSharedPreferences(
 
     override fun getHeadTrackingEnabled(): Boolean {
         return headTrackingEnabled
+    }
+
+    override fun setSelectedVoiceName(voiceName: String?) {
+        selectedVoiceName = voiceName
+    }
+
+    override fun getSelectedVoiceName(): String? {
+        return selectedVoiceName
     }
 
     override fun setFirstTime() {

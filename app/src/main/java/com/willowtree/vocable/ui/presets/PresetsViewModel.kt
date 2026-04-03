@@ -8,10 +8,12 @@ import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.domain.model.PhraseGridItem
 import com.willowtree.vocable.domain.model.PresetCategories
 import com.willowtree.vocable.core.ILocalizedResourceUtility
+import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.core.IdlingResourceContainer
 import com.willowtree.vocable.core.VocableTextToSpeech
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.util.Locale
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -28,7 +30,8 @@ class PresetsViewModel(
     private val categoriesUseCase: ICategoriesUseCase,
     private val phrasesUseCase: IPhrasesUseCase,
     private val idlingResourceContainer: IdlingResourceContainer,
-    private val localizedResourceUtility: ILocalizedResourceUtility
+    private val localizedResourceUtility: ILocalizedResourceUtility,
+    private val sharedPreferences: IVocableSharedPreferences
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PresetsState())
@@ -112,6 +115,19 @@ class PresetsViewModel(
             }
             is PresetsIntent.UpdateActiveText -> {
                 _state.update { it.copy(activeText = intent.text) }
+            }
+            is PresetsIntent.Speak -> {
+                _state.update { it.copy(activeText = intent.text) }
+                VocableTextToSpeech.speak(
+                    locale = Locale.getDefault(),
+                    text = intent.text,
+                    selectedVoiceName = sharedPreferences.getSelectedVoiceName()
+                )
+                viewModelScope.launch {
+                    idlingResourceContainer.run {
+                        phrasesUseCase.updatePhraseLastSpokenTime(intent.phraseId)
+                    }
+                }
             }
             is PresetsIntent.NavToAddPhrase -> {
                 liveNavToAddPhrase.value = true

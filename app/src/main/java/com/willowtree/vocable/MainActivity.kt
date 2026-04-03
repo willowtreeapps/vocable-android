@@ -108,7 +108,11 @@ class MainActivity : ScopeActivity() {
                     onEvent = { event ->
                         when (event) {
                             is FaceTrackingEvent.Speak ->
-                                VocableTextToSpeech.speak(Locale.getDefault(), event.text)
+                                VocableTextToSpeech.speak(
+                                    locale = Locale.getDefault(),
+                                    text = event.text,
+                                    selectedVoiceName = sharedPrefs.getSelectedVoiceName()
+                                )
                         }
                     }
                 ) { _ ->

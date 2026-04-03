@@ -47,8 +47,8 @@ class SettingsViewModel : BaseViewModel<SettingsState, SettingsEvent>(SettingsSt
         }
     }
 
-    private companion object {
-        const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
-        const val MAIL_TO = "mailto:vocable@willowtreeapps.com?subject=Feedback for Android Vocable "
+    companion object {
+        private const val PRIVACY_POLICY = "https://vocable.app/privacy.html"
+        private const val MAIL_TO = "mailto:vocable@willowtreeapps.com?subject=Feedback for Android Vocable "
     }
 }

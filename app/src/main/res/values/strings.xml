@@ -5,9 +5,9 @@
     <!-- Presets -->
     <string name="select_something">Select something below to speak.</string>
     <string name="phrases_page_number">Page %1d of %2d</string>
-    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
+    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the "☆" to save it here.</string>
+    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the "☆" to save it here.</string>
+    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the "☆" to save it here.</string>
     <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
     <string name="custom_category_empty"><b>You don\'t have any phrases saved yet.</b></string>
 
@@ -21,6 +21,7 @@
     <string name="settings_dialog_message">You\'re about to be taken outside the app. You may lose head tracking control.</string>
     <string name="settings_dialog_continue">Continue</string>
     <string name="settings_dialog_cancel">Cancel</string>
+    <string name="settings_voice">Voice\n%1$s</string>
 
     <!-- Settings Options -->
     <string name="settings_edit_saying">My Sayings</string>
@@ -30,6 +31,11 @@
 
     <!-- Selection Mode -->
     <string name="selection_mode_title">Selection Mode</string>
+    <string name="voice_selection_title">Voice</string>
+    <string name="voice_default">Default</string>
+    <string name="close_voice_selection">Close Voice Selection</string>
+    <string name="selected">Selected</string>
+    <string name="voice_download">Download voice</string>
 
     <!-- Button Text -->
     <string name="button_pause">Pause</string>

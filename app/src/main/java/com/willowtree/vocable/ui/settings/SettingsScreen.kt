@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -58,7 +58,6 @@ fun SettingsScreen(
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     val numColumns = integerResource(id = R.integer.settings_options_columns)
 
-    // A flag to pass to background buttons so they don't respond when dialog is open
     val dialogOpen = state.dialogType != ExitDialogType.NONE
 
     Scaffold(
@@ -91,7 +90,7 @@ fun SettingsScreen(
                         fontSize = dimensionResource(id = R.dimen.edit_categories_title_text_size).value.sp,
                         textAlign = TextAlign.Center
                     ),
-                    modifier = Modifier.padding(end = 88.dp) // Visual balance
+                    modifier = Modifier.padding(end = 88.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
@@ -104,8 +103,6 @@ fun SettingsScreen(
                 .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            // Grid Options Section
             val options = listOf(
                 OptionItem(stringResource(R.string.edit_categories_title), onEditCategories),
                 OptionItem(stringResource(R.string.timing_sensitivity_title), onTimingSensitivity),
@@ -116,7 +113,7 @@ fun SettingsScreen(
 
             Column(
                 modifier = Modifier
-                    .weight(3f) // Take up significant space
+                    .weight(3f)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -148,8 +145,6 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.weight(0.2f))
 
-            // Links Section
-            // if landscape put it in one row else column
             if (isLandscape) {
                 Row(
                     modifier = Modifier
@@ -171,7 +166,7 @@ fun SettingsScreen(
                         modifier = Modifier.weight(1f)
                     )
                 }
-            }else{
+            } else {
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -194,7 +189,6 @@ fun SettingsScreen(
                 }
             }
 
-
             Spacer(modifier = Modifier.weight(0.1f))
 
             Text(
@@ -204,7 +198,6 @@ fun SettingsScreen(
             )
         }
 
-        // Compose overlay instead of platform AlertDialog so the GazePointer (drawn in MainActivity) can remain on top
         if (dialogOpen) {
             Box(
                 modifier = Modifier
@@ -222,19 +215,19 @@ fun SettingsScreen(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         Text(
-                            text = stringResource(R.string.settings_dialog_title), 
+                            text = stringResource(R.string.settings_dialog_title),
                             style = MaterialTheme.typography.titleLarge.copy(
                                 color = ColorPrimaryDark,
                                 fontWeight = FontWeight.Bold
                             )
                         )
                         Text(
-                            text = stringResource(R.string.settings_dialog_message), 
+                            text = stringResource(R.string.settings_dialog_message),
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = ColorPrimaryDark
                             )
                         )
-                        
+
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Row(
@@ -253,9 +246,9 @@ fun SettingsScreen(
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
                                 )
                             }
-                            
+
                             Spacer(modifier = Modifier.width(8.dp))
-                            
+
                             GazeButton(
                                 onClick = onConfirmDialog,
                                 backgroundColor = Color.Transparent,
