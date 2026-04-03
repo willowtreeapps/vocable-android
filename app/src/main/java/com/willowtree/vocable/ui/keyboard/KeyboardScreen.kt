@@ -29,6 +29,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -167,7 +168,7 @@ fun KeyboardContent(
                                     fontWeight = FontWeight.Bold,
                                     color = if (inputText.isEmpty()) Color.Gray else Color.White
                                 ),
-                                modifier = Modifier.padding(start = 24.dp)
+                                modifier = Modifier.padding(start = 24.dp).testTag("keyboard_input_text")
                             )
                         } else {
                             TextField(
@@ -189,7 +190,8 @@ fun KeyboardContent(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(start = 8.dp)
-                                    .focusRequester(focusRequester),
+                                    .focusRequester(focusRequester)
+                                    .testTag("keyboard_input_text"),
                                 colors = TextFieldDefaults.colors(
                                     focusedContainerColor = Color.Transparent,
                                     unfocusedContainerColor = Color.Transparent,
@@ -325,7 +327,7 @@ fun KeyboardContent(
                                 fontWeight = FontWeight.Bold,
                                 color = if (inputText.isEmpty()) Color.Gray else Color.White
                             ),
-                            modifier = Modifier.padding(start = 24.dp)
+                            modifier = Modifier.padding(start = 24.dp).testTag("keyboard_input_text")
                         )
                     } else {
                         TextField(
@@ -347,7 +349,8 @@ fun KeyboardContent(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 8.dp)
-                                .focusRequester(focusRequester),
+                                .focusRequester(focusRequester)
+                                .testTag("keyboard_input_text"),
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = Color.Transparent,
                                 unfocusedContainerColor = Color.Transparent,

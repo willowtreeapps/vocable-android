@@ -310,7 +310,7 @@ private fun PresetsContent(
             ) {
                 Icon(
                     painterResource(id = R.drawable.ic_keyboard),
-                    null,
+                    contentDescription = stringResource(R.string.keyboard),
                     tint = Color.Unspecified
                 )
             }
@@ -321,7 +321,7 @@ private fun PresetsContent(
             ) {
                 Icon(
                     painterResource(id = R.drawable.ic_settings_light_48dp),
-                    null,
+                    contentDescription = stringResource(R.string.settings),
                     tint = Color.Unspecified
                 )
             }
