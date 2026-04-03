@@ -14,6 +14,11 @@ on:
       - completed
   workflow_call:
 
+permissions:
+  statuses: write
+  actions: read
+  checks: write
+
 jobs:
   device-tests:
     runs-on: ubuntu-latest

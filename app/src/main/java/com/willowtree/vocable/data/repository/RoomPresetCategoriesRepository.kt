@@ -37,14 +37,14 @@ class RoomPresetCategoriesRepository(
     private suspend fun ensurePopulated() {
         categoryMutex.withLock {
             val dbPresets = database.presetCategoryDao().getAllPresetCategoriesFlow().first()
-            PresetCategories.values().filter { it != PresetCategories.MY_SAYINGS }
+            PresetCategories.entries.filter { it != PresetCategories.MY_SAYINGS }
                 .filter { presetCategory -> dbPresets.none { it.categoryId == presetCategory.id } }
                 .map { presetCategory -> populatePresetCategory(presetCategory.id) }
         }
     }
 
     private suspend fun populatePresetCategory(categoryId: String) {
-        val presetCategory = PresetCategories.values().firstOrNull { it.id == categoryId } ?: error(
+        val presetCategory = PresetCategories.entries.firstOrNull { it.id == categoryId } ?: error(
             "Unknown preset category id: $categoryId"
         )
         val newPresetDto = PresetCategoryDto(
