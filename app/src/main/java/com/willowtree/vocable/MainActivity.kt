@@ -103,16 +103,18 @@ class MainActivity : ScopeActivity() {
             Box(modifier = Modifier.fillMaxSize()) {
                 VocableNavHost()
 
-                MviScreen(
-                    viewModel = faceTrackingViewModel,
-                    onEvent = { event ->
-                        when (event) {
-                            is FaceTrackingEvent.Speak ->
-                                VocableTextToSpeech.speak(Locale.getDefault(), event.text)
+                if (environment.environmentType != VocableEnvironmentType.TESTING) {
+                    MviScreen(
+                        viewModel = faceTrackingViewModel,
+                        onEvent = { event ->
+                            when (event) {
+                                is FaceTrackingEvent.Speak ->
+                                    VocableTextToSpeech.speak(Locale.getDefault(), event.text)
+                            }
                         }
+                    ) { _ ->
+                        FaceTrackingScreen(viewModel = faceTrackingViewModel)
                     }
-                ) { _ ->
-                    FaceTrackingScreen(viewModel = faceTrackingViewModel)
                 }
             }
         }

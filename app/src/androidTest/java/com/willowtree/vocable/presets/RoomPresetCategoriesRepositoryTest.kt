@@ -30,11 +30,11 @@ class RoomPresetCategoriesRepositoryTest {
 
         assertEquals(
             PresetCategories.entries.filter { it != PresetCategories.MY_SAYINGS }.map {
-                Category.PresetCategory(
-                    it.id,
-                    it.initialSortOrder,
-                    false,
-                )
+                if (it == PresetCategories.RECENTS) {
+                    Category.Recents(hidden = false, sortOrder = it.initialSortOrder)
+                } else {
+                    Category.PresetCategory(it.id, it.initialSortOrder, false)
+                }
             },
             repository.getPresetCategories().first()
         )
