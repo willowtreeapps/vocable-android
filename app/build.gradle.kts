@@ -68,6 +68,16 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
+// Room 2.8.4's room-migration JAR was compiled against an older kotlinx.serialization where
+// typeParametersSerializers() in GeneratedSerializer had no implementation. In 1.7.3 it became
+// abstract, causing AbstractMethodError at runtime. In 1.8.1 it is a JVM default method again,
+// so Room's pre-compiled serializers work correctly. Force 1.8.1 to override Room's strict 1.7.3.
+configurations.all {
+    resolutionStrategy {
+        force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.1")
+    }
+}
+
 dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)

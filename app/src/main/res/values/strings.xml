@@ -200,6 +200,7 @@
 
     <!-- Compose Migration Strings -->
     <string name="preset_sayings_title">Preset Sayings</string>
+    <string name="keyboard">Keyboard</string>
     <string name="keyboard_clear">Clear</string>
     <string name="keyboard_space">Space</string>
     <string name="keyboard_backspace">Backspace</string>

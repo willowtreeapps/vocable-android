@@ -21,15 +21,15 @@ class RoomPresetCategoriesRepository(
     // on them. Multiple callers may call at once.
     private val categoryMutex = Mutex()
 
-    override fun getPresetCategories(): Flow<List<Category.PresetCategory>> {
+    override fun getPresetCategories(): Flow<List<Category>> {
         return database.presetCategoryDao().getAllPresetCategoriesFlow().map { presetCategories ->
             presetCategories.filterNot { it.deleted }
                 .map {
-                    Category.PresetCategory(
-                        it.categoryId,
-                        it.sortOrder,
-                        it.hidden
-                    )
+                    if (it.categoryId == PresetCategories.RECENTS.id) {
+                        Category.Recents(hidden = it.hidden, sortOrder = it.sortOrder)
+                    } else {
+                        Category.PresetCategory(it.categoryId, it.sortOrder, it.hidden)
+                    }
                 }
         }.onStart { ensurePopulated() }
     }
@@ -37,14 +37,14 @@ class RoomPresetCategoriesRepository(
     private suspend fun ensurePopulated() {
         categoryMutex.withLock {
             val dbPresets = database.presetCategoryDao().getAllPresetCategoriesFlow().first()
-            PresetCategories.values().filter { it != PresetCategories.MY_SAYINGS }
+            PresetCategories.entries.filter { it != PresetCategories.MY_SAYINGS }
                 .filter { presetCategory -> dbPresets.none { it.categoryId == presetCategory.id } }
                 .map { presetCategory -> populatePresetCategory(presetCategory.id) }
         }
     }
 
     private suspend fun populatePresetCategory(categoryId: String) {
-        val presetCategory = PresetCategories.values().firstOrNull { it.id == categoryId } ?: error(
+        val presetCategory = PresetCategories.entries.firstOrNull { it.id == categoryId } ?: error(
             "Unknown preset category id: $categoryId"
         )
         val newPresetDto = PresetCategoryDto(
