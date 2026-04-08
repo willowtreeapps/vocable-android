@@ -15,6 +15,7 @@ import com.willowtree.vocable.domain.model.PresetCategories
 import com.willowtree.vocable.ui.presets.PresetsIntent
 import com.willowtree.vocable.ui.presets.PresetsViewModel
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
+import com.willowtree.vocable.utils.FakeVocableSharedPreferences
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -40,7 +41,8 @@ class PresetsViewModelTest {
             fakeCategoriesUseCase,
             fakePhrasesUseCase,
             prodIdlingResourceContainer,
-            FakeLocalizedResourceUtility()
+            FakeLocalizedResourceUtility(),
+            FakeVocableSharedPreferences()
         )
     }
 

@@ -1,10 +1,13 @@
 package com.willowtree.vocable.ui.settings
 
 import com.willowtree.vocable.BuildConfig
+import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.ui.base.BaseViewModel
 
 /** ViewModel for the [SettingsScreen]. */
-class SettingsViewModel : BaseViewModel<SettingsState, SettingsEvent>(SettingsState()) {
+class SettingsViewModel(
+    prefs: IVocableSharedPreferences
+) : BaseViewModel<SettingsState, SettingsEvent>(SettingsState(selectedVoiceLabel = prefs.getSelectedVoiceName())) {
 
     fun onEditCategories() {
         sendEvent(SettingsEvent.NavigateToEditCategories)
@@ -16,6 +19,10 @@ class SettingsViewModel : BaseViewModel<SettingsState, SettingsEvent>(SettingsSt
 
     fun onSelectionMode() {
         sendEvent(SettingsEvent.NavigateToSelectionMode)
+    }
+
+    fun onVoiceSelection() {
+        sendEvent(SettingsEvent.NavigateToVoiceSelection)
     }
 
     fun requestPrivacyPolicy() {

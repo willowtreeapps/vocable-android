@@ -148,6 +148,7 @@ fun VocableNavHost(
                     SettingsEvent.NavigateToEditCategories -> navController.navigate(ROUTE_EDIT_CATEGORIES)
                     SettingsEvent.NavigateToTimingSensitivity -> navController.navigate(ROUTE_SENSITIVITY)
                     SettingsEvent.NavigateToSelectionMode -> navController.navigate(ROUTE_SELECTION_MODE)
+                    SettingsEvent.NavigateToVoiceSelection -> navController.navigate(ROUTE_VOICE_SELECTION)
                     is SettingsEvent.OpenPrivacyPolicy -> settingsContext.startActivity(
                         Intent(Intent.ACTION_VIEW, event.url.toUri())
                     )

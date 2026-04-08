@@ -31,15 +31,16 @@ object VocableTextToSpeech {
 
     fun initialize(context: Context) {
         if (textToSpeech == null) {
-            textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener {
+            textToSpeech = TextToSpeech(context) {
                 Timber.d("VocableTextToSpeech initialized with status: $it")
-            }).apply {
+            }.apply {
                 setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onDone(utteranceId: String?) {
                         liveIsSpeaking.postValue(false)
                         _isSpeakingFlow.value = false
                     }
 
+                    @Deprecated("Deprecated in Java")
                     override fun onError(utteranceId: String?) {
                         Timber.e("VocableTextToSpeech onError: utteranceId=$utteranceId")
                         liveIsSpeaking.postValue(false)
@@ -97,7 +98,7 @@ object VocableTextToSpeech {
             Timber.d("VocableTextToSpeech setLanguage result: $result (LANG_MISSING_DATA=-1, LANG_NOT_SUPPORTED=-2)")
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                val fallbackLocale = Locale(targetLocale.language)
+                val fallbackLocale = Locale.forLanguageTag(targetLocale.toLanguageTag())
                 Timber.d("VocableTextToSpeech: Trying fallback locale: $fallbackLocale")
                 result = tts.setLanguage(fallbackLocale)
 
