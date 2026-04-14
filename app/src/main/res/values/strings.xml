@@ -22,6 +22,7 @@
     <string name="settings_dialog_continue">Continue</string>
     <string name="settings_dialog_cancel">Cancel</string>
     <string name="settings_voice">Voice\n%1$s</string>
+    <string name="settings_language">Language\n%1$s</string>
 
     <!-- Settings Options -->
     <string name="settings_edit_saying">My Sayings</string>
@@ -36,6 +37,11 @@
     <string name="close_voice_selection">Close Voice Selection</string>
     <string name="selected">Selected</string>
     <string name="voice_download">Download voice</string>
+
+    <!-- Language Selection -->
+    <string name="language_selection_title">Language</string>
+    <string name="language_system_default">System Default</string>
+    <string name="close_language_selection">Close Language Selection</string>
 
     <!-- Button Text -->
     <string name="button_pause">Pause</string>

@@ -26,6 +26,7 @@ class VocableSharedPreferences :
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = DWELL_TIME_ONE_SECOND
         const val KEY_SELECTED_VOICE_NAME = "KEY_SELECTED_VOICE_NAME"
+        const val KEY_SELECTED_LANGUAGE_TAG = "KEY_SELECTED_LANGUAGE_TAG"
         const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
     }
 
@@ -93,6 +94,18 @@ class VocableSharedPreferences :
     }
 
     override fun getSelectedVoiceName(): String? = encryptedPrefs.getString(KEY_SELECTED_VOICE_NAME, null)
+
+    override fun setSelectedLanguageTag(tag: String?) {
+        encryptedPrefs.edit {
+            if (tag == null) {
+                remove(KEY_SELECTED_LANGUAGE_TAG)
+            } else {
+                putString(KEY_SELECTED_LANGUAGE_TAG, tag)
+            }
+        }
+    }
+
+    override fun getSelectedLanguageTag(): String? = encryptedPrefs.getString(KEY_SELECTED_LANGUAGE_TAG, null)
 
     override fun setFirstTime() {
         encryptedPrefs.edit { putBoolean(KEY_FIRST_TIME, false) }

@@ -23,8 +23,14 @@ class SelectionModeViewModel(
     )
     val selectedVoiceLabel: StateFlow<String> = _selectedVoiceLabel.asStateFlow()
 
-    fun refreshVoiceLabel() {
+    private val _selectedLanguageLabel = MutableStateFlow(
+        resolveLanguageLabel(sharedPreferences.getSelectedLanguageTag())
+    )
+    val selectedLanguageLabel: StateFlow<String> = _selectedLanguageLabel.asStateFlow()
+
+    fun refreshLabels() {
         _selectedVoiceLabel.value = sharedPreferences.getSelectedVoiceName() ?: DEFAULT_VOICE_LABEL
+        _selectedLanguageLabel.value = resolveLanguageLabel(sharedPreferences.getSelectedLanguageTag())
     }
 
     fun requestHeadTracking() {
@@ -37,5 +43,12 @@ class SelectionModeViewModel(
 
     companion object {
         const val DEFAULT_VOICE_LABEL = "Default"
+        const val DEFAULT_LANGUAGE_LABEL = "System Default"
+
+        private fun resolveLanguageLabel(tag: String?): String {
+            if (tag.isNullOrEmpty()) return DEFAULT_LANGUAGE_LABEL
+            val locale = java.util.Locale.forLanguageTag(tag)
+            return locale.getDisplayName(locale).replaceFirstChar { it.uppercase() }
+        }
     }
 }

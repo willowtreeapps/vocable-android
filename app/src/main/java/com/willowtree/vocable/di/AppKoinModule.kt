@@ -50,6 +50,7 @@ import com.willowtree.vocable.ui.settings.SettingsViewModel
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel
 import com.willowtree.vocable.ui.splash.SplashActivity
 import com.willowtree.vocable.ui.splash.SplashViewModel
+import com.willowtree.vocable.ui.languageselection.LanguageSelectionViewModel
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
@@ -120,4 +121,5 @@ val vocableKoinModule = module {
     viewModel { SettingsViewModel(get()) }
     viewModel { SensitivityViewModel(get()) }
     viewModel { VoiceSelectionViewModel(get()) }
+    viewModel { LanguageSelectionViewModel(get()) }
 }
