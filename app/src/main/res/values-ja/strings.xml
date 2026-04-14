@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+  <string name="add_category">"カテゴリを追加"</string>
+  <string name="add_phrase">"フレーズを追加"</string>
+  <string name="add_phrase_plus">"+ フレーズを追加"</string>
+  <string name="add_to_category">"カテゴリに追加"</string>
+  <string name="all_categories_hidden_text">"すべてのカテゴリが非表示になっています。カテゴリ設定ページから再度表示できます。"</string>
+  <string name="are_you_sure">"本気ですか？"</string>
+  <string name="back_warning">"保存する前に前の画面に戻ると、行った編集内容はすべて消去されます。"</string>
+  <string name="button_pause">"一時停止"</string>
+  <string name="button_resume">"再開する"</string>
+  <string name="categories_edit_title">"カテゴリー"</string>
+  <string name="category_123">"123"</string>
+  <string name="category_123_no">"いいえ"</string>
+  <string name="category_123_yes">"はい"</string>
+  <string name="category_created">"カテゴリ作成済み"</string>
+  <string name="changes_saved">"変更が保存されました"</string>
+  <string name="close_settings">"設定を閉じる"</string>
+  <string name="close_voice_selection">"音声選択を閉じる"</string>
+  <string name="contact_developers">"開発者に問い合わせる"</string>
+  <string name="contiue_editing">"編集を続ける"</string>
+  <string name="create_custom_categories">"設定メニューでカスタムカテゴリを作成し、そこにフレーズを追加してください。"</string>
+  <string name="cursor_sensitivity_high">"高い"</string>
+  <string name="cursor_sensitivity_low">"低い"</string>
+  <string name="cursor_sensitivity_medium">"中くらい"</string>
+  <string name="cursor_sensitivity_text">"カーソル感度"</string>
+  <string name="custom_category_empty"><b>"まだフレーズが保存されていません。"</b></string>
+  <string name="delete">"消去"</string>
+  <string name="delete_warning">"削除されたフレーズは復元できません。"</string>
+  <string name="discard">"破棄"</string>
+  <string name="duplicate_category">"申し訳ありませんが、このカテゴリ名は既に存在します。別の名前をお試しください。"</string>
+  <string name="duplicate_phrase">"申し訳ありませんが、このフレーズ名は既に存在します。別の名前をお試しください。"</string>
+  <string name="edit_categories_title">"カテゴリーとフレーズ"</string>
+  <string name="edit_category_remove_category_text">"カテゴリを削除"</string>
+  <string name="edit_category_show_category_text">"カテゴリーを表示"</string>
+  <string name="edit_phrases">"フレーズを編集する"</string>
+  <string name="error_move_closer">"デバイスにもっと近づいてください。"</string>
+  <string name="head_tracking_paused_message">"ヘッドトラッキングは一時停止しています。再開するには頭を動かしてください。"</string>
+  <string name="hover_time_amount_text">" "<xliff:g example="5" id="time">"%s"</xliff:g>"秒"</string>
+  <string name="hover_time_one_text">"1秒"</string>
+  <string name="hover_time_text">"ホバリング時間"</string>
+  <string name="keyboard">"キーボード"</string>
+  <string name="keyboard_backspace">"バックスペース"</string>
+  <string name="keyboard_clear">"クリア"</string>
+  <string name="keyboard_select_letters">"入力を開始してください…"</string>
+  <string name="keyboard_space">"空間"</string>
+  <string name="keyboard_speak">"話す"</string>
+  <string name="my_sayings_empty"><b>"あなたの言葉がここに表示されます。"</b>"キーボードに移動して何か入力し、☆を選択してここに保存してください。"</string>
+  <string name="my_sayings_empty_handset_land"><b>"あなたの言葉がここに表示されます。"</b>"キーボードに移動して何か入力し、☆を選択してここに保存してください。"</string>
+  <string name="my_sayings_empty_handset_port"><b>"あなたの言葉がここに表示されます。"</b>"キーボードに移動して何か入力し、☆を選択してここに保存してください。"</string>
+  <string name="my_sayings_empty_settings"><b>"まだ格言が保存されていません。右上の「+」をクリックして追加してください。"</b></string>
+  <string name="new_phrase_saved">"新しいフレーズが保存されました"</string>
+  <string name="no_custom_categories">"カスタムカテゴリはありません"</string>
+  <string name="no_recent_phrases_message">"アプリを使い始めると、最近使用したフレーズがここで確認できます。"</string>
+  <string name="no_recent_phrases_title">"最近使用したフレーズはありません"</string>
+  <string name="off">"オフ"</string>
+  <string name="on">"の上"</string>
+  <string name="permissions_confirm">"わかりました"</string>
+  <string name="permissions_missing_dialog_body">"ヘッドトラッキング機能を使用するには、カメラへのアクセス許可が必要です。アプリの設定で許可してください。"</string>
+  <string name="permissions_missing_dialog_title">"必要な権限が利用できません"</string>
+  <string name="permissions_rationale_title">"ヘッドトラッキングを有効にするには、カメラの権限が必要です。"</string>
+  <string name="phrases_page_number">"ページ%1dの%2d"</string>
+  <string name="preset_bad" formatted="false">"悪い"</string>
+  <string name="preset_basic_needs" formatted="false">"基本的なニーズ"</string>
+  <string name="preset_be_patient" formatted="false">"しばらくお待ちください"</string>
+  <string name="preset_be_quiet" formatted="false">"静かにしてください"</string>
+  <string name="preset_close_blinds" formatted="false">"ブラインドを閉めてください"</string>
+  <string name="preset_close_window" formatted="false">"ウィンドウを閉じてください"</string>
+  <string name="preset_conversation" formatted="false">"会話"</string>
+  <string name="preset_environment" formatted="false">"環境"</string>
+  <string name="preset_fix_pillow" formatted="false">"私の枕を直してください"</string>
+  <string name="preset_general" formatted="false">"一般的な"</string>
+  <string name="preset_good" formatted="false">"良い"</string>
+  <string name="preset_good_evening" formatted="false">"こんばんは"</string>
+  <string name="preset_good_morning" formatted="false">"おはよう"</string>
+  <string name="preset_goodbye" formatted="false">"さようなら"</string>
+  <string name="preset_hello" formatted="false">"こんにちは"</string>
+  <string name="preset_how_are_you" formatted="false">"元気ですか？"</string>
+  <string name="preset_how_is_day" formatted="false">"今日はどうでしたか？"</string>
+  <string name="preset_how_is_it_going" formatted="false">"調子はどう？"</string>
+  <string name="preset_how_was_your_weekend" formatted="false">"週末はいかがでしたか？"</string>
+  <string name="preset_i_didnt_mean_say_that" formatted="false">"そんなつもりじゃなかった"</string>
+  <string name="preset_i_do_not_agree" formatted="false">"私は同意しません"</string>
+  <string name="preset_i_dont_know" formatted="false">"わからない"</string>
+  <string name="preset_i_like_it" formatted="false">"私はそれが好きです"</string>
+  <string name="preset_im_cold" formatted="false">"寒い"</string>
+  <string name="preset_im_fine" formatted="false">"私は元気です"</string>
+  <string name="preset_im_finished" formatted="false">"終わった"</string>
+  <string name="preset_im_good" formatted="false">"私は元気です"</string>
+  <string name="preset_im_hot" formatted="false">"私は暑い"</string>
+  <string name="preset_im_hungry" formatted="false">"お腹が空きました"</string>
+  <string name="preset_im_in_pain" formatted="false">"私は痛みを感じています"</string>
+  <string name="preset_im_thirsty" formatted="false">"のどが渇きました"</string>
+  <string name="preset_im_tired" formatted="false">"私は疲れました"</string>
+  <string name="preset_im_uncomfortable" formatted="false">"私は不快です"</string>
+  <string name="preset_like_to_talk" formatted="false">"お話したいのですが"</string>
+  <string name="preset_like_visitors" formatted="false">"私は訪問者を歓迎します"</string>
+  <string name="preset_maybe" formatted="false">"多分"</string>
+  <string name="preset_need_bath" formatted="false">"お風呂に入りたい"</string>
+  <string name="preset_need_jacket" formatted="false">"ジャケットが必要です"</string>
+  <string name="preset_need_medication" formatted="false">"薬が必要です"</string>
+  <string name="preset_need_restroom" formatted="false">"トイレに行きたい"</string>
+  <string name="preset_need_shower" formatted="false">"シャワーを浴びたい"</string>
+  <string name="preset_need_spit" formatted="false">"唾を吐きたい"</string>
+  <string name="preset_need_wash_face" formatted="false">"顔を洗わなきゃ"</string>
+  <string name="preset_no" formatted="false">"いいえ"</string>
+  <string name="preset_no_visitors" formatted="false">"訪問者はお断りします"</string>
+  <string name="preset_okay" formatted="false">"わかった"</string>
+  <string name="preset_open_blinds" formatted="false">"ブラインドを開けてください"</string>
+  <string name="preset_open_window" formatted="false">"窓を開けてください"</string>
+  <string name="preset_personal_care" formatted="false">"パーソナルケア"</string>
+  <string name="preset_please" formatted="false">"お願いします"</string>
+  <string name="preset_please_repeat" formatted="false">"もう一度おっしゃってください。"</string>
+  <string name="preset_please_stop" formatted="false">"やめてください"</string>
+  <string name="preset_please_wait" formatted="false">"お待ちください"</string>
+  <string name="preset_pleased_to_meet_you" formatted="false">"お会いできてうれしいです"</string>
+  <string name="preset_recents" formatted="false">"最近"</string>
+  <string name="preset_sayings_title">"あらかじめ設定されたフレーズ"</string>
+  <string name="preset_thank_you" formatted="false">"ありがとう"</string>
+  <string name="preset_that_makes_sense" formatted="false">"それは理にかなっている"</string>
+  <string name="preset_trouble_breathing" formatted="false">"呼吸困難です"</string>
+  <string name="preset_turn_off_lights" formatted="false">"電気を消してください"</string>
+  <string name="preset_turn_on_lights" formatted="false">"電気をつけてください"</string>
+  <string name="preset_tv_off" formatted="false">"テレビを消してください"</string>
+  <string name="preset_tv_on" formatted="false">"テレビをつけてください"</string>
+  <string name="preset_user_favorites" formatted="false">"私の言葉"</string>
+  <string name="preset_user_keypad" formatted="false">"123"</string>
+  <string name="preset_volume_down" formatted="false">"音量を下げてください"</string>
+  <string name="preset_volume_up" formatted="false">"音量を上げてください"</string>
+  <string name="preset_want_brush_hair" formatted="false">"髪をとかす必要がある"</string>
+  <string name="preset_want_lie_down" formatted="false">"横になりたい"</string>
+  <string name="preset_want_sit_up" formatted="false">"起き上がりたい"</string>
+  <string name="preset_yes" formatted="false">"はい"</string>
+  <string name="privacy_policy">"プライバシーポリシー"</string>
+  <string name="remove_category">"カテゴリを削除"</string>
+  <string name="removed_cant_be_restored">"削除されたカテゴリは復元できません。"</string>
+  <string name="removed_successfully">"削除されました%1s"</string>
+  <string name="rename_category">"カテゴリ名の変更"</string>
+  <string name="saved_successfully">"保存先%1s"</string>
+  <string name="select_something">"発言したい項目を以下から選択してください。"</string>
+  <string name="selected">"選ばれた"</string>
+  <string name="selection_mode_title">"選択モード"</string>
+  <string name="settings">"設定"</string>
+  <string name="settings_dialog_cancel">"キャンセル"</string>
+  <string name="settings_dialog_continue">"続く"</string>
+  <string name="settings_dialog_message">"アプリの外に移動します。ヘッドトラッキングの制御が失われる可能性があります。"</string>
+  <string name="settings_dialog_title">"アプリを終了する"</string>
+  <string name="settings_edit_categories">"カテゴリーとフレーズ"</string>
+  <string name="settings_edit_saying">"私の言葉"</string>
+  <string name="settings_head_tracking">"ヘッドトラッキング"</string>
+  <string name="settings_reset_app">"アプリ設定をリセット"</string>
+  <string name="settings_selection_mode">"選択モード"</string>
+  <string name="settings_voice">"声%1$s"</string>
+  <string name="show_category">"カテゴリーを表示"</string>
+  <string name="timing_sensitivity_title">"タイミングと感度"</string>
+  <string name="voice_default">"デフォルト"</string>
+  <string name="voice_download">"音声をダウンロード"</string>
+  <string name="voice_selection_title">"声"</string>
+</resources>

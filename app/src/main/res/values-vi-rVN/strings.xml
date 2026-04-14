@@ -1,161 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-    <!-- Presets -->
-    <string name="select_something">Select something below to speak.</string>
-    <string name="phrases_page_number">Page %1d of %2d</string>
-    <string name="my_sayings_empty"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_port"><b>Your sayings will appear\nhere.</b>\n\nNavigate to the keyboard, type something then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_handset_land"><b>Your sayings will appear here.</b>\n\nNavigate to the keyboard, type something\n then select the \"☆\" to save it here.</string>
-    <string name="my_sayings_empty_settings"><b>You don’t have any sayings saved yet. Select the “+” in the top right to add something.</b></string>
-    <string name="custom_category_empty"><b>You don\'t have any phrases saved yet.</b></string>
-    <!-- Settings Page -->
-    <string name="settings">Settings</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="contact_developers">Contact Developers</string>
-    <string name="settings_head_tracking">Head Tracking</string>
-    <string name="settings_dialog_title">Leaving the app</string>
-    <string name="settings_dialog_message">You\'re about to be taken outside the app. You may lose head tracking control.</string>
-    <string name="settings_dialog_continue">Continue</string>
-    <string name="settings_dialog_cancel">Cancel</string>
-    <!-- Settings Options -->
-    <string name="settings_edit_saying">My Sayings</string>
-    <string name="settings_edit_categories">Categories and Phrases</string>
-    <string name="settings_selection_mode">Selection Mode</string>
-    <string name="settings_reset_app">Reset App Settings</string>
-    <!-- Selection Mode -->
-    <string name="selection_mode_title">Selection Mode</string>
-    <!-- Button Text -->
-    <string name="button_pause">Pause</string>
-    <string name="button_resume">Resume</string>
-    <!-- Errors -->
-    <string name="error_move_closer">Please move closer to the device.</string>
-    <!-- Keyboard Layout -->
-    <string name="keyboard_select_letters">Start typing…</string>
-    <!-- Saved Phrase Success -->
-    <string name="saved_successfully">Saved to %1s</string>
-    <string name="removed_successfully">Removed from %1s</string>
-    <!-- Edit Sayings -->
-    <string name="delete">Delete</string>
-    <string name="delete_warning">Removed phrases cannot be restored.</string>
-    <string name="new_phrase_saved">New phrase saved</string>
-    <string name="contiue_editing">Continue editing</string>
-    <string name="discard">Discard</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="back_warning">Going back before saving will clear any edits made.</string>
-    <string name="duplicate_phrase">Sorry, this phrase name already exists. Please try a different name.</string>
-    <!-- Edit Keyboard -->
-    <string name="changes_saved">Changes Saved</string>
-    <string name="category_created">Category Created</string>
-    <string name="duplicate_category">Sorry, this category name already exists. Please try a different name.</string>
-    <!-- Timing and Sensitivity -->
-    <string name="timing_sensitivity_title">Timing and Sensitivity</string>
-    <string name="hover_time_text">Hover Time</string>
-    <string name="cursor_sensitivity_text">Cursor Sensitivity</string>
-    <string name="hover_time_amount_text">        <xliff:g example="5" id="time">%s</xliff:g> seconds
-    </string>
-    <string name="hover_time_one_text">1 second</string>
-    <string name="cursor_sensitivity_low">Low</string>
-    <string name="cursor_sensitivity_medium">Medium</string>
-    <string name="cursor_sensitivity_high">High</string>
-    <!-- Categories -->
-    <string name="category_123">123</string>
-    <string name="category_123_yes">Yes</string>
-    <string name="category_123_no">No</string>
-    <!-- Keypad Numbers -->
-    <!-- Edit Categories -->
-    <string name="edit_categories_title">Categories and Phrases</string>
-    <!-- Edit Category Options -->
-    <string name="edit_category_show_category_text">Show Category</string>
-    <string name="edit_category_remove_category_text">Remove Category</string>
-    <string name="removed_cant_be_restored">Removed categories can not be restored.</string>
-    <!-- Presets -->
-    <string name="preset_general" formatted="false">General</string>
-    <string name="preset_basic_needs" formatted="false">Basic Needs</string>
-    <string name="preset_personal_care" formatted="false">Personal Care</string>
-    <string name="preset_conversation" formatted="false">Conversation</string>
-    <string name="preset_environment" formatted="false">Environment</string>
-    <string name="preset_user_keypad" formatted="false">123</string>
-    <string name="preset_user_favorites" formatted="false">My Sayings</string>
-    <string name="preset_recents" formatted="false">Recents</string>
-    <string name="preset_need_restroom" formatted="false">I need to go to the restroom</string>
-    <string name="preset_im_thirsty" formatted="false">I am thirsty</string>
-    <string name="preset_im_hungry" formatted="false">I am hungry</string>
-    <string name="preset_im_cold" formatted="false">I am cold</string>
-    <string name="preset_im_hot" formatted="false">I am hot</string>
-    <string name="preset_im_tired" formatted="false">I am tired</string>
-    <string name="preset_im_fine" formatted="false">I am fine</string>
-    <string name="preset_im_good" formatted="false">I am good</string>
-    <string name="preset_im_uncomfortable" formatted="false">I am uncomfortable</string>
-    <string name="preset_im_in_pain" formatted="false">I am in pain</string>
-    <string name="preset_im_finished" formatted="false">I am finished</string>
-    <string name="preset_want_lie_down" formatted="false">I want to lie down</string>
-    <string name="preset_want_sit_up" formatted="false">I want to sit up</string>
-    <string name="preset_hello" formatted="false">Hello</string>
-    <string name="preset_good_morning" formatted="false">Good morning</string>
-    <string name="preset_good_evening" formatted="false">Good evening</string>
-    <string name="preset_pleased_to_meet_you" formatted="false">Pleased to meet you</string>
-    <string name="preset_how_is_day" formatted="false">How is your day?</string>
-    <string name="preset_how_are_you" formatted="false">How are you?</string>
-    <string name="preset_how_is_it_going" formatted="false">How\'s it going?</string>
-    <string name="preset_how_was_your_weekend" formatted="false">How was your weekend?</string>
-    <string name="preset_goodbye" formatted="false">Goodbye</string>
-    <string name="preset_okay" formatted="false">Okay</string>
-    <string name="preset_bad" formatted="false">Bad</string>
-    <string name="preset_good" formatted="false">Good</string>
-    <string name="preset_that_makes_sense" formatted="false">That makes sense</string>
-    <string name="preset_i_like_it" formatted="false">I like it</string>
-    <string name="preset_please_stop" formatted="false">Please stop</string>
-    <string name="preset_i_do_not_agree" formatted="false">I do not agree</string>
-    <string name="preset_please_repeat" formatted="false">Please repeat what you said</string>
-    <string name="preset_please" formatted="false">Please</string>
-    <string name="preset_thank_you" formatted="false">Thank you</string>
-    <string name="preset_yes" formatted="false">Yes</string>
-    <string name="preset_no" formatted="false">No</string>
-    <string name="preset_maybe" formatted="false">Maybe</string>
-    <string name="preset_please_wait" formatted="false">Please wait</string>
-    <string name="preset_i_dont_know" formatted="false">I don\'t know</string>
-    <string name="preset_i_didnt_mean_say_that" formatted="false">I didn\'t mean to say that</string>
-    <string name="preset_be_patient" formatted="false">Please be patient</string>
-    <string name="preset_turn_on_lights" formatted="false">Please turn the lights on</string>
-    <string name="preset_turn_off_lights" formatted="false">Please turn the lights off</string>
-    <string name="preset_no_visitors" formatted="false">No visitors please</string>
-    <string name="preset_like_visitors" formatted="false">I would like visitors</string>
-    <string name="preset_be_quiet" formatted="false">Please be quiet</string>
-    <string name="preset_like_to_talk" formatted="false">I would like to talk</string>
-    <string name="preset_tv_on" formatted="false">Please turn the TV on</string>
-    <string name="preset_tv_off" formatted="false">Please turn the TV off</string>
-    <string name="preset_volume_up" formatted="false">Please turn the volume up</string>
-    <string name="preset_volume_down" formatted="false">Please turn the volume down</string>
-    <string name="preset_open_blinds" formatted="false">Please open the blinds</string>
-    <string name="preset_close_blinds" formatted="false">Please close the blinds</string>
-    <string name="preset_open_window" formatted="false">Please open the window</string>
-    <string name="preset_close_window" formatted="false">Please close the window</string>
-    <string name="preset_need_medication" formatted="false">I need my medication</string>
-    <string name="preset_need_bath" formatted="false">I need a bath</string>
-    <string name="preset_need_shower" formatted="false">I need a shower</string>
-    <string name="preset_need_wash_face" formatted="false">I need to wash my face</string>
-    <string name="preset_want_brush_hair" formatted="false">I need to brush my hair</string>
-    <string name="preset_fix_pillow" formatted="false">Please fix my pillow</string>
-    <string name="preset_need_spit" formatted="false">I need to spit</string>
-    <string name="preset_trouble_breathing" formatted="false">I am having trouble breathing</string>
-    <string name="preset_need_jacket" formatted="false">I need a jacket</string>
-    <string name="add_phrase">Add Phrase</string>
-    <string name="add_phrase_plus">+ Add Phrase</string>
-    <string name="add_category">Add Category</string>
-    <string name="add_to_category">Add to Category</string>
-    <string name="no_custom_categories">No custom categories</string>
-    <string name="create_custom_categories">Create custom categories in the settings menu to add phrases to them here.</string>
-    <string name="all_categories_hidden_text">All of your categories have been hidden. You can show them again from the category settings page.</string>
-    <string name="no_recent_phrases_title">No recently used phrases</string>
-    <string name="no_recent_phrases_message">Start using the app to see your most recently used phrases here.</string>
-    <string name="categories_edit_title">Categories</string>
-    <!-- Camera Permissions -->
-    <string name="permissions_missing_dialog_title">Required Permissions Unavailable</string>
-    <string name="permissions_missing_dialog_body">Camera permissions are required to use the Head Tracking feature. Please enable them in the app settings.</string>
-    <string name="permissions_confirm">OK</string>
-    <string name="permissions_rationale_title">Camera permissions are needed to enable Head Tracking</string>
-    <string name="rename_category">Rename Category</string>
-    <string name="show_category">Show Category</string>
-    <string name="edit_phrases">Edit Phrases</string>
-    <string name="remove_category">Remove Category</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+  <string name="add_category">"Thêm danh mục"</string>
+  <string name="add_phrase">"Thêm cụm từ"</string>
+  <string name="add_phrase_plus">"+ Thêm cụm từ"</string>
+  <string name="add_to_category">"Thêm vào danh mục"</string>
+  <string name="all_categories_hidden_text">"Tất cả các danh mục của bạn đã bị ẩn. Bạn có thể hiển thị lại chúng từ trang cài đặt danh mục."</string>
+  <string name="are_you_sure">"Bạn chắc chắn chứ?"</string>
+  <string name="back_warning">"Việc quay lại trước khi lưu sẽ xóa mọi chỉnh sửa đã thực hiện."</string>
+  <string name="button_pause">"Tạm dừng"</string>
+  <string name="button_resume">"Bản tóm tắt"</string>
+  <string name="categories_edit_title">"Thể loại"</string>
+  <string name="category_123">"123"</string>
+  <string name="category_123_no">"KHÔNG"</string>
+  <string name="category_123_yes">"Đúng"</string>
+  <string name="category_created">"Danh mục đã được tạo"</string>
+  <string name="changes_saved">"Thay đổi đã được lưu"</string>
+  <string name="close_settings">"Đóng cài đặt"</string>
+  <string name="close_voice_selection">"Đóng lựa chọn giọng nói"</string>
+  <string name="contact_developers">"Liên hệ với nhà phát triển"</string>
+  <string name="contiue_editing">"Tiếp tục chỉnh sửa"</string>
+  <string name="create_custom_categories">"Tạo các danh mục tùy chỉnh trong menu cài đặt để thêm các cụm từ vào đó."</string>
+  <string name="cursor_sensitivity_high">"Cao"</string>
+  <string name="cursor_sensitivity_low">"Thấp"</string>
+  <string name="cursor_sensitivity_medium">"Trung bình"</string>
+  <string name="cursor_sensitivity_text">"Độ nhạy con trỏ"</string>
+  <string name="custom_category_empty"><b>"Bạn chưa lưu bất kỳ cụm từ nào."</b></string>
+  <string name="delete">"Xóa bỏ"</string>
+  <string name="delete_warning">"Các cụm từ đã xóa không thể khôi phục."</string>
+  <string name="discard">"Loại bỏ"</string>
+  <string name="duplicate_category">"Rất tiếc, tên danh mục này đã tồn tại. Vui lòng thử một tên khác."</string>
+  <string name="duplicate_phrase">"Rất tiếc, cụm từ này đã được sử dụng rồi. Vui lòng thử một tên khác."</string>
+  <string name="edit_categories_title">"Các danh mục và cụm từ"</string>
+  <string name="edit_category_remove_category_text">"Xóa danh mục"</string>
+  <string name="edit_category_show_category_text">"Hiển thị danh mục"</string>
+  <string name="edit_phrases">"Chỉnh sửa cụm từ"</string>
+  <string name="error_move_closer">"Vui lòng tiến lại gần thiết bị hơn."</string>
+  <string name="head_tracking_paused_message">"Tính năng theo dõi chuyển động đầu đã tạm dừng. Hãy di chuyển đầu để tiếp tục."</string>
+  <string name="hover_time_amount_text"><xliff:g example="5" id="time">"%s"</xliff:g>" seconds"</string>
+  <string name="hover_time_one_text">"1 giây"</string>
+  <string name="hover_time_text">"Thời gian di chuột"</string>
+  <string name="keyboard">"Bàn phím"</string>
+  <string name="keyboard_backspace">"Xóa"</string>
+  <string name="keyboard_clear">"Thông thoáng"</string>
+  <string name="keyboard_select_letters">"Bắt đầu gõ…"</string>
+  <string name="keyboard_space">"Không gian"</string>
+  <string name="keyboard_speak">"Nói chuyện"</string>
+  <string name="my_sayings_empty"><b>"Your sayings will appear here."</b>"
+
+Navigate to the keyboard, type something
+ then select the \"☆\" to save it here."</string>
+  <string name="my_sayings_empty_handset_land"><b>"Your sayings will appear here."</b>"
+
+Navigate to the keyboard, type something
+ then select the \"☆\" to save it here."</string>
+  <string name="my_sayings_empty_handset_port"><b>"Your sayings will appear here."</b>"
+
+Navigate to the keyboard, type something then select the \"☆\" to save it here."</string>
+  <string name="my_sayings_empty_settings"><b>"Bạn chưa lưu câu nói nào. Chọn biểu tượng “+” ở góc trên bên phải để thêm câu nói."</b></string>
+  <string name="new_phrase_saved">"Cụm từ mới đã được lưu"</string>
+  <string name="no_custom_categories">"Không có danh mục tùy chỉnh"</string>
+  <string name="no_recent_phrases_message">"Hãy bắt đầu sử dụng ứng dụng để xem các cụm từ bạn dùng gần đây nhất tại đây."</string>
+  <string name="no_recent_phrases_title">"Không có cụm từ nào được sử dụng gần đây."</string>
+  <string name="off">"TẮT"</string>
+  <string name="on">"TRÊN"</string>
+  <string name="permissions_confirm">"ĐƯỢC RỒI"</string>
+  <string name="permissions_missing_dialog_body">"Tính năng Theo dõi đầu (Head Tracking) yêu cầu quyền truy cập camera. Vui lòng bật quyền này trong cài đặt ứng dụng."</string>
+  <string name="permissions_missing_dialog_title">"Không có quyền truy cập cần thiết."</string>
+  <string name="permissions_rationale_title">"Cần có quyền truy cập camera để bật tính năng Theo dõi đầu"</string>
+  <string name="phrases_page_number">"Trang%1d của%2d"</string>
+  <string name="preset_bad" formatted="false">"Xấu"</string>
+  <string name="preset_basic_needs" formatted="false">"Nhu cầu cơ bản"</string>
+  <string name="preset_be_patient" formatted="false">"Hãy kiên nhẫn nhé."</string>
+  <string name="preset_be_quiet" formatted="false">"Xin hãy giữ im lặng."</string>
+  <string name="preset_close_blinds" formatted="false">"Vui lòng kéo rèm cửa xuống."</string>
+  <string name="preset_close_window" formatted="false">"Vui lòng đóng cửa sổ"</string>
+  <string name="preset_conversation" formatted="false">"Cuộc hội thoại"</string>
+  <string name="preset_environment" formatted="false">"Môi trường"</string>
+  <string name="preset_fix_pillow" formatted="false">"Làm ơn sửa lại cái gối của tôi."</string>
+  <string name="preset_general" formatted="false">"Tổng quan"</string>
+  <string name="preset_good" formatted="false">"Tốt"</string>
+  <string name="preset_good_evening" formatted="false">"Buổi tối vui vẻ"</string>
+  <string name="preset_good_morning" formatted="false">"Chào buổi sáng"</string>
+  <string name="preset_goodbye" formatted="false">"Tạm biệt"</string>
+  <string name="preset_hello" formatted="false">"Xin chào"</string>
+  <string name="preset_how_are_you" formatted="false">"Bạn có khỏe không?"</string>
+  <string name="preset_how_is_day" formatted="false">"Ngày của bạn thế nào?"</string>
+  <string name="preset_how_is_it_going" formatted="false">"Bạn thế nào rồi?"</string>
+  <string name="preset_how_was_your_weekend" formatted="false">"Cuối tuần của bạn thế nào?"</string>
+  <string name="preset_i_didnt_mean_say_that" formatted="false">"Tôi không có ý nói như vậy."</string>
+  <string name="preset_i_do_not_agree" formatted="false">"Tôi không đồng ý"</string>
+  <string name="preset_i_dont_know" formatted="false">"Tôi không biết"</string>
+  <string name="preset_i_like_it" formatted="false">"Tôi thích nó"</string>
+  <string name="preset_im_cold" formatted="false">"Tôi thấy lạnh"</string>
+  <string name="preset_im_fine" formatted="false">"Tôi ổn"</string>
+  <string name="preset_im_finished" formatted="false">"Tôi đã xong"</string>
+  <string name="preset_im_good" formatted="false">"Tôi khỏe"</string>
+  <string name="preset_im_hot" formatted="false">"Tôi nóng"</string>
+  <string name="preset_im_hungry" formatted="false">"Tôi đói"</string>
+  <string name="preset_im_in_pain" formatted="false">"Tôi đang đau đớn"</string>
+  <string name="preset_im_thirsty" formatted="false">"Tôi khát nước"</string>
+  <string name="preset_im_tired" formatted="false">"Tôi mệt rồi"</string>
+  <string name="preset_im_uncomfortable" formatted="false">"Tôi cảm thấy không thoải mái"</string>
+  <string name="preset_like_to_talk" formatted="false">"Tôi muốn nói chuyện"</string>
+  <string name="preset_like_visitors" formatted="false">"Tôi muốn có khách đến thăm."</string>
+  <string name="preset_maybe" formatted="false">"Có lẽ"</string>
+  <string name="preset_need_bath" formatted="false">"Tôi cần tắm"</string>
+  <string name="preset_need_jacket" formatted="false">"Tôi cần một chiếc áo khoác"</string>
+  <string name="preset_need_medication" formatted="false">"Tôi cần thuốc của mình"</string>
+  <string name="preset_need_restroom" formatted="false">"Tôi cần đi vệ sinh."</string>
+  <string name="preset_need_shower" formatted="false">"Tôi cần tắm"</string>
+  <string name="preset_need_spit" formatted="false">"Tôi cần nhổ nước bọt"</string>
+  <string name="preset_need_wash_face" formatted="false">"Tôi cần rửa mặt"</string>
+  <string name="preset_no" formatted="false">"KHÔNG"</string>
+  <string name="preset_no_visitors" formatted="false">"Vui lòng không có khách đến thăm."</string>
+  <string name="preset_okay" formatted="false">"Đồng ý"</string>
+  <string name="preset_open_blinds" formatted="false">"Vui lòng mở rèm cửa."</string>
+  <string name="preset_open_window" formatted="false">"Vui lòng mở cửa sổ"</string>
+  <string name="preset_personal_care" formatted="false">"Chăm sóc cá nhân"</string>
+  <string name="preset_please" formatted="false">"Vui lòng"</string>
+  <string name="preset_please_repeat" formatted="false">"Hãy nhắc lại những gì bạn đã nói."</string>
+  <string name="preset_please_stop" formatted="false">"Làm ơn dừng lại"</string>
+  <string name="preset_please_wait" formatted="false">"Vui lòng chờ"</string>
+  <string name="preset_pleased_to_meet_you" formatted="false">"Rất vui được gặp bạn."</string>
+  <string name="preset_recents" formatted="false">"Gần đây"</string>
+  <string name="preset_sayings_title">"Câu nói được cài đặt sẵn"</string>
+  <string name="preset_thank_you" formatted="false">"Cảm ơn"</string>
+  <string name="preset_that_makes_sense" formatted="false">"Điều đó hợp lý."</string>
+  <string name="preset_trouble_breathing" formatted="false">"Tôi đang khó thở."</string>
+  <string name="preset_turn_off_lights" formatted="false">"Vui lòng tắt đèn."</string>
+  <string name="preset_turn_on_lights" formatted="false">"Vui lòng bật đèn lên."</string>
+  <string name="preset_tv_off" formatted="false">"Vui lòng tắt tivi."</string>
+  <string name="preset_tv_on" formatted="false">"Hãy bật tivi lên."</string>
+  <string name="preset_user_favorites" formatted="false">"Những câu nói của tôi"</string>
+  <string name="preset_user_keypad" formatted="false">"123"</string>
+  <string name="preset_volume_down" formatted="false">"Vui lòng giảm âm lượng."</string>
+  <string name="preset_volume_up" formatted="false">"Vui lòng tăng âm lượng lên."</string>
+  <string name="preset_want_brush_hair" formatted="false">"Tôi cần chải tóc"</string>
+  <string name="preset_want_lie_down" formatted="false">"Tôi muốn nằm xuống"</string>
+  <string name="preset_want_sit_up" formatted="false">"Tôi muốn ngồi dậy"</string>
+  <string name="preset_yes" formatted="false">"Đúng"</string>
+  <string name="privacy_policy">"Chính sách bảo mật"</string>
+  <string name="remove_category">"Xóa danh mục"</string>
+  <string name="removed_cant_be_restored">"Các danh mục đã xóa không thể khôi phục."</string>
+  <string name="removed_successfully">"Đã xóa khỏi%1s"</string>
+  <string name="rename_category">"Đổi tên danh mục"</string>
+  <string name="saved_successfully">"Đã lưu vào%1s"</string>
+  <string name="select_something">"Hãy chọn một trong những lựa chọn dưới đây để nói."</string>
+  <string name="selected">"Đã chọn"</string>
+  <string name="selection_mode_title">"Chế độ lựa chọn"</string>
+  <string name="settings">"Cài đặt"</string>
+  <string name="settings_dialog_cancel">"Hủy bỏ"</string>
+  <string name="settings_dialog_continue">"Tiếp tục"</string>
+  <string name="settings_dialog_message">"Bạn sắp được chuyển ra khỏi ứng dụng. Bạn có thể mất khả năng điều khiển theo dõi chuyển động đầu."</string>
+  <string name="settings_dialog_title">"Thoát khỏi ứng dụng"</string>
+  <string name="settings_edit_categories">"Các danh mục và cụm từ"</string>
+  <string name="settings_edit_saying">"Những câu nói của tôi"</string>
+  <string name="settings_head_tracking">"Theo dõi đầu"</string>
+  <string name="settings_reset_app">"Đặt lại cài đặt ứng dụng"</string>
+  <string name="settings_selection_mode">"Chế độ lựa chọn"</string>
+  <string name="settings_voice">"Tiếng nói%1$s"</string>
+  <string name="show_category">"Hiển thị danh mục"</string>
+  <string name="timing_sensitivity_title">"Thời điểm và độ nhạy"</string>
+  <string name="voice_default">"Mặc định"</string>
+  <string name="voice_download">"Tải xuống giọng nói"</string>
+  <string name="voice_selection_title">"Tiếng nói"</string>
 </resources>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+  <string name="add_category">"新增類別"</string>
+  <string name="add_phrase">"新增短語"</string>
+  <string name="add_phrase_plus">"+ 新增短語"</string>
+  <string name="add_to_category">"添加到分類"</string>
+  <string name="all_categories_hidden_text">"您已隱藏所有分類。您可以從分類設定頁面重新顯示它們。"</string>
+  <string name="are_you_sure">"你確定嗎？"</string>
+  <string name="back_warning">"儲存前返回會清除所有編輯內容。"</string>
+  <string name="button_pause">"暫停"</string>
+  <string name="button_resume">"恢復"</string>
+  <string name="categories_edit_title">"類別"</string>
+  <string name="category_123">"數字"</string>
+  <string name="category_123_no">"不"</string>
+  <string name="category_123_yes">"是"</string>
+  <string name="category_created">"類別已建立"</string>
+  <string name="changes_saved">"更改已儲存"</string>
+  <string name="close_settings">"關閉設定"</string>
+  <string name="close_voice_selection">"近距離語音選擇"</string>
+  <string name="contact_developers">"聯繫開發者"</string>
+  <string name="contiue_editing">"繼續編輯"</string>
+  <string name="create_custom_categories">"在設定選單中建立自訂類別，即可在此處新增短語。"</string>
+  <string name="cursor_sensitivity_high">"高的"</string>
+  <string name="cursor_sensitivity_low">"低的"</string>
+  <string name="cursor_sensitivity_medium">"中等的"</string>
+  <string name="cursor_sensitivity_text">"遊標靈敏度"</string>
+  <string name="custom_category_empty"><b>"您目前還沒有儲存任何短語。"</b></string>
+  <string name="delete">"刪除"</string>
+  <string name="delete_warning">"已刪除的短語無法恢復。"</string>
+  <string name="discard">"丟棄"</string>
+  <string name="duplicate_category">"抱歉，此分類名稱已存在。請嘗試其他名稱。"</string>
+  <string name="duplicate_phrase">"抱歉，該短語名稱已存在。請嘗試其他名稱。"</string>
+  <string name="edit_categories_title">"類別和短語"</string>
+  <string name="edit_category_remove_category_text">"刪除類別?"</string>
+  <string name="edit_category_show_category_text">"顯示類別"</string>
+  <string name="edit_phrases">"編輯短語"</string>
+  <string name="error_move_closer">"請靠近設備。"</string>
+  <string name="head_tracking_paused_message">"頭部追蹤已暫停。請移動頭部以恢復追蹤。"</string>
+  <string name="hover_time_amount_text"><xliff:g example="5" id="time">"%s"</xliff:g>" seconds"</string>
+  <string name="hover_time_one_text">"1秒"</string>
+  <string name="hover_time_text">"懸停時間"</string>
+  <string name="keyboard">"鍵盤"</string>
+  <string name="keyboard_backspace">"退格鍵"</string>
+  <string name="keyboard_clear">"清除"</string>
+  <string name="keyboard_select_letters">"開始輸入…"</string>
+  <string name="keyboard_space">"空間"</string>
+  <string name="keyboard_speak">"說話"</string>
+  <string name="my_sayings_empty">"b"</string>
+  <string name="my_sayings_empty_handset_land">"&lt;b&gt;"</string>
+  <string name="my_sayings_empty_handset_port">"b"</string>
+  <string name="my_sayings_empty_settings"><b>"您目前還沒有保存任何語錄。請點選右上角的「+」號新增語錄。"</b></string>
+  <string name="new_phrase_saved">"新短語已儲存"</string>
+  <string name="no_custom_categories">"沒有自訂類別"</string>
+  <string name="no_recent_phrases_message">"立即使用應用，即可在此處查看您最近使用的短語。"</string>
+  <string name="no_recent_phrases_title">"沒有最近使用的短語"</string>
+  <string name="off">"離開"</string>
+  <string name="on">"在"</string>
+  <string name="permissions_confirm">"好的"</string>
+  <string name="permissions_missing_dialog_body">"使用頭部追蹤功能需要相機權限。請在應用程式設定中啟用該權限。"</string>
+  <string name="permissions_missing_dialog_title">"所需權限不可用"</string>
+  <string name="permissions_rationale_title">"需要相機權限才能啟用頭部追蹤功能"</string>
+  <string name="phrases_page_number">"第 %1d 頁，共 %2d 頁"</string>
+  <string name="preset_bad" formatted="false">"差"</string>
+  <string name="preset_basic_needs" formatted="false">"基本需要"</string>
+  <string name="preset_be_patient" formatted="false">"請耐心等待"</string>
+  <string name="preset_be_quiet" formatted="false">"請安靜"</string>
+  <string name="preset_close_blinds" formatted="false">"請關閉百葉窗"</string>
+  <string name="preset_close_window" formatted="false">"請關閉窗口"</string>
+  <string name="preset_conversation" formatted="false">"對話"</string>
+  <string name="preset_environment" formatted="false">"環境"</string>
+  <string name="preset_fix_pillow" formatted="false">"請安好我的枕頭"</string>
+  <string name="preset_general" formatted="false">"一般"</string>
+  <string name="preset_good" formatted="false">"好"</string>
+  <string name="preset_good_evening" formatted="false">"晚安"</string>
+  <string name="preset_good_morning" formatted="false">"早安"</string>
+  <string name="preset_goodbye" formatted="false">"再見"</string>
+  <string name="preset_hello" formatted="false">"你好"</string>
+  <string name="preset_how_are_you" formatted="false">"你好嗎？"</string>
+  <string name="preset_how_is_day" formatted="false">"你今天過得好嗎？"</string>
+  <string name="preset_how_is_it_going" formatted="false">"你好嗎？"</string>
+  <string name="preset_how_was_your_weekend" formatted="false">"你週末過得如何？"</string>
+  <string name="preset_i_didnt_mean_say_that" formatted="false">"我不想說這句"</string>
+  <string name="preset_i_do_not_agree" formatted="false">"我不同意"</string>
+  <string name="preset_i_dont_know" formatted="false">"我不知道"</string>
+  <string name="preset_i_like_it" formatted="false">"我喜歡"</string>
+  <string name="preset_im_cold" formatted="false">"我冷"</string>
+  <string name="preset_im_fine" formatted="false">"我好"</string>
+  <string name="preset_im_finished" formatted="false">"我已完成"</string>
+  <string name="preset_im_good" formatted="false">"我好"</string>
+  <string name="preset_im_hot" formatted="false">"我熱"</string>
+  <string name="preset_im_hungry" formatted="false">"我餓了"</string>
+  <string name="preset_im_in_pain" formatted="false">"我疼"</string>
+  <string name="preset_im_thirsty" formatted="false">"我口喝"</string>
+  <string name="preset_im_tired" formatted="false">"我累了"</string>
+  <string name="preset_im_uncomfortable" formatted="false">"我不舒服"</string>
+  <string name="preset_like_to_talk" formatted="false">"我想說幾句"</string>
+  <string name="preset_like_visitors" formatted="false">"我想要訪客"</string>
+  <string name="preset_maybe" formatted="false">"可能"</string>
+  <string name="preset_need_bath" formatted="false">"我需要洗澡"</string>
+  <string name="preset_need_jacket" formatted="false">"我需要外套"</string>
+  <string name="preset_need_medication" formatted="false">"我需要我的藥物"</string>
+  <string name="preset_need_restroom" formatted="false">"我需要去洗手間"</string>
+  <string name="preset_need_shower" formatted="false">"我需要沖涼"</string>
+  <string name="preset_need_spit" formatted="false">"我要吐"</string>
+  <string name="preset_need_wash_face" formatted="false">"我需要洗臉"</string>
+  <string name="preset_no" formatted="false">"不"</string>
+  <string name="preset_no_visitors" formatted="false">"請拒絕訪客"</string>
+  <string name="preset_okay" formatted="false">"好"</string>
+  <string name="preset_open_blinds" formatted="false">"請打開百葉窗"</string>
+  <string name="preset_open_window" formatted="false">"請打開窗口"</string>
+  <string name="preset_personal_care" formatted="false">"個人護理"</string>
+  <string name="preset_please" formatted="false">"請"</string>
+  <string name="preset_please_repeat" formatted="false">"請再重複講一次"</string>
+  <string name="preset_please_stop" formatted="false">"請停止"</string>
+  <string name="preset_please_wait" formatted="false">"請等待"</string>
+  <string name="preset_pleased_to_meet_you" formatted="false">"很高興認識你"</string>
+  <string name="preset_recents" formatted="false">"近期"</string>
+  <string name="preset_sayings_title">"預設語錄"</string>
+  <string name="preset_thank_you" formatted="false">"謝謝"</string>
+  <string name="preset_that_makes_sense" formatted="false">"我覺得合理的"</string>
+  <string name="preset_trouble_breathing" formatted="false">"我呼吸困難"</string>
+  <string name="preset_turn_off_lights" formatted="false">"請關燈"</string>
+  <string name="preset_turn_on_lights" formatted="false">"請開燈"</string>
+  <string name="preset_tv_off" formatted="false">"請關閉電視"</string>
+  <string name="preset_tv_on" formatted="false">"請打開電視"</string>
+  <string name="preset_user_favorites" formatted="false">"我的格言"</string>
+  <string name="preset_user_keypad" formatted="false">"123"</string>
+  <string name="preset_volume_down" formatted="false">"請較低音量"</string>
+  <string name="preset_volume_up" formatted="false">"請較高音量"</string>
+  <string name="preset_want_brush_hair" formatted="false">"我需要梳頭"</string>
+  <string name="preset_want_lie_down" formatted="false">"我想躺下"</string>
+  <string name="preset_want_sit_up" formatted="false">"我想坐起"</string>
+  <string name="preset_yes" formatted="false">"是的"</string>
+  <string name="privacy_policy">"隱私權政策"</string>
+  <string name="remove_category">"移除類別"</string>
+  <string name="removed_cant_be_restored">"已刪除的類別無法恢復。"</string>
+  <string name="removed_successfully">"已移除%1s"</string>
+  <string name="rename_category">"重新命名類別"</string>
+  <string name="saved_successfully">"已儲存%1s"</string>
+  <string name="select_something">"選擇以下內容進行發言."</string>
+  <string name="selected">"已選"</string>
+  <string name="selection_mode_title">"選擇模式"</string>
+  <string name="settings">"設定"</string>
+  <string name="settings_dialog_cancel">"取消"</string>
+  <string name="settings_dialog_continue">"繼續"</string>
+  <string name="settings_dialog_message">"您即將退出應用程式。您可能會失去頭部追蹤控制。"</string>
+  <string name="settings_dialog_title">"退出應用"</string>
+  <string name="settings_edit_categories">"類別和短語"</string>
+  <string name="settings_edit_saying">"我的對話"</string>
+  <string name="settings_head_tracking">"頭部追蹤"</string>
+  <string name="settings_reset_app">"重置應用設定"</string>
+  <string name="settings_selection_mode">"選擇模式"</string>
+  <string name="settings_voice">"嗓音%1$s"</string>
+  <string name="show_category">"顯示類別"</string>
+  <string name="timing_sensitivity_title">"時機和靈敏度"</string>
+  <string name="voice_default">"預設"</string>
+  <string name="voice_download">"下載語音"</string>
+  <string name="voice_selection_title">"嗓音"</string>
+</resources>
