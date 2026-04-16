@@ -1,159 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-    <string name="add_category">"श्रेणी जोड़ना"</string>
-    <string name="add_phrase">"वाक्यांश जोड़ें"</string>
-    <string name="add_phrase_plus">"+ वाक्यांश जोड़ें"</string>
-    <string name="add_to_category">"श्रेणी में जोड़ें"</string>
-    <string name="all_categories_hidden_text">"आपकी सभी श्रेणियां छिपा दी गई हैं। आप श्रेणी सेटिंग पृष्ठ से उन्हें पुनः दिखा सकते हैं।"</string>
-    <string name="are_you_sure">"क्या आपको यकीन है?"</string>
-    <string name="back_warning">"सेव करने से पहले वापस जाने पर किए गए सभी बदलाव मिट जाएंगे।"</string>
-    <string name="button_pause">"विराम"</string>
-    <string name="button_resume">"फिर शुरू करना"</string>
-    <string name="categories_edit_title">"श्रेणियाँ"</string>
-    <string name="category_123">"123"</string>
-    <string name="category_123_no">"नहीं"</string>
-    <string name="category_123_yes">"हाँ"</string>
-    <string name="category_created">"श्रेणी निर्मित"</string>
-    <string name="changes_saved">"परिवर्तन सहेजे गए"</string>
-    <string name="close_settings">"सेटिंग्स बंद करें"</string>
-    <string name="close_voice_selection">"आवाज चयन बंद करें"</string>
-    <string name="contact_developers">"डेवलपर्स से संपर्क करें"</string>
-    <string name="contiue_editing">"संपादन जारी रखें"</string>
-    <string name="create_custom_categories">"यहां वाक्यांश जोड़ने के लिए सेटिंग मेनू में कस्टम श्रेणियां बनाएं।"</string>
-    <string name="cursor_sensitivity_high">"उच्च"</string>
-    <string name="cursor_sensitivity_low">"कम"</string>
-    <string name="cursor_sensitivity_medium">"मध्यम"</string>
-    <string name="cursor_sensitivity_text">"कर्सर संवेदनशीलता"</string>
-    <string name="custom_category_empty"><b>"आपने अभी तक कोई वाक्यांश सहेजा नहीं है।"</b></string>
-    <string name="delete">"मिटाना"</string>
-    <string name="delete_warning">"हटाए गए वाक्यांशों को पुनर्स्थापित नहीं किया जा सकता है।"</string>
-    <string name="discard">"खारिज करना"</string>
-    <string name="duplicate_category">"क्षमा करें, इस श्रेणी का नाम पहले से मौजूद है। कृपया कोई दूसरा नाम आज़माएँ।"</string>
-    <string name="duplicate_phrase">"क्षमा करें, यह वाक्यांश नाम पहले से मौजूद है। कृपया कोई दूसरा नाम आज़माएँ।"</string>
-    <string name="edit_categories_title">"श्रेणियाँ और वाक्यांश"</string>
-    <string name="edit_category_remove_category_text">"श्रेणी हटाएँ"</string>
-    <string name="edit_category_show_category_text">"श्रेणी दिखाएँ"</string>
-    <string name="edit_phrases">"वाक्यांशों को संपादित करें"</string>
-    <string name="error_move_closer">"कृपया डिवाइस के पास आएं।"</string>
-    <string name="head_tracking_paused_message">"हेड ट्रैकिंग रोक दी गई है। इसे फिर से शुरू करने के लिए अपना सिर हिलाएं।"</string>
-    <string name="hover_time_amount_text">" "<xliff:g example="5" id="time">"%s"</xliff:g>"सेकंड"</string>
-    <string name="hover_time_one_text">"1 सेकंड"</string>
-    <string name="hover_time_text">"होवर समय"</string>
-    <string name="keyboard">"कीबोर्ड"</string>
-    <string name="keyboard_backspace">"बैकस्पेस"</string>
-    <string name="keyboard_clear">"स्पष्ट"</string>
-    <string name="keyboard_select_letters">"टाइप करना शुरू करें…"</string>
-    <string name="keyboard_space">"अंतरिक्ष"</string>
-    <string name="keyboard_speak">"बोलना"</string>
-    <string name="my_sayings_empty"><b>"आपके विचार यहां दिखाई देंगे।"</b>" कीबोर्ड पर जाएं, कुछ टाइप करें और फिर उसे यहां सेव करने के लिए ☆ चुनें।"</string>
-    <string name="my_sayings_empty_handset_land"><b>"आपके विचार यहां दिखाई देंगे।"</b>" कीबोर्ड पर जाएं, कुछ टाइप करें और फिर उसे यहां सेव करने के लिए ☆ चुनें।"</string>
-    <string name="my_sayings_empty_handset_port"><b>"आपके विचार यहां दिखाई देंगे।"</b>" कीबोर्ड पर जाएं, कुछ टाइप करें और फिर उसे यहां सेव करने के लिए ☆ चुनें।"</string>
-    <string name="my_sayings_empty_settings"><b>"आपने अभी तक कोई कहावत सहेजी नहीं है। कुछ जोड़ने के लिए ऊपर दाएं कोने में मौजूद &quot;+&quot; आइकन चुनें।"</b></string>
-    <string name="new_phrase_saved">"नया वाक्यांश सहेजा गया"</string>
-    <string name="no_custom_categories">"कोई कस्टम श्रेणियां नहीं"</string>
-    <string name="no_recent_phrases_message">"अपने सबसे हाल ही में उपयोग किए गए वाक्यांशों को देखने के लिए ऐप का उपयोग करना शुरू करें।"</string>
-    <string name="no_recent_phrases_title">"हाल ही में उपयोग किए गए वाक्यांश नहीं"</string>
-    <string name="off">"बंद"</string>
-    <string name="on">"पर"</string>
-    <string name="permissions_confirm">"ठीक है"</string>
-    <string name="permissions_missing_dialog_body">"हेड ट्रैकिंग फ़ीचर का उपयोग करने के लिए कैमरा अनुमति आवश्यक है। कृपया ऐप सेटिंग में जाकर इन्हें सक्षम करें।"</string>
-    <string name="permissions_missing_dialog_title">"आवश्यक अनुमतियाँ अनुपलब्ध हैं"</string>
-    <string name="permissions_rationale_title">"हेड ट्रैकिंग को सक्षम करने के लिए कैमरा अनुमतियों की आवश्यकता होती है।"</string>
-    <string name="phrases_page_number">"पृष्ठ%1d का%2d"</string>
-    <string name="preset_bad" formatted="false">"खराब"</string>
-    <string name="preset_basic_needs" formatted="false">"बुनियादी ज़रूरतें"</string>
-    <string name="preset_be_patient" formatted="false">"कृपया धैर्य रखें"</string>
-    <string name="preset_be_quiet" formatted="false">"कृपया शांत रहें"</string>
-    <string name="preset_close_blinds" formatted="false">"कृपया पर्दे बंद कर दें।"</string>
-    <string name="preset_close_window" formatted="false">"कृपया विंडो बंद करें"</string>
-    <string name="preset_conversation" formatted="false">"बातचीत"</string>
-    <string name="preset_environment" formatted="false">"पर्यावरण"</string>
-    <string name="preset_fix_pillow" formatted="false">"कृपया मेरा तकिया ठीक कर दीजिए।"</string>
-    <string name="preset_general" formatted="false">"सामान्य"</string>
-    <string name="preset_good" formatted="false">"अच्छा"</string>
-    <string name="preset_good_evening" formatted="false">"शुभ संध्या"</string>
-    <string name="preset_good_morning" formatted="false">"शुभ प्रभात"</string>
-    <string name="preset_goodbye" formatted="false">"अलविदा"</string>
-    <string name="preset_hello" formatted="false">"नमस्ते"</string>
-    <string name="preset_how_are_you" formatted="false">"आप कैसे हैं?"</string>
-    <string name="preset_how_is_day" formatted="false">"आपका दिन कैसा है?"</string>
-    <string name="preset_how_is_it_going" formatted="false">"ये कैसा चल रहा है?"</string>
-    <string name="preset_how_was_your_weekend" formatted="false">"आपका सप्ताहांत कैसा था?"</string>
-    <string name="preset_i_didnt_mean_say_that" formatted="false">"मेरा ऐसा कहने का इरादा नहीं था।"</string>
-    <string name="preset_i_do_not_agree" formatted="false">"मैं सहमत नहीं हूँ"</string>
-    <string name="preset_i_dont_know" formatted="false">"मुझें नहीं पता"</string>
-    <string name="preset_i_like_it" formatted="false">"मुझे यह पसंद है"</string>
-    <string name="preset_im_cold" formatted="false">"मुझे ठंड लग रही है"</string>
-    <string name="preset_im_fine" formatted="false">"मैं ठीक हूँ"</string>
-    <string name="preset_im_finished" formatted="false">"मैं समाप्त हो चुका हूँ"</string>
-    <string name="preset_im_good" formatted="false">"मैं अच्छा हूँ"</string>
-    <string name="preset_im_hot" formatted="false">"मुझे गर्मी लग रही है"</string>
-    <string name="preset_im_hungry" formatted="false">"मुझे भूख लगी है"</string>
-    <string name="preset_im_in_pain" formatted="false">"मुझे दर्द हो रहा है"</string>
-    <string name="preset_im_thirsty" formatted="false">"मुझे प्यास लगी है"</string>
-    <string name="preset_im_tired" formatted="false">"मैं थक गया हूँ"</string>
-    <string name="preset_im_uncomfortable" formatted="false">"मुझे असहजता हो रही है"</string>
-    <string name="preset_like_to_talk" formatted="false">"मैं बात करना चाहुँगा"</string>
-    <string name="preset_like_visitors" formatted="false">"मुझे आगंतुकों का स्वागत है"</string>
-    <string name="preset_maybe" formatted="false">"शायद"</string>
-    <string name="preset_need_bath" formatted="false">"मुझे नहाना है"</string>
-    <string name="preset_need_jacket" formatted="false">"मुझे एक जैकेट चाहिए"</string>
-    <string name="preset_need_medication" formatted="false">"मुझे अपनी दवा चाहिए"</string>
-    <string name="preset_need_restroom" formatted="false">"मुझे शौचालय जाना है"</string>
-    <string name="preset_need_shower" formatted="false">"मुझे नहाना है"</string>
-    <string name="preset_need_spit" formatted="false">"मुझे थूकना है"</string>
-    <string name="preset_need_wash_face" formatted="false">"मुझे अपना चेहरा धोना है"</string>
-    <string name="preset_no" formatted="false">"नहीं"</string>
-    <string name="preset_no_visitors" formatted="false">"कृपया आगंतुकों को अनुमति नहीं है।"</string>
-    <string name="preset_okay" formatted="false">"ठीक है"</string>
-    <string name="preset_open_blinds" formatted="false">"कृपया पर्दे खोल दें"</string>
-    <string name="preset_open_window" formatted="false">"कृपया खिड़की खोल दें"</string>
-    <string name="preset_personal_care" formatted="false">"व्यक्तिगत देखभाल"</string>
-    <string name="preset_please" formatted="false">"कृपया"</string>
-    <string name="preset_please_repeat" formatted="false">"कृपया आपने जो कहा उसे दोहराएं"</string>
-    <string name="preset_please_stop" formatted="false">"बंद करो"</string>
-    <string name="preset_please_wait" formatted="false">"कृपया प्रतीक्षा करें"</string>
-    <string name="preset_pleased_to_meet_you" formatted="false">"आपसे मिलकर खुशी हुई"</string>
-    <string name="preset_recents" formatted="false">"हाल ही"</string>
-    <string name="preset_sayings_title">"पूर्व निर्धारित कहावतें"</string>
-    <string name="preset_thank_you" formatted="false">"धन्यवाद"</string>
-    <string name="preset_that_makes_sense" formatted="false">"यह समझ आता है"</string>
-    <string name="preset_trouble_breathing" formatted="false">"मुझे सांस लेने में तकलीफ हो रही है"</string>
-    <string name="preset_turn_off_lights" formatted="false">"कृपया लाइट बंद कर दें"</string>
-    <string name="preset_turn_on_lights" formatted="false">"कृपया लाइट चालू करें"</string>
-    <string name="preset_tv_off" formatted="false">"कृपया टीवी बंद कर दें"</string>
-    <string name="preset_tv_on" formatted="false">"कृपया टीवी चालू करें"</string>
-    <string name="preset_user_favorites" formatted="false">"मेरे कथन"</string>
-    <string name="preset_user_keypad" formatted="false">"123"</string>
-    <string name="preset_volume_down" formatted="false">"कृपया आवाज़ कम कर दें।"</string>
-    <string name="preset_volume_up" formatted="false">"कृपया आवाज़ बढ़ाएँ"</string>
-    <string name="preset_want_brush_hair" formatted="false">"मुझे अपने बालों में कंघी करनी है"</string>
-    <string name="preset_want_lie_down" formatted="false">"मैं लेटना चाहता हूँ"</string>
-    <string name="preset_want_sit_up" formatted="false">"मैं बैठना चाहता हूँ"</string>
-    <string name="preset_yes" formatted="false">"हाँ"</string>
-    <string name="privacy_policy">"गोपनीयता नीति"</string>
-    <string name="remove_category">"श्रेणी हटाएँ"</string>
-    <string name="removed_cant_be_restored">"हटाई गई श्रेणियों को पुनर्स्थापित नहीं किया जा सकता है।"</string>
-    <string name="removed_successfully">"से हटा दिया गया%1s"</string>
-    <string name="rename_category">"श्रेणी का नाम बदलें"</string>
-    <string name="saved_successfully">"सहेजा गया%1s"</string>
-    <string name="select_something">"बोलने के लिए नीचे दिए गए विकल्पों में से कोई एक चुनें।"</string>
-    <string name="selected">"चयनित"</string>
-    <string name="selection_mode_title">"चयन मोड"</string>
-    <string name="settings">"सेटिंग्स"</string>
-    <string name="settings_dialog_cancel">"रद्द करना"</string>
-    <string name="settings_dialog_continue">"जारी रखना"</string>
-    <string name="settings_dialog_message">"आपको ऐप से बाहर ले जाया जा रहा है। हो सकता है कि आप हेड ट्रैकिंग का नियंत्रण खो दें।"</string>
-    <string name="settings_dialog_title">"ऐप से बाहर निकलना"</string>
-    <string name="settings_edit_categories">"श्रेणियाँ और वाक्यांश"</string>
-    <string name="settings_edit_saying">"मेरे कथन"</string>
-    <string name="settings_head_tracking">"हेड ट्रैकिंग"</string>
-    <string name="settings_reset_app">"ऐप सेटिंग्स रीसेट करें"</string>
-    <string name="settings_selection_mode">"चयन मोड"</string>
-    <string name="settings_voice">"आवाज़%1$s"</string>
-    <string name="show_category">"श्रेणी दिखाएँ"</string>
-    <string name="timing_sensitivity_title">"समय और संवेदनशीलता"</string>
-    <string name="voice_default">"गलती करना"</string>
-    <string name="voice_download">"वॉयस डाउनलोड करें"</string>
-    <string name="voice_selection_title">"आवाज़"</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">बोलने के लिए नीचे कुछ चुनें।</string>
+    <string name="phrases_page_number">पृष्ठ %1d / %2d</string>
+    <string name="my_sayings_empty">आपकी उक्तियाँ यहाँ\nदिखाई देंगी।\n\nकीबोर्ड पर जाएँ, कुछ टाइप करें\nऔर फिर उसे यहाँ सहेजने के लिए "☆" चुनें।</string>
+    <string name="my_sayings_empty_handset_port">आपकी बातें यहाँ\nदिखाई देंगी।\n\nकीबोर्ड पर नेविगेट करें, कुछ टाइप करें और फिर उसे यहाँ सहेजने के लिए "☆" चुनें।</string>
+    <string name="my_sayings_empty_handset_land">आपकी बातें यहाँ दिखाई देंगी।\n\nकीबोर्ड पर नेविगेट करें, कुछ टाइप करें\n और फिर उसे यहाँ सहेजने के लिए "☆" चुनें।</string>
+    <string name="my_sayings_empty_settings">आपके पास अभी तक कोई बातें सहेजी नहीं गई हैं। कुछ जोड़ने के लिए ऊपर दाईं ओर “+” चुनें।</string>
+    <string name="custom_category_empty">आपने अभी तक कोई वाक्यांश सहेजा नहीं है।</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="contact_developers">डेवलपर्स से संपर्क करें</string>
+    <string name="settings_head_tracking">हेड ट्रैकिंग</string>
+    <string name="settings_dialog_title">ऐप छोड़ना</string>
+    <string name="settings_dialog_message">आप ऐप से बाहर जाने वाले हैं। आप हेड ट्रैकिंग नियंत्रण खो सकते हैं।</string>
+    <string name="settings_dialog_continue">जारी रखें</string>
+    <string name="settings_dialog_cancel">रद्द करें</string>
+    <string name="settings_voice">आवाज़\n%1$s</string>
+    <string name="settings_edit_saying">मेरी बातें</string>
+    <string name="settings_edit_categories">श्रेणियां और वाक्यांश</string>
+    <string name="settings_selection_mode">चयन मोड</string>
+    <string name="settings_reset_app">ऐप सेटिंग्स रीसेट करें</string>
+    <string name="selection_mode_title">चयन मोड</string>
+    <string name="voice_selection_title">आवाज़</string>
+    <string name="voice_default">डिफ़ॉल्ट</string>
+    <string name="close_voice_selection">आवाज़ चयन बंद करें</string>
+    <string name="selected">चुना गया</string>
+    <string name="voice_download">आवाज़ डाउनलोड करें</string>
+    <string name="button_pause">रोकें</string>
+    <string name="button_resume">फिर से शुरू करें</string>
+    <string name="error_move_closer">कृपया डिवाइस के करीब आएं।</string>
+    <string name="head_tracking_paused_message">हेड ट्रैकिंग रोक दी गई है।\nफिर से शुरू करने के लिए अपना सिर हिलाएं।</string>
+    <string name="keyboard_select_letters">टाइप करना शुरू करें…</string>
+    <string name="saved_successfully">%1s में सहेजा गया</string>
+    <string name="removed_successfully">%1s से हटाया गया</string>
+    <string name="delete">हटाएं</string>
+    <string name="delete_warning">हटाए गए वाक्यांशों को पुनर्स्थापित नहीं किया जा सकता है।</string>
+    <string name="new_phrase_saved">नया वाक्यांश सहेजा गया</string>
+    <string name="contiue_editing">संपादन जारी रखें</string>
+    <string name="discard">खारिज करें</string>
+    <string name="are_you_sure">क्या आप सुनिश्चित हैं?</string>
+    <string name="back_warning">सहेजने से पहले वापस जाने पर किए गए सभी संपादन मिट जाएंगे।</string>
+    <string name="duplicate_phrase">क्षमा करें, यह वाक्यांश नाम पहले से मौजूद है। कृपया कोई दूसरा नाम आज़माएं।</string>
+    <string name="changes_saved">परिवर्तन सहेजे गए</string>
+    <string name="category_created">श्रेणी बनाई गई</string>
+    <string name="duplicate_category">क्षमा करें, यह श्रेणी नाम पहले से मौजूद है। कृपया कोई दूसरा नाम आज़माएं।</string>
+    <string name="timing_sensitivity_title">समय और संवेदनशीलता</string>
+    <string name="hover_time_text">होवर समय</string>
+    <string name="cursor_sensitivity_text">कर्सर संवेदनशीलता</string>
+    <string name="hover_time_amount_text">\n        %s सेकंड\n    </string>
+    <string name="hover_time_one_text">1 सेकंड</string>
+    <string name="cursor_sensitivity_low">कम</string>
+    <string name="cursor_sensitivity_medium">मध्यम</string>
+    <string name="cursor_sensitivity_high">उच्च</string>
+    <string name="category_123">123</string>
+    <string name="category_123_yes">हाँ</string>
+    <string name="category_123_no">नहीं</string>
+    <string name="edit_categories_title">श्रेणियां और वाक्यांश</string>
+    <string name="edit_category_show_category_text">श्रेणी दिखाएं</string>
+    <string name="edit_category_remove_category_text">श्रेणी हटाएं</string>
+    <string name="removed_cant_be_restored">हटाए गए श्रेणियों को पुनर्स्थापित नहीं किया जा सकता है।</string>
+    <string name="preset_general">सामान्य</string>
+    <string name="preset_basic_needs">बुनियादी ज़रूरतें</string>
+    <string name="preset_personal_care">व्यक्तिगत देखभाल</string>
+    <string name="preset_conversation">बातचीत</string>
+    <string name="preset_environment">वातावरण</string>
+    <string name="preset_user_keypad">123</string>
+    <string name="preset_user_favorites">मेरी बातें</string>
+    <string name="preset_recents">हाल ही के</string>
+    <string name="preset_need_restroom">मुझे वॉशरूम जाना है</string>
+    <string name="preset_im_thirsty">मुझे प्यास लगी है</string>
+    <string name="preset_im_hungry">मुझे भूख लगी है</string>
+    <string name="preset_im_cold">मुझे ठंड लग रही है</string>
+    <string name="preset_im_hot">मुझे गर्मी लग रही है</string>
+    <string name="preset_im_tired">मैं थक गया हूँ</string>
+    <string name="preset_im_fine">मैं ठीक हूँ</string>
+    <string name="preset_im_good">मैं अच्छा हूँ</string>
+    <string name="preset_im_uncomfortable">मैं असहज हूँ</string>
+    <string name="preset_im_in_pain">मुझे दर्द हो रहा है</string>
+    <string name="preset_im_finished">मेरा हो गया</string>
+    <string name="preset_want_lie_down">मैं लेटना चाहता हूँ</string>
+    <string name="preset_want_sit_up">मैं बैठना चाहता हूँ</string>
+    <string name="preset_hello">नमस्ते</string>
+    <string name="preset_good_morning">सुप्रभात</string>
+    <string name="preset_good_evening">शुभ संध्या</string>
+    <string name="preset_pleased_to_meet_you">आपसे मिलकर खुशी हुई</string>
+    <string name="preset_how_is_day">आपका दिन कैसा है?</string>
+    <string name="preset_how_are_you">आप कैसे हैं?</string>
+    <string name="preset_how_is_it_going">क्या चल रहा है?</string>
+    <string name="preset_how_was_your_weekend">आपका सप्ताहांत कैसा रहा?</string>
+    <string name="preset_goodbye">अलविदा</string>
+    <string name="preset_okay">ठीक है</string>
+    <string name="preset_bad">बुरा</string>
+    <string name="preset_good">अच्छा</string>
+    <string name="preset_that_makes_sense">यह समझ में आता है</string>
+    <string name="preset_i_like_it">मुझे यह पसंद है</string>
+    <string name="preset_please_stop">कृपया रुकें</string>
+    <string name="preset_i_do_not_agree">मैं सहमत नहीं हूँ</string>
+    <string name="preset_please_repeat">कृपया आप जो कहा उसे दोहराएं</string>
+    <string name="preset_please">कृपया</string>
+    <string name="preset_thank_you">धन्यवाद</string>
+    <string name="preset_yes">हाँ</string>
+    <string name="preset_no">नहीं</string>
+    <string name="preset_maybe">शायद</string>
+    <string name="preset_please_wait">कृपया प्रतीक्षा करें</string>
+    <string name="preset_i_dont_know">मुझे नहीं पता</string>
+    <string name="preset_i_didnt_mean_say_that">मेरा वह मतलब नहीं था</string>
+    <string name="preset_be_patient">कृपया धैर्य रखें</string>
+    <string name="preset_turn_on_lights">कृपया लाइट जला दें</string>
+    <string name="preset_turn_off_lights">कृपया लाइट बंद कर दें</string>
+    <string name="preset_no_visitors">कृपया कोई मेहमान नहीं</string>
+    <string name="preset_like_visitors">मैं मेहमानों से मिलना चाहूँगा</string>
+    <string name="preset_be_quiet">कृपया शांत रहें</string>
+    <string name="preset_like_to_talk">मैं बात करना चाहूँगा</string>
+    <string name="preset_tv_on">कृपया टीवी चालू करें</string>
+    <string name="preset_tv_off">कृपया टीवी बंद करें</string>
+    <string name="preset_volume_up">कृपया आवाज़ बढ़ाएं</string>
+    <string name="preset_volume_down">कृपया आवाज़ कम करें</string>
+    <string name="preset_open_blinds">कृपया ब्लाइंड्स खोलें</string>
+    <string name="preset_close_blinds">कृपया ब्लाइंड्स बंद करें</string>
+    <string name="preset_open_window">कृपया खिड़की खोलें</string>
+    <string name="preset_close_window">कृपया खिड़की बंद करें</string>
+    <string name="preset_need_medication">मुझे अपनी दवा चाहिए</string>
+    <string name="preset_need_bath">मुझे नहाना है</string>
+    <string name="preset_need_shower">मुझे शॉवर लेना है</string>
+    <string name="preset_need_wash_face">मुझे अपना चेहरा धोना है</string>
+    <string name="preset_want_brush_hair">मुझे अपने बाल बनाने हैं</string>
+    <string name="preset_fix_pillow">कृपया मेरा तकिया ठीक कर दें</string>
+    <string name="preset_need_spit">मुझे थूकना है</string>
+    <string name="preset_trouble_breathing">मुझे सांस लेने में परेशानी हो रही है</string>
+    <string name="preset_need_jacket">मुझे जैकेट चाहिए</string>
+    <string name="add_phrase">वाक्यांश जोड़ें</string>
+    <string name="add_phrase_plus">+ वाक्यांश जोड़ें</string>
+    <string name="add_category">श्रेणी जोड़ें</string>
+    <string name="add_to_category">श्रेणी में जोड़ें</string>
+    <string name="no_custom_categories">कोई कस्टम श्रेणियां नहीं</string>
+    <string name="create_custom_categories">यहाँ वाक्यांश जोड़ने के लिए सेटिंग्स मेनू में कस्टम श्रेणियां बनाएं।</string>
+    <string name="all_categories_hidden_text">आपकी सभी श्रेणियां छिपा दी गई हैं। आप उन्हें श्रेणी सेटिंग्स पेज से फिर से दिखा सकते हैं।</string>
+    <string name="no_recent_phrases_title">हाल ही में इस्तेमाल किए गए कोई वाक्यांश नहीं</string>
+    <string name="no_recent_phrases_message">अपने हाल ही में इस्तेमाल किए गए वाक्यांशों को यहाँ देखने के लिए ऐप का उपयोग शुरू करें।</string>
+    <string name="categories_edit_title">श्रेणियां</string>
+    <string name="permissions_missing_dialog_title">आवश्यक अनुमतियाँ अनुपलब्ध</string>
+    <string name="permissions_missing_dialog_body">हेड ट्रैकिंग सुविधा का उपयोग करने के लिए कैमरा अनुमतियों की आवश्यकता होती है। कृपया उन्हें ऐप सेटिंग्स में सक्षम करें।</string>
+    <string name="permissions_confirm">ठीक है</string>
+    <string name="permissions_rationale_title">हेड ट्रैकिंग सक्षम करने के लिए कैमरा अनुमतियों की आवश्यकता है</string>
+    <string name="rename_category">श्रेणी का नाम बदलें</string>
+    <string name="show_category">श्रेणी दिखाएं</string>
+    <string name="edit_phrases">वाक्यांश संपादित करें</string>
+    <string name="remove_category">श्रेणी हटाएं</string>
+    <string name="preset_sayings_title">प्रीसेट बातें</string>
+    <string name="keyboard">कीबोर्ड</string>
+    <string name="keyboard_clear">साफ़ करें</string>
+    <string name="keyboard_space">स्पेस</string>
+    <string name="keyboard_backspace">बैकस्पेस</string>
+    <string name="keyboard_speak">बोलें</string>
+    <string name="close_settings">सेटिंग्स बंद करें</string>
+    <string name="on">चालू</string>
+    <string name="off">बंद</string>
 </resources>

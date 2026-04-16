@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">E koho i kekahi mea ma lalo nei e ʻōlelo.</string>
+    <string name="phrases_page_number">ʻAoʻao %1d o %2d</string>
+    <string name="my_sayings_empty">E hōʻike ʻia kāu mau ʻōlelo ma
+ʻaneʻi.
+
+E hele i ke kīpā, e paʻi i kekahi mea
+a laila e koho i ka "☆" e mālama iā ia ma ʻaneʻi.</string>
+    <string name="my_sayings_empty_handset_port">E hōʻike ʻia kāu mau ʻōlelo ma
+ʻaneʻi.
+
+E hele i ke kīpā, e paʻi i kekahi mea a laila e koho i ka "☆" e mālama iā ia ma ʻaneʻi.</string>
+    <string name="my_sayings_empty_handset_land">E hōʻike ʻia kāu mau ʻōlelo ma ʻaneʻi.
+
+E hele i ke kīpā, e paʻi i kekahi mea
+a laila e koho i ka "☆" e mālama iā ia ma ʻaneʻi.</string>
+    <string name="my_sayings_empty_settings">ʻAʻohe āu mau ʻōlelo i mālama ʻia. E koho i ka "+" ma ka ʻākau ma luna e hoʻohui i kekahi mea.</string>
+    <string name="custom_category_empty">ʻAʻohe āu mau huaʻōlelo i mālama ʻia.</string>
+    <string name="settings">Nā Hoʻonohonoho</string>
+    <string name="privacy_policy">Kulekele Pilikino</string>
+    <string name="contact_developers">Hoʻokaʻaʻike i nā Mea Hoʻomohala</string>
+    <string name="settings_head_tracking">Hahai Poʻo</string>
+    <string name="settings_dialog_title">Ke haʻalele nei i ka polokalamu</string>
+    <string name="settings_dialog_message">E lawe ʻia ana ʻoe i waho o ka polokalamu. Pono paha ʻoe e lilo i ka mana hahai poʻo.</string>
+    <string name="settings_dialog_continue">Hoʻomau</string>
+    <string name="settings_dialog_cancel">Hoʻopau</string>
+    <string name="settings_voice">Leo
+%1$s</string>
+    <string name="settings_edit_saying">Kaʻu mau ʻōlelo noʻeau</string>
+    <string name="settings_edit_categories">Nā Māhele a me nā ʻŌlelo</string>
+    <string name="settings_selection_mode">ʻAno Koho</string>
+    <string name="settings_reset_app">Hoʻonohonoho hou i ka Polokalamu</string>
+    <string name="selection_mode_title">ʻAno Koho</string>
+    <string name="voice_selection_title">Leo</string>
+    <string name="voice_default">Paʻamau</string>
+    <string name="close_voice_selection">Pani i ke Koho Leo</string>
+    <string name="selected">Ua Koho ʻia</string>
+    <string name="voice_download">Hoʻoiho i ka leo</string>
+    <string name="button_pause">Hoʻomaha</string>
+    <string name="button_resume">Hoʻomau</string>
+    <string name="error_move_closer">E ʻoluʻolu e hoʻokokoke i ka mea paʻahana.</string>
+    <string name="head_tracking_paused_message">Ua hoʻomaha ʻia ka hahai poʻo.
+E hoʻoneʻe i kou poʻo e hoʻomau.</string>
+    <string name="keyboard_select_letters">E hoʻomaka i ke paʻi ʻana…</string>
+    <string name="saved_successfully">Ua mālama ʻia ma %1s</string>
+    <string name="removed_successfully">Ua wehe ʻia mai %1s</string>
+    <string name="delete">Holoi</string>
+    <string name="delete_warning">ʻAʻole hiki ke hoʻihoʻi ʻia nā ʻōlelo i holoi ʻia.</string>
+    <string name="new_phrase_saved">Ua mālama ʻia ka ʻōlelo hou</string>
+    <string name="contiue_editing">Hoʻomau i ka hoʻoponopono ʻana</string>
+    <string name="discard">Hoʻolei</string>
+    <string name="are_you_sure">Ua maopopo anei iā ʻoe?</string>
+    <string name="back_warning">ʻO ka hoʻi ʻana ma mua o ka mālama ʻana e holoi i nā hoʻoponopono a pau.</string>
+    <string name="duplicate_phrase">E kala mai, ua loaʻa mua kēia inoa ʻōlelo. E ʻoluʻolu e hoʻāʻo i kahi inoa ʻē aʻe.</string>
+    <string name="changes_saved">Ua Mālama ʻia nā Hoʻololi</string>
+    <string name="category_created">Ua Hana ʻia ka Māhele</string>
+    <string name="duplicate_category">E kala mai, ua loaʻa mua kēia inoa māhele. E ʻoluʻolu e hoʻāʻo i kahi inoa ʻē aʻe.</string>
+    <string name="timing_sensitivity_title">Ka Manawa a me ka Nanea</string>
+    <string name="hover_time_text">Manawa Kau</string>
+    <string name="cursor_sensitivity_text">Nanea o ka Kiʻiona</string>
+    <string name="hover_time_amount_text">
+        %s kekona
+    </string>
+    <string name="hover_time_one_text">1 kekona</string>
+    <string name="cursor_sensitivity_low">Haʻahaʻa</string>
+    <string name="cursor_sensitivity_medium">Waena</string>
+    <string name="cursor_sensitivity_high">Kiʻekiʻe</string>
+    <string name="category_123">123</string>
+    <string name="category_123_yes">ʻAe</string>
+    <string name="category_123_no">ʻAʻole</string>
+    <string name="edit_categories_title">Nā Māhele a me nā ʻŌlelo</string>
+    <string name="edit_category_show_category_text">Hōʻike i ka Māhele</string>
+    <string name="edit_category_remove_category_text">Wehe i ka Māhele</string>
+    <string name="removed_cant_be_restored">ʻAʻole hiki ke hoʻihoʻi ʻia nā māhele i wehe ʻia.</string>
+    <string name="preset_general">Nui</string>
+    <string name="preset_basic_needs">Nā Pono Kumu</string>
+    <string name="preset_personal_care">Mālama Pilikino</string>
+    <string name="preset_conversation">Kūkākūkā</string>
+    <string name="preset_environment">Kahi noho</string>
+    <string name="preset_user_keypad">123</string>
+    <string name="preset_user_favorites">Kaʻu mau ʻŌlelo</string>
+    <string name="preset_recents">Nā mea hou</string>
+    <string name="preset_need_restroom">Pono au e hele i ka lua</string>
+    <string name="preset_im_thirsty">Makewai au</string>
+    <string name="preset_im_hungry">Pololi au</string>
+    <string name="preset_im_cold">Hanu anu au</string>
+    <string name="preset_im_hot">Hanu wela au</string>
+    <string name="preset_im_tired">Luhi au</string>
+    <string name="preset_im_fine">Maikaʻi nō au</string>
+    <string name="preset_im_good">Maikaʻi au</string>
+    <string name="preset_im_uncomfortable">ʻAʻole ʻoluʻolu au</string>
+    <string name="preset_im_in_pain">Ke ʻeha nei au</string>
+    <string name="preset_im_finished">Ua pau au</string>
+    <string name="preset_want_lie_down">Makemake au e moe i lalo</string>
+    <string name="preset_want_sit_up">Makemake au e noho i luna</string>
+    <string name="preset_hello">Aloha</string>
+    <string name="preset_good_morning">Aloha kakahiaka</string>
+    <string name="preset_good_evening">Aloha ahiahi</string>
+    <string name="preset_pleased_to_meet_you">Hauʻoli nō au i ka hālāwai ʻana me ʻoe</string>
+    <string name="preset_how_is_day">Pehea kou lā?</string>
+    <string name="preset_how_are_you">Pehea ʻoe?</string>
+    <string name="preset_how_is_it_going">Pehea mai nei?</string>
+    <string name="preset_how_was_your_weekend">Pehea kou hopena pule?</string>
+    <string name="preset_goodbye">Aloha</string>
+    <string name="preset_okay">ʻAe</string>
+    <string name="preset_bad">ʻAʻole maikaʻi</string>
+    <string name="preset_good">Maikaʻi</string>
+    <string name="preset_that_makes_sense">Hiki ke maopopo kēlā</string>
+    <string name="preset_i_like_it">Makemake au i kēlā</string>
+    <string name="preset_please_stop">E ʻoluʻolu, e kū</string>
+    <string name="preset_i_do_not_agree">ʻAʻole au e ʻae</string>
+    <string name="preset_please_repeat">E ʻoluʻolu, e hana hou mai i kāu mea i ʻōlelo ai</string>
+    <string name="preset_please">E ʻoluʻolu</string>
+    <string name="preset_thank_you">Mahalo</string>
+    <string name="preset_yes">ʻAe</string>
+    <string name="preset_no">ʻAʻole</string>
+    <string name="preset_maybe">Paha</string>
+    <string name="preset_please_wait">E ʻoluʻolu, e kali</string>
+    <string name="preset_i_dont_know">ʻAʻole au i ʻike</string>
+    <string name="preset_i_didnt_mean_say_that">ʻAʻole au i manaʻo e ʻōlelo i kēlā</string>
+    <string name="preset_be_patient">E ʻoluʻolu, e hoʻomanawanui</string>
+    <string name="preset_turn_on_lights">E ʻoluʻolu, e hoʻā i nā kukui</string>
+    <string name="preset_turn_off_lights">E ʻoluʻolu, e hoʻopau i nā kukui</string>
+    <string name="preset_no_visitors">ʻAʻole makemake i nā malihini</string>
+    <string name="preset_like_visitors">Makemake au i nā malihini</string>
+    <string name="preset_be_quiet">E ʻoluʻolu, e noho mālie</string>
+    <string name="preset_like_to_talk">Makemake au e kamaʻilio</string>
+    <string name="preset_tv_on">E ʻoluʻolu, e hoʻā i ke kīwī</string>
+    <string name="preset_tv_off">E ʻoluʻolu, e hoʻopau i ke kīwī</string>
+    <string name="preset_volume_up">E ʻoluʻolu, e hoʻonui i ka leo</string>
+    <string name="preset_volume_down">E ʻoluʻolu, e hoʻēmi i ka leo</string>
+    <string name="preset_open_blinds">E ʻoluʻolu, e wehe i nā pale pukaaniani</string>
+    <string name="preset_close_blinds">E ʻoluʻolu, e pani i nā pale pukaaniani</string>
+    <string name="preset_open_window">E ʻoluʻolu, e wehe i ka pukaaniani</string>
+    <string name="preset_close_window">E ʻoluʻolu, e pani i ka pukaaniani</string>
+    <string name="preset_need_medication">Pono au i kaʻu lāʻau</string>
+    <string name="preset_need_bath">Pono au i ka ʻauʻau</string>
+    <string name="preset_need_shower">Pono au i ka ʻauʻau kualu</string>
+    <string name="preset_need_wash_face">Pono au e holoi i koʻu maka</string>
+    <string name="preset_want_brush_hair">Pono au e palaki i koʻu lauoho</string>
+    <string name="preset_fix_pillow">E ʻoluʻolu, e hoʻoponopono i koʻu uluna</string>
+    <string name="preset_need_spit">Pono au e kuha</string>
+    <string name="preset_trouble_breathing">Paʻakikī koʻu hanu ʻana</string>
+    <string name="preset_need_jacket">Pono au i ka lakeke</string>
+    <string name="add_phrase">Hoʻohui i ka ʻōlelo</string>
+    <string name="add_phrase_plus">+ Hoʻohui i ka ʻōlelo</string>
+    <string name="add_category">Hoʻohui i ka Māhele</string>
+    <string name="add_to_category">Hoʻohui i ka Māhele</string>
+    <string name="no_custom_categories">ʻAʻohe māhele maʻamau</string>
+    <string name="create_custom_categories">E hana i nā māhele maʻamau ma ka papa kuhikuhi hoʻonohonoho e hoʻohui i nā ʻōlelo ma ʻaneʻi.</string>
+    <string name="all_categories_hidden_text">Ua hūnā ʻia kāu mau māhele a pau. Hiki iā ʻoe ke hōʻike hou iā lākou mai ka ʻaoʻao hoʻonohonoho māhele.</string>
+    <string name="no_recent_phrases_title">ʻAʻohe ʻōlelo i hoʻohana ʻia hou</string>
+    <string name="no_recent_phrases_message">E hoʻomaka e hoʻohana i ka polokalamu e ʻike i kāu mau ʻōlelo i hoʻohana pinepine ʻia ma ʻaneʻi.</string>
+    <string name="categories_edit_title">Nā Māhele</string>
+    <string name="permissions_missing_dialog_title">ʻAʻole loaʻa nā ʻae i koi ʻia</string>
+    <string name="permissions_missing_dialog_body">Pono nā ʻae kāmera e hoʻohana i ka hiʻohiʻona Hahai Poʻo. E ʻoluʻolu e hoʻā iā lākou ma nā hoʻonohonoho polokalamu.</string>
+    <string name="permissions_confirm">OK</string>
+    <string name="permissions_rationale_title">Pono nā ʻae kāmera e hoʻā i ka Hahai Poʻo</string>
+    <string name="rename_category">Hoʻololi i ka inoa o ka māhele</string>
+    <string name="show_category">Hōʻike i ka Māhele</string>
+    <string name="edit_phrases">Hoʻoponopono i nā ʻŌlelo</string>
+    <string name="remove_category">Wehe i ka Māhele</string>
+    <string name="preset_sayings_title">Nā ʻŌlelo i Hoʻonohonoho ʻia</string>
+    <string name="keyboard">Kīpā</string>
+    <string name="keyboard_clear">Holoi</string>
+    <string name="keyboard_space">Wāhi</string>
+    <string name="keyboard_backspace">Holoi hope</string>
+    <string name="keyboard_speak">ʻŌlelo</string>
+    <string name="close_settings">Pani i nā Hoʻonohonoho</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+</resources>

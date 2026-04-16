@@ -41,6 +41,7 @@ jobs:
           VERSION_NAME: ${{ env.version_name }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          FUELIX_API_KEY: ${{ secrets.FUELIX_API_KEY }}
         run: |
           ./gradlew assembleRelease
 

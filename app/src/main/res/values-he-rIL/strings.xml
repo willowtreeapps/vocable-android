@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">בחר משהו למטה כדי לדבר.</string>
+    <string name="phrases_page_number">עמוד %1d מתוך %2d</string>
+    <string name="my_sayings_empty">האמירות שלך יופיעו
+כאן.
+
+עבור למקלדת, הקלד משהו
+ואז בחר ב- "☆" כדי לשמור אותו כאן.</string>
+    <string name="my_sayings_empty_handset_port">האמירות שלך יופיעו
+כאן.
+
+נווט למקלדת, הקלד משהו ואז בחר ב- "☆" כדי לשמור אותו כאן.</string>
+    <string name="my_sayings_empty_handset_land">האמירות שלך יופיעו כאן.
+
+נווט למקלדת, הקלד משהו
+ואז בחר ב- "☆" כדי לשמור אותו כאן.</string>
+    <string name="my_sayings_empty_settings">עדיין אין לך אמירות שמורות. בחר ב- "+" בפינה הימנית העליונה כדי להוסיף משהו.</string>
+    <string name="custom_category_empty">עדיין אין לך ביטויים שמורים.</string>
+    <string name="settings">הגדרות</string>
+    <string name="privacy_policy">מדיניות פרטיות</string>
+    <string name="contact_developers">צור קשר עם המפתחים</string>
+    <string name="settings_head_tracking">מעקב ראש</string>
+    <string name="settings_dialog_title">יציאה מהאפליקציה</string>
+    <string name="settings_dialog_message">אתה עומד לצאת מהאפליקציה. ייתכן שתאבד את השליטה במעקב הראש.</string>
+    <string name="settings_dialog_continue">המשך</string>
+    <string name="settings_dialog_cancel">בטל</string>
+    <string name="settings_voice">קול
+%1$s</string>
+    <string name="settings_edit_saying">האמירות שלי</string>
+    <string name="settings_edit_categories">קטגוריות וביטויים</string>
+    <string name="settings_selection_mode">מצב בחירה</string>
+    <string name="settings_reset_app">איפוס הגדרות האפליקציה</string>
+    <string name="selection_mode_title">מצב בחירה</string>
+    <string name="voice_selection_title">קול</string>
+    <string name="voice_default">ברירת מחדל</string>
+    <string name="close_voice_selection">סגור בחירת קול</string>
+    <string name="selected">נבחר</string>
+    <string name="voice_download">הורד קול</string>
+    <string name="button_pause">השהה</string>
+    <string name="button_resume">המשך</string>
+    <string name="error_move_closer">אנא התקרב למכשיר.</string>
+    <string name="head_tracking_paused_message">מעקב הראש מושהה.
+הזז את הראש כדי להמשיך.</string>
+    <string name="keyboard_select_letters">התחל להקליד...</string>
+    <string name="saved_successfully">נשמר ב-%1s</string>
+    <string name="removed_successfully">הוסר מ-%1s</string>
+    <string name="delete">מחק</string>
+    <string name="delete_warning">לא ניתן לשחזר ביטויים שנמחקו.</string>
+    <string name="new_phrase_saved">ביטוי חדש נשמר</string>
+    <string name="contiue_editing">המשך עריכה</string>
+    <string name="discard">בטל</string>
+    <string name="are_you_sure">האם אתה בטוח?</string>
+    <string name="back_warning">חזרה לפני השמירה תמחק את כל השינויים שבוצעו.</string>
+    <string name="duplicate_phrase">מצטערים, שם הביטוי הזה כבר קיים. אנא נסה שם אחר.</string>
+    <string name="changes_saved">השינויים נשמרו</string>
+    <string name="category_created">קטגוריה נוצרה</string>
+    <string name="duplicate_category">מצטערים, שם הקטגוריה הזה כבר קיים. אנא נסה שם אחר.</string>
+    <string name="timing_sensitivity_title">תזמון ורגישות</string>
+    <string name="hover_time_text">זמן ריחוף</string>
+    <string name="cursor_sensitivity_text">רגישות הסמן</string>
+    <string name="hover_time_amount_text">
+        %s שניות
+    </string>
+    <string name="hover_time_one_text">שנייה אחת</string>
+    <string name="cursor_sensitivity_low">נמוכה</string>
+    <string name="cursor_sensitivity_medium">בינונית</string>
+    <string name="cursor_sensitivity_high">גבוהה</string>
+    <string name="category_123">123</string>
+    <string name="category_123_yes">כן</string>
+    <string name="category_123_no">לא</string>
+    <string name="edit_categories_title">קטגוריות וביטויים</string>
+    <string name="edit_category_show_category_text">הצג קטגוריה</string>
+    <string name="edit_category_remove_category_text">הסר קטגוריה</string>
+    <string name="removed_cant_be_restored">לא ניתן לשחזר קטגוריות שהוסרו.</string>
+    <string name="preset_general">כללי</string>
+    <string name="preset_basic_needs">צרכים בסיסיים</string>
+    <string name="preset_personal_care">טיפול אישי</string>
+    <string name="preset_conversation">שיחה</string>
+    <string name="preset_environment">סביבה</string>
+    <string name="preset_user_keypad">123</string>
+    <string name="preset_user_favorites">האמירות שלי</string>
+    <string name="preset_recents">אחרונים</string>
+    <string name="preset_need_restroom">אני צריך ללכת לשירותים</string>
+    <string name="preset_im_thirsty">אני צמא</string>
+    <string name="preset_im_hungry">אני רעב</string>
+    <string name="preset_im_cold">קר לי</string>
+    <string name="preset_im_hot">חם לי</string>
+    <string name="preset_im_tired">אני עייף</string>
+    <string name="preset_im_fine">אני בסדר</string>
+    <string name="preset_im_good">אני מרגיש טוב</string>
+    <string name="preset_im_uncomfortable">אני לא מרגיש בנוח</string>
+    <string name="preset_im_in_pain">כואב לי</string>
+    <string name="preset_im_finished">סיימתי</string>
+    <string name="preset_want_lie_down">אני רוצה לשכב</string>
+    <string name="preset_want_sit_up">אני רוצה להתיישב</string>
+    <string name="preset_hello">שלום</string>
+    <string name="preset_good_morning">בוקר טוב</string>
+    <string name="preset_good_evening">ערב טוב</string>
+    <string name="preset_pleased_to_meet_you">נעים להכיר</string>
+    <string name="preset_how_is_day">איך עבר עליך היום?</string>
+    <string name="preset_how_are_you">מה שלומך?</string>
+    <string name="preset_how_is_it_going">מה קורה?</string>
+    <string name="preset_how_was_your_weekend">איך היה סוף השבוע שלך?</string>
+    <string name="preset_goodbye">להתראות</string>
+    <string name="preset_okay">בסדר</string>
+    <string name="preset_bad">רע</string>
+    <string name="preset_good">טוב</string>
+    <string name="preset_that_makes_sense">זה הגיוני</string>
+    <string name="preset_i_like_it">אני אוהב את זה</string>
+    <string name="preset_please_stop">בבקשה תפסיק</string>
+    <string name="preset_i_do_not_agree">אני לא מסכים</string>
+    <string name="preset_please_repeat">בבקשה תחזור על מה שאמרת</string>
+    <string name="preset_please">בבקשה</string>
+    <string name="preset_thank_you">תודה</string>
+    <string name="preset_yes">כן</string>
+    <string name="preset_no">לא</string>
+    <string name="preset_maybe">אולי</string>
+    <string name="preset_please_wait">אנא המתן</string>
+    <string name="preset_i_dont_know">אני לא יודע</string>
+    <string name="preset_i_didnt_mean_say_that">לא התכוונתי לומר זאת</string>
+    <string name="preset_be_patient">אנא היה סבלני</string>
+    <string name="preset_turn_on_lights">בבקשה להדליק את האורות</string>
+    <string name="preset_turn_off_lights">בבקשה לכבות את האורות</string>
+    <string name="preset_no_visitors">בבקשה ללא מבקרים</string>
+    <string name="preset_like_visitors">אני אשמח למבקרים</string>
+    <string name="preset_be_quiet">בבקשה שקט</string>
+    <string name="preset_like_to_talk">אני רוצה לדבר</string>
+    <string name="preset_tv_on">בבקשה להדליק את הטלוויזיה</string>
+    <string name="preset_tv_off">בבקשה לכבות את הטלוויזיה</string>
+    <string name="preset_volume_up">בבקשה להגביר את הווליום</string>
+    <string name="preset_volume_down">בבקשה להנמיך את הווליום</string>
+    <string name="preset_open_blinds">בבקשה לפתוח את התריסים</string>
+    <string name="preset_close_blinds">בבקשה לסגור את התריסים</string>
+    <string name="preset_open_window">בבקשה לפתוח את החלון</string>
+    <string name="preset_close_window">בבקשה לסגור את החלון</string>
+    <string name="preset_need_medication">אני צריך את התרופות שלי</string>
+    <string name="preset_need_bath">אני צריך אמבטיה</string>
+    <string name="preset_need_shower">אני צריך מקלחת</string>
+    <string name="preset_need_wash_face">אני צריך לשטוף פנים</string>
+    <string name="preset_want_brush_hair">אני צריך לסרק את השיער</string>
+    <string name="preset_fix_pillow">בבקשה תסדר לי את הכרית</string>
+    <string name="preset_need_spit">אני צריך לירוק</string>
+    <string name="preset_trouble_breathing">קשה לי לנשום</string>
+    <string name="preset_need_jacket">אני צריך ז\'קט</string>
+    <string name="add_phrase">הוסף ביטוי</string>
+    <string name="add_phrase_plus">+ הוסף ביטוי</string>
+    <string name="add_category">הוסף קטגוריה</string>
+    <string name="add_to_category">הוסף לקטגוריה</string>
+    <string name="no_custom_categories">אין קטגוריות מותאמות אישית</string>
+    <string name="create_custom_categories">צור קטגוריות מותאמות אישית בתפריט ההגדרות כדי להוסיף להן ביטויים כאן.</string>
+    <string name="all_categories_hidden_text">כל הקטגוריות שלך מוסתרות. ניתן להציג אותן שוב מדף הגדרות הקטגוריות.</string>
+    <string name="no_recent_phrases_title">אין ביטויים בשימוש לאחרונה</string>
+    <string name="no_recent_phrases_message">התחל להשתמש באפליקציה כדי לראות כאן את הביטויים שהשתמשת בהם לאחרונה.</string>
+    <string name="categories_edit_title">קטגוריות</string>
+    <string name="permissions_missing_dialog_title">הרשאות נדרשות אינן זמינות</string>
+    <string name="permissions_missing_dialog_body">נדרשות הרשאות מצלמה כדי להשתמש בתכונת מעקב הראש. אנא אפשר אותן בהגדרות האפליקציה.</string>
+    <string name="permissions_confirm">אישור</string>
+    <string name="permissions_rationale_title">דרושות הרשאות מצלמה כדי להפעיל את מעקב הראש</string>
+    <string name="rename_category">שנה שם קטגוריה</string>
+    <string name="show_category">הצג קטגוריה</string>
+    <string name="edit_phrases">ערוך ביטויים</string>
+    <string name="remove_category">הסר קטגוריה</string>
+    <string name="preset_sayings_title">אמירות מוגדרות מראש</string>
+    <string name="keyboard">מקלדת</string>
+    <string name="keyboard_clear">נקה</string>
+    <string name="keyboard_space">רווח</string>
+    <string name="keyboard_backspace">מחק</string>
+    <string name="keyboard_speak">דבר</string>
+    <string name="close_settings">סגור הגדרות</string>
+    <string name="on">פעיל</string>
+    <string name="off">כבוי</string>
+</resources>

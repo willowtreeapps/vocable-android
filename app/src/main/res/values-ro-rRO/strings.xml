@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">Selectează ceva mai jos pentru a vorbi.</string>
+    <string name="phrases_page_number">Pagina %1d din %2d</string>
+    <string name="my_sayings_empty">Spunerile tale vor apărea
+aici.
+
+Navighează la tastatură, scrie ceva
+apoi selectează "☆" pentru a o salva aici.</string>
+    <string name="my_sayings_empty_handset_port">Spunerile tale vor apărea
+aici.
+
+Navighează la tastatură, scrie ceva apoi selectează "☆" pentru a o salva aici.</string>
+    <string name="my_sayings_empty_handset_land">Spunerile tale vor apărea aici.
+
+Navighează la tastatură, scrie ceva
+apoi selectează "☆" pentru a o salva aici.</string>
+    <string name="my_sayings_empty_settings">Nu ai încă nicio spunere salvată. Selectează „+” în dreapta sus pentru a adăuga ceva.</string>
+    <string name="custom_category_empty">Nu ai salvat încă nicio frază.</string>
+    <string name="settings">Setări</string>
+    <string name="privacy_policy">Politica de confidențialitate</string>
+    <string name="contact_developers">Contactează dezvoltatorii</string>
+    <string name="settings_head_tracking">Urmărirea capului</string>
+    <string name="settings_dialog_title">Părăsirea aplicației</string>
+    <string name="settings_dialog_message">Ești pe cale să ieși din aplicație. Este posibil să pierzi controlul prin urmărirea capului.</string>
+    <string name="settings_dialog_continue">Continuă</string>
+    <string name="settings_dialog_cancel">Anulează</string>
+    <string name="settings_voice">Voce
+%1$s</string>
+    <string name="settings_edit_saying">Zicătorile mele</string>
+    <string name="settings_edit_categories">Categorii și fraze</string>
+    <string name="settings_selection_mode">Mod de selecție</string>
+    <string name="settings_reset_app">Resetează setările aplicației</string>
+    <string name="selection_mode_title">Mod de selecție</string>
+    <string name="voice_selection_title">Voce</string>
+    <string name="voice_default">Implicită</string>
+    <string name="close_voice_selection">Închide selectarea vocii</string>
+    <string name="selected">Selectat</string>
+    <string name="voice_download">Descarcă vocea</string>
+    <string name="button_pause">Pauză</string>
+    <string name="button_resume">Reia</string>
+    <string name="error_move_closer">Te rugăm să te apropii de dispozitiv.</string>
+    <string name="head_tracking_paused_message">Urmărirea capului este întreruptă.
+Mișcă-ți capul pentru a relua.</string>
+    <string name="keyboard_select_letters">Începe să scrii...</string>
+    <string name="saved_successfully">Salvat în %1s</string>
+    <string name="removed_successfully">Eliminat din %1s</string>
+    <string name="delete">Șterge</string>
+    <string name="delete_warning">Frazele eliminate nu pot fi restaurate.</string>
+    <string name="new_phrase_saved">Frază nouă salvată</string>
+    <string name="contiue_editing">Continuă editarea</string>
+    <string name="discard">Renunță</string>
+    <string name="are_you_sure">Ești sigur?</string>
+    <string name="back_warning">Dacă te întorci înainte de a salva, vei pierde toate modificările făcute.</string>
+    <string name="duplicate_phrase">Ne pare rău, acest nume de frază există deja. Te rugăm să încerci un alt nume.</string>
+    <string name="changes_saved">Modificări salvate</string>
+    <string name="category_created">Categorie creată</string>
+    <string name="duplicate_category">Ne pare rău, acest nume de categorie există deja. Te rugăm să încerci un alt nume.</string>
+    <string name="timing_sensitivity_title">Timp și sensibilitate</string>
+    <string name="hover_time_text">Timp de staționare</string>
+    <string name="cursor_sensitivity_text">Sensibilitatea cursorului</string>
+    <string name="hover_time_amount_text">
+        %s secunde
+    </string>
+    <string name="hover_time_one_text">1 secundă</string>
+    <string name="cursor_sensitivity_low">Scăzută</string>
+    <string name="cursor_sensitivity_medium">Medie</string>
+    <string name="cursor_sensitivity_high">Ridicată</string>
+    <string name="category_123">123</string>
+    <string name="category_123_yes">Da</string>
+    <string name="category_123_no">Nu</string>
+    <string name="edit_categories_title">Categorii și fraze</string>
+    <string name="edit_category_show_category_text">Afișează categoria</string>
+    <string name="edit_category_remove_category_text">Elimină categoria</string>
+    <string name="removed_cant_be_restored">Categoriile eliminate nu pot fi restaurate.</string>
+    <string name="preset_general">General</string>
+    <string name="preset_basic_needs">Nevoile de bază</string>
+    <string name="preset_personal_care">Îngrijire personală</string>
+    <string name="preset_conversation">Conversație</string>
+    <string name="preset_environment">Mediu</string>
+    <string name="preset_user_keypad">123</string>
+    <string name="preset_user_favorites">Spunerile mele</string>
+    <string name="preset_recents">Recente</string>
+    <string name="preset_need_restroom">Am nevoie la toaletă</string>
+    <string name="preset_im_thirsty">Mi-e sete</string>
+    <string name="preset_im_hungry">Mi-e foame</string>
+    <string name="preset_im_cold">Mi-e frig</string>
+    <string name="preset_im_hot">Mi-e cald</string>
+    <string name="preset_im_tired">Sunt obosit</string>
+    <string name="preset_im_fine">Sunt bine</string>
+    <string name="preset_im_good">Sunt bine</string>
+    <string name="preset_im_uncomfortable">Nu mă simt confortabil</string>
+    <string name="preset_im_in_pain">Am dureri</string>
+    <string name="preset_im_finished">Am terminat</string>
+    <string name="preset_want_lie_down">Vreau să mă întind</string>
+    <string name="preset_want_sit_up">Vreau să mă ridic în șezut</string>
+    <string name="preset_hello">Bună</string>
+    <string name="preset_good_morning">Bună dimineața</string>
+    <string name="preset_good_evening">Bună seara</string>
+    <string name="preset_pleased_to_meet_you">Încântat de cunoștință</string>
+    <string name="preset_how_is_day">Cum îți este ziua?</string>
+    <string name="preset_how_are_you">Ce faci?</string>
+    <string name="preset_how_is_it_going">Cum merge?</string>
+    <string name="preset_how_was_your_weekend">Cum a fost weekendul tău?</string>
+    <string name="preset_goodbye">La revedere</string>
+    <string name="preset_okay">În regulă</string>
+    <string name="preset_bad">Rău</string>
+    <string name="preset_good">Bun</string>
+    <string name="preset_that_makes_sense">Are sens</string>
+    <string name="preset_i_like_it">Îmi place</string>
+    <string name="preset_please_stop">Te rog să te oprești</string>
+    <string name="preset_i_do_not_agree">Nu sunt de acord</string>
+    <string name="preset_please_repeat">Te rog să repeți ce ai spus</string>
+    <string name="preset_please">Te rog</string>
+    <string name="preset_thank_you">Mulțumesc</string>
+    <string name="preset_yes">Da</string>
+    <string name="preset_no">Nu</string>
+    <string name="preset_maybe">Poate</string>
+    <string name="preset_please_wait">Te rog să aștepți</string>
+    <string name="preset_i_dont_know">Nu știu</string>
+    <string name="preset_i_didnt_mean_say_that">Nu am vrut să spun asta</string>
+    <string name="preset_be_patient">Te rog să ai răbdare</string>
+    <string name="preset_turn_on_lights">Te rog să aprinzi luminile</string>
+    <string name="preset_turn_off_lights">Te rog să stingi luminile</string>
+    <string name="preset_no_visitors">Fără vizitatori, te rog</string>
+    <string name="preset_like_visitors">Aș dori vizitatori</string>
+    <string name="preset_be_quiet">Te rog să fii liniștit</string>
+    <string name="preset_like_to_talk">Aș dori să vorbesc</string>
+    <string name="preset_tv_on">Te rog să pornești televizorul</string>
+    <string name="preset_tv_off">Te rog să oprești televizorul</string>
+    <string name="preset_volume_up">Te rog să dai volumul mai tare</string>
+    <string name="preset_volume_down">Te rog să dai volumul mai încet</string>
+    <string name="preset_open_blinds">Te rog să deschizi jaluzelele</string>
+    <string name="preset_close_blinds">Te rog să închizi jaluzelele</string>
+    <string name="preset_open_window">Te rog să deschizi fereastra</string>
+    <string name="preset_close_window">Te rog să închizi fereastra</string>
+    <string name="preset_need_medication">Am nevoie de medicamente</string>
+    <string name="preset_need_bath">Am nevoie de o baie</string>
+    <string name="preset_need_shower">Am nevoie de un duș</string>
+    <string name="preset_need_wash_face">Trebuie să mă spăl pe față</string>
+    <string name="preset_want_brush_hair">Trebuie să mă pieptăn</string>
+    <string name="preset_fix_pillow">Te rog să-mi aranjezi perna</string>
+    <string name="preset_need_spit">Am nevoie să scuip</string>
+    <string name="preset_trouble_breathing">Am probleme cu respirația</string>
+    <string name="preset_need_jacket">Am nevoie de o jachetă</string>
+    <string name="add_phrase">Adaugă frază</string>
+    <string name="add_phrase_plus">+ Adaugă frază</string>
+    <string name="add_category">Adaugă categorie</string>
+    <string name="add_to_category">Adaugă în categorie</string>
+    <string name="no_custom_categories">Nicio categorie personalizată</string>
+    <string name="create_custom_categories">Creează categorii personalizate în meniul de setări pentru a adăuga fraze în ele aici.</string>
+    <string name="all_categories_hidden_text">Toate categoriile tale au fost ascunse. Le poți afișa din nou din pagina de setări a categoriilor.</string>
+    <string name="no_recent_phrases_title">Nicio frază folosită recent</string>
+    <string name="no_recent_phrases_message">Începe să folosești aplicația pentru a vedea aici cele mai recente fraze folosite.</string>
+    <string name="categories_edit_title">Categorii</string>
+    <string name="permissions_missing_dialog_title">Permisiuni necesare indisponibile</string>
+    <string name="permissions_missing_dialog_body">Permisiunile camerei sunt necesare pentru a utiliza funcția de urmărire a capului. Te rugăm să le activezi în setările aplicației.</string>
+    <string name="permissions_confirm">OK</string>
+    <string name="permissions_rationale_title">Permisiunile camerei sunt necesare pentru a activa urmărirea capului</string>
+    <string name="rename_category">Redenumește categoria</string>
+    <string name="show_category">Afișează categoria</string>
+    <string name="edit_phrases">Editează frazele</string>
+    <string name="remove_category">Elimină categoria</string>
+    <string name="preset_sayings_title">Spuneri predefinite</string>
+    <string name="keyboard">Tastatură</string>
+    <string name="keyboard_clear">Șterge</string>
+    <string name="keyboard_space">Spațiu</string>
+    <string name="keyboard_backspace">Backspace</string>
+    <string name="keyboard_speak">Vorbește</string>
+    <string name="close_settings">Închide setările</string>
+    <string name="on">PORNIT</string>
+    <string name="off">OPRIT</string>
+</resources>
