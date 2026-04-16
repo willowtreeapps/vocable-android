@@ -42,24 +42,21 @@ private fun buildLanguageList(): List<LanguageOption> {
 private val SUPPORTED_LANGUAGE_TAGS = listOf(
     "en",
     // European
-    "af-ZA", "sq-AL", "be-BY", "bs-BA", "bg-BG", "ca-ES", "hr-HR", "cs-CZ", "da-DK",
+    "af-ZA", "sq-AL", "bg-BG", "ca-ES", "hr-HR", "cs-CZ", "da-DK",
     "nl-NL", "et-EE", "fi-FI", "fr", "fr-CA", "fr-BE", "fr-CH", "gl-ES", "de-DE",
     "de-AT", "de-CH", "el-GR", "hu-HU", "is-IS", "ga-IE", "it-IT", "lv-LV", "lt-LT",
-    "lb-LU", "mk-MK", "mt-MT", "nb-NO", "nn-NO", "pl-PL", "pt", "pt-BR", "pt-PT",
-    "ro-RO", "ru-RU", "sr-RS", "sr-Latn", "sk-SK", "sl-SI", "es", "es-AR", "es-CL",
+    "mk-MK", "mt-MT", "nb-NO", "pl-PL", "pt", "pt-BR", "pt-PT",
+    "ro-RO", "ru-RU", "sr-RS", "sk-SK", "sl-SI", "es", "es-AR", "es-CL",
     "es-CO", "es-MX", "es-PE", "es-US", "es-VE", "sv-SE", "tr-TR", "uk-UA", "cy-GB",
     // Middle East & Central Asia
     "ar", "ar-AE", "ar-EG", "ar-SA", "hy-AM", "az-AZ", "fa-IR", "ka-GE", "he-IL",
-    "kk-KZ", "ku-TR", "ky-KG", "ps-AF", "tg-TJ", "tk-TM", "ur-PK", "uz-UZ",
+    "kk-KZ", "ur-PK", "uz-UZ",
     // South Asia
-    "bn-BD", "bn-IN", "gu-IN", "hi-IN", "kn-IN", "ml-IN", "mr-IN", "ne-NP", "or-IN",
+    "bn-BD", "bn-IN", "gu-IN", "hi-IN", "kn-IN", "ml-IN", "mr-IN", "ne-NP",
     "pa-IN", "si-LK", "ta-IN", "te-IN",
     // East & Southeast Asia
     "zh-CN", "zh-TW", "zh-HK", "ja-JP", "ko-KR", "id-ID", "ms-MY", "my-MM", "km-KH",
     "lo-LA", "mn-MN", "th-TH", "fil-PH", "vi-VN",
     // Africa
-    "am-ET", "ha-NG", "ig-NG", "rw-RW", "mg-MG", "om-ET", "sn-ZW", "so-SO", "st-ZA",
-    "sw-KE", "xh-ZA", "yo-NG", "zu-ZA",
-    // Americas & Pacific
-    "haw-US", "mi-NZ",
+    "am-ET", "sw-KE", "zu-ZA",
 )
