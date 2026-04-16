@@ -17,6 +17,7 @@ class LanguageSelectionViewModel(
 
     fun onLanguageSelected(tag: String?) {
         sharedPreferences.setSelectedLanguageTag(tag)
+        sharedPreferences.setSelectedVoiceName(null)
         updateState { copy(selectedLanguageTag = tag) }
         val localeList = if (tag.isNullOrEmpty()) {
             LocaleListCompat.getEmptyLocaleList()

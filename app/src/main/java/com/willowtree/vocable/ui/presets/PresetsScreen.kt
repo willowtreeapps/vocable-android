@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -42,6 +43,9 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.Visibility
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.willowtree.vocable.R
 import com.willowtree.vocable.domain.model.Category
@@ -49,6 +53,7 @@ import com.willowtree.vocable.domain.model.PhraseGridItem
 import com.willowtree.vocable.domain.model.PresetCategories
 import com.willowtree.vocable.ui.components.AddPhraseButton
 import com.willowtree.vocable.ui.components.GazeButton
+import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.ColorPrimaryDark
 import com.willowtree.vocable.ui.theme.SelectedColor
@@ -65,6 +70,17 @@ fun PresetsScreen(
     viewModel: PresetsViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refreshPhrases()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     PresetsContent(
         categories = state.categories,
@@ -213,6 +229,10 @@ private fun PresetsContent(
                 end = dimensionResource(id = R.dimen.main_activity_side_margin),
                 top = dimensionResource(id = R.dimen.main_activity_top_bottom_margin),
                 bottom = dimensionResource(id = R.dimen.main_activity_top_bottom_margin)
+            )
+            .horizontalPageSwipe(
+                onSwipeLeft = { onPrevPhrasePage() },
+                onSwipeRight = { onNextPhrasePage() }
             )
     ) {
         val (

@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.components.GazeButton
+import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
 
@@ -53,7 +54,11 @@ fun LanguageSelectionScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .horizontalPageSwipe(
+                onSwipeLeft = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
+                onSwipeRight = { pageIndex = (pageIndex + 1) % totalPages }
+            ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Row(

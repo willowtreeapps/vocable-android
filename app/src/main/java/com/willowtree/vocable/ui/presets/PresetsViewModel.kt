@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
 import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
+import com.willowtree.vocable.domain.model.Phrase
 import com.willowtree.vocable.domain.model.PhraseGridItem
 import com.willowtree.vocable.domain.model.PresetCategories
 import com.willowtree.vocable.core.ILocalizedResourceUtility
@@ -63,38 +64,42 @@ class PresetsViewModel(
             }
         }
 
-        // Fix: Use flatMapLatest instead of nested collect to properly switch flows when category changes
         viewModelScope.launch {
             _state.map { it.selectedCategory?.categoryId }
                 .distinctUntilChanged()
                 .filterNotNull()
                 .flatMapLatest { selectedId ->
                     phrasesUseCase.getPhrasesForCategoryFlow(selectedId).map { phrases ->
-                        val phraseGridItems: List<PhraseGridItem> = phrases.run {
-                            if (selectedId != PresetCategories.RECENTS.id) {
-                                sortedBy { it.sortOrder }
-                            } else {
-                                this
-                            }
-                        }.map {
-                            PhraseGridItem.Phrase(
-                                it.phraseId,
-                                localizedResourceUtility.getTextFromPhrase(it)
-                            )
-                        }
-                        
-                        val items = if (selectedId != PresetCategories.RECENTS.id && selectedId != PresetCategories.USER_KEYPAD.id && phrases.isNotEmpty()) {
-                            phraseGridItems + PhraseGridItem.AddPhrase
-                        } else {
-                            phraseGridItems
-                        }
-                        
-                        Pair(selectedId, items)
+                        Pair(selectedId, mapPhrasesToGridItems(phrases, selectedId))
                     }
                 }
                 .collect { (selectedId, phrases) ->
                     _state.update { it.copy(currentPhrases = phrases, currentPhrasesCategoryId = selectedId) }
                 }
+        }
+    }
+
+    fun refreshPhrases() {
+        val categoryId = _state.value.selectedCategory?.categoryId ?: return
+        viewModelScope.launch {
+            val phrases = phrasesUseCase.getPhrasesForCategoryFlow(categoryId).first()
+            _state.update { it.copy(currentPhrases = mapPhrasesToGridItems(phrases, categoryId)) }
+        }
+    }
+
+    private fun mapPhrasesToGridItems(phrases: List<Phrase>, categoryId: String): List<PhraseGridItem> {
+        val phraseGridItems = phrases.run {
+            if (categoryId != PresetCategories.RECENTS.id) sortedBy { it.sortOrder } else this
+        }.map {
+            PhraseGridItem.Phrase(it.phraseId, localizedResourceUtility.getTextFromPhrase(it))
+        }
+        return if (categoryId != PresetCategories.RECENTS.id &&
+            categoryId != PresetCategories.USER_KEYPAD.id &&
+            phrases.isNotEmpty()
+        ) {
+            phraseGridItems + PhraseGridItem.AddPhrase
+        } else {
+            phraseGridItems
         }
     }
 
@@ -118,8 +123,10 @@ class PresetsViewModel(
             }
             is PresetsIntent.Speak -> {
                 _state.update { it.copy(activeText = intent.text) }
+                val languageTag = sharedPreferences.getSelectedLanguageTag()
+                val locale = if (!languageTag.isNullOrEmpty()) Locale.forLanguageTag(languageTag) else null
                 VocableTextToSpeech.speak(
-                    locale = Locale.getDefault(),
+                    locale = locale,
                     text = intent.text,
                     selectedVoiceName = sharedPreferences.getSelectedVoiceName()
                 )
