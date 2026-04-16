@@ -175,12 +175,12 @@ fun SelectionModeContent(
         }
 
         SettingsButton(
-            text = stringResource(R.string.settings_voice, selectedVoiceLabel),
-            onClick = onVoiceSelection,
+            text = stringResource(R.string.settings_language, selectedLanguageLabel),
+            onClick = onLanguageSelection,
             modifier = Modifier
                 .height(buttonHeight)
                 .fillMaxWidth()
-                .constrainAs(voiceButtonRef) {
+                .constrainAs(languageButtonRef) {
                     top.linkTo(trackingButtonRef.bottom, margin = 16.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -188,13 +188,13 @@ fun SelectionModeContent(
         )
 
         SettingsButton(
-            text = stringResource(R.string.settings_language, selectedLanguageLabel),
-            onClick = onLanguageSelection,
+            text = stringResource(R.string.settings_voice, selectedVoiceLabel),
+            onClick = onVoiceSelection,
             modifier = Modifier
                 .height(buttonHeight)
                 .fillMaxWidth()
-                .constrainAs(languageButtonRef) {
-                    top.linkTo(voiceButtonRef.bottom, margin = 16.dp)
+                .constrainAs(voiceButtonRef) {
+                    top.linkTo(languageButtonRef.bottom, margin = 16.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
