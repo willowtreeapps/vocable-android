@@ -162,8 +162,16 @@ private fun LanguageOptionRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            val flag = flagEmojiForTag(language.tag)
+            if (flag.isNotEmpty()) {
+                Text(
+                    text = flag,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
             Text(
                 text = language.displayName,
                 style = MaterialTheme.typography.titleMedium,
@@ -177,6 +185,16 @@ private fun LanguageOptionRow(
             }
         }
     }
+}
+
+private fun flagEmojiForTag(tag: String): String {
+    val parts = tag.split("-")
+    val countryCode = parts.drop(1)
+        .firstOrNull { it.length == 2 && it.all { c -> c.isLetter() } }
+        ?.uppercase()
+        ?: return ""
+    val offset = 0x1F1E6 - 'A'.code
+    return countryCode.map { c -> String(Character.toChars(c.code + offset)) }.joinToString("")
 }
 
 @Preview
