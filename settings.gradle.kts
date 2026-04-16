@@ -4,6 +4,13 @@ gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:testClasses"
 pluginManagement {
     includeBuild("build-logic")
     repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/willowtreeapps/FuelIXLate")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
+                password = providers.gradleProperty("gpr.token").orNull ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -15,6 +22,13 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/willowtreeapps/FuelIXLate")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
+                password = providers.gradleProperty("gpr.token").orNull ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
         google()
         mavenCentral()
     }

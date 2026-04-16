@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("vocable.application")
     alias(libs.plugins.ksp)
@@ -5,6 +7,26 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     alias(libs.plugins.compose.compiler)
+    id("ai.fuelix.translate.resources") version "1.0.0"
+}
+
+fuelixTranslations {
+    platform.set("android")
+    sourceFile.set(file("src/main/res/values/strings.xml"))
+    sourceLanguage.set("en")
+
+    allLanguages.set(true)
+    languagesFile.set(file("languages.txt"))
+
+    apiBase.set("https://api.fuelix.ai/v1")
+    apiKey.set(gradleLocalProperties(rootDir, providers).getProperty("FUELIX_API_KEY")
+        ?: System.getenv("FUELIX_API_KEY")
+        ?: throw GradleException("FUELIX_API_KEY not found in local.properties or FUELIX_API_KEY env var!"))
+    model.set("gemini-3.1-flash-lite")
+
+    mergeMode.set("fill-missing")
+    concurrency.set(8)
+    batchSize.set(160)
 }
 
 android {
