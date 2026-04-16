@@ -1,167 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
-  <string name="add_category">"Добавить категорию"</string>
-  <string name="add_phrase">"Добавить фразу"</string>
-  <string name="add_phrase_plus">"+ Добавить фразу"</string>
-  <string name="add_to_category">"Добавить в категорию"</string>
-  <string name="all_categories_hidden_text">"Все ваши категории скрыты. Вы можете снова отобразить их на странице настроек категорий."</string>
-  <string name="are_you_sure">"Вы уверены?"</string>
-  <string name="back_warning">"Если вернуться назад перед сохранением, все внесенные изменения будут отменены."</string>
-  <string name="button_pause">"Пауза"</string>
-  <string name="button_resume">"Резюме"</string>
-  <string name="categories_edit_title">"Категории"</string>
-  <string name="category_123">"123"</string>
-  <string name="category_123_no">"Нет"</string>
-  <string name="category_123_yes">"Да"</string>
-  <string name="category_created">"Категория создана"</string>
-  <string name="changes_saved">"Изменения сохранены"</string>
-  <string name="close_settings">"Закрыть настройки"</string>
-  <string name="close_voice_selection">"Закрыть выбор голоса"</string>
-  <string name="contact_developers">"Связаться с разработчиками"</string>
-  <string name="contiue_editing">"Продолжить редактирование"</string>
-  <string name="create_custom_categories">"Создайте пользовательские категории в меню настроек, чтобы добавлять в них фразы."</string>
-  <string name="cursor_sensitivity_high">"Высокий"</string>
-  <string name="cursor_sensitivity_low">"Низкий"</string>
-  <string name="cursor_sensitivity_medium">"Середина"</string>
-  <string name="cursor_sensitivity_text">"Чувствительность курсора"</string>
-  <string name="custom_category_empty"><b>"У вас пока нет сохраненных фраз."</b></string>
-  <string name="delete">"Удалить"</string>
-  <string name="delete_warning">"Удаленные фразы восстановить невозможно."</string>
-  <string name="discard">"Отказаться"</string>
-  <string name="duplicate_category">"Извините, это название категории уже существует. Пожалуйста, попробуйте другое название."</string>
-  <string name="duplicate_phrase">"Извините, это название фразы уже существует. Пожалуйста, попробуйте другое название."</string>
-  <string name="edit_categories_title">"Категории и фразы"</string>
-  <string name="edit_category_remove_category_text">"Удалить категорию"</string>
-  <string name="edit_category_show_category_text">"Показать категорию"</string>
-  <string name="edit_phrases">"Редактировать фразы"</string>
-  <string name="error_move_closer">"Пожалуйста, подойдите ближе к устройству."</string>
-  <string name="head_tracking_paused_message">"Отслеживание движений головы приостановлено. Поверните голову, чтобы возобновить отслеживание."</string>
-  <string name="hover_time_amount_text"><xliff:g example="5" id="time">"%s"</xliff:g>" seconds"</string>
-  <string name="hover_time_one_text">"1 секунда"</string>
-  <string name="hover_time_text">"Время зависания"</string>
-  <string name="keyboard">"Клавиатура"</string>
-  <string name="keyboard_backspace">"Backspace"</string>
-  <string name="keyboard_clear">"Прозрачный"</string>
-  <string name="keyboard_select_letters">"Начните печатать…"</string>
-  <string name="keyboard_space">"Космос"</string>
-  <string name="keyboard_speak">"Говорить"</string>
-  <string name="my_sayings_empty"><b>"Your sayings will appear here."</b>"
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">"Выберите что-нибудь из предложенного ниже для выступления."</string>
+    <string name="phrases_page_number">"Страница%1d из%2d"</string>
+    <string name="my_sayings_empty">"Your sayings will appear here.""
 
 Navigate to the keyboard, type something
  then select the \"☆\" to save it here."</string>
-  <string name="my_sayings_empty_handset_land"><b>"Your sayings will appear here."</b>"
-
-Navigate to the keyboard, type something
- then select the \"☆\" to save it here."</string>
-  <string name="my_sayings_empty_handset_port"><b>"Your sayings will appear here."</b>"
+    <string name="my_sayings_empty_handset_port">"Your sayings will appear here.""
 
 Navigate to the keyboard, type something then select the \"☆\" to save it here."</string>
-  <string name="my_sayings_empty_settings"><b>"У вас пока нет сохраненных высказываний. Нажмите кнопку «+» в правом верхнем углу, чтобы добавить что-нибудь."</b></string>
-  <string name="new_phrase_saved">"Новая фраза сохранена"</string>
-  <string name="no_custom_categories">"Нет пользовательских категорий"</string>
-  <string name="no_recent_phrases_message">"Начните использовать приложение, чтобы увидеть здесь свои недавно использованные фразы."</string>
-  <string name="no_recent_phrases_title">"Недавно использованные фразы отсутствуют"</string>
-  <string name="off">"ВЫКЛЮЧЕННЫЙ"</string>
-  <string name="on">"НА"</string>
-  <string name="permissions_confirm">"ХОРОШО"</string>
-  <string name="permissions_missing_dialog_body">"Для использования функции отслеживания положения головы необходимы разрешения на доступ к камере. Пожалуйста, включите их в настройках приложения."</string>
-  <string name="permissions_missing_dialog_title">"Необходимые разрешения недоступны"</string>
-  <string name="permissions_rationale_title">"Для включения функции отслеживания положения головы необходимы разрешения на использование камеры."</string>
-  <string name="phrases_page_number">"Страница%1d из%2d"</string>
-  <string name="preset_bad" formatted="false">"Плохо"</string>
-  <string name="preset_basic_needs" formatted="false">"Основные нужды"</string>
-  <string name="preset_be_patient" formatted="false">"Пожалуйста, будьте терпеливы"</string>
-  <string name="preset_be_quiet" formatted="false">"Потише, пожалуйста"</string>
-  <string name="preset_close_blinds" formatted="false">"Закрой(те) шторы"</string>
-  <string name="preset_close_window" formatted="false">"Закрой(те) окно, пожалуйста"</string>
-  <string name="preset_conversation" formatted="false">"Беседа"</string>
-  <string name="preset_environment" formatted="false">"Окружающая обстановка"</string>
-  <string name="preset_fix_pillow" formatted="false">"Пожалуйста, поправь(те) мою подушку"</string>
-  <string name="preset_general" formatted="false">"Общие фразы"</string>
-  <string name="preset_good" formatted="false">"Хорошо"</string>
-  <string name="preset_good_evening" formatted="false">"Добрый вечер"</string>
-  <string name="preset_good_morning" formatted="false">"Доброе утро"</string>
-  <string name="preset_goodbye" formatted="false">"Пока"</string>
-  <string name="preset_hello" formatted="false">"Здравствуйте"</string>
-  <string name="preset_how_are_you" formatted="false">"Как дела?"</string>
-  <string name="preset_how_is_day" formatted="false">"Как твой день?"</string>
-  <string name="preset_how_is_it_going" formatted="false">"Как жизнь?"</string>
-  <string name="preset_how_was_your_weekend" formatted="false">"Как прошли твои выходные?"</string>
-  <string name="preset_i_didnt_mean_say_that" formatted="false">"Это не то, что я имел(а) ввиду"</string>
-  <string name="preset_i_do_not_agree" formatted="false">"Я не согласен(-на)"</string>
-  <string name="preset_i_dont_know" formatted="false">"Я не знаю"</string>
-  <string name="preset_i_like_it" formatted="false">"Мне это нравится"</string>
-  <string name="preset_im_cold" formatted="false">"Мне холодно"</string>
-  <string name="preset_im_fine" formatted="false">"Я в порядке"</string>
-  <string name="preset_im_finished" formatted="false">"Я закончил(а)"</string>
-  <string name="preset_im_good" formatted="false">"У меня все хорошо"</string>
-  <string name="preset_im_hot" formatted="false">"Мне жарко"</string>
-  <string name="preset_im_hungry" formatted="false">"Я хочу есть"</string>
-  <string name="preset_im_in_pain" formatted="false">"Мне больно"</string>
-  <string name="preset_im_thirsty" formatted="false">"Я хочу пить"</string>
-  <string name="preset_im_tired" formatted="false">"Я устал(а)"</string>
-  <string name="preset_im_uncomfortable" formatted="false">"Мне неудобно"</string>
-  <string name="preset_like_to_talk" formatted="false">"Я хочу поговорить"</string>
-  <string name="preset_like_visitors" formatted="false">"Я хотел(а) бы видеть посетителей"</string>
-  <string name="preset_maybe" formatted="false">"Может быть"</string>
-  <string name="preset_need_bath" formatted="false">"Мне нужно принять ванну"</string>
-  <string name="preset_need_jacket" formatted="false">"Мне нужна куртка"</string>
-  <string name="preset_need_medication" formatted="false">"Мне нужно принять мое лекарство"</string>
-  <string name="preset_need_restroom" formatted="false">"Мне нужно пойти в туалет"</string>
-  <string name="preset_need_shower" formatted="false">"Мне нужно принять душ"</string>
-  <string name="preset_need_spit" formatted="false">"Мне нужно сплюнуть"</string>
-  <string name="preset_need_wash_face" formatted="false">"Мне нужно умыться"</string>
-  <string name="preset_no" formatted="false">"Нет"</string>
-  <string name="preset_no_visitors" formatted="false">"Я не хочу посетителей"</string>
-  <string name="preset_okay" formatted="false">"Окей"</string>
-  <string name="preset_open_blinds" formatted="false">"Открой(те) шторы"</string>
-  <string name="preset_open_window" formatted="false">"Открой(те) окно, пожалуйста"</string>
-  <string name="preset_personal_care" formatted="false">"Личная гигиена"</string>
-  <string name="preset_please" formatted="false">"Пожалуйста"</string>
-  <string name="preset_please_repeat" formatted="false">"Повтори(те) еще раз, пожалуйста"</string>
-  <string name="preset_please_stop" formatted="false">"Прекрати(те), пожалуйста"</string>
-  <string name="preset_please_wait" formatted="false">"Пожалуйста подожди(те)"</string>
-  <string name="preset_pleased_to_meet_you" formatted="false">"Приятно познакомиться!"</string>
-  <string name="preset_recents" formatted="false">"Последние"</string>
-  <string name="preset_sayings_title">"Заранее подготовленные высказывания"</string>
-  <string name="preset_thank_you" formatted="false">"Спасибо"</string>
-  <string name="preset_that_makes_sense" formatted="false">"Это имеет смысл"</string>
-  <string name="preset_trouble_breathing" formatted="false">"Мне тяжело дышать"</string>
-  <string name="preset_turn_off_lights" formatted="false">"Выключи(те) свет, пожалуйста"</string>
-  <string name="preset_turn_on_lights" formatted="false">"Включи(те) свет, пожалуйста"</string>
-  <string name="preset_tv_off" formatted="false">"Выключите телевизор"</string>
-  <string name="preset_tv_on" formatted="false">"Включите телевизор"</string>
-  <string name="preset_user_favorites" formatted="false">"Мои изречения"</string>
-  <string name="preset_user_keypad" formatted="false">"123"</string>
-  <string name="preset_volume_down" formatted="false">"Сделай(те) потише"</string>
-  <string name="preset_volume_up" formatted="false">"Сделай(те) погромче"</string>
-  <string name="preset_want_brush_hair" formatted="false">"Мне нужно причесаться"</string>
-  <string name="preset_want_lie_down" formatted="false">"Я хочу лечь"</string>
-  <string name="preset_want_sit_up" formatted="false">"Я хочу сесть"</string>
-  <string name="preset_yes" formatted="false">"Да"</string>
-  <string name="privacy_policy">"политика конфиденциальности"</string>
-  <string name="remove_category">"Удалить категорию"</string>
-  <string name="removed_cant_be_restored">"Удаленные категории восстановить невозможно."</string>
-  <string name="removed_successfully">"Удалено из%1s"</string>
-  <string name="rename_category">"Переименовать категорию"</string>
-  <string name="saved_successfully">"Сохранено в%1s"</string>
-  <string name="select_something">"Выберите что-нибудь из предложенного ниже для выступления."</string>
-  <string name="selected">"Избранные"</string>
-  <string name="selection_mode_title">"Режим выбора"</string>
-  <string name="settings">"Настройки"</string>
-  <string name="settings_dialog_cancel">"Отмена"</string>
-  <string name="settings_dialog_continue">"Продолжать"</string>
-  <string name="settings_dialog_message">"Сейчас вас выведет из приложения. Вы можете потерять контроль над отслеживанием движений головы."</string>
-  <string name="settings_dialog_title">"Выход из приложения"</string>
-  <string name="settings_edit_categories">"Категории и фразы"</string>
-  <string name="settings_edit_saying">"Мои выражения"</string>
-  <string name="settings_head_tracking">"Отслеживание положения головы"</string>
-  <string name="settings_reset_app">"Сбросить настройки приложения"</string>
-  <string name="settings_selection_mode">"Режим выбора"</string>
-  <string name="settings_voice">"Голос%1$s"</string>
-  <string name="show_category">"Показать категорию"</string>
-  <string name="timing_sensitivity_title">"Время и чувствительность"</string>
-  <string name="voice_default">"По умолчанию"</string>
-  <string name="voice_download">"Скачать голос"</string>
-  <string name="voice_selection_title">"Голос"</string>
+    <string name="my_sayings_empty_handset_land">"Your sayings will appear here.""
+
+Navigate to the keyboard, type something
+ then select the \"☆\" to save it here."</string>
+    <string name="my_sayings_empty_settings">"У вас пока нет сохраненных высказываний. Нажмите кнопку «+» в правом верхнем углу, чтобы добавить что-нибудь."</string>
+    <string name="custom_category_empty">У вас пока нет сохраненных фраз.</string>
+    <string name="settings">"Настройки"</string>
+    <string name="privacy_policy">"политика конфиденциальности"</string>
+    <string name="contact_developers">"Связаться с разработчиками"</string>
+    <string name="settings_head_tracking">"Отслеживание положения головы"</string>
+    <string name="settings_dialog_title">"Выход из приложения"</string>
+    <string name="settings_dialog_message">"Сейчас вас выведет из приложения. Вы можете потерять контроль над отслеживанием движений головы."</string>
+    <string name="settings_dialog_continue">"Продолжать"</string>
+    <string name="settings_dialog_cancel">"Отмена"</string>
+    <string name="settings_voice">"Голос%1$s"</string>
+    <string name="settings_edit_saying">Мои высказывания</string>
+    <string name="settings_edit_categories">"Категории и фразы"</string>
+    <string name="settings_selection_mode">"Режим выбора"</string>
+    <string name="settings_reset_app">"Сбросить настройки приложения"</string>
+    <string name="selection_mode_title">"Режим выбора"</string>
+    <string name="voice_selection_title">"Голос"</string>
+    <string name="voice_default">"По умолчанию"</string>
+    <string name="close_voice_selection">"Закрыть выбор голоса"</string>
+    <string name="selected">"Избранные"</string>
+    <string name="voice_download">"Скачать голос"</string>
+    <string name="button_pause">"Пауза"</string>
+    <string name="button_resume">"Резюме"</string>
+    <string name="error_move_closer">"Пожалуйста, подойдите ближе к устройству."</string>
+    <string name="head_tracking_paused_message">"Отслеживание движений головы приостановлено. Поверните голову, чтобы возобновить отслеживание."</string>
+    <string name="keyboard_select_letters">"Начните печатать…"</string>
+    <string name="saved_successfully">"Сохранено в%1s"</string>
+    <string name="removed_successfully">"Удалено из%1s"</string>
+    <string name="delete">"Удалить"</string>
+    <string name="delete_warning">"Удаленные фразы восстановить невозможно."</string>
+    <string name="new_phrase_saved">"Новая фраза сохранена"</string>
+    <string name="contiue_editing">"Продолжить редактирование"</string>
+    <string name="discard">"Отказаться"</string>
+    <string name="are_you_sure">"Вы уверены?"</string>
+    <string name="back_warning">"Если вернуться назад перед сохранением, все внесенные изменения будут отменены."</string>
+    <string name="duplicate_phrase">"Извините, это название фразы уже существует. Пожалуйста, попробуйте другое название."</string>
+    <string name="changes_saved">"Изменения сохранены"</string>
+    <string name="category_created">"Категория создана"</string>
+    <string name="duplicate_category">"Извините, это название категории уже существует. Пожалуйста, попробуйте другое название."</string>
+    <string name="timing_sensitivity_title">"Время и чувствительность"</string>
+    <string name="hover_time_text">"Время зависания"</string>
+    <string name="cursor_sensitivity_text">"Чувствительность курсора"</string>
+    <string name="hover_time_amount_text">"%s"" seconds"</string>
+    <string name="hover_time_one_text">"1 секунда"</string>
+    <string name="cursor_sensitivity_low">"Низкий"</string>
+    <string name="cursor_sensitivity_medium">"Середина"</string>
+    <string name="cursor_sensitivity_high">"Высокий"</string>
+    <string name="category_123">"123"</string>
+    <string name="category_123_yes">"Да"</string>
+    <string name="category_123_no">"Нет"</string>
+    <string name="edit_categories_title">"Категории и фразы"</string>
+    <string name="edit_category_show_category_text">"Показать категорию"</string>
+    <string name="edit_category_remove_category_text">"Удалить категорию"</string>
+    <string name="removed_cant_be_restored">"Удаленные категории восстановить невозможно."</string>
+    <string name="preset_general">"Общие фразы"</string>
+    <string name="preset_basic_needs">"Основные нужды"</string>
+    <string name="preset_personal_care">"Личная гигиена"</string>
+    <string name="preset_conversation">"Беседа"</string>
+    <string name="preset_environment">"Окружающая обстановка"</string>
+    <string name="preset_user_keypad">"123"</string>
+    <string name="preset_user_favorites">"Мои изречения"</string>
+    <string name="preset_recents">"Последние"</string>
+    <string name="preset_need_restroom">"Мне нужно пойти в туалет"</string>
+    <string name="preset_im_thirsty">"Я хочу пить"</string>
+    <string name="preset_im_hungry">"Я хочу есть"</string>
+    <string name="preset_im_cold">"Мне холодно"</string>
+    <string name="preset_im_hot">"Мне жарко"</string>
+    <string name="preset_im_tired">"Я устал(а)"</string>
+    <string name="preset_im_fine">"Я в порядке"</string>
+    <string name="preset_im_good">"У меня все хорошо"</string>
+    <string name="preset_im_uncomfortable">"Мне неудобно"</string>
+    <string name="preset_im_in_pain">"Мне больно"</string>
+    <string name="preset_im_finished">"Я закончил(а)"</string>
+    <string name="preset_want_lie_down">"Я хочу лечь"</string>
+    <string name="preset_want_sit_up">"Я хочу сесть"</string>
+    <string name="preset_hello">"Здравствуйте"</string>
+    <string name="preset_good_morning">"Доброе утро"</string>
+    <string name="preset_good_evening">"Добрый вечер"</string>
+    <string name="preset_pleased_to_meet_you">"Приятно познакомиться!"</string>
+    <string name="preset_how_is_day">"Как твой день?"</string>
+    <string name="preset_how_are_you">"Как дела?"</string>
+    <string name="preset_how_is_it_going">"Как жизнь?"</string>
+    <string name="preset_how_was_your_weekend">"Как прошли твои выходные?"</string>
+    <string name="preset_goodbye">"Пока"</string>
+    <string name="preset_okay">"Окей"</string>
+    <string name="preset_bad">"Плохо"</string>
+    <string name="preset_good">"Хорошо"</string>
+    <string name="preset_that_makes_sense">"Это имеет смысл"</string>
+    <string name="preset_i_like_it">"Мне это нравится"</string>
+    <string name="preset_please_stop">"Прекрати(те), пожалуйста"</string>
+    <string name="preset_i_do_not_agree">"Я не согласен(-на)"</string>
+    <string name="preset_please_repeat">"Повтори(те) еще раз, пожалуйста"</string>
+    <string name="preset_please">"Пожалуйста"</string>
+    <string name="preset_thank_you">"Спасибо"</string>
+    <string name="preset_yes">"Да"</string>
+    <string name="preset_no">"Нет"</string>
+    <string name="preset_maybe">"Может быть"</string>
+    <string name="preset_please_wait">"Пожалуйста подожди(те)"</string>
+    <string name="preset_i_dont_know">"Я не знаю"</string>
+    <string name="preset_i_didnt_mean_say_that">"Это не то, что я имел(а) ввиду"</string>
+    <string name="preset_be_patient">"Пожалуйста, будьте терпеливы"</string>
+    <string name="preset_turn_on_lights">"Включи(те) свет, пожалуйста"</string>
+    <string name="preset_turn_off_lights">"Выключи(те) свет, пожалуйста"</string>
+    <string name="preset_no_visitors">"Я не хочу посетителей"</string>
+    <string name="preset_like_visitors">"Я хотел(а) бы видеть посетителей"</string>
+    <string name="preset_be_quiet">"Потише, пожалуйста"</string>
+    <string name="preset_like_to_talk">"Я хочу поговорить"</string>
+    <string name="preset_tv_on">"Включите телевизор"</string>
+    <string name="preset_tv_off">"Выключите телевизор"</string>
+    <string name="preset_volume_up">"Сделай(те) погромче"</string>
+    <string name="preset_volume_down">"Сделай(те) потише"</string>
+    <string name="preset_open_blinds">"Открой(те) шторы"</string>
+    <string name="preset_close_blinds">"Закрой(те) шторы"</string>
+    <string name="preset_open_window">"Открой(те) окно, пожалуйста"</string>
+    <string name="preset_close_window">"Закрой(те) окно, пожалуйста"</string>
+    <string name="preset_need_medication">"Мне нужно принять мое лекарство"</string>
+    <string name="preset_need_bath">"Мне нужно принять ванну"</string>
+    <string name="preset_need_shower">"Мне нужно принять душ"</string>
+    <string name="preset_need_wash_face">"Мне нужно умыться"</string>
+    <string name="preset_want_brush_hair">"Мне нужно причесаться"</string>
+    <string name="preset_fix_pillow">"Пожалуйста, поправь(те) мою подушку"</string>
+    <string name="preset_need_spit">"Мне нужно сплюнуть"</string>
+    <string name="preset_trouble_breathing">"Мне тяжело дышать"</string>
+    <string name="preset_need_jacket">"Мне нужна куртка"</string>
+    <string name="add_phrase">"Добавить фразу"</string>
+    <string name="add_phrase_plus">"+ Добавить фразу"</string>
+    <string name="add_category">"Добавить категорию"</string>
+    <string name="add_to_category">"Добавить в категорию"</string>
+    <string name="no_custom_categories">"Нет пользовательских категорий"</string>
+    <string name="create_custom_categories">"Создайте пользовательские категории в меню настроек, чтобы добавлять в них фразы."</string>
+    <string name="all_categories_hidden_text">"Все ваши категории скрыты. Вы можете снова отобразить их на странице настроек категорий."</string>
+    <string name="no_recent_phrases_title">"Недавно использованные фразы отсутствуют"</string>
+    <string name="no_recent_phrases_message">"Начните использовать приложение, чтобы увидеть здесь свои недавно использованные фразы."</string>
+    <string name="categories_edit_title">"Категории"</string>
+    <string name="permissions_missing_dialog_title">"Необходимые разрешения недоступны"</string>
+    <string name="permissions_missing_dialog_body">"Для использования функции отслеживания положения головы необходимы разрешения на доступ к камере. Пожалуйста, включите их в настройках приложения."</string>
+    <string name="permissions_confirm">"ХОРОШО"</string>
+    <string name="permissions_rationale_title">"Для включения функции отслеживания положения головы необходимы разрешения на использование камеры."</string>
+    <string name="rename_category">"Переименовать категорию"</string>
+    <string name="show_category">"Показать категорию"</string>
+    <string name="edit_phrases">"Редактировать фразы"</string>
+    <string name="remove_category">"Удалить категорию"</string>
+    <string name="preset_sayings_title">"Заранее подготовленные высказывания"</string>
+    <string name="keyboard">"Клавиатура"</string>
+    <string name="keyboard_clear">"Прозрачный"</string>
+    <string name="keyboard_space">"Космос"</string>
+    <string name="keyboard_backspace">"Backspace"</string>
+    <string name="keyboard_speak">"Говорить"</string>
+    <string name="close_settings">"Закрыть настройки"</string>
+    <string name="on">"НА"</string>
+    <string name="off">"ВЫКЛЮЧЕННЫЙ"</string>
 </resources>

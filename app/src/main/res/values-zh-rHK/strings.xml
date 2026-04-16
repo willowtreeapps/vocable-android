@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">請在下方選擇要說的內容。</string>
+    <string name="phrases_page_number">第 %1d 頁，共 %2d 頁</string>
+    <string name="my_sayings_empty">您的語錄將會出現在
+這裡。
+
+前往鍵盤輸入內容，
+然後選擇「☆」將其儲存於此。</string>
+    <string name="my_sayings_empty_handset_port">您的語錄將會出現在
+這裡。
+
+前往鍵盤輸入內容，然後選擇「☆」將其儲存於此。</string>
+    <string name="my_sayings_empty_handset_land">您的語錄將會出現在這裡。
+
+前往鍵盤輸入內容
+然後選擇「☆」將其儲存於此。</string>
+    <string name="my_sayings_empty_settings">您尚未儲存任何語錄。請選擇右上角的「+」來新增內容。</string>
+    <string name="custom_category_empty">你尚未儲存任何短語。</string>
+    <string name="settings">設定</string>
+    <string name="privacy_policy">隱私權政策</string>
+    <string name="contact_developers">聯絡開發者</string>
+    <string name="settings_head_tracking">頭部追蹤</string>
+    <string name="settings_dialog_title">即將離開應用程式</string>
+    <string name="settings_dialog_message">您即將離開應用程式。您可能會失去頭部追蹤控制權。</string>
+    <string name="settings_dialog_continue">繼續</string>
+    <string name="settings_dialog_cancel">取消</string>
+    <string name="settings_voice">語音
+%1$s</string>
+    <string name="settings_edit_saying">我的語錄</string>
+    <string name="settings_edit_categories">類別與短語</string>
+    <string name="settings_selection_mode">選擇模式</string>
+    <string name="settings_reset_app">重設應用程式設定</string>
+    <string name="selection_mode_title">選擇模式</string>
+    <string name="voice_selection_title">語音</string>
+    <string name="voice_default">預設</string>
+    <string name="close_voice_selection">關閉語音選擇</string>
+    <string name="selected">已選擇</string>
+    <string name="voice_download">下載語音</string>
+    <string name="button_pause">暫停</string>
+    <string name="button_resume">繼續</string>
+    <string name="error_move_closer">請靠近裝置。</string>
+    <string name="head_tracking_paused_message">頭部追蹤已暫停。
+移動您的頭部以繼續。</string>
+    <string name="keyboard_select_letters">開始輸入…</string>
+    <string name="saved_successfully">已儲存至 %1s</string>
+    <string name="removed_successfully">已從 %1s 移除</string>
+    <string name="delete">刪除</string>
+    <string name="delete_warning">已移除的短語無法復原。</string>
+    <string name="new_phrase_saved">新短語已儲存</string>
+    <string name="contiue_editing">繼續編輯</string>
+    <string name="discard">捨棄</string>
+    <string name="are_you_sure">確定嗎？</string>
+    <string name="back_warning">在儲存前返回將會清除所做的任何編輯。</string>
+    <string name="duplicate_phrase">抱歉，此短語名稱已存在。請嘗試不同的名稱。</string>
+    <string name="changes_saved">變更已儲存</string>
+    <string name="category_created">類別已建立</string>
+    <string name="duplicate_category">抱歉，此類別名稱已存在。請嘗試不同的名稱。</string>
+    <string name="timing_sensitivity_title">時間與靈敏度</string>
+    <string name="hover_time_text">懸停時間</string>
+    <string name="cursor_sensitivity_text">游標靈敏度</string>
+    <string name="hover_time_amount_text">
+        %s 秒
+    </string>
+    <string name="hover_time_one_text">1 秒</string>
+    <string name="cursor_sensitivity_low">低</string>
+    <string name="cursor_sensitivity_medium">中</string>
+    <string name="cursor_sensitivity_high">高</string>
+    <string name="category_123">123</string>
+    <string name="category_123_yes">是</string>
+    <string name="category_123_no">否</string>
+    <string name="edit_categories_title">類別與短語</string>
+    <string name="edit_category_show_category_text">顯示類別</string>
+    <string name="edit_category_remove_category_text">移除類別</string>
+    <string name="removed_cant_be_restored">已移除的類別無法復原。</string>
+    <string name="preset_general">一般</string>
+    <string name="preset_basic_needs">基本需求</string>
+    <string name="preset_personal_care">個人護理</string>
+    <string name="preset_conversation">對話</string>
+    <string name="preset_environment">環境</string>
+    <string name="preset_user_keypad">123</string>
+    <string name="preset_user_favorites">我的語錄</string>
+    <string name="preset_recents">最近使用</string>
+    <string name="preset_need_restroom">我需要去洗手間</string>
+    <string name="preset_im_thirsty">我口渴</string>
+    <string name="preset_im_hungry">我餓了</string>
+    <string name="preset_im_cold">我冷</string>
+    <string name="preset_im_hot">我熱</string>
+    <string name="preset_im_tired">我累了</string>
+    <string name="preset_im_fine">我很好</string>
+    <string name="preset_im_good">我很好</string>
+    <string name="preset_im_uncomfortable">我不舒服</string>
+    <string name="preset_im_in_pain">我感到疼痛</string>
+    <string name="preset_im_finished">我完成了</string>
+    <string name="preset_want_lie_down">我想躺下</string>
+    <string name="preset_want_sit_up">我想坐起來</string>
+    <string name="preset_hello">你好</string>
+    <string name="preset_good_morning">早安</string>
+    <string name="preset_good_evening">晚安</string>
+    <string name="preset_pleased_to_meet_you">很高興認識你</string>
+    <string name="preset_how_is_day">你今天過得如何？</string>
+    <string name="preset_how_are_you">你好嗎？</string>
+    <string name="preset_how_is_it_going">近況如何？</string>
+    <string name="preset_how_was_your_weekend">你的週末過得如何？</string>
+    <string name="preset_goodbye">再見</string>
+    <string name="preset_okay">好的</string>
+    <string name="preset_bad">不好</string>
+    <string name="preset_good">好</string>
+    <string name="preset_that_makes_sense">這很有道理</string>
+    <string name="preset_i_like_it">我喜歡</string>
+    <string name="preset_please_stop">請停止</string>
+    <string name="preset_i_do_not_agree">我不同意</string>
+    <string name="preset_please_repeat">請重複你剛才說的話</string>
+    <string name="preset_please">請</string>
+    <string name="preset_thank_you">謝謝</string>
+    <string name="preset_yes">是</string>
+    <string name="preset_no">否</string>
+    <string name="preset_maybe">可能</string>
+    <string name="preset_please_wait">請稍候</string>
+    <string name="preset_i_dont_know">我不知道</string>
+    <string name="preset_i_didnt_mean_say_that">我不是那個意思</string>
+    <string name="preset_be_patient">請耐心等待</string>
+    <string name="preset_turn_on_lights">請開燈</string>
+    <string name="preset_turn_off_lights">請關燈</string>
+    <string name="preset_no_visitors">請勿探訪</string>
+    <string name="preset_like_visitors">我希望能有人來探訪</string>
+    <string name="preset_be_quiet">請安靜</string>
+    <string name="preset_like_to_talk">我想聊聊</string>
+    <string name="preset_tv_on">請打開電視</string>
+    <string name="preset_tv_off">請關閉電視</string>
+    <string name="preset_volume_up">請調大音量</string>
+    <string name="preset_volume_down">請調小音量</string>
+    <string name="preset_open_blinds">請打開百葉窗</string>
+    <string name="preset_close_blinds">請關上百葉窗</string>
+    <string name="preset_open_window">請打開窗戶</string>
+    <string name="preset_close_window">請關上窗戶</string>
+    <string name="preset_need_medication">我需要藥物</string>
+    <string name="preset_need_bath">我需要洗澡</string>
+    <string name="preset_need_shower">我需要淋浴</string>
+    <string name="preset_need_wash_face">我需要洗臉</string>
+    <string name="preset_want_brush_hair">我需要梳頭</string>
+    <string name="preset_fix_pillow">請幫我調整枕頭</string>
+    <string name="preset_need_spit">我需要吐痰</string>
+    <string name="preset_trouble_breathing">我呼吸困難</string>
+    <string name="preset_need_jacket">我需要外套</string>
+    <string name="add_phrase">新增短語</string>
+    <string name="add_phrase_plus">+ 新增短語</string>
+    <string name="add_category">新增類別</string>
+    <string name="add_to_category">新增至類別</string>
+    <string name="no_custom_categories">無自訂類別</string>
+    <string name="create_custom_categories">在設定選單中建立自訂類別，以便在此處新增短語。</string>
+    <string name="all_categories_hidden_text">您的所有類別皆已被隱藏。您可以從類別設定頁面將其重新顯示。</string>
+    <string name="no_recent_phrases_title">沒有最近使用的短語</string>
+    <string name="no_recent_phrases_message">開始使用此應用程式，即可在此處看到您最近使用的短語。</string>
+    <string name="categories_edit_title">類別</string>
+    <string name="permissions_missing_dialog_title">缺少必要權限</string>
+    <string name="permissions_missing_dialog_body">使用頭部追蹤功能需要相機權限。請在應用程式設定中啟用。</string>
+    <string name="permissions_confirm">確定</string>
+    <string name="permissions_rationale_title">啟用頭部追蹤需要相機權限</string>
+    <string name="rename_category">重新命名類別</string>
+    <string name="show_category">顯示類別</string>
+    <string name="edit_phrases">編輯短語</string>
+    <string name="remove_category">移除類別</string>
+    <string name="preset_sayings_title">預設語錄</string>
+    <string name="keyboard">鍵盤</string>
+    <string name="keyboard_clear">清除</string>
+    <string name="keyboard_space">空格</string>
+    <string name="keyboard_backspace">退格</string>
+    <string name="keyboard_speak">說話</string>
+    <string name="close_settings">關閉設定</string>
+    <string name="on">開</string>
+    <string name="off">關</string>
+</resources>

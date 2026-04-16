@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="select_something">ជ្រើសរើសអ្វីមួយនៅខាងក្រោមដើម្បីនិយាយ។</string>
+    <string name="phrases_page_number">ទំព័រ %1d នៃ %2d</string>
+    <string name="my_sayings_empty">ឃ្លារបស់អ្នកនឹងបង្ហាញនៅ
+ទីនេះ។
+
+ចូលទៅកាន់ក្តារចុច បញ្ចូលអ្វីមួយ
+រួចជ្រើសរើស "☆" ដើម្បីរក្សាទុកនៅទីនេះ។</string>
+    <string name="my_sayings_empty_handset_port">ឃ្លារបស់អ្នកនឹងបង្ហាញនៅ
+ទីនេះ។
+
+ចូលទៅកាន់ក្តារចុច បញ្ចូលអ្វីមួយ រួចជ្រើសរើស "☆" ដើម្បីរក្សាទុកនៅទីនេះ។</string>
+    <string name="my_sayings_empty_handset_land">ឃ្លារបស់អ្នកនឹងបង្ហាញនៅទីនេះ។
+
+ចូលទៅកាន់ក្តារចុច បញ្ចូលអ្វីមួយ
+រួចជ្រើសរើស "☆" ដើម្បីរក្សាទុកនៅទីនេះ។</string>
+    <string name="my_sayings_empty_settings">អ្នកមិនទាន់បានរក្សាទុកឃ្លាណាមួយនៅឡើយទេ។ ជ្រើសរើស "+" នៅផ្នែកខាងស្តាំលើ ដើម្បីបន្ថែមអ្វីមួយ។</string>
+    <string name="custom_category_empty">អ្នកមិនទាន់មានឃ្លាដែលបានរក្សាទុកនៅឡើយទេ។</string>
+    <string name="settings">ការកំណត់</string>
+    <string name="privacy_policy">គោលការណ៍ឯកជនភាព</string>
+    <string name="contact_developers">ទំនាក់ទំនងអ្នកអភិវឌ្ឍន៍</string>
+    <string name="settings_head_tracking">ការតាមដានក្បាល</string>
+    <string name="settings_dialog_title">ចាកចេញពីកម្មវិធី</string>
+    <string name="settings_dialog_message">អ្នកហៀបនឹងចាកចេញពីកម្មវិធីនេះ។ អ្នកអាចនឹងបាត់បង់ការគ្រប់គ្រងតាមដានក្បាល។</string>
+    <string name="settings_dialog_continue">បន្ត</string>
+    <string name="settings_dialog_cancel">បោះបង់</string>
+    <string name="settings_voice">សំឡេង
+%1$s</string>
+    <string name="settings_edit_saying">ពាក្យពេចន៍របស់ខ្ញុំ</string>
+    <string name="settings_edit_categories">ប្រភេទ និងឃ្លា</string>
+    <string name="settings_selection_mode">របៀបជ្រើសរើស</string>
+    <string name="settings_reset_app">កំណត់ការកំណត់កម្មវិធីឡើងវិញ</string>
+    <string name="selection_mode_title">របៀបជ្រើសរើស</string>
+    <string name="voice_selection_title">សំឡេង</string>
+    <string name="voice_default">លំនាំដើម</string>
+    <string name="close_voice_selection">បិទការជ្រើសរើសសំឡេង</string>
+    <string name="selected">បានជ្រើសរើស</string>
+    <string name="voice_download">ទាញយកសំឡេង</string>
+    <string name="button_pause">ផ្អាក</string>
+    <string name="button_resume">បន្ត</string>
+    <string name="error_move_closer">សូមរំកិលចូលទៅជិតឧបករណ៍។</string>
+    <string name="head_tracking_paused_message">ការតាមដានក្បាលត្រូវបានផ្អាក។
+រំកិលក្បាលរបស់អ្នកដើម្បីបន្ត។</string>
+    <string name="keyboard_select_letters">ចាប់ផ្តើមវាយ...</string>
+    <string name="saved_successfully">បានរក្សាទុកក្នុង %1s</string>
+    <string name="removed_successfully">បានលុបចេញពី %1s</string>
+    <string name="delete">លុប</string>
+    <string name="delete_warning">ឃ្លាដែលលុបចោលមិនអាចយកមកវិញបានទេ។</string>
+    <string name="new_phrase_saved">បានរក្សាទុកឃ្លាថ្មី</string>
+    <string name="contiue_editing">បន្តកែសម្រួល</string>
+    <string name="discard">បោះបង់ការផ្លាស់ប្តូរ</string>
+    <string name="are_you_sure">តើអ្នកប្រាកដដែរឬទេ?</string>
+    <string name="back_warning">ការត្រឡប់ក្រោយមុនពេលរក្សាទុកនឹងលុបការកែសម្រួលទាំងអស់ដែលអ្នកបានធ្វើ។</string>
+    <string name="duplicate_phrase">សូមអភ័យទោស ឈ្មោះឃ្លានេះមានរួចហើយ។ សូមសាកល្បងឈ្មោះផ្សេង។</string>
+    <string name="changes_saved">បានរក្សាទុកការផ្លាស់ប្តូរ</string>
+    <string name="category_created">បានបង្កើតប្រភេទ</string>
+    <string name="duplicate_category">សូមអភ័យទោស ឈ្មោះប្រភេទនេះមានរួចហើយ។ សូមសាកល្បងឈ្មោះផ្សេង។</string>
+    <string name="timing_sensitivity_title">ពេលវេលា និងភាពរសើប</string>
+    <string name="hover_time_text">ពេលវេលាដាក់កណ្ដុរលើ (Hover Time)</string>
+    <string name="cursor_sensitivity_text">ភាពរសើបរបស់ទស្សន៍ទ្រនិច</string>
+    <string name="hover_time_amount_text">
+        %s វិនាទី
+    </string>
+    <string name="hover_time_one_text">១ វិនាទី</string>
+    <string name="cursor_sensitivity_low">ទាប</string>
+    <string name="cursor_sensitivity_medium">មធ្យម</string>
+    <string name="cursor_sensitivity_high">ខ្ពស់</string>
+    <string name="category_123">១២៣</string>
+    <string name="category_123_yes">បាទ/ចាស</string>
+    <string name="category_123_no">ទេ</string>
+    <string name="edit_categories_title">ប្រភេទ និងឃ្លា</string>
+    <string name="edit_category_show_category_text">បង្ហាញប្រភេទ</string>
+    <string name="edit_category_remove_category_text">លុបប្រភេទ</string>
+    <string name="removed_cant_be_restored">ប្រភេទដែលលុបចោលមិនអាចយកមកវិញបានទេ។</string>
+    <string name="preset_general">ទូទៅ</string>
+    <string name="preset_basic_needs">តម្រូវការមូលដ្ឋាន</string>
+    <string name="preset_personal_care">ការថែទាំផ្ទាល់ខ្លួន</string>
+    <string name="preset_conversation">ការសន្ទនា</string>
+    <string name="preset_environment">បរិស្ថាន</string>
+    <string name="preset_user_keypad">១២៣</string>
+    <string name="preset_user_favorites">ឃ្លារបស់ខ្ញុំ</string>
+    <string name="preset_recents">ថ្មីៗនេះ</string>
+    <string name="preset_need_restroom">ខ្ញុំត្រូវទៅបន្ទប់ទឹក</string>
+    <string name="preset_im_thirsty">ខ្ញុំស្រេកទឹក</string>
+    <string name="preset_im_hungry">ខ្ញុំឃ្លាន</string>
+    <string name="preset_im_cold">ខ្ញុំត្រជាក់</string>
+    <string name="preset_im_hot">ខ្ញុំក្តៅ</string>
+    <string name="preset_im_tired">ខ្ញុំហត់នឿយ</string>
+    <string name="preset_im_fine">ខ្ញុំមិនអីទេ</string>
+    <string name="preset_im_good">ខ្ញុំសុខសប្បាយ</string>
+    <string name="preset_im_uncomfortable">ខ្ញុំមិនស្រួលខ្លួន</string>
+    <string name="preset_im_in_pain">ខ្ញុំឈឺចាប់</string>
+    <string name="preset_im_finished">ខ្ញុំរួចរាល់ហើយ</string>
+    <string name="preset_want_lie_down">ខ្ញុំចង់ដេក</string>
+    <string name="preset_want_sit_up">ខ្ញុំចង់អង្គុយ</string>
+    <string name="preset_hello">សួស្តី</string>
+    <string name="preset_good_morning">អរុណសួស្តី</string>
+    <string name="preset_good_evening">សួស្តីពេលល្ងាច</string>
+    <string name="preset_pleased_to_meet_you">រីករាយដែលបានស្គាល់អ្នក</string>
+    <string name="preset_how_is_day">ថ្ងៃនេះយ៉ាងម៉េចដែរ?</string>
+    <string name="preset_how_are_you">តើអ្នកសុខសប្បាយជាទេ?</string>
+    <string name="preset_how_is_it_going">តើអ្វីៗយ៉ាងម៉េចដែរ?</string>
+    <string name="preset_how_was_your_weekend">ចុងសប្តាហ៍របស់អ្នកយ៉ាងម៉េចដែរ?</string>
+    <string name="preset_goodbye">លាហើយ</string>
+    <string name="preset_okay">យល់ព្រម</string>
+    <string name="preset_bad">មិនល្អ</string>
+    <string name="preset_good">ល្អ</string>
+    <string name="preset_that_makes_sense">នោះសមហេតុផលណាស់</string>
+    <string name="preset_i_like_it">ខ្ញុំចូលចិត្តវា</string>
+    <string name="preset_please_stop">សូមឈប់</string>
+    <string name="preset_i_do_not_agree">ខ្ញុំមិនយល់ស្របទេ</string>
+    <string name="preset_please_repeat">សូមនិយាយម្តងទៀត</string>
+    <string name="preset_please">សូម</string>
+    <string name="preset_thank_you">អរគុណ</string>
+    <string name="preset_yes">បាទ/ចាស</string>
+    <string name="preset_no">ទេ</string>
+    <string name="preset_maybe">ប្រហែលជា</string>
+    <string name="preset_please_wait">សូមរង់ចាំ</string>
+    <string name="preset_i_dont_know">ខ្ញុំមិនដឹងទេ</string>
+    <string name="preset_i_didnt_mean_say_that">ខ្ញុំមិនមានបំណងនិយាយបែបនោះទេ</string>
+    <string name="preset_be_patient">សូមអត់ធ្មត់</string>
+    <string name="preset_turn_on_lights">សូមបើកភ្លើង</string>
+    <string name="preset_turn_off_lights">សូមបិទភ្លើង</string>
+    <string name="preset_no_visitors">សូមកុំឱ្យអ្នកមកលេង</string>
+    <string name="preset_like_visitors">ខ្ញុំចង់ឱ្យមានអ្នកមកលេង</string>
+    <string name="preset_be_quiet">សូមស្ងាត់</string>
+    <string name="preset_like_to_talk">ខ្ញុំចង់និយាយ</string>
+    <string name="preset_tv_on">សូមបើកទូរទស្សន៍</string>
+    <string name="preset_tv_off">សូមបិទទូរទស្សន៍</string>
+    <string name="preset_volume_up">សូមបង្កើនសំឡេង</string>
+    <string name="preset_volume_down">សូមបន្ថយសំឡេង</string>
+    <string name="preset_open_blinds">សូមបើកវាំងនន</string>
+    <string name="preset_close_blinds">សូមបិទវាំងនន</string>
+    <string name="preset_open_window">សូមបើកបង្អួច</string>
+    <string name="preset_close_window">សូមបិទបង្អួច</string>
+    <string name="preset_need_medication">ខ្ញុំត្រូវការថ្នាំ</string>
+    <string name="preset_need_bath">ខ្ញុំត្រូវការងូតទឹក</string>
+    <string name="preset_need_shower">ខ្ញុំត្រូវការងូតទឹកផ្កាឈូក</string>
+    <string name="preset_need_wash_face">ខ្ញុំត្រូវលាងមុខ</string>
+    <string name="preset_want_brush_hair">ខ្ញុំត្រូវសិតសក់</string>
+    <string name="preset_fix_pillow">សូមជួយរៀបចំខ្នើយឱ្យខ្ញុំ</string>
+    <string name="preset_need_spit">ខ្ញុំត្រូវស្តោះទឹកមាត់</string>
+    <string name="preset_trouble_breathing">ខ្ញុំពិបាកដកដង្ហើម</string>
+    <string name="preset_need_jacket">ខ្ញុំត្រូវការអាវក្រៅ</string>
+    <string name="add_phrase">បន្ថែមឃ្លា</string>
+    <string name="add_phrase_plus">+ បន្ថែមឃ្លា</string>
+    <string name="add_category">បន្ថែមប្រភេទ</string>
+    <string name="add_to_category">បន្ថែមទៅប្រភេទ</string>
+    <string name="no_custom_categories">គ្មានប្រភេទផ្ទាល់ខ្លួន</string>
+    <string name="create_custom_categories">បង្កើតប្រភេទផ្ទាល់ខ្លួននៅក្នុងម៉ឺនុយការកំណត់ ដើម្បីបន្ថែមឃ្លាទៅក្នុងប្រភេទទាំងនោះនៅទីនេះ។</string>
+    <string name="all_categories_hidden_text">ប្រភេទទាំងអស់របស់អ្នកត្រូវបានលាក់។ អ្នកអាចបង្ហាញវាឡើងវិញពីទំព័រការកំណត់ប្រភេទ។</string>
+    <string name="no_recent_phrases_title">គ្មានឃ្លាដែលបានប្រើថ្មីៗនេះទេ</string>
+    <string name="no_recent_phrases_message">ចាប់ផ្តើមប្រើកម្មវិធីដើម្បីមើលឃ្លាដែលអ្នកប្រើថ្មីៗបំផុតនៅទីនេះ។</string>
+    <string name="categories_edit_title">ប្រភេទ</string>
+    <string name="permissions_missing_dialog_title">ការអនុញ្ញាតដែលត្រូវការមិនមាន</string>
+    <string name="permissions_missing_dialog_body">ការអនុញ្ញាតកាមេរ៉ាគឺចាំបាច់ដើម្បីប្រើមុខងារតាមដានក្បាល។ សូមបើកវាឱ្យដំណើរការក្នុងការកំណត់កម្មវិធី។</string>
+    <string name="permissions_confirm">យល់ព្រម</string>
+    <string name="permissions_rationale_title">ការអនុញ្ញាតកាមេរ៉ាគឺចាំបាច់ដើម្បីបើកមុខងារតាមដានក្បាល</string>
+    <string name="rename_category">ប្តូរឈ្មោះប្រភេទ</string>
+    <string name="show_category">បង្ហាញប្រភេទ</string>
+    <string name="edit_phrases">កែសម្រួលឃ្លា</string>
+    <string name="remove_category">លុបប្រភេទ</string>
+    <string name="preset_sayings_title">ឃ្លាដែលបានកំណត់ទុកជាមុន</string>
+    <string name="keyboard">ក្តារចុច</string>
+    <string name="keyboard_clear">សម្អាត</string>
+    <string name="keyboard_space">ដកឃ្លា</string>
+    <string name="keyboard_backspace">លុបថយក្រោយ</string>
+    <string name="keyboard_speak">និយាយ</string>
+    <string name="close_settings">បិទការកំណត់</string>
+    <string name="on">បើក</string>
+    <string name="off">បិទ</string>
+</resources>
