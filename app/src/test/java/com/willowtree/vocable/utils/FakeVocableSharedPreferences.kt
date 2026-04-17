@@ -10,6 +10,7 @@ class FakeVocableSharedPreferences(
     private var sensitivity: Float = 0f,
     private var headTrackingEnabled: Boolean = false,
     private var selectedVoiceName: String? = null,
+    private var selectedLanguageTag: String? = null,
     private var firstTime: Boolean = false
 ) : IVocableSharedPreferences {
 
@@ -59,6 +60,14 @@ class FakeVocableSharedPreferences(
 
     override fun getSelectedVoiceName(): String? {
         return selectedVoiceName
+    }
+
+    override fun setSelectedLanguageTag(tag: String?) {
+        selectedLanguageTag = tag
+    }
+
+    override fun getSelectedLanguageTag(): String? {
+        return selectedLanguageTag
     }
 
     override fun setFirstTime() {
