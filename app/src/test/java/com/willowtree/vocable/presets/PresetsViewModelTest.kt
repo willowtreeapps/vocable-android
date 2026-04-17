@@ -5,12 +5,16 @@ import app.cash.turbine.test
 import com.willowtree.vocable.FakeCategoriesUseCase
 import com.willowtree.vocable.FakePhrasesUseCase
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.getOrAwaitValue
-import com.willowtree.vocable.room.CategoryDto
-import com.willowtree.vocable.room.PhraseDto
+import com.willowtree.vocable.core.IdlingResourceContainerImpl
+import com.willowtree.vocable.core.locale.LocalesWithText
+import com.willowtree.vocable.data.room.CategoryDto
+import com.willowtree.vocable.data.room.PhraseDto
+import com.willowtree.vocable.domain.model.Category
+import com.willowtree.vocable.domain.model.PhraseGridItem
+import com.willowtree.vocable.domain.model.PresetCategories
+import com.willowtree.vocable.ui.presets.PresetsIntent
+import com.willowtree.vocable.ui.presets.PresetsViewModel
 import com.willowtree.vocable.utils.FakeLocalizedResourceUtility
-import com.willowtree.vocable.utils.IdlingResourceContainerImpl
-import com.willowtree.vocable.utils.locale.LocalesWithText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -40,8 +44,9 @@ class PresetsViewModelTest {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `category list passed through and filters hidden`() {
+    fun `category list passed through and filters hidden`() = runTest(UnconfinedTestDispatcher()) {
         fakeCategoriesUseCase._categories.update {
             listOf(
                 Category.StoredCategory(
@@ -70,7 +75,7 @@ class PresetsViewModelTest {
                     sortOrder = 0
                 )
             ),
-            vm.categoryList.getOrAwaitValue()
+            vm.state.value.categories
         )
     }
 
@@ -94,9 +99,9 @@ class PresetsViewModelTest {
             )
         }
         val vm = createViewModel()
-        vm.onCategorySelected("1")
+        vm.onIntent(PresetsIntent.OnCategorySelected("1"))
 
-        vm.selectedCategory.test {
+        vm.state.test {
             assertEquals(
                 Category.StoredCategory(
                     categoryId = "1",
@@ -104,7 +109,7 @@ class PresetsViewModelTest {
                     hidden = false,
                     sortOrder = 0
                 ),
-                awaitItem()
+                awaitItem().selectedCategory
             )
         }
     }
@@ -132,19 +137,12 @@ class PresetsViewModelTest {
 
             val vm = createViewModel()
 
-            vm.onCategorySelected("1")
+            vm.onIntent(PresetsIntent.OnCategorySelected("1"))
 
-            vm.selectedCategory.test {
-                assertEquals(
-                    Category.StoredCategory(
-                        categoryId = "2",
-                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                        hidden = false,
-                        sortOrder = 1
-                    ),
-                    awaitItem()
-                )
-            }
+            assertEquals(
+                null,
+                vm.state.value.selectedCategory
+            )
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -176,19 +174,12 @@ class PresetsViewModelTest {
 
             val vm = createViewModel()
 
-            vm.onCategorySelected("3")
+            vm.onIntent(PresetsIntent.OnCategorySelected("3"))
 
-            vm.selectedCategory.test {
-                assertEquals(
-                    Category.StoredCategory(
-                        categoryId = "1",
-                        localizedName = LocalesWithText(mapOf("en_US" to "category")),
-                        hidden = false,
-                        sortOrder = 0
-                    ),
-                    awaitItem()
-                )
-            }
+            assertEquals(
+                null,
+                vm.state.value.selectedCategory
+            )
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -220,23 +211,17 @@ class PresetsViewModelTest {
 
             val vm = createViewModel()
 
-            vm.onCategorySelected("3")
+            vm.onIntent(PresetsIntent.OnCategorySelected("3"))
 
-            vm.selectedCategory.test {
-                assertEquals(
-                    Category.StoredCategory(
-                        categoryId = "2",
-                        localizedName = LocalesWithText(mapOf("en_US" to "second category")),
-                        hidden = false,
-                        sortOrder = 1
-                    ),
-                    awaitItem()
-                )
-            }
+            assertEquals(
+                null,
+                vm.state.value.selectedCategory
+            )
         }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `current phrases updated when category ID changed`() {
+    fun `current phrases updated when category ID changed`() = runTest(UnconfinedTestDispatcher()) {
         fakePhrasesUseCase._allCategories.update {
             listOf(
                 CategoryDto(
@@ -277,8 +262,24 @@ class PresetsViewModelTest {
                 )
             )
         )
+        fakeCategoriesUseCase._categories.update {
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "1",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = false,
+                    sortOrder = 0
+                ),
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "second category")),
+                    hidden = false,
+                    sortOrder = 1
+                )
+            )
+        }
         val vm = createViewModel()
-        vm.onCategorySelected("2")
+        vm.onIntent(PresetsIntent.OnCategorySelected("2"))
 
         assertEquals(
             listOf(
@@ -288,12 +289,13 @@ class PresetsViewModelTest {
                 ),
                 PhraseGridItem.AddPhrase
             ),
-            vm.currentPhrases.getOrAwaitValue()
+            vm.state.value.currentPhrases
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `non recents are sorted by sort order`() {
+    fun `non recents are sorted by sort order`() = runTest(UnconfinedTestDispatcher()) {
         fakePhrasesUseCase._allCategories.update {
             listOf(
                 CategoryDto(
@@ -325,8 +327,18 @@ class PresetsViewModelTest {
                 )
             )
         )
+        fakeCategoriesUseCase._categories.update {
+            listOf(
+                Category.StoredCategory(
+                    categoryId = "2",
+                    localizedName = LocalesWithText(mapOf("en_US" to "category")),
+                    hidden = false,
+                    sortOrder = 0
+                )
+            )
+        }
         val vm = createViewModel()
-        vm.onCategorySelected("2")
+        vm.onIntent(PresetsIntent.OnCategorySelected("2"))
         assertEquals(
             listOf(
                 PhraseGridItem.Phrase(
@@ -339,12 +351,13 @@ class PresetsViewModelTest {
                 ),
                 PhraseGridItem.AddPhrase
             ),
-            vm.currentPhrases.getOrAwaitValue()
+            vm.state.value.currentPhrases
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `recents are not sorted by sort order`() {
+    fun `recents are not sorted by sort order`() = runTest(UnconfinedTestDispatcher()) {
         fakePhrasesUseCase._allCategories.update {
             listOf(
                 CategoryDto(
@@ -376,8 +389,16 @@ class PresetsViewModelTest {
                 )
             )
         )
+        fakeCategoriesUseCase._categories.update {
+            listOf(
+                Category.Recents(
+                    hidden = false,
+                    sortOrder = 0
+                )
+            )
+        }
         val vm = createViewModel()
-        vm.onCategorySelected(PresetCategories.RECENTS.id)
+        vm.onIntent(PresetsIntent.OnCategorySelected(PresetCategories.RECENTS.id))
         assertEquals(
             listOf(
                 PhraseGridItem.Phrase(
@@ -389,8 +410,7 @@ class PresetsViewModelTest {
                     text = "Goodbye",
                 )
             ),
-            vm.currentPhrases.getOrAwaitValue()
+            vm.state.value.currentPhrases
         )
     }
-
 }

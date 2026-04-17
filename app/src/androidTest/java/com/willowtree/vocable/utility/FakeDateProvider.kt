@@ -1,6 +1,6 @@
 package com.willowtree.vocable.utility
 
-import com.willowtree.vocable.utils.DateProvider
+import com.willowtree.vocable.core.DateProvider
 
 class FakeDateProvider : DateProvider {
 

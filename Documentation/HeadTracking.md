@@ -1,21 +1,99 @@
 # Head/Face tracking
 
-We use ARCore to do face tracking, and we check if the device supports it or not when the app opens (you can see this in BaseActivity). If the device does not support the app… we show a toast that says, “Sceneform requires OpenGL ES 3.0 later”, which is not great. We should allow users to use the app, but not have head tracking.
+Vocable’s head tracking implementation has been updated from the old View/Fragment-based approach to a Compose-based gaze interaction system.
 
-### FaceTrackFragment & FaceTrackingViewModel
-The two key things that I think defines face tracking for our application are:
-We flip the z axis in the augmentedFace’s RegionPose (we use the tip of your nose), that way it is pointing at the screen, rather than away from it. The augmentedFace is the arSceneView’s session’s trackables. Basically, it’s the user’s face that the device can see.
-We use Vector3.lerp and give it the parameters of the old vector, the new vector, and a sensitivity. We learned that the sensitivity needed to be very small (0.05F - 0.15F) in order for the interpolation to work properly. (the pointer would not go across the screen smoothly when the sensitivity was large)
+## Current approach
 
-We also check if the user is using a phone (or not a tablet), and we allow the user more space to move around in the y axis if they are.
+### High-level flow
+- `FaceTrackingManager` checks whether head tracking is available on the device.
+- If ARCore or the required OpenGL support is unavailable, head tracking is disabled and the rest of the app remains usable.
+- `FaceTrackingScreen` hosts a minimal `ARScene` using the front camera and feeds face updates into `FaceTrackingViewModel`.
+- `FaceTrackingViewModel` converts ARCore face data into a smoothed screen position.
+- `GazePointer` draws the pointer in Compose and performs hit-testing against registered Compose gaze targets.
+- `GazeInteractionManager` stores gaze targets and exposes dwell progress for pointer UI.
 
-### BaseActivity
-We need to define when the PointerView enters and exits a view. That’s where updatePointer and findIntersectingView come in. If the PointerView’s x and y are within a view, it will trigger onPointerEnter, else if it’s not intersecting a view it will trigger onPointerExit.
+## FaceTrackingManager
 
-### findIntersectingView
-This function will check if the currentView and the PointerView are in the same location.
+`FaceTrackingManager` is responsible for availability checks and enabling or disabling the pointer UI.
 
-Since these are fundamental pieces of this application (using head tracking) it lives in the BaseActivity.
+- Checks ARCore support.
+- Checks for OpenGL ES 3.0+ support.
+- Observes the head-tracking permission/enabled state.
+- Disables head tracking cleanly when unsupported instead of blocking app usage.
 
-### VocableButton
-This is a PointerListener, so it needs an onPointerEnter and onPointerExit. We make it so that every button will say the text on the button, and then it will perform the action that you give it (within the buttonJob) in onPointerEnter. In onPointerExit it will cancel the buttonJob, and the action that was within it.
+This replaces the older behavior where unsupported devices surfaced a poor error path tied to the legacy implementation.
+
+## FaceTrackingScreen
+
+`FaceTrackingScreen` is the Compose entry point for head tracking.
+
+- Renders a lightweight `ARScene` configured for front camera face tracking.
+- Pulls `AugmentedFace` trackables from the AR session.
+- Passes scene updates to `FaceTrackingViewModel.onSceneUpdate(...)`.
+- Shows the `GazePointer` overlay.
+- Shows an error banner when a face is not detected for a short period while tracking is enabled.
+
+## FaceTrackingViewModel
+
+`FaceTrackingViewModel` contains the face-to-pointer mapping logic.
+
+### Face data processing
+- Uses `AugmentedFace.RegionType.NOSE_TIP`.
+- Reads the pose `zAxis` from the nose tip region.
+- Flips the z-axis so the vector points toward the screen.
+- Expands y-axis movement on phones to give users more vertical range.
+- Smooths movement with `Vector3.lerp(...)` using the configured sensitivity.
+
+### Pointer and hover behavior
+- Exposes the adjusted face vector as state.
+- Converts the smoothed vector into screen coordinates with `convertCoordSystems(...)`.
+- Finds the active gaze target by checking which registered target contains the pointer location.
+- Handles hover transitions by calling the previous target’s `onExit` and the new target’s `onEnter`.
+- Sends accessibility speech events for targets that provide an accessibility label.
+
+## GazePointer
+
+`GazePointer` is the Compose UI overlay for gaze interaction.
+
+- Observes the adjusted vector from `FaceTrackingViewModel`.
+- Converts it into pointer coordinates within the current Compose layout.
+- Translates those coordinates into window coordinates for hit-testing.
+- Draws the pointer indicator.
+- Renders dwell progress as an arc around the pointer.
+
+## GazeInteractionManager
+
+`GazeInteractionManager` is the shared registry for Compose gaze targets.
+
+- Registers and unregisters `ComposeGazeTarget` instances.
+- Provides the current list of active gaze targets for hit-testing.
+- Publishes dwell progress so the pointer can visualize selection timing.
+
+A `ComposeGazeTarget` contains:
+- bounds
+- `onEnter`
+- `onExit`
+- optional accessibility label
+
+## Buttons and dwell interaction
+
+Interactive Compose components participate in head tracking by registering gaze targets rather than relying on legacy pointer callbacks in `BaseActivity`.
+
+For example, button components can:
+- start dwell behavior on `onEnter`
+- cancel dwell behavior on `onExit`
+- trigger their action when dwell completes
+- provide accessibility text for spoken feedback
+
+`VocableButton` now focuses on visual state in Compose, while gaze/dwell behavior is handled by the gaze interaction system.
+
+## Removed legacy approach
+
+The following older concepts are no longer the active architecture and should not be used as the reference implementation:
+- `BaseActivity`-driven pointer intersection logic
+- `findIntersectingView` for View-based hit-testing
+- `FaceTrackFragment` as the core tracking entry point
+- View-based `PointerListener` behavior as the primary interaction model
+- legacy Sceneform/fragment-driven documentation
+
+The current implementation is Compose-first, with ARCore face tracking feeding a gaze target registry and pointer overlay.
