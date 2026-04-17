@@ -2,22 +2,25 @@ package com.willowtree.vocable.settings
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import app.cash.turbine.test
-import com.willowtree.vocable.CategoriesUseCase
 import com.willowtree.vocable.FakeUUIDProvider
 import com.willowtree.vocable.MainDispatcherRule
-import com.willowtree.vocable.PhrasesUseCase
 import com.willowtree.vocable.basetest.utils.FakeLocaleProvider
-import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.presets.PresetCategories
-import com.willowtree.vocable.presets.RoomPresetCategoriesRepository
-import com.willowtree.vocable.room.RoomPresetPhrasesRepository
-import com.willowtree.vocable.room.RoomStoredCategoriesRepository
-import com.willowtree.vocable.room.RoomStoredPhrasesRepository
-import com.willowtree.vocable.room.VocableDatabase
+import com.willowtree.vocable.core.locale.LocalesWithText
+import com.willowtree.vocable.data.repository.RoomPresetCategoriesRepository
+import com.willowtree.vocable.data.repository.RoomPresetPhrasesRepository
+import com.willowtree.vocable.data.repository.RoomStoredCategoriesRepository
+import com.willowtree.vocable.data.repository.RoomStoredPhrasesRepository
+import com.willowtree.vocable.data.room.VocableDatabase
+import com.willowtree.vocable.domain.model.Category
+import com.willowtree.vocable.domain.model.PresetCategories
+import com.willowtree.vocable.domain.usecase.CategoriesUseCase
+import com.willowtree.vocable.domain.usecase.PhrasesUseCase
+import com.willowtree.vocable.ui.editcategories.EditCategoriesIntent
+import com.willowtree.vocable.ui.editcategories.EditCategoriesViewModel
 import com.willowtree.vocable.utility.FakeDateProvider
-import com.willowtree.vocable.utility.StubLegacyCategoriesAndPhrasesRepository
 import com.willowtree.vocable.utility.VocableKoinTestRule
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -36,23 +39,13 @@ class EditCategoriesViewModelTest {
         VocableDatabase::class.java
     ).build()
 
-    private val presetCategoriesRepository = RoomPresetCategoriesRepository(
-        database
-    )
-
-    private val storedCategoriesRepository = RoomStoredCategoriesRepository(
-        database
-    )
-
+    private val presetCategoriesRepository = RoomPresetCategoriesRepository(database)
+    private val storedCategoriesRepository = RoomStoredCategoriesRepository(database)
     private val presetPhrasesRepository = RoomPresetPhrasesRepository(
         database.presetPhrasesDao(),
         FakeDateProvider()
     )
-
-    private val storedPhrasesRepository = RoomStoredPhrasesRepository(
-        database,
-        FakeDateProvider()
-    )
+    private val storedPhrasesRepository = RoomStoredPhrasesRepository(database, FakeDateProvider())
 
     private val categoriesUseCase = CategoriesUseCase(
         FakeUUIDProvider(),
@@ -60,7 +53,6 @@ class EditCategoriesViewModelTest {
         storedCategoriesRepository,
         presetCategoriesRepository,
         PhrasesUseCase(
-            StubLegacyCategoriesAndPhrasesRepository(),
             storedPhrasesRepository,
             presetPhrasesRepository,
             FakeDateProvider(),
@@ -70,140 +62,78 @@ class EditCategoriesViewModelTest {
     )
 
     private fun createViewModel(): EditCategoriesViewModel {
-        return EditCategoriesViewModel(
-            categoriesUseCase
+        return EditCategoriesViewModel(categoriesUseCase)
+    }
+
+    @Test
+    fun categories_are_populated() = runTest(UnconfinedTestDispatcher()) {
+        val vm = createViewModel()
+        // Wait for Room's async ensurePopulated() to complete and the state to reflect it
+        val categories = vm.uiState.first { it.categories.isNotEmpty() }.categories
+        assertEquals(
+            listOf(
+                Category.PresetCategory(PresetCategories.GENERAL.id, 0, false),
+                Category.PresetCategory(PresetCategories.BASIC_NEEDS.id, 1, false),
+                Category.PresetCategory(PresetCategories.PERSONAL_CARE.id, 2, false),
+                Category.PresetCategory(PresetCategories.CONVERSATION.id, 3, false),
+                Category.PresetCategory(PresetCategories.ENVIRONMENT.id, 4, false),
+                Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 5, false),
+                Category.Recents(hidden = false, sortOrder = 6),
+            ),
+            categories
         )
     }
 
-    // TODO: CC - the following 4 tests are flaky due to the way refreshCategories() is implemented
     @Test
-    fun  refreshing_categories_without_adding_new_category_remains_at_first_index() = runTest {
+    fun move_category_up() = runTest(UnconfinedTestDispatcher()) {
         val vm = createViewModel()
-        vm.refreshCategories()
-
-        vm.liveLastViewedIndex.test {
-            assertEquals(0, awaitItem())
-        }
+        vm.uiState.first { it.categories.isNotEmpty() }
+        vm.onIntent(EditCategoriesIntent.MoveCategoryUp(PresetCategories.RECENTS.id))
+        val expected = listOf(
+            Category.PresetCategory(PresetCategories.GENERAL.id, 0, false),
+            Category.PresetCategory(PresetCategories.BASIC_NEEDS.id, 1, false),
+            Category.PresetCategory(PresetCategories.PERSONAL_CARE.id, 2, false),
+            Category.PresetCategory(PresetCategories.CONVERSATION.id, 3, false),
+            Category.PresetCategory(PresetCategories.ENVIRONMENT.id, 4, false),
+            Category.Recents(hidden = false, sortOrder = 5),
+            Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 6, false),
+        )
+        assertEquals(expected, vm.uiState.first { it.categories == expected }.categories)
     }
 
     @Test
-    fun  adding_new_category_and_refreshing_once_flips_to_new_categorys_index() = runTest {
-
+    fun move_category_down() = runTest(UnconfinedTestDispatcher()) {
         val vm = createViewModel()
-        vm.refreshCategories()
+        vm.uiState.first { it.categories.isNotEmpty() }
+        vm.onIntent(EditCategoriesIntent.MoveCategoryDown(PresetCategories.GENERAL.id))
+        val expected = listOf(
+            Category.PresetCategory(PresetCategories.BASIC_NEEDS.id, 0, false),
+            Category.PresetCategory(PresetCategories.GENERAL.id, 1, false),
+            Category.PresetCategory(PresetCategories.PERSONAL_CARE.id, 2, false),
+            Category.PresetCategory(PresetCategories.CONVERSATION.id, 3, false),
+            Category.PresetCategory(PresetCategories.ENVIRONMENT.id, 4, false),
+            Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 5, false),
+            Category.Recents(hidden = false, sortOrder = 6),
+        )
+        assertEquals(expected, vm.uiState.first { it.categories == expected }.categories)
+    }
 
+    @Test
+    fun adding_category_updates_categories() = runTest(UnconfinedTestDispatcher()) {
+        val vm = createViewModel()
+        vm.uiState.first { it.categories.isNotEmpty() }
         categoriesUseCase.addCategory("new category")
-        vm.refreshCategories()
-
-        vm.liveLastViewedIndex.test {
-            assertEquals(0, awaitItem())
-            assertEquals(7, awaitItem())
-        }
+        // Wait for both the new category to appear and the page jump to complete
+        val state = vm.uiState.first { it.categories.size >= 8 && it.currentPage == 1 }
+        assertEquals(
+            Category.StoredCategory(
+                categoryId = "1",
+                localizedName = LocalesWithText(mapOf("en_US" to "new category")),
+                hidden = false,
+                sortOrder = 7
+            ),
+            state.categories.last()
+        )
+        assertEquals(1, state.currentPage)
     }
-
-    @Test
-    fun  adding_new_category_and_refreshing_twice_flips_to_first_index() = runTest {
-        val vm = createViewModel()
-        vm.refreshCategories()
-
-        categoriesUseCase.addCategory("new category")
-
-        vm.refreshCategories()
-        vm.liveLastViewedIndex.test {
-            assertEquals(0, awaitItem())
-            assertEquals(7, awaitItem())
-        }
-
-        vm.refreshCategories()
-        vm.liveLastViewedIndex.test {
-            assertEquals(7, awaitItem())
-            assertEquals(0, awaitItem())
-        }
-    }
-
-    @Test
-    fun  adding_new_category_amongst_hidden_categories_and_refreshing_once_flips_to_last_non_hidden_index() = runTest {
-        val vm = createViewModel()
-        categoriesUseCase.updateCategoryHidden("preset_general", hidden = true)
-        categoriesUseCase.updateCategoryHidden("preset_basic_needs", hidden = true)
-
-        vm.refreshCategories()
-
-        categoriesUseCase.addCategory("new category")
-
-        vm.refreshCategories()
-        vm.liveLastViewedIndex.test {
-            assertEquals(0, awaitItem())
-            assertEquals(5, awaitItem())
-        }
-
-    }
-
-    @Test
-    fun categories_are_populated() = runTest {
-        val vm = createViewModel()
-        vm.refreshCategories()
-
-        vm.categoryList.test {
-            assertEquals(
-                listOf(
-                    Category.PresetCategory(PresetCategories.GENERAL.id, 0, false),
-                    Category.PresetCategory(PresetCategories.BASIC_NEEDS.id, 1, false),
-                    Category.PresetCategory(PresetCategories.PERSONAL_CARE.id, 2, false),
-                    Category.PresetCategory(PresetCategories.CONVERSATION.id, 3, false),
-                    Category.PresetCategory(PresetCategories.ENVIRONMENT.id, 4, false),
-                    Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 5, false),
-                    Category.PresetCategory(PresetCategories.RECENTS.id, 6, false),
-                ),
-                awaitItem()
-            )
-        }
-    }
-
-    @Test
-    fun move_category_up() = runTest {
-        val vm = createViewModel()
-        vm.refreshCategories()
-        vm.moveCategoryUp(PresetCategories.RECENTS.id)
-
-        vm.categoryList.test {
-            awaitItem() // Skip unmoved emission
-            assertEquals(
-                listOf(
-                    Category.PresetCategory(PresetCategories.GENERAL.id, 0, false),
-                    Category.PresetCategory(PresetCategories.BASIC_NEEDS.id, 1, false),
-                    Category.PresetCategory(PresetCategories.PERSONAL_CARE.id, 2, false),
-                    Category.PresetCategory(PresetCategories.CONVERSATION.id, 3, false),
-                    Category.PresetCategory(PresetCategories.ENVIRONMENT.id, 4, false),
-                    Category.PresetCategory(PresetCategories.RECENTS.id, 5, false),
-                    Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 6, false),
-                ),
-                awaitItem()
-            )
-        }
-    }
-
-    @Test
-    fun move_category_down() = runTest {
-        val vm = createViewModel()
-        vm.refreshCategories()
-        vm.moveCategoryDown(PresetCategories.GENERAL.id)
-
-        vm.categoryList.test {
-            awaitItem() // Skip unmoved emission
-            assertEquals(
-                listOf(
-                    Category.PresetCategory(PresetCategories.BASIC_NEEDS.id, 0, false),
-                    Category.PresetCategory(PresetCategories.GENERAL.id, 1, false),
-                    Category.PresetCategory(PresetCategories.PERSONAL_CARE.id, 2, false),
-                    Category.PresetCategory(PresetCategories.CONVERSATION.id, 3, false),
-                    Category.PresetCategory(PresetCategories.ENVIRONMENT.id, 4, false),
-                    Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 5, false),
-                    Category.PresetCategory(PresetCategories.RECENTS.id, 6, false),
-                ),
-                awaitItem()
-            )
-        }
-    }
-
 }

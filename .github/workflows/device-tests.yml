@@ -9,15 +9,19 @@ name: Run Device Tests
 on:
   workflow_run:
     workflows: ["Build & Test Project"]
-    branches-ignore: [main]
     types:
       - completed
   workflow_call:
 
+permissions:
+  statuses: write
+  actions: read
+  checks: write
+
 jobs:
   device-tests:
-    runs-on: ubuntu-20.04
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request') }}
     steps:
       - uses: haya14busa/action-workflow_run-status@v1
         if: ${{ github.event_name == 'workflow_run' }}

@@ -1,8 +1,8 @@
 package com.willowtree.vocable.utility
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.willowtree.vocable.utils.VocableSharedPreferences
-import com.willowtree.vocable.vocableKoinModule
+import com.willowtree.vocable.core.VocableSharedPreferences
+import com.willowtree.vocable.di.vocableKoinModule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import org.koin.android.ext.koin.androidContext

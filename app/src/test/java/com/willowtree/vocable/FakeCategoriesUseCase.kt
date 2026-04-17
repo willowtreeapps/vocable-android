@@ -1,8 +1,9 @@
 package com.willowtree.vocable
 
-import com.willowtree.vocable.presets.Category
-import com.willowtree.vocable.room.CategorySortOrder
-import com.willowtree.vocable.utils.locale.LocalesWithText
+import com.willowtree.vocable.domain.model.Category
+import com.willowtree.vocable.data.room.CategorySortOrder
+import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
+import com.willowtree.vocable.core.locale.LocalesWithText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map

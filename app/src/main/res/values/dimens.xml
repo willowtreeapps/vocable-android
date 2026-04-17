@@ -20,7 +20,7 @@
     <dimen name="speech_button_text_size">24sp</dimen>
     <dimen name="speech_button_min_text_size">12sp</dimen>
     <dimen name="speech_button_margin">10dp</dimen>
-    <dimen name="speech_button_padding">8dp</dimen>
+    <dimen name="speech_button_padding">2dp</dimen>
 
     <!-- Pause Button -->
     <dimen name="pause_button_margin">8dp</dimen>
@@ -68,8 +68,8 @@
     <dimen name="highlighted_background_width">4dp</dimen>
 
     <!-- Main Activity -->
-    <dimen name="main_activity_side_margin">24dp</dimen>
-    <dimen name="main_activity_top_bottom_margin">16dp</dimen>
+    <dimen name="main_activity_side_margin">16dp</dimen>
+    <dimen name="main_activity_top_bottom_margin">24dp</dimen>
     <dimen name="main_activity_category_margin">8dp</dimen>
     <dimen name="main_activity_bottom_margin">48dp</dimen>
     <dimen name="main_activity_speaker_margin">8dp</dimen>
@@ -155,8 +155,8 @@
     <dimen name="edit_sayings_add_button_margin">24dp</dimen>
     <dimen name="edit_phrases_margin_bottom">33dp</dimen>
     <dimen name="edit_phrases_margin_top">33dp</dimen>
-    <dimen name="edit_paging_button_width">64dp</dimen>
-    <dimen name="edit_paging_button_height">64dp</dimen>
+    <dimen name="edit_paging_button_width">72dp</dimen>
+    <dimen name="edit_paging_button_height">72dp</dimen>
     <dimen name="edit_page_number_margin">192dp</dimen>
     <dimen name="edit_paging_button_bottom_margin">33dp</dimen>
     <dimen name="edit_action_delete_height">56dp</dimen>
@@ -246,8 +246,9 @@
     <dimen name="edit_categories_list_button_width">56dp</dimen>
     <dimen name="edit_categories_list_button_height">56dp</dimen>
     <dimen name="edit_categories_list_button_margin">16dp</dimen>
-    <dimen name="edit_categories_list_arrow_margin">8dp</dimen>
-    <dimen name="edit_categories_list_margin">4dp</dimen>
+    <dimen name="edit_categories_list_arrow_margin">4dp</dimen>
+    <dimen name="edit_categories_list_margin">2dp</dimen>
+    <dimen name="edit_categories_list_row_height">56dp</dimen>
     <dimen name="edit_categories_list_text_size">24sp</dimen>
     <dimen name="edit_categories_divider_height">2dp</dimen>
 

@@ -1,6 +1,9 @@
 package com.willowtree.vocable.utils
 
 import android.Manifest
+import com.willowtree.vocable.core.FaceTrackingPermissions
+import com.willowtree.vocable.core.IFaceTrackingPermissions
+import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.utils.permissions.FakePermissionRegisterForLaunch
 import com.willowtree.vocable.utils.permissions.FakePermissionsChecker
 import com.willowtree.vocable.utils.permissions.FakePermissionsRationaleDialogShower
@@ -153,16 +156,16 @@ class FaceTrackingPermissionsTest {
         }
 
     @Test
-    fun `when permission rationale should be shown, rationale dialog shown and onNegativeClick launches permissionLauncher`() =
+    fun `when permission rationale should be shown, rationale dialog shown and onNegativeClick disables head tracking`() =
         runTest {
-            val sharedPreferences = createSharedPrefs(headTrackingEnabled = true)
-
-            // requestFaceTracking() called implicitly in init block when headTrackingEnabled is true
-            createFaceTrackingPermissions(
+            val sharedPreferences = createSharedPrefs(headTrackingEnabled = false)
+            val permissions = createFaceTrackingPermissions(
                 sharedPreferences = sharedPreferences,
                 shouldShowRequestPermissionRationale = true
             )
             advanceUntilIdle()
+
+            permissions.requestFaceTracking()
 
             assertEquals(1, fakePermissionsRationaleDialogShower.rationaleDialogShowedCount)
             assertEquals(0, fakePermissionsRationaleDialogShower.settingsRationaleDialogShowedCount)

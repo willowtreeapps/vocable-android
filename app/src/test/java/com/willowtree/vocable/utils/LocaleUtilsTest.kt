@@ -1,8 +1,8 @@
 package com.willowtree.vocable.utils
 
-import com.willowtree.vocable.utils.locale.LocalesWithText
-import com.willowtree.vocable.utils.locale.locale
-import com.willowtree.vocable.utils.locale.text
+import com.willowtree.vocable.core.locale.LocalesWithText
+import com.willowtree.vocable.core.locale.locale
+import com.willowtree.vocable.core.locale.text
 import org.junit.Assert
 import org.junit.Test
 import java.util.Locale

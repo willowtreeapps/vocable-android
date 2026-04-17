@@ -2,7 +2,7 @@ package com.willowtree.vocable.utility
 
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
-import com.willowtree.vocable.utils.IdlingResourceContainer
+import com.willowtree.vocable.core.IdlingResourceContainer
 
 class IdlingResourceContainerTestingImpl(name: String): IdlingResourceContainer {
 

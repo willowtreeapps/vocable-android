@@ -1,6 +1,6 @@
 package com.willowtree.vocable.utility
 
-import com.willowtree.vocable.utils.VocableEnvironment
+import com.willowtree.vocable.core.VocableEnvironment
 import org.koin.dsl.module
 
 
