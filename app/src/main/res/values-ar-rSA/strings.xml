@@ -29,6 +29,7 @@
     <string name="button_resume">إستكمال</string>
     <!-- Errors -->
     <string name="error_move_closer">من فضلك إقترب أكثر من الجهاز.</string>
+    <string name="head_tracking_paused_message">Head tracking is paused.\nMove your head to resume.</string>
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">ابدأ الكتابة…</string>
     <!-- Saved Phrase Success -->
@@ -158,4 +159,14 @@
     <string name="show_category">إظهار الفئة</string>
     <string name="edit_phrases">تحرير العبارات</string>
     <string name="remove_category">ازالة فئة</string>
+    <!-- Compose Migration Strings -->
+    <string name="preset_sayings_title">Preset Sayings</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="keyboard_clear">Clear</string>
+    <string name="keyboard_space">Space</string>
+    <string name="keyboard_backspace">Backspace</string>
+    <string name="keyboard_speak">Speak</string>
+    <string name="close_settings">Close Settings</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 </resources>
