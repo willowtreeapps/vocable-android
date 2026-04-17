@@ -29,6 +29,7 @@
     <string name="button_resume">Résumer</string>
     <!-- Errors -->
     <string name="error_move_closer">Veuillez vous rapprocher du périphérique.</string>
+    <string name="head_tracking_paused_message">Head tracking is paused.\nMove your head to resume.</string>
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Commencez à écrire…</string>
     <!-- Saved Phrase Success -->
@@ -158,4 +159,14 @@
     <string name="show_category">Montrer la catégorie</string>
     <string name="edit_phrases">Modifier les expressions</string>
     <string name="remove_category">Supprimer la catégorie</string>
+    <!-- Compose Migration Strings -->
+    <string name="preset_sayings_title">Preset Sayings</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="keyboard_clear">Clear</string>
+    <string name="keyboard_space">Space</string>
+    <string name="keyboard_backspace">Backspace</string>
+    <string name="keyboard_speak">Speak</string>
+    <string name="close_settings">Close Settings</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 </resources>
