@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +34,6 @@ import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
 
-private const val ITEMS_PER_PAGE = 5
-
 @Composable
 fun LanguageSelectionScreen(
     state: LanguageSelectionState,
@@ -43,23 +42,30 @@ fun LanguageSelectionScreen(
     modifier: Modifier = Modifier
 ) {
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val itemsPerPage = if (isLandscape) 3 else 5
+    val padding = if (isLandscape) 16.dp else 24.dp
+    val closeButtonSize = if (isLandscape) 48.dp else 72.dp
+
     var pageIndex by remember { mutableIntStateOf(0) }
-    val totalPages = remember(state.languages) {
-        maxOf(1, ceil(state.languages.size.toFloat() / ITEMS_PER_PAGE).toInt())
+
+    LaunchedEffect(isLandscape) { pageIndex = 0 }
+
+    val totalPages = remember(state.languages, itemsPerPage) {
+        maxOf(1, ceil(state.languages.size.toFloat() / itemsPerPage).toInt())
     }
-    val currentPageItems = remember(state.languages, pageIndex) {
-        state.languages.chunked(ITEMS_PER_PAGE).getOrElse(pageIndex) { emptyList() }
+    val currentPageItems = remember(state.languages, pageIndex, itemsPerPage) {
+        state.languages.chunked(itemsPerPage).getOrElse(pageIndex) { emptyList() }
     }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(padding)
             .horizontalPageSwipe(
                 onSwipeLeft = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
                 onSwipeRight = { pageIndex = (pageIndex + 1) % totalPages }
             ),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(if (isLandscape) 8.dp else 16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -67,7 +73,7 @@ fun LanguageSelectionScreen(
         ) {
             GazeButton(
                 onClick = onBack,
-                modifier = Modifier.size(72.dp)
+                modifier = Modifier.size(closeButtonSize)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_close),
@@ -91,25 +97,25 @@ fun LanguageSelectionScreen(
         ) {
             Text(
                 text = stringResource(R.string.language_system_default),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(if (isLandscape) 8.dp else 16.dp)
             )
         }
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(if (isLandscape) 6.dp else 12.dp)
         ) {
-            repeat(ITEMS_PER_PAGE) { i ->
+            repeat(itemsPerPage) { i ->
                 val language = currentPageItems.getOrNull(i)
                 if (language != null) {
                     LanguageOptionRow(
                         language = language,
                         isSelected = state.selectedLanguageTag == language.tag,
+                        isLandscape = isLandscape,
                         onClick = { onLanguageSelected(language.tag) },
-                        modifier = if (isLandscape) Modifier.fillMaxWidth()
-                                   else Modifier.weight(1f).fillMaxWidth()
+                        modifier = Modifier.weight(1f).fillMaxWidth()
                     )
-                } else if (!isLandscape) {
+                } else {
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
@@ -120,7 +126,8 @@ fun LanguageSelectionScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val pagingButtonSize = dimensionResource(id = R.dimen.phrases_paging_button_height)
+            val pagingButtonSize = if (isLandscape) 40.dp
+            else dimensionResource(id = R.dimen.phrases_paging_button_height)
 
             GazeButton(
                 onClick = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
@@ -156,6 +163,7 @@ fun LanguageSelectionScreen(
 private fun LanguageOptionRow(
     language: LanguageOption,
     isSelected: Boolean,
+    isLandscape: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -166,7 +174,7 @@ private fun LanguageOptionRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(if (isLandscape) 8.dp else 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {

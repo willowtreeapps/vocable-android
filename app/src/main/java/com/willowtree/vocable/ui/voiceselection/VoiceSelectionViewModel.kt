@@ -1,8 +1,11 @@
 package com.willowtree.vocable.ui.voiceselection
 
+import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.ui.base.BaseViewModel
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 class VoiceSelectionViewModel(
     private val sharedPreferences: IVocableSharedPreferences
@@ -12,6 +15,15 @@ class VoiceSelectionViewModel(
         selectedVoiceName = sharedPreferences.getSelectedVoiceName()
     )
 ) {
+
+    init {
+        // TTS initializes asynchronously — reload voices once it's ready
+        viewModelScope.launch {
+            VocableTextToSpeech.isReady
+                .filter { it }
+                .collect { refreshVoices() }
+        }
+    }
 
     fun onVoiceSelected(voiceName: String?) {
         sharedPreferences.setSelectedVoiceName(voiceName)

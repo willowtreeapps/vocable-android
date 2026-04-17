@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -38,8 +39,6 @@ import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
 
-private const val ITEMS_PER_PAGE = 5
-
 @Composable
 fun VoiceSelectionScreen(
     state: VoiceSelectionState,
@@ -61,23 +60,30 @@ fun VoiceSelectionScreen(
     }
 
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val itemsPerPage = if (isLandscape) 3 else 5
+    val padding = if (isLandscape) 16.dp else 24.dp
+    val closeButtonSize = if (isLandscape) 48.dp else 72.dp
+
     var pageIndex by remember { mutableIntStateOf(0) }
-    val totalPages = remember(state.voices) {
-        maxOf(1, ceil(state.voices.size.toFloat() / ITEMS_PER_PAGE).toInt())
+
+    LaunchedEffect(isLandscape) { pageIndex = 0 }
+
+    val totalPages = remember(state.voices, itemsPerPage) {
+        maxOf(1, ceil(state.voices.size.toFloat() / itemsPerPage).toInt())
     }
-    val currentPageItems = remember(state.voices, pageIndex) {
-        state.voices.chunked(ITEMS_PER_PAGE).getOrElse(pageIndex) { emptyList() }
+    val currentPageItems = remember(state.voices, pageIndex, itemsPerPage) {
+        state.voices.chunked(itemsPerPage).getOrElse(pageIndex) { emptyList() }
     }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(padding)
             .horizontalPageSwipe(
                 onSwipeLeft = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
                 onSwipeRight = { pageIndex = (pageIndex + 1) % totalPages }
             ),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(if (isLandscape) 8.dp else 16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -85,7 +91,7 @@ fun VoiceSelectionScreen(
         ) {
             GazeButton(
                 onClick = onBack,
-                modifier = Modifier.size(72.dp)
+                modifier = Modifier.size(closeButtonSize)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_close),
@@ -109,20 +115,21 @@ fun VoiceSelectionScreen(
         ) {
             Text(
                 text = stringResource(R.string.voice_default),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(if (isLandscape) 8.dp else 16.dp)
             )
         }
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(if (isLandscape) 6.dp else 12.dp)
         ) {
-            repeat(ITEMS_PER_PAGE) { i ->
+            repeat(itemsPerPage) { i ->
                 val voice = currentPageItems.getOrNull(i)
                 if (voice != null) {
                     VoiceOptionRow(
                         voice = voice,
                         isSelected = state.selectedVoiceName == voice.name,
+                        isLandscape = isLandscape,
                         onClick = {
                             if (voice.isDownloaded) {
                                 onVoiceSelected(voice.name)
@@ -130,10 +137,9 @@ fun VoiceSelectionScreen(
                                 onDownloadVoice()
                             }
                         },
-                        modifier = if (isLandscape) Modifier.fillMaxWidth()
-                                   else Modifier.weight(1f).fillMaxWidth()
+                        modifier = Modifier.weight(1f).fillMaxWidth()
                     )
-                } else if (!isLandscape) {
+                } else {
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
@@ -144,7 +150,8 @@ fun VoiceSelectionScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val pagingButtonSize = dimensionResource(id = R.dimen.phrases_paging_button_height)
+            val pagingButtonSize = if (isLandscape) 40.dp
+            else dimensionResource(id = R.dimen.phrases_paging_button_height)
 
             GazeButton(
                 onClick = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
@@ -180,6 +187,7 @@ fun VoiceSelectionScreen(
 private fun VoiceOptionRow(
     voice: VocableTextToSpeech.VoiceOption,
     isSelected: Boolean,
+    isLandscape: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -190,7 +198,7 @@ private fun VoiceOptionRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(if (isLandscape) 8.dp else 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(

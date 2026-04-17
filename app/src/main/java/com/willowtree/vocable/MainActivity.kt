@@ -86,7 +86,9 @@ class MainActivity : ScopeActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        VocableTextToSpeech.shutdown()
+        if (!isChangingConfigurations) {
+            VocableTextToSpeech.shutdown()
+        }
     }
 
     @Composable

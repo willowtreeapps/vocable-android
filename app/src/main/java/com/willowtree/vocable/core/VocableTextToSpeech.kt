@@ -30,10 +30,14 @@ object VocableTextToSpeech {
     private val _isSpeakingFlow = MutableStateFlow(false)
     val isSpeakingFlow: StateFlow<Boolean> = _isSpeakingFlow.asStateFlow()
 
+    private val _isReady = MutableStateFlow(false)
+    val isReady: StateFlow<Boolean> = _isReady.asStateFlow()
+
     fun initialize(context: Context) {
         if (textToSpeech == null) {
-            textToSpeech = TextToSpeech(context) {
-                Timber.d("VocableTextToSpeech initialized with status: $it")
+            textToSpeech = TextToSpeech(context) { status ->
+                Timber.d("VocableTextToSpeech initialized with status: $status")
+                _isReady.value = status == TextToSpeech.SUCCESS
             }.apply {
                 setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onDone(utteranceId: String?) {
@@ -65,6 +69,7 @@ object VocableTextToSpeech {
         textToSpeech = null
         lastSetLocale = null
         _isSpeakingFlow.value = false
+        _isReady.value = false
     }
 
     fun getAvailableVoices(locale: Locale = Locale.getDefault()): List<VoiceOption> {
