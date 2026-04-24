@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">ଆଗକୁ ବଢନ୍ତୁ</string>
     <string name="settings_dialog_cancel">ବାତିଲ୍ କରନ୍ତୁ</string>
     <string name="settings_voice">ଭଏସ୍\n%1$s</string>
+    <string name="settings_language">ଭାଷା\n%1$s</string>
     <string name="settings_edit_saying">ମୋର କହିବା</string>
     <string name="settings_edit_categories">ବର୍ଗ ଏବଂ ବାକ୍ୟାଂଶ</string>
     <string name="settings_selection_mode">ଚୟନ ମୋଡ୍</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">ଭଏସ୍ ଚୟନ ବନ୍ଦ କରନ୍ତୁ</string>
     <string name="selected">ଚୟନିତ</string>
     <string name="voice_download">ଭଏସ୍ ଡାଉନଲୋଡ୍ କରନ୍ତୁ</string>
+    <string name="language_selection_title">ଭାଷା</string>
+    <string name="language_system_default">ସିଷ୍ଟମ୍ ଡିଫଲ୍ଟ</string>
+    <string name="close_language_selection">ଭାଷା ଚୟନ ବନ୍ଦ କରନ୍ତୁ</string>
     <string name="button_pause">ପଜ୍ (Pause)</string>
     <string name="button_resume">ରିଜ୍ୟୁମ୍ (Resume)</string>
     <string name="error_move_closer">ଦୟାକରି ଡିଭାଇସ୍ ନିକଟକୁ ଆସନ୍ତୁ।</string>

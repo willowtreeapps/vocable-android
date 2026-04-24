@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">ဆက်လုပ်ရန်</string>
     <string name="settings_dialog_cancel">မလုပ်တော့ပါ</string>
     <string name="settings_voice">အသံ\n%1$s</string>
+    <string name="settings_language">ဘာသာစကား\n%1$s</string>
     <string name="settings_edit_saying">ကျွန်ုပ်၏စကားပုံများ</string>
     <string name="settings_edit_categories">အမျိုးအစားများနှင့် စကားစုများ</string>
     <string name="settings_selection_mode">ရွေးချယ်မှု ပုံစံ</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">အသံရွေးချယ်မှုကို ပိတ်ရန်</string>
     <string name="selected">ရွေးချယ်ပြီး</string>
     <string name="voice_download">အသံ ဒေါင်းလုဒ်လုပ်ရန်</string>
+    <string name="language_selection_title">ဘာသာစကား</string>
+    <string name="language_system_default">စနစ်၏ မူလအတိုင်း</string>
+    <string name="close_language_selection">ဘာသာစကားရွေးချယ်မှုကို ပိတ်ရန်</string>
     <string name="button_pause">ခေတ္တရပ်ရန်</string>
     <string name="button_resume">ပြန်စရန်</string>
     <string name="error_move_closer">စက်နှင့် နီးကပ်စွာ ထားပေးပါ။</string>

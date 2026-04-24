@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Lean ar aghaidh</string>
     <string name="settings_dialog_cancel">Cealaigh</string>
     <string name="settings_voice">Guth\n%1$s</string>
+    <string name="settings_language">Teanga
+%1$s</string>
     <string name="settings_edit_saying">Mo Ráite</string>
     <string name="settings_edit_categories">Catagóirí agus Nathanna</string>
     <string name="settings_selection_mode">Mód Roghnúcháin</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Dún Roghnú Guth</string>
     <string name="selected">Roghnaithe</string>
     <string name="voice_download">Íoslódáil guth</string>
+    <string name="language_selection_title">Teanga</string>
+    <string name="language_system_default">Réamhshocrú an Chórais</string>
+    <string name="close_language_selection">Dún Roghnú Teanga</string>
     <string name="button_pause">Sos</string>
     <string name="button_resume">Atosaigh</string>
     <string name="error_move_closer">Bog níos gaire don ghléas, le do thoil.</string>

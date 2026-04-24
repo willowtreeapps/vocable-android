@@ -23,6 +23,8 @@
     <string name="settings_dialog_cancel">বাতিল করুন</string>
     <string name="settings_voice">কণ্ঠস্বর
 %1$s</string>
+    <string name="settings_language">ভাষা
+%1$s</string>
     <string name="settings_edit_saying">আমার কথা</string>
     <string name="settings_edit_categories">বিভাগ এবং বাক্যাংশ</string>
     <string name="settings_selection_mode">নির্বাচন মোড</string>
@@ -33,6 +35,9 @@
     <string name="close_voice_selection">কণ্ঠস্বর নির্বাচন বন্ধ করুন</string>
     <string name="selected">নির্বাচিত</string>
     <string name="voice_download">কণ্ঠস্বর ডাউনলোড করুন</string>
+    <string name="language_selection_title">ভাষা</string>
+    <string name="language_system_default">সিস্টেম ডিফল্ট</string>
+    <string name="close_language_selection">ভাষার নির্বাচন বন্ধ করুন</string>
     <string name="button_pause">বিরতি</string>
     <string name="button_resume">পুনরায় শুরু</string>
     <string name="error_move_closer">অনুগ্রহ করে ডিভাইসের কাছাকাছি আসুন।</string>

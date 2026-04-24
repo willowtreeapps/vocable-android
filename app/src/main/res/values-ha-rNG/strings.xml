@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Ci gaba</string>
     <string name="settings_dialog_cancel">Soke</string>
     <string name="settings_voice">Muryar\n%1$s</string>
+    <string name="settings_language">Harshe\n%1$s</string>
     <string name="settings_edit_saying">Kalamaina</string>
     <string name="settings_edit_categories">Rukunoni da Jimloli</string>
     <string name="settings_selection_mode">Yanayin Zaɓi</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Rufe Zaɓin Muryar</string>
     <string name="selected">An zaɓa</string>
     <string name="voice_download">Zazzage murya</string>
+    <string name="language_selection_title">Harshe</string>
+    <string name="language_system_default">Tsoffin tsarin waya</string>
+    <string name="close_language_selection">Rufe zaɓin harshe</string>
     <string name="button_pause">Dakatar</string>
     <string name="button_resume">Ci gaba</string>
     <string name="error_move_closer">Da fatan za a matso kusa da na\'urar.</string>

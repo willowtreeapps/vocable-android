@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Dowam et</string>
     <string name="settings_dialog_cancel">Ýatyryň</string>
     <string name="settings_voice">Ses\n%1$s</string>
+    <string name="settings_language">Dil
+%1$s</string>
     <string name="settings_edit_saying">Meniň nakyllarym</string>
     <string name="settings_edit_categories">Kategoriýalar we söz düzümleri</string>
     <string name="settings_selection_mode">Saýlaw tertibi</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Ses saýlawyny ýapyň</string>
     <string name="selected">Saýlandy</string>
     <string name="voice_download">Sesi ýükläň</string>
+    <string name="language_selection_title">Dil</string>
+    <string name="language_system_default">Ulgam boýunça</string>
+    <string name="close_language_selection">Dil saýlamagy ýapmak</string>
     <string name="button_pause">Arakesme</string>
     <string name="button_resume">Dowam et</string>
     <string name="error_move_closer">Haýyş edýäris, enjama has ýakynlaşyň.</string>

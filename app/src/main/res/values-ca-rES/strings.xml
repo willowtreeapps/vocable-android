@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Continua</string>
     <string name="settings_dialog_cancel">Cancel·la</string>
     <string name="settings_voice">Veu\n%1$s</string>
+    <string name="settings_language">Idioma
+%1$s</string>
     <string name="settings_edit_saying">Les meves dites</string>
     <string name="settings_edit_categories">Categories i frases</string>
     <string name="settings_selection_mode">Mode de selecció</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Tanca la selecció de veu</string>
     <string name="selected">Seleccionat</string>
     <string name="voice_download">Descarrega la veu</string>
+    <string name="language_selection_title">Idioma</string>
+    <string name="language_system_default">Predeterminat del sistema</string>
+    <string name="close_language_selection">Tanca la selecció d\'idioma</string>
     <string name="button_pause">Pausa</string>
     <string name="button_resume">Reprèn</string>
     <string name="error_move_closer">Si us plau, apropa\'t al dispositiu.</string>

@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Fortsätt</string>
     <string name="settings_dialog_cancel">Avbryt</string>
     <string name="settings_voice">Röst\n%1$s</string>
+    <string name="settings_language">Språk\n%1$s</string>
     <string name="settings_edit_saying">Mina ordspråk</string>
     <string name="settings_edit_categories">Kategorier och fraser</string>
     <string name="settings_selection_mode">Val-läge</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Stäng röstval</string>
     <string name="selected">Vald</string>
     <string name="voice_download">Ladda ner röst</string>
+    <string name="language_selection_title">Språk</string>
+    <string name="language_system_default">Systemets förvalda</string>
+    <string name="close_language_selection">Stäng språkval</string>
     <string name="button_pause">Pausa</string>
     <string name="button_resume">Återuppta</string>
     <string name="error_move_closer">Vänligen flytta dig närmare enheten.</string>

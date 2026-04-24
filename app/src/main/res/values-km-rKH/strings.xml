@@ -27,6 +27,7 @@
     <string name="settings_dialog_cancel">បោះបង់</string>
     <string name="settings_voice">សំឡេង
 %1$s</string>
+    <string name="settings_language">ភាសា\n%1$s</string>
     <string name="settings_edit_saying">ពាក្យពេចន៍របស់ខ្ញុំ</string>
     <string name="settings_edit_categories">ប្រភេទ និងឃ្លា</string>
     <string name="settings_selection_mode">របៀបជ្រើសរើស</string>
@@ -37,6 +38,9 @@
     <string name="close_voice_selection">បិទការជ្រើសរើសសំឡេង</string>
     <string name="selected">បានជ្រើសរើស</string>
     <string name="voice_download">ទាញយកសំឡេង</string>
+    <string name="language_selection_title">ភាសា</string>
+    <string name="language_system_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>
+    <string name="close_language_selection">បិទការជ្រើសរើសភាសា</string>
     <string name="button_pause">ផ្អាក</string>
     <string name="button_resume">បន្ត</string>
     <string name="error_move_closer">សូមរំកិលចូលទៅជិតឧបករណ៍។</string>

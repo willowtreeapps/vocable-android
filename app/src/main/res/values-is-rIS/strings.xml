@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Halda áfram</string>
     <string name="settings_dialog_cancel">Hætta við</string>
     <string name="settings_voice">Rödd\n%1$s</string>
+    <string name="settings_language">Tungumál
+%1$s</string>
     <string name="settings_edit_saying">Mínir málshættir</string>
     <string name="settings_edit_categories">Flokkar og setningar</string>
     <string name="settings_selection_mode">Valstilling</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Loka raddvali</string>
     <string name="selected">Valið</string>
     <string name="voice_download">Sækja rödd</string>
+    <string name="language_selection_title">Tungumál</string>
+    <string name="language_system_default">Sjálfgefið kerfistungumál</string>
+    <string name="close_language_selection">Loka tungumálastillingu</string>
     <string name="button_pause">Gera hlé</string>
     <string name="button_resume">Halda áfram</string>
     <string name="error_move_closer">Vinsamlegast færðu þig nær tækinu.</string>

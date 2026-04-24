@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Qhubeka</string>
     <string name="settings_dialog_cancel">Khansela</string>
     <string name="settings_voice">Izwi\n%1$s</string>
+    <string name="settings_language">Ulimi\n%1$s</string>
     <string name="settings_edit_saying">Izisho zami</string>
     <string name="settings_edit_categories">Izigaba Nemisho</string>
     <string name="settings_selection_mode">Imodi Yokukhetha</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Vala Ukukhetha Izwi</string>
     <string name="selected">Okukhethiwe</string>
     <string name="voice_download">Landa izwi</string>
+    <string name="language_selection_title">Ulimi</string>
+    <string name="language_system_default">Okuzenzakalelayo kohlelo</string>
+    <string name="close_language_selection">Vala ukukhethwa kolimi</string>
     <string name="button_pause">Misa isikhashana</string>
     <string name="button_resume">Qhubeka</string>
     <string name="error_move_closer">Sicela usondele kakhulu ocingweni.</string>

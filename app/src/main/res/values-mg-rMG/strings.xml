@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Hanohy</string>
     <string name="settings_dialog_cancel">Hanafoana</string>
     <string name="settings_voice">Feo\n%1$s</string>
+    <string name="settings_language">Fiteny
+%1$s</string>
     <string name="settings_edit_saying">Ireo teny nolazaiko</string>
     <string name="settings_edit_categories">Sokajy sy fehezanteny</string>
     <string name="settings_selection_mode">Fomba fifidianana</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Hanakatonana ny fisafidianana feo</string>
     <string name="selected">Voafidy</string>
     <string name="voice_download">Misintona feo</string>
+    <string name="language_selection_title">Fiteny</string>
+    <string name="language_system_default">Fikirana avy amin\'ny rafitra</string>
+    <string name="close_language_selection">Hidio ny fisafidianana fiteny</string>
     <string name="button_pause">Ajanona vetivety</string>
     <string name="button_resume">Hanohy</string>
     <string name="error_move_closer">Mba manatona akaiky kokoa ny fitaovana.</string>

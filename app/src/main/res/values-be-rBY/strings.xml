@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Працягнуць</string>
     <string name="settings_dialog_cancel">Скасаваць</string>
     <string name="settings_voice">Голас\n%1$s</string>
+    <string name="settings_language">Мова
+%1$s</string>
     <string name="settings_edit_saying">Мае выказванні</string>
     <string name="settings_edit_categories">Катэгорыі і фразы</string>
     <string name="settings_selection_mode">Рэжым выбару</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Закрыць выбар голасу</string>
     <string name="selected">Абрана</string>
     <string name="voice_download">Спампаваць голас</string>
+    <string name="language_selection_title">Мова</string>
+    <string name="language_system_default">Па змаўчанні</string>
+    <string name="close_language_selection">Закрыць выбар мовы</string>
     <string name="button_pause">Паўза</string>
     <string name="button_resume">Аднавіць</string>
     <string name="error_move_closer">Калі ласка, падыдзіце бліжэй да прылады.</string>

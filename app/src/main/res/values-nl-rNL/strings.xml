@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Doorgaan</string>
     <string name="settings_dialog_cancel">Annuleren</string>
     <string name="settings_voice">Stem\n%1$s</string>
+    <string name="settings_language">Taal
+%1$s</string>
     <string name="settings_edit_saying">Mijn gezegdes</string>
     <string name="settings_edit_categories">Categorieën en zinnen</string>
     <string name="settings_selection_mode">Selectiemodus</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Sluit stemselectie</string>
     <string name="selected">Geselecteerd</string>
     <string name="voice_download">Stem downloaden</string>
+    <string name="language_selection_title">Taal</string>
+    <string name="language_system_default">Systeemstandaard</string>
+    <string name="close_language_selection">Taalkeuze sluiten</string>
     <string name="button_pause">Pauzeren</string>
     <string name="button_resume">Hervatten</string>
     <string name="error_move_closer">Beweeg dichter naar het apparaat.</string>

@@ -17,6 +17,8 @@
     <string name="settings_dialog_cancel">取消</string>
     <string name="settings_voice">语音
 %1$s</string>
+    <string name="settings_language">语言
+%1$s</string>
     <string name="settings_edit_saying">我的格言</string>
     <string name="settings_edit_categories">类别和词组</string>
     <string name="settings_selection_mode">移动对象模式</string>
@@ -27,6 +29,9 @@
     <string name="close_voice_selection">关闭语音选择</string>
     <string name="selected">已选择</string>
     <string name="voice_download">下载语音</string>
+    <string name="language_selection_title">语言</string>
+    <string name="language_system_default">系统默认</string>
+    <string name="close_language_selection">关闭语言选择</string>
     <string name="button_pause">暂停</string>
     <string name="button_resume">继续</string>
     <string name="error_move_closer">请靠近设备</string>

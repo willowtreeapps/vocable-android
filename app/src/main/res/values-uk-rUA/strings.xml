@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Продовжити</string>
     <string name="settings_dialog_cancel">Скасувати</string>
     <string name="settings_voice">Голос\n%1$s</string>
+    <string name="settings_language">Мова
+%1$s</string>
     <string name="settings_edit_saying">Мої вислови</string>
     <string name="settings_edit_categories">Категорії та фрази</string>
     <string name="settings_selection_mode">Режим вибору</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Закрити вибір голосу</string>
     <string name="selected">Вибрано</string>
     <string name="voice_download">Завантажити голос</string>
+    <string name="language_selection_title">Мова</string>
+    <string name="language_system_default">Як у системі</string>
+    <string name="close_language_selection">Закрити вибір мови</string>
     <string name="button_pause">Пауза</string>
     <string name="button_resume">Продовжити</string>
     <string name="error_move_closer">Будь ласка, підійдіть ближче до пристрою.</string>

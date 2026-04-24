@@ -22,6 +22,7 @@
     <string name="settings_dialog_continue">ቀጥል</string>
     <string name="settings_dialog_cancel">ሰርዝ</string>
     <string name="settings_voice">ድምፅ\n%1$s</string>
+    <string name="settings_language">ቋንቋ\n%1$s</string>
     <string name="settings_edit_saying">አባባሎቼ</string>
     <string name="settings_edit_categories">ምድቦች እና ሐረጎች</string>
     <string name="settings_selection_mode">የምርጫ ሁኔታ</string>
@@ -32,6 +33,9 @@
     <string name="close_voice_selection">የድምፅ ምርጫን ዝጋ</string>
     <string name="selected">ተመርጧል</string>
     <string name="voice_download">ድምፅ አውርድ</string>
+    <string name="language_selection_title">ቋንቋ</string>
+    <string name="language_system_default">የስርዓት ነባሪ</string>
+    <string name="close_language_selection">የቋንቋ ምርጫን ዝጋ</string>
     <string name="button_pause">ለአፍታ አቁም</string>
     <string name="button_resume">ቀጥል</string>
     <string name="error_move_closer">እባክዎ ወደ መሣሪያው ይቅረቡ።</string>

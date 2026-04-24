@@ -21,6 +21,8 @@ Entra nella tastiera, digita qualcosa
     <string name="settings_dialog_continue">"Continua"</string>
     <string name="settings_dialog_cancel">"Annulla"</string>
     <string name="settings_voice">"Voce%1$s"</string>
+    <string name="settings_language">Lingua
+%1$s</string>
     <string name="settings_edit_saying">I miei detti</string>
     <string name="settings_edit_categories">"Categorie e frasi"</string>
     <string name="settings_selection_mode">"Modalità selezione"</string>
@@ -31,6 +33,9 @@ Entra nella tastiera, digita qualcosa
     <string name="close_voice_selection">"Selezione vocale chiusa"</string>
     <string name="selected">"Selezionato"</string>
     <string name="voice_download">"Scarica la voce"</string>
+    <string name="language_selection_title">Lingua</string>
+    <string name="language_system_default">Predefinita di sistema</string>
+    <string name="close_language_selection">Chiudi selezione lingua</string>
     <string name="button_pause">"Pausa"</string>
     <string name="button_resume">"Riprendi"</string>
     <string name="error_move_closer">"Avvicinati al dispositivo per favore."</string>

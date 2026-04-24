@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Qhubeka</string>
     <string name="settings_dialog_cancel">Rhoxisa</string>
     <string name="settings_voice">Ilizwi\n%1$s</string>
+    <string name="settings_language">Ulwimi
+%1$s</string>
     <string name="settings_edit_saying">Amazwi am</string>
     <string name="settings_edit_categories">Iindidi kunye neziBivakalisi</string>
     <string name="settings_selection_mode">Indlela yokukhetha</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Vala uKhetho lweLizwi</string>
     <string name="selected">Ikhethiwe</string>
     <string name="voice_download">Khuphela ilizwi</string>
+    <string name="language_selection_title">Ulwimi</string>
+    <string name="language_system_default">Okungagqibekanga kwinkqubo</string>
+    <string name="close_language_selection">Vala ukhetho lolwimi</string>
     <string name="button_pause">Yimisa okwethutyana</string>
     <string name="button_resume">Qhubeka</string>
     <string name="error_move_closer">Nceda usondele kufutshane nesixhobo.</string>

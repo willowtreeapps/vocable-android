@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Tẹ̀ síwájú</string>
     <string name="settings_dialog_cancel">Fagilé</string>
     <string name="settings_voice">Ohùn\n%1$s</string>
+    <string name="settings_language">Èdè\n%1$s</string>
     <string name="settings_edit_saying">Àwọn Ọ̀rọ̀ Mi</string>
     <string name="settings_edit_categories">Àwọn Ẹ̀ka àti Gbólóhùn</string>
     <string name="settings_selection_mode">Ọ̀nà Ìyànnànkàn</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Pa Ìyànnànkàn Ohùn Mọ́</string>
     <string name="selected">A ti yan</string>
     <string name="voice_download">Ṣe àgbékalẹ̀ ohùn</string>
+    <string name="language_selection_title">Èdè</string>
+    <string name="language_system_default">Aìyàn Àtòjọ Ètò</string>
+    <string name="close_language_selection">Pa Yíyàn Èdè Rẹ́</string>
     <string name="button_pause">Dúró díẹ̀</string>
     <string name="button_resume">Tẹ̀ síwájú</string>
     <string name="error_move_closer">Jọ̀wọ́ súnmọ́ ohun èlò náà síi.</string>

@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Kompli</string>
     <string name="settings_dialog_cancel">Ikkanċella</string>
     <string name="settings_voice">Vuċi\n%1$s</string>
+    <string name="settings_language">Lingwa
+%1$s</string>
     <string name="settings_edit_saying">Il-Qawl Tiegħi</string>
     <string name="settings_edit_categories">Kategoriji u Frażijiet</string>
     <string name="settings_selection_mode">Modalità ta\' Għażla</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Agħlaq l-Għażla tal-Vuċi</string>
     <string name="selected">Magħżul</string>
     <string name="voice_download">Niżżel il-vuċi</string>
+    <string name="language_selection_title">Lingwa</string>
+    <string name="language_system_default">Default tas-Sistema</string>
+    <string name="close_language_selection">Agħlaq l-Għażla tal-Lingwa</string>
     <string name="button_pause">Waqqaf</string>
     <string name="button_resume">Kompli</string>
     <string name="error_move_closer">Jekk jogħġbok resaq eqreb lejn l-apparat.</string>

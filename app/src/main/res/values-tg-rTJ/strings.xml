@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Идома додан</string>
     <string name="settings_dialog_cancel">Бекор кардан</string>
     <string name="settings_voice">Овоз\n%1$s</string>
+    <string name="settings_language">Забон
+%1$s</string>
     <string name="settings_edit_saying">Гуфтаҳои ман</string>
     <string name="settings_edit_categories">Категорияҳо ва ибораҳо</string>
     <string name="settings_selection_mode">Реҷаи интихоб</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Пӯшидани интихоби овоз</string>
     <string name="selected">Интихобшуда</string>
     <string name="voice_download">Боргирии овоз</string>
+    <string name="language_selection_title">Забон</string>
+    <string name="language_system_default">Пешфарзи низом</string>
+    <string name="close_language_selection">Пӯшидани интихоби забон</string>
     <string name="button_pause">Таваққуф</string>
     <string name="button_resume">Идома</string>
     <string name="error_move_closer">Лутфан, ба дастгоҳ наздиктар шавед.</string>

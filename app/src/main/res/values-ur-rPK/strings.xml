@@ -25,6 +25,8 @@
     <string name="settings_dialog_cancel">منسوخ کریں</string>
     <string name="settings_voice">آواز
 %1$s</string>
+    <string name="settings_language">زبان
+%1$s</string>
     <string name="settings_edit_saying">میری اقوال</string>
     <string name="settings_edit_categories">زمرے اور جملے</string>
     <string name="settings_selection_mode">انتخاب کا موڈ</string>
@@ -35,6 +37,9 @@
     <string name="close_voice_selection">آواز کا انتخاب بند کریں</string>
     <string name="selected">منتخب شدہ</string>
     <string name="voice_download">آواز ڈاؤن لوڈ کریں</string>
+    <string name="language_selection_title">زبان</string>
+    <string name="language_system_default">سسٹم ڈیفالٹ</string>
+    <string name="close_language_selection">زبان کے انتخاب کو بند کریں</string>
     <string name="button_pause">توقف</string>
     <string name="button_resume">دوبارہ شروع کریں</string>
     <string name="error_move_closer">براہ کرم ڈیوائس کے قریب جائیں۔</string>

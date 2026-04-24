@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Komeza</string>
     <string name="settings_dialog_cancel">Hagarika</string>
     <string name="settings_voice">Ijwi\n%1$s</string>
+    <string name="settings_language">Ururimi\n%1$s</string>
     <string name="settings_edit_saying">Imvugo zanjye</string>
     <string name="settings_edit_categories">Ibyiciro n\'Interuro</string>
     <string name="settings_selection_mode">Uburyo bwo Guhitamo</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Funga Gutoranya Ijwi</string>
     <string name="selected">Byahiswemo</string>
     <string name="voice_download">Kuramo ijwi</string>
+    <string name="language_selection_title">Ururimi</string>
+    <string name="language_system_default">Igenamiterere ya sisitemu</string>
+    <string name="close_language_selection">Funga guhitamo ururimi</string>
     <string name="button_pause">Hagarika gacye</string>
     <string name="button_resume">Ongera utangire</string>
     <string name="error_move_closer">Nyamuneka wegere hafi y\'ikoresho.</string>

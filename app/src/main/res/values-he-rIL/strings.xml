@@ -27,6 +27,8 @@
     <string name="settings_dialog_cancel">בטל</string>
     <string name="settings_voice">קול
 %1$s</string>
+    <string name="settings_language">שפה
+%1$s</string>
     <string name="settings_edit_saying">האמירות שלי</string>
     <string name="settings_edit_categories">קטגוריות וביטויים</string>
     <string name="settings_selection_mode">מצב בחירה</string>
@@ -37,6 +39,9 @@
     <string name="close_voice_selection">סגור בחירת קול</string>
     <string name="selected">נבחר</string>
     <string name="voice_download">הורד קול</string>
+    <string name="language_selection_title">שפה</string>
+    <string name="language_system_default">ברירת מחדל של המערכת</string>
+    <string name="close_language_selection">סגירת בחירת שפה</string>
     <string name="button_pause">השהה</string>
     <string name="button_resume">המשך</string>
     <string name="error_move_closer">אנא התקרב למכשיר.</string>

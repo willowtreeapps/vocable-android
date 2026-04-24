@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Үргэлжлүүлэх</string>
     <string name="settings_dialog_cancel">Цуцлах</string>
     <string name="settings_voice">Дуу хоолой\n%1$s</string>
+    <string name="settings_language">Хэл\n%1$s</string>
     <string name="settings_edit_saying">Миний хэллэгүүд</string>
     <string name="settings_edit_categories">Ангилал ба хэллэгүүд</string>
     <string name="settings_selection_mode">Сонгох горим</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Дуу хоолой сонгох цонхыг хаах</string>
     <string name="selected">Сонгогдсон</string>
     <string name="voice_download">Дуу хоолой татах</string>
+    <string name="language_selection_title">Хэл</string>
+    <string name="language_system_default">Системийн үндсэн</string>
+    <string name="close_language_selection">Хэлний сонголтыг хаах</string>
     <string name="button_pause">Түр зогсоох</string>
     <string name="button_resume">Үргэлжлүүлэх</string>
     <string name="error_move_closer">Төхөөрөмжтэй ойрхон зогсоно уу.</string>

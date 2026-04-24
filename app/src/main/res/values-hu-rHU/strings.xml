@@ -21,6 +21,8 @@ Navigálj a billentyűzetre, írj be valamit, majd válaszd a "☆" ikont a ment
     <string name="settings_dialog_cancel">Mégse</string>
     <string name="settings_voice">Hang
 %1$s</string>
+    <string name="settings_language">Nyelv
+%1$s</string>
     <string name="settings_edit_saying">Saját mondások</string>
     <string name="settings_edit_categories">Kategóriák és kifejezések</string>
     <string name="settings_selection_mode">Kiválasztási mód</string>
@@ -31,6 +33,9 @@ Navigálj a billentyűzetre, írj be valamit, majd válaszd a "☆" ikont a ment
     <string name="close_voice_selection">Hang kiválasztásának bezárása</string>
     <string name="selected">Kiválasztva</string>
     <string name="voice_download">Hang letöltése</string>
+    <string name="language_selection_title">Nyelv</string>
+    <string name="language_system_default">Rendszer alapértelmezett</string>
+    <string name="close_language_selection">Nyelvválasztó bezárása</string>
     <string name="button_pause">Szünet</string>
     <string name="button_resume">Folytatás</string>
     <string name="error_move_closer">Kérlek, menj közelebb az eszközhöz.</string>

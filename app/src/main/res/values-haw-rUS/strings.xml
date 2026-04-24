@@ -27,6 +27,7 @@ a laila e koho i ka "☆" e mālama iā ia ma ʻaneʻi.</string>
     <string name="settings_dialog_cancel">Hoʻopau</string>
     <string name="settings_voice">Leo
 %1$s</string>
+    <string name="settings_language">ʻŌlelo\n%1$s</string>
     <string name="settings_edit_saying">Kaʻu mau ʻōlelo noʻeau</string>
     <string name="settings_edit_categories">Nā Māhele a me nā ʻŌlelo</string>
     <string name="settings_selection_mode">ʻAno Koho</string>
@@ -37,6 +38,9 @@ a laila e koho i ka "☆" e mālama iā ia ma ʻaneʻi.</string>
     <string name="close_voice_selection">Pani i ke Koho Leo</string>
     <string name="selected">Ua Koho ʻia</string>
     <string name="voice_download">Hoʻoiho i ka leo</string>
+    <string name="language_selection_title">ʻŌlelo</string>
+    <string name="language_system_default">Paʻamau ʻŌnaehana</string>
+    <string name="close_language_selection">Pani i ka Koho ʻŌlelo</string>
     <string name="button_pause">Hoʻomaha</string>
     <string name="button_resume">Hoʻomau</string>
     <string name="error_move_closer">E ʻoluʻolu e hoʻokokoke i ka mea paʻahana.</string>

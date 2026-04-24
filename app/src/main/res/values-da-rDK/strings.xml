@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">"Forsæt"</string>
     <string name="settings_dialog_cancel">"Annuller"</string>
     <string name="settings_voice">"Stemme%1$s"</string>
+    <string name="settings_language">Sprog
+%1$s</string>
     <string name="settings_edit_saying">Mine ordsprog</string>
     <string name="settings_edit_categories">"Kategorier og sætning"</string>
     <string name="settings_selection_mode">"Markeringstilstand"</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">"Luk stemmevalg"</string>
     <string name="selected">"Valgt"</string>
     <string name="voice_download">"Download stemme"</string>
+    <string name="language_selection_title">Sprog</string>
+    <string name="language_system_default">Systemstandard</string>
+    <string name="close_language_selection">Luk sprogvalg</string>
     <string name="button_pause">"Pause"</string>
     <string name="button_resume">"Genoptag"</string>
     <string name="error_move_closer">"Kom nærmere din mobilenhed."</string>

@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Davom etish</string>
     <string name="settings_dialog_cancel">Bekor qilish</string>
     <string name="settings_voice">Ovoz\n%1$s</string>
+    <string name="settings_language">Til
+%1$s</string>
     <string name="settings_edit_saying">Hikoyalarim</string>
     <string name="settings_edit_categories">Kategoriyalar va iboralar</string>
     <string name="settings_selection_mode">Tanlash rejimi</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Ovoz tanlashni yopish</string>
     <string name="selected">Tanlandi</string>
     <string name="voice_download">Ovozni yuklab olish</string>
+    <string name="language_selection_title">Til</string>
+    <string name="language_system_default">Tizim bo\'yicha standart</string>
+    <string name="close_language_selection">Til tanlashni yopish</string>
     <string name="button_pause">Pauza</string>
     <string name="button_resume">Davom ettirish</string>
     <string name="error_move_closer">Iltimos, qurilmaga yaqinroq harakatlaning.</string>

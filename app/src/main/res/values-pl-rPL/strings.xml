@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Kontynuuj</string>
     <string name="settings_dialog_cancel">Anuluj</string>
     <string name="settings_voice">Głos\n%1$s</string>
+    <string name="settings_language">Język
+%1$s</string>
     <string name="settings_edit_saying">Moje powiedzenia</string>
     <string name="settings_edit_categories">Kategorie i frazy</string>
     <string name="settings_selection_mode">Tryb wyboru</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Zamknij wybór głosu</string>
     <string name="selected">Wybrano</string>
     <string name="voice_download">Pobierz głos</string>
+    <string name="language_selection_title">Język</string>
+    <string name="language_system_default">Domyślny systemowy</string>
+    <string name="close_language_selection">Zamknij wybór języka</string>
     <string name="button_pause">Wstrzymaj</string>
     <string name="button_resume">Wznów</string>
     <string name="error_move_closer">Proszę, przysuń się bliżej urządzenia.</string>

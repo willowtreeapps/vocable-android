@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">ສືບຕໍ່</string>
     <string name="settings_dialog_cancel">ຍົກເລີກ</string>
     <string name="settings_voice">ສຽງ\n%1$s</string>
+    <string name="settings_language">ພາສາ
+%1$s</string>
     <string name="settings_edit_saying">ຄຳຄົມຂອງຂ້ອຍ</string>
     <string name="settings_edit_categories">ໝວດໝູ່ ແລະ ວະລີ</string>
     <string name="settings_selection_mode">ໂໝດການເລືອກ</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">ປິດການເລືອກສຽງ</string>
     <string name="selected">ເລືອກແລ້ວ</string>
     <string name="voice_download">ດາວໂຫຼດສຽງ</string>
+    <string name="language_selection_title">ພາສາ</string>
+    <string name="language_system_default">ຄ່າເລີ່ມຕົ້ນຂອງລະບົບ</string>
+    <string name="close_language_selection">ປິດການເລືອກພາສາ</string>
     <string name="button_pause">ຢຸດຊົ່ວຄາວ</string>
     <string name="button_resume">ຫຼິ້ນຕໍ່</string>
     <string name="error_move_closer">ກະລຸນາຂຍັບເຂົ້າໃກ້ອຸປະກອນຕື່ມອີກ.</string>

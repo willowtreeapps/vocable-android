@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Devam Et</string>
     <string name="settings_dialog_cancel">İptal</string>
     <string name="settings_voice">Ses\n%1$s</string>
+    <string name="settings_language">Dil\n%1$s</string>
     <string name="settings_edit_saying">Sözlerim</string>
     <string name="settings_edit_categories">Kategoriler ve İfadeler</string>
     <string name="settings_selection_mode">Seçim Modu</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Ses Seçimini Kapat</string>
     <string name="selected">Seçili</string>
     <string name="voice_download">Sesi indir</string>
+    <string name="language_selection_title">Dil</string>
+    <string name="language_system_default">Sistem Varsayılanı</string>
+    <string name="close_language_selection">Dil Seçimini Kapat</string>
     <string name="button_pause">Duraklat</string>
     <string name="button_resume">Devam Et</string>
     <string name="error_move_closer">Lütfen cihaza biraz daha yaklaşın.</string>

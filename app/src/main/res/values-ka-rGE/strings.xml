@@ -20,6 +20,7 @@
     <string name="settings_dialog_continue">გაგრძელება</string>
     <string name="settings_dialog_cancel">გაუქმება</string>
     <string name="settings_voice">ხმა\n%1$s</string>
+    <string name="settings_language">ენა\n%1$s</string>
     <string name="settings_edit_saying">ჩემი გამონათქვამები</string>
     <string name="settings_edit_categories">კატეგორიები და ფრაზები</string>
     <string name="settings_selection_mode">არჩევის რეჟიმი</string>
@@ -30,6 +31,9 @@
     <string name="close_voice_selection">ხმის არჩევის დახურვა</string>
     <string name="selected">არჩეულია</string>
     <string name="voice_download">ხმის ჩამოტვირთვა</string>
+    <string name="language_selection_title">ენა</string>
+    <string name="language_system_default">სისტემური ნაგულისხმევი</string>
+    <string name="close_language_selection">ენის შერჩევის დახურვა</string>
     <string name="button_pause">პაუზა</string>
     <string name="button_resume">გაგრძელება</string>
     <string name="error_move_closer">გთხოვთ, მიუახლოვდით მოწყობილობას.</string>

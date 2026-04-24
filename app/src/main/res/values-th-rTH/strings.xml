@@ -23,6 +23,8 @@
     <string name="settings_dialog_cancel">ยกเลิก</string>
     <string name="settings_voice">เสียง
 %1$s</string>
+    <string name="settings_language">ภาษา
+%1$s</string>
     <string name="settings_edit_saying">คำพูดของฉัน</string>
     <string name="settings_edit_categories">หมวดหมู่และวลี</string>
     <string name="settings_selection_mode">โหมดการเลือก</string>
@@ -33,6 +35,9 @@
     <string name="close_voice_selection">ปิดการเลือกเสียง</string>
     <string name="selected">เลือกแล้ว</string>
     <string name="voice_download">ดาวน์โหลดเสียง</string>
+    <string name="language_selection_title">ภาษา</string>
+    <string name="language_system_default">ค่าเริ่มต้นของระบบ</string>
+    <string name="close_language_selection">ปิดการเลือกภาษา</string>
     <string name="button_pause">หยุดชั่วคราว</string>
     <string name="button_resume">เล่นต่อ</string>
     <string name="error_move_closer">โปรดขยับเข้าใกล้อุปกรณ์มากขึ้น</string>

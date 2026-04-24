@@ -20,6 +20,8 @@
     <string name="settings_dialog_continue">دوام ورکړئ</string>
     <string name="settings_dialog_cancel">لغوه کول</string>
     <string name="settings_voice">غږ\n%1$s</string>
+    <string name="settings_language">ژبه
+%1$s</string>
     <string name="settings_edit_saying">زما ویناوې</string>
     <string name="settings_edit_categories">کټګورۍ او جملې</string>
     <string name="settings_selection_mode">د انتخاب حالت</string>
@@ -30,6 +32,9 @@
     <string name="close_voice_selection">د غږ انتخاب بند کړئ</string>
     <string name="selected">غوره شوی</string>
     <string name="voice_download">غږ ډاونلوډ کړئ</string>
+    <string name="language_selection_title">ژبه</string>
+    <string name="language_system_default">د سیسټم ډیفالټ</string>
+    <string name="close_language_selection">د ژبې انتخاب بند کړئ</string>
     <string name="button_pause">ځنډول (Pause)</string>
     <string name="button_resume">بیا پیلول (Resume)</string>
     <string name="error_move_closer">مهرباني وکړئ وسیلې ته نږدې شئ.</string>

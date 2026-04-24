@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Продолжи</string>
     <string name="settings_dialog_cancel">Откажи</string>
     <string name="settings_voice">Глас\n%1$s</string>
+    <string name="settings_language">Јазик\n%1$s</string>
     <string name="settings_edit_saying">Мои изреки</string>
     <string name="settings_edit_categories">Категории и фрази</string>
     <string name="settings_selection_mode">Режим на избор</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Затвори го изборот на глас</string>
     <string name="selected">Избрано</string>
     <string name="voice_download">Преземи глас</string>
+    <string name="language_selection_title">Јазик</string>
+    <string name="language_system_default">Стандардно за системот</string>
+    <string name="close_language_selection">Затвори го изборот на јазик</string>
     <string name="button_pause">Пауза</string>
     <string name="button_resume">Продолжи</string>
     <string name="error_move_closer">Ве молиме доближете се до уредот.</string>

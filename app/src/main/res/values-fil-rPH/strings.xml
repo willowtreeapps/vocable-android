@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Magpatuloy</string>
     <string name="settings_dialog_cancel">Kanselahin</string>
     <string name="settings_voice">Boses\n%1$s</string>
+    <string name="settings_language">Wika
+%1$s</string>
     <string name="settings_edit_saying">Aking mga Kasabihan</string>
     <string name="settings_edit_categories">Mga Kategorya at Parirala</string>
     <string name="settings_selection_mode">Mode ng Pagpili</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Isara ang Pagpili ng Boses</string>
     <string name="selected">Napili</string>
     <string name="voice_download">I-download ang boses</string>
+    <string name="language_selection_title">Wika</string>
+    <string name="language_system_default">Default ng System</string>
+    <string name="close_language_selection">Isara ang Pagpili ng Wika</string>
     <string name="button_pause">I-pause</string>
     <string name="button_resume">Ipagpatuloy</string>
     <string name="error_move_closer">Mangyaring lumapit sa device.</string>

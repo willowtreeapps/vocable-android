@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Nastavi</string>
     <string name="settings_dialog_cancel">Otkaži</string>
     <string name="settings_voice">Glas\n%1$s</string>
+    <string name="settings_language">Jezik
+%1$s</string>
     <string name="settings_edit_saying">Moje izreke</string>
     <string name="settings_edit_categories">Kategorije i fraze</string>
     <string name="settings_selection_mode">Režim izbora</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Zatvori izbor glasa</string>
     <string name="selected">Izabrano</string>
     <string name="voice_download">Preuzmi glas</string>
+    <string name="language_selection_title">Jezik</string>
+    <string name="language_system_default">Podrazumevano sistemski</string>
+    <string name="close_language_selection">Zatvori izbor jezika</string>
     <string name="button_pause">Pauziraj</string>
     <string name="button_resume">Nastavi</string>
     <string name="error_move_closer">Molimo vas, približite se uređaju.</string>

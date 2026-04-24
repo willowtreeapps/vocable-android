@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Улантуу</string>
     <string name="settings_dialog_cancel">Жокко чыгаруу</string>
     <string name="settings_voice">Үн\n%1$s</string>
+    <string name="settings_language">Тил
+%1$s</string>
     <string name="settings_edit_saying">Менин накыл сөздөрүм</string>
     <string name="settings_edit_categories">Категориялар жана фразалар</string>
     <string name="settings_selection_mode">Тандоо режими</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Үн тандоону жабуу</string>
     <string name="selected">Тандалды</string>
     <string name="voice_download">Үндү жүктөп алуу</string>
+    <string name="language_selection_title">Тил</string>
+    <string name="language_system_default">Система боюнча демейки</string>
+    <string name="close_language_selection">Тил тандоону жабуу</string>
     <string name="button_pause">Тыныгуу</string>
     <string name="button_resume">Улантуу</string>
     <string name="error_move_closer">Сураныч, аппаратка жакыныраак болуңуз.</string>

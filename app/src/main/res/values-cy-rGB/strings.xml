@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Parhau</string>
     <string name="settings_dialog_cancel">Canslo</string>
     <string name="settings_voice">Llais\n%1$s</string>
+    <string name="settings_language">Iaith\n%1$s</string>
     <string name="settings_edit_saying">Fy Nywediadau</string>
     <string name="settings_edit_categories">Categorïau ac Ymadroddion</string>
     <string name="settings_selection_mode">Modd Dewis</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Cau Dewis Llais</string>
     <string name="selected">Wedi\'i ddewis</string>
     <string name="voice_download">Lawrlwytho llais</string>
+    <string name="language_selection_title">Iaith</string>
+    <string name="language_system_default">Rhagosodiad y System</string>
+    <string name="close_language_selection">Cau\'r Detholiad Iaith</string>
     <string name="button_pause">Oedi</string>
     <string name="button_resume">Ailddechrau</string>
     <string name="error_move_closer">Symudwch yn agosach at y ddyfais.</string>

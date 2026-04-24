@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">ಮುಂದುವರಿಸಿ</string>
     <string name="settings_dialog_cancel">ರದ್ದುಗೊಳಿಸಿ</string>
     <string name="settings_voice">ಧ್ವನಿ\n%1$s</string>
+    <string name="settings_language">ಭಾಷೆ
+%1$s</string>
     <string name="settings_edit_saying">ನನ್ನ ನುಡಿಮುತ್ತುಗಳು</string>
     <string name="settings_edit_categories">ವರ್ಗಗಳು ಮತ್ತು ನುಡಿಗಟ್ಟುಗಳು</string>
     <string name="settings_selection_mode">ಆಯ್ಕೆ ಮೋಡ್</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">ಧ್ವನಿ ಆಯ್ಕೆಯನ್ನು ಮುಚ್ಚಿ</string>
     <string name="selected">ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ</string>
     <string name="voice_download">ಧ್ವನಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="language_selection_title">ಭಾಷೆ</string>
+    <string name="language_system_default">ಸಿಸ್ಟಮ್ ಡೀಫಾಲ್ಟ್</string>
+    <string name="close_language_selection">ಭಾಷೆಯ ಆಯ್ಕೆಯನ್ನು ಮುಚ್ಚಿ</string>
     <string name="button_pause">ವಿರಾಮ</string>
     <string name="button_resume">ಮುಂದುವರಿಸಿ</string>
     <string name="error_move_closer">ದಯವಿಟ್ಟು ಸಾಧನಕ್ಕೆ ಹತ್ತಿರಕ್ಕೆ ಬನ್ನಿ.</string>

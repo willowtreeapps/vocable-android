@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Gaa n\'ihu</string>
     <string name="settings_dialog_cancel">Kagbuo</string>
     <string name="settings_voice">Olu\n%1$s</string>
+    <string name="settings_language">Asụsụ\n%1$s</string>
     <string name="settings_edit_saying">Ihe M Kwuru</string>
     <string name="settings_edit_categories">Udi na Ahịrịokwu</string>
     <string name="settings_selection_mode">Ụdị Nhọrọ</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Mechie nhọrọ olu</string>
     <string name="selected">Ahọpụtara</string>
     <string name="voice_download">Budata olu</string>
+    <string name="language_selection_title">Asụsụ</string>
+    <string name="language_system_default">Nke sistemụ</string>
+    <string name="close_language_selection">Mechie nhọrọ asụsụ</string>
     <string name="button_pause">Kwụsịtụ</string>
     <string name="button_resume">Gaa n\'ihu</string>
     <string name="error_move_closer">Biko bịaruo nso na ngwaọrụ ahụ.</string>

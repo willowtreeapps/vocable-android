@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">തുടരുക</string>
     <string name="settings_dialog_cancel">റദ്ദാക്കുക</string>
     <string name="settings_voice">ശബ്ദം\n%1$s</string>
+    <string name="settings_language">ഭാഷ
+%1$s</string>
     <string name="settings_edit_saying">എന്റെ ചൊല്ലുകൾ</string>
     <string name="settings_edit_categories">വിഭാഗങ്ങളും ശൈലികളും</string>
     <string name="settings_selection_mode">തിരഞ്ഞെടുക്കൽ മോഡ്</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">ശബ്ദ തിരഞ്ഞെടുപ്പ് അടയ്ക്കുക</string>
     <string name="selected">തിരഞ്ഞെടുത്തു</string>
     <string name="voice_download">ശബ്ദം ഡൗൺലോഡ് ചെയ്യുക</string>
+    <string name="language_selection_title">ഭാഷ</string>
+    <string name="language_system_default">സിസ്റ്റം ഡിഫോൾട്ട്</string>
+    <string name="close_language_selection">ഭാഷാ തിരഞ്ഞെടുപ്പ് അവസാനിപ്പിക്കുക</string>
     <string name="button_pause">താൽക്കാലികമായി നിർത്തുക</string>
     <string name="button_resume">തുടരുക</string>
     <string name="error_move_closer">ദയവായി ഉപകരണത്തിന് അടുത്തേക്ക് നീങ്ങുക.</string>

@@ -24,6 +24,8 @@ Navigate to the keyboard, type something
     <string name="settings_dialog_continue">"계속하다"</string>
     <string name="settings_dialog_cancel">"취소"</string>
     <string name="settings_voice">"목소리%1$s"</string>
+    <string name="settings_language">언어
+%1$s</string>
     <string name="settings_edit_saying">내 문구</string>
     <string name="settings_edit_categories">"범주 및 구문"</string>
     <string name="settings_selection_mode">"선택 모드"</string>
@@ -34,6 +36,9 @@ Navigate to the keyboard, type something
     <string name="close_voice_selection">"음성 선택 닫기"</string>
     <string name="selected">"선택된"</string>
     <string name="voice_download">"음성 다운로드"</string>
+    <string name="language_selection_title">언어</string>
+    <string name="language_system_default">시스템 기본값</string>
+    <string name="close_language_selection">언어 선택 닫기</string>
     <string name="button_pause">"중지"</string>
     <string name="button_resume">"계속하기"</string>
     <string name="error_move_closer">"기기에 가까이 오세요"</string>

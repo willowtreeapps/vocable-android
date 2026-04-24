@@ -23,6 +23,7 @@
     <string name="settings_dialog_cancel">අවලංගු කරන්න</string>
     <string name="settings_voice">හඬ
 %1$s</string>
+    <string name="settings_language">භාෂාව\n%1$s</string>
     <string name="settings_edit_saying">මගේ කියමන්</string>
     <string name="settings_edit_categories">ප්‍රවර්ග සහ වාක්‍ය ඛණ්ඩ</string>
     <string name="settings_selection_mode">තේරීම් ආකාරය</string>
@@ -33,6 +34,9 @@
     <string name="close_voice_selection">හඬ තේරීම වසන්න</string>
     <string name="selected">තෝරා ගන්නා ලදී</string>
     <string name="voice_download">හඬ බාගන්න</string>
+    <string name="language_selection_title">භාෂාව</string>
+    <string name="language_system_default">පද්ධතියේ පෙරනිමිය</string>
+    <string name="close_language_selection">භාෂා තේරීම වසන්න</string>
     <string name="button_pause">විරාම කරන්න</string>
     <string name="button_resume">නැවත ආරම්භ කරන්න</string>
     <string name="error_move_closer">කරුණාකර උපාංගයට සමීප වන්න.</string>

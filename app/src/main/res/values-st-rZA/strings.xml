@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Tswela pele</string>
     <string name="settings_dialog_cancel">Hlakola</string>
     <string name="settings_voice">Lentswe\n%1$s</string>
+    <string name="settings_language">Puo\n%1$s</string>
     <string name="settings_edit_saying">Dipolelo tsa ka</string>
     <string name="settings_edit_categories">Di-category le Dipolelo</string>
     <string name="settings_selection_mode">Mokgwa wa ho Kgetha</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Tswala Kgetho ya Lentswe</string>
     <string name="selected">E kgethilweng</string>
     <string name="voice_download">Downloadela lentswe</string>
+    <string name="language_selection_title">Puo</string>
+    <string name="language_system_default">Sehlophiso sa tlhaho sa sistimi</string>
+    <string name="close_language_selection">Koala kgetho ya puo</string>
     <string name="button_pause">Emisa hanyane</string>
     <string name="button_resume">Tswela pele</string>
     <string name="error_move_closer">Ka kopo atamela haufi le sesebediswa.</string>

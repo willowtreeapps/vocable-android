@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Sii wad</string>
     <string name="settings_dialog_cancel">Jooji</string>
     <string name="settings_voice">Cod\n%1$s</string>
+    <string name="settings_language">Luqadda\n%1$s</string>
     <string name="settings_edit_saying">Oraahdayda</string>
     <string name="settings_edit_categories">Qaybaha iyo Weedhaha</string>
     <string name="settings_selection_mode">Habka Xulashada</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Xir Xulashada Codka</string>
     <string name="selected">La doortay</string>
     <string name="voice_download">Soo dejiso codka</string>
+    <string name="language_selection_title">Luqadda</string>
+    <string name="language_system_default">Habka caadiga ah ee nidaamka</string>
+    <string name="close_language_selection">Xir xulashada luqadda</string>
     <string name="button_pause">Hakiso</string>
     <string name="button_resume">Sii wad</string>
     <string name="error_move_closer">Fadlan u dhowow aaladda.</string>

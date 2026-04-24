@@ -24,6 +24,8 @@
     <string name="settings_dialog_continue">"استمر"</string>
     <string name="settings_dialog_cancel">"إلغاء"</string>
     <string name="settings_voice">"صوت%1$s"</string>
+    <string name="settings_language">اللغة
+%1$s</string>
     <string name="settings_edit_saying">أقوالي</string>
     <string name="settings_edit_categories">"الفئات والعبارات"</string>
     <string name="settings_selection_mode">"إختيار النمط"</string>
@@ -34,6 +36,9 @@
     <string name="close_voice_selection">"إغلاق اختيار الصوت"</string>
     <string name="selected">"مختار"</string>
     <string name="voice_download">"تنزيل الصوت"</string>
+    <string name="language_selection_title">اللغة</string>
+    <string name="language_system_default">افتراضي النظام</string>
+    <string name="close_language_selection">إغلاق اختيار اللغة</string>
     <string name="button_pause">"إيقاف مؤقت"</string>
     <string name="button_resume">"إستكمال"</string>
     <string name="error_move_closer">"من فضلك إقترب أكثر من الجهاز."</string>

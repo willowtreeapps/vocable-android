@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Συνέχεια</string>
     <string name="settings_dialog_cancel">Ακύρωση</string>
     <string name="settings_voice">Φωνή\n%1$s</string>
+    <string name="settings_language">Γλώσσα\n%1$s</string>
     <string name="settings_edit_saying">Τα ρητά μου</string>
     <string name="settings_edit_categories">Κατηγορίες και Φράσεις</string>
     <string name="settings_selection_mode">Λειτουργία Επιλογής</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Κλείσιμο Επιλογής Φωνής</string>
     <string name="selected">Επιλεγμένο</string>
     <string name="voice_download">Λήψη φωνής</string>
+    <string name="language_selection_title">Γλώσσα</string>
+    <string name="language_system_default">Προεπιλογή συστήματος</string>
+    <string name="close_language_selection">Κλείσιμο επιλογής γλώσσας</string>
     <string name="button_pause">Παύση</string>
     <string name="button_resume">Συνέχεια</string>
     <string name="error_move_closer">Παρακαλώ πλησιάστε πιο κοντά στη συσκευή.</string>

@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">కొనసాగించు</string>
     <string name="settings_dialog_cancel">రద్దు</string>
     <string name="settings_voice">వాయిస్\n%1$s</string>
+    <string name="settings_language">భాష\n%1$s</string>
     <string name="settings_edit_saying">నా సామెతలు</string>
     <string name="settings_edit_categories">కేటగిరీలు మరియు పదబంధాలు</string>
     <string name="settings_selection_mode">ఎంపిక మోడ్</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">వాయిస్ ఎంపికను మూసివేయి</string>
     <string name="selected">ఎంచుకోబడింది</string>
     <string name="voice_download">వాయిస్‌ని డౌన్‌లోడ్ చేయండి</string>
+    <string name="language_selection_title">భాష</string>
+    <string name="language_system_default">సిస్టమ్ డిఫాల్ట్</string>
+    <string name="close_language_selection">భాష ఎంపికను మూసివేయి</string>
     <string name="button_pause">పాజ్ చేయి</string>
     <string name="button_resume">కొనసాగించు</string>
     <string name="error_move_closer">దయచేసి పరికరానికి దగ్గరగా వెళ్లండి.</string>

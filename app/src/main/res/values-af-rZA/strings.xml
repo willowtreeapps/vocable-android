@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Gaan voort</string>
     <string name="settings_dialog_cancel">Kanselleer</string>
     <string name="settings_voice">Stem\n%1$s</string>
+    <string name="settings_language">Taal
+%1$s</string>
     <string name="settings_edit_saying">My Spreuke</string>
     <string name="settings_edit_categories">Kategorieë en frases</string>
     <string name="settings_selection_mode">Seleksiemodus</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Sluit stemkeuse</string>
     <string name="selected">Geselekteer</string>
     <string name="voice_download">Laai stem af</string>
+    <string name="language_selection_title">Taal</string>
+    <string name="language_system_default">Stelselverstek</string>
+    <string name="close_language_selection">Sluit taalkeuse</string>
     <string name="button_pause">Wag</string>
     <string name="button_resume">Hervat</string>
     <string name="error_move_closer">Beweeg asseblief nader aan die toestel.</string>

@@ -24,6 +24,7 @@ Navigate to the keyboard, type something
     <string name="settings_dialog_continue">"Tiếp tục"</string>
     <string name="settings_dialog_cancel">"Hủy bỏ"</string>
     <string name="settings_voice">"Tiếng nói%1$s"</string>
+    <string name="settings_language">Ngôn ngữ\n%1$s</string>
     <string name="settings_edit_saying">Các câu nói của tôi</string>
     <string name="settings_edit_categories">"Các danh mục và cụm từ"</string>
     <string name="settings_selection_mode">"Chế độ lựa chọn"</string>
@@ -34,6 +35,9 @@ Navigate to the keyboard, type something
     <string name="close_voice_selection">"Đóng lựa chọn giọng nói"</string>
     <string name="selected">"Đã chọn"</string>
     <string name="voice_download">"Tải xuống giọng nói"</string>
+    <string name="language_selection_title">Ngôn ngữ</string>
+    <string name="language_system_default">Mặc định hệ thống</string>
+    <string name="close_language_selection">Đóng lựa chọn ngôn ngữ</string>
     <string name="button_pause">"Tạm dừng"</string>
     <string name="button_resume">"Bản tóm tắt"</string>
     <string name="error_move_closer">"Vui lòng tiến lại gần thiết bị hơn."</string>

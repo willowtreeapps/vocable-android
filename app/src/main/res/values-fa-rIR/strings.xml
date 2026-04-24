@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">ادامه</string>
     <string name="settings_dialog_cancel">لغو</string>
     <string name="settings_voice">صدا\n%1$s</string>
+    <string name="settings_language">زبان
+%1$s</string>
     <string name="settings_edit_saying">گفته‌های من</string>
     <string name="settings_edit_categories">دسته‌بندی‌ها و عبارات</string>
     <string name="settings_selection_mode">حالت انتخاب</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">بستن انتخاب صدا</string>
     <string name="selected">انتخاب شده</string>
     <string name="voice_download">دانلود صدا</string>
+    <string name="language_selection_title">زبان</string>
+    <string name="language_system_default">پیش‌فرض سیستم</string>
+    <string name="close_language_selection">بستن انتخاب زبان</string>
     <string name="button_pause">مکث</string>
     <string name="button_resume">ادامه</string>
     <string name="error_move_closer">لطفاً به دستگاه نزدیک‌تر شوید.</string>

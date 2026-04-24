@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Jatka</string>
     <string name="settings_dialog_cancel">Peruuta</string>
     <string name="settings_voice">Ääni\n%1$s</string>
+    <string name="settings_language">Kieli
+%1$s</string>
     <string name="settings_edit_saying">Omat sanonnat</string>
     <string name="settings_edit_categories">Kategoriat ja lauseet</string>
     <string name="settings_selection_mode">Valintatila</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Sulje äänen valinta</string>
     <string name="selected">Valittu</string>
     <string name="voice_download">Lataa ääni</string>
+    <string name="language_selection_title">Kieli</string>
+    <string name="language_system_default">Järjestelmän oletus</string>
+    <string name="close_language_selection">Sulje kielivalinta</string>
     <string name="button_pause">Tauko</string>
     <string name="button_resume">Jatka</string>
     <string name="error_move_closer">Siirry lähemmäs laitetta.</string>

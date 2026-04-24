@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">जारी राख्नुहोस्</string>
     <string name="settings_dialog_cancel">रद्द गर्नुहोस्</string>
     <string name="settings_voice">आवाज\n%1$s</string>
+    <string name="settings_language">भाषा\n%1$s</string>
     <string name="settings_edit_saying">मेरो भनाइहरू</string>
     <string name="settings_edit_categories">कोटिहरू र वाक्यांशहरू</string>
     <string name="settings_selection_mode">चयन मोड</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">आवाज चयन बन्द गर्नुहोस्</string>
     <string name="selected">चयन गरियो</string>
     <string name="voice_download">आवाज डाउनलोड गर्नुहोस्</string>
+    <string name="language_selection_title">भाषा</string>
+    <string name="language_system_default">प्रणाली पूर्वनिर्धारित</string>
+    <string name="close_language_selection">भाषा चयन बन्द गर्नुहोस्</string>
     <string name="button_pause">पज गर्नुहोस्</string>
     <string name="button_resume">जारी राख्नुहोस्</string>
     <string name="error_move_closer">कृपया उपकरणको नजिक जानुहोस्।</string>

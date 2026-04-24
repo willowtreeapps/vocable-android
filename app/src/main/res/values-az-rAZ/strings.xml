@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Davam et</string>
     <string name="settings_dialog_cancel">Ləğv et</string>
     <string name="settings_voice">Səs\n%1$s</string>
+    <string name="settings_language">Dil
+%1$s</string>
     <string name="settings_edit_saying">Deyimlərim</string>
     <string name="settings_edit_categories">Kateqoriyalar və İfadələr</string>
     <string name="settings_selection_mode">Seçim Rejimi</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Səs Seçimini Bağla</string>
     <string name="selected">Seçildi</string>
     <string name="voice_download">Səsi yüklə</string>
+    <string name="language_selection_title">Dil</string>
+    <string name="language_system_default">Sistem standartı</string>
+    <string name="close_language_selection">Dil seçimini bağla</string>
     <string name="button_pause">Pauza</string>
     <string name="button_resume">Davam et</string>
     <string name="error_move_closer">Zəhmət olmasa cihaza daha yaxın olun.</string>

@@ -27,6 +27,8 @@
     <string name="settings_dialog_cancel">ਰੱਦ ਕਰੋ</string>
     <string name="settings_voice">ਆਵਾਜ਼
 %1$s</string>
+    <string name="settings_language">ਭਾਸ਼ਾ
+%1$s</string>
     <string name="settings_edit_saying">ਮੇਰੇ ਕਥਨ</string>
     <string name="settings_edit_categories">ਸ਼੍ਰੇਣੀਆਂ ਅਤੇ ਵਾਕੰਸ਼</string>
     <string name="settings_selection_mode">ਚੋਣ ਮੋਡ</string>
@@ -37,6 +39,9 @@
     <string name="close_voice_selection">ਆਵਾਜ਼ ਚੋਣ ਬੰਦ ਕਰੋ</string>
     <string name="selected">ਚੁਣਿਆ ਗਿਆ</string>
     <string name="voice_download">ਆਵਾਜ਼ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="language_selection_title">ਭਾਸ਼ਾ</string>
+    <string name="language_system_default">ਸਿਸਟਮ ਡਿਫੌਲਟ</string>
+    <string name="close_language_selection">ਭਾਸ਼ਾ ਚੋਣ ਬੰਦ ਕਰੋ</string>
     <string name="button_pause">ਰੋਕੋ</string>
     <string name="button_resume">ਮੁੜ ਸ਼ੁਰੂ ਕਰੋ</string>
     <string name="error_move_closer">ਕਿਰਪਾ ਕਰਕੇ ਡਿਵਾਈਸ ਦੇ ਨੇੜੇ ਜਾਓ।</string>

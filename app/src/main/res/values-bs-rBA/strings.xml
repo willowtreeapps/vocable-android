@@ -23,6 +23,8 @@ a zatim odaberite "☆" da biste ih ovdje sačuvali.</string>
     <string name="settings_dialog_cancel">Otkaži</string>
     <string name="settings_voice">Glas
 %1$s</string>
+    <string name="settings_language">Jezik
+%1$s</string>
     <string name="settings_edit_saying">Moje izreke</string>
     <string name="settings_edit_categories">Kategorije i fraze</string>
     <string name="settings_selection_mode">Način odabira</string>
@@ -33,6 +35,9 @@ a zatim odaberite "☆" da biste ih ovdje sačuvali.</string>
     <string name="close_voice_selection">Zatvori odabir glasa</string>
     <string name="selected">Odabrano</string>
     <string name="voice_download">Preuzmi glas</string>
+    <string name="language_selection_title">Jezik</string>
+    <string name="language_system_default">Sistemski zadano</string>
+    <string name="close_language_selection">Zatvori odabir jezika</string>
     <string name="button_pause">Pauziraj</string>
     <string name="button_resume">Nastavi</string>
     <string name="error_move_closer">Molimo vas, približite se uređaju.</string>

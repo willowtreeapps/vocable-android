@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Continuar</string>
     <string name="settings_dialog_cancel">Cancelar</string>
     <string name="settings_voice">Voz\n%1$s</string>
+    <string name="settings_language">Idioma\n%1$s</string>
     <string name="settings_edit_saying">Mis dichos</string>
     <string name="settings_edit_categories">Categorías y frases</string>
     <string name="settings_selection_mode">Modo de selección</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Cerrar selección de voz</string>
     <string name="selected">Seleccionado</string>
     <string name="voice_download">Descargar voz</string>
+    <string name="language_selection_title">Idioma</string>
+    <string name="language_system_default">Predeterminado del sistema</string>
+    <string name="close_language_selection">Cerrar selección de idioma</string>
     <string name="button_pause">Pausar</string>
     <string name="button_resume">Reanudar</string>
     <string name="error_move_closer">Por favor, acércate al dispositivo.</string>

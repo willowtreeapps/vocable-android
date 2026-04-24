@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Itti fufi</string>
     <string name="settings_dialog_cancel">Haqi</string>
     <string name="settings_voice">Sagalee\n%1$s</string>
+    <string name="settings_language">Afaan\n%1$s</string>
     <string name="settings_edit_saying">Jechoota koo</string>
     <string name="settings_edit_categories">Gosa fi Caqasa</string>
     <string name="settings_selection_mode">Haala Filannoo</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Filannoo Sagalee Cufi</string>
     <string name="selected">Filatameera</string>
     <string name="voice_download">Sagalee buufadhu</string>
+    <string name="language_selection_title">Afaan</string>
+    <string name="language_system_default">Afaan sirnaa</string>
+    <string name="close_language_selection">Filannoo Afaanii cufi</string>
     <string name="button_pause">Dhaabi</string>
     <string name="button_resume">Itti fufi</string>
     <string name="error_move_closer">Maaloo gara meeshichaatti dhihaadhu.</string>

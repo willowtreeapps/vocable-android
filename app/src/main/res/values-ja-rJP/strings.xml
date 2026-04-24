@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">続行</string>
     <string name="settings_dialog_cancel">キャンセル</string>
     <string name="settings_voice">音声\n%1$s</string>
+    <string name="settings_language">言語
+%1$s</string>
     <string name="settings_edit_saying">私の名言</string>
     <string name="settings_edit_categories">カテゴリーとフレーズ</string>
     <string name="settings_selection_mode">選択モード</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">音声選択を閉じる</string>
     <string name="selected">選択済み</string>
     <string name="voice_download">音声をダウンロード</string>
+    <string name="language_selection_title">言語</string>
+    <string name="language_system_default">システム設定に従う</string>
+    <string name="close_language_selection">言語選択を閉じる</string>
     <string name="button_pause">一時停止</string>
     <string name="button_resume">再開</string>
     <string name="error_move_closer">デバイスにもっと近づいてください。</string>

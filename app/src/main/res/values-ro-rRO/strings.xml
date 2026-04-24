@@ -27,6 +27,8 @@ apoi selectează "☆" pentru a o salva aici.</string>
     <string name="settings_dialog_cancel">Anulează</string>
     <string name="settings_voice">Voce
 %1$s</string>
+    <string name="settings_language">Limbă
+%1$s</string>
     <string name="settings_edit_saying">Zicătorile mele</string>
     <string name="settings_edit_categories">Categorii și fraze</string>
     <string name="settings_selection_mode">Mod de selecție</string>
@@ -37,6 +39,9 @@ apoi selectează "☆" pentru a o salva aici.</string>
     <string name="close_voice_selection">Închide selectarea vocii</string>
     <string name="selected">Selectat</string>
     <string name="voice_download">Descarcă vocea</string>
+    <string name="language_selection_title">Limbă</string>
+    <string name="language_system_default">Implicit sistem</string>
+    <string name="close_language_selection">Închide selectarea limbii</string>
     <string name="button_pause">Pauză</string>
     <string name="button_resume">Reia</string>
     <string name="error_move_closer">Te rugăm să te apropii de dispozitiv.</string>

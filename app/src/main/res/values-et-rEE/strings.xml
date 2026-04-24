@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Jätka</string>
     <string name="settings_dialog_cancel">Loobu</string>
     <string name="settings_voice">Hääl\n%1$s</string>
+    <string name="settings_language">Keel
+%1$s</string>
     <string name="settings_edit_saying">Minu ütlused</string>
     <string name="settings_edit_categories">Kategooriad ja fraasid</string>
     <string name="settings_selection_mode">Valikurežiim</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Sulge hääle valik</string>
     <string name="selected">Valitud</string>
     <string name="voice_download">Laadi hääl alla</string>
+    <string name="language_selection_title">Keel</string>
+    <string name="language_system_default">Süsteemi vaikeväärtus</string>
+    <string name="close_language_selection">Sule keelevalik</string>
     <string name="button_pause">Peata</string>
     <string name="button_resume">Jätka</string>
     <string name="error_move_closer">Palun liikuge seadmele lähemale.</string>

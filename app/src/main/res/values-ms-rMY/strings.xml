@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Teruskan</string>
     <string name="settings_dialog_cancel">Batal</string>
     <string name="settings_voice">Suara\n%1$s</string>
+    <string name="settings_language">Bahasa\n%1$s</string>
     <string name="settings_edit_saying">Kata-kata Saya</string>
     <string name="settings_edit_categories">Kategori dan Frasa</string>
     <string name="settings_selection_mode">Mod Pemilihan</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Tutup Pemilihan Suara</string>
     <string name="selected">Dipilih</string>
     <string name="voice_download">Muat turun suara</string>
+    <string name="language_selection_title">Bahasa</string>
+    <string name="language_system_default">Lalai Sistem</string>
+    <string name="close_language_selection">Tutup Pemilihan Bahasa</string>
     <string name="button_pause">Jeda</string>
     <string name="button_resume">Sambung</string>
     <string name="error_move_closer">Sila bergerak lebih dekat ke peranti.</string>

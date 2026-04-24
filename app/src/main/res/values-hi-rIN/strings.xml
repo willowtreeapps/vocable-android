@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">जारी रखें</string>
     <string name="settings_dialog_cancel">रद्द करें</string>
     <string name="settings_voice">आवाज़\n%1$s</string>
+    <string name="settings_language">भाषा
+%1$s</string>
     <string name="settings_edit_saying">मेरी बातें</string>
     <string name="settings_edit_categories">श्रेणियां और वाक्यांश</string>
     <string name="settings_selection_mode">चयन मोड</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">आवाज़ चयन बंद करें</string>
     <string name="selected">चुना गया</string>
     <string name="voice_download">आवाज़ डाउनलोड करें</string>
+    <string name="language_selection_title">भाषा</string>
+    <string name="language_system_default">सिस्टम डिफ़ॉल्ट</string>
+    <string name="close_language_selection">भाषा चयन बंद करें</string>
     <string name="button_pause">रोकें</string>
     <string name="button_resume">फिर से शुरू करें</string>
     <string name="error_move_closer">कृपया डिवाइस के करीब आएं।</string>

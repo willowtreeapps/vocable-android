@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Жалғастыру</string>
     <string name="settings_dialog_cancel">Болдырмау</string>
     <string name="settings_voice">Дауыс\n%1$s</string>
+    <string name="settings_language">Тіл\n%1$s</string>
     <string name="settings_edit_saying">Менің нақыл сөздерім</string>
     <string name="settings_edit_categories">Санаттар мен тіркестер</string>
     <string name="settings_selection_mode">Таңдау режимі</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Дауыс таңдауды жабу</string>
     <string name="selected">Таңдалды</string>
     <string name="voice_download">Дауысты жүктеп алу</string>
+    <string name="language_selection_title">Тіл</string>
+    <string name="language_system_default">Жүйе әдепкісі</string>
+    <string name="close_language_selection">Тіл таңдауын жабу</string>
     <string name="button_pause">Кідірту</string>
     <string name="button_resume">Жалғастыру</string>
     <string name="error_move_closer">Құрылғыға жақынырақ келіңіз.</string>

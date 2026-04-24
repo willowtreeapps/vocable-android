@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Turpināt</string>
     <string name="settings_dialog_cancel">Atcelt</string>
     <string name="settings_voice">Balss\n%1$s</string>
+    <string name="settings_language">Valoda
+%1$s</string>
     <string name="settings_edit_saying">Mani teicieni</string>
     <string name="settings_edit_categories">Kategorijas un frāzes</string>
     <string name="settings_selection_mode">Atlases režīms</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Aizvērt balss atlasi</string>
     <string name="selected">Atlasīts</string>
     <string name="voice_download">Lejupielādēt balsi</string>
+    <string name="language_selection_title">Valoda</string>
+    <string name="language_system_default">Sistēmas noklusējums</string>
+    <string name="close_language_selection">Aizvērt valodas atlasi</string>
     <string name="button_pause">Pauze</string>
     <string name="button_resume">Atsākt</string>
     <string name="error_move_closer">Lūdzu, pārvietojieties tuvāk ierīcei.</string>

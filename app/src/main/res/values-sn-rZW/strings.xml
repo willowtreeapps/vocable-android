@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Ramba uchipfuura</string>
     <string name="settings_dialog_cancel">Kanzura</string>
     <string name="settings_voice">Izwi\n%1$s</string>
+    <string name="settings_language">Mutauro
+%1$s</string>
     <string name="settings_edit_saying">Zvirevo Zvangu</string>
     <string name="settings_edit_categories">Mapoka uye Mitsara</string>
     <string name="settings_selection_mode">Maitiro Ekusarudza</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Vhara Sarudzo yeIzwi</string>
     <string name="selected">Zvasarudzwa</string>
     <string name="voice_download">Dhawunirodha izwi</string>
+    <string name="language_selection_title">Mutauro</string>
+    <string name="language_system_default">Zvakasarudzwa neSystem</string>
+    <string name="close_language_selection">Vhara kusarudza mutauro</string>
     <string name="button_pause">Imisa kwenguva duku</string>
     <string name="button_resume">Ramba uchiita</string>
     <string name="error_move_closer">Ndapota swedera pedyo nechishandiso.</string>

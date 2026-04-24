@@ -19,6 +19,8 @@ Navigieren Sie zu der Tastatur, geben Sie etwas ein und wählen Sie dann den \"�
     <string name="settings_dialog_continue">"Weiter"</string>
     <string name="settings_dialog_cancel">"Abbrechen"</string>
     <string name="settings_voice">"Stimme%1$s"</string>
+    <string name="settings_language">Sprache
+%1$s</string>
     <string name="settings_edit_saying">Meine Sprüche</string>
     <string name="settings_edit_categories">"Kategorien und Phrasen"</string>
     <string name="settings_selection_mode">"Steuerungsmodus"</string>
@@ -29,6 +31,9 @@ Navigieren Sie zu der Tastatur, geben Sie etwas ein und wählen Sie dann den \"�
     <string name="close_voice_selection">"Auswahl der Stimme schließen"</string>
     <string name="selected">"Ausgewählt"</string>
     <string name="voice_download">"Sprachausgabe herunterladen"</string>
+    <string name="language_selection_title">Sprache</string>
+    <string name="language_system_default">Systemstandard</string>
+    <string name="close_language_selection">Sprachauswahl schließen</string>
     <string name="button_pause">"Pause"</string>
     <string name="button_resume">"Wieder aufnehmen"</string>
     <string name="error_move_closer">"Bitte näher ans Gerät kommen."</string>

@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">தொடரவும்</string>
     <string name="settings_dialog_cancel">ரத்துசெய்</string>
     <string name="settings_voice">குரல்\n%1$s</string>
+    <string name="settings_language">மொழி
+%1$s</string>
     <string name="settings_edit_saying">எனது பொன்மொழிகள்</string>
     <string name="settings_edit_categories">வகைகள் மற்றும் சொற்றொடர்கள்</string>
     <string name="settings_selection_mode">தேர்வு முறை</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">குரல் தேர்வை மூடு</string>
     <string name="selected">தேர்வு செய்யப்பட்டது</string>
     <string name="voice_download">குரலைப் பதிவிறக்கவும்</string>
+    <string name="language_selection_title">மொழி</string>
+    <string name="language_system_default">அமைப்பின் இயல்புநிலை</string>
+    <string name="close_language_selection">மொழித் தேர்வை மூடு</string>
     <string name="button_pause">இடைநிறுத்து</string>
     <string name="button_resume">தொடரவும்</string>
     <string name="error_move_closer">தயவுசெய்து சாதனத்திற்கு அருகில் செல்லவும்.</string>

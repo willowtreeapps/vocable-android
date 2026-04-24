@@ -17,13 +17,13 @@ fuelixTranslations {
 
     allLanguages.set(true)
     languagesFile.set(file("languages.txt"))
-
+    // Fuel IX Details
     apiBase.set("https://api.fuelix.ai/v1")
     apiKey.set(gradleLocalProperties(rootDir, providers).getProperty("FUELIX_API_KEY")
         ?: System.getenv("FUELIX_API_KEY")
         ?: throw GradleException("FUELIX_API_KEY not found in local.properties or FUELIX_API_KEY env var!"))
     model.set("gemini-3.1-flash-lite")
-
+    // Optional
     mergeMode.set("fill-missing")
     concurrency.set(8)
     batchSize.set(160)

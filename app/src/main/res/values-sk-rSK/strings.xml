@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Pokračovať</string>
     <string name="settings_dialog_cancel">Zrušiť</string>
     <string name="settings_voice">Hlas\n%1$s</string>
+    <string name="settings_language">Jazyk\n%1$s</string>
     <string name="settings_edit_saying">Moje výroky</string>
     <string name="settings_edit_categories">Kategórie a frázy</string>
     <string name="settings_selection_mode">Režim výberu</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Zavrieť výber hlasu</string>
     <string name="selected">Vybrané</string>
     <string name="voice_download">Stiahnuť hlas</string>
+    <string name="language_selection_title">Jazyk</string>
+    <string name="language_system_default">Predvolené nastavenie systému</string>
+    <string name="close_language_selection">Zavrieť výber jazyka</string>
     <string name="button_pause">Pozastaviť</string>
     <string name="button_resume">Obnoviť</string>
     <string name="error_move_closer">Prosím, posuňte sa bližšie k zariadeniu.</string>

@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Tęsti</string>
     <string name="settings_dialog_cancel">Atšaukti</string>
     <string name="settings_voice">Balsas\n%1$s</string>
+    <string name="settings_language">Kalba
+%1$s</string>
     <string name="settings_edit_saying">Mano posakiai</string>
     <string name="settings_edit_categories">Kategorijos ir frazės</string>
     <string name="settings_selection_mode">Pasirinkimo režimas</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Uždaryti balso pasirinkimą</string>
     <string name="selected">Pasirinkta</string>
     <string name="voice_download">Atsisiųsti balsą</string>
+    <string name="language_selection_title">Kalba</string>
+    <string name="language_system_default">Numatytoji sistemos kalba</string>
+    <string name="close_language_selection">Uždaryti kalbos pasirinkimą</string>
     <string name="button_pause">Pristabdyti</string>
     <string name="button_resume">Atnaujinti</string>
     <string name="error_move_closer">Prašome pasislinkti arčiau įrenginio.</string>

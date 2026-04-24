@@ -18,6 +18,8 @@
     <string name="settings_dialog_continue">متابعة</string>
     <string name="settings_dialog_cancel">إلغاء</string>
     <string name="settings_voice">الصوت\n%1$s</string>
+    <string name="settings_language">اللغة
+%1$s</string>
     <string name="settings_edit_saying">أقوالي</string>
     <string name="settings_edit_categories">الفئات والعبارات</string>
     <string name="settings_selection_mode">وضع التحديد</string>
@@ -28,6 +30,9 @@
     <string name="close_voice_selection">إغلاق اختيار الصوت</string>
     <string name="selected">محدد</string>
     <string name="voice_download">تنزيل الصوت</string>
+    <string name="language_selection_title">اللغة</string>
+    <string name="language_system_default">إعدادات النظام الافتراضية</string>
+    <string name="close_language_selection">إغلاق اختيار اللغة</string>
     <string name="button_pause">إيقاف مؤقت</string>
     <string name="button_resume">استئناف</string>
     <string name="error_move_closer">يرجى الاقتراب من الجهاز.</string>

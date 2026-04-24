@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Endelea</string>
     <string name="settings_dialog_cancel">Ghairi</string>
     <string name="settings_voice">Sauti\n%1$s</string>
+    <string name="settings_language">Lugha\n%1$s</string>
     <string name="settings_edit_saying">Misemo Yangu</string>
     <string name="settings_edit_categories">Aina na Vishazi</string>
     <string name="settings_selection_mode">Hali ya Uteuzi</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Funga Uteuzi wa Sauti</string>
     <string name="selected">Imeteuliwa</string>
     <string name="voice_download">Pakua sauti</string>
+    <string name="language_selection_title">Lugha</string>
+    <string name="language_system_default">Chaguo-msingi la Mfumo</string>
+    <string name="close_language_selection">Funga Uteuzi wa Lugha</string>
     <string name="button_pause">Sitisha</string>
     <string name="button_resume">Rejesha</string>
     <string name="error_move_closer">Tafadhali sogea karibu na kifaa.</string>

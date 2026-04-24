@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Haere tonu</string>
     <string name="settings_dialog_cancel">Whakakore</string>
     <string name="settings_voice">Reo\n%1$s</string>
+    <string name="settings_language">Reo\n%1$s</string>
     <string name="settings_edit_saying">Āku Whakataukī</string>
     <string name="settings_edit_categories">Ngā Wāhanga me ngā Kīwaha</string>
     <string name="settings_selection_mode">Aratau Tīpako</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Katia te Tīpakonga Reo</string>
     <string name="selected">I tīpakohia</string>
     <string name="voice_download">Tikiake reo</string>
+    <string name="language_selection_title">Reo</string>
+    <string name="language_system_default">Taunoa Pūnaha</string>
+    <string name="close_language_selection">Katia te Kōwhiringa Reo</string>
     <string name="button_pause">Tatari</string>
     <string name="button_resume">Whakahoki</string>
     <string name="error_move_closer">Tēnā, neke atu ki te pūrere.</string>

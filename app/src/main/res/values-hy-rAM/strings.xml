@@ -16,6 +16,7 @@
     <string name="settings_dialog_continue">Շարունակել</string>
     <string name="settings_dialog_cancel">Չեղարկել</string>
     <string name="settings_voice">Ձայն\n%1$s</string>
+    <string name="settings_language">Լեզու\n%1$s</string>
     <string name="settings_edit_saying">Իմ ասույթները</string>
     <string name="settings_edit_categories">Կատեգորիաներ և արտահայտություններ</string>
     <string name="settings_selection_mode">Ընտրության ռեժիմ</string>
@@ -26,6 +27,9 @@
     <string name="close_voice_selection">Փակել ձայնի ընտրությունը</string>
     <string name="selected">Ընտրված է</string>
     <string name="voice_download">Ներբեռնել ձայնը</string>
+    <string name="language_selection_title">Լեզու</string>
+    <string name="language_system_default">Համակարգի կանխադրված</string>
+    <string name="close_language_selection">Փակել լեզվի ընտրությունը</string>
     <string name="button_pause">Դադար</string>
     <string name="button_resume">Վերսկսել</string>
     <string name="error_move_closer">Խնդրում ենք մոտենալ սարքին:</string>

@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Fortsett</string>
     <string name="settings_dialog_cancel">Avbryt</string>
     <string name="settings_voice">Stemme\n%1$s</string>
+    <string name="settings_language">Språk
+%1$s</string>
     <string name="settings_edit_saying">Mine ordtak</string>
     <string name="settings_edit_categories">Kategorier og fraser</string>
     <string name="settings_selection_mode">Valgmodus</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Lukk stemmevalg</string>
     <string name="selected">Valgt</string>
     <string name="voice_download">Last ned stemme</string>
+    <string name="language_selection_title">Språk</string>
+    <string name="language_system_default">Systemstandard</string>
+    <string name="close_language_selection">Lukk språkvalg</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Gjenoppta</string>
     <string name="error_move_closer">Vennligst flytt nærmere enheten.</string>

@@ -23,6 +23,7 @@ dhe më pas zgjidhni "☆" për ta ruajtur këtu.</string>
     <string name="settings_dialog_cancel">Anulo</string>
     <string name="settings_voice">Zëri
 %1$s</string>
+    <string name="settings_language">Gjuha\n%1$s</string>
     <string name="settings_edit_saying">Thëniet e mia</string>
     <string name="settings_edit_categories">Kategoritë dhe frazat</string>
     <string name="settings_selection_mode">Mënyra e përzgjedhjes</string>
@@ -33,6 +34,9 @@ dhe më pas zgjidhni "☆" për ta ruajtur këtu.</string>
     <string name="close_voice_selection">Mbyll përzgjedhjen e zërit</string>
     <string name="selected">I zgjedhur</string>
     <string name="voice_download">Shkarko zërin</string>
+    <string name="language_selection_title">Gjuha</string>
+    <string name="language_system_default">Parazgjedhja e sistemit</string>
+    <string name="close_language_selection">Mbylle përzgjedhjen e gjuhës</string>
     <string name="button_pause">Pauzë</string>
     <string name="button_resume">Rifillo</string>
     <string name="error_move_closer">Ju lutemi, afrohuni më shumë te pajisja.</string>

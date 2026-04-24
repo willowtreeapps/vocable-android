@@ -24,6 +24,8 @@ Navigate to the keyboard, type something
     <string name="settings_dialog_continue">"Продолжать"</string>
     <string name="settings_dialog_cancel">"Отмена"</string>
     <string name="settings_voice">"Голос%1$s"</string>
+    <string name="settings_language">Язык
+%1$s</string>
     <string name="settings_edit_saying">Мои высказывания</string>
     <string name="settings_edit_categories">"Категории и фразы"</string>
     <string name="settings_selection_mode">"Режим выбора"</string>
@@ -34,6 +36,9 @@ Navigate to the keyboard, type something
     <string name="close_voice_selection">"Закрыть выбор голоса"</string>
     <string name="selected">"Избранные"</string>
     <string name="voice_download">"Скачать голос"</string>
+    <string name="language_selection_title">Язык</string>
+    <string name="language_system_default">Системный по умолчанию</string>
+    <string name="close_language_selection">Закрыть выбор языка</string>
     <string name="button_pause">"Пауза"</string>
     <string name="button_resume">"Резюме"</string>
     <string name="error_move_closer">"Пожалуйста, подойдите ближе к устройству."</string>

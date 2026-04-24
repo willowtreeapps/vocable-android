@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Weider</string>
     <string name="settings_dialog_cancel">Ofbriechen</string>
     <string name="settings_voice">Stëmm\n%1$s</string>
+    <string name="settings_language">Sprooch
+%1$s</string>
     <string name="settings_edit_saying">Meng Spréch</string>
     <string name="settings_edit_categories">Kategorien a Sätz</string>
     <string name="settings_selection_mode">Auswielmodus</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Stëmm-Auswiel zoumaachen</string>
     <string name="selected">Ausgewielt</string>
     <string name="voice_download">Stëmm eroflueden</string>
+    <string name="language_selection_title">Sprooch</string>
+    <string name="language_system_default">System-Standard</string>
+    <string name="close_language_selection">Sproochauswiel zoumaachen</string>
     <string name="button_pause">Paus</string>
     <string name="button_resume">Weider</string>
     <string name="error_move_closer">Gitt w.e.g. méi no un den Apparat.</string>

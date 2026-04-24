@@ -16,6 +16,8 @@
     <string name="settings_dialog_continue">Nadaljuj</string>
     <string name="settings_dialog_cancel">Prekliči</string>
     <string name="settings_voice">Glas\n%1$s</string>
+    <string name="settings_language">Jezik
+%1$s</string>
     <string name="settings_edit_saying">Moji reki</string>
     <string name="settings_edit_categories">Kategorije in fraze</string>
     <string name="settings_selection_mode">Način izbire</string>
@@ -26,6 +28,9 @@
     <string name="close_voice_selection">Zapri izbiro glasu</string>
     <string name="selected">Izbrano</string>
     <string name="voice_download">Prenesi glas</string>
+    <string name="language_selection_title">Jezik</string>
+    <string name="language_system_default">Privzeto sistemsko</string>
+    <string name="close_language_selection">Zapri izbiro jezika</string>
     <string name="button_pause">Premor</string>
     <string name="button_resume">Nadaljuj</string>
     <string name="error_move_closer">Prosimo, približajte se napravi.</string>
