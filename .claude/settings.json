@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew testDebug)",
+      "Bash(./gradlew assembleDebug)",
+      "Bash(./gradlew assembleDebugAndroidTest)",
+      "Bash(./gradlew lint)",
+      "Bash(./gradlew tasks)",
+      "Bash(./gradlew :app:testDebug*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)"
+    ]
+  }
+}

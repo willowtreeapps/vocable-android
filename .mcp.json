@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "figma": {
+      "type": "sse",
+      "url": "http://127.0.0.1:3845/sse"
+    }
+  }
+}
