@@ -117,7 +117,11 @@ private fun PresetsContent(
             integerResource(id = R.integer.phrases_columns_one_liner_phrases)
         } else integerResource(id = R.integer.phrases_columns)
     }
-    val phraseRows = integerResource(id = R.integer.phrases_rows)
+    val phraseRows = selectedCategory?.categoryId.let { id ->
+        if (id == PresetCategories.USER_KEYPAD.id) {
+            integerResource(id = R.integer.phrases_rows_one_liner_phrases)
+        } else integerResource(id = R.integer.phrases_rows)
+    }
     val maxCategories = integerResource(id = R.integer.max_categories)
     val maxPhrases = selectedCategory?.categoryId.let { id ->
         if (id == PresetCategories.USER_KEYPAD.id) {
@@ -653,6 +657,16 @@ fun PresetsScreenPreview() {
 @Preview(
     name = "Landscape",
     device = "spec:width=800dp,height=400dp,dpi=240",
+    showBackground = true,
+)
+@Preview(
+    name = "Tablet Portrait",
+    device = "spec:width=800dp,height=1280dp,dpi=240",
+    showBackground = true,
+)
+@Preview(
+    name = "Tablet Landscape",
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     showBackground = true,
 )
 @Composable
