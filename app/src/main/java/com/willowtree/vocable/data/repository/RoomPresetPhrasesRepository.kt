@@ -81,6 +81,11 @@ class RoomPresetPhrasesRepository(
             val resources = get().get<Context>().resources
             val existingSortOrders = presetPhrasesDao.getAllPresetPhrases()
                 .associate { it.phraseId to it.sortOrder }
+            // Editing a preset soft-deletes its PresetPhrase row and stores a "shadow" phrase
+            // reusing the same id, so a stored row keyed by an array entry name is always a
+            // shadow - genuinely custom phrases get a UUID and can never collide here.
+            val shadowSortOrders = phraseDao.getAllPhrases()
+                .associate { it.phraseId to it.sortOrder }
 
             PresetCategories.values().forEach { presetCategory ->
                 if (presetCategory != PresetCategories.RECENTS && presetCategory != PresetCategories.MY_SAYINGS) {
@@ -105,10 +110,12 @@ class RoomPresetPhrasesRepository(
                             // seeded by an earlier release keeps whatever sort_order it was given
                             // then - resync it so reordering an array actually takes effect.
                             presetPhrasesDao.updatePhraseSortOrder(phraseEntryName, index)
-                            // Editing a preset leaves a stored "shadow" phrase behind that reuses
-                            // the preset's id and the sort_order captured at edit time. Renumber
-                            // it in step, or the two disagree and the category renders with a
-                            // duplicated sort order - and one phrase too many for its page.
+                        }
+                        // Checked independently of the preset row above: a release that resynced
+                        // only the preset rows leaves an install whose presets already match the
+                        // array while its shadows still carry the pre-reorder index, so keying
+                        // this off the preset row would strand exactly those installs.
+                        if (shadowSortOrders[phraseEntryName].let { it != null && it != index }) {
                             phraseDao.updatePhraseSortOrder(phraseEntryName, index)
                         }
                     }

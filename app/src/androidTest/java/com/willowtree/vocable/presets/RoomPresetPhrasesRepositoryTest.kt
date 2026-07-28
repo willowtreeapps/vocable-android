@@ -163,6 +163,61 @@ class RoomPresetPhrasesRepositoryTest {
         assertEquals(1234L, shadow.lastSpokenDate)
     }
 
+    @Test
+    fun given_a_shadow_stranded_by_a_preset_only_resync_populateDatabase_still_repairs_it() = runTest {
+        val database = createDatabase()
+        // The state a release that resynced only the preset rows leaves behind: the preset row
+        // already matches the array, so a shadow resync gated on the preset row being stale would
+        // never fire and these installs would stay broken forever.
+        database.presetPhrasesDao().insertPhrases(
+            listOf(
+                PresetPhraseDto(
+                    phraseId = "category_123_0",
+                    parentCategoryId = PresetCategories.USER_KEYPAD.id,
+                    creationDate = 0L,
+                    lastSpokenDate = null,
+                    sortOrder = 9,
+                )
+            )
+        )
+        database.presetPhrasesDao().deletePhrase("category_123_0", deleted = true)
+        database.phraseDao().insertPhrase(
+            PhraseDto(
+                phraseId = "category_123_0",
+                parentCategoryId = PresetCategories.USER_KEYPAD.id,
+                creationDate = 0L,
+                lastSpokenDate = null,
+                localizedUtterance = LocalesWithText(mapOf("en" to "zero")),
+                sortOrder = 0,
+            )
+        )
+
+        createRepository(database).populateDatabase()
+
+        assertEquals(9, database.phraseDao().getPhrase("category_123_0")!!.sortOrder)
+    }
+
+    @Test
+    fun populateDatabase_leaves_a_genuinely_custom_phrase_sort_order_alone() = runTest {
+        val database = createDatabase()
+        // Custom phrases get a UUID, so they can't collide with an array entry name - the resync
+        // must not touch the order the user arranged them in.
+        database.phraseDao().insertPhrase(
+            PhraseDto(
+                phraseId = "a-random-uuid",
+                parentCategoryId = PresetCategories.USER_KEYPAD.id,
+                creationDate = 0L,
+                lastSpokenDate = null,
+                localizedUtterance = LocalesWithText(mapOf("en" to "mine")),
+                sortOrder = 3,
+            )
+        )
+
+        createRepository(database).populateDatabase()
+
+        assertEquals(3, database.phraseDao().getPhrase("a-random-uuid")!!.sortOrder)
+    }
+
     private fun makePresetPhrases(): List<PresetPhrase> {
         return PresetCategories.values()
             .filterNot { it == PresetCategories.MY_SAYINGS || it == PresetCategories.RECENTS }
