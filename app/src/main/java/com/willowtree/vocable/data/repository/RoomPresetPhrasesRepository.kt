@@ -1,6 +1,7 @@
 package com.willowtree.vocable.data.repository
 
 import android.content.Context
+import com.willowtree.vocable.data.room.PhraseDao
 import com.willowtree.vocable.data.room.PhraseSpokenDate
 import com.willowtree.vocable.data.room.PresetPhraseDto
 import com.willowtree.vocable.data.room.PresetPhrasesDao
@@ -17,6 +18,7 @@ import kotlin.collections.map
 
 class RoomPresetPhrasesRepository(
     private val presetPhrasesDao: PresetPhrasesDao,
+    private val phraseDao: PhraseDao,
     private val dateProvider: DateProvider,
 ) : PresetPhrasesRepository {
 
@@ -103,6 +105,11 @@ class RoomPresetPhrasesRepository(
                             // seeded by an earlier release keeps whatever sort_order it was given
                             // then - resync it so reordering an array actually takes effect.
                             presetPhrasesDao.updatePhraseSortOrder(phraseEntryName, index)
+                            // Editing a preset leaves a stored "shadow" phrase behind that reuses
+                            // the preset's id and the sort_order captured at edit time. Renumber
+                            // it in step, or the two disagree and the category renders with a
+                            // duplicated sort order - and one phrase too many for its page.
+                            phraseDao.updatePhraseSortOrder(phraseEntryName, index)
                         }
                     }
                     phrasesIds.recycle()

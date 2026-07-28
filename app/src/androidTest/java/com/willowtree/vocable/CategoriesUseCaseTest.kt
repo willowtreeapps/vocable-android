@@ -39,6 +39,7 @@ class CategoriesUseCaseTest {
     private val storedCategoriesRepository = RoomStoredCategoriesRepository(database)
     private val presetPhrasesRepository = RoomPresetPhrasesRepository(
         database.presetPhrasesDao(),
+        database.phraseDao(),
         dateProvider
     )
     private val storedPhrasesRepository = RoomStoredPhrasesRepository(
