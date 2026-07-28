@@ -112,22 +112,19 @@ private fun PresetsContent(
     val phrasesMargin = dimensionResource(id = R.dimen.phrases_margin)
     val categoryButtonMargin = dimensionResource(id = R.dimen.category_button_margin)
 
-    val phraseColumns = selectedCategory?.categoryId.let { id ->
-        if (id == PresetCategories.USER_KEYPAD.id) {
-            integerResource(id = R.integer.phrases_columns_one_liner_phrases)
-        } else integerResource(id = R.integer.phrases_columns)
-    }
-    val phraseRows = selectedCategory?.categoryId.let { id ->
-        if (id == PresetCategories.USER_KEYPAD.id) {
-            integerResource(id = R.integer.phrases_rows_one_liner_phrases)
-        } else integerResource(id = R.integer.phrases_rows)
-    }
+    val isKeypad = selectedCategory?.categoryId == PresetCategories.USER_KEYPAD.id
+
+    val phraseColumns = integerResource(
+        id = if (isKeypad) R.integer.phrases_columns_one_liner_phrases else R.integer.phrases_columns
+    )
+    val phraseRows = integerResource(
+        id = if (isKeypad) R.integer.phrases_rows_one_liner_phrases else R.integer.phrases_rows
+    )
     val maxCategories = integerResource(id = R.integer.max_categories)
-    val maxPhrases = selectedCategory?.categoryId.let { id ->
-        if (id == PresetCategories.USER_KEYPAD.id) {
-            integerResource(id = R.integer.max_phrases_one_liner)
-        } else integerResource(id = R.integer.max_phrases)
-    }
+
+    // The grid renders a fixed phraseRows x phraseColumns matrix, so the page size has to be
+    // exactly that - deriving it is what keeps the two from drifting (see #611).
+    val maxPhrases = phraseRows * phraseColumns
 
     var categoryPageIndex by remember { mutableIntStateOf(0) }
     var phrasePageIndex by remember { mutableIntStateOf(0) }
