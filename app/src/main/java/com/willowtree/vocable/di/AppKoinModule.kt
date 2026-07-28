@@ -60,7 +60,7 @@ import org.koin.dsl.module
 val vocableKoinModule = module {
 
     scope<SplashActivity> {
-        viewModel { SplashViewModel(get(), get(), get(named<SplashViewModel>())) }
+        viewModel { SplashViewModel(get(), get(named<SplashViewModel>())) }
     }
 
     scope<MainActivity> {

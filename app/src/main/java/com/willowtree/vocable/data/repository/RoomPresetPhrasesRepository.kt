@@ -76,28 +76,33 @@ class RoomPresetPhrasesRepository(
 
     private suspend fun ensurePopulated() {
         phrasesMutex.withLock {
-            val existingPresetPhrases = presetPhrasesDao.getAllPresetPhrases()
-            val existingResourceIdStrings = existingPresetPhrases.map { it.phraseId }.toSet()
+            val resources = get().get<Context>().resources
+            val existingSortOrders = presetPhrasesDao.getAllPresetPhrases()
+                .associate { it.phraseId to it.sortOrder }
 
             PresetCategories.values().forEach { presetCategory ->
                 if (presetCategory != PresetCategories.RECENTS && presetCategory != PresetCategories.MY_SAYINGS) {
-                    val phrasesIds = get().get<Context>()
-                        .resources.obtainTypedArray(presetCategory.getArrayId())
+                    val phrasesIds = resources.obtainTypedArray(presetCategory.getArrayId())
                     val phraseObjects = mutableListOf<PresetPhraseDto>()
                     for (index in 0 until phrasesIds.length()) {
                         val phraseId = phrasesIds.getResourceId(index, 0)
-                        val phraseEntryName =
-                            get().get<Context>().resources.getResourceEntryName(phraseId)
-                        if (phraseEntryName !in existingResourceIdStrings) {
+                        val phraseEntryName = resources.getResourceEntryName(phraseId)
+                        val existingSortOrder = existingSortOrders[phraseEntryName]
+                        if (existingSortOrder == null) {
                             phraseObjects.add(
                                 PresetPhraseDto(
                                     phraseId = phraseEntryName,
                                     parentCategoryId = presetCategory.id,
                                     creationDate = System.currentTimeMillis(),
                                     lastSpokenDate = null,
-                                    sortOrder = phraseObjects.size,
+                                    sortOrder = index,
                                 )
                             )
+                        } else if (existingSortOrder != index) {
+                            // The array is the source of truth for display order, but a phrase
+                            // seeded by an earlier release keeps whatever sort_order it was given
+                            // then - resync it so reordering an array actually takes effect.
+                            presetPhrasesDao.updatePhraseSortOrder(phraseEntryName, index)
                         }
                     }
                     phrasesIds.recycle()

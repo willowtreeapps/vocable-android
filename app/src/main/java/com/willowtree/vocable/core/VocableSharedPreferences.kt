@@ -25,7 +25,6 @@ class VocableSharedPreferences :
         const val DEFAULT_SENSITIVITY = MEDIUM_SENSITIVITY
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = DWELL_TIME_ONE_SECOND
-        const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
     }
 
     private val encryptedPrefs: SharedPreferences by lazy {
@@ -80,13 +79,6 @@ class VocableSharedPreferences :
 
     override fun getHeadTrackingEnabled(): Boolean =
         encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
-
-    override fun setFirstTime() {
-        encryptedPrefs.edit { putBoolean(KEY_FIRST_TIME, false) }
-    }
-
-    override fun getFirstTime(): Boolean =
-        encryptedPrefs.getBoolean(KEY_FIRST_TIME, true)
 
     @SuppressLint("ApplySharedPref")
     fun clearAll() {

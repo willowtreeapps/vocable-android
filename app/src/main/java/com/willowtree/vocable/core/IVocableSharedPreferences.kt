@@ -24,8 +24,4 @@ interface IVocableSharedPreferences {
     fun setHeadTrackingEnabled(enabled: Boolean)
 
     fun getHeadTrackingEnabled(): Boolean
-
-    fun setFirstTime()
-
-    fun getFirstTime(): Boolean
 }

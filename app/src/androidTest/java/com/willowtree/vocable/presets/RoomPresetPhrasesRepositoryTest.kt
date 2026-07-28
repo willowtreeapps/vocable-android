@@ -7,6 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.domain.model.PresetCategories
 import com.willowtree.vocable.domain.model.PresetPhrase
 import com.willowtree.vocable.data.repository.RoomPresetPhrasesRepository
+import com.willowtree.vocable.data.room.PresetPhraseDto
+import com.willowtree.vocable.data.room.PresetPhrasesDao
 import com.willowtree.vocable.data.room.VocableDatabase
 import com.willowtree.vocable.utility.FakeDateProvider
 import com.willowtree.vocable.utility.VocableKoinTestRule
@@ -22,12 +24,16 @@ class RoomPresetPhrasesRepositoryTest {
     @get:Rule
     val vocableKoinTestRule = VocableKoinTestRule()
 
-    private fun createRepository(): RoomPresetPhrasesRepository {
+    private fun createDao(): PresetPhrasesDao = Room.inMemoryDatabaseBuilder(
+        ApplicationProvider.getApplicationContext(),
+        VocableDatabase::class.java
+    ).build().presetPhrasesDao()
+
+    private fun createRepository(
+        dao: PresetPhrasesDao = createDao()
+    ): RoomPresetPhrasesRepository {
         return RoomPresetPhrasesRepository(
-            presetPhrasesDao = Room.inMemoryDatabaseBuilder(
-                ApplicationProvider.getApplicationContext(),
-                VocableDatabase::class.java
-            ).build().presetPhrasesDao(),
+            presetPhrasesDao = dao,
             dateProvider = FakeDateProvider()
         )
     }
@@ -58,6 +64,60 @@ class RoomPresetPhrasesRepositoryTest {
         assertEquals(
             expectedPhrases,
             repository.getAllPresetPhrases()
+        )
+    }
+
+    @Test
+    fun given_a_phrase_seeded_with_a_stale_sort_order_populateDatabase_resyncs_it() = runTest {
+        val dao = createDao()
+        // A phrase seeded by an earlier release, before R.array.category_123 was reordered into
+        // phone-keypad order. Without a resync the array is only the source of truth on a fresh
+        // install and the reorder is invisible to anyone who already ran the app - see #611.
+        dao.insertPhrases(
+            listOf(
+                PresetPhraseDto(
+                    phraseId = "category_123_0",
+                    parentCategoryId = PresetCategories.USER_KEYPAD.id,
+                    creationDate = 0L,
+                    lastSpokenDate = 1234L,
+                    sortOrder = 0,
+                )
+            )
+        )
+
+        createRepository(dao).populateDatabase()
+
+        val keypadPhrase = dao.getPhrase("category_123_0")!!
+        assertEquals(9, keypadPhrase.sortOrder)
+        // The resync must not clobber unrelated columns.
+        assertEquals(1234L, keypadPhrase.lastSpokenDate)
+        assertEquals(false, keypadPhrase.deleted)
+    }
+
+    @Test
+    fun given_a_stale_phrase_populateDatabase_does_not_duplicate_or_misorder_the_category() = runTest {
+        val dao = createDao()
+        dao.insertPhrases(
+            listOf(
+                PresetPhraseDto(
+                    phraseId = "category_123_0",
+                    parentCategoryId = PresetCategories.USER_KEYPAD.id,
+                    creationDate = 0L,
+                    lastSpokenDate = null,
+                    sortOrder = 0,
+                )
+            )
+        )
+
+        val repository = createRepository(dao)
+        repository.populateDatabase()
+
+        // Newly inserted phrases take their array index too, so they can't collide with the
+        // sort order of a phrase that was already present.
+        assertEquals(
+            makePresetPhrases().filter { it.parentCategoryId == PresetCategories.USER_KEYPAD.id },
+            repository.getPhrasesForCategory(PresetCategories.USER_KEYPAD.id)
+                .sortedBy { it.sortOrder }
         )
     }
 
