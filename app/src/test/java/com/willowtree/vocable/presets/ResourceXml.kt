@@ -10,15 +10,22 @@ import javax.xml.parsers.DocumentBuilderFactory
  */
 internal object ResourceXml {
 
-    /** Every breakpoint that defines its own phrase grid dimensions. */
-    val breakpointDirs = listOf(
-        "values",
-        "values-land",
-        "values-sw400dp",
-        "values-sw400dp-land",
-        "values-sw600dp",
-        "values-sw600dp-land"
-    )
+    /**
+     * Every breakpoint that defines its own phrase grid dimensions, discovered from disk so a
+     * newly added `values-*` dir is covered by the invariants without touching this file.
+     */
+    val breakpointDirs: List<String> by lazy {
+        File("src/main/res")
+            .listFiles { file: File -> file.isDirectory && file.name.startsWith("values") }
+            .orEmpty()
+            .filter { dir ->
+                File(dir, "integers.xml").exists() &&
+                    integers(dir.name).containsKey("phrases_columns")
+            }
+            .map { it.name }
+            .sorted()
+            .also { require(it.isNotEmpty()) { "No values*/integers.xml declared phrases_columns" } }
+    }
 
     fun integers(dir: String): Map<String, Int> {
         val nodes = parse(dir, "integers.xml").getElementsByTagName("integer")

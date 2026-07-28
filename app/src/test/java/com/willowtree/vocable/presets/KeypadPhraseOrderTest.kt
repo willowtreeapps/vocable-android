@@ -40,18 +40,52 @@ class KeypadPhraseOrderTest {
         )
     }
 
+    /**
+     * The layouts signed off in the designs, keyed by column count. A breakpoint that uses any
+     * other column count has no approved keypad shape, so it has to be added here deliberately
+     * rather than passing by accident - 4 columns, for instance, still satisfies
+     * columns x rows == max_phrases_one_liner while rendering 1 2 3 4 / 5 6 7 8 / 9 0 No Yes.
+     */
+    private val approvedLayouts = mapOf(
+        3 to listOf(
+            listOf("category_123_1", "category_123_2", "category_123_3"),
+            listOf("category_123_4", "category_123_5", "category_123_6"),
+            listOf("category_123_7", "category_123_8", "category_123_9"),
+            listOf("category_123_0", "category_123_no", "category_123_yes")
+        ),
+        6 to listOf(
+            listOf(
+                "category_123_1", "category_123_2", "category_123_3",
+                "category_123_4", "category_123_5", "category_123_6"
+            ),
+            listOf(
+                "category_123_7", "category_123_8", "category_123_9",
+                "category_123_0", "category_123_no", "category_123_yes"
+            )
+        )
+    )
+
     @Test
-    fun `zero no and yes fill the bottom row at every breakpoint`() {
+    fun `every breakpoint renders an approved keypad layout`() {
         ResourceXml.breakpointDirs.forEach { dir ->
             val integers = ResourceXml.integers(dir)
             val columns = integers.getValue("phrases_columns_one_liner_phrases")
             val rows = integers.getValue("phrases_rows_one_liner_phrases")
 
-            val bottomRow = keypadOrder.drop((rows - 1) * columns)
+            val expected = approvedLayouts[columns]
+                ?: throw AssertionError(
+                    "$dir/integers.xml: $columns columns has no approved keypad layout - add one " +
+                        "to approvedLayouts once the design is signed off"
+                )
             assertEquals(
-                "$dir/integers.xml: with $columns columns the keypad's bottom row should end in 0, No, Yes but was $bottomRow",
-                listOf("category_123_0", "category_123_no", "category_123_yes"),
-                bottomRow.takeLast(3)
+                "$dir/integers.xml: a $columns-column keypad needs ${expected.size} rows",
+                expected.size,
+                rows
+            )
+            assertEquals(
+                "$dir/integers.xml: $columns columns x $rows rows does not render the keypad",
+                expected,
+                keypadOrder.chunked(columns)
             )
         }
     }
