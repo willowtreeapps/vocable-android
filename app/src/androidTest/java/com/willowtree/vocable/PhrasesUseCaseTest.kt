@@ -36,6 +36,7 @@ class PhrasesUseCaseTest {
     private val dateProvider = FakeDateProvider()
     private val presetPhrasesRepository = RoomPresetPhrasesRepository(
         presetPhrasesDao = database.presetPhrasesDao(),
+        phraseDao = database.phraseDao(),
         dateProvider = dateProvider,
     )
     private val storedPhrasesRepository = RoomStoredPhrasesRepository(database, dateProvider)

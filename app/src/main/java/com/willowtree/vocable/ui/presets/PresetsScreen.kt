@@ -117,7 +117,11 @@ private fun PresetsContent(
             integerResource(id = R.integer.phrases_columns_one_liner_phrases)
         } else integerResource(id = R.integer.phrases_columns)
     }
-    val phraseRows = integerResource(id = R.integer.phrases_rows)
+    val phraseRows = selectedCategory?.categoryId.let { id ->
+        if (id == PresetCategories.USER_KEYPAD.id) {
+            integerResource(id = R.integer.phrases_rows_one_liner_phrases)
+        } else integerResource(id = R.integer.phrases_rows)
+    }
     val maxCategories = integerResource(id = R.integer.max_categories)
     val maxPhrases = selectedCategory?.categoryId.let { id ->
         if (id == PresetCategories.USER_KEYPAD.id) {
@@ -655,6 +659,16 @@ fun PresetsScreenPreview() {
     device = "spec:width=800dp,height=400dp,dpi=240",
     showBackground = true,
 )
+@Preview(
+    name = "Tablet Portrait",
+    device = "spec:width=800dp,height=1280dp,dpi=240",
+    showBackground = true,
+)
+@Preview(
+    name = "Tablet Landscape",
+    device = "spec:width=1280dp,height=800dp,dpi=240",
+    showBackground = true,
+)
 @Composable
 fun PresetsScreenPreview2() {
     VocableTheme {
@@ -665,19 +679,18 @@ fun PresetsScreenPreview2() {
             ),
             selectedCategory = Category.PresetCategory(PresetCategories.USER_KEYPAD.id, 0, false),
             currentPhrases = listOf(
-                PhraseGridItem.Phrase("1", "0"),
-                PhraseGridItem.Phrase("2", "1"),
-                PhraseGridItem.Phrase("3", "2"),
-                PhraseGridItem.Phrase("4", "3"),
-                PhraseGridItem.Phrase("5", "4"),
-                PhraseGridItem.Phrase("6", "5"),
-                PhraseGridItem.Phrase("7", "6"),
-                PhraseGridItem.Phrase("5", "7"),
-                PhraseGridItem.Phrase("6", "8"),
-                PhraseGridItem.Phrase("7", "9"),
-                PhraseGridItem.Phrase("8", "Yes"),
-                PhraseGridItem.Phrase("9", "No"),
-                PhraseGridItem.AddPhrase
+                PhraseGridItem.Phrase("1", "1"),
+                PhraseGridItem.Phrase("2", "2"),
+                PhraseGridItem.Phrase("3", "3"),
+                PhraseGridItem.Phrase("4", "4"),
+                PhraseGridItem.Phrase("5", "5"),
+                PhraseGridItem.Phrase("6", "6"),
+                PhraseGridItem.Phrase("7", "7"),
+                PhraseGridItem.Phrase("8", "8"),
+                PhraseGridItem.Phrase("9", "9"),
+                PhraseGridItem.Phrase("10", "0"),
+                PhraseGridItem.Phrase("11", "No"),
+                PhraseGridItem.Phrase("12", "Yes")
             ),
             isLoadingPhrases = false,
             onCategorySelected = {},
@@ -686,7 +699,7 @@ fun PresetsScreenPreview2() {
             onNavigateToSettings = {},
             onPhraseClick = { _, _ -> },
             isSpeaking = true,
-            activeText = "0"
+            activeText = "1"
         )
     }
 }

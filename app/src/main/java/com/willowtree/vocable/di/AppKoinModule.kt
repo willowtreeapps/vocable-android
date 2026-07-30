@@ -60,7 +60,7 @@ import org.koin.dsl.module
 val vocableKoinModule = module {
 
     scope<SplashActivity> {
-        viewModel { SplashViewModel(get(), get(), get(named<SplashViewModel>())) }
+        viewModel { SplashViewModel(get(), get(named<SplashViewModel>())) }
     }
 
     scope<MainActivity> {
@@ -106,9 +106,10 @@ val vocableKoinModule = module {
     single { RoomStoredCategoriesRepository(get()) } bind StoredCategoriesRepository::class
     single { RoomPresetCategoriesRepository(get()) } bind PresetCategoriesRepository::class
     single { RoomStoredPhrasesRepository(get(), get()) } bind StoredPhrasesRepository::class
-    single { RoomPresetPhrasesRepository(get(), get()) } bind PresetPhrasesRepository::class
+    single { RoomPresetPhrasesRepository(get(), get(), get()) } bind PresetPhrasesRepository::class
     single { VocableDatabase.createVocableDatabase(get()) }
     single { get<VocableDatabase>().presetPhrasesDao() }
+    single { get<VocableDatabase>().phraseDao() }
     single<VocableEnvironment> { VocableEnvironmentImpl() }
 
     viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get()) }

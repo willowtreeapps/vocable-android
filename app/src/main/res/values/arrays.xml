@@ -41,8 +41,17 @@
         <item>@string/settings_reset_app</item>
     </string-array>
 
+    <!--
+        Phone-keypad order: the grid fills row-major, so this flat sequence renders as
+        1 2 3 / 4 5 6 / 7 8 9 / 0 No Yes at the 3-column breakpoints and
+        1 2 3 4 5 6 / 7 8 9 0 No Yes at the 6-column ones. Both match the approved designs.
+        Order is authoritative - PresetPhrase.sort_order is synced from these indices on launch.
+        Additions and reorders are handled; removing an item or moving it to another array is not,
+        because the resync never deletes or re-parents an existing row. An install upgraded past
+        such a change keeps the orphan row, which then collides with whatever entry took its index.
+        See RoomPresetPhrasesRepository.ensurePopulated.
+    -->
     <string-array name="category_123">
-        <item>@string/category_123_0</item>
         <item>@string/category_123_1</item>
         <item>@string/category_123_2</item>
         <item>@string/category_123_3</item>
@@ -52,8 +61,9 @@
         <item>@string/category_123_7</item>
         <item>@string/category_123_8</item>
         <item>@string/category_123_9</item>
-        <item>@string/category_123_yes</item>
+        <item>@string/category_123_0</item>
         <item>@string/category_123_no</item>
+        <item>@string/category_123_yes</item>
     </string-array>
 
     <array name="category_basic_needs">

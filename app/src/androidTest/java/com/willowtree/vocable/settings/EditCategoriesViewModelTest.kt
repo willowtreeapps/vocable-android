@@ -43,6 +43,7 @@ class EditCategoriesViewModelTest {
     private val storedCategoriesRepository = RoomStoredCategoriesRepository(database)
     private val presetPhrasesRepository = RoomPresetPhrasesRepository(
         database.presetPhrasesDao(),
+        database.phraseDao(),
         FakeDateProvider()
     )
     private val storedPhrasesRepository = RoomStoredPhrasesRepository(database, FakeDateProvider())

@@ -1,6 +1,7 @@
 package com.willowtree.vocable.data.repository
 
 import android.content.Context
+import com.willowtree.vocable.data.room.PhraseDao
 import com.willowtree.vocable.data.room.PhraseSpokenDate
 import com.willowtree.vocable.data.room.PresetPhraseDto
 import com.willowtree.vocable.data.room.PresetPhrasesDao
@@ -17,6 +18,7 @@ import kotlin.collections.map
 
 class RoomPresetPhrasesRepository(
     private val presetPhrasesDao: PresetPhrasesDao,
+    private val phraseDao: PhraseDao,
     private val dateProvider: DateProvider,
 ) : PresetPhrasesRepository {
 
@@ -76,28 +78,45 @@ class RoomPresetPhrasesRepository(
 
     private suspend fun ensurePopulated() {
         phrasesMutex.withLock {
-            val existingPresetPhrases = presetPhrasesDao.getAllPresetPhrases()
-            val existingResourceIdStrings = existingPresetPhrases.map { it.phraseId }.toSet()
+            val resources = get().get<Context>().resources
+            val existingSortOrders = presetPhrasesDao.getAllPresetPhrases()
+                .associate { it.phraseId to it.sortOrder }
+            // Editing a preset soft-deletes its PresetPhrase row and stores a "shadow" phrase
+            // reusing the same id, so a stored row keyed by an array entry name is always a
+            // shadow - genuinely custom phrases get a UUID and can never collide here.
+            val shadowSortOrders = phraseDao.getAllPhrases()
+                .associate { it.phraseId to it.sortOrder }
 
             PresetCategories.values().forEach { presetCategory ->
                 if (presetCategory != PresetCategories.RECENTS && presetCategory != PresetCategories.MY_SAYINGS) {
-                    val phrasesIds = get().get<Context>()
-                        .resources.obtainTypedArray(presetCategory.getArrayId())
+                    val phrasesIds = resources.obtainTypedArray(presetCategory.getArrayId())
                     val phraseObjects = mutableListOf<PresetPhraseDto>()
                     for (index in 0 until phrasesIds.length()) {
                         val phraseId = phrasesIds.getResourceId(index, 0)
-                        val phraseEntryName =
-                            get().get<Context>().resources.getResourceEntryName(phraseId)
-                        if (phraseEntryName !in existingResourceIdStrings) {
+                        val phraseEntryName = resources.getResourceEntryName(phraseId)
+                        val existingSortOrder = existingSortOrders[phraseEntryName]
+                        if (existingSortOrder == null) {
                             phraseObjects.add(
                                 PresetPhraseDto(
                                     phraseId = phraseEntryName,
                                     parentCategoryId = presetCategory.id,
                                     creationDate = System.currentTimeMillis(),
                                     lastSpokenDate = null,
-                                    sortOrder = phraseObjects.size,
+                                    sortOrder = index,
                                 )
                             )
+                        } else if (existingSortOrder != index) {
+                            // The array is the source of truth for display order, but a phrase
+                            // seeded by an earlier release keeps whatever sort_order it was given
+                            // then - resync it so reordering an array actually takes effect.
+                            presetPhrasesDao.updatePhraseSortOrder(phraseEntryName, index)
+                        }
+                        // Checked independently of the preset row above: a release that resynced
+                        // only the preset rows leaves an install whose presets already match the
+                        // array while its shadows still carry the pre-reorder index, so keying
+                        // this off the preset row would strand exactly those installs.
+                        if (shadowSortOrders[phraseEntryName].let { it != null && it != index }) {
+                            phraseDao.updatePhraseSortOrder(phraseEntryName, index)
                         }
                     }
                     phrasesIds.recycle()

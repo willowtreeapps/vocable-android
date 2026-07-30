@@ -37,4 +37,15 @@ interface PhraseDao {
 
     @Query("SELECT * FROM Phrase WHERE phrase_id == :phraseId")
     suspend fun getPhrase(phraseId: String): PhraseDto?
+
+    @Query("SELECT * FROM Phrase")
+    suspend fun getAllPhrases(): List<PhraseDto>
+
+    /**
+     * Targeted update rather than an insert with [OnConflictStrategy.REPLACE], which would
+     * clobber the row's localized_utterance and last_spoken_date. A no-op when no row with
+     * this id is stored.
+     */
+    @Query("UPDATE Phrase SET sort_order = :sortOrder WHERE phrase_id = :phraseId")
+    suspend fun updatePhraseSortOrder(phraseId: String, sortOrder: Int)
 }

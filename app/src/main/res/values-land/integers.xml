@@ -7,6 +7,7 @@
     <integer name="phrases_columns">3</integer>
     <integer name="phrases_columns_one_liner_phrases">6</integer>
     <integer name="phrases_rows">2</integer>
+    <integer name="phrases_rows_one_liner_phrases">2</integer>
     <integer name="settings_options_rows">3</integer>
     <integer name="settings_options_columns">2</integer>
     <integer name="edit_keyboard_columns">10</integer>
