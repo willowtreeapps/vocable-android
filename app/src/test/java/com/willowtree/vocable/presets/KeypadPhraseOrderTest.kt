@@ -43,8 +43,8 @@ class KeypadPhraseOrderTest {
     /**
      * The layouts signed off in the designs, keyed by column count. A breakpoint that uses any
      * other column count has no approved keypad shape, so it has to be added here deliberately
-     * rather than passing by accident - 4 columns, for instance, still satisfies
-     * columns x rows == max_phrases_one_liner while rendering 1 2 3 4 / 5 6 7 8 / 9 0 No Yes.
+     * rather than passing by accident - 4 columns, for instance, still fits all 12 keypad phrases
+     * while rendering 1 2 3 4 / 5 6 7 8 / 9 0 No Yes.
      */
     private val approvedLayouts = mapOf(
         3 to listOf(
