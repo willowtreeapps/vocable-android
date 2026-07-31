@@ -29,9 +29,6 @@ import com.willowtree.vocable.ui.sensitivity.SensitivityScreen
 import com.willowtree.vocable.ui.settings.SettingsEvent
 import com.willowtree.vocable.ui.settings.SettingsScreen
 import com.willowtree.vocable.ui.settings.SettingsViewModel
-import com.willowtree.vocable.ui.languageselection.LanguageSelectionEvent
-import com.willowtree.vocable.ui.languageselection.LanguageSelectionScreen
-import com.willowtree.vocable.ui.languageselection.LanguageSelectionViewModel
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionEvent
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionScreen
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel
@@ -52,7 +49,6 @@ private const val ROUTE_EDIT_PHRASE = "editPhrase"
 private const val ROUTE_SENSITIVITY = "sensitivity"
 private const val ROUTE_SELECTION_MODE = "selectionMode"
 private const val ROUTE_VOICE_SELECTION = "voiceSelection"
-private const val ROUTE_LANGUAGE_SELECTION = "languageSelection"
 
 @Composable
 fun VocableNavHost(
@@ -226,7 +222,6 @@ fun VocableNavHost(
             val vm: SelectionModeViewModel = mainActivity.getViewModel()
             SelectionModeScreen(
                 onBack = { navController.popBackStack(ROUTE_SETTINGS, false) },
-                onLanguageSelection = { navController.navigate(ROUTE_LANGUAGE_SELECTION) },
                 onVoiceSelection = { navController.navigate(ROUTE_VOICE_SELECTION) },
                 viewModel = vm
             )
@@ -251,21 +246,6 @@ fun VocableNavHost(
                     onVoiceSelected = viewModel::onVoiceSelected,
                     onDownloadVoice = viewModel::onDownloadVoice,
                     onRefreshVoices = viewModel::refreshVoices
-                )
-            }
-        }
-
-        composable(ROUTE_LANGUAGE_SELECTION) {
-            val viewModel: LanguageSelectionViewModel = koinViewModel()
-            MviScreen(viewModel = viewModel, onEvent = { event ->
-                when (event) {
-                    LanguageSelectionEvent.NavigateBack -> navController.popBackStack()
-                }
-            }) { state ->
-                LanguageSelectionScreen(
-                    state = state,
-                    onBack = { navController.popBackStack() },
-                    onLanguageSelected = viewModel::onLanguageSelected
                 )
             }
         }

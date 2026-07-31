@@ -14,7 +14,6 @@ import com.willowtree.vocable.core.IdlingResourceContainer
 import com.willowtree.vocable.core.VocableTextToSpeech
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.Locale
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -123,10 +122,8 @@ class PresetsViewModel(
             }
             is PresetsIntent.Speak -> {
                 _state.update { it.copy(activeText = intent.text) }
-                val languageTag = sharedPreferences.getSelectedLanguageTag()
-                val locale = if (!languageTag.isNullOrEmpty()) Locale.forLanguageTag(languageTag) else null
                 VocableTextToSpeech.speak(
-                    locale = locale,
+                    locale = null,
                     text = intent.text,
                     selectedVoiceName = sharedPreferences.getSelectedVoiceName()
                 )

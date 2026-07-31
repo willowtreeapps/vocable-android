@@ -43,12 +43,10 @@ import org.koin.androidx.compose.koinViewModel
 fun SelectionModeScreen(
     onBack: () -> Unit,
     onVoiceSelection: () -> Unit,
-    onLanguageSelection: () -> Unit,
     viewModel: SelectionModeViewModel = koinViewModel()
 ) {
     val enabled by viewModel.headTrackingEnabled.asFlow().collectAsStateWithLifecycle(initialValue = false)
     val selectedVoiceLabel by viewModel.selectedVoiceLabel.collectAsStateWithLifecycle()
-    val selectedLanguageLabel by viewModel.selectedLanguageLabel.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
@@ -64,10 +62,8 @@ fun SelectionModeScreen(
     SelectionModeContent(
         enabled = enabled,
         selectedVoiceLabel = selectedVoiceLabel,
-        selectedLanguageLabel = selectedLanguageLabel,
         onBack = onBack,
         onVoiceSelection = onVoiceSelection,
-        onLanguageSelection = onLanguageSelection,
         onToggleHeadTracking = {
             if (!enabled) {
                 viewModel.requestHeadTracking()
@@ -82,10 +78,8 @@ fun SelectionModeScreen(
 fun SelectionModeContent(
     enabled: Boolean,
     selectedVoiceLabel: String,
-    selectedLanguageLabel: String,
     onBack: () -> Unit,
     onVoiceSelection: () -> Unit,
-    onLanguageSelection: () -> Unit,
     onToggleHeadTracking: () -> Unit
 ) {
     val buttonHeight = dimensionResource(id = R.dimen.selection_mode_button_height)
@@ -95,7 +89,7 @@ fun SelectionModeContent(
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, trackingButtonRef, voiceButtonRef, languageButtonRef) = createRefs()
+        val (titleRef, backButtonRef, trackingButtonRef, voiceButtonRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         Text(
@@ -175,26 +169,13 @@ fun SelectionModeContent(
         }
 
         SettingsButton(
-            text = stringResource(R.string.settings_language, selectedLanguageLabel),
-            onClick = onLanguageSelection,
-            modifier = Modifier
-                .height(buttonHeight)
-                .fillMaxWidth()
-                .constrainAs(languageButtonRef) {
-                    top.linkTo(trackingButtonRef.bottom, margin = 16.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-        )
-
-        SettingsButton(
             text = stringResource(R.string.settings_voice, selectedVoiceLabel),
             onClick = onVoiceSelection,
             modifier = Modifier
                 .height(buttonHeight)
                 .fillMaxWidth()
                 .constrainAs(voiceButtonRef) {
-                    top.linkTo(languageButtonRef.bottom, margin = 16.dp)
+                    top.linkTo(trackingButtonRef.bottom, margin = 16.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
@@ -209,10 +190,8 @@ fun SelectionModeScreenPreview() {
         SelectionModeContent(
             enabled = true,
             selectedVoiceLabel = "Default",
-            selectedLanguageLabel = "System Default",
             onBack = {},
             onVoiceSelection = {},
-            onLanguageSelection = {},
             onToggleHeadTracking = {}
         )
     }

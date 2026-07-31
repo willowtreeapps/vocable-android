@@ -28,14 +28,11 @@ jobs:
           cache: gradle
 
       - name: Run Unit Tests
-        env:
-          FUELIX_API_KEY: ${{ secrets.FUELIX_API_KEY }}
         run: ./gradlew testDebug
 
       - name: Assemble
         env:
           VERSION_CODE: ${{ github.run_number }}
-          FUELIX_API_KEY: ${{ secrets.FUELIX_API_KEY }}
         run: ./gradlew assembleDebug assembleDebugAndroidTest
 
       - uses: actions/upload-artifact@v4
