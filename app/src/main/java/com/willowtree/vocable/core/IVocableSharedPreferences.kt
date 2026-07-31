@@ -29,10 +29,6 @@ interface IVocableSharedPreferences {
 
     fun getSelectedVoiceName(): String?
 
-    fun setSelectedLanguageTag(tag: String?)
-
-    fun getSelectedLanguageTag(): String?
-
     fun setFirstTime()
 
     fun getFirstTime(): Boolean
