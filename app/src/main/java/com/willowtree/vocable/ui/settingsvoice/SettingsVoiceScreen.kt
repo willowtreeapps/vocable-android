@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -39,6 +40,7 @@ fun SettingsVoiceScreen(
     onBack: () -> Unit,
     onChangeVoice: () -> Unit,
     onRefreshActiveVoice: () -> Unit,
+    onPreviewActiveVoice: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -57,7 +59,7 @@ fun SettingsVoiceScreen(
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, previewRowRef, changeVoiceRowRef) = createRefs()
+        val (titleRef, backButtonRef, previewRowRef, changeVoiceRowRef, footerRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         Text(
@@ -90,29 +92,44 @@ fun SettingsVoiceScreen(
             )
         }
 
-        Row(
+        // Reads the active voice's own display name aloud in that voice — not a sample phrase, so
+        // it sidesteps #613's still-open sample-phrase decision. Toggles to the stop icon while
+        // speaking and back to play once done.
+        GazeButton(
+            onClick = onPreviewActiveVoice,
             modifier = Modifier
+                .height(dimensionResource(id = R.dimen.selection_mode_button_height))
                 .fillMaxWidth()
                 .constrainAs(previewRowRef) {
                     top.linkTo(backButtonRef.bottom, margin = 32.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                },
-            verticalAlignment = Alignment.CenterVertically
+                }
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_play_circle_40dp),
-                contentDescription = stringResource(R.string.voice_settings_preview_content_description),
-                tint = Color.Unspecified
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = if (state.isPreviewPlaying) R.drawable.ic_stop_circle_40dp else R.drawable.ic_play_circle_40dp
+                    ),
+                    contentDescription = stringResource(
+                        if (state.isPreviewPlaying) R.string.voice_settings_stop_preview_content_description
+                        else R.string.voice_settings_preview_content_description
+                    ),
+                    tint = Color.Unspecified
+                )
 
-            Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(16.dp))
 
-            Text(
-                text = state.activeVoiceDisplayName,
-                style = MaterialTheme.typography.titleMedium,
-                color = TextColor
-            )
+                Text(
+                    text = state.activeVoiceDisplayName,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
         }
 
         SettingsButton(
@@ -122,10 +139,22 @@ fun SettingsVoiceScreen(
                 .height(dimensionResource(id = R.dimen.selection_mode_button_height))
                 .fillMaxWidth()
                 .constrainAs(changeVoiceRowRef) {
-                    top.linkTo(previewRowRef.bottom, margin = 32.dp)
+                    top.linkTo(previewRowRef.bottom, margin = 12.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+        )
+
+        Text(
+            text = stringResource(R.string.voice_settings_footer),
+            style = MaterialTheme.typography.bodyMedium,
+            color = TextColor,
+            modifier = Modifier.constrainAs(footerRef) {
+                top.linkTo(changeVoiceRowRef.bottom, margin = 16.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                width = Dimension.fillToConstraints
+            }
         )
     }
 }
@@ -139,7 +168,8 @@ fun SettingsVoiceScreenPreview() {
             state = SettingsVoiceState(activeVoiceDisplayName = "English (United States) – Enhanced"),
             onBack = {},
             onChangeVoice = {},
-            onRefreshActiveVoice = {}
+            onRefreshActiveVoice = {},
+            onPreviewActiveVoice = {}
         )
     }
 }

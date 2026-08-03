@@ -23,6 +23,14 @@ class VoiceSelectionViewModel(
                 .filter { it }
                 .collect { refreshVoices() }
         }
+
+        viewModelScope.launch {
+            VocableTextToSpeech.isSpeakingFlow.collect { isSpeaking ->
+                if (!isSpeaking) {
+                    updateState { copy(previewingVoiceName = null) }
+                }
+            }
+        }
     }
 
     fun onVoiceSelected(voiceName: String?) {
@@ -33,6 +41,17 @@ class VoiceSelectionViewModel(
 
     fun onDownloadVoice() {
         sendEvent(VoiceSelectionEvent.LaunchTtsSettings(VocableTextToSpeech.getCurrentEngine()))
+    }
+
+    /** Toggles reading [voice]'s own display name aloud in that voice — stops if it's already previewing. */
+    fun onPreviewVoice(voice: VocableTextToSpeech.VoiceOption) {
+        if (uiState.value.previewingVoiceName == voice.name) {
+            VocableTextToSpeech.stop()
+            updateState { copy(previewingVoiceName = null) }
+        } else {
+            updateState { copy(previewingVoiceName = voice.name) }
+            VocableTextToSpeech.speak(voice.locale, voice.displayName, voice.name)
+        }
     }
 
     fun refreshVoices() {

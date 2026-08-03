@@ -7,6 +7,8 @@ import com.willowtree.vocable.ui.settingsvoice.SettingsVoiceViewModel
 import com.willowtree.vocable.utils.FakeVocableSharedPreferences
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -58,5 +60,24 @@ class SettingsVoiceViewModelTest {
             viewModel.onBack()
             assertEquals(SettingsVoiceEvent.NavigateBack, awaitItem())
         }
+    }
+
+    @Test
+    fun `onPreviewActiveVoice marks the preview as playing`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.onPreviewActiveVoice()
+
+        assertTrue(viewModel.uiState.value.isPreviewPlaying)
+    }
+
+    @Test
+    fun `onPreviewActiveVoice again stops the preview`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.onPreviewActiveVoice()
+        viewModel.onPreviewActiveVoice()
+
+        assertFalse(viewModel.uiState.value.isPreviewPlaying)
     }
 }

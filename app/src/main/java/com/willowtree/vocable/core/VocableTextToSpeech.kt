@@ -72,6 +72,15 @@ object VocableTextToSpeech {
         _isReady.value = false
     }
 
+    /** Halts in-progress speech (e.g. a voice preview) without tearing down the engine like [shutdown]. */
+    fun stop() {
+        textToSpeech?.let {
+            it.stop()
+            liveIsSpeaking.postValue(false)
+        }
+        _isSpeakingFlow.value = false
+    }
+
     fun getAvailableVoices(locale: Locale = Locale.getDefault()): List<VoiceOption> {
         val tts = textToSpeech ?: return emptyList()
         val availableVoices = tts.voices ?: return emptyList()

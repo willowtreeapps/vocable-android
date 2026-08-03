@@ -32,7 +32,6 @@
 
     <!-- Selection Mode -->
     <string name="selection_mode_title">Selection Mode</string>
-    <string name="voice_selection_title">Voice</string>
     <string name="voice_default">Default</string>
     <string name="close_voice_selection">Close Voice Selection</string>
     <string name="selected">Selected</string>
@@ -42,6 +41,8 @@
     <string name="voice_settings_title">Voice</string>
     <string name="voice_settings_change_voice">Change Voice</string>
     <string name="voice_settings_preview_content_description">Preview voice</string>
+    <string name="voice_settings_stop_preview_content_description">Stop voice preview</string>
+    <string name="voice_settings_footer">Additional voices and voice quality enhancements may be available for download in your device\'s Settings.</string>
 
     <!-- Button Text -->
     <string name="button_pause">Pause</string>
