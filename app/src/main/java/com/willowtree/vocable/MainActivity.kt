@@ -110,12 +110,14 @@ class MainActivity : ScopeActivity() {
                         viewModel = faceTrackingViewModel,
                         onEvent = { event ->
                             when (event) {
-                                is FaceTrackingEvent.Speak ->
-                                    VocableTextToSpeech.speak(
+                                is FaceTrackingEvent.Speak -> {
+                                    val selectionWasStale = VocableTextToSpeech.speak(
                                         locale = Locale.getDefault(),
                                         text = event.text,
                                         selectedVoiceName = sharedPrefs.getSelectedVoiceName()
                                     )
+                                    if (selectionWasStale) sharedPrefs.setSelectedVoiceName(null)
+                                }
                             }
                         }
                     ) { _ ->

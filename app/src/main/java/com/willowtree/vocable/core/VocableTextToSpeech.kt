@@ -96,47 +96,102 @@ object VocableTextToSpeech {
 
     fun getCurrentEngine(): String? = textToSpeech?.defaultEngine
 
-    fun speak(locale: Locale?, text: String, selectedVoiceName: String? = null) {
-        textToSpeech?.let { tts ->
-            val targetLocale = locale ?: Locale.getDefault()
-            Timber.d("VocableTextToSpeech speak called. text: '$text', requested locale: $locale, target locale: $targetLocale, selectedVoiceName: $selectedVoiceName")
+    /**
+     * Speaks [text] in [locale] (or the system default if null), using [selectedVoiceName] if it
+     * still resolves to an installed voice, otherwise falling back to the device's own current
+     * default voice (checked live, not persisted).
+     *
+     * @return true if [selectedVoiceName] was non-null but no longer resolves to an installed
+     * voice — the caller should clear its persisted selection in that case, since this voice is
+     * gone and Vocable has silently fallen back to the device default for this call.
+     */
+    fun speak(locale: Locale?, text: String, selectedVoiceName: String? = null): Boolean {
+        val tts = textToSpeech ?: run {
+            Timber.e("VocableTextToSpeech speak failed: textToSpeech engine is null")
+            return false
+        }
 
-            if (lastSetLocale?.toLanguageTag() != targetLocale.toLanguageTag()) {
-                var result = tts.setLanguage(targetLocale)
-                Timber.d("VocableTextToSpeech setLanguage result: $result (LANG_MISSING_DATA=-1, LANG_NOT_SUPPORTED=-2)")
+        val targetLocale = locale ?: Locale.getDefault()
+        Timber.d("VocableTextToSpeech speak called. text: '$text', requested locale: $locale, target locale: $targetLocale, selectedVoiceName: $selectedVoiceName")
+
+        if (lastSetLocale?.toLanguageTag() != targetLocale.toLanguageTag()) {
+            var result = tts.setLanguage(targetLocale)
+            Timber.d("VocableTextToSpeech setLanguage result: $result (LANG_MISSING_DATA=-1, LANG_NOT_SUPPORTED=-2)")
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                val fallbackLocale = Locale.forLanguageTag(targetLocale.toLanguageTag())
+                Timber.d("VocableTextToSpeech: Trying fallback locale: $fallbackLocale")
+                result = tts.setLanguage(fallbackLocale)
 
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    val fallbackLocale = Locale.forLanguageTag(targetLocale.toLanguageTag())
-                    Timber.d("VocableTextToSpeech: Trying fallback locale: $fallbackLocale")
-                    result = tts.setLanguage(fallbackLocale)
-
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Timber.e("VocableTextToSpeech: Language data missing or not supported for locale $targetLocale and fallback $fallbackLocale. Result code: $result")
-                        return@let
-                    }
+                    Timber.e("VocableTextToSpeech: Language data missing or not supported for locale $targetLocale and fallback $fallbackLocale. Result code: $result")
+                    return false
                 }
-                lastSetLocale = targetLocale
             }
+            lastSetLocale = targetLocale
+        }
 
-            applySelectedVoice(tts, selectedVoiceName, targetLocale)
-            Timber.d("VocableTextToSpeech: Speaking text...")
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)
-        } ?: run {
-            Timber.e("VocableTextToSpeech speak failed: textToSpeech engine is null")
+        val selectionWasStale = applySelectedVoice(tts, selectedVoiceName, targetLocale)
+        Timber.d("VocableTextToSpeech: Speaking text...")
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)
+        return selectionWasStale
+    }
+
+    /** Which branch of voice-resolution logic [applySelectedVoice] should take. Pure/testable — see [resolveVoiceSelection]. */
+    internal enum class VoiceResolution { EXPLICIT, LIVE_DEFAULT, STALE_FALLBACK_TO_LIVE_DEFAULT }
+
+    /**
+     * Pure decision logic, kept free of any real `android.speech.tts` types so it's unit-testable
+     * without Robolectric (this project's unit tests use hand-written fakes, not a mocking
+     * framework or Robolectric, and `Voice`/`TextToSpeech` can't be constructed under the plain
+     * Android SDK stub jar used by `app/src/test`).
+     */
+    internal fun resolveVoiceSelection(selectedVoiceName: String?, availableVoiceNames: Set<String>): VoiceResolution =
+        when {
+            selectedVoiceName.isNullOrBlank() -> VoiceResolution.LIVE_DEFAULT
+            selectedVoiceName in availableVoiceNames -> VoiceResolution.EXPLICIT
+            else -> VoiceResolution.STALE_FALLBACK_TO_LIVE_DEFAULT
+        }
+
+    /**
+     * @return true if [selectedVoiceName] was provided but didn't resolve to an installed voice
+     * (stale/removed) — the live device default was applied instead in that case.
+     */
+    private fun applySelectedVoice(tts: TextToSpeech, selectedVoiceName: String?, locale: Locale): Boolean {
+        val availableVoiceNames = tts.voices
+            ?.filter { isVoiceSupportedForLocale(tts, it, locale) }
+            ?.mapTo(mutableSetOf()) { it.name }
+            ?: emptySet()
+
+        return when (resolveVoiceSelection(selectedVoiceName, availableVoiceNames)) {
+            VoiceResolution.LIVE_DEFAULT -> {
+                applyLiveDefaultVoice(tts, locale)
+                false
+            }
+            VoiceResolution.EXPLICIT -> {
+                val matchingVoice = tts.voices?.firstOrNull { it.name == selectedVoiceName }
+                if (matchingVoice != null) {
+                    tts.voice = matchingVoice
+                    Timber.d("VocableTextToSpeech applied voice: ${matchingVoice.name}")
+                }
+                false
+            }
+            VoiceResolution.STALE_FALLBACK_TO_LIVE_DEFAULT -> {
+                Timber.w("VocableTextToSpeech: selected voice '$selectedVoiceName' no longer resolves, falling back to device default")
+                applyLiveDefaultVoice(tts, locale)
+                true
+            }
         }
     }
 
-    private fun applySelectedVoice(tts: TextToSpeech, selectedVoiceName: String?, locale: Locale) {
-        if (selectedVoiceName.isNullOrBlank()) return
-
-        val matchingVoice = tts.voices
-            ?.firstOrNull { it.name == selectedVoiceName && isVoiceSupportedForLocale(tts, it, locale) }
-
-        if (matchingVoice != null) {
-            tts.voice = matchingVoice
-            Timber.d("VocableTextToSpeech applied voice: ${matchingVoice.name}")
+    /** Reads the engine's own current default voice live, every call — never cached or persisted. */
+    private fun applyLiveDefaultVoice(tts: TextToSpeech, locale: Locale) {
+        val defaultVoice = tts.getDefaultVoice()
+        if (defaultVoice != null && isVoiceSupportedForLocale(tts, defaultVoice, locale)) {
+            tts.voice = defaultVoice
+            Timber.d("VocableTextToSpeech applied device default voice: ${defaultVoice.name}")
         } else {
-            Timber.w("VocableTextToSpeech could not find compatible voice for name: $selectedVoiceName")
+            Timber.w("VocableTextToSpeech: device default voice unavailable/unsupported for locale $locale; leaving engine's current voice as-is")
         }
     }
 
