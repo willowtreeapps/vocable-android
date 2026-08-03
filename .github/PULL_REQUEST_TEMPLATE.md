@@ -1,20 +1,23 @@
-Part of #<!-- parent tracking issue --> — closes #<!-- this PR's own sub-issue -->.
+## Summary
+<!-- 1-3 bullet points describing what this PR does -->
 
-<!-- If this PR stacks on another unmerged PR, say so explicitly, e.g.:
-> [!NOTE]
-> **Stacked on #NNN** — based on `<branch>`, not `main`. GitHub will retarget to `main` once #NNN merges.
--->
+## Ticket
+<!-- Link to the GitHub issue, e.g. "Part of #613 — closes #642" -->
 
-## What
+## Type of Change
+- [ ] New feature
+- [ ] Bug fix
+- [ ] Refactor
+- [ ] Tests
+- [ ] CI/CD
+- [ ] Documentation
 
-<!-- Concretely what changed. Bullet list of the actual edits, not a restatement of the issue. -->
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing performed
 
-## Why it's safe
-
-<!-- Verification actually performed: build output, test counts, manual run/screenshots, before-after tables.
-Don't just assert correctness — show the evidence (e.g. "38 unit tests, 0 failures", a screenshot, a diff table). -->
-
-## Out of scope / follow-up
-
-<!-- What this PR deliberately does NOT touch, and where that work is tracked (issue link).
-Large tickets get broken into multiple PRs like this one — call out what's left for the next one. -->
+## Checklist
+- [ ] Tests pass locally (`./gradlew testDebug`)
+- [ ] No API keys or secrets in code
+- [ ] CLAUDE.md updated (if new pattern introduced)
