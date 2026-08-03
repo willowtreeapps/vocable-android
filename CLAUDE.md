@@ -6,7 +6,18 @@ See `Documentation/architecture-diagrams.md` for the user-journey and tech-stack
 
 ## Cross-repo: vocable-ios
 
-This repo has a sibling iOS repo at `../vocable-ios` (both live under a shared `vocable/` parent folder; the parent itself is **not** a git repo — each app keeps its own history/remote, see `../CLAUDE.md`). **iOS development is ahead of Android** — new features typically land on iOS first. When a ticket asks Android to add or match a feature that already exists on iOS, check `../vocable-ios/CLAUDE.md` and the Swift implementation in `../vocable-ios/Vocable/` for the intended UX/behavior/edge cases before designing the Android version, rather than reinventing it from scratch.
+This repo has a sibling iOS repo, `willowtreeapps/vocable-ios` (default branch `develop` — not `main`). **iOS development is ahead of Android** — new features typically land on iOS first. When a ticket asks Android to add or match a feature that already exists on iOS, check the Swift implementation for the intended UX/behavior/edge cases before designing the Android version, rather than reinventing it from scratch.
+
+**The shipped iOS implementation is the source of truth for design and behavior — not Figma.** Where a Figma mock and the iOS code disagree, follow iOS and flag the divergence back to design on the relevant design ticket rather than building the mock. Figma is a useful reference for anything iOS doesn't cover, but it lags and has been wrong: on #636 the mock called for a 3px selected-state border where iOS uses a trailing checkmark, showed one column on tablet landscape where iOS uses two, and showed per-voice proper names (`"Aria (Enhanced)"`) that Android TTS cannot produce at all. Also confirm parity is even *achievable* before committing to it — platform APIs differ, and where they do, say so on the ticket instead of forcing a match.
+
+**Reading the iOS source.** Clone locations vary by machine — it's often cloned alongside this repo at `../vocable-ios`, but don't assume that. Check for a local clone first and use it if present. If there isn't one, the repo is public, so read it without cloning rather than asking someone to clone it:
+
+```
+gh api "repos/willowtreeapps/vocable-ios/git/trees/develop?recursive=1" --jq '.tree[].path' | grep -i <feature>
+gh api "repos/willowtreeapps/vocable-ios/contents/<path>?ref=develop" --jq '.content' | base64 -d
+```
+
+Either way, start with the iOS repo's own `CLAUDE.md` for orientation, and note that localized copy lives in `Vocable/Supporting Files/Localizable.xcstrings` — it's JSON, so parse it rather than grepping.
 
 Confirmed architecture differences (don't port 1:1): iOS is UIKit+Combine+singletons+Core Data with no ViewModel layer and no DI framework — nothing like Koin/Compose/MVI. iOS solves "editing a preset phrase" by mutating one row in place (`isUserRenamed` flag) instead of Android's shadow-phrase duplicate-row approach, so iOS has no analog to Android's PR #611 shadow-phrase sort-order bug class. iOS's dwell-click is *not* gated on TTS completion the way Android's `GazeClickable` is — treat that as a platform-behavior question to confirm with product, not an automatic bug on either side.
 
