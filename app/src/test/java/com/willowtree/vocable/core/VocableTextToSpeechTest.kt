@@ -1,7 +1,10 @@
 package com.willowtree.vocable.core
 
+import android.speech.tts.TextToSpeech
 import com.willowtree.vocable.core.VocableTextToSpeech.VoiceResolution
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
@@ -62,5 +65,28 @@ class VocableTextToSpeechTest {
         )
 
         assertEquals(VoiceResolution.STALE_FALLBACK_TO_LIVE_DEFAULT, result)
+    }
+
+    // #642: a voice can still be listed by the engine after its data is uninstalled — only
+    // flagged via KEY_FEATURE_NOT_INSTALLED, not removed. Name/locale matching alone can't tell
+    // "installed" from "known but uninstalled."
+
+    @Test
+    fun `voice with no features is considered downloaded`() {
+        assertTrue(VocableTextToSpeech.isVoiceDownloaded(features = null))
+    }
+
+    @Test
+    fun `voice with unrelated features is considered downloaded`() {
+        assertTrue(VocableTextToSpeech.isVoiceDownloaded(features = setOf("someOtherFeature")))
+    }
+
+    @Test
+    fun `voice flagged not-installed is not considered downloaded`() {
+        assertFalse(
+            VocableTextToSpeech.isVoiceDownloaded(
+                features = setOf(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
+            )
+        )
     }
 }

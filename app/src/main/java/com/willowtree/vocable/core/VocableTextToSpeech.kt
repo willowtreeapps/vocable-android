@@ -84,12 +84,11 @@ object VocableTextToSpeech {
             }
             .sortedWith(compareByDescending<Voice> { it.quality }.thenBy { it.name })
             .map { voice ->
-                val isDownloaded = voice.features?.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED) != true
                 VoiceOption(
                     name = voice.name,
                     displayName = buildVoiceDisplayName(voice),
                     locale = voice.locale,
-                    isDownloaded = isDownloaded
+                    isDownloaded = isVoiceDownloaded(voice)
                 )
             }
     }
@@ -159,7 +158,7 @@ object VocableTextToSpeech {
      */
     private fun applySelectedVoice(tts: TextToSpeech, selectedVoiceName: String?, locale: Locale): Boolean {
         val availableVoiceNames = tts.voices
-            ?.filter { isVoiceSupportedForLocale(tts, it, locale) }
+            ?.filter { isVoiceSupportedForLocale(tts, it, locale) && isVoiceDownloaded(it) }
             ?.mapTo(mutableSetOf()) { it.name }
             ?: emptySet()
 
@@ -204,6 +203,18 @@ object VocableTextToSpeech {
     private fun isVoiceUnavailable(tts: TextToSpeech, voice: Voice): Boolean {
         return tts.isLanguageAvailable(voice.locale) < TextToSpeech.LANG_AVAILABLE
     }
+
+    /**
+     * The engine keeps listing a voice in [TextToSpeech.getVoices] even after its data has been
+     * uninstalled — it's only flagged via [TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED], not
+     * removed from the list. Name/locale matching alone can't tell "installed" from "known but
+     * uninstalled," so this must be checked explicitly wherever a voice is treated as usable.
+     */
+    private fun isVoiceDownloaded(voice: Voice): Boolean = isVoiceDownloaded(voice.features)
+
+    /** Pure/testable half of [isVoiceDownloaded] — operates on the raw feature set, not a real [Voice]. */
+    internal fun isVoiceDownloaded(features: Set<String>?): Boolean =
+        features?.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED) != true
 
     private fun buildVoiceDisplayName(voice: Voice): String {
         val localeName = voice.locale.displayName
