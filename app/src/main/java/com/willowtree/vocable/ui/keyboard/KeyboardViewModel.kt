@@ -118,11 +118,12 @@ class KeyboardViewModel : BaseViewModel<KeyboardState, KeyboardEvent>(KeyboardSt
 
         val text = uiState.value.inputText
         if (text.isNotBlank()) {
-            VocableTextToSpeech.speak(
+            val selectionWasStale = VocableTextToSpeech.speak(
                 locale = Locale.getDefault(),
                 text = text,
                 selectedVoiceName = sharedPrefs.getSelectedVoiceName()
             )
+            if (selectionWasStale) sharedPrefs.setSelectedVoiceName(null)
         }
     }
 

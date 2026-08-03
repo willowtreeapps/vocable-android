@@ -122,11 +122,12 @@ class PresetsViewModel(
             }
             is PresetsIntent.Speak -> {
                 _state.update { it.copy(activeText = intent.text) }
-                VocableTextToSpeech.speak(
+                val selectionWasStale = VocableTextToSpeech.speak(
                     locale = null,
                     text = intent.text,
                     selectedVoiceName = sharedPreferences.getSelectedVoiceName()
                 )
+                if (selectionWasStale) sharedPreferences.setSelectedVoiceName(null)
                 viewModelScope.launch {
                     idlingResourceContainer.run {
                         phrasesUseCase.updatePhraseLastSpokenTime(intent.phraseId)
