@@ -48,6 +48,7 @@ fun SettingsScreen(
     onEditCategories: () -> Unit,
     onTimingSensitivity: () -> Unit,
     onSelectionMode: () -> Unit,
+    onVoiceSelection: () -> Unit,
     onPrivacyPolicy: () -> Unit,
     onContactDevs: () -> Unit,
     onDismissDialog: () -> Unit,
@@ -106,7 +107,8 @@ fun SettingsScreen(
             val options = listOf(
                 OptionItem(stringResource(R.string.edit_categories_title), onEditCategories),
                 OptionItem(stringResource(R.string.timing_sensitivity_title), onTimingSensitivity),
-                OptionItem(stringResource(R.string.settings_selection_mode), onSelectionMode)
+                OptionItem(stringResource(R.string.settings_selection_mode), onSelectionMode),
+                OptionItem(stringResource(R.string.settings_options_voice), onVoiceSelection)
             )
 
             val rows = options.chunked(numColumns)
@@ -344,6 +346,7 @@ fun SettingsScreenPreview() {
             onEditCategories = {},
             onTimingSensitivity = {},
             onSelectionMode = {},
+            onVoiceSelection = {},
             onPrivacyPolicy = {},
             onContactDevs = {},
             onDismissDialog = {},

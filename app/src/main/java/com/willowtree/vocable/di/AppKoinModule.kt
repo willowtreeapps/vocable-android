@@ -47,6 +47,7 @@ import com.willowtree.vocable.ui.keyboard.KeyboardViewModel
 import com.willowtree.vocable.ui.presets.PresetsViewModel
 import com.willowtree.vocable.ui.selectionmode.SelectionModeViewModel
 import com.willowtree.vocable.ui.settings.SettingsViewModel
+import com.willowtree.vocable.ui.settingsvoice.SettingsVoiceViewModel
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel
 import com.willowtree.vocable.ui.splash.SplashActivity
 import com.willowtree.vocable.ui.splash.SplashViewModel
@@ -118,6 +119,7 @@ val vocableKoinModule = module {
     viewModel { EditCategoryMenuViewModel(get()) }
     viewModel { KeyboardViewModel() }
     viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsVoiceViewModel(get()) }
     viewModel { SensitivityViewModel(get()) }
     viewModel { VoiceSelectionViewModel(get()) }
 }

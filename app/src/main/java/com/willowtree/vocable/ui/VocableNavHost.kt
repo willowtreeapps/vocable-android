@@ -29,6 +29,9 @@ import com.willowtree.vocable.ui.sensitivity.SensitivityScreen
 import com.willowtree.vocable.ui.settings.SettingsEvent
 import com.willowtree.vocable.ui.settings.SettingsScreen
 import com.willowtree.vocable.ui.settings.SettingsViewModel
+import com.willowtree.vocable.ui.settingsvoice.SettingsVoiceEvent
+import com.willowtree.vocable.ui.settingsvoice.SettingsVoiceScreen
+import com.willowtree.vocable.ui.settingsvoice.SettingsVoiceViewModel
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionEvent
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionScreen
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel
@@ -48,6 +51,7 @@ private const val ROUTE_RENAME_CATEGORY = "renameCategory"
 private const val ROUTE_EDIT_PHRASE = "editPhrase"
 private const val ROUTE_SENSITIVITY = "sensitivity"
 private const val ROUTE_SELECTION_MODE = "selectionMode"
+private const val ROUTE_SETTINGS_VOICE = "settingsVoice"
 private const val ROUTE_VOICE_SELECTION = "voiceSelection"
 
 @Composable
@@ -148,7 +152,7 @@ fun VocableNavHost(
                     SettingsEvent.NavigateToEditCategories -> navController.navigate(ROUTE_EDIT_CATEGORIES)
                     SettingsEvent.NavigateToTimingSensitivity -> navController.navigate(ROUTE_SENSITIVITY)
                     SettingsEvent.NavigateToSelectionMode -> navController.navigate(ROUTE_SELECTION_MODE)
-                    SettingsEvent.NavigateToVoiceSelection -> navController.navigate(ROUTE_VOICE_SELECTION)
+                    SettingsEvent.NavigateToVoiceSelection -> navController.navigate(ROUTE_SETTINGS_VOICE)
                     is SettingsEvent.OpenPrivacyPolicy -> settingsContext.startActivity(
                         Intent(Intent.ACTION_VIEW, event.url.toUri())
                     )
@@ -164,6 +168,7 @@ fun VocableNavHost(
                     onEditCategories = viewModel::onEditCategories,
                     onTimingSensitivity = viewModel::onTimingSensitivity,
                     onSelectionMode = viewModel::onSelectionMode,
+                    onVoiceSelection = viewModel::onVoiceSelection,
                     onPrivacyPolicy = viewModel::requestPrivacyPolicy,
                     onContactDevs = viewModel::requestContactDevs,
                     onDismissDialog = viewModel::dismissDialog,
@@ -225,6 +230,23 @@ fun VocableNavHost(
                 onVoiceSelection = { navController.navigate(ROUTE_VOICE_SELECTION) },
                 viewModel = vm
             )
+        }
+
+        composable(ROUTE_SETTINGS_VOICE) {
+            val viewModel: SettingsVoiceViewModel = koinViewModel()
+            MviScreen(viewModel = viewModel, onEvent = { event ->
+                when (event) {
+                    SettingsVoiceEvent.NavigateBack -> navController.popBackStack(ROUTE_SETTINGS, false)
+                    SettingsVoiceEvent.NavigateToChangeVoice -> navController.navigate(ROUTE_VOICE_SELECTION)
+                }
+            }) { state ->
+                SettingsVoiceScreen(
+                    state = state,
+                    onBack = viewModel::onBack,
+                    onChangeVoice = viewModel::onChangeVoice,
+                    onRefreshActiveVoice = viewModel::refreshActiveVoice
+                )
+            }
         }
 
         composable(ROUTE_VOICE_SELECTION) {
