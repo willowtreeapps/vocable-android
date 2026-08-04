@@ -89,4 +89,69 @@ class VocableTextToSpeechTest {
             )
         )
     }
+
+    // #618: the picker shows only voices actually installed and usable on-device — undownloaded
+    // ones are hidden outright rather than offered with a download prompt. `isVoiceSupportedForLocale`
+    // is the locale/network/language-data half of that filter; `isVoiceDownloaded` above is the
+    // install half. Both must pass for a voice to reach the list.
+
+    private fun isSupported(
+        voiceLanguage: String? = "en",
+        targetLanguage: String = "en",
+        isNetworkConnectionRequired: Boolean = false,
+        languageAvailability: Int = TextToSpeech.LANG_AVAILABLE
+    ) = VocableTextToSpeech.isVoiceSupportedForLocale(
+        voiceLanguage = voiceLanguage,
+        targetLanguage = targetLanguage,
+        isNetworkConnectionRequired = isNetworkConnectionRequired,
+        languageAvailability = languageAvailability
+    )
+
+    @Test
+    fun `local voice matching the target language with data present is supported`() {
+        assertTrue(isSupported())
+    }
+
+    @Test
+    fun `language match is case-insensitive`() {
+        assertTrue(isSupported(voiceLanguage = "EN", targetLanguage = "en"))
+    }
+
+    @Test
+    fun `country-specific language availability still counts as supported`() {
+        assertTrue(isSupported(languageAvailability = TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE))
+    }
+
+    @Test
+    fun `voice for a different language is not supported`() {
+        assertFalse(isSupported(voiceLanguage = "fr", targetLanguage = "en"))
+    }
+
+    @Test
+    fun `voice with no locale is not supported`() {
+        assertFalse(isSupported(voiceLanguage = null))
+    }
+
+    /**
+     * Network voices are excluded unconditionally, not just while offline: Vocable is an
+     * offline/local-first app, so a voice that needs a connection can't be relied on mid-conversation.
+     */
+    @Test
+    fun `network-required voice is not supported`() {
+        assertFalse(isSupported(isNetworkConnectionRequired = true))
+    }
+
+    /**
+     * The cross-reference that makes the hide-undownloaded filter trustworthy — `KEY_FEATURE_NOT_INSTALLED`
+     * is inconsistently populated across OEM engines, so missing language data alone disqualifies a voice.
+     */
+    @Test
+    fun `voice whose language data is missing is not supported`() {
+        assertFalse(isSupported(languageAvailability = TextToSpeech.LANG_MISSING_DATA))
+    }
+
+    @Test
+    fun `voice whose language is not supported by the engine is not supported`() {
+        assertFalse(isSupported(languageAvailability = TextToSpeech.LANG_NOT_SUPPORTED))
+    }
 }

@@ -18,6 +18,11 @@ object VocableTextToSpeech {
         val name: String,
         val displayName: String,
         val locale: Locale,
+        /**
+         * Always true for options coming out of [getAvailableVoices] since #618 — undownloaded
+         * voices are filtered out rather than flagged. Kept so the picker can go back to showing
+         * them without replumbing; see [com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel.onDownloadVoice].
+         */
         val isDownloaded: Boolean = true
     )
 
@@ -81,16 +86,22 @@ object VocableTextToSpeech {
         _isSpeakingFlow.value = false
     }
 
+    /**
+     * The voices to offer in the Change Voice picker: only ones actually installed and usable on
+     * this device right now. Undownloaded voices are omitted entirely rather than surfaced with a
+     * download affordance (#618) — matching iOS, whose `AVSpeechSynthesisVoice.speechVoices()` only
+     * ever reports installed voices. Users are pointed at the OS for downloads instead, via the
+     * Settings → Voice footer copy.
+     *
+     * Filters through the same [isVoiceUsable] predicate as the speak path, so the picker can't
+     * list a voice that [applySelectedVoice] would then treat as stale.
+     */
     fun getAvailableVoices(locale: Locale = Locale.getDefault()): List<VoiceOption> {
         val tts = textToSpeech ?: return emptyList()
         val availableVoices = tts.voices ?: return emptyList()
 
         return availableVoices
-            .filter { voice ->
-                val voiceLocale = voice.locale ?: return@filter false
-                voiceLocale.language.equals(locale.language, ignoreCase = true) &&
-                    !voice.isNetworkConnectionRequired
-            }
+            .filter { isVoiceUsable(tts, it, locale) }
             .sortedWith(compareByDescending<Voice> { it.quality }.thenBy { it.name })
             .map { voice ->
                 VoiceOption(
@@ -116,7 +127,7 @@ object VocableTextToSpeech {
         val tts = textToSpeech ?: return null
 
         val candidateVoices = tts.voices
-            ?.filter { isVoiceSupportedForLocale(tts, it, locale) && isVoiceDownloaded(it) }
+            ?.filter { isVoiceUsable(tts, it, locale) }
             ?: return null
         val availableVoiceNames = candidateVoices.mapTo(mutableSetOf()) { it.name }
 
@@ -192,7 +203,7 @@ object VocableTextToSpeech {
      */
     private fun applySelectedVoice(tts: TextToSpeech, selectedVoiceName: String?, locale: Locale): Boolean {
         val availableVoiceNames = tts.voices
-            ?.filter { isVoiceSupportedForLocale(tts, it, locale) && isVoiceDownloaded(it) }
+            ?.filter { isVoiceUsable(tts, it, locale) }
             ?.mapTo(mutableSetOf()) { it.name }
             ?: emptySet()
 
@@ -228,15 +239,49 @@ object VocableTextToSpeech {
         }
     }
 
+    /**
+     * The full "can Vocable actually speak with this voice right now" predicate: supported for
+     * [locale] *and* installed on-device. This is what both the picker ([getAvailableVoices]) and
+     * the speak path ([applySelectedVoice]) filter on, so the two can't disagree about whether a
+     * given voice exists.
+     */
+    private fun isVoiceUsable(tts: TextToSpeech, voice: Voice, locale: Locale): Boolean =
+        isVoiceSupportedForLocale(tts, voice, locale) && isVoiceDownloaded(voice)
+
+    /**
+     * Locale/network support only — deliberately says nothing about download status, unlike
+     * [isVoiceUsable]. Kept separate for the live-device-default fallback, which applies whatever
+     * the engine reports as its own default rather than second-guessing its install state.
+     */
     private fun isVoiceSupportedForLocale(tts: TextToSpeech, voice: Voice, locale: Locale): Boolean {
         val voiceLocale = voice.locale ?: return false
-        val languageMatches = voiceLocale.language.equals(locale.language, ignoreCase = true)
-        return languageMatches && !voice.isNetworkConnectionRequired && !isVoiceUnavailable(tts, voice)
+        return isVoiceSupportedForLocale(
+            voiceLanguage = voiceLocale.language,
+            targetLanguage = locale.language,
+            isNetworkConnectionRequired = voice.isNetworkConnectionRequired,
+            languageAvailability = tts.isLanguageAvailable(voiceLocale)
+        )
     }
 
-    private fun isVoiceUnavailable(tts: TextToSpeech, voice: Voice): Boolean {
-        return tts.isLanguageAvailable(voice.locale) < TextToSpeech.LANG_AVAILABLE
-    }
+    /**
+     * Pure/testable half of [isVoiceSupportedForLocale] — takes the raw values off a [Voice] rather
+     * than a real one, for the same reason as [resolveVoiceSelection].
+     *
+     * [languageAvailability] is a [TextToSpeech.isLanguageAvailable] result. It's the cross-reference
+     * that makes the install check trustworthy: `KEY_FEATURE_NOT_INSTALLED` (see [isVoiceDownloaded])
+     * is inconsistently populated across OEM engines, so a `LANG_MISSING_DATA` result is treated as
+     * "not present here" on its own.
+     */
+    internal fun isVoiceSupportedForLocale(
+        voiceLanguage: String?,
+        targetLanguage: String,
+        isNetworkConnectionRequired: Boolean,
+        languageAvailability: Int
+    ): Boolean =
+        voiceLanguage != null &&
+            voiceLanguage.equals(targetLanguage, ignoreCase = true) &&
+            !isNetworkConnectionRequired &&
+            languageAvailability >= TextToSpeech.LANG_AVAILABLE
 
     /**
      * The engine keeps listing a voice in [TextToSpeech.getVoices] even after its data has been
