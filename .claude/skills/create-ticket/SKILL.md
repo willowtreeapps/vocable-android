@@ -45,6 +45,50 @@ Do not add: day-by-day plans, "resolved decisions" / "decisions still needed" ta
 
 Once the body is drafted and passes the scope-creep guard, create it with `gh issue create -R willowtreeapps/vocable-android --title "<title>" --body "<drafted body>"`.
 
+## Creating and linking the branch
+
+Create the working branch through the issue's own **"Development"** link
+(`createLinkedBranch`), not a plain `git checkout -b` — this makes the branch
+show up under the issue's Development section on GitHub from the moment work
+starts, not only once a PR eventually exists.
+
+This needs **write access to the repo** — same requirement as pushing a
+branch or opening a PR. If it fails with `FORBIDDEN: does not have the
+correct permissions`, that's a repo-access gap, not a scope/token problem
+(confirmed live: this is a distinct failure from the `INSUFFICIENT_SCOPES`
+case above).
+
+1. Get the issue's node ID (same query as "Adding it to the board" step 1),
+   the repository's node ID, and the base commit to branch from (the tip of
+   the parent's integration branch, e.g. `feature/voice-selection`, or `main`
+   for a standalone issue with no parent):
+   ```bash
+   git rev-parse origin/<base-branch>
+   gh api repos/willowtreeapps/vocable-android --jq '.node_id'
+   ```
+2. Create + link the branch in one call (name follows the usual
+   `feature/<issue-number>/<short-description>` convention):
+   ```bash
+   gh api graphql -f query='
+   mutation($issueId: ID!, $oid: GitObjectID!, $name: String!, $repositoryId: ID!) {
+     createLinkedBranch(input: {issueId: $issueId, oid: $oid, name: $name, repositoryId: $repositoryId}) {
+       linkedBranch { ref { name } }
+     }
+   }' -f issueId="<issue node id>" -f oid="<base commit SHA>" \
+      -f name="feature/<issue-number>/<short-description>" -f repositoryId="<repo node id>"
+   ```
+3. Fetch and check out the branch it just created, instead of creating a new
+   local one:
+   ```bash
+   git fetch origin feature/<issue-number>/<short-description>
+   git checkout feature/<issue-number>/<short-description>
+   ```
+
+If a PR is opened later with a `Closes #N`/`Fixes #N` reference in its body,
+GitHub links that PR under Development automatically too — no extra action
+needed for that case; `createLinkedBranch` is specifically for making the
+*branch itself* visible under Development before a PR exists.
+
 ## Adding it to the board
 
 Every issue this skill creates also gets added to [Project #50](https://github.com/orgs/willowtreeapps/projects/50/views/1) with Status **"Pre Backlog"** — don't leave a newly-created issue off the board; it's invisible to triage/prioritization until it's on it.
@@ -78,6 +122,22 @@ The `gh` token needs the `project` scope for this (not just `read:project`) — 
      }) { projectV2Item { id } }
    }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f itemId="<project item id from step 2>" \
       -f fieldId="PVTSSF_lADOAAiCcM4AiZ3rzga7WAg" -f optionId="77e56e59"
+   ```
+4. **Move it to the top of its column** — new tickets should sort first in
+   the board's grouped-by-Status view, not get buried at the bottom.
+   `updateProjectV2ItemPosition` orders items on a single project-wide list;
+   omitting `afterId` moves an item to the very front of that list, which is
+   sufficient to put it first within its own Status group too (nothing
+   precedes it at all, so it's necessarily first among items sharing its
+   status). Confirmed live: this does not disturb other items' relative
+   order, only shifts the moved item ahead of everything.
+   ```bash
+   gh api graphql -f query='
+   mutation($projectId: ID!, $itemId: ID!) {
+     updateProjectV2ItemPosition(input: {projectId: $projectId, itemId: $itemId}) {
+       clientMutationId
+     }
+   }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f itemId="<project item id from step 2>"
    ```
 
 If the project's fields/options ever change, re-derive the IDs rather than trust the ones above indefinitely:

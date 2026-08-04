@@ -6,8 +6,14 @@ Updated `.claude/skills/create-ticket/SKILL.md` so that after `gh issue create`,
 the new issue is also:
 1. Added to [Project #50](https://github.com/orgs/willowtreeapps/projects/50)
    with Status set to **"Pre Backlog"**.
-2. If it has a `Part of #<parent>` line, linked to that parent via GitHub's
+2. Moved to the top of its Status column (`updateProjectV2ItemPosition`,
+   `afterId` omitted) instead of landing wherever the API defaults it.
+3. If it has a `Part of #<parent>` line, linked to that parent via GitHub's
    native sub-issue relationship (`addSubIssue`), not just the text reference.
+4. Given a working branch via `createLinkedBranch` (issue's native
+   "Development" link) instead of a plain `git checkout -b`, so the branch
+   shows up under the issue's Development section from the start of work,
+   not only once a PR eventually exists.
 
 ## Why
 
@@ -29,6 +35,15 @@ fields merely *reflect* — there is no project-field mutation for parent
 linkage; the project fields are read-only projections of the repo-level
 relationship. `SKILL.md` documents both, in the right place for each.
 
+**Column position is a side effect of a project-wide order, not a per-column
+one.** `updateProjectV2ItemPosition` orders items on a single flat list for
+the whole project; there's no separate "position within this Status group"
+concept in the API. Moving an item to the front of that flat list
+(`afterId` omitted) is sufficient to make it first within its own Status
+group too, since nothing at all precedes it — confirmed live (see below) that
+this doesn't reorder other items relative to each other, it just shifts the
+moved item ahead of everything.
+
 **Requires the `project` OAuth scope**, not just `read:project` — the write
 mutations (`addProjectV2ItemById`, `updateProjectV2ItemFieldValue`) fail with
 `INSUFFICIENT_SCOPES` on a read-only token. Documented the `gh auth refresh -s
@@ -38,6 +53,17 @@ project` fix inline so it isn't a surprise mid-task.
 hatch.** These don't change often, but `SKILL.md` includes the introspection
 query to re-derive them if the project's fields/options are ever edited,
 rather than leaving future-Claude to guess or break silently.
+
+**`createLinkedBranch` needs repo write access, distinct from the `project`
+scope issue above.** Tested live against issue #654 with the current token
+(which already has `project`/`repo`/`read:org` scopes) and got `FORBIDDEN:
+rhyslutsky does not have the correct permissions to execute
+CreateLinkedBranch` — a different failure mode than `INSUFFICIENT_SCOPES`,
+confirming it's a repo-collaborator-access gap, not a token-scope gap (the
+same gap already blocking `git push`/PR creation on #653). `SKILL.md` calls
+this out explicitly so the two failure modes aren't confused with each other.
+Once write access exists, this step should just work — nothing else about it
+needs to change.
 
 ## Verification
 
