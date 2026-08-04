@@ -1,0 +1,49 @@
+# throughput-forecast — GitHub Projects v2 instance config for vocable-android.
+# The scripts take the same values as CLI flags; this file is the reference
+# for what to pass. See SKILL.md for the full command.
+
+github:
+  org: "willowtreeapps"
+  project_number: 50
+  repo: "vocable-android"          # single-repo project today; used for the
+                                    # timeline-backfill query and issue keys
+
+# Optional breakdown axis for Q1/Q2 (forecast.py's --components). This board
+# has no "Components" field and sparse labels, so the default is a team-only
+# forecast. Set to "issuetype" to break out by Task/Bug/Feature instead, or
+# "labels" if labels start getting used consistently.
+breakdown_field: none              # none | labels | issuetype
+components: []                     # e.g. ["Task", "Bug", "Feature"] if breakdown_field: issuetype
+
+throughput:
+  # Status name(s) that mean "delivered". (--done-status)
+  done_statuses: ["Done"]
+  # The skill should ask the user to pick a trailing window before pulling:
+  # 10 weeks (quick) or 26 weeks (~2 quarters — steadier, smooths noise).
+  window_weeks: [10, 26]
+  default_window_weeks: 26
+
+backlog:
+  # Active/committed columns = the open queue. Confirmed board columns for
+  # Project #50 (7 statuses — more than Jira's typical 3, so double-check
+  # this list against the board before relying on the numbers). (--statuses)
+  statuses: ["Pre Backlog", "Backlog", "Ready to select", "In progress",
+             "Development Complete (In Review)", "Ready for Demo"]
+  # GitHub-side "not deliverable flow" categories (the Epic-exclusion analog).
+  include_drafts: false             # DraftIssue project items (--include-drafts)
+  include_prs: false                # PullRequest project items — always excluded by
+                                     # gh_fetch.py today; see its docstring for why
+                                     # (--include-prs is not yet implemented)
+
+forecast:
+  horizon_weeks: 3          # default "how many done by then?" horizon
+  trials: 10000
+  seed: 42                  # fixed for reproducibility; change to vary the draw
+
+cycle:
+  # The started→Done SLE (Q3) / aging-WIP (Q4) pass measures ACTIVE time from
+  # the status-change timeline. start = first entry to start_status; the
+  # clock resets on any return to a reset_status.
+  start_status: "In progress"
+  reset_statuses: ["Backlog", "Pre Backlog"]
+  wip_statuses: ["In progress", "Development Complete (In Review)", "Ready for Demo"]
