@@ -100,13 +100,18 @@ object VocableTextToSpeech {
         val tts = textToSpeech ?: return emptyList()
         val availableVoices = tts.voices ?: return emptyList()
 
-        return availableVoices
-            .filter { isVoiceUsable(tts, it, locale) }
+        val matchingVoices = availableVoices.filter { isVoiceUsable(tts, it, locale) }
+
+        val displayNamesByVoiceName = buildVoiceDisplayNames(
+            matchingVoices.map { VoiceLabelInput(it.name, it.locale.displayName, it.quality) }
+        )
+
+        return matchingVoices
             .sortedWith(compareByDescending<Voice> { it.quality }.thenBy { it.name })
             .map { voice ->
                 VoiceOption(
                     name = voice.name,
-                    displayName = buildVoiceDisplayName(voice),
+                    displayName = displayNamesByVoiceName.getValue(voice.name),
                     locale = voice.locale,
                     isDownloaded = isVoiceDownloaded(voice)
                 )
@@ -131,13 +136,15 @@ object VocableTextToSpeech {
             ?: return null
         val availableVoiceNames = candidateVoices.mapTo(mutableSetOf()) { it.name }
 
-        val resolvedVoice = when (resolveVoiceSelection(selectedVoiceName, availableVoiceNames)) {
-            VoiceResolution.EXPLICIT -> candidateVoices.firstOrNull { it.name == selectedVoiceName }
+        val resolvedVoiceName = when (resolveVoiceSelection(selectedVoiceName, availableVoiceNames)) {
+            VoiceResolution.EXPLICIT -> selectedVoiceName
             VoiceResolution.LIVE_DEFAULT, VoiceResolution.STALE_FALLBACK_TO_LIVE_DEFAULT ->
-                tts.getDefaultVoice()?.takeIf { isVoiceSupportedForLocale(tts, it, locale) }
-        }
+                tts.defaultVoice?.takeIf { isVoiceSupportedForLocale(tts, it, locale) }?.name
+        } ?: return null
 
-        return resolvedVoice?.let { buildVoiceDisplayName(it) }
+        // Reuses getAvailableVoices() as the single source of truth for numbering, so the active
+        // voice's label always matches what's shown for it in the Change Voice picker.
+        return getAvailableVoices(locale).firstOrNull { it.name == resolvedVoiceName }?.displayName
     }
 
     /**
@@ -304,13 +311,22 @@ object VocableTextToSpeech {
     internal fun isVoiceDownloaded(features: Set<String>?): Boolean =
         features?.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED) != true
 
-    private fun buildVoiceDisplayName(voice: Voice): String {
-        val localeName = voice.locale.displayName
-        val qualityLabel = when {
-            voice.quality >= Voice.QUALITY_VERY_HIGH -> "Enhanced"
-            voice.quality >= Voice.QUALITY_HIGH -> "High Quality"
-            else -> "Standard"
-        }
-        return "$localeName – $qualityLabel"
-    }
+    /** A voice's attributes needed to number it for display — kept free of [Voice] so it's unit-testable. */
+    internal data class VoiceLabelInput(val name: String, val localeDisplayName: String, val quality: Int)
+
+    /**
+     * Android's TTS `Voice` API has no human-friendly name (unlike iOS's `AVSpeechSynthesisVoice.name`),
+     * so each voice is labeled by locale plus an ordinal within that locale instead — e.g.
+     * "English (United States) Voice 1", "Voice 2" — assigned in the same order used to display the
+     * list elsewhere (quality desc, then name). A previous quality-word label ("Enhanced"/"Standard")
+     * used an en-dash that some TTS engines mis-speak when interpolated into a preview sample.
+     */
+    internal fun buildVoiceDisplayNames(voices: List<VoiceLabelInput>): Map<String, String> =
+        voices
+            .sortedWith(compareByDescending<VoiceLabelInput> { it.quality }.thenBy { it.name })
+            .groupBy { it.localeDisplayName }
+            .flatMap { (localeName, localeVoices) ->
+                localeVoices.mapIndexed { index, voice -> voice.name to "$localeName Voice ${index + 1}" }
+            }
+            .toMap()
 }

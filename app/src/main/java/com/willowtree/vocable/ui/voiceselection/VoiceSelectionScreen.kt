@@ -51,9 +51,10 @@ fun VoiceSelectionScreen(
     onBack: () -> Unit,
     onVoiceSelected: (String?) -> Unit,
     onRefreshVoices: () -> Unit,
-    onPreviewVoice: (VocableTextToSpeech.VoiceOption) -> Unit,
+    onPreviewVoice: (VocableTextToSpeech.VoiceOption, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val previewSampleFormat = stringResource(R.string.voice_preview_sample)
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -149,7 +150,7 @@ fun VoiceSelectionScreen(
                             isLandscape = isLandscape,
                             isPlaying = state.previewingVoiceName == voice.name,
                             onClick = { onVoiceSelected(voice.name) },
-                            onPreviewClick = { onPreviewVoice(voice) },
+                            onPreviewClick = { onPreviewVoice(voice, previewSampleFormat) },
                             modifier = Modifier.fillMaxWidth().height(rowHeight)
                         )
                     }
@@ -200,10 +201,9 @@ private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
 }
 
 /**
- * Tapping the play chip reads [voice]'s own display name aloud in that voice — not a sample phrase,
- * so it sidesteps #613's still-open sample-phrase decision. It toggles to the stop icon while
- * speaking (driven by [isPlaying], sourced from the global `VocableTextToSpeech.isSpeakingFlow`) and
- * back to play once done.
+ * Tapping the play chip speaks a fixed sample phrase (`voice_preview_sample`, with [voice]'s display
+ * name substituted in) in that voice. It toggles to the stop icon while speaking (driven by
+ * [isPlaying], sourced from the global `VocableTextToSpeech.isSpeakingFlow`) and back to play once done.
  */
 @Composable
 private fun VoiceOptionRow(
@@ -274,15 +274,15 @@ private fun VoiceSelectionScreenPreview() {
         VoiceSelectionScreen(
             state = VoiceSelectionState(
                 voices = listOf(
-                    VocableTextToSpeech.VoiceOption("voice_1", "English (United States) – Enhanced", java.util.Locale.US),
-                    VocableTextToSpeech.VoiceOption("voice_2", "English (United States) – Standard", java.util.Locale.US)
+                    VocableTextToSpeech.VoiceOption("voice_1", "English (United States) Voice 1", java.util.Locale.US),
+                    VocableTextToSpeech.VoiceOption("voice_2", "English (United States) Voice 2", java.util.Locale.US)
                 ),
                 selectedVoiceName = "voice_1"
             ),
             onBack = {},
             onVoiceSelected = {},
             onRefreshVoices = {},
-            onPreviewVoice = {}
+            onPreviewVoice = { _, _ -> }
         )
     }
 }
@@ -296,7 +296,7 @@ private fun VoiceSelectionScreenEmptyPreview() {
             onBack = {},
             onVoiceSelected = {},
             onRefreshVoices = {},
-            onPreviewVoice = {}
+            onPreviewVoice = { _, _ -> }
         )
     }
 }

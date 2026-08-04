@@ -41,6 +41,7 @@
     <string name="selected">Selected</string>
     <string name="voice_empty_title">No Voices</string>
     <string name="voice_empty_description">No voices that match your language and region settings are installed.</string>
+    <string name="voice_preview_sample">Hello, this is Vocable, %1$s.</string>
 
     <!-- Settings -> Voice -->
     <string name="voice_settings_title">Voice</string>
