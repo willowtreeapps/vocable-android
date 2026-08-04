@@ -14,7 +14,7 @@ iOS's `VoicePickerViewController.updateLayoutForCurrentTraitCollection()` uses `
 ## What changed
 
 - **`voice_columns` / `voice_rows` integers** added to all six breakpoint dirs. `phrases_columns`/`phrases_rows` are defined in every dir even where the value equals its fallback, so these follow suit rather than relying on resource fallback.
-- **Nine `voice_*` dimens** added to the four dirs that have a `dimens.xml` (`values`, `values-land`, `values-sw600dp`, `values-sw600dp-land`; the `sw400dp` dirs correctly inherit `values`/`values-land`), replacing every hardcoded dp in the screen.
+- **Twelve `voice_*` dimens** added to the four dirs that have a `dimens.xml` (`values`, `values-land`, `values-sw600dp`, `values-sw600dp-land`; the `sw400dp` dirs correctly inherit `values`/`values-land`), replacing every hardcoded dp in the screen. Nine cover margins, spacing and button sizes; three cover icon sizes (see below).
 - **The runtime measurement pass is gone** — no `BoxWithConstraints`, no `rowHeight` constant, no mutable `itemsPerPage`. `itemsPerPage` is now `voice_columns * voice_rows`, read from resources, so it recomputes on configuration change for free.
 - **Grid renders as a fixed row×column nest**, the same shape as `PresetsScreen.kt`, with `Spacer(Modifier.weight(1f))` for absent items.
 - **`VoiceOptionRow` lost its `isLandscape: Boolean` param** — its only two uses were spacing values, now `voice_row_content_spacing` and `voice_row_text_padding`.
@@ -63,7 +63,23 @@ A two-column tile is only ~269dp wide on tablet portrait, leaving ~213dp for the
 
 Fixed by switching the name to `BasicText` + `TextAutoSize.StepBased(12sp..16sp)` with `maxLines = 1` and ellipsis overflow — the same treatment `PresetsScreen` gives its phrase tiles — and by wrapping the checkmark in a fixed-size `Box` that is present whether or not the row is selected, so the fit no longer depends on selection.
 
-**`maxLines = 1` is deliberate.** Names now arrive from `buildVoiceDisplayNames()` as `"English (United States) Voice 1"`, `"… Voice 2"` and so on, where the trailing index is the *only* thing distinguishing one row from the next. Allowing two lines orphaned that digit alone on line two, and allowing truncation would drop it entirely — so the text shrinks instead. At the 12sp floor the string needs ~190dp, comfortably inside the tightest breakpoint's 213dp; verified un-ellipsized at all six.
+**`maxLines = 1` is deliberate.** Names now arrive from `buildVoiceDisplayNames()` as `"English (United States) Voice 1"`, `"… Voice 2"` and so on, where the trailing index is the *only* thing distinguishing one row from the next. Allowing two lines orphaned that digit alone on line two — so the text shrinks instead. At the 12sp floor the string needs ~190dp, comfortably inside the tightest breakpoint's 213dp; verified un-truncated at all six at default font scale.
+
+#### Font scale: `MiddleEllipsis`, not `Ellipsis`
+
+Raised in review by Michael Gonzalez — *"the UI will most likely wrap when the User increases font size; you just want to ensure that it is readable regardless of text length and font size."* That turned out to be a real defect, not a caveat.
+
+`TextAutoSize`'s bounds are `sp`, so they scale with the user's font-size setting: at `font_scale 2.0` the 12sp floor becomes 24sp effective, the string needs ~380dp against 213dp, and no step can fit it. With plain trailing `TextOverflow.Ellipsis` every row rendered as **`"English (United S…"` — nine identical, unusable labels**, with the distinguishing index truncated away. For a picker whose whole job is telling voices apart, that's an accessibility failure at exactly the setting an accessibility-minded user is most likely to change.
+
+Fixed with `TextOverflow.MiddleEllipsis` (available since Compose 1.8; this project is on ui-text 1.10.5). It eats the *redundant* half — the locale prefix, identical on every row in this picker since the list is already filtered to the current language — and preserves the tail: `"English…Voice 1"` … `"English…Voice 9"` at 2x. Verified on device at `font_scale` 1.0 and 2.0 across all six breakpoints, and visually at the tightest (`values-sw600dp` portrait, 213dp).
+
+**Testing note:** `uiautomator dump` is useless for detecting this. Its `text` attribute reports the source string, so an ellipsized label still dumps in full — the automated check reported `ellipsized=0/9` while the screen was visibly truncated. Truncation has to be confirmed from a screenshot.
+
+### Icons are sized per breakpoint, not left at intrinsic size
+
+Raised in review by Mansimran Singh — *"you can update the icon size and gaze button size based on landscape and portrait."* The button sizes already were (`voice_close_button_size`, `voice_paging_button_size`, `voice_play_chip_max_size`), but the icons inside them were not: every drawable was rendering at its intrinsic size (`ic_close` 48dp, `ic_play_circle_40dp`/`ic_stop_circle_40dp`/the pager arrows 40dp). That reads as overfull in the tightest bucket — a 48dp icon in `values-land`'s 48dp close button — and undersized in the roomiest, a 40dp arrow in `sw600dp`'s 80dp pager button.
+
+Added `voice_close_icon_size`, `voice_play_icon_size` and `voice_paging_icon_size` per dimens dir, scaled to their buttons. The pager arrows required an `iconSize` parameter on the shared `VocablePagination`, defaulted to 40dp so the component's other (future) callers are unaffected — consistent with how `buttonSize` is already passed in rather than resolved inside.
 
 One detail worth knowing: **`BasicText` does not read `LocalContentColor`, unlike `Text`.** `VocableButton` signals its dwell-press state by flipping the Material `contentColor` to `ColorPrimaryDark`, so a hardcoded color here would have silently killed the press feedback on the name — the primary confirmation a gaze user gets that a dwell registered. The style therefore pulls `LocalContentColor.current` in explicitly. (`PresetsScreen`'s `BasicText` calls hardcode `TextColor` and so appear to have already lost this on phrase tiles; not changed here, but worth a look.)
 

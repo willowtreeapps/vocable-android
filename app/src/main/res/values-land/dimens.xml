@@ -77,6 +77,9 @@
     <dimen name="voice_column_spacing">16dp</dimen>
     <dimen name="voice_close_button_size">48dp</dimen>
     <dimen name="voice_paging_button_size">40dp</dimen>
+    <dimen name="voice_close_icon_size">28dp</dimen>
+    <dimen name="voice_play_icon_size">32dp</dimen>
+    <dimen name="voice_paging_icon_size">24dp</dimen>
     <dimen name="voice_play_chip_max_size">48dp</dimen>
     <dimen name="voice_row_content_spacing">8dp</dimen>
     <dimen name="voice_row_text_padding">8dp</dimen>

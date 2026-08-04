@@ -139,7 +139,8 @@ fun VoiceSelectionScreen(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_close),
-                    contentDescription = stringResource(R.string.close_voice_selection)
+                    contentDescription = stringResource(R.string.close_voice_selection),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.voice_close_icon_size))
                 )
             }
 
@@ -200,6 +201,7 @@ fun VoiceSelectionScreen(
             onPreviousPage = goToPreviousPage,
             onNextPage = goToNextPage,
             buttonSize = dimensionResource(id = R.dimen.voice_paging_button_size),
+            iconSize = dimensionResource(id = R.dimen.voice_paging_icon_size),
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -278,7 +280,8 @@ private fun VoiceOptionRow(
                     if (isPlaying) R.string.voice_settings_stop_preview_content_description
                     else R.string.voice_settings_preview_content_description
                 ),
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
+                modifier = Modifier.size(dimensionResource(id = R.dimen.voice_play_icon_size))
             )
         }
 
@@ -297,10 +300,16 @@ private fun VoiceOptionRow(
                 // Names run to ~31 characters ("English (United States) Voice 9") and a two-column
                 // tile only affords ~213dp of text width, so the text is auto-sized to fit a single
                 // line — the same BasicText/TextAutoSize treatment PresetsScreen gives its phrase
-                // tiles. Kept to one line deliberately: wrapping put the trailing "Voice N" digit
-                // alone on line two, and that digit is the only thing distinguishing one row from
-                // the next, so it must not be orphaned or truncated. At the 12sp floor the string
-                // needs ~190dp, comfortably inside the tightest breakpoint's 213dp.
+                // tiles. Kept to one line deliberately: wrapping put the trailing "Voice N" index
+                // alone on line two, and that index is the only thing distinguishing one row from
+                // the next.
+                //
+                // MiddleEllipsis, not Ellipsis, for the same reason. The auto-size floor is in sp,
+                // so it scales with the user's font-size setting: at 2x the string can no longer
+                // fit however small the step goes, and trailing truncation rendered every row as
+                // "English (United S…" — nine identical, unusable labels. Eating the middle instead
+                // keeps the index visible ("English (Uni…Voice 1"), since the locale prefix is
+                // identical on every row here and is the redundant half.
                 BasicText(
                     text = voice.displayName,
                     modifier = Modifier.weight(1f),
@@ -315,7 +324,7 @@ private fun VoiceOptionRow(
                         stepSize = 0.5.sp
                     ),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.MiddleEllipsis
                 )
 
                 // The checkmark's slot is reserved on every row, not just the selected one, so a

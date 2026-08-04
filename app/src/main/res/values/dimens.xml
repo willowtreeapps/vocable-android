@@ -290,6 +290,11 @@
     <dimen name="voice_column_spacing">24dp</dimen>
     <dimen name="voice_close_button_size">72dp</dimen>
     <dimen name="voice_paging_button_size">64dp</dimen>
+    <!-- Icons are sized per breakpoint alongside their buttons; left at their drawables' intrinsic
+         sizes they read as undersized in the roomier buckets and overfull in the tightest. -->
+    <dimen name="voice_close_icon_size">40dp</dimen>
+    <dimen name="voice_play_icon_size">40dp</dimen>
+    <dimen name="voice_paging_icon_size">40dp</dimen>
     <!-- Rows stretch to fill their page, so the square play chip needs a ceiling. -->
     <dimen name="voice_play_chip_max_size">60dp</dimen>
     <dimen name="voice_row_content_spacing">12dp</dimen>
