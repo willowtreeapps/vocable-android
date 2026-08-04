@@ -72,6 +72,15 @@ object VocableTextToSpeech {
         _isReady.value = false
     }
 
+    /** Halts in-progress speech (e.g. a voice preview) without tearing down the engine like [shutdown]. */
+    fun stop() {
+        textToSpeech?.let {
+            it.stop()
+            liveIsSpeaking.postValue(false)
+        }
+        _isSpeakingFlow.value = false
+    }
+
     fun getAvailableVoices(locale: Locale = Locale.getDefault()): List<VoiceOption> {
         val tts = textToSpeech ?: return emptyList()
         val availableVoices = tts.voices ?: return emptyList()
@@ -94,6 +103,31 @@ object VocableTextToSpeech {
     }
 
     fun getCurrentEngine(): String? = textToSpeech?.defaultEngine
+
+    /**
+     * Resolves the display name of whichever voice is actually active right now — [selectedVoiceName]
+     * if it still resolves to an installed voice, otherwise the device's live current default voice
+     * (never persisted/cached) — without mutating engine state. Mirrors [applySelectedVoice]'s
+     * resolution branches but is read-only, so it's safe to call from UI state building.
+     *
+     * @return null if the engine isn't initialized yet or no voice can be resolved for [locale].
+     */
+    fun getActiveVoiceDisplayName(selectedVoiceName: String?, locale: Locale = Locale.getDefault()): String? {
+        val tts = textToSpeech ?: return null
+
+        val candidateVoices = tts.voices
+            ?.filter { isVoiceSupportedForLocale(tts, it, locale) && isVoiceDownloaded(it) }
+            ?: return null
+        val availableVoiceNames = candidateVoices.mapTo(mutableSetOf()) { it.name }
+
+        val resolvedVoice = when (resolveVoiceSelection(selectedVoiceName, availableVoiceNames)) {
+            VoiceResolution.EXPLICIT -> candidateVoices.firstOrNull { it.name == selectedVoiceName }
+            VoiceResolution.LIVE_DEFAULT, VoiceResolution.STALE_FALLBACK_TO_LIVE_DEFAULT ->
+                tts.getDefaultVoice()?.takeIf { isVoiceSupportedForLocale(tts, it, locale) }
+        }
+
+        return resolvedVoice?.let { buildVoiceDisplayName(it) }
+    }
 
     /**
      * Speaks [text] in [locale] (or the system default if null), using [selectedVoiceName] if it
