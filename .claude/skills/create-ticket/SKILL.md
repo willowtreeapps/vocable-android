@@ -45,4 +45,66 @@ Do not add: day-by-day plans, "resolved decisions" / "decisions still needed" ta
 
 Once the body is drafted and passes the scope-creep guard, create it with `gh issue create -R willowtreeapps/vocable-android --title "<title>" --body "<drafted body>"`.
 
-After creating, this is the point where the "Starting new work" workflow in `CLAUDE.md` continues: branch as `feature/<issue-number>/<short-description>`, PR against the right integration branch using `.github/PULL_REQUEST_TEMPLATE.md`, and a `Documentation/work-log/<issue-number>-<slug>.md` entry once the work is done.
+## Adding it to the board
+
+Every issue this skill creates also gets added to [Project #50](https://github.com/orgs/willowtreeapps/projects/50/views/1) with Status **"Pre Backlog"** — don't leave a newly-created issue off the board; it's invisible to triage/prioritization until it's on it.
+
+The `gh` token needs the `project` scope for this (not just `read:project`) — if the mutation below fails with `INSUFFICIENT_SCOPES`, run `gh auth refresh -s project` (an interactive device-flow approval) before retrying.
+
+1. **Get the issue's node ID** (from the `gh issue create` output URL, or query it):
+   ```bash
+   gh api graphql -f query='
+   query { repository(owner: "willowtreeapps", name: "vocable-android") {
+     issue(number: <N>) { id }
+   } }'
+   ```
+2. **Add it to the project** (project node ID `PVT_kwDOAAiCcM4AiZ3r` — Project #50 on `willowtreeapps`):
+   ```bash
+   gh api graphql -f query='
+   mutation($projectId: ID!, $contentId: ID!) {
+     addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+       item { id }
+     }
+   }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f contentId="<issue node id>"
+   ```
+   Note the returned `item.id` — that's the **project item ID**, different from the issue's node ID, and what the next step needs.
+3. **Set Status to "Pre Backlog"** (Status field ID `PVTSSF_lADOAAiCcM4AiZ3rzga7WAg`, "Pre Backlog" option ID `77e56e59`):
+   ```bash
+   gh api graphql -f query='
+   mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+     updateProjectV2ItemFieldValue(input: {
+       projectId: $projectId, itemId: $itemId, fieldId: $fieldId,
+       value: { singleSelectOptionId: $optionId }
+     }) { projectV2Item { id } }
+   }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f itemId="<project item id from step 2>" \
+      -f fieldId="PVTSSF_lADOAAiCcM4AiZ3rzga7WAg" -f optionId="77e56e59"
+   ```
+
+If the project's fields/options ever change, re-derive the IDs rather than trust the ones above indefinitely:
+```bash
+gh api graphql -f query='
+query { organization(login: "willowtreeapps") { projectV2(number: 50) {
+  id fields(first: 20) { nodes {
+    ... on ProjectV2FieldCommon { id name }
+    ... on ProjectV2SingleSelectField { id name options { id name } }
+  } }
+} } }'
+```
+
+## Linking sub-issues to their parent
+
+If the ticket has a `Part of #<parent>` line, also link it via GitHub's **native sub-issue relationship** (not just the text reference) — this is what populates the parent issue's "Sub-issues progress" and this issue's "Parent issue" fields on the project board automatically; there's no separate project-field mutation for it.
+
+```bash
+gh api graphql -f query='
+mutation($issueId: ID!, $subIssueId: ID!) {
+  addSubIssue(input: {issueId: $issueId, subIssueId: $subIssueId}) {
+    issue { number }
+    subIssue { number }
+  }
+}' -f issueId="<parent issue node id>" -f subIssueId="<new issue node id>"
+```
+
+Get each node ID the same way as step 1 above (`repository(...).issue(number: N).id`). Skip this step entirely for standalone issues (no `Part of #<parent>` line).
+
+After creating and linking, this is the point where the "Starting new work" workflow in `CLAUDE.md` continues: branch as `feature/<issue-number>/<short-description>`, PR against the right integration branch using `.github/PULL_REQUEST_TEMPLATE.md`, and a `Documentation/work-log/<issue-number>-<slug>.md` entry once the work is done.
