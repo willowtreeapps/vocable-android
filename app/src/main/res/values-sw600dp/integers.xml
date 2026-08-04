@@ -22,4 +22,10 @@
     <integer name="custom_category_phrase_rows">5</integer>
     <integer name="custom_category_columns">2</integer>
     <integer name="custom_category_rows">8</integer>
+    <!-- Change Voice picker. Mirrors iOS hRegular_vRegular: fixedCount(2) columns.
+         7 rows, not the 4 #644 first suggested: rows stretch to fill the page, and at 4 rows a
+         tablet portrait tile measured 244dp tall — roughly double every other breakpoint, and
+         mostly empty. 7 gives ~133dp, in line with the 80-130dp the other five dirs produce. -->
+    <integer name="voice_columns">2</integer>
+    <integer name="voice_rows">7</integer>
 </resources>

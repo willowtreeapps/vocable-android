@@ -130,4 +130,15 @@
     <dimen name="category_list_horizontal_margin">44dp</dimen>
 
     <dimen name="add_to_category_title_max_width">250dp</dimen>
+
+    <!-- Change Voice picker -->
+    <dimen name="voice_screen_margin">24dp</dimen>
+    <dimen name="voice_section_spacing">16dp</dimen>
+    <dimen name="voice_row_spacing">16dp</dimen>
+    <dimen name="voice_column_spacing">30dp</dimen>
+    <dimen name="voice_close_button_size">96dp</dimen>
+    <dimen name="voice_paging_button_size">80dp</dimen>
+    <dimen name="voice_play_chip_max_size">80dp</dimen>
+    <dimen name="voice_row_content_spacing">12dp</dimen>
+    <dimen name="voice_row_text_padding">16dp</dimen>
 </resources>

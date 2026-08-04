@@ -1,15 +1,15 @@
 package com.willowtree.vocable.ui.voiceselection
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -25,8 +25,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,18 +66,24 @@ fun VoiceSelectionScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-    val padding = if (isLandscape) 16.dp else 24.dp
-    val closeButtonSize = if (isLandscape) 48.dp else 72.dp
-    val rowHeight = 60.dp
-    val rowSpacing = if (isLandscape) 8.dp else 12.dp
+    // Grid shape comes from per-breakpoint resources, mirroring iOS's size-class switch in
+    // VoicePickerViewController.updateLayoutForCurrentTraitCollection(): one column for phone
+    // portrait (hCompact_vRegular), two everywhere else. Row counts are tuned per breakpoint so a
+    // full page fills the available height — see Documentation/work-log/644-*.md.
+    val voiceColumns = integerResource(id = R.integer.voice_columns)
+    val voiceRows = integerResource(id = R.integer.voice_rows)
+    val itemsPerPage = voiceColumns * voiceRows
+
+    val screenMargin = dimensionResource(id = R.dimen.voice_screen_margin)
+    val sectionSpacing = dimensionResource(id = R.dimen.voice_section_spacing)
+    val rowSpacing = dimensionResource(id = R.dimen.voice_row_spacing)
+    val columnSpacing = dimensionResource(id = R.dimen.voice_column_spacing)
 
     var pageIndex by remember { mutableIntStateOf(0) }
-    // Rows render at a fixed height, so how many fit per page depends on the actually available
-    // height, not a hardcoded guess — reseeded once the list area below is measured.
-    var itemsPerPage by remember { mutableIntStateOf(if (isLandscape) 3 else 5) }
 
-    LaunchedEffect(isLandscape) { pageIndex = 0 }
+    // Page capacity changes on rotation and on any resize that crosses a breakpoint (multi-window,
+    // foldables), so reset against the capacity itself rather than orientation alone.
+    LaunchedEffect(itemsPerPage) { pageIndex = 0 }
 
     val totalPages = remember(state.voices, itemsPerPage) {
         maxOf(1, ceil(state.voices.size.toFloat() / itemsPerPage).toInt())
@@ -102,12 +108,12 @@ fun VoiceSelectionScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(padding)
+            .padding(screenMargin)
             .horizontalPageSwipe(
                 onSwipeLeft = goToPreviousPage,
                 onSwipeRight = goToNextPage
             ),
-        verticalArrangement = Arrangement.spacedBy(if (isLandscape) 8.dp else 16.dp)
+        verticalArrangement = Arrangement.spacedBy(sectionSpacing)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -115,7 +121,7 @@ fun VoiceSelectionScreen(
         ) {
             GazeButton(
                 onClick = onBack,
-                modifier = Modifier.size(closeButtonSize)
+                modifier = Modifier.size(dimensionResource(id = R.dimen.voice_close_button_size))
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_close),
@@ -136,23 +142,39 @@ fun VoiceSelectionScreen(
         if (state.voices.isEmpty()) {
             VoiceSelectionEmptyState(modifier = Modifier.weight(1f))
         } else {
-            BoxWithConstraints(modifier = Modifier.weight(1f)) {
-                LaunchedEffect(maxHeight, rowSpacing) {
-                    val fitting = ((maxHeight + rowSpacing) / (rowHeight + rowSpacing)).toInt()
-                    itemsPerPage = maxOf(1, fitting)
-                }
+            // Fixed row×column slots, as in PresetsScreen: a tile's position on the page must not
+            // depend on how many voices happen to be installed. A short last page leaves its
+            // trailing slots empty rather than reflowing, so a gaze target never shifts under the
+            // user mid-dwell.
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(rowSpacing)
+            ) {
+                for (rowIndex in 0 until voiceRows) {
+                    Row(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(columnSpacing)
+                    ) {
+                        for (colIndex in 0 until voiceColumns) {
+                            val voice = currentPageItems.getOrNull(rowIndex * voiceColumns + colIndex)
 
-                Column(verticalArrangement = Arrangement.spacedBy(rowSpacing)) {
-                    currentPageItems.forEach { voice ->
-                        VoiceOptionRow(
-                            voice = voice,
-                            isSelected = state.selectedVoiceName == voice.name,
-                            isLandscape = isLandscape,
-                            isPlaying = state.previewingVoiceName == voice.name,
-                            onClick = { onVoiceSelected(voice.name) },
-                            onPreviewClick = { onPreviewVoice(voice, previewSampleFormat) },
-                            modifier = Modifier.fillMaxWidth().height(rowHeight)
-                        )
+                            if (voice != null) {
+                                VoiceOptionRow(
+                                    voice = voice,
+                                    isSelected = state.selectedVoiceName == voice.name,
+                                    isPlaying = state.previewingVoiceName == voice.name,
+                                    onClick = { onVoiceSelected(voice.name) },
+                                    onPreviewClick = { onPreviewVoice(voice, previewSampleFormat) },
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight()
+                                )
+                            } else {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
                     }
                 }
             }
@@ -163,8 +185,7 @@ fun VoiceSelectionScreen(
             pageCount = totalPages,
             onPreviousPage = goToPreviousPage,
             onNextPage = goToNextPage,
-            buttonSize = if (isLandscape) 40.dp
-            else dimensionResource(id = R.dimen.phrases_paging_button_height),
+            buttonSize = dimensionResource(id = R.dimen.voice_paging_button_size),
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -204,12 +225,15 @@ private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
  * Tapping the play chip speaks a fixed sample phrase (`voice_preview_sample`, with [voice]'s display
  * name substituted in) in that voice. It toggles to the stop icon while speaking (driven by
  * [isPlaying], sourced from the global `VocableTextToSpeech.isSpeakingFlow`) and back to play once done.
+ *
+ * The row fills the height of its grid slot, so the name tile grows on roomier breakpoints. The
+ * square play chip is capped at `voice_play_chip_max_size` instead — left unbounded it would track
+ * the row height and balloon into an oversized square on a tablet's taller rows.
  */
 @Composable
 private fun VoiceOptionRow(
     voice: VocableTextToSpeech.VoiceOption,
     isSelected: Boolean,
-    isLandscape: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isPlaying: Boolean = false,
@@ -217,14 +241,19 @@ private fun VoiceOptionRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(if (isLandscape) 8.dp else 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.voice_row_content_spacing)
+        ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         GazeButton(
             onClick = onPreviewClick,
             backgroundColor = ColorPrimary,
             modifier = Modifier
-                .height(60.dp)
+                // heightIn sits outside fillMaxHeight so it caps the incoming constraint before
+                // the fill resolves; aspectRatio then squares off the capped height.
+                .heightIn(max = dimensionResource(id = R.dimen.voice_play_chip_max_size))
+                .fillMaxHeight()
                 .aspectRatio(1f)
         ) {
             Icon(
@@ -242,13 +271,13 @@ private fun VoiceOptionRow(
         GazeButton(
             onClick = onClick,
             modifier = Modifier
-                .height(60.dp)
+                .fillMaxHeight()
                 .weight(1f)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = if (isLandscape) 8.dp else 16.dp),
+                    .padding(horizontal = dimensionResource(id = R.dimen.voice_row_text_padding)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -267,16 +296,34 @@ private fun VoiceOptionRow(
     }
 }
 
-@Preview
+private val previewVoices = List(7) { index ->
+    VocableTextToSpeech.VoiceOption(
+        "voice_${index + 1}",
+        "English (United States) Voice ${index + 1}",
+        java.util.Locale.US
+    )
+}
+
+/**
+ * Seven voices, so every breakpoint's last page is a partial one — that's the case where the empty
+ * trailing slots have to hold their positions instead of the remaining tiles reflowing.
+ */
+@Preview(name = "Phone portrait", device = "spec:width=393dp,height=851dp,dpi=440")
+@Preview(
+    name = "Phone landscape",
+    device = "spec:width=393dp,height=851dp,dpi=440,orientation=landscape"
+)
+@Preview(name = "Tablet portrait", device = "spec:width=800dp,height=1280dp,dpi=240")
+@Preview(
+    name = "Tablet landscape",
+    device = "spec:width=800dp,height=1280dp,dpi=240,orientation=landscape"
+)
 @Composable
 private fun VoiceSelectionScreenPreview() {
     VocableTheme {
         VoiceSelectionScreen(
             state = VoiceSelectionState(
-                voices = listOf(
-                    VocableTextToSpeech.VoiceOption("voice_1", "English (United States) Voice 1", java.util.Locale.US),
-                    VocableTextToSpeech.VoiceOption("voice_2", "English (United States) Voice 2", java.util.Locale.US)
-                ),
+                voices = previewVoices,
                 selectedVoiceName = "voice_1"
             ),
             onBack = {},
@@ -334,7 +381,6 @@ private fun VoiceOptionRowMockedNamesPreview() {
                 VoiceOptionRow(
                     voice = VocableTextToSpeech.VoiceOption(mock.name, mock.name, java.util.Locale.US),
                     isSelected = mock.isSelected,
-                    isLandscape = false,
                     isPlaying = mock.isPlaying,
                     onClick = {},
                     modifier = Modifier
