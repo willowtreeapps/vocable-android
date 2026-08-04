@@ -2,9 +2,11 @@ package com.willowtree.vocable.ui.voiceselection
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -38,6 +41,7 @@ import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.components.VocablePagination
 import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
+import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
 
@@ -48,6 +52,7 @@ fun VoiceSelectionScreen(
     onVoiceSelected: (String?) -> Unit,
     onDownloadVoice: () -> Unit,
     onRefreshVoices: () -> Unit,
+    onPreviewVoice: (VocableTextToSpeech.VoiceOption) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -62,11 +67,15 @@ fun VoiceSelectionScreen(
     }
 
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-    val itemsPerPage = if (isLandscape) 3 else 5
     val padding = if (isLandscape) 16.dp else 24.dp
     val closeButtonSize = if (isLandscape) 48.dp else 72.dp
+    val rowHeight = 60.dp
+    val rowSpacing = if (isLandscape) 8.dp else 12.dp
 
     var pageIndex by remember { mutableIntStateOf(0) }
+    // Rows render at a fixed height, so how many fit per page depends on the actually available
+    // height, not a hardcoded guess — reseeded once the list area below is measured.
+    var itemsPerPage by remember { mutableIntStateOf(if (isLandscape) 3 else 5) }
 
     LaunchedEffect(isLandscape) { pageIndex = 0 }
 
@@ -109,7 +118,7 @@ fun VoiceSelectionScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
-                text = stringResource(R.string.voice_selection_title),
+                text = stringResource(R.string.voice_settings_change_voice),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
             )
 
@@ -119,17 +128,19 @@ fun VoiceSelectionScreen(
         if (state.voices.isEmpty()) {
             VoiceSelectionEmptyState(modifier = Modifier.weight(1f))
         } else {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(if (isLandscape) 6.dp else 12.dp)
-            ) {
-                repeat(itemsPerPage) { i ->
-                    val voice = currentPageItems.getOrNull(i)
-                    if (voice != null) {
+            BoxWithConstraints(modifier = Modifier.weight(1f)) {
+                LaunchedEffect(maxHeight, rowSpacing) {
+                    val fitting = ((maxHeight + rowSpacing) / (rowHeight + rowSpacing)).toInt()
+                    itemsPerPage = maxOf(1, fitting)
+                }
+
+                Column(verticalArrangement = Arrangement.spacedBy(rowSpacing)) {
+                    currentPageItems.forEach { voice ->
                         VoiceOptionRow(
                             voice = voice,
                             isSelected = state.selectedVoiceName == voice.name,
                             isLandscape = isLandscape,
+                            isPlaying = state.previewingVoiceName == voice.name,
                             onClick = {
                                 if (voice.isDownloaded) {
                                     onVoiceSelected(voice.name)
@@ -137,10 +148,9 @@ fun VoiceSelectionScreen(
                                     onDownloadVoice()
                                 }
                             },
-                            modifier = Modifier.weight(1f).fillMaxWidth()
+                            onPreviewClick = { onPreviewVoice(voice) },
+                            modifier = Modifier.fillMaxWidth().height(rowHeight)
                         )
-                    } else {
-                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -188,38 +198,73 @@ private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Tapping the play chip reads [voice]'s own display name aloud in that voice — not a sample phrase,
+ * so it sidesteps #613's still-open sample-phrase decision. It toggles to the stop icon while
+ * speaking (driven by [isPlaying], sourced from the global `VocableTextToSpeech.isSpeakingFlow`) and
+ * back to play once done.
+ */
 @Composable
 private fun VoiceOptionRow(
     voice: VocableTextToSpeech.VoiceOption,
     isSelected: Boolean,
     isLandscape: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPlaying: Boolean = false,
+    onPreviewClick: () -> Unit = {}
 ) {
-    GazeButton(
-        onClick = onClick,
-        modifier = modifier
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(if (isLandscape) 8.dp else 12.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
+        GazeButton(
+            onClick = onPreviewClick,
+            backgroundColor = ColorPrimary,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(if (isLandscape) 8.dp else 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .height(60.dp)
+                .aspectRatio(1f)
         ) {
-            Text(
-                text = voice.displayName,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.weight(1f)
+            Icon(
+                painter = painterResource(
+                    id = if (isPlaying) R.drawable.ic_stop_circle_40dp else R.drawable.ic_play_circle_40dp
+                ),
+                contentDescription = stringResource(
+                    if (isPlaying) R.string.voice_settings_stop_preview_content_description
+                    else R.string.voice_settings_preview_content_description
+                ),
+                tint = Color.Unspecified
             )
-            when {
-                !voice.isDownloaded -> Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_down_40dp),
-                    contentDescription = stringResource(R.string.voice_download)
+        }
+
+        GazeButton(
+            onClick = onClick,
+            modifier = Modifier
+                .height(60.dp)
+                .weight(1f)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = if (isLandscape) 8.dp else 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = voice.displayName,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
                 )
-                isSelected -> Icon(
-                    painter = painterResource(id = R.drawable.ic_check),
-                    contentDescription = stringResource(R.string.selected)
-                )
+                when {
+                    !voice.isDownloaded -> Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_down_40dp),
+                        contentDescription = stringResource(R.string.voice_download)
+                    )
+                    isSelected -> Icon(
+                        painter = painterResource(id = R.drawable.ic_check_40dp),
+                        contentDescription = stringResource(R.string.selected)
+                    )
+                }
             }
         }
     }
@@ -240,7 +285,8 @@ private fun VoiceSelectionScreenPreview() {
             onBack = {},
             onVoiceSelected = {},
             onDownloadVoice = {},
-            onRefreshVoices = {}
+            onRefreshVoices = {},
+            onPreviewVoice = {}
         )
     }
 }
@@ -254,7 +300,53 @@ private fun VoiceSelectionScreenEmptyPreview() {
             onBack = {},
             onVoiceSelected = {},
             onDownloadVoice = {},
-            onRefreshVoices = {}
+            onRefreshVoices = {},
+            onPreviewVoice = {}
         )
+    }
+}
+
+/**
+ * Design-review mock only, matching the iOS Change Voice screenshots — the real screen can't show
+ * human voice names (Android's `TextToSpeech`/`Voice` API has no friendly-name field, unlike
+ * `AVSpeechSynthesisVoice.name` on iOS). so this preview stands in with placeholder names to review
+ * the per-row play chip / checkmark layout. Not backed by any real state or data source.
+ */
+@Preview(showBackground = true)
+@Composable
+private fun VoiceOptionRowMockedNamesPreview() {
+    data class MockVoiceRow(val name: String, val isSelected: Boolean = false, val isPlaying: Boolean = false)
+
+    val mockRows = listOf(
+        MockVoiceRow("Daniel"),
+        MockVoiceRow("Fred"),
+        MockVoiceRow("Junior"),
+        MockVoiceRow("Karen", isSelected = true),
+        MockVoiceRow("Kathy", isPlaying = true),
+        MockVoiceRow("Moira"),
+        MockVoiceRow("Ralph"),
+        MockVoiceRow("Rishi")
+    )
+
+    VocableTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            mockRows.forEach { mock ->
+                VoiceOptionRow(
+                    voice = VocableTextToSpeech.VoiceOption(mock.name, mock.name, java.util.Locale.US),
+                    isSelected = mock.isSelected,
+                    isLandscape = false,
+                    isPlaying = mock.isPlaying,
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                )
+            }
+        }
     }
 }

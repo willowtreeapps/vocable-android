@@ -2,6 +2,7 @@ package com.willowtree.vocable.voiceselection
 
 import app.cash.turbine.test
 import com.willowtree.vocable.MainDispatcherRule
+import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionEvent
 import com.willowtree.vocable.ui.voiceselection.VoiceSelectionViewModel
 import com.willowtree.vocable.utils.FakeVocableSharedPreferences
@@ -11,6 +12,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 
 /**
  * Note on coverage: [com.willowtree.vocable.core.VocableTextToSpeech] is a global object wrapping
@@ -24,6 +26,8 @@ class VoiceSelectionViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
+
+    private val voice = VocableTextToSpeech.VoiceOption("voice_1", "English (United States) – Enhanced", Locale.US)
 
     private fun createViewModel(
         prefs: FakeVocableSharedPreferences = FakeVocableSharedPreferences()
@@ -122,5 +126,34 @@ class VoiceSelectionViewModelTest {
         viewModel.refreshVoices()
 
         assertEquals("en-us-x-sfg#male_1-local", viewModel.uiState.value.selectedVoiceName)
+    }
+
+    @Test
+    fun `onDownloadVoice emits launch tts settings event`() = runTest {
+        val (viewModel, _) = createViewModel()
+
+        viewModel.event.test {
+            viewModel.onDownloadVoice()
+            assertEquals(VoiceSelectionEvent.LaunchTtsSettings(null), awaitItem())
+        }
+    }
+
+    @Test
+    fun `onPreviewVoice marks the voice as previewing`() = runTest {
+        val (viewModel, _) = createViewModel()
+
+        viewModel.onPreviewVoice(voice)
+
+        assertEquals(voice.name, viewModel.uiState.value.previewingVoiceName)
+    }
+
+    @Test
+    fun `onPreviewVoice again for the same voice stops the preview`() = runTest {
+        val (viewModel, _) = createViewModel()
+
+        viewModel.onPreviewVoice(voice)
+        viewModel.onPreviewVoice(voice)
+
+        assertNull(viewModel.uiState.value.previewingVoiceName)
     }
 }

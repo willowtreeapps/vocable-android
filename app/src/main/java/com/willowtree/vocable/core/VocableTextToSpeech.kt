@@ -72,6 +72,15 @@ object VocableTextToSpeech {
         _isReady.value = false
     }
 
+    /** Halts in-progress speech (e.g. a voice preview) without tearing down the engine like [shutdown]. */
+    fun stop() {
+        textToSpeech?.let {
+            it.stop()
+            liveIsSpeaking.postValue(false)
+        }
+        _isSpeakingFlow.value = false
+    }
+
     fun getAvailableVoices(locale: Locale = Locale.getDefault()): List<VoiceOption> {
         val tts = textToSpeech ?: return emptyList()
         val availableVoices = tts.voices ?: return emptyList()
@@ -84,17 +93,41 @@ object VocableTextToSpeech {
             }
             .sortedWith(compareByDescending<Voice> { it.quality }.thenBy { it.name })
             .map { voice ->
-                val isDownloaded = voice.features?.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED) != true
                 VoiceOption(
                     name = voice.name,
                     displayName = buildVoiceDisplayName(voice),
                     locale = voice.locale,
-                    isDownloaded = isDownloaded
+                    isDownloaded = isVoiceDownloaded(voice)
                 )
             }
     }
 
     fun getCurrentEngine(): String? = textToSpeech?.defaultEngine
+
+    /**
+     * Resolves the display name of whichever voice is actually active right now — [selectedVoiceName]
+     * if it still resolves to an installed voice, otherwise the device's live current default voice
+     * (never persisted/cached) — without mutating engine state. Mirrors [applySelectedVoice]'s
+     * resolution branches but is read-only, so it's safe to call from UI state building.
+     *
+     * @return null if the engine isn't initialized yet or no voice can be resolved for [locale].
+     */
+    fun getActiveVoiceDisplayName(selectedVoiceName: String?, locale: Locale = Locale.getDefault()): String? {
+        val tts = textToSpeech ?: return null
+
+        val candidateVoices = tts.voices
+            ?.filter { isVoiceSupportedForLocale(tts, it, locale) && isVoiceDownloaded(it) }
+            ?: return null
+        val availableVoiceNames = candidateVoices.mapTo(mutableSetOf()) { it.name }
+
+        val resolvedVoice = when (resolveVoiceSelection(selectedVoiceName, availableVoiceNames)) {
+            VoiceResolution.EXPLICIT -> candidateVoices.firstOrNull { it.name == selectedVoiceName }
+            VoiceResolution.LIVE_DEFAULT, VoiceResolution.STALE_FALLBACK_TO_LIVE_DEFAULT ->
+                tts.getDefaultVoice()?.takeIf { isVoiceSupportedForLocale(tts, it, locale) }
+        }
+
+        return resolvedVoice?.let { buildVoiceDisplayName(it) }
+    }
 
     /**
      * Speaks [text] in [locale] (or the system default if null), using [selectedVoiceName] if it
@@ -159,7 +192,7 @@ object VocableTextToSpeech {
      */
     private fun applySelectedVoice(tts: TextToSpeech, selectedVoiceName: String?, locale: Locale): Boolean {
         val availableVoiceNames = tts.voices
-            ?.filter { isVoiceSupportedForLocale(tts, it, locale) }
+            ?.filter { isVoiceSupportedForLocale(tts, it, locale) && isVoiceDownloaded(it) }
             ?.mapTo(mutableSetOf()) { it.name }
             ?: emptySet()
 
@@ -204,6 +237,18 @@ object VocableTextToSpeech {
     private fun isVoiceUnavailable(tts: TextToSpeech, voice: Voice): Boolean {
         return tts.isLanguageAvailable(voice.locale) < TextToSpeech.LANG_AVAILABLE
     }
+
+    /**
+     * The engine keeps listing a voice in [TextToSpeech.getVoices] even after its data has been
+     * uninstalled — it's only flagged via [TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED], not
+     * removed from the list. Name/locale matching alone can't tell "installed" from "known but
+     * uninstalled," so this must be checked explicitly wherever a voice is treated as usable.
+     */
+    private fun isVoiceDownloaded(voice: Voice): Boolean = isVoiceDownloaded(voice.features)
+
+    /** Pure/testable half of [isVoiceDownloaded] — operates on the raw feature set, not a real [Voice]. */
+    internal fun isVoiceDownloaded(features: Set<String>?): Boolean =
+        features?.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED) != true
 
     private fun buildVoiceDisplayName(voice: Voice): String {
         val localeName = voice.locale.displayName
