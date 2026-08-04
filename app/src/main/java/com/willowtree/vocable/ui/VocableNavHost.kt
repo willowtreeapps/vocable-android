@@ -227,7 +227,6 @@ fun VocableNavHost(
             val vm: SelectionModeViewModel = mainActivity.getViewModel()
             SelectionModeScreen(
                 onBack = { navController.popBackStack(ROUTE_SETTINGS, false) },
-                onVoiceSelection = { navController.navigate(ROUTE_VOICE_SELECTION) },
                 viewModel = vm
             )
         }
