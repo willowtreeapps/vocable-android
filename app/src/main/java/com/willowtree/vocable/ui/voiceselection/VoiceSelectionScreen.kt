@@ -50,7 +50,6 @@ fun VoiceSelectionScreen(
     state: VoiceSelectionState,
     onBack: () -> Unit,
     onVoiceSelected: (String?) -> Unit,
-    onDownloadVoice: () -> Unit,
     onRefreshVoices: () -> Unit,
     onPreviewVoice: (VocableTextToSpeech.VoiceOption) -> Unit,
     modifier: Modifier = Modifier
@@ -82,6 +81,14 @@ fun VoiceSelectionScreen(
     val totalPages = remember(state.voices, itemsPerPage) {
         maxOf(1, ceil(state.voices.size.toFloat() / itemsPerPage).toInt())
     }
+    // The list can shrink underneath us: onRefreshVoices() re-reads the installed voices on every
+    // ON_RESUME, so uninstalling a voice in system Settings and returning to Vocable drops the
+    // count — and #618 now hides undownloaded voices outright rather than leaving a greyed row
+    // behind. Without this clamp, an out-of-range pageIndex renders a blank page.
+    LaunchedEffect(totalPages) {
+        if (pageIndex >= totalPages) pageIndex = totalPages - 1
+    }
+
     val currentPageItems = remember(state.voices, pageIndex, itemsPerPage) {
         state.voices.chunked(itemsPerPage).getOrElse(pageIndex) { emptyList() }
     }
@@ -141,13 +148,7 @@ fun VoiceSelectionScreen(
                             isSelected = state.selectedVoiceName == voice.name,
                             isLandscape = isLandscape,
                             isPlaying = state.previewingVoiceName == voice.name,
-                            onClick = {
-                                if (voice.isDownloaded) {
-                                    onVoiceSelected(voice.name)
-                                } else {
-                                    onDownloadVoice()
-                                }
-                            },
+                            onClick = { onVoiceSelected(voice.name) },
                             onPreviewClick = { onPreviewVoice(voice) },
                             modifier = Modifier.fillMaxWidth().height(rowHeight)
                         )
@@ -255,12 +256,8 @@ private fun VoiceOptionRow(
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
-                when {
-                    !voice.isDownloaded -> Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_down_40dp),
-                        contentDescription = stringResource(R.string.voice_download)
-                    )
-                    isSelected -> Icon(
+                if (isSelected) {
+                    Icon(
                         painter = painterResource(id = R.drawable.ic_check_40dp),
                         contentDescription = stringResource(R.string.selected)
                     )
@@ -277,14 +274,13 @@ private fun VoiceSelectionScreenPreview() {
         VoiceSelectionScreen(
             state = VoiceSelectionState(
                 voices = listOf(
-                    VocableTextToSpeech.VoiceOption("voice_1", "English (United States) – Enhanced", java.util.Locale.US, isDownloaded = true),
-                    VocableTextToSpeech.VoiceOption("voice_2", "English (United States) – Standard", java.util.Locale.US, isDownloaded = false)
+                    VocableTextToSpeech.VoiceOption("voice_1", "English (United States) – Enhanced", java.util.Locale.US),
+                    VocableTextToSpeech.VoiceOption("voice_2", "English (United States) – Standard", java.util.Locale.US)
                 ),
                 selectedVoiceName = "voice_1"
             ),
             onBack = {},
             onVoiceSelected = {},
-            onDownloadVoice = {},
             onRefreshVoices = {},
             onPreviewVoice = {}
         )
@@ -299,7 +295,6 @@ private fun VoiceSelectionScreenEmptyPreview() {
             state = VoiceSelectionState(voices = emptyList(), selectedVoiceName = null),
             onBack = {},
             onVoiceSelected = {},
-            onDownloadVoice = {},
             onRefreshVoices = {},
             onPreviewVoice = {}
         )
