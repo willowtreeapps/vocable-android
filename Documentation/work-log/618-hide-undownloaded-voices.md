@@ -14,7 +14,7 @@ iOS confirms the intent: `AVSpeechSynthesisVoice.speechVoices()` only ever repor
 - **Extracted a pure, testable `isVoiceSupportedForLocale(voiceLanguage, targetLanguage, isNetworkConnectionRequired, languageAvailability)`**, following the same convention already used for `resolveVoiceSelection()` and `isVoiceDownloaded(features)` in this file. Folded away the old `isVoiceUnavailable()` helper.
 - **Removed the download-icon treatment from `VoiceOptionRow`** and the `if (voice.isDownloaded)` fork in its `onClick`, plus the now-unused `onDownloadVoice` screen parameter, its NavHost wiring, and `R.string.voice_download`.
 - **Clamped `pageIndex` when the page count shrinks** in `VoiceSelectionScreen`.
-- **8 new unit tests** on the extracted predicate.
+- **11 new unit tests** on the extracted predicate.
 
 ## Key decisions
 
@@ -26,11 +26,13 @@ iOS confirms the intent: `AVSpeechSynthesisVoice.speechVoices()` only ever repor
 
 **Network-required voices stay excluded unconditionally,** not just while offline. The AC says "treated as unavailable offline," but Vocable is offline/local-first, and a voice that can drop out mid-conversation isn't something to hand a user who depends on it to speak. This was already the pre-existing behavior; it's unchanged.
 
+**`languageAvailability` is passed as a lambda, and checked last.** Routing the picker through the speak path's predicate means `isLanguageAvailable()` — a synchronous binder call into the TTS service — now runs per entry in `getVoices()`, which is several hundred voices on Google TTS, on the main thread for every `speak()`. Reordering `isVoiceUsable()` to check the local install flag first and deferring the availability call behind a `() -> Int` keeps the IPC to only the voices that already match the target language and are local. Three tests count invocations so a refactor back to an eager `Int` parameter — which Kotlin would evaluate for every candidate — fails loudly instead of silently reintroducing N IPCs per call.
+
 **The pagination clamp.** `onRefreshVoices()` re-reads installed voices on every `ON_RESUME`, so uninstalling a voice in system Settings and returning to Vocable shrinks the list. `currentPageItems` uses `getOrElse { emptyList() }`, so a stale out-of-range `pageIndex` rendered a blank page. Pre-existing, but hiding undownloaded voices makes the list shrink more often, so it's fixed here rather than left to be rediscovered.
 
 ## Testing
 
-`./gradlew testDebug` — green, 16 tests in `VocableTextToSpeechTest` (8 new).
+`./gradlew testDebug` — green, 75 tests overall, 19 in `VocableTextToSpeechTest` (11 new). `./gradlew assembleDebug assembleDebugAndroidTest` — green.
 
 Unit coverage is on the extracted pure predicate only. The voice-list side of `VoiceSelectionViewModel` still can't be asserted against real data: `VocableTextToSpeech` is a global object wrapping the real Android engine, so under JVM tests it never initializes and `getAvailableVoices()` returns empty. That limitation is already documented in `VoiceSelectionViewModelTest`'s header comment; closing it would need an injected seam on the ViewModel.
 

@@ -246,7 +246,10 @@ object VocableTextToSpeech {
      * given voice exists.
      */
     private fun isVoiceUsable(tts: TextToSpeech, voice: Voice, locale: Locale): Boolean =
-        isVoiceSupportedForLocale(tts, voice, locale) && isVoiceDownloaded(voice)
+        // Install check first: it's a local feature-set lookup, whereas the locale check ends in a
+        // binder call into the TTS service. Order is behaviourally irrelevant (both are pure), but
+        // this way undownloaded voices are rejected without paying for the IPC.
+        isVoiceDownloaded(voice) && isVoiceSupportedForLocale(tts, voice, locale)
 
     /**
      * Locale/network support only — deliberately says nothing about download status, unlike
@@ -259,7 +262,7 @@ object VocableTextToSpeech {
             voiceLanguage = voiceLocale.language,
             targetLanguage = locale.language,
             isNetworkConnectionRequired = voice.isNetworkConnectionRequired,
-            languageAvailability = tts.isLanguageAvailable(voiceLocale)
+            languageAvailability = { tts.isLanguageAvailable(voiceLocale) }
         )
     }
 
@@ -267,21 +270,27 @@ object VocableTextToSpeech {
      * Pure/testable half of [isVoiceSupportedForLocale] — takes the raw values off a [Voice] rather
      * than a real one, for the same reason as [resolveVoiceSelection].
      *
-     * [languageAvailability] is a [TextToSpeech.isLanguageAvailable] result. It's the cross-reference
-     * that makes the install check trustworthy: `KEY_FEATURE_NOT_INSTALLED` (see [isVoiceDownloaded])
-     * is inconsistently populated across OEM engines, so a `LANG_MISSING_DATA` result is treated as
-     * "not present here" on its own.
+     * [languageAvailability] supplies a [TextToSpeech.isLanguageAvailable] result. It's the
+     * cross-reference that makes the install check trustworthy: `KEY_FEATURE_NOT_INSTALLED` (see
+     * [isVoiceDownloaded]) is inconsistently populated across OEM engines, so a `LANG_MISSING_DATA`
+     * result is treated as "not present here" on its own.
+     *
+     * It's a lambda, and checked last, because the real implementation is a synchronous binder call
+     * into the TTS service and this predicate runs once per entry in [TextToSpeech.getVoices] —
+     * several hundred on Google TTS — on the main thread for every [speak]. Only voices that already
+     * match the target language and are local should pay for it. Don't inline it back to an `Int`
+     * parameter: Kotlin evaluates arguments eagerly, so that reintroduces N IPCs per call.
      */
     internal fun isVoiceSupportedForLocale(
         voiceLanguage: String?,
         targetLanguage: String,
         isNetworkConnectionRequired: Boolean,
-        languageAvailability: Int
+        languageAvailability: () -> Int
     ): Boolean =
         voiceLanguage != null &&
             voiceLanguage.equals(targetLanguage, ignoreCase = true) &&
             !isNetworkConnectionRequired &&
-            languageAvailability >= TextToSpeech.LANG_AVAILABLE
+            languageAvailability() >= TextToSpeech.LANG_AVAILABLE
 
     /**
      * The engine keeps listing a voice in [TextToSpeech.getVoices] even after its data has been

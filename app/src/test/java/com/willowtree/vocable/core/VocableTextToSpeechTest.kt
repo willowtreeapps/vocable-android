@@ -104,7 +104,7 @@ class VocableTextToSpeechTest {
         voiceLanguage = voiceLanguage,
         targetLanguage = targetLanguage,
         isNetworkConnectionRequired = isNetworkConnectionRequired,
-        languageAvailability = languageAvailability
+        languageAvailability = { languageAvailability }
     )
 
     @Test
@@ -153,5 +153,44 @@ class VocableTextToSpeechTest {
     @Test
     fun `voice whose language is not supported by the engine is not supported`() {
         assertFalse(isSupported(languageAvailability = TextToSpeech.LANG_NOT_SUPPORTED))
+    }
+
+    /**
+     * `languageAvailability` wraps a synchronous binder call into the TTS service, and this predicate
+     * runs once per entry in `getVoices()` — several hundred on Google TTS — on the main thread for
+     * every `speak()`. These two pin the short-circuiting so it can't be lost again to a refactor
+     * that passes the value eagerly instead of the lambda.
+     */
+    private fun countingIsSupported(
+        voiceLanguage: String? = "en",
+        isNetworkConnectionRequired: Boolean = false
+    ): Int {
+        var calls = 0
+        VocableTextToSpeech.isVoiceSupportedForLocale(
+            voiceLanguage = voiceLanguage,
+            targetLanguage = "en",
+            isNetworkConnectionRequired = isNetworkConnectionRequired,
+            languageAvailability = {
+                calls++
+                TextToSpeech.LANG_AVAILABLE
+            }
+        )
+        return calls
+    }
+
+    @Test
+    fun `language availability is not queried for a voice in another language`() {
+        assertEquals(0, countingIsSupported(voiceLanguage = "fr"))
+        assertEquals(0, countingIsSupported(voiceLanguage = null))
+    }
+
+    @Test
+    fun `language availability is not queried for a network-required voice`() {
+        assertEquals(0, countingIsSupported(isNetworkConnectionRequired = true))
+    }
+
+    @Test
+    fun `language availability is queried once for an otherwise-eligible voice`() {
+        assertEquals(1, countingIsSupported())
     }
 }
