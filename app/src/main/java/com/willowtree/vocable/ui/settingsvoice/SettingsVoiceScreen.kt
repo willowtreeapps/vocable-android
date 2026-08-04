@@ -165,7 +165,7 @@ fun SettingsVoiceScreen(
 fun SettingsVoiceScreenPreview() {
     VocableTheme {
         SettingsVoiceScreen(
-            state = SettingsVoiceState(activeVoiceDisplayName = "English (United States) – Enhanced"),
+            state = SettingsVoiceState(activeVoiceDisplayName = "English (United States) Voice 1"),
             onBack = {},
             onChangeVoice = {},
             onRefreshActiveVoice = {},

@@ -1,6 +1,7 @@
 package com.willowtree.vocable.core
 
 import android.speech.tts.TextToSpeech
+import com.willowtree.vocable.core.VocableTextToSpeech.VoiceLabelInput
 import com.willowtree.vocable.core.VocableTextToSpeech.VoiceResolution
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -88,5 +89,51 @@ class VocableTextToSpeechTest {
                 features = setOf(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
             )
         )
+    }
+
+    // #643: Android's TTS `Voice` has no human-friendly name, so each voice is labeled by locale
+    // plus an ordinal within that locale instead of a quality word — avoids interpolating an
+    // en-dash-containing label into a spoken preview sample.
+
+    @Test
+    fun `single voice for a locale is numbered Voice 1`() {
+        val result = VocableTextToSpeech.buildVoiceDisplayNames(
+            listOf(VoiceLabelInput("voice_a", "English (United States)", quality = 400))
+        )
+
+        assertEquals(mapOf("voice_a" to "English (United States) Voice 1"), result)
+    }
+
+    @Test
+    fun `voices sharing a locale are numbered by quality descending, then name`() {
+        val result = VocableTextToSpeech.buildVoiceDisplayNames(
+            listOf(
+                VoiceLabelInput("voice_low", "English (United States)", quality = 200),
+                VoiceLabelInput("voice_high", "English (United States)", quality = 500),
+                VoiceLabelInput("voice_mid", "English (United States)", quality = 300)
+            )
+        )
+
+        assertEquals(
+            mapOf(
+                "voice_high" to "English (United States) Voice 1",
+                "voice_mid" to "English (United States) Voice 2",
+                "voice_low" to "English (United States) Voice 3"
+            ),
+            result
+        )
+    }
+
+    @Test
+    fun `voices in different locales are numbered independently`() {
+        val result = VocableTextToSpeech.buildVoiceDisplayNames(
+            listOf(
+                VoiceLabelInput("voice_us", "English (United States)", quality = 400),
+                VoiceLabelInput("voice_gb", "English (United Kingdom)", quality = 400)
+            )
+        )
+
+        assertEquals("English (United States) Voice 1", result.getValue("voice_us"))
+        assertEquals("English (United Kingdom) Voice 1", result.getValue("voice_gb"))
     }
 }

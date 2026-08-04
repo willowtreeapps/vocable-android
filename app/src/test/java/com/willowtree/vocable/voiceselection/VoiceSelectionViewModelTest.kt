@@ -27,7 +27,8 @@ class VoiceSelectionViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val voice = VocableTextToSpeech.VoiceOption("voice_1", "English (United States) – Enhanced", Locale.US)
+    private val voice = VocableTextToSpeech.VoiceOption("voice_1", "English (United States) Voice 1", Locale.US)
+    private val sampleFormat = "Hello, this is Vocable, %1\$s."
 
     private fun createViewModel(
         prefs: FakeVocableSharedPreferences = FakeVocableSharedPreferences()
@@ -142,7 +143,7 @@ class VoiceSelectionViewModelTest {
     fun `onPreviewVoice marks the voice as previewing`() = runTest {
         val (viewModel, _) = createViewModel()
 
-        viewModel.onPreviewVoice(voice)
+        viewModel.onPreviewVoice(voice, sampleFormat)
 
         assertEquals(voice.name, viewModel.uiState.value.previewingVoiceName)
     }
@@ -151,8 +152,8 @@ class VoiceSelectionViewModelTest {
     fun `onPreviewVoice again for the same voice stops the preview`() = runTest {
         val (viewModel, _) = createViewModel()
 
-        viewModel.onPreviewVoice(voice)
-        viewModel.onPreviewVoice(voice)
+        viewModel.onPreviewVoice(voice, sampleFormat)
+        viewModel.onPreviewVoice(voice, sampleFormat)
 
         assertNull(viewModel.uiState.value.previewingVoiceName)
     }

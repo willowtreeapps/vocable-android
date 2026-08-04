@@ -43,14 +43,19 @@ class VoiceSelectionViewModel(
         sendEvent(VoiceSelectionEvent.LaunchTtsSettings(VocableTextToSpeech.getCurrentEngine()))
     }
 
-    /** Toggles reading [voice]'s own display name aloud in that voice — stops if it's already previewing. */
-    fun onPreviewVoice(voice: VocableTextToSpeech.VoiceOption) {
+    /**
+     * Toggles playing [voice]'s preview sample aloud in that voice — stops if it's already
+     * previewing. [sampleFormat] is `voice_preview_sample` (e.g. `"Hello, this is Vocable, %1$s."`),
+     * resolved by the caller so this stays free of Android resource access; [voice]'s display name
+     * (not its raw engine identifier) is substituted into it.
+     */
+    fun onPreviewVoice(voice: VocableTextToSpeech.VoiceOption, sampleFormat: String) {
         if (uiState.value.previewingVoiceName == voice.name) {
             VocableTextToSpeech.stop()
             updateState { copy(previewingVoiceName = null) }
         } else {
             updateState { copy(previewingVoiceName = voice.name) }
-            VocableTextToSpeech.speak(voice.locale, voice.displayName, voice.name)
+            VocableTextToSpeech.speak(voice.locale, sampleFormat.format(voice.displayName), voice.name)
         }
     }
 
