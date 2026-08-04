@@ -5,7 +5,6 @@ import com.willowtree.vocable.MainDispatcherRule
 import com.willowtree.vocable.getOrAwaitValue
 import com.willowtree.vocable.ui.selectionmode.SelectionModeViewModel
 import com.willowtree.vocable.utils.FakeFaceTrackingPermissions
-import com.willowtree.vocable.utils.FakeVocableSharedPreferences
 import com.willowtree.vocable.core.IFaceTrackingPermissions
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertFalse
@@ -22,7 +21,7 @@ class SelectionModeViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private fun createViewModel(permissions: IFaceTrackingPermissions): SelectionModeViewModel {
-        return SelectionModeViewModel(permissions, FakeVocableSharedPreferences())
+        return SelectionModeViewModel(permissions)
     }
 
     private fun createTrackingPermissions(headTrackingEnabled: Boolean): FakeFaceTrackingPermissions {

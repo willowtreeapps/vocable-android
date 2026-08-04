@@ -82,7 +82,7 @@ val vocableKoinModule = module {
 
         scoped { FaceTrackingManager(get(), get()) }
         viewModel { FaceTrackingViewModel(get()) }
-        viewModel { SelectionModeViewModel(get(), get()) }
+        viewModel { SelectionModeViewModel(get()) }
     }
 
     factory<IFaceTrackingPermissions> {
