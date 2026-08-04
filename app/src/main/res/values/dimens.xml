@@ -299,5 +299,7 @@
     <dimen name="voice_row_height">60dp</dimen>
     <dimen name="voice_row_content_spacing">12dp</dimen>
     <dimen name="voice_row_text_padding">16dp</dimen>
+    <dimen name="voice_empty_state_padding">32dp</dimen>
+    <dimen name="voice_empty_state_spacing">16dp</dimen>
 
 </resources>

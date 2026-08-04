@@ -83,5 +83,7 @@
     <dimen name="voice_row_height">48dp</dimen>
     <dimen name="voice_row_content_spacing">8dp</dimen>
     <dimen name="voice_row_text_padding">8dp</dimen>
+    <dimen name="voice_empty_state_padding">24dp</dimen>
+    <dimen name="voice_empty_state_spacing">8dp</dimen>
 
 </resources>

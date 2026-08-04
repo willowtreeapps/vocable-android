@@ -52,10 +52,10 @@ import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
 
 /**
- * Slot reserved for the trailing checkmark on every row so a name wraps at the same point whether or
- * not its voice is selected. Deliberately smaller than `ic_check_40dp`'s 40dp intrinsic size — the
- * glyph inside that vector is 24dp, and every dp reserved here is a dp taken off the name's width,
- * which is already the tight dimension in a two-column tile.
+ * Slot reserved for the trailing checkmark on every row, so a name is auto-sized against the same
+ * width whether or not its voice is selected. Deliberately smaller than `ic_check_40dp`'s 40dp
+ * intrinsic size — the glyph inside that vector is 24dp, and every dp reserved here is a dp taken
+ * off the name's width, which is already the tight dimension in a two-column tile.
  */
 private val CHECKMARK_SIZE = 24.dp
 
@@ -223,7 +223,7 @@ private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+            .padding(horizontal = dimensionResource(id = R.dimen.voice_empty_state_padding)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -233,7 +233,9 @@ private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(
+            modifier = Modifier.height(dimensionResource(id = R.dimen.voice_empty_state_spacing))
+        )
 
         Text(
             text = stringResource(R.string.voice_empty_description),
@@ -315,11 +317,16 @@ private fun VoiceOptionRow(
                 //
                 // Line budget is font-scale dependent. The auto-size floor is in sp, so it grows
                 // with the user's font-size setting; past ~1.25x the name cannot fit one line at
-                // the tightest breakpoint however far the step goes, and trailing truncation would
-                // eat the "Voice N" index that is the only thing telling the rows apart. Above that
-                // it gets a second line and wraps instead of truncating. A flat `maxLines = 2` is
-                // not an option: at default scale auto-size would then keep 16sp and wrap, leaving
-                // the index orphaned on line two rather than shrinking to fit one line.
+                // the tightest breakpoint however far the step goes, so a second line is allowed
+                // from there. A flat `maxLines = 2` is not an option: at default scale auto-size
+                // would then keep 16sp and wrap, leaving the index orphaned on line two rather
+                // than shrinking to fit one line.
+                //
+                // KNOWN LIMITATION: that second line usually cannot be used, because rows are a
+                // fixed `voice_row_height`. At 2x, one line does not fit widthwise (~340dp needed
+                // vs ~213dp) and two do not fit heightwise (2 x 48dp line height in an 80dp row),
+                // so the name still truncates and loses its trailing index. Not solvable in layout
+                // while rows stay chip-height; see Documentation/work-log/644-*.md for the options.
                 BasicText(
                     text = voice.displayName,
                     // Must be a filling weight, i.e. a definite width. With `fill = false` the text
