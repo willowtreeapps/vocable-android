@@ -14,9 +14,15 @@ New files (`.claude/scripts/`, `.claude/skills/throughput-forecast/`):
   envelope the forecast engine already reads.
 - `forecast.py`, `forecast-html.py` — copied **byte-for-byte, unmodified** from
   the source Jira skill (`willowtreeapps/dq-documentation:skills/
-  throughput-forecast/scripts/`). Both are pure math with zero network calls,
-  so the entire port is "swap the gather step" — confirmed by tracing every
-  field `forecast.py` reads against what GitHub's GraphQL API can supply.
+  throughput-forecast/scripts/`). Both run in **file mode** here — pure math,
+  zero network calls in that mode — so the entire port is "swap the gather
+  step," confirmed by tracing every field `forecast.py` reads against what
+  GitHub's GraphQL API can supply. `forecast.py` still carries the source
+  skill's Jira `--live` REST path (`load_token()`/`run_curl()`/`--jira-base`);
+  this skill never passes `--live`, so it's genuinely dead code here, not
+  something exercised by this port — kept in place rather than trimmed so
+  the file stays a clean diff against upstream for future fixes (see PR
+  review discussion on #655).
 - `config.yaml`, `SKILL.md` — GitHub-flavored re-skin of the originals.
 - `.claude/settings.json` — allowlists the three scripts.
 

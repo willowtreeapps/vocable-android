@@ -39,11 +39,17 @@ Q1/Q2 also break down **by component** if `config.yaml`'s `breakdown_field` is s
 
 **Setup / porting:** the forecast engine (`forecast.py`/`forecast-html.py`) is
 copied byte-for-byte from the original Jira-based skill (`willowtreeapps/
-dq-documentation:skills/throughput-forecast/scripts/`) — it's pure math with no
-network calls, so it needed zero changes. Only the gather step differs: `gh_fetch.py`
-pulls from the GitHub Projects v2 GraphQL API instead of Jira REST. **Project
-values** (org, project number, repo, statuses, breakdown axis) live in
-`config.yaml` — read it first and pass them as flags.
+dq-documentation:skills/throughput-forecast/scripts/`) and needed **zero
+changes** for this port. It always runs here in **file mode** — pure math, no
+network calls — reading the two JSON files `gh_fetch.py` produces. The copy
+also still carries `forecast.py`'s Jira `--live` path (`load_token()`,
+`run_curl()`, direct REST against `--jira-base`) from the source skill; this
+skill never passes `--live`, so that path is dead code here, not something in
+use — left in place rather than trimmed so this file stays a straight diff
+against the upstream source for future fixes. Only the gather step differs:
+`gh_fetch.py` pulls from the GitHub Projects v2 GraphQL API instead of Jira
+REST. **Project values** (org, project number, repo, statuses, breakdown
+axis) live in `config.yaml` — read it first and pass them as flags.
 
 ## First — orient the user (before pulling data)
 
