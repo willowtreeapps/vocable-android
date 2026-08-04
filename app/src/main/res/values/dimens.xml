@@ -295,8 +295,8 @@
     <dimen name="voice_close_icon_size">40dp</dimen>
     <dimen name="voice_play_icon_size">40dp</dimen>
     <dimen name="voice_paging_icon_size">40dp</dimen>
-    <!-- Rows stretch to fill their page, so the square play chip needs a ceiling. -->
-    <dimen name="voice_play_chip_max_size">60dp</dimen>
+    <!-- Row height, matched to the square play chip so tile and chip are the same height. -->
+    <dimen name="voice_row_height">60dp</dimen>
     <dimen name="voice_row_content_spacing">12dp</dimen>
     <dimen name="voice_row_text_padding">16dp</dimen>
 

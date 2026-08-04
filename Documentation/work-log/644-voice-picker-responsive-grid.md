@@ -25,34 +25,26 @@ iOS's `VoicePickerViewController.updateLayoutForCurrentTraitCollection()` uses `
 
 ## Final row/column matrix (device-verified)
 
-| dir | iOS size class | cols × rows | measured tile height |
+| dir | iOS size class | cols × rows | row height (`voice_row_height`) |
 |---|---|---|---|
-| `values` | `hCompact_vRegular` | 1 × 5 | 121.5dp |
-| `values-sw400dp` | `hCompact_vRegular` | 1 × 5 | 129.9dp |
-| `values-land` | `hCompact_vCompact` | 2 × 3 | 80.0dp |
-| `values-sw400dp-land` | `hCompact_vCompact` | 2 × 3 | 86.5dp |
-| `values-sw600dp` | `hRegular_vRegular` | 2 × **7** | 133.0dp |
-| `values-sw600dp-land` | `hRegular_vCompact` | 2 × 4 | 127.0dp |
+| `values` | `hCompact_vRegular` | 1 × 5 | 60dp |
+| `values-sw400dp` | `hCompact_vRegular` | 1 × 5 | 60dp (inherits `values`) |
+| `values-land` | `hCompact_vCompact` | 2 × 3 | 48dp |
+| `values-sw400dp-land` | `hCompact_vCompact` | 2 × 3 | 48dp (inherits `values-land`) |
+| `values-sw600dp` | `hRegular_vRegular` | 2 × 7 | 80dp |
+| `values-sw600dp-land` | `hRegular_vCompact` | 2 × 4 | 64dp |
 
 ## Key decisions, and why
 
-### Rows fill their slot; the play chip is capped
+### Rows are a fixed height matching the play chip, packed from the top
 
-iOS uses `numberOfRows = .flexible(minHeight:)` — 100pt for `hRegular_vRegular`, 64pt elsewhere — so its rows grow with the available height. The Android equivalent that also satisfies the ticket's "no leftover dead space" criterion is `weight(1f)` per row, which is what `PresetsScreen` already does.
+Rows take `voice_row_height` (60 / 48 / 80 / 64dp per dimens dir) and stack from the top of the grid area; any leftover space is left at the bottom. That height is deliberately the same as the square play chip, so a name tile is exactly as tall as the chip beside it — the shape design asked for.
 
-The catch is `VoiceOptionRow`'s play chip, which is square (`aspectRatio(1f)`). Left to follow the row height it would have rendered as an 80–244dp square. It's capped with `heightIn(max = voice_play_chip_max_size)` placed **outside** `fillMaxHeight()`, so the cap applies to the incoming constraint before the fill resolves, and the row's `Alignment.CenterVertically` centers the capped chip against a taller name tile.
+**This replaced an earlier weighted-fill approach, and is a deliberate divergence from both iOS and one of the ticket's acceptance criteria.** iOS uses `numberOfRows = .flexible(minHeight:)`, so its rows stretch to divide the available height, and the ticket asked for row counts leaving no "leftover dead space". Built that way — `weight(1f)` per row, as `PresetsScreen` does — tiles came out up to 244dp tall on tablet portrait: mostly empty boxes around a single line of text. Reviewed on device, the compact chip-matched row was preferred, so the fill was dropped.
 
-### Tablet portrait is 7 rows, not the 4 the ticket suggested
+Because row height no longer depends on row count, `voice_rows` is now purely "slots per page" and the original matrix values stand unchanged. The play chip is simply `fillMaxHeight().aspectRatio(1f)`; the fixed row height bounds it, so the earlier `heightIn(max = …)` cap is gone (the dimen was renamed `voice_play_chip_max_size` → `voice_row_height`, same values).
 
-The ticket offered 4 rows for `sw600dp` as a starting point "to validate, not a requirement". On device it measured **244dp per tile** — roughly double every other breakpoint, and visually a near-empty box with one line of text floating in it (screenshot taken during verification). Because rows stretch, row count is effectively the tile-height control.
-
-Solving `(1024 - 16 × (n-1)) / n` for the 1024dp of grid height available at `sw600dp` portrait gives 244dp at n=4, 133dp at n=7, 114dp at n=8. **7 was chosen** so tile height stays in the same 80–133dp band as the other five breakpoints — consistent tile size across configurations matters more here than matching the ticket's placeholder, since predictable target size is the whole point of the fixed-position contract. It also keeps closer to iOS's 100pt `minHeight` for this size class than 244dp does.
-
-Worth a second opinion from design, since it changes voices-per-page on tablet portrait from 8 to 14. Flagged on the PR.
-
-### `voice_rows` differs between tablet portrait and tablet landscape
-
-7 vs 4 for the same `sw600dp` device. Both come out at ~130dp per tile because portrait has 1024dp of grid height and landscape has 544dp. The asymmetry is the point: the row count is what holds tile height roughly constant across orientations.
+Consequence to keep in mind: with 9 installed voices and 14 slots on tablet portrait, two rows render empty *and* a wide band is left below them, since rows no longer stretch. That is expected, and it is also what made large font scales unfixable in layout — see the limitation under "Overflow must be `Ellipsis`" below.
 
 ### Names are auto-sized to a single line, and the checkmark's slot is always reserved
 
@@ -65,15 +57,23 @@ Fixed by switching the name to `BasicText` + `TextAutoSize.StepBased(12sp..16sp)
 
 **`maxLines = 1` is deliberate.** Names now arrive from `buildVoiceDisplayNames()` as `"English (United States) Voice 1"`, `"… Voice 2"` and so on, where the trailing index is the *only* thing distinguishing one row from the next. Allowing two lines orphaned that digit alone on line two — so the text shrinks instead. At the 12sp floor the string needs ~190dp, comfortably inside the tightest breakpoint's 213dp; verified un-truncated at all six at default font scale.
 
-#### Font scale: `MiddleEllipsis`, not `Ellipsis`
+#### Overflow must be `Ellipsis`, and large font scales remain a known limitation
 
-Raised in review by Michael Gonzalez — *"the UI will most likely wrap when the User increases font size; you just want to ensure that it is readable regardless of text length and font size."* That turned out to be a real defect, not a caveat.
+Raised in review by Michael Gonzalez — *"the UI will most likely wrap when the User increases font size; you just want to ensure that it is readable regardless of text length and font size."*
 
-`TextAutoSize`'s bounds are `sp`, so they scale with the user's font-size setting: at `font_scale 2.0` the 12sp floor becomes 24sp effective, the string needs ~380dp against 213dp, and no step can fit it. With plain trailing `TextOverflow.Ellipsis` every row rendered as **`"English (United S…"` — nine identical, unusable labels**, with the distinguishing index truncated away. For a picker whose whole job is telling voices apart, that's an accessibility failure at exactly the setting an accessibility-minded user is most likely to change.
+`TextAutoSize`'s bounds are `sp`, so they scale with the user's font-size setting. At `font_scale 2.0` the 12sp floor becomes 24sp effective, the name needs ~340dp against the 213dp available at the tightest breakpoint, and no step can fit it — so it truncates to `"English (United S…"`, identical on every row, losing the `Voice N` index that is the only differentiator.
 
-Fixed with `TextOverflow.MiddleEllipsis` (available since Compose 1.8; this project is on ui-text 1.10.5). It eats the *redundant* half — the locale prefix, identical on every row in this picker since the list is already filtered to the current language — and preserves the tail: `"English…Voice 1"` … `"English…Voice 9"` at 2x. Verified on device at `font_scale` 1.0 and 2.0 across all six breakpoints, and visually at the tightest (`values-sw600dp` portrait, 213dp).
+`TextOverflow.MiddleEllipsis` looks like the fix (it would keep the tail: `"English…Voice 1"`), and was tried. **It must not be used here:** with a middle-ellipsis overflow, auto-size treats the text as fitting at any size — it can always truncate to width — so it never steps down, and the name truncated *even at default font scale*. Confirmed on device both ways. Overflow therefore stays `Ellipsis`, which is what lets auto-size shrink and produce full names at default scale.
 
-**Testing note:** `uiautomator dump` is useless for detecting this. Its `text` attribute reports the source string, so an ellipsized label still dumps in full — the automated check reported `ellipsized=0/9` while the screen was visibly truncated. Truncation has to be confirmed from a screenshot.
+`maxLines` is font-scale dependent (`> 1.25f → 2`), so that above the point where one line becomes impossible the name wraps rather than truncating. A flat `maxLines = 2` is not an option: at default scale auto-size would then keep 16sp and wrap, orphaning the index on line two instead of shrinking to fit one line.
+
+**Known limitation, not fixed:** at large font scales the name still truncates, because rows are a fixed `voice_row_height` (matched to the play chip, per design). One line cannot fit widthwise (~340dp needed, 213dp available) and two lines cannot fit heightwise (2 × 48dp line height vs an 80dp row), so the extra line the code allows cannot actually be used. Verified at `font_scale 2.0`. This is unreachable by layout alone — the remedies all need a decision:
+
+- **Grow `voice_row_height` with `fontScale`** — restores the second line, but fixed-height rows would then overflow the page, so the rendered row count would have to shrink with it, which changes items-per-page and reintroduces the runtime measurement this ticket deleted.
+- **Drop to one column at large font scale** — helps on tablet (a 660dp tile fits one line at 32sp) but not on phone portrait, which is already single-column and still short at ~217dp.
+- **Shorten the name copy** — the only remedy that works at every breakpoint. Already under discussion by the team.
+
+**Testing note:** `uiautomator dump` cannot detect this class of bug. Its `text` attribute reports the source string, so an ellipsized label still dumps in full — an automated check reported `ellipsized=0/9` while the screen was visibly truncated. Truncation has to be confirmed from a screenshot.
 
 ### Icons are sized per breakpoint, not left at intrinsic size
 
@@ -119,7 +119,7 @@ Worth recording because it looks like a bug and isn't. With 9 installed voices a
 All six breakpoints were verified on `emulator-5554` by overriding `wm size` / `wm density` / `user_rotation` and measuring the real view hierarchy via `uiautomator dump`, rather than trusting previews:
 
 - **Column counts** match the table above — 1 column for exactly the two phone-portrait buckets, 2 for the other four.
-- **No clipping, no dead band**: at every breakpoint the pagination row's bottom edge landed exactly at `screenHeight − voice_screen_margin`, and the grid consumed the full height between the header and the pager. Row gaps measured equal to `voice_row_spacing` in each dir.
+- **No clipping**: at every breakpoint the pagination row's bottom edge landed exactly at `screenHeight − voice_screen_margin`, and a full page of fixed-height rows fits inside the space between header and pager with room to spare. Row gaps measured equal to `voice_row_spacing` in each dir. Note rows deliberately do *not* consume the full height — see the fixed-row-height decision above.
 - **Fixed positions hold on a partial page**: with 9 voices installed and 5 per page, page 2's four tiles sat at y = 112.0 / 254.1 / 396.2 / 538.3dp — byte-identical to page 1's first four origins, with the fifth slot left blank instead of the content reflowing or centering.
 - **Rotating while on page 2** landed on a valid "Page 1 of 2" rather than a blank page, exercising the `itemsPerPage`-keyed reset alongside #618's clamp.
 

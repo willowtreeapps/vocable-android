@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
@@ -29,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
@@ -92,6 +92,7 @@ fun VoiceSelectionScreen(
     val sectionSpacing = dimensionResource(id = R.dimen.voice_section_spacing)
     val rowSpacing = dimensionResource(id = R.dimen.voice_row_spacing)
     val columnSpacing = dimensionResource(id = R.dimen.voice_column_spacing)
+    val rowHeight = dimensionResource(id = R.dimen.voice_row_height)
 
     var pageIndex by remember { mutableIntStateOf(0) }
 
@@ -161,6 +162,11 @@ fun VoiceSelectionScreen(
             // depend on how many voices happen to be installed. A short last page leaves its
             // trailing slots empty rather than reflowing, so a gaze target never shifts under the
             // user mid-dwell.
+            //
+            // Rows take a fixed `voice_row_height` and pack from the top rather than stretching to
+            // divide the available height. That height is matched to the square play chip, so a
+            // tile is exactly as tall as its chip; stretching made tiles up to 244dp — mostly empty
+            // boxes around a single line of text — and any leftover space is left at the bottom.
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(rowSpacing)
@@ -168,7 +174,7 @@ fun VoiceSelectionScreen(
                 for (rowIndex in 0 until voiceRows) {
                     Row(
                         modifier = Modifier
-                            .weight(1f)
+                            .height(rowHeight)
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(columnSpacing)
                     ) {
@@ -242,9 +248,8 @@ private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
  * name substituted in) in that voice. It toggles to the stop icon while speaking (driven by
  * [isPlaying], sourced from the global `VocableTextToSpeech.isSpeakingFlow`) and back to play once done.
  *
- * The row fills the height of its grid slot, so the name tile grows on roomier breakpoints. The
- * square play chip is capped at `voice_play_chip_max_size` instead — left unbounded it would track
- * the row height and balloon into an oversized square on a tablet's taller rows.
+ * The row is exactly `voice_row_height` tall, and the play chip fills that height as a square, so
+ * chip and name tile always match — the shape the design calls for.
  */
 @Composable
 private fun VoiceOptionRow(
@@ -266,9 +271,8 @@ private fun VoiceOptionRow(
             onClick = onPreviewClick,
             backgroundColor = ColorPrimary,
             modifier = Modifier
-                // heightIn sits outside fillMaxHeight so it caps the incoming constraint before
-                // the fill resolves; aspectRatio then squares off the capped height.
-                .heightIn(max = dimensionResource(id = R.dimen.voice_play_chip_max_size))
+                // The row is a fixed height, so filling it and squaring off gives a chip that is
+                // exactly as tall as the name tile beside it.
                 .fillMaxHeight()
                 .aspectRatio(1f)
         ) {
@@ -304,14 +308,25 @@ private fun VoiceOptionRow(
                 // alone on line two, and that index is the only thing distinguishing one row from
                 // the next.
                 //
-                // MiddleEllipsis, not Ellipsis, for the same reason. The auto-size floor is in sp,
-                // so it scales with the user's font-size setting: at 2x the string can no longer
-                // fit however small the step goes, and trailing truncation rendered every row as
-                // "English (United S…" — nine identical, unusable labels. Eating the middle instead
-                // keeps the index visible ("English (Uni…Voice 1"), since the locale prefix is
-                // identical on every row here and is the redundant half.
+                // Overflow must stay `Ellipsis`, NOT `MiddleEllipsis`: with a middle-ellipsis
+                // overflow, auto-size treats the text as always fitting (it can truncate to any
+                // width) and so never steps down, which truncated the name even at default font
+                // scale. Verified on device both ways.
+                //
+                // Line budget is font-scale dependent. The auto-size floor is in sp, so it grows
+                // with the user's font-size setting; past ~1.25x the name cannot fit one line at
+                // the tightest breakpoint however far the step goes, and trailing truncation would
+                // eat the "Voice N" index that is the only thing telling the rows apart. Above that
+                // it gets a second line and wraps instead of truncating. A flat `maxLines = 2` is
+                // not an option: at default scale auto-size would then keep 16sp and wrap, leaving
+                // the index orphaned on line two rather than shrinking to fit one line.
                 BasicText(
                     text = voice.displayName,
+                    // Must be a filling weight, i.e. a definite width. With `fill = false` the text
+                    // is measured at its desired width instead, auto-size stops shrinking to fit,
+                    // and the name truncates ("English (Unite…ates) Voice 1") — verified on device.
+                    // The cost is that the checkmark sits at the tile's trailing edge rather than
+                    // immediately after the text; showing the whole name matters more.
                     modifier = Modifier.weight(1f),
                     // BasicText, unlike Text, does not read LocalContentColor — so the color is
                     // pulled in explicitly to keep VocableButton's dwell-press color flip working.
@@ -323,8 +338,8 @@ private fun VoiceOptionRow(
                         maxFontSize = 16.sp,
                         stepSize = 0.5.sp
                     ),
-                    maxLines = 1,
-                    overflow = TextOverflow.MiddleEllipsis
+                    maxLines = if (LocalDensity.current.fontScale > 1.25f) 2 else 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
                 // The checkmark's slot is reserved on every row, not just the selected one, so a
