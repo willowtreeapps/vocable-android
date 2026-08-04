@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- Presets -->
     <string name="select_something">選擇以下內容進行發言.</string>
-    <string name="phrases_page_number">第 %1d 頁，共 %2d 頁</string>
+    <string name="phrases_page_number">第 %1$d 頁，共 %2$d 頁</string>
     <string name="my_sayings_empty">b</string>
     <string name="my_sayings_empty_handset_port">b</string>
     <string name="my_sayings_empty_handset_land">&lt;b&gt;</string>
