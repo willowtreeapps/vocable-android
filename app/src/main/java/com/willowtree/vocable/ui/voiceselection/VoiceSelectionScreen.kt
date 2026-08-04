@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -21,12 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -35,6 +36,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.willowtree.vocable.R
 import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.ui.components.GazeButton
+import com.willowtree.vocable.ui.components.VocablePagination
 import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
@@ -75,13 +77,18 @@ fun VoiceSelectionScreen(
         state.voices.chunked(itemsPerPage).getOrElse(pageIndex) { emptyList() }
     }
 
+    // Paging wraps in both directions, matching iOS's carousel. Shared by the swipe gestures and
+    // the pagination buttons so the two can't drift apart.
+    val goToPreviousPage = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 }
+    val goToNextPage = { pageIndex = (pageIndex + 1) % totalPages }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(padding)
             .horizontalPageSwipe(
-                onSwipeLeft = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
-                onSwipeRight = { pageIndex = (pageIndex + 1) % totalPages }
+                onSwipeLeft = goToPreviousPage,
+                onSwipeRight = goToNextPage
             ),
         verticalArrangement = Arrangement.spacedBy(if (isLandscape) 8.dp else 16.dp)
     ) {
@@ -109,77 +116,75 @@ fun VoiceSelectionScreen(
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        GazeButton(
-            onClick = { onVoiceSelected(null) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(R.string.voice_default),
-                modifier = Modifier.padding(if (isLandscape) 8.dp else 16.dp)
-            )
-        }
-
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(if (isLandscape) 6.dp else 12.dp)
-        ) {
-            repeat(itemsPerPage) { i ->
-                val voice = currentPageItems.getOrNull(i)
-                if (voice != null) {
-                    VoiceOptionRow(
-                        voice = voice,
-                        isSelected = state.selectedVoiceName == voice.name,
-                        isLandscape = isLandscape,
-                        onClick = {
-                            if (voice.isDownloaded) {
-                                onVoiceSelected(voice.name)
-                            } else {
-                                onDownloadVoice()
-                            }
-                        },
-                        modifier = Modifier.weight(1f).fillMaxWidth()
-                    )
-                } else {
-                    Spacer(modifier = Modifier.weight(1f))
+        if (state.voices.isEmpty()) {
+            VoiceSelectionEmptyState(modifier = Modifier.weight(1f))
+        } else {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(if (isLandscape) 6.dp else 12.dp)
+            ) {
+                repeat(itemsPerPage) { i ->
+                    val voice = currentPageItems.getOrNull(i)
+                    if (voice != null) {
+                        VoiceOptionRow(
+                            voice = voice,
+                            isSelected = state.selectedVoiceName == voice.name,
+                            isLandscape = isLandscape,
+                            onClick = {
+                                if (voice.isDownloaded) {
+                                    onVoiceSelected(voice.name)
+                                } else {
+                                    onDownloadVoice()
+                                }
+                            },
+                            modifier = Modifier.weight(1f).fillMaxWidth()
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val pagingButtonSize = if (isLandscape) 40.dp
-            else dimensionResource(id = R.dimen.phrases_paging_button_height)
+        VocablePagination(
+            pageIndex = pageIndex,
+            pageCount = totalPages,
+            onPreviousPage = goToPreviousPage,
+            onNextPage = goToNextPage,
+            buttonSize = if (isLandscape) 40.dp
+            else dimensionResource(id = R.dimen.phrases_paging_button_height),
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
 
-            GazeButton(
-                onClick = { pageIndex = if (pageIndex > 0) pageIndex - 1 else totalPages - 1 },
-                modifier = Modifier.size(pagingButtonSize)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_phrases_arrow_back_blue),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            }
+/**
+ * Shown when no installed voice matches the current language/region, mirroring iOS's
+ * `VoicePickerEmptyStateConfiguration`. iOS leaves its pagination visible (but disabled) behind
+ * this state, so this doesn't hide it either.
+ */
+@Composable
+private fun VoiceSelectionEmptyState(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(R.string.voice_empty_title),
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+            textAlign = TextAlign.Center
+        )
 
-            Text(
-                text = stringResource(R.string.phrases_page_number, pageIndex + 1, totalPages),
-                style = MaterialTheme.typography.bodyLarge
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            GazeButton(
-                onClick = { pageIndex = (pageIndex + 1) % totalPages },
-                modifier = Modifier.size(pagingButtonSize)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_phrases_arrow_forward_blue),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            }
-        }
+        Text(
+            text = stringResource(R.string.voice_empty_description),
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -211,9 +216,9 @@ private fun VoiceOptionRow(
                     painter = painterResource(id = R.drawable.ic_arrow_down_40dp),
                     contentDescription = stringResource(R.string.voice_download)
                 )
-                isSelected -> Text(
-                    text = stringResource(R.string.selected),
-                    style = MaterialTheme.typography.bodyMedium
+                isSelected -> Icon(
+                    painter = painterResource(id = R.drawable.ic_check),
+                    contentDescription = stringResource(R.string.selected)
                 )
             }
         }
@@ -232,6 +237,20 @@ private fun VoiceSelectionScreenPreview() {
                 ),
                 selectedVoiceName = "voice_1"
             ),
+            onBack = {},
+            onVoiceSelected = {},
+            onDownloadVoice = {},
+            onRefreshVoices = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun VoiceSelectionScreenEmptyPreview() {
+    VocableTheme {
+        VoiceSelectionScreen(
+            state = VoiceSelectionState(voices = emptyList(), selectedVoiceName = null),
             onBack = {},
             onVoiceSelected = {},
             onDownloadVoice = {},
