@@ -47,16 +47,38 @@ Once the body is drafted and passes the scope-creep guard, create it with `gh is
 
 ## Creating and linking the branch
 
-Create the working branch through the issue's own **"Development"** link
-(`createLinkedBranch`), not a plain `git checkout -b` — this makes the branch
-show up under the issue's Development section on GitHub from the moment work
-starts, not only once a PR eventually exists.
+**For sub-issue tickets whose PR will target a parent integration branch
+(e.g. `feature/voice-selection`) — which is the normal case per `CLAUDE.md`'s
+sub-issue convention — `createLinkedBranch` is the ONLY way to get anything
+to show under the issue's "Development" section, not merely the preferred
+way.** Confirmed live and worth being precise about, since it's easy to
+assume the usual `Closes #N` trick covers this and it does not:
 
-This needs **write access to the repo** — same requirement as pushing a
-branch or opening a PR. If it fails with `FORBIDDEN: does not have the
-correct permissions`, that's a repo-access gap, not a scope/token problem
-(confirmed live: this is a distinct failure from the `INSUFFICIENT_SCOPES`
-case above).
+- A `Closes #653`/`Closes #654` reference in a PR body targeting
+  `feature/voice-selection` did **not** register as a closing reference at
+  all — `closingIssuesReferences` came back empty on both the issue side and
+  the PR side, and the timeline's `CROSS_REFERENCED_EVENT` explicitly reports
+  `willCloseTarget: false`. This isn't just "won't auto-close on merge" (the
+  already-documented caveat above) — the reference is never linked as
+  "Development" material in the first place when the PR's base isn't the
+  repo's default branch.
+- There is **no GraphQL mutation to manually link an already-existing PR or
+  branch** to an issue's Development section — only `createLinkedBranch`
+  (which creates a brand-new ref) and `deleteLinkedBranch` exist. If a branch
+  with the intended name was already pushed via plain `git push` (not through
+  this mutation), there is no way to retroactively attach it — the name is
+  already taken, and `createLinkedBranch` only creates, it doesn't adopt.
+
+**Practical takeaway: call `createLinkedBranch` FIRST, before any branch
+with that name exists anywhere** — as part of ticket creation, right after
+`gh issue create`, not as an optional nicety alongside a manually-pushed
+branch. If you skip this step and push a plain branch first (as happened
+with #653/#654 before this gap was found), the ticket's Development section
+will stay empty even after the PR is opened and merged — the only fix at
+that point is deleting the already-pushed branch/PR and recreating it via
+this mutation, which is a real enough disruption (an open PR pointing at a
+now-deleted branch) that it's a judgment call for whoever hits it, not
+something to do automatically.
 
 1. Get the issue's node ID (same query as "Adding it to the board" step 1),
    the repository's node ID, and the base commit to branch from (the tip of
@@ -67,7 +89,11 @@ case above).
    gh api repos/willowtreeapps/vocable-android --jq '.node_id'
    ```
 2. Create + link the branch in one call (name follows the usual
-   `feature/<issue-number>/<short-description>` convention):
+   `feature/<issue-number>/<short-description>` convention) — this needs
+   **write access to the repo** (same requirement as pushing/opening a PR;
+   fails with `FORBIDDEN: does not have the correct permissions` if missing,
+   a distinct failure from the `project`-scope `INSUFFICIENT_SCOPES` case
+   above):
    ```bash
    gh api graphql -f query='
    mutation($issueId: ID!, $oid: GitObjectID!, $name: String!, $repositoryId: ID!) {
@@ -84,10 +110,11 @@ case above).
    git checkout feature/<issue-number>/<short-description>
    ```
 
-If a PR is opened later with a `Closes #N`/`Fixes #N` reference in its body,
-GitHub links that PR under Development automatically too — no extra action
-needed for that case; `createLinkedBranch` is specifically for making the
-*branch itself* visible under Development before a PR exists.
+A standalone issue whose PR will target `main` (the repo's default branch)
+doesn't have this problem — `Closes #N` links and auto-closes normally there
+— but every sub-issue in this repo's actual workflow targets a parent
+integration branch, so treat `createLinkedBranch`-first as the default, not
+the exception.
 
 ## Adding it to the board
 

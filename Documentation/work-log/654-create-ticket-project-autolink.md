@@ -62,8 +62,31 @@ CreateLinkedBranch` — a different failure mode than `INSUFFICIENT_SCOPES`,
 confirming it's a repo-collaborator-access gap, not a token-scope gap (the
 same gap already blocking `git push`/PR creation on #653). `SKILL.md` calls
 this out explicitly so the two failure modes aren't confused with each other.
-Once write access exists, this step should just work — nothing else about it
-needs to change.
+Write access landed later in the same session; see below for what that
+revealed.
+
+**Bigger finding, discovered only after write access arrived: `Closes #N`
+does NOT link a PR under "Development" at all when the PR targets a
+non-default branch — not just "won't auto-close," genuinely not linked.**
+Once PRs #655/#656 were opened (bodies containing `Closes #653`/`Closes
+#654`, both targeting `feature/voice-selection` per this repo's sub-issue
+convention), I checked `closingIssuesReferences` on both the issue and PR
+sides via the API: **empty on both**, and the timeline's
+`CROSS_REFERENCED_EVENT` explicitly reports `willCloseTarget: false`. This is
+a stronger statement than the already-known "closes #N won't auto-fire on
+merge" caveat — the reference is never registered as Development material in
+the first place. There's also no mutation to manually link an
+already-existing PR/branch (only `createLinkedBranch`, create-only, and
+`deleteLinkedBranch`) — so a branch already pushed via plain `git push`, like
+#653/#654's were, can't be retroactively linked without deleting and
+recreating it. `SKILL.md` now states plainly that `createLinkedBranch` must
+run FIRST, before any branch of that name exists anywhere, for every
+sub-issue ticket in this repo (which is the normal case, not an edge case,
+per the sub-issue convention) — not merely "preferred," as I'd first written
+it. Left #653/#654 themselves as-is (their Development sections are empty)
+rather than delete+recreate already-open branches/PRs just for this —
+flagged as a judgment call for whoever's driving those tickets, not something
+to force through automatically.
 
 ## Verification
 
