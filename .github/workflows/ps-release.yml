@@ -40,9 +40,19 @@ jobs:
           ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
         run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
 
+      - name: Authenticate to Google Play
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.PLAY_STORE_CREDENTIALS }}
+
+      - name: Compute next versionCode
+        id: version_code
+        run: |
+          echo "value=$(./scripts/get-next-version-code.sh com.willowtree.vocable)" >> "$GITHUB_OUTPUT"
+
       - name: Build & Assemble Release APK
         env:
-          VERSION_CODE: ${{ github.run_number }}
+          VERSION_CODE: ${{ steps.version_code.outputs.value }}
           VERSION_NAME: ${{ env.version_name }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
