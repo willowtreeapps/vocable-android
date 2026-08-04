@@ -136,4 +136,108 @@ class VocableTextToSpeechTest {
         assertEquals("English (United States) Voice 1", result.getValue("voice_us"))
         assertEquals("English (United Kingdom) Voice 1", result.getValue("voice_gb"))
     }
+
+    // #618: the picker shows only voices actually installed and usable on-device — undownloaded
+    // ones are hidden outright rather than offered with a download prompt. `isVoiceSupportedForLocale`
+    // is the locale/network/language-data half of that filter; `isVoiceDownloaded` above is the
+    // install half. Both must pass for a voice to reach the list.
+
+    private fun isSupported(
+        voiceLanguage: String? = "en",
+        targetLanguage: String = "en",
+        isNetworkConnectionRequired: Boolean = false,
+        languageAvailability: Int = TextToSpeech.LANG_AVAILABLE
+    ) = VocableTextToSpeech.isVoiceSupportedForLocale(
+        voiceLanguage = voiceLanguage,
+        targetLanguage = targetLanguage,
+        isNetworkConnectionRequired = isNetworkConnectionRequired,
+        languageAvailability = { languageAvailability }
+    )
+
+    @Test
+    fun `local voice matching the target language with data present is supported`() {
+        assertTrue(isSupported())
+    }
+
+    @Test
+    fun `language match is case-insensitive`() {
+        assertTrue(isSupported(voiceLanguage = "EN", targetLanguage = "en"))
+    }
+
+    @Test
+    fun `country-specific language availability still counts as supported`() {
+        assertTrue(isSupported(languageAvailability = TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE))
+    }
+
+    @Test
+    fun `voice for a different language is not supported`() {
+        assertFalse(isSupported(voiceLanguage = "fr", targetLanguage = "en"))
+    }
+
+    @Test
+    fun `voice with no locale is not supported`() {
+        assertFalse(isSupported(voiceLanguage = null))
+    }
+
+    /**
+     * Network voices are excluded unconditionally, not just while offline: Vocable is an
+     * offline/local-first app, so a voice that needs a connection can't be relied on mid-conversation.
+     */
+    @Test
+    fun `network-required voice is not supported`() {
+        assertFalse(isSupported(isNetworkConnectionRequired = true))
+    }
+
+    /**
+     * The cross-reference that makes the hide-undownloaded filter trustworthy — `KEY_FEATURE_NOT_INSTALLED`
+     * is inconsistently populated across OEM engines, so missing language data alone disqualifies a voice.
+     */
+    @Test
+    fun `voice whose language data is missing is not supported`() {
+        assertFalse(isSupported(languageAvailability = TextToSpeech.LANG_MISSING_DATA))
+    }
+
+    @Test
+    fun `voice whose language is not supported by the engine is not supported`() {
+        assertFalse(isSupported(languageAvailability = TextToSpeech.LANG_NOT_SUPPORTED))
+    }
+
+    /**
+     * `languageAvailability` wraps a synchronous binder call into the TTS service, and this predicate
+     * runs once per entry in `getVoices()` — several hundred on Google TTS — on the main thread for
+     * every `speak()`. These two pin the short-circuiting so it can't be lost again to a refactor
+     * that passes the value eagerly instead of the lambda.
+     */
+    private fun countingIsSupported(
+        voiceLanguage: String? = "en",
+        isNetworkConnectionRequired: Boolean = false
+    ): Int {
+        var calls = 0
+        VocableTextToSpeech.isVoiceSupportedForLocale(
+            voiceLanguage = voiceLanguage,
+            targetLanguage = "en",
+            isNetworkConnectionRequired = isNetworkConnectionRequired,
+            languageAvailability = {
+                calls++
+                TextToSpeech.LANG_AVAILABLE
+            }
+        )
+        return calls
+    }
+
+    @Test
+    fun `language availability is not queried for a voice in another language`() {
+        assertEquals(0, countingIsSupported(voiceLanguage = "fr"))
+        assertEquals(0, countingIsSupported(voiceLanguage = null))
+    }
+
+    @Test
+    fun `language availability is not queried for a network-required voice`() {
+        assertEquals(0, countingIsSupported(isNetworkConnectionRequired = true))
+    }
+
+    @Test
+    fun `language availability is queried once for an otherwise-eligible voice`() {
+        assertEquals(1, countingIsSupported())
+    }
 }

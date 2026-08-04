@@ -39,6 +39,13 @@ class VoiceSelectionViewModel(
         sendEvent(VoiceSelectionEvent.NavigateBack)
     }
 
+    /**
+     * Deep-links to the OS's TTS voice-data installer. Currently unreachable from the UI: #618 hides
+     * undownloaded voices from the picker entirely (per iOS parity), so no row can trigger a
+     * download anymore. Retained deliberately — the call there was to hide the undownloaded voices
+     * "for now" without tearing out the plumbing, so restoring the affordance stays a one-line
+     * change. Don't delete as dead code without checking #618 first.
+     */
     fun onDownloadVoice() {
         sendEvent(VoiceSelectionEvent.LaunchTtsSettings(VocableTextToSpeech.getCurrentEngine()))
     }

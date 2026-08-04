@@ -267,7 +267,6 @@ fun VocableNavHost(
                     state = state,
                     onBack = { navController.popBackStack() },
                     onVoiceSelected = viewModel::onVoiceSelected,
-                    onDownloadVoice = viewModel::onDownloadVoice,
                     onRefreshVoices = viewModel::refreshVoices,
                     onPreviewVoice = viewModel::onPreviewVoice
                 )
