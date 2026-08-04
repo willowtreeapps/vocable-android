@@ -1,6 +1,7 @@
 package com.willowtree.vocable.ui.voiceselection
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,8 +35,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -44,6 +50,14 @@ import com.willowtree.vocable.ui.modifiers.horizontalPageSwipe
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlin.math.ceil
+
+/**
+ * Slot reserved for the trailing checkmark on every row so a name wraps at the same point whether or
+ * not its voice is selected. Deliberately smaller than `ic_check_40dp`'s 40dp intrinsic size — the
+ * glyph inside that vector is 24dp, and every dp reserved here is a dp taken off the name's width,
+ * which is already the tight dimension in a two-column tile.
+ */
+private val CHECKMARK_SIZE = 24.dp
 
 @Composable
 fun VoiceSelectionScreen(
@@ -280,16 +294,43 @@ private fun VoiceOptionRow(
                     .padding(horizontal = dimensionResource(id = R.dimen.voice_row_text_padding)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                // Names run to ~31 characters ("English (United States) Voice 9") and a two-column
+                // tile only affords ~213dp of text width, so the text is auto-sized to fit a single
+                // line — the same BasicText/TextAutoSize treatment PresetsScreen gives its phrase
+                // tiles. Kept to one line deliberately: wrapping put the trailing "Voice N" digit
+                // alone on line two, and that digit is the only thing distinguishing one row from
+                // the next, so it must not be orphaned or truncated. At the 12sp floor the string
+                // needs ~190dp, comfortably inside the tightest breakpoint's 213dp.
+                BasicText(
                     text = voice.displayName,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    // BasicText, unlike Text, does not read LocalContentColor — so the color is
+                    // pulled in explicitly to keep VocableButton's dwell-press color flip working.
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        color = LocalContentColor.current
+                    ),
+                    autoSize = TextAutoSize.StepBased(
+                        minFontSize = 12.sp,
+                        maxFontSize = 16.sp,
+                        stepSize = 0.5.sp
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
-                if (isSelected) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_check_40dp),
-                        contentDescription = stringResource(R.string.selected)
-                    )
+
+                // The checkmark's slot is reserved on every row, not just the selected one, so a
+                // name wraps at the same point whether or not its voice is selected.
+                Box(
+                    modifier = Modifier.size(CHECKMARK_SIZE),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (isSelected) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_check_40dp),
+                            contentDescription = stringResource(R.string.selected),
+                            modifier = Modifier.size(CHECKMARK_SIZE)
+                        )
+                    }
                 }
             }
         }

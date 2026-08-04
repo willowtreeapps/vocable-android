@@ -18,6 +18,7 @@ iOS's `VoicePickerViewController.updateLayoutForCurrentTraitCollection()` uses `
 - **The runtime measurement pass is gone** — no `BoxWithConstraints`, no `rowHeight` constant, no mutable `itemsPerPage`. `itemsPerPage` is now `voice_columns * voice_rows`, read from resources, so it recomputes on configuration change for free.
 - **Grid renders as a fixed row×column nest**, the same shape as `PresetsScreen.kt`, with `Spacer(Modifier.weight(1f))` for absent items.
 - **`VoiceOptionRow` lost its `isLandscape: Boolean` param** — its only two uses were spacing values, now `voice_row_content_spacing` and `voice_row_text_padding`.
+- **Voice name auto-sizes to a single line** (`BasicText` + `TextAutoSize`, `maxLines = 1`) and the **checkmark's slot is reserved on every row**, so names never clip, never orphan their trailing index, and fit identically whether or not the row is selected.
 - **Page reset re-keyed** from `LaunchedEffect(isLandscape)` to `LaunchedEffect(itemsPerPage)`. The #618 out-of-range page clamp is unchanged.
 - **`VoiceGridResourcesTest`** added — 4 tests pinning the resource matrix.
 - **Previews** now cover all four grid shapes via `@Preview(device = "spec:…")` and use 7 voices so every breakpoint's last page is a partial one.
@@ -53,6 +54,46 @@ Worth a second opinion from design, since it changes voices-per-page on tablet p
 
 7 vs 4 for the same `sw600dp` device. Both come out at ~130dp per tile because portrait has 1024dp of grid height and landscape has 544dp. The asymmetry is the point: the row count is what holds tile height roughly constant across orientations.
 
+### Names are auto-sized to a single line, and the checkmark's slot is always reserved
+
+A two-column tile is only ~269dp wide on tablet portrait, leaving ~213dp for the name. Two problems showed up in review of the first build:
+
+1. The name wrapped to two lines with no fitting logic, so a longer locale name in another language would have clipped.
+2. The selected row's trailing checkmark consumed ~40dp of the text's width, so **the selected tile wrapped at a different point than its neighbours** — visible raggedness on an otherwise uniform grid.
+
+Fixed by switching the name to `BasicText` + `TextAutoSize.StepBased(12sp..16sp)` with `maxLines = 1` and ellipsis overflow — the same treatment `PresetsScreen` gives its phrase tiles — and by wrapping the checkmark in a fixed-size `Box` that is present whether or not the row is selected, so the fit no longer depends on selection.
+
+**`maxLines = 1` is deliberate.** Names now arrive from `buildVoiceDisplayNames()` as `"English (United States) Voice 1"`, `"… Voice 2"` and so on, where the trailing index is the *only* thing distinguishing one row from the next. Allowing two lines orphaned that digit alone on line two, and allowing truncation would drop it entirely — so the text shrinks instead. At the 12sp floor the string needs ~190dp, comfortably inside the tightest breakpoint's 213dp; verified un-ellipsized at all six.
+
+One detail worth knowing: **`BasicText` does not read `LocalContentColor`, unlike `Text`.** `VocableButton` signals its dwell-press state by flipping the Material `contentColor` to `ColorPrimaryDark`, so a hardcoded color here would have silently killed the press feedback on the name — the primary confirmation a gaze user gets that a dwell registered. The style therefore pulls `LocalContentColor.current` in explicitly. (`PresetsScreen`'s `BasicText` calls hardcode `TextColor` and so appear to have already lost this on phrase tiles; not changed here, but worth a look.)
+
+The reserved slot is 24dp, not the vector's 40dp intrinsic size, because every dp reserved is a dp off the name's width. An earlier revision of this change reserved the full 40dp and so *narrowed* the text on the eight unselected tiles (237dp → 197dp) in order to equalise the wrap — a bad trade that was caught on device and reduced to 24dp (213dp of text).
+
+#### Why this needed the upstream name change first
+
+Worth recording, because the same wall will come back if names ever lengthen again.
+
+Against the *previous* name format — `"English (United States) – High Quality"`, 37 characters, produced by the old `buildVoiceDisplayName()` — one line was genuinely unreachable. It needed ~303dp against 213dp available, so fitting would have meant ~11sp, worse for this audience than wrapping. The row's overhead is 80dp play chip + 32dp tile padding + 24dp checkmark + 12dp spacing = 148dp of the 361dp cell, and none of it is cheap to reclaim:
+
+- **Fold the play chip inside the name tile**, matching iOS's single-cell structure (`VocableListContentConfiguration(title:, actions: [sampleAction], trailingAccessory: .checkmark)` — iOS really does put the preview control *inside* the cell, so Android's separate chip column is a genuine divergence). This is **width-neutral**: the chip's 80dp moves inside rather than disappearing, so `32 + 80 + 12 + 213 + 24 = 361`, the same 213dp of text. Still worth doing on structural-parity grounds, but as its own ticket — it does nothing for text width.
+- Even stripping to a 48dp chip, 12dp padding and no reserved checkmark only reaches ~273dp, and 48dp is the accessible floor for a gaze target.
+
+What actually unblocked it was **#643 landing `buildVoiceDisplayNames()`** on the integration branch, which replaced the quality suffix with a per-locale index: `"English (United States) Voice 1"`, 31 characters, ~254dp at 16sp. That fits 213dp at ~13.5sp, inside the auto-size floor. The two changes are only jointly sufficient — this ticket rebased onto #643 before the single-line result was reachable, and the earlier revision of this branch shipped a two-line wrap because it predated that merge.
+
+Corollary: the numbered format is now load-bearing for layout, not just for telling voices apart. If the copy changes again, re-check the fit at `values-sw600dp` portrait first — it's the tightest of the six at 213dp.
+
+### Row counts deliberately do NOT match iOS's, pending the name-copy decision
+
+iOS does not hand-pick row counts at all. `CarouselGridLayout.computeRowCount()` derives them for the `.flexible` case: `n = floor(height / minHeight)`, then decrement while `(height − (n−1) × spacing) / n < minHeight`, where `VoicePickerViewController` supplies `minHeight` 100pt for `hRegular_vRegular` and 64pt for the other size classes. Applied to the grid heights measured here, that yields **9 / 3 / 8 / 7** rows (phone portrait / phone landscape / tablet portrait / tablet landscape) at 67–114dp per row, against this PR's 5 / 3 / 7 / 4 at 80–133dp. Only phone landscape happens to agree.
+
+**Parity was not adopted, on purpose.** iOS can afford 64pt rows because its labels are short proper names ("Karen", "Daniel") — `AVSpeechSynthesisVoice.name`. Android TTS has no equivalent field, so our rows carry a 37-character two-line string plus a square play chip; packing them into a 67dp row would have forced the text down toward 12sp on phone portrait and tablet landscape. In an AAC app for motor- and speech-impaired users, legibility of the target beats matching a row count.
+
+So the density gap is a **downstream consequence of the name copy, not an independent layout choice**. The team is currently discussing changing voice names; shortening them (e.g. dropping the locale prefix, which is identical on every row in the picker since the list is already filtered to the current language) would make iOS's derived counts viable. **When that copy decision lands, revisit this matrix** — the numbers live entirely in `voice_rows` across the six `integers.xml` files plus the expected map in `VoiceGridResourcesTest`, so it's a resource-only change.
+
+### Empty trailing slots on a partial page match iOS
+
+Worth recording because it looks like a bug and isn't. With 9 installed voices and 14 slots on tablet portrait, two rows render empty at the bottom. iOS behaves identically: in `frameForCell`, the `.flexible` branch sizes the block from `numberOfOccupiedRows` (derived from the items actually on that page, not `itemsPerPage`) and positions it via `alignment`, which defaults to `.top` and is never overridden by `VoicePickerViewController`. So a partial page anchors to the top and leaves its gap at the bottom on both platforms.
+
 ## Verification
 
 `./gradlew testDebug` — 79 tests green, including the 4 new ones. `./gradlew assembleDebug` clean.
@@ -66,7 +107,7 @@ All six breakpoints were verified on `emulator-5554` by overriding `wm size` / `
 - **Fixed positions hold on a partial page**: with 9 voices installed and 5 per page, page 2's four tiles sat at y = 112.0 / 254.1 / 396.2 / 538.3dp — byte-identical to page 1's first four origins, with the fifth slot left blank instead of the content reflowing or centering.
 - **Rotating while on page 2** landed on a valid "Page 1 of 2" rather than a blank page, exercising the `itemsPerPage`-keyed reset alongside #618's clamp.
 
-Unlike #636's verification gap, this emulator does report installed voices (9 of them, all `English (United States) – High Quality`), so the grid could be exercised with real data. It still can't distinguish per-voice names, but that doesn't affect layout.
+Unlike #636's verification gap, this emulator does report installed voices — 9 of them, labelled `English (United States) Voice 1` through `Voice 9` once #643's naming landed — so the grid was exercised with real data. **Names render on a single un-ellipsized line at all six breakpoints**, re-verified after the rebase onto #643.
 
 ### Note on the verification method
 
