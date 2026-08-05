@@ -195,47 +195,82 @@ fun VoiceSelectionScreen(
             if (state.voices.isEmpty()) {
                 VoiceSelectionEmptyState(modifier = Modifier.weight(1f))
             } else {
-                // Fixed row×column slots, as in PresetsScreen: a tile's position on the page must
-                // not depend on how many voices happen to be installed. A short last page leaves
-                // its trailing slots empty rather than reflowing, so a gaze target never shifts
-                // under the user mid-dwell.
-                //
-                // Rows divide the grid height by weight rather than taking a fixed height, so a
-                // full page always fills the page exactly — no band of dead space at the bottom,
-                // and no risk of a row being pushed off the page on a shorter screen. Because
-                // `voiceRows` was derived from `voice_row_min_height` just above, the height each
-                // row lands on stays close to the chip-matched height design asked for: at least
-                // that, and at most one row-pitch more spread across the rows.
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(rowSpacing)
-                ) {
-                    for (rowIndex in 0 until voiceRows) {
-                        Row(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(columnSpacing)
-                        ) {
-                            for (colIndex in 0 until voiceColumns) {
-                                val voice =
-                                    currentPageItems.getOrNull(rowIndex * voiceColumns + colIndex)
+                // Fixed row×column slots, as in PresetsScreen: a tile's size and its column are
+                // the same on every page, and a row that runs out of voices leaves its trailing
+                // columns empty rather than reflowing the remaining tiles across the row.
+                BoxWithConstraints(modifier = Modifier.weight(1f)) {
+                    // Rows take the exact height a *full* page would give them, measured against
+                    // the grid's real height rather than the estimate used for the count above. A
+                    // full page therefore fills the page exactly — no band of dead space at the
+                    // bottom, and no row pushed off a shorter screen. Because `voiceRows` came from
+                    // `voice_row_min_height`, that height stays close to the chip-matched height
+                    // design asked for: at least it, and at most one row-pitch more.
+                    val rowHeight = (maxHeight - rowSpacing * (voiceRows - 1)) / voiceRows
 
-                                if (voice != null) {
-                                    VoiceOptionRow(
-                                        voice = voice,
-                                        isSelected = state.selectedVoiceName == voice.name,
-                                        isPlaying = state.previewingVoiceName == voice.name,
-                                        onClick = { onVoiceSelected(voice.name) },
-                                        onPreviewClick = {
-                                            onPreviewVoice(voice, previewSampleFormat)
-                                        },
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                    )
-                                } else {
-                                    Spacer(modifier = Modifier.weight(1f))
+                    // A short page renders only its occupied rows and insets them from the top, so
+                    // the leftover height is shared with the space under the header instead of all
+                    // landing between the last tile and the pager. Tile *size* never changes, and a
+                    // full page is unaffected — its leftover is zero, so the inset is too.
+                    //
+                    // The inset is half the leftover (i.e. the group is centred) but **capped at
+                    // half a row pitch**. Centring alone reads as intended when a page is nearly
+                    // full — one missing row on phone portrait puts a balanced 40dp above and below
+                    // — but a sparse page floats: 9 installed voices fill 5 of tablet portrait's 10
+                    // rows, which uncapped would sit 276dp down the page. The cap keeps that case
+                    // near the top at 52dp.
+                    //
+                    // TRADE-OFF, deliberate: this is the one place where a tile's vertical position
+                    // depends on how many voices are on the page, so paging onto a short last page
+                    // shifts the rows down by up to half a row. Fixed positions are otherwise an
+                    // accessibility contract for gaze users (CLAUDE.md), and iOS keeps this screen
+                    // top-anchored — `CarouselGridLayout.alignment` defaults to `.top` and
+                    // VoicePickerViewController never overrides it, unlike
+                    // ListeningResponseContentViewController which does set `.center`. Balancing the
+                    // gap was asked for on #667; the cap is what keeps the resulting shift bounded
+                    // to half a row rather than half a page.
+                    val occupiedRows = ceil(
+                        currentPageItems.size.toFloat() / voiceColumns
+                    ).toInt()
+                    val leftover = maxHeight -
+                        (rowHeight * occupiedRows + rowSpacing * (occupiedRows - 1))
+                    val topInset = minOf(leftover / 2, (rowHeight + rowSpacing) / 2)
+                        .coerceAtLeast(0.dp)
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = topInset),
+                        verticalArrangement = Arrangement.spacedBy(rowSpacing)
+                    ) {
+                        for (rowIndex in 0 until occupiedRows) {
+                            Row(
+                                modifier = Modifier
+                                    .height(rowHeight)
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(columnSpacing)
+                            ) {
+                                for (colIndex in 0 until voiceColumns) {
+                                    val voice =
+                                        currentPageItems.getOrNull(
+                                            rowIndex * voiceColumns + colIndex
+                                        )
+
+                                    if (voice != null) {
+                                        VoiceOptionRow(
+                                            voice = voice,
+                                            isSelected = state.selectedVoiceName == voice.name,
+                                            isPlaying = state.previewingVoiceName == voice.name,
+                                            onClick = { onVoiceSelected(voice.name) },
+                                            onPreviewClick = {
+                                                onPreviewVoice(voice, previewSampleFormat)
+                                            },
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .fillMaxHeight()
+                                        )
+                                    } else {
+                                        Spacer(modifier = Modifier.weight(1f))
+                                    }
                                 }
                             }
                         }

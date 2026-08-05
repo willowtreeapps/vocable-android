@@ -9,7 +9,7 @@ import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
 /**
- * Pins the Change Voice picker's grid shape per screen-size breakpoint (#644, #663).
+ * Pins the Change Voice picker's grid shape per screen-size breakpoint (#644, #667).
  *
  * `VoiceSelectionScreen` reads `voice_columns` via `integerResource` and `voice_row_min_height` via
  * `dimensionResource`, so the layout is only as correct as the resource matrix behind it — and the
@@ -112,7 +112,7 @@ class VoiceGridResourcesTest {
 
     @Test
     fun `row height is a per-breakpoint minimum, not a row count`() {
-        // The row count is derived from the page height against voice_row_min_height (#663). A
+        // The row count is derived from the page height against voice_row_min_height (#667). A
         // `voice_rows` integer coming back would mean a fixed count had been reintroduced, which is
         // what left a band of dead space below a full page: `sw###dp` bounds width, not height, so
         // no single count fits every device in a bucket.

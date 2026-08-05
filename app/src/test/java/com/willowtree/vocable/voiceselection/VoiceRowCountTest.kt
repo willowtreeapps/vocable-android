@@ -8,7 +8,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Pins the Change Voice picker's derived row count (#663).
+ * Pins the Change Voice picker's derived row count (#667).
  *
  * #644 read the count from a `voice_rows` resource per breakpoint dir, which left a band of dead
  * space below a *full* page: `sw###dp` qualifiers constrain width and never height, so one count per
@@ -102,7 +102,7 @@ class VoiceRowCountTest {
 
     @Test
     fun `no page has room for another row`() {
-        // The complement of the assertion above, and the actual #663 regression: leftover height
+        // The complement of the assertion above, and the actual #667 regression: leftover height
         // below a full page means the count was too low for the screen it rendered on.
         breakpoints.forEach { breakpoint ->
             (240..1600).forEach { height ->

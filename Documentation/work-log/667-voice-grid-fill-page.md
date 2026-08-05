@@ -1,6 +1,6 @@
 # Change Voice: fill the page height instead of leaving a dead band
 
-**Issue:** #663 (Part of #613 — the overall Voice Selection feature; fixes a regression from #644 / PR #662)
+**Issue:** #667 (Part of #613 — the overall Voice Selection feature; fixes a regression from #644 / PR #662)
 
 ## What was needed
 
@@ -95,6 +95,34 @@ outgrow the buttons they sit next to, so the real grid is a little shorter than 
 the rows then divide the *actual* measured height by weight, the cost is a few dp of row height, not
 a clipped row. Verified at `font_scale 2.0`.
 
+### A short page shares its leftover with the space under the header, capped at half a row
+
+Raised in review of the first build of this fix: with 7 voices in a page of 8 slots, all the leftover
+height sat between the last tile and the pager while the first row butted up against the header —
+"there is the gap above Page 1 of 1 and no space under Change Voice and the x."
+
+A short page now renders only its occupied rows and insets them from the top by half the leftover —
+i.e. the group is centred — **capped at half a row pitch**. Tile size never changes (rows keep the
+height a full page would give them, so a tile is the same size on every page), and a full page is
+untouched, since its leftover is zero.
+
+The cap is what makes this safe to apply everywhere. Plain centring reads as intended when a page is
+nearly full — one missing row on phone portrait puts a balanced ~40dp above and below — but a sparse
+page floats: the test device's 9 voices fill 5 of tablet portrait's 10 rows, which uncapped put the
+first row 276dp down an otherwise empty page (measured). Capped, that case sits 52dp down, and the
+1-of-8 page sits 40dp down instead of 284dp.
+
+**This is a deliberate divergence from iOS, on request.** `CarouselGridLayout` has a `.center`
+alignment, but it defaults to `.top` and `VoicePickerViewController` never overrides it — the only
+screen that sets `.center` is `ListeningResponseContentViewController`. So iOS anchors a short voice
+page to the top, and #644's log recorded that as matched behaviour. It no longer is.
+
+It is also the one place where a tile's vertical position depends on how many voices are on the page,
+which the fixed-position contract (`CLAUDE.md`) otherwise rules out: paging onto a short last page
+shifts the rows down. The cap bounds that shift to **half a row**, rather than the half-page it would
+be without it — the reason the capped variant was chosen over plain centring rather than being left
+as a refinement.
+
 ### Consequence: fewer pages, and it moves with the row height
 
 Page capacity roughly doubled — phone portrait went from 5 voices per page to 8. With the 30 voices
@@ -145,9 +173,15 @@ area, with nothing left over and nothing pushed off:
 
 Also confirmed:
 
-- **Fixed slot positions still hold on a partial page.** With 9 voices and 8 per page, page 2's lone
-  tile sat at exactly page 1's first-row bounds — `[106,348][216,458]` for the chip, `[333,370]
-  [904,436]` for the name, byte-identical.
+- **A full page is unaffected by the short-page inset.** Phone portrait page 1 (8 of 8) put its first
+  chip at `[106,348][216,458]` both before and after that change was added.
+- **The inset lands where the cap says.** Phone portrait page 2 (1 of 8 rows, 81dp pitch): first chip
+  at y 459px, i.e. 40dp below the grid's top edge — half a pitch, not the 284dp plain centring would
+  give. Tablet portrait (5 of 10 rows, 104dp pitch): first chip at y 408px, 52dp down, against 824px
+  when the same build centred without a cap.
+- **Slot positions still hold across pages of equal occupancy**, which is what the contract covers now
+  that a short page is inset: the tile *size* and column are identical on every page, and the vertical
+  shift only appears on a page that isn't full.
 - **`font_scale 2.0`** — count unchanged, nothing clipped, pager still fully on screen. Names still
   truncate at 2x; that is #644's documented copy-length limitation, unchanged here (rows are the same
   height at that breakpoint as before this fix).
@@ -172,7 +206,7 @@ insets), the title sitting right of centre, and voice names truncating at large 
 
 ## Pointers
 
-- Issue: #663 · Parent: #613 · Regressed by: #644 (PR #662) · Siblings: #636, #643, #618
+- Issue: #667 · Parent: #613 · Regressed by: #644 (PR #662) · Siblings: #636, #643, #618
 - Previous log: `Documentation/work-log/644-voice-picker-responsive-grid.md` — its "Final row/column
   matrix" table and its "Rows are a fixed height matching the play chip" decision are superseded by
   this one; the rest still stands.

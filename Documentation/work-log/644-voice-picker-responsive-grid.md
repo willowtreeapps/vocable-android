@@ -2,7 +2,7 @@
 
 **Issue:** #644 (Part of #613 — the overall Voice Selection feature)
 
-> **Partly superseded by #663** (`663-voice-grid-fill-page.md`). The fixed row counts in "Final
+> **Partly superseded by #667** (`667-voice-grid-fill-page.md`). The fixed row counts in "Final
 > row/column matrix" and the "Rows are a fixed height matching the play chip" decision left a band of
 > dead space below a full page; row counts are now derived from the page height and rows fill by
 > weight. Everything else in this log still stands.
