@@ -2,6 +2,10 @@ package com.willowtree.vocable.utils
 
 import android.content.SharedPreferences
 import com.willowtree.vocable.core.IVocableSharedPreferences
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_DWELL_TIME
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_FIRST_TIME
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_HEAD_TRACKING_ENABLED
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_SENSITIVITY
 
 
 class FakeVocableSharedPreferences(
@@ -62,10 +66,19 @@ class FakeVocableSharedPreferences(
     }
 
     override fun setFirstTime() {
-        firstTime = true
+        firstTime = false
     }
 
     override fun getFirstTime(): Boolean {
         return firstTime
+    }
+
+    override fun clearAll() {
+        mySayings = listOf()
+        dwellTime = DEFAULT_DWELL_TIME
+        sensitivity = DEFAULT_SENSITIVITY
+        headTrackingEnabled = DEFAULT_HEAD_TRACKING_ENABLED
+        selectedVoiceName = null
+        firstTime = DEFAULT_FIRST_TIME
     }
 }

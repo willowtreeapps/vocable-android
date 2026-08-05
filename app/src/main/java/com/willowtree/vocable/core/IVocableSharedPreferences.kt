@@ -32,4 +32,6 @@ interface IVocableSharedPreferences {
     fun setFirstTime()
 
     fun getFirstTime(): Boolean
+
+    fun clearAll()
 }
