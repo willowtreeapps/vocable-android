@@ -216,7 +216,7 @@ fun SettingsScreen(
                 ) {
                     val (titleRes, messageRes, confirmRes) = if (state.dialogType == ExitDialogType.RESET_APP_SETTINGS) {
                         Triple(
-                            R.string.settings_reset_dialog_title,
+                            R.string.settings_reset_app,
                             R.string.settings_reset_dialog_message,
                             R.string.settings_reset_dialog_confirm
                         )
@@ -260,6 +260,7 @@ fun SettingsScreen(
                             ) {
                                 Text(
                                     text = stringResource(R.string.settings_dialog_cancel).uppercase(),
+                                    color = ColorPrimaryDark,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
                                 )
@@ -274,6 +275,7 @@ fun SettingsScreen(
                             ) {
                                 Text(
                                     text = stringResource(confirmRes).uppercase(),
+                                    color = ColorPrimaryDark,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
                                 )
