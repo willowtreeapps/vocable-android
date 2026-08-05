@@ -13,16 +13,16 @@ import kotlinx.coroutines.flow.update
         "the actual data sources.")
 class FakeCategoriesUseCase : ICategoriesUseCase {
 
-    val _categories = MutableStateFlow<List<Category>>(
-        listOf(
-            Category.StoredCategory(
-                "categoryId",
-                LocalesWithText(mapOf("en_US" to "storedCategory")),
-                false,
-                0
-            )
+    private val initialCategories = listOf(
+        Category.StoredCategory(
+            "categoryId",
+            LocalesWithText(mapOf("en_US" to "storedCategory")),
+            false,
+            0
         )
     )
+
+    val _categories = MutableStateFlow<List<Category>>(initialCategories)
 
     override fun categories(): Flow<List<Category>> {
         return _categories.map {
@@ -125,6 +125,6 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
     }
 
     override suspend fun resetToDefaults() {
-        TODO("Not yet implemented")
+        _categories.value = initialCategories
     }
 }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContract
@@ -58,7 +59,24 @@ class FaceTrackingPermissions(
             }
         }
 
+    // Keeps `permissionState` in sync with the preference even when it's changed by something
+    // other than enableFaceTracking()/disableFaceTracking() below - e.g. a settings reset.
+    private val sharedPrefsListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == VocableSharedPreferences.KEY_HEAD_TRACKING_ENABLED) {
+                permissionState.tryEmit(
+                    if (sharedPreferences.getHeadTrackingEnabled()) {
+                        IFaceTrackingPermissions.PermissionState.Enabled
+                    } else {
+                        IFaceTrackingPermissions.PermissionState.Disabled
+                    }
+                )
+            }
+        }
+
     init {
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
+
         // We check for permissions on startup, if we have them or receive them `permissionState` will be updated
         if (sharedPreferences.getHeadTrackingEnabled() && permissionState.value != IFaceTrackingPermissions.PermissionState.Enabled) {
             requestFaceTracking()

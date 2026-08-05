@@ -105,6 +105,18 @@ class VocableSharedPreferences :
 
     @SuppressLint("ApplySharedPref")
     override fun clearAll() {
+        // A bare clear() only wipes the store - Android's SharedPreferences only notifies
+        // OnSharedPreferenceChangeListeners for keys explicitly put/removed in an edit, not for
+        // clear() alone. Listeners driving live UI (GazeButton's dwell time, FaceTrackingViewModel's
+        // sensitivity/head-tracking, FaceTrackingPermissions) need an explicit follow-up write of
+        // each default value to actually be notified, rather than only reflecting it on next read.
         encryptedPrefs.edit(commit = true) { clear() }
+        encryptedPrefs.edit(commit = true) {
+            putStringSet(KEY_MY_SAYINGS, setOf())
+            putLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
+            putFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
+            putBoolean(KEY_HEAD_TRACKING_ENABLED, DEFAULT_HEAD_TRACKING_ENABLED)
+            putBoolean(KEY_FIRST_TIME, DEFAULT_FIRST_TIME)
+        }
     }
 }

@@ -49,6 +49,7 @@ fun SettingsScreen(
     onTimingSensitivity: () -> Unit,
     onSelectionMode: () -> Unit,
     onVoiceSelection: () -> Unit,
+    onResetAppSettings: () -> Unit,
     onPrivacyPolicy: () -> Unit,
     onContactDevs: () -> Unit,
     onDismissDialog: () -> Unit,
@@ -108,7 +109,8 @@ fun SettingsScreen(
                 OptionItem(stringResource(R.string.edit_categories_title), onEditCategories),
                 OptionItem(stringResource(R.string.timing_sensitivity_title), onTimingSensitivity),
                 OptionItem(stringResource(R.string.settings_selection_mode), onSelectionMode),
-                OptionItem(stringResource(R.string.settings_options_voice), onVoiceSelection)
+                OptionItem(stringResource(R.string.settings_options_voice), onVoiceSelection),
+                OptionItem(stringResource(R.string.settings_reset_app), onResetAppSettings)
             )
 
             val rows = options.chunked(numColumns)
@@ -212,19 +214,33 @@ fun SettingsScreen(
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(if (isLandscape) 0.6f else 0.85f)
                 ) {
+                    val (titleRes, messageRes, confirmRes) = if (state.dialogType == ExitDialogType.RESET_APP_SETTINGS) {
+                        Triple(
+                            R.string.settings_reset_app,
+                            R.string.settings_reset_dialog_message,
+                            R.string.settings_reset_dialog_confirm
+                        )
+                    } else {
+                        Triple(
+                            R.string.settings_dialog_title,
+                            R.string.settings_dialog_message,
+                            R.string.settings_dialog_continue
+                        )
+                    }
+
                     Column(
                         modifier = Modifier.padding(24.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         Text(
-                            text = stringResource(R.string.settings_dialog_title),
+                            text = stringResource(titleRes),
                             style = MaterialTheme.typography.titleLarge.copy(
                                 color = ColorPrimaryDark,
                                 fontWeight = FontWeight.Bold
                             )
                         )
                         Text(
-                            text = stringResource(R.string.settings_dialog_message),
+                            text = stringResource(messageRes),
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = ColorPrimaryDark
                             )
@@ -244,6 +260,7 @@ fun SettingsScreen(
                             ) {
                                 Text(
                                     text = stringResource(R.string.settings_dialog_cancel).uppercase(),
+                                    color = ColorPrimaryDark,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
                                 )
@@ -257,7 +274,8 @@ fun SettingsScreen(
                                 textColor = ColorPrimaryDark
                             ) {
                                 Text(
-                                    text = stringResource(R.string.settings_dialog_continue).uppercase(),
+                                    text = stringResource(confirmRes).uppercase(),
+                                    color = ColorPrimaryDark,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
                                 )
@@ -347,6 +365,7 @@ fun SettingsScreenPreview() {
             onTimingSensitivity = {},
             onSelectionMode = {},
             onVoiceSelection = {},
+            onResetAppSettings = {},
             onPrivacyPolicy = {},
             onContactDevs = {},
             onDismissDialog = {},

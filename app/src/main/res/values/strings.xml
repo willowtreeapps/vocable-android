@@ -24,6 +24,8 @@
     <string name="settings_dialog_message">You\'re about to be taken outside the app. You may lose head tracking control.</string>
     <string name="settings_dialog_continue">Continue</string>
     <string name="settings_dialog_cancel">Cancel</string>
+    <string name="settings_reset_dialog_message">Are you sure you want to reset Vocable to default settings? This action cannot be undone.</string>
+    <string name="settings_reset_dialog_confirm">Reset</string>
 
     <!-- Settings Options -->
     <string name="settings_edit_saying">My Sayings</string>
