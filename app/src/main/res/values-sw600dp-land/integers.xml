@@ -18,4 +18,7 @@
     <integer name="custom_category_phrase_rows">3</integer>
     <integer name="custom_category_columns">2</integer>
     <integer name="custom_category_rows">4</integer>
+    <!-- Change Voice picker. Mirrors iOS hRegular_vCompact: fixedCount(2) columns. -->
+    <integer name="voice_columns">2</integer>
+    <integer name="voice_rows">4</integer>
 </resources>

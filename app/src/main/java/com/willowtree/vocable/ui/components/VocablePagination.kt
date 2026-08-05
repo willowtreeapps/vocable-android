@@ -38,7 +38,11 @@ fun VocablePagination(
     onPreviousPage: () -> Unit,
     onNextPage: () -> Unit,
     buttonSize: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    // Defaults to the arrow drawables' own 40dp intrinsic size, so existing callers are unaffected.
+    // Callers with per-breakpoint button sizes should pass a matching icon size, or the arrow reads
+    // as undersized in the larger buckets and overfull in the smallest.
+    iconSize: Dp = 40.dp
 ) {
     // Matches iOS's setPaginationButtonsEnabled(pageCount > 1) — a lone page has nowhere to go.
     val enabled = pageCount > 1
@@ -64,7 +68,8 @@ fun VocablePagination(
                 ),
                 contentDescription = stringResource(R.string.previous_page),
                 // The arrow drawables carry their own colors, so they must not be tinted.
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
+                modifier = Modifier.size(iconSize)
             )
         }
 
@@ -89,7 +94,8 @@ fun VocablePagination(
                     }
                 ),
                 contentDescription = stringResource(R.string.next_page),
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
+                modifier = Modifier.size(iconSize)
             )
         }
     }
