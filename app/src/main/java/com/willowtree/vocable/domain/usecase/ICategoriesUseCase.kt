@@ -15,4 +15,5 @@ interface ICategoriesUseCase {
     suspend fun deleteCategory(categoryId: String)
     suspend fun moveCategoryUp(categoryId: String)
     suspend fun moveCategoryDown(categoryId: String)
+    suspend fun resetToDefaults()
 }

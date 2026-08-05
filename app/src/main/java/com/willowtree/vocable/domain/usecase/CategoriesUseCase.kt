@@ -148,4 +148,10 @@ class CategoriesUseCase(
         )
     }
 
+    override suspend fun resetToDefaults() {
+        phrasesUseCase.resetToDefaults()
+        storedCategoriesRepository.deleteAllCategories()
+        presetCategoriesRepository.deleteAllCategories()
+        presetCategoriesRepository.populateDatabase()
+    }
 }

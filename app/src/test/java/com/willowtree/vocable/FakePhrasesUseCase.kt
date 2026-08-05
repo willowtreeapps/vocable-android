@@ -58,4 +58,8 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     override suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String) {
         error("Not implemented")
     }
+
+    override suspend fun resetToDefaults() {
+        error("Not implemented")
+    }
 }

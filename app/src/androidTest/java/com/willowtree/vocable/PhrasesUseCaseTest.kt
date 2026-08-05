@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.willowtree.vocable.basetest.utils.FakeLocaleProvider
 import com.willowtree.vocable.domain.model.CustomPhrase
 import com.willowtree.vocable.domain.model.PresetCategories
+import com.willowtree.vocable.domain.model.PresetPhrase
 import com.willowtree.vocable.data.room.PhraseDto
 import com.willowtree.vocable.data.repository.RoomPresetPhrasesRepository
 import com.willowtree.vocable.data.repository.RoomStoredPhrasesRepository
@@ -135,6 +136,78 @@ class PhrasesUseCaseTest {
             ),
             useCase.getPhrasesForCategory(PresetCategories.GENERAL.id)
         )
+    }
+
+    @Test
+    fun reset_after_phrase_edit_restores_preset_phrase() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        val entryNames = getResourceNamesForCategory("category_general")
+        val phraseId = entryNames.first()
+
+        useCase.updatePhrase(phraseId, "Edited text")
+        val edited = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id)
+            .first { it.phraseId == phraseId }
+        assertEquals(true, edited is CustomPhrase)
+
+        useCase.resetToDefaults()
+
+        val reset = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id)
+        assertEquals(entryNames, reset.map { it.phraseId })
+        assertEquals(true, reset.first { it.phraseId == phraseId } is PresetPhrase)
+    }
+
+    @Test
+    fun reset_after_phrase_deletion_restores_preset_phrase() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        val entryNames = getResourceNamesForCategory("category_general")
+        val phraseId = entryNames.first()
+
+        useCase.deletePhrase(phraseId)
+        assertEquals(
+            false,
+            useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).any { it.phraseId == phraseId }
+        )
+
+        useCase.resetToDefaults()
+
+        assertEquals(entryNames, useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map { it.phraseId })
+    }
+
+    @Test
+    fun reset_after_custom_phrase_addition_removes_it() = runTest {
+        val useCase = createUseCase()
+        useCase.addPhrase(testLocalesWithText, PresetCategories.GENERAL.id)
+        assertEquals(1, useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).size)
+
+        useCase.resetToDefaults()
+
+        val entryNames = getResourceNamesForCategory("category_general")
+        assertEquals(entryNames, useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map { it.phraseId })
+    }
+
+    @Test
+    fun reset_clears_recents() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        storedPhrasesRepository.addPhrase(
+            PhraseDto(
+                phraseId = "custom1",
+                localizedUtterance = testLocalesWithText,
+                parentCategoryId = PresetCategories.GENERAL.id,
+                creationDate = 0L,
+                lastSpokenDate = 100L,
+                sortOrder = 0
+            )
+        )
+        dateProvider.time = 101L
+        presetPhrasesRepository.updatePhraseLastSpokenTime("category_123_0")
+        assertEquals(2, useCase.getPhrasesForCategory(PresetCategories.RECENTS.id).size)
+
+        useCase.resetToDefaults()
+
+        assertEquals(0, useCase.getPhrasesForCategory(PresetCategories.RECENTS.id).size)
     }
 
     private fun getResourceNamesForCategory(categoryName: String): List<String> {

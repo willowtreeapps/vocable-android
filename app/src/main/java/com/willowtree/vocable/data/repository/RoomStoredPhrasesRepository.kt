@@ -61,4 +61,8 @@ class RoomStoredPhrasesRepository(
     override suspend fun deletePhrase(phraseId: String) {
         database.phraseDao().deletePhrase(phraseId)
     }
+
+    override suspend fun deleteAllPhrases() {
+        database.phraseDao().deleteAllPhrases()
+    }
 }

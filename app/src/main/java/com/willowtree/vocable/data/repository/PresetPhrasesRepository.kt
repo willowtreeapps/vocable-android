@@ -13,4 +13,5 @@ interface PresetPhrasesRepository {
     fun getPhrasesForCategoryFlow(categoryId: String): Flow<List<PresetPhrase>>
     suspend fun getPhrase(phraseId: String): PresetPhrase?
     suspend fun deletePhrase(phraseId: String)
+    suspend fun deleteAllPhrases()
 }
