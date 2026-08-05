@@ -118,7 +118,7 @@ val vocableKoinModule = module {
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
     viewModel { EditCategoryMenuViewModel(get()) }
     viewModel { KeyboardViewModel() }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get()) }
     viewModel { SettingsVoiceViewModel(get()) }
     viewModel { SensitivityViewModel(get()) }
     viewModel { VoiceSelectionViewModel(get()) }

@@ -169,6 +169,7 @@ fun VocableNavHost(
                     onTimingSensitivity = viewModel::onTimingSensitivity,
                     onSelectionMode = viewModel::onSelectionMode,
                     onVoiceSelection = viewModel::onVoiceSelection,
+                    onResetAppSettings = viewModel::requestReset,
                     onPrivacyPolicy = viewModel::requestPrivacyPolicy,
                     onContactDevs = viewModel::requestContactDevs,
                     onDismissDialog = viewModel::dismissDialog,
