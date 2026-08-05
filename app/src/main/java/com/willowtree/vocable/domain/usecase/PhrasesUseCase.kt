@@ -105,4 +105,10 @@ class PhrasesUseCase(
             )
         }
     }
+
+    override suspend fun resetToDefaults() {
+        storedPhrasesRepository.deleteAllPhrases()
+        presetPhrasesRepository.deleteAllPhrases()
+        presetPhrasesRepository.populateDatabase()
+    }
 }

@@ -34,6 +34,10 @@ class RoomPresetCategoriesRepository(
         }.onStart { ensurePopulated() }
     }
 
+    override suspend fun populateDatabase() {
+        ensurePopulated()
+    }
+
     private suspend fun ensurePopulated() {
         categoryMutex.withLock {
             val dbPresets = database.presetCategoryDao().getAllPresetCategoriesFlow().first()
@@ -80,5 +84,9 @@ class RoomPresetCategoriesRepository(
     override suspend fun deleteCategory(categoryId: String) {
         ensurePopulated()
         database.presetCategoryDao().updateCategoryDeleted(PresetCategoryDeleted(categoryId, true))
+    }
+
+    override suspend fun deleteAllCategories() {
+        database.presetCategoryDao().deleteAllPresetCategories()
     }
 }

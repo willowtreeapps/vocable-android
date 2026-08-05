@@ -123,4 +123,8 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
     override suspend fun moveCategoryDown(categoryId: String) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun resetToDefaults() {
+        TODO("Not yet implemented")
+    }
 }

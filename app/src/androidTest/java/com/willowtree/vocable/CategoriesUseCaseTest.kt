@@ -143,4 +143,48 @@ class CategoriesUseCaseTest {
 
         assertEquals(7, useCase.categories().first().size)
     }
+
+    @Test
+    fun reset_after_category_edit_restores_preset_category() = runTest {
+        val useCase = createUseCase()
+        useCase.updateCategoryName(
+            categoryId = PresetCategories.GENERAL.id,
+            localizedName = LocalesWithText(mapOf("en_US" to "Renamed"))
+        )
+        val edited = useCase.categories().first().first { it.categoryId == PresetCategories.GENERAL.id }
+        assertEquals(true, edited is Category.StoredCategory)
+
+        useCase.resetToDefaults()
+
+        val categories = useCase.categories().first()
+        assertEquals(7, categories.size)
+        val reset = categories.first { it.categoryId == PresetCategories.GENERAL.id }
+        assertEquals(true, reset is Category.PresetCategory)
+    }
+
+    @Test
+    fun reset_after_category_deletion_restores_preset_category() = runTest {
+        val useCase = createUseCase()
+        useCase.deleteCategory(PresetCategories.GENERAL.id)
+        assertEquals(6, useCase.categories().first().size)
+
+        useCase.resetToDefaults()
+
+        val categories = useCase.categories().first()
+        assertEquals(7, categories.size)
+        assertEquals(true, categories.any { it.categoryId == PresetCategories.GENERAL.id })
+    }
+
+    @Test
+    fun reset_after_custom_category_addition_removes_it() = runTest {
+        val useCase = createUseCase()
+        useCase.addCategory("My Custom Category")
+        assertEquals(8, useCase.categories().first().size)
+
+        useCase.resetToDefaults()
+
+        val categories = useCase.categories().first()
+        assertEquals(7, categories.size)
+        assertEquals(true, categories.none { it is Category.StoredCategory })
+    }
 }
