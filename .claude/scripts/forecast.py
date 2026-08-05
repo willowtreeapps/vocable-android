@@ -646,7 +646,7 @@ def main():
     rng = random.Random(args.seed)
     done_statuses = [s.strip() for s in args.done_status.split(",")]
 
-    if args.throughput and not args.live:
+    if args.done or (args.throughput and not args.live):
         # ---- PURE-MATH MODE (supported) ----
         try:
             sample = [int(x) for x in args.throughput.split(",") if x.strip() != ""]
@@ -687,7 +687,7 @@ def main():
     series = [{"name": "TEAM (all)", "sample": sample, "backlog": backlog}]
     for spec in args.component:
         try:
-            name, tp, items = spec.split(":")
+            name, tp, items = spec.rsplit(":", 2)
             cs = [int(x) for x in tp.split(",") if x.strip() != ""]
             series.append({"name": name.strip(), "sample": cs, "backlog": int(items)})
         except ValueError:
@@ -707,9 +707,12 @@ def main():
 
     # ----- simulate every series --------------------------------------------
     for s in series:
-        s["mean"] = sum(s["sample"]) / len(s["sample"])
-        s["weeks"] = sim_weeks_to_finish(s["backlog"], s["sample"], args.trials, rng)
-        s["items"] = sim_items_by_date(n_weeks, s["sample"], args.trials, rng)
+        if s["sample"]:
+            s["mean"] = sum(s["sample"]) / len(s["sample"])
+            s["weeks"] = sim_weeks_to_finish(s["backlog"], s["sample"], args.trials, rng)
+            s["items"] = sim_items_by_date(n_weeks, s["sample"], args.trials, rng)
+        else:
+            s["mean"], s["weeks"], s["items"] = None, [], []
 
     # ----- cycle-time SLE (Q3) ----------------------------------------------
     cycle_sample, sle = None, {}
@@ -765,6 +768,9 @@ def main():
     L.append(f"THROUGHPUT  (items reaching Done per week, oldest → newest)")
     L.append(f"  {'series':<{NW}}   weekly counts{' '*max(0, 3*wk-13)}   mean   min  max")
     for s in series:
+        if not s["sample"]:
+            L.append(f"  {s['name']:<{NW}}   (no complete throughput weeks in window)")
+            continue
         counts = " ".join(f"{c:>2}" for c in s["sample"])
         L.append(f"  {s['name']:<{NW}}   {counts}   {s['mean']:>4.1f}   "
                  f"{min(s['sample']):>3}  {max(s['sample']):>3}")
@@ -794,6 +800,10 @@ def main():
     L.append(f"  {'series':<{NW}}   queue   50%      85%      95%      85% date")
     L.append(f"  {'-'*NW}   -----   ----     ----     ----     ----------")
     for s in series:
+        if not s["weeks"]:
+            L.append(f"  {s['name']:<{NW}}   {s['backlog']:>5}   "
+                     f"no throughput data in window — forecast unavailable")
+            continue
         w50, w85, w95 = pct(s["weeks"], 50), pct(s["weeks"], 85), pct(s["weeks"], 95)
         d85 = today + timedelta(weeks=w85)
         L.append(f"  {s['name']:<{NW}}   {s['backlog']:>5}   "
@@ -808,6 +818,9 @@ def main():
     L.append(f"  {'series':<{NW}}    95%     85%     50%")
     L.append(f"  {'-'*NW}    ---     ---     ---")
     for s in series:
+        if not s["items"]:
+            L.append(f"  {s['name']:<{NW}}   no throughput data in window — forecast unavailable")
+            continue
         L.append(f"  {s['name']:<{NW}}   {pct(s['items'],5):>4}    "
                  f"{pct(s['items'],15):>4}    {pct(s['items'],50):>4}")
     L.append("")
@@ -879,18 +892,19 @@ def main():
                 "name": s["name"],
                 "sample": s["sample"],
                 "sample_raw": s["sample_raw"],
-                "mean": round(s["mean"], 1),
-                "min": min(s["sample"]),
-                "max": max(s["sample"]),
+                "mean": round(s["mean"], 1) if s["sample"] else None,
+                "min": min(s["sample"]) if s["sample"] else None,
+                "max": max(s["sample"]) if s["sample"] else None,
                 "backlog": s["backlog"],
                 "outliers": [{"wk": i + 1, "value": v, "z": round(mz, 1)}
                              for i, v, mz in s["outliers_display"]],
                 "outlier_note": s["outlier_note"],
-                "q1": {"w50": pct(s["weeks"], 50), "w85": pct(s["weeks"], 85),
+                "q1": ({"w50": pct(s["weeks"], 50), "w85": pct(s["weeks"], 85),
                        "w95": pct(s["weeks"], 95),
-                       "date85": (today + timedelta(weeks=pct(s["weeks"], 85))).isoformat()},
-                "q2": {"c95": pct(s["items"], 5), "c85": pct(s["items"], 15),
-                       "c50": pct(s["items"], 50)},
+                       "date85": (today + timedelta(weeks=pct(s["weeks"], 85))).isoformat()}
+                      if s["weeks"] else None),
+                "q2": ({"c95": pct(s["items"], 5), "c85": pct(s["items"], 15),
+                       "c50": pct(s["items"], 50)} if s["items"] else None),
             })
         wip_out = []
         for w in wip:

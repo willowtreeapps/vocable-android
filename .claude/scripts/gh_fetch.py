@@ -31,6 +31,15 @@ Item routing:
     nodes), so the truncated-changelog backfill logic can't be trusted for
     PRs without separate handling. Passing --include-prs exits with an
     error rather than silently producing wrong changelogs.
+  - Issues that are themselves a PARENT of other sub-issues (subIssuesSummary
+    .total > 0) are EXCLUDED by default too — pass --include-parents to keep
+    them. Same reasoning as Jira's Epic exclusion: a parent issue stays open/
+    in-progress for its entire sub-issue lifetime (confirmed live on #613:
+    18 sub-issues, 10 complete, parent still OPEN), so counting it as its own
+    throughput/open-queue item would badly distort both. It still works as a
+    --breakdown-field parent grouping label for its children regardless of
+    this flag — this only controls whether the parent ALSO shows up as its
+    own line item in done.json/open.json.
   - An item whose current Status is in neither --done-status nor --statuses
     is dropped but counted (`skipped_status`) and logged to stderr — this
     board has 7 status columns (not Jira's typical 3), so a misconfigured
@@ -82,6 +91,8 @@ query($org: String!, $number: Int!, $cursor: String) {
               issueType { name }
               labels(first: 20) { nodes { name } }
               repository { name }
+              parent { number title }
+              subIssuesSummary { total }
               timelineItems(itemTypes: [PROJECT_V2_ITEM_STATUS_CHANGED_EVENT], first: 50) {
                 totalCount
                 pageInfo { hasNextPage endCursor }
@@ -217,6 +228,13 @@ def components_for(content, breakdown_field):
     if breakdown_field == "issuetype":
         it = content.get("issueType")
         return [{"name": it["name"]}] if it else []
+    if breakdown_field == "parent":
+        # Group by the item's GitHub native sub-issue parent (the GH Projects
+        # analog of a Jira Epic — this board has no Epic type, so a sub-issue's
+        # linked parent is the "feature" a ticket belongs to). Standalone items
+        # (no parent) get no component and only show up in the TEAM line.
+        parent = content.get("parent")
+        return [{"name": f"#{parent['number']} {parent['title']}"}] if parent else []
     return []
 
 
@@ -282,13 +300,25 @@ def main():
                    default=["Backlog", "In progress", "In review"],
                    help="open-queue (active/backlog) status names — set to your "
                         "board's committed columns (default is a generic placeholder)")
-    p.add_argument("--breakdown-field", choices=["none", "labels", "issuetype"],
+    p.add_argument("--breakdown-field", choices=["none", "labels", "issuetype", "parent"],
                    default="none",
                    help="what to use as the forecast's --components axis "
-                        "(default none — team-only forecast)")
+                        "(default none — team-only forecast). \"parent\" breaks "
+                        "down by each item's native GitHub sub-issue parent — the "
+                        "closest analog to a Jira Epic on a board with no Epic type; "
+                        "items with no parent are counted in TEAM only.")
     p.add_argument("--include-drafts", action="store_true",
                    help="include DraftIssue project items (default: excluded — "
                         "not deliverable flow)")
+    p.add_argument("--include-parents", action="store_true",
+                   help="include issues that are themselves a parent of other "
+                        "sub-issues (default: excluded — same reasoning as Jira's "
+                        "Epic exclusion: a parent stays open/in-progress for its "
+                        "entire sub-issue lifetime, so counting it as its own "
+                        "throughput/open-queue item would badly distort both. It "
+                        "still works as a --breakdown-field parent grouping label "
+                        "for its children either way — this flag only affects "
+                        "whether the parent ALSO appears as its own line item.)")
     p.add_argument("--include-prs", action="store_true",
                    help="NOT IMPLEMENTED — PullRequest.timelineItems.totalCount does "
                         "not respect the itemTypes filter in live testing (seen "
@@ -326,6 +356,7 @@ def main():
         "total": len(all_nodes),
         "drafts_excluded": 0,
         "prs_excluded": 0,
+        "parents_excluded": 0,
         "skipped_since_filter": 0,
         "skipped_status": 0,
         "done": 0,
@@ -352,6 +383,12 @@ def main():
         elif typename != "Issue":
             stats["skipped_status"] += 1
             continue
+
+        if typename == "Issue" and not args.include_parents:
+            sub_total = (content.get("subIssuesSummary") or {}).get("total", 0)
+            if sub_total > 0:
+                stats["parents_excluded"] += 1
+                continue
 
         created_at = content.get("createdAt")
         if since_cutoff and created_at and day_from_iso(created_at) < since_cutoff:
@@ -406,6 +443,9 @@ def main():
           f"({'included' if args.include_drafts else 'default: excluded'})", file=sys.stderr)
     print(f"#   PRs excluded             : {stats['prs_excluded']} (always excluded — see docstring)",
           file=sys.stderr)
+    print(f"#   parent issues excluded   : {stats['parents_excluded']} "
+          f"({'included' if args.include_parents else 'default: excluded — sit open for their whole sub-issue lifetime'})",
+          file=sys.stderr)
     if args.since:
         print(f"#   skipped (before --since) : {stats['skipped_since_filter']}", file=sys.stderr)
     print(f"#   skipped (status not in --done-status/--statuses): {stats['skipped_status']}",
@@ -418,7 +458,8 @@ def main():
     print(f"#   resolutiondate/closedAt disagreements (>1 day, non-artifact): "
           f"{stats['resolutiondate_disagreements']}", file=sys.stderr)
     accounted = (stats["done"] + stats["open"] + stats["drafts_excluded"]
-                 + stats["prs_excluded"] + stats["skipped_since_filter"] + stats["skipped_status"])
+                 + stats["prs_excluded"] + stats["parents_excluded"]
+                 + stats["skipped_since_filter"] + stats["skipped_status"])
     print(f"#   sanity: done+open+excluded+skipped = {accounted}  (total = {stats['total']})",
           file=sys.stderr)
     print(f"#   elapsed: {time.time() - t0:.1f}s", file=sys.stderr)

@@ -114,23 +114,48 @@ is wrong — fix it, don't hand-assemble numbers.
 | `--repo` | repo name (for the timeline-backfill query and issue keys) |
 | `--done-status …` | status name(s) counted as delivered |
 | `--statuses …` | open-queue (active/backlog) status names |
-| `--breakdown-field none\|labels\|issuetype` | what feeds forecast.py's `--components` axis |
+| `--breakdown-field none\|labels\|issuetype\|parent` | what feeds forecast.py's `--components` axis |
 | `--include-drafts` | include DraftIssue project items (default: excluded) |
 | `--include-prs` | **not implemented** — see the script's docstring; a real PR showed `timelineItems.totalCount` not respecting the itemTypes filter, so the truncated-changelog backfill can't be trusted for PRs yet |
+| `--include-parents` | include issues that are themselves a parent of other sub-issues as their own line item (default: excluded — see below) |
 | `--since YYYY-MM-DD` | only include items created on/after this date |
 
 `forecast.py`'s own flags are unchanged from the Jira version — see its
 `--help` or the original skill's docs for the full table (`--weeks`,
 `--by-date`, `--outliers`, `--cycle-max-days`, `--json-out`, etc.).
 
-## DraftIssue and PullRequest are excluded (default) — the Epic-exclusion analog
+## DraftIssue, PullRequest, and parent issues are excluded (default) — the Epic-exclusion analog
 
 The Jira version excludes `issuetype = Epic` by default (placeholders, not
-deliverable flow). GitHub Projects v2 has no Epic concept, but has two
+deliverable flow). GitHub Projects v2 has no Epic concept, but has three
 analogous "not deliverable flow" categories: **DraftIssue** items (notes, not
-real issues — excluded by default, `--include-drafts` to opt in) and
-**PullRequest** items (already reachable via an issue's linked PRs — always
-excluded; `--include-prs` is not yet implemented, see above).
+real issues — excluded by default, `--include-drafts` to opt in), **PullRequest**
+items (already reachable via an issue's linked PRs — always excluded;
+`--include-prs` is not yet implemented, see above), and **parent issues** —
+an issue that is itself the parent of other sub-issues (confirmed live on
+#613: 18 sub-issues, 10 complete, parent still `OPEN`). A parent stays
+open/in-progress for its *entire* sub-issue lifetime, so counting it as its
+own throughput/open-queue item would badly distort both — same reasoning as
+the Epic exclusion, just GitHub's structural equivalent. Excluded by default;
+`--include-parents` to opt in. A parent still works as a `--breakdown-field
+parent` grouping label for its children regardless of this flag — the flag
+only controls whether the parent *also* shows up as its own line item.
+
+## Breaking down by parent (the Epic-analog grouping)
+
+`--breakdown-field parent` groups Q1/Q2 by each item's native GitHub
+sub-issue parent (e.g. `"#613 Feature: Voice Selection — Hybrid…"`) instead
+of by label or issue type — the closest thing this board has to a Jira
+Epic/feature grouping, since it has no Epic issue type. Items with no parent
+link don't get a component and only show up in the TEAM line. If a project
+has multiple unrelated parents on the board, you'll likely want to filter
+`forecast.py --components` down to just the ones relevant to the current
+ask (see `run_daily_forecast.py`'s `ALLOWED_PARENT_NUMBERS` pattern for an
+example that scopes a scheduled report to one feature) rather than passing
+every discovered parent through — a component series with very few or zero
+Done items in the window renders as "no throughput data in window" rather
+than crashing (both `forecast.py` and `forecast-html.py` handle a
+zero-length sample series gracefully for exactly this reason).
 
 ## Cycle-time basis — started→Done (Q3/Q4)
 

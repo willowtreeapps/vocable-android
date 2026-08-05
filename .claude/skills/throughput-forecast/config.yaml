@@ -10,10 +10,16 @@ github:
 
 # Optional breakdown axis for Q1/Q2 (forecast.py's --components). This board
 # has no "Components" field and sparse labels, so the default is a team-only
-# forecast. Set to "issuetype" to break out by Task/Bug/Feature instead, or
-# "labels" if labels start getting used consistently.
-breakdown_field: none              # none | labels | issuetype
+# forecast. Set to "issuetype" to break out by Task/Bug/Feature instead,
+# "labels" if labels start getting used consistently, or "parent" to break
+# out by each item's native GitHub sub-issue parent — the closest analog to
+# a Jira Epic/feature grouping on a board with no Epic type (see
+# create-ticket's "Linking sub-issues to their parent" for how those links
+# get set). Items with no parent link only show up in the TEAM line.
+breakdown_field: none              # none | labels | issuetype | parent
 components: []                     # e.g. ["Task", "Bug", "Feature"] if breakdown_field: issuetype
+                                    # (leave empty for "parent" — the parent set is
+                                    # discovered per run, not fixed in advance)
 
 throughput:
   # Status name(s) that mean "delivered". (--done-status)

@@ -182,7 +182,8 @@ def main():
 
     # ---------- Overview panel ----------
     def build_overview():
-        cards = [
+        no_forecast = team.get("q1") is None or team.get("q2") is None
+        cards = [] if no_forecast else [
             dual_card("Clear the open queue",
                       f"{team['q1']['w50']}w", f"{team['q1']['w85']}w",
                       [f"{team['backlog']} items · 85% by <b>{esc(team['q1']['date85'])}</b>",
@@ -205,6 +206,13 @@ def main():
                           f"of {bands.get('total',0)} in flight"],
                           accent=ST_BREACH))
         cardhtml = f'<div class="cards">{"".join(cards)}</div>'
+
+        if no_forecast:
+            note = ('<div class="note">No complete throughput weeks fall inside this '
+                     f'window ({esc(m.get("window",""))}) — the delivery forecast (Q1/Q2) '
+                     'needs at least one full calendar week of Done items and can\'t be '
+                     'computed here. Showing cycle-time SLE and aging WIP only, below.</div>')
+            return cardhtml + note
 
         # Team throughput columns
         wk_labels = [f"w{i+1}" for i in range(len(team["sample"]))]
