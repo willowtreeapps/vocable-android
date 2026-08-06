@@ -26,9 +26,7 @@ class VocableSharedPreferences :
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = DWELL_TIME_ONE_SECOND
         const val KEY_SELECTED_VOICE_NAME = "KEY_SELECTED_VOICE_NAME"
-        const val KEY_FIRST_TIME = "KEY_FIRST_TIME_OPENING"
         const val DEFAULT_HEAD_TRACKING_ENABLED = true
-        const val DEFAULT_FIRST_TIME = true
     }
 
     private val encryptedPrefs: SharedPreferences by lazy {
@@ -96,13 +94,6 @@ class VocableSharedPreferences :
 
     override fun getSelectedVoiceName(): String? = encryptedPrefs.getString(KEY_SELECTED_VOICE_NAME, null)
 
-    override fun setFirstTime() {
-        encryptedPrefs.edit { putBoolean(KEY_FIRST_TIME, false) }
-    }
-
-    override fun getFirstTime(): Boolean =
-        encryptedPrefs.getBoolean(KEY_FIRST_TIME, DEFAULT_FIRST_TIME)
-
     @SuppressLint("ApplySharedPref")
     override fun clearAll() {
         // A bare clear() only wipes the store - Android's SharedPreferences only notifies
@@ -116,7 +107,6 @@ class VocableSharedPreferences :
             putLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
             putFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
             putBoolean(KEY_HEAD_TRACKING_ENABLED, DEFAULT_HEAD_TRACKING_ENABLED)
-            putBoolean(KEY_FIRST_TIME, DEFAULT_FIRST_TIME)
         }
     }
 }

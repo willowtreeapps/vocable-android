@@ -24,7 +24,6 @@ class VocableSharedPreferencesTest {
         prefs.setSensitivity(0.9f)
         prefs.setHeadTrackingEnabled(false)
         prefs.setSelectedVoiceName("Aria")
-        prefs.setFirstTime()
 
         prefs.clearAll()
 
@@ -33,7 +32,6 @@ class VocableSharedPreferencesTest {
         assertEquals(VocableSharedPreferences.DEFAULT_SENSITIVITY, prefs.getSensitivity())
         assertEquals(VocableSharedPreferences.DEFAULT_HEAD_TRACKING_ENABLED, prefs.getHeadTrackingEnabled())
         assertEquals(null, prefs.getSelectedVoiceName())
-        assertEquals(VocableSharedPreferences.DEFAULT_FIRST_TIME, prefs.getFirstTime())
     }
 
     /**

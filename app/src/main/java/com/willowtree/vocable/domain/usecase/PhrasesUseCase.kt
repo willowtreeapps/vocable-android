@@ -38,7 +38,10 @@ class PhrasesUseCase(
                     .sortedByDescending { it.lastSpokenDate }
                     .take(8)
             } else {
-                stored + presets
+                // sort_order is the display order every category screen shows - the DAO queries
+                // return insertion order, which only matches on a fresh install. Sorting here
+                // keeps the Presets grid and Edit Phrases list in agreement.
+                (stored + presets).sortedBy { it.sortOrder }
             }
         }
     }

@@ -39,4 +39,11 @@ interface PresetPhrasesDao {
 
     @Query("DELETE FROM PresetPhrase")
     suspend fun deleteAllPresetPhrases()
+
+    /**
+     * Targeted update rather than an insert with [OnConflictStrategy.REPLACE], which would
+     * clobber the row's last_spoken_date and deleted flag.
+     */
+    @Query("UPDATE PresetPhrase SET sort_order = :sortOrder WHERE phrase_id = :phraseId")
+    suspend fun updatePhraseSortOrder(phraseId: String, sortOrder: Int)
 }

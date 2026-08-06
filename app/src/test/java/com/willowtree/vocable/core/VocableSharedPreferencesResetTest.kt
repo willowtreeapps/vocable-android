@@ -56,13 +56,4 @@ class VocableSharedPreferencesResetTest {
 
         assertNull(prefs.getSelectedVoiceName())
     }
-
-    @Test
-    fun `clearAll resets first time to true`() {
-        val prefs = FakeVocableSharedPreferences(firstTime = false)
-
-        prefs.clearAll()
-
-        assertEquals(VocableSharedPreferences.DEFAULT_FIRST_TIME, prefs.getFirstTime())
-    }
 }

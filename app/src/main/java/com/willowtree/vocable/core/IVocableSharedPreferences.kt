@@ -29,9 +29,5 @@ interface IVocableSharedPreferences {
 
     fun getSelectedVoiceName(): String?
 
-    fun setFirstTime()
-
-    fun getFirstTime(): Boolean
-
     fun clearAll()
 }
