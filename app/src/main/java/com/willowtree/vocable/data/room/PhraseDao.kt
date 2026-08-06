@@ -20,6 +20,9 @@ interface PhraseDao {
     @Query("DELETE FROM Phrase WHERE phrase_id == :phraseId")
     suspend fun deletePhrase(phraseId: String)
 
+    @Query("DELETE FROM Phrase")
+    suspend fun deleteAllPhrases()
+
     @Delete
     suspend fun deletePhrases(vararg phrases: PhraseDto)
 

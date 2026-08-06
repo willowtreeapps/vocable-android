@@ -12,4 +12,5 @@ interface StoredCategoriesRepository {
     suspend fun getCategoryById(categoryId: String): CategoryDto?
     suspend fun updateCategoryHidden(categoryId: String, hidden: Boolean)
     suspend fun deleteCategory(categoryId: String)
+    suspend fun deleteAllCategories()
 }

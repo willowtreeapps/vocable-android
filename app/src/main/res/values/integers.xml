@@ -23,4 +23,9 @@
     <integer name="custom_category_phrase_rows">6</integer>
     <integer name="custom_category_columns">1</integer>
     <integer name="custom_category_rows">8</integer>
+    <!-- Change Voice picker. Mirrors iOS hCompact_vRegular: fixedCount(1) column.
+         There is deliberately no voice_rows here: `sw###dp` qualifiers constrain width, never
+         height, so the row count is derived from the measured page height against
+         voice_row_min_height instead. See VoiceSelectionScreen. -->
+    <integer name="voice_columns">1</integer>
 </resources>

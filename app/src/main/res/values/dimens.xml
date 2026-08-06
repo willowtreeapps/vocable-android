@@ -283,4 +283,26 @@
     <dimen name="category_list_vertical_margin">16dp</dimen>
     <dimen name="category_list_horizontal_margin">24dp</dimen>
 
+    <!-- Change Voice picker -->
+    <dimen name="voice_screen_margin">24dp</dimen>
+    <dimen name="voice_section_spacing">16dp</dimen>
+    <dimen name="voice_row_spacing">12dp</dimen>
+    <dimen name="voice_column_spacing">24dp</dimen>
+    <dimen name="voice_close_button_size">72dp</dimen>
+    <dimen name="voice_paging_button_size">64dp</dimen>
+    <!-- Icons are sized per breakpoint alongside their buttons; left at their drawables' intrinsic
+         sizes they read as undersized in the roomier buckets and overfull in the tightest. -->
+    <dimen name="voice_close_icon_size">40dp</dimen>
+    <dimen name="voice_play_icon_size">40dp</dimen>
+    <dimen name="voice_paging_icon_size">40dp</dimen>
+    <!-- Target row height, matched to the square play chip so tile and chip are the same height.
+         It is a minimum, not a fixed height: the screen fits as many of these rows as the page
+         holds and then stretches them to fill it exactly, so a rendered row is between this and
+         about one row-pitch taller. Changing it changes how many voices a page holds. -->
+    <dimen name="voice_row_min_height">60dp</dimen>
+    <dimen name="voice_row_content_spacing">12dp</dimen>
+    <dimen name="voice_row_text_padding">16dp</dimen>
+    <dimen name="voice_empty_state_padding">32dp</dimen>
+    <dimen name="voice_empty_state_spacing">16dp</dimen>
+
 </resources>

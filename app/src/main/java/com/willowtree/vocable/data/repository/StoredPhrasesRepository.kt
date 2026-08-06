@@ -17,4 +17,5 @@ interface StoredPhrasesRepository {
         localizedUtterance: LocalesWithText,
     )
     suspend fun deletePhrase(phraseId: String)
+    suspend fun deleteAllPhrases()
 }

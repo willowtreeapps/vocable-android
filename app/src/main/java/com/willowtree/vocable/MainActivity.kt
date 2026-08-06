@@ -86,7 +86,9 @@ class MainActivity : ScopeActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        VocableTextToSpeech.shutdown()
+        if (!isChangingConfigurations) {
+            VocableTextToSpeech.shutdown()
+        }
     }
 
     @Composable
@@ -108,8 +110,14 @@ class MainActivity : ScopeActivity() {
                         viewModel = faceTrackingViewModel,
                         onEvent = { event ->
                             when (event) {
-                                is FaceTrackingEvent.Speak ->
-                                    VocableTextToSpeech.speak(Locale.getDefault(), event.text)
+                                is FaceTrackingEvent.Speak -> {
+                                    val selectionWasStale = VocableTextToSpeech.speak(
+                                        locale = Locale.getDefault(),
+                                        text = event.text,
+                                        selectedVoiceName = sharedPrefs.getSelectedVoiceName()
+                                    )
+                                    if (selectionWasStale) sharedPrefs.setSelectedVoiceName(null)
+                                }
                             }
                         }
                     ) { _ ->

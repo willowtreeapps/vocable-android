@@ -8,7 +8,7 @@ import com.willowtree.vocable.core.isEnabled
 
 /** ViewModel for the Selection Mode screen. */
 class SelectionModeViewModel(
-    private val faceTrackingPermissions: IFaceTrackingPermissions,
+    private val faceTrackingPermissions: IFaceTrackingPermissions
 ) : ViewModel() {
 
     val headTrackingEnabled = faceTrackingPermissions.permissionState.asLiveData().map { it.isEnabled() }
@@ -20,7 +20,4 @@ class SelectionModeViewModel(
     fun disableHeadTracking() {
         faceTrackingPermissions.disableFaceTracking()
     }
-
 }
-
-

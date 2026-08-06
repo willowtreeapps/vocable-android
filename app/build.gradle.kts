@@ -1,5 +1,6 @@
 plugins {
     id("vocable.application")
+    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
     id("kotlin-parcelize")
     id("com.google.gms.google-services")

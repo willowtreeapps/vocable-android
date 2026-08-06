@@ -25,4 +25,7 @@ interface PresetCategoryDao {
 
     @Update(entity = PresetCategoryDto::class)
     suspend fun updateCategoryDeleted(categoryDeleted: PresetCategoryDeleted)
+
+    @Query("DELETE FROM PresetCategory")
+    suspend fun deleteAllPresetCategories()
 }

@@ -3,13 +3,13 @@ package com.willowtree.vocable.core
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel.Companion.DWELL_TIME_ONE_SECOND
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel.Companion.MEDIUM_SENSITIVITY
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import androidx.core.content.edit
 
 class VocableSharedPreferences :
     IVocableSharedPreferences,
@@ -25,6 +25,8 @@ class VocableSharedPreferences :
         const val DEFAULT_SENSITIVITY = MEDIUM_SENSITIVITY
         const val KEY_DWELL_TIME = "KEY_DWELL_TIME"
         const val DEFAULT_DWELL_TIME = DWELL_TIME_ONE_SECOND
+        const val KEY_SELECTED_VOICE_NAME = "KEY_SELECTED_VOICE_NAME"
+        const val DEFAULT_HEAD_TRACKING_ENABLED = true
     }
 
     private val encryptedPrefs: SharedPreferences by lazy {
@@ -78,10 +80,33 @@ class VocableSharedPreferences :
     }
 
     override fun getHeadTrackingEnabled(): Boolean =
-        encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, true)
+        encryptedPrefs.getBoolean(KEY_HEAD_TRACKING_ENABLED, DEFAULT_HEAD_TRACKING_ENABLED)
+
+    override fun setSelectedVoiceName(voiceName: String?) {
+        encryptedPrefs.edit {
+            if (voiceName == null) {
+                remove(KEY_SELECTED_VOICE_NAME)
+            } else {
+                putString(KEY_SELECTED_VOICE_NAME, voiceName)
+            }
+        }
+    }
+
+    override fun getSelectedVoiceName(): String? = encryptedPrefs.getString(KEY_SELECTED_VOICE_NAME, null)
 
     @SuppressLint("ApplySharedPref")
-    fun clearAll() {
+    override fun clearAll() {
+        // A bare clear() only wipes the store - Android's SharedPreferences only notifies
+        // OnSharedPreferenceChangeListeners for keys explicitly put/removed in an edit, not for
+        // clear() alone. Listeners driving live UI (GazeButton's dwell time, FaceTrackingViewModel's
+        // sensitivity/head-tracking, FaceTrackingPermissions) need an explicit follow-up write of
+        // each default value to actually be notified, rather than only reflecting it on next read.
         encryptedPrefs.edit(commit = true) { clear() }
+        encryptedPrefs.edit(commit = true) {
+            putStringSet(KEY_MY_SAYINGS, setOf())
+            putLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
+            putFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
+            putBoolean(KEY_HEAD_TRACKING_ENABLED, DEFAULT_HEAD_TRACKING_ENABLED)
+        }
     }
 }

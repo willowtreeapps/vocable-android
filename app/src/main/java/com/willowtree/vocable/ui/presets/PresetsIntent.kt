@@ -5,5 +5,6 @@ sealed interface PresetsIntent {
     data class OnCategorySelected(val categoryId: String) : PresetsIntent
     data class AddToRecents(val phraseId: String) : PresetsIntent
     data class UpdateActiveText(val text: String) : PresetsIntent
+    data class Speak(val phraseId: String, val text: String) : PresetsIntent
     object NavToAddPhrase : PresetsIntent
 }

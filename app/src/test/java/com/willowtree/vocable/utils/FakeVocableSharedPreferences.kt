@@ -2,13 +2,17 @@ package com.willowtree.vocable.utils
 
 import android.content.SharedPreferences
 import com.willowtree.vocable.core.IVocableSharedPreferences
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_DWELL_TIME
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_HEAD_TRACKING_ENABLED
+import com.willowtree.vocable.core.VocableSharedPreferences.Companion.DEFAULT_SENSITIVITY
 
 
 class FakeVocableSharedPreferences(
     private var mySayings: List<String> = listOf(),
     private var dwellTime: Long = 0,
     private var sensitivity: Float = 0f,
-    private var headTrackingEnabled: Boolean = false
+    private var headTrackingEnabled: Boolean = false,
+    private var selectedVoiceName: String? = null
 ) : IVocableSharedPreferences {
 
     override fun registerOnSharedPreferenceChangeListener(vararg listeners: SharedPreferences.OnSharedPreferenceChangeListener) {
@@ -49,5 +53,21 @@ class FakeVocableSharedPreferences(
 
     override fun getHeadTrackingEnabled(): Boolean {
         return headTrackingEnabled
+    }
+
+    override fun setSelectedVoiceName(voiceName: String?) {
+        selectedVoiceName = voiceName
+    }
+
+    override fun getSelectedVoiceName(): String? {
+        return selectedVoiceName
+    }
+
+    override fun clearAll() {
+        mySayings = listOf()
+        dwellTime = DEFAULT_DWELL_TIME
+        sensitivity = DEFAULT_SENSITIVITY
+        headTrackingEnabled = DEFAULT_HEAD_TRACKING_ENABLED
+        selectedVoiceName = null
     }
 }

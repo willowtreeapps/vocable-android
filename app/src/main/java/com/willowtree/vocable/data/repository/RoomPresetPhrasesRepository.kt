@@ -72,6 +72,10 @@ class RoomPresetPhrasesRepository(
         presetPhrasesDao.deletePhrase(phraseId, deleted = true)
     }
 
+    override suspend fun deleteAllPhrases() {
+        presetPhrasesDao.deleteAllPresetPhrases()
+    }
+
     private fun List<PresetPhraseDto>.filterDeletedPresets(): List<PresetPhraseDto> {
         return filterNot { it.deleted }
     }

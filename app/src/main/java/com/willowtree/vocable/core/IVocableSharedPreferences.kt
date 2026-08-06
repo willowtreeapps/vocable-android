@@ -24,4 +24,10 @@ interface IVocableSharedPreferences {
     fun setHeadTrackingEnabled(enabled: Boolean)
 
     fun getHeadTrackingEnabled(): Boolean
+
+    fun setSelectedVoiceName(voiceName: String?)
+
+    fun getSelectedVoiceName(): String?
+
+    fun clearAll()
 }

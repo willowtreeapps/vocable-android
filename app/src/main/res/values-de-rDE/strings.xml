@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- Presets -->
     <string name="select_something">Wähle unten etwas aus, um zu sprechen.</string>
-    <string name="phrases_page_number">Seite %1d von %2d</string>
+    <string name="phrases_page_number">Seite %1$d von %2$d</string>
     <string name="my_sayings_empty"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und\n wählen Sie dann den \"☆\", um es zu speichern.</string>
     <string name="my_sayings_empty_handset_port"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und\n wählen Sie dann den \"☆\", um es zu speichern.</string>
     <string name="my_sayings_empty_handset_land"><b>Ihre Redewendungen werden hier angezeigt.\n</b>\nNavigieren Sie zu der Tastatur, geben Sie etwas ein und wählen Sie dann den \"☆\", um es zu speichern.</string>

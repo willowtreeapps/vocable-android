@@ -41,4 +41,8 @@ class RoomStoredCategoriesRepository(
     override suspend fun deleteCategory(categoryId: String) {
         database.categoryDao().deleteCategory(categoryId)
     }
+
+    override suspend fun deleteAllCategories() {
+        database.categoryDao().deleteAllCategories()
+    }
 }
