@@ -2,7 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- Presets -->
     <string name="select_something">Seleziona qualcosa qui sotto per parlare.</string>
-    <string name="phrases_page_number">Pagina %1$d di %2$d</string>
+    <string name="phrases_page_number">Page %1$d of %2$d</string>
+    <!-- Shared pagination (VocablePagination) -->
+    <string name="previous_page">Previous page</string>
+    <string name="next_page">Next page</string>
     <string name="my_sayings_empty"><b>I tuoi messaggi appariranno\nqui.</b>\n\nEntra nella tastiera, digita qualcosa\n e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_handset_port"><b>I tuoi messaggi appariranno\nqui.</b>\n\nEntra nella tastiera, digita qualcosa e poi seleziona \"☆\" per salvarla qui.</string>
     <string name="my_sayings_empty_handset_land"><b>I tuoi messaggi appariranno qui.</b>\n\nEntra nella tastiera, digita qualcosa\n e poi seleziona \"☆\" per salvarla qui.</string>
@@ -17,18 +20,34 @@
     <string name="settings_dialog_message">Stai per essere portato fuori dall\'app. Potresti perdere il controllo del tracciamento.</string>
     <string name="settings_dialog_continue">Continua</string>
     <string name="settings_dialog_cancel">Annulla</string>
+    <string name="settings_reset_dialog_message">Are you sure you want to reset Vocable to default settings? This action cannot be undone.</string>
+    <string name="settings_reset_dialog_confirm">Reset</string>
     <!-- Settings Options -->
     <string name="settings_edit_saying">Le mie frasi</string>
     <string name="settings_edit_categories">Categorie e frasi</string>
     <string name="settings_selection_mode">Modalità selezione</string>
     <string name="settings_reset_app">Ripristina le impostazioni dell\'app</string>
+    <string name="settings_options_voice">Voice</string>
     <!-- Selection Mode -->
     <string name="selection_mode_title">Selection Mode</string>
+    <!-- Change Voice -->
+    <string name="close_voice_selection">Close Change Voice</string>
+    <string name="selected">Selected</string>
+    <string name="voice_empty_title">No Voices</string>
+    <string name="voice_empty_description">No voices that match your language and region settings are installed.</string>
+    <string name="voice_preview_sample">Hello, this is Vocable, %1$s.</string>
+    <!-- Settings -> Voice -->
+    <string name="voice_settings_title">Voice</string>
+    <string name="voice_settings_change_voice">Change Voice</string>
+    <string name="voice_settings_preview_content_description">Preview voice</string>
+    <string name="voice_settings_stop_preview_content_description">Stop voice preview</string>
+    <string name="voice_settings_footer">Additional voices and voice quality enhancements may be available for download in your device\'s Settings.</string>
     <!-- Button Text -->
     <string name="button_pause">Pausa</string>
     <string name="button_resume">Riprendi</string>
     <!-- Errors -->
     <string name="error_move_closer">Avvicinati al dispositivo per favore.</string>
+    <string name="head_tracking_paused_message">Head tracking is paused.\nMove your head to resume.</string>
     <!-- Keyboard Layout -->
     <string name="keyboard_select_letters">Scrivi qui…</string>
     <!-- Saved Phrase Success -->
@@ -51,7 +70,8 @@
     <string name="timing_sensitivity_title">Tempistiche e sensibilità</string>
     <string name="hover_time_text">Hover Time</string>
     <string name="cursor_sensitivity_text">Sensibilità del cursore</string>
-    <string name="hover_time_amount_text">        <xliff:g example="5" id="time">%s</xliff:g> secondi
+    <string name="hover_time_amount_text">
+        <xliff:g example="5" id="time">%s</xliff:g> secondi
     </string>
     <string name="hover_time_one_text">1 secondo</string>
     <string name="cursor_sensitivity_low">Basso</string>
@@ -158,4 +178,14 @@
     <string name="show_category">Show Category</string>
     <string name="edit_phrases">Edit Phrases</string>
     <string name="remove_category">Remove Category</string>
+    <!-- Compose Migration Strings -->
+    <string name="preset_sayings_title">Preset Sayings</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="keyboard_clear">Clear</string>
+    <string name="keyboard_space">Space</string>
+    <string name="keyboard_backspace">Backspace</string>
+    <string name="keyboard_speak">Speak</string>
+    <string name="close_settings">Close Settings</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 </resources>
