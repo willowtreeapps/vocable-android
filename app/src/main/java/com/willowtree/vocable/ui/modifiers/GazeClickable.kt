@@ -106,6 +106,7 @@ fun Modifier.gazeClickable(
 
                     // ── Phase 2: Selected ── green button + complete arc
                     isSelected = true
+                    GazeInteractionManager.emitSelection()
                     val press = PressInteraction.Press(Offset.Zero)
                     interactionSource.emit(press)
                     currentOnClick()

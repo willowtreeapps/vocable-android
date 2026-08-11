@@ -28,6 +28,7 @@ import com.willowtree.vocable.ui.VocableNavHost
 import com.willowtree.vocable.ui.base.MviScreen
 import com.willowtree.vocable.ui.facetracking.FaceTrackingEvent
 import com.willowtree.vocable.ui.facetracking.FaceTrackingScreen
+import com.willowtree.vocable.ui.facetracking.MediaPipeFaceTrackingScreen
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -121,7 +122,11 @@ class MainActivity : ScopeActivity() {
                             }
                         }
                     ) { _ ->
-                        FaceTrackingScreen(viewModel = faceTrackingViewModel)
+                        if (BuildConfig.USE_MEDIAPIPE_TRACKING) {
+                            MediaPipeFaceTrackingScreen(viewModel = faceTrackingViewModel)
+                        } else {
+                            FaceTrackingScreen(viewModel = faceTrackingViewModel)
+                        }
                     }
                 }
             }

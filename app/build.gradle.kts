@@ -36,6 +36,7 @@ android {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
             buildConfigField("boolean", "USE_HEAD_TRACKING", "true")
+            buildConfigField("boolean", "USE_MEDIAPIPE_TRACKING", "false")
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -46,6 +47,8 @@ android {
         getByName("debug") {
             val useHeadTracking = project.findProperty("USE_HEAD_TRACKING")?.toString() ?: "true"
             buildConfigField("boolean", "USE_HEAD_TRACKING", useHeadTracking)
+            val useMediaPipeTracking = project.findProperty("USE_MEDIAPIPE_TRACKING")?.toString() ?: "false"
+            buildConfigField("boolean", "USE_MEDIAPIPE_TRACKING", useMediaPipeTracking)
             applicationIdSuffix = ".debug"
         }
     }
@@ -101,6 +104,12 @@ dependencies {
 
     // SceneView
     implementation(libs.sceneview.arsceneview)
+
+    // MediaPipe prototype (#676) — CameraX + Face Detector
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.mediapipe.tasks.vision)
 
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
