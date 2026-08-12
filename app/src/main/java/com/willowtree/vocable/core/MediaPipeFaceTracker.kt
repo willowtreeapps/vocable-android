@@ -9,48 +9,68 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.compose.ui.geometry.Offset
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.google.mediapipe.framework.image.BitmapImageBuilder
-import com.google.mediapipe.tasks.components.containers.NormalizedKeypoint
+import com.google.mediapipe.framework.image.MPImage
 import com.google.mediapipe.tasks.core.BaseOptions
 import com.google.mediapipe.tasks.core.Delegate
 import com.google.mediapipe.tasks.vision.core.RunningMode
-import com.google.mediapipe.tasks.vision.facedetector.FaceDetector
+import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarker
+import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarkerResult
 import timber.log.Timber
 import java.util.concurrent.Executors
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 /**
- * Prototype (#676) tracking source: MediaPipe FaceDetector + CameraX, as an alternative to the
+ * Prototype (#676) tracking source: MediaPipe FaceLandmarker + CameraX, as an alternative to the
  * ARCore-based path in FaceTrackingScreen/FaceTrackingViewModel.onSceneUpdate. Dumb detection
  * source only — no feel/smoothing tuning here, that lives in FaceTrackingViewModel.onMediaPipeUpdate.
+ *
+ * Branched off prototype/mediapipe-facedetector: that branch used FaceDetector's bare 2D
+ * nose-tip keypoint, which is a materially weaker signal for head *rotation* than ARKit's
+ * pose-based approach on iOS (position vs. orientation). FaceLandmarker's
+ * facialTransformationMatrixes gives an actual head-pose matrix per face - this class decodes
+ * the transformed local Z-axis ("which way the head is pointing") out of it, the same class of
+ * signal ARKit's ARFaceAnchor.transform gives iOS's HeadGazeTrackingInterpolator.
  */
 class MediaPipeFaceTracker(
     context: Context,
-    private val onNoseTip: (NormalizedKeypoint?) -> Unit,
+    private val onHeadForward: (Offset?) -> Unit,
 ) {
 
     companion object {
-        private const val MODEL_ASSET_PATH = "face_detection_short_range.tflite"
-
-        // FaceDetectorResult.keypoints() ordering is fixed: right eye, left eye, nose tip,
-        // mouth center, right ear tragion, left ear tragion.
-        private const val NOSE_TIP_KEYPOINT_INDEX = 2
+        private const val MODEL_ASSET_PATH = "face_landmarker.task"
     }
 
     private val analysisExecutor = Executors.newSingleThreadExecutor()
     private var cameraProvider: ProcessCameraProvider? = null
     private var imageAnalysis: ImageAnalysis? = null
 
-    private val faceDetector: FaceDetector = FaceDetector.createFromOptions(
+    // Prototype (#676) latency diagnostic: time between successive result callbacks, i.e. the
+    // actual achieved update rate, separate from per-frame inference latency.
+    private var lastResultTimeMs = 0L
+
+    private val faceLandmarker: FaceLandmarker = FaceLandmarker.createFromOptions(
         context,
-        FaceDetector.FaceDetectorOptions.builder()
+        FaceLandmarker.FaceLandmarkerOptions.builder()
             .setBaseOptions(
                 BaseOptions.builder()
                     .setModelAssetPath(MODEL_ASSET_PATH)
+                    // GPU delegate tried and measured (2026-08-12, Pixel 3a): silently fell
+                    // back to CPU (XNNPack) per logcat, no latency/interval improvement -
+                    // reverted to explicit CPU rather than keep a no-op delegate request.
                     .setDelegate(Delegate.CPU)
                     .build()
             )
+            .setNumFaces(1)
+            .setMinFaceDetectionConfidence(0.5f)
+            .setMinFacePresenceConfidence(0.5f)
+            .setMinTrackingConfidence(0.5f)
+            .setOutputFaceBlendshapes(false)
+            .setOutputFacialTransformationMatrixes(true)
             .setRunningMode(RunningMode.LIVE_STREAM)
             .setResultListener(::onDetectorResult)
             .setErrorListener { error -> Timber.e(error, "MediaPipeFaceTracker detection error") }
@@ -96,7 +116,7 @@ class MediaPipeFaceTracker(
     fun close() {
         unbind()
         analysisExecutor.shutdown()
-        faceDetector.close()
+        faceLandmarker.close()
     }
 
     private fun detectLivestreamFrame(imageProxy: ImageProxy) {
@@ -121,13 +141,13 @@ class MediaPipeFaceTracker(
         )
 
         val mpImage = BitmapImageBuilder(mirroredBitmap).build()
-        faceDetector.detectAsync(mpImage, frameTime)
+        faceLandmarker.detectAsync(mpImage, frameTime)
     }
 
     // Row-stride-aware RGBA_8888 copy. A plain bitmap.copyPixelsFromBuffer(plane.buffer)
     // assumes rowStride == width * pixelStride, which isn't guaranteed on every
     // device/resolution - when it's wrong, the copy silently garbles the image into noise
-    // (FaceDetector then finds zero faces, rather than crashing) instead of throwing.
+    // (detection then finds zero faces, rather than crashing) instead of throwing.
     private fun ImageProxy.toRgbaBitmap(): Bitmap {
         val plane = planes[0]
         val pixelStride = plane.pixelStride
@@ -158,20 +178,58 @@ class MediaPipeFaceTracker(
         return bitmap
     }
 
-    private fun onDetectorResult(result: com.google.mediapipe.tasks.vision.facedetector.FaceDetectorResult, input: com.google.mediapipe.framework.image.MPImage) {
-        val noseTip = result.detections()
-            .firstOrNull()
-            ?.keypoints()
-            ?.orElse(null)
-            ?.getOrNull(NOSE_TIP_KEYPOINT_INDEX)
-        // Prototype (#676) diagnostic - remove once the coordinate mapping is confirmed correct.
-        if (noseTip != null) {
-            Timber.d("MediaPipeFaceTracker noseTip x=%.3f y=%.3f inputWxH=%dx%d", noseTip.x(), noseTip.y(), input.width, input.height)
+    private fun onDetectorResult(result: FaceLandmarkerResult, input: MPImage) {
+        // Prototype (#676) latency diagnostic - detectAsync was called with frameTime =
+        // SystemClock.uptimeMillis(), which comes back unchanged as result.timestampMs().
+        // The delta is wall-clock inference latency (detectAsync call -> this callback),
+        // not just model compute time - it also includes any queuing if a prior frame's
+        // inference was still running (LIVE_STREAM drops overlapping frames, but the one
+        // that does run still waits for the executor to be free).
+        val now = SystemClock.uptimeMillis()
+        val latencyMs = now - result.timestampMs()
+        val intervalMs = if (lastResultTimeMs == 0L) 0L else now - lastResultTimeMs
+        lastResultTimeMs = now
+
+        val numFaces = result.faceLandmarks().size
+        val matrices = result.facialTransformationMatrixes().orElse(null)
+        val matrix = matrices?.firstOrNull()
+        val forward = matrix?.let { headForwardYawPitch(it) }
+        // Prototype (#676) diagnostic - remove once the sign/axis mapping is confirmed correct.
+        // x/y here are yaw/pitch in DEGREES (converted from the atan2 radians result for readability).
+        if (forward != null) {
+            Timber.d(
+                "MediaPipeFaceTracker yawDeg=%.2f pitchDeg=%.2f numFaces=%d latencyMs=%d intervalMs=%d",
+                Math.toDegrees(forward.x.toDouble()),
+                Math.toDegrees(forward.y.toDouble()),
+                numFaces,
+                latencyMs,
+                intervalMs
+            )
         } else {
-            Timber.d("MediaPipeFaceTracker noseTip null inputWxH=%dx%d", input.width, input.height)
+            Timber.d("MediaPipeFaceTracker forward null numFaces=%d hasMatrixList=%b", numFaces, matrices != null)
         }
-        onNoseTip(noseTip)
+        onHeadForward(forward)
+    }
+
+    // facialTransformationMatrixes() is a flat column-major 4x4 matrix (16 floats): column c
+    // occupies indices [4c, 4c+3]. Column index 2 (elements[8..10]) is the transformed local
+    // Z-axis ("which way the head is pointing" in camera space) - the same signal ARKit's
+    // ARFaceAnchor.transform gives iOS.
+    //
+    // NOT read as raw X/Y components directly: for a handheld phone (not on a fixed
+    // perpendicular stand like a typical mounted AAC setup), this forward vector for a
+    // straight-ahead pose is genuinely diagonal (measured on-device: ~(0.69, 0.07, 0.72), not
+    // ~(0,0,1)) - the natural angle between the phone's camera axis and "looking straight at
+    // the screen" when held by hand. Reading raw X/Y off a vector already this far from
+    // (0,0,1) responds very non-linearly to actual head rotation. Converting to yaw/pitch
+    // angles via atan2 (using all 3 components) behaves linearly with real head rotation
+    // regardless of that baseline tilt, which raw vector components don't.
+    private fun headForwardYawPitch(matrix: FloatArray): Offset {
+        val fx = matrix[8]
+        val fy = matrix[9]
+        val fz = matrix[10]
+        val yaw = atan2(fx.toDouble(), fz.toDouble()).toFloat()
+        val pitch = atan2(-fy.toDouble(), sqrt((fx * fx + fz * fz).toDouble())).toFloat()
+        return Offset(yaw, pitch)
     }
 }
-
-private fun <T> List<T>.getOrNull(index: Int): T? = if (index in indices) this[index] else null

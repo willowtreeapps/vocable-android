@@ -41,7 +41,7 @@ import java.util.EnumSet
  * Entry point — wires MVI: collects state, renders content, no business logic here.
  */
 @Composable
-fun FaceTrackingScreen(viewModel: FaceTrackingViewModel) {
+fun FaceTrackingScreen(viewModel: FaceTrackingViewModel, useCenterPose: Boolean = false) {
     // Events (Speak) are handled in MainActivity via MviScreen — nothing to handle here.
     val engine = rememberEngine()
     val cameraNode = rememberARCameraNode(engine)
@@ -50,7 +50,8 @@ fun FaceTrackingScreen(viewModel: FaceTrackingViewModel) {
         FaceTrackingContent(
             state = state,
             cameraNode = cameraNode,
-            viewModel = viewModel
+            viewModel = viewModel,
+            useCenterPose = useCenterPose
         )
     }
 }
@@ -59,14 +60,15 @@ fun FaceTrackingScreen(viewModel: FaceTrackingViewModel) {
 private fun FaceTrackingContent(
     state: FaceTrackingState,
     cameraNode: ARCameraNode,
-    viewModel: FaceTrackingViewModel
+    viewModel: FaceTrackingViewModel,
+    useCenterPose: Boolean
 ) {
     if (!state.headTrackingEnabled) return
 
     Box(modifier = Modifier.fillMaxSize()) {
         VocableARScene(cameraNode = cameraNode) { session, _ ->
             val faces = session.getAllTrackables(AugmentedFace::class.java)
-            viewModel.onSceneUpdate(faces)
+            viewModel.onSceneUpdate(faces, useCenterPose)
         }
 
         GazePointer(

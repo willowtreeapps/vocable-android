@@ -6,13 +6,13 @@ import android.view.accessibility.AccessibilityManager
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.LifecycleObserver
 import com.google.ar.core.AugmentedFace
-import com.google.mediapipe.tasks.components.containers.NormalizedKeypoint
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.base.BaseViewModel
 import com.willowtree.vocable.core.ComposeGazeTarget
 import com.willowtree.vocable.core.GazeInteractionManager
 import com.willowtree.vocable.core.IFaceTrackingPermissions
 import com.willowtree.vocable.core.VocableSharedPreferences
+import com.willowtree.vocable.core.Vector3OneEuroFilter
 import com.willowtree.vocable.core.isEnabled
 import io.github.sceneview.collision.Vector3
 import kotlinx.coroutines.CoroutineScope
@@ -34,22 +34,40 @@ class FaceTrackingViewModel(
     companion object {
         private const val FACE_DETECTION_TIMEOUT = 1000
 
-        // Prototype (#676) empirical amplitude knob for the MediaPipe path - tune on-device,
-        // separate from the deterministic [0,1]->centered remap it's applied alongside.
-        private const val MEDIAPIPE_AMPLITUDE_X = 2.0f
-        private const val MEDIAPIPE_AMPLITUDE_Y = 2.0f
+        // Prototype (#676) empirical amplitude knob for the MediaPipe FaceLandmarker path -
+        // tune on-device. Units are now radians of yaw/pitch (MediaPipeFaceTracker.
+        // headForwardYawPitch), not raw vector components - a full head turn is roughly
+        // 0.3-0.5 rad, so this needs a materially different scale than the old raw-vector
+        // amplitude did.
+        private const val MEDIAPIPE_AMPLITUDE_X = 2.5f
+        private const val MEDIAPIPE_AMPLITUDE_Y = 2.5f
 
-        // Measured on-device (2026-08-11, Pixel 3a) neutral raw keypoint position when the
-        // nose is pointed straight at screen-center - not 0.5/0.5, see comment at call site.
-        private const val NEUTRAL_X = 0.505f
-        private const val NEUTRAL_Y = 0.55f
+        // Neutral yaw/pitch (radians) for a straight-ahead pose when the phone is held
+        // naturally (not on a fixed perpendicular stand) - still non-zero even with the
+        // yaw/pitch conversion, since the mismatch is between the canonical face model's own
+        // axes and the camera's, not just handheld tilt. Placeholder pending on-device
+        // measurement with the new yaw/pitch signal - see MediaPipeFaceTracker's diagnostic log.
+        // Measured on-device (2026-08-11, Pixel 3a): settled steady-state yaw/pitch (degrees
+        // converted to radians) for a straight-ahead pose with the phone held naturally.
+        private const val NEUTRAL_YAW = 0.157f // ~9 degrees
+        private const val NEUTRAL_PITCH = -0.0785f // ~-4.5 degrees
+
+        // Prototype (#629) One Euro Filter tuning - replaces the shipped sensitivity-based
+        // lerp for this comparison branch. Structurally different from a fixed blend fraction:
+        // cutoff adapts to an internally-tracked velocity estimate, so it doesn't need a
+        // deadzone/threshold (no boundary to flicker across) to get both "stable at rest" and
+        // "responsive when moving" at once. Starting guesses, tune on-device:
+        // - MIN_CUTOFF (Hz): smoothing strength at rest - lower = smoother/more lag when still.
+        // - BETA: how fast cutoff rises with velocity - higher = less lag when moving quickly.
+        private const val ONE_EURO_MIN_CUTOFF = 0.5f
+        private const val ONE_EURO_BETA = 20f
     }
 
     private var faceTrackingJob: Job? = null
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
-    private var oldVector: Vector3? = null
+    private val oneEuroFilter = Vector3OneEuroFilter(minCutoff = ONE_EURO_MIN_CUTOFF, beta = ONE_EURO_BETA)
 
     private val liveAdjustedVector = MutableStateFlow<Vector3?>(null)
     val adjustedVector : StateFlow<Vector3?> = liveAdjustedVector
@@ -129,7 +147,7 @@ class FaceTrackingViewModel(
         }
     }
 
-    fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?) {
+    fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?, useCenterPose: Boolean = false) {
         if (!uiState.value.headTrackingEnabled) {
             if (uiState.value.showError) {
                 updateState { copy(showError = false) }
@@ -160,7 +178,16 @@ class FaceTrackingViewModel(
 
         augmentedFaces?.firstOrNull()?.let { augmentedFace ->
             faceTrackingJob = backgroundScope.launch {
-                val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
+                // centerPose ("the physical center point of the user's head" per ARCore's own
+                // docs) is a fuller head-orientation pose than a single region's pose -
+                // comparing it against the existing NOSE_TIP region pose per #676/#629 findings
+                // that ARCore's own signal richness, not just MediaPipe, might close the gap
+                // with iOS's less-head-movement-needed feel.
+                val pose = if (useCenterPose) {
+                    augmentedFace.centerPose
+                } else {
+                    augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
+                }
                 val zAxis = pose.zAxis
                 val x = zAxis[0]
                 var y = zAxis[1]
@@ -174,12 +201,13 @@ class FaceTrackingViewModel(
         }
     }
 
-    // Prototype (#676): MediaPipe FaceDetector path, mirrors onSceneUpdate above but takes a
-    // single normalized nose-tip keypoint from MediaPipeFaceTracker instead of an ARCore
-    // AugmentedFace. convertCoordSystems (ARCore-tuned) stays untouched — the remap below adapts
-    // MediaPipe's [0,1] image-space coordinate into a comparable numeric range before reusing the
-    // same smoothing helper, so everything downstream of liveAdjustedVector is unaffected.
-    fun onMediaPipeUpdate(noseTip: NormalizedKeypoint?) {
+    // Prototype (#676): MediaPipe FaceLandmarker path, mirrors onSceneUpdate above but takes a
+    // head-orientation "forward" vector from MediaPipeFaceTracker (decoded from
+    // facialTransformationMatrixes) instead of an ARCore AugmentedFace's pose.zAxis.
+    // convertCoordSystems (ARCore-tuned) stays untouched - amplitude is the only remap needed
+    // here, since forward is already a signed, roughly-zero-when-centered direction component,
+    // the same shape of value pose.zAxis already is for the ARCore path above.
+    fun onMediaPipeUpdate(headForward: Offset?) {
         if (!uiState.value.headTrackingEnabled) {
             if (uiState.value.showError) {
                 updateState { copy(showError = false) }
@@ -187,13 +215,13 @@ class FaceTrackingViewModel(
             return
         }
 
-        if (noseTip != null || lastDetectedFaceTime == 0L) {
+        if (headForward != null || lastDetectedFaceTime == 0L) {
             lastDetectedFaceTime = System.currentTimeMillis()
         }
 
         val faceDetectionTimeoutExpired = System.currentTimeMillis() - lastDetectedFaceTime > FACE_DETECTION_TIMEOUT
 
-        if (noseTip == null && faceDetectionTimeoutExpired) {
+        if (headForward == null && faceDetectionTimeoutExpired) {
             if (!uiState.value.showError) {
                 updateState { copy(showError = true) }
             }
@@ -204,45 +232,30 @@ class FaceTrackingViewModel(
             updateState { copy(showError = false) }
         }
 
-        val keypoint = noseTip ?: return
+        val forward = headForward ?: return
 
-        // Deterministic remap: MediaPipe's normalized [0,1] image-space -> centered [-1,1]-ish
-        // range, matching the convention convertCoordSystems already expects from ARCore's
-        // zAxis output. MEDIAPIPE_AMPLITUDE is the separate "does this feel like ARCore" knob -
-        // tune live on-device, it is not part of the deterministic remap above.
-        // Flipped sign on both axes vs. the naive (keypoint - 0.5) remap: on-device testing
-        // showed both axes reversed (turn left -> cursor right, look up -> cursor down),
-        // the signature of a 180-degree-equivalent sign error upstream in
-        // MediaPipeFaceTracker's rotate+mirror Matrix. Correcting it here (rather than the
-        // Matrix pivot math) is equivalent for this single point and much simpler.
-        // NEUTRAL_Y != 0.5f: the nose tip sits anatomically below face-center, so a face
-        // dead-centered in frame reports keypoint.y() ~0.55, not 0.5 (measured on-device via
-        // MediaPipeFaceTracker's diagnostic log). Treating raw 0.5 as neutral center amplified
-        // that ~5% bias by the full gain chain into the cursor landing ~65% down the screen.
-        val centeredX = (NEUTRAL_X - keypoint.x()) * 2f * MEDIAPIPE_AMPLITUDE_X
-        val centeredY = (NEUTRAL_Y - keypoint.y()) * 2f * MEDIAPIPE_AMPLITUDE_Y
+        // Negated: on-device testing showed both axes reversed (turn left -> cursor right,
+        // look up -> cursor down) with the yaw/pitch signal, same as the raw-vector approach
+        // on prototype/mediapipe-facedetector needed - the sign convention doesn't carry over
+        // automatically between the two different underlying signals.
+        val centeredX = -(forward.x - NEUTRAL_YAW) * MEDIAPIPE_AMPLITUDE_X
+        val centeredY = -(forward.y - NEUTRAL_PITCH) * MEDIAPIPE_AMPLITUDE_Y
 
+        // No time-adjustment hack needed here (unlike the old lerp approach) - the One Euro
+        // Filter takes a real timestamp per call and adapts to actual elapsed time itself,
+        // so MediaPipe's slower ~65ms cadence vs ARCore's ~33ms doesn't need compensating for.
         backgroundScope.launch {
             applySmoothedVector(centeredX, centeredY, 0f)
         }
     }
 
     private fun applySmoothedVector(x: Float, y: Float, z: Float) {
-        when (oldVector) {
-            null -> {
-                oldVector = Vector3(x, y, z)
-                updateState { copy(adjustedVector = oldVector) }
-                liveAdjustedVector.value = oldVector
-            }
-
-            else -> {
-                // sensitivity (smoothing) is applied here
-                val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), sensitivity)
-                updateState { copy(adjustedVector = adjustedVector) }
-                liveAdjustedVector.value = adjustedVector
-                oldVector = adjustedVector
-            }
-        }
+        // The One Euro Filter's output is already the final smoothed value - no separate lerp
+        // on top of it needed (that would just be stacking two smoothers on each other).
+        val (fx, fy, fz) = oneEuroFilter.filter(x, y, z, System.currentTimeMillis())
+        val adjustedVector = Vector3(fx, fy, fz)
+        updateState { copy(adjustedVector = adjustedVector) }
+        liveAdjustedVector.value = adjustedVector
     }
 
     override fun onCleared() {

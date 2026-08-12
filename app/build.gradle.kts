@@ -59,6 +59,13 @@ android {
         compose = true
     }
 
+    // Prototype (#676): MediaPipe .task bundles are themselves zip archives internally -
+    // if AAPT re-compresses them when packaging assets, MediaPipe's direct byte-offset reads
+    // into the bundle break and it silently fails to detect anything (no thrown error).
+    androidResources {
+        noCompress += "task"
+    }
+
     sourceSets {
         getByName("androidTest") {
             assets.directories.add("schemas")

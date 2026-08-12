@@ -54,7 +54,7 @@ private fun MediaPipeFaceTrackingContent(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val tracker = remember {
-        MediaPipeFaceTracker(context = context, onNoseTip = viewModel::onMediaPipeUpdate)
+        MediaPipeFaceTracker(context = context, onHeadForward = viewModel::onMediaPipeUpdate)
     }
 
     DisposableEffect(lifecycleOwner) {
