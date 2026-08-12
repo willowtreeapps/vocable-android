@@ -96,8 +96,9 @@ private fun SensitivityContent(
             ),
             maxLines = 2,
             modifier = Modifier.constrainAs(titleRef) {
-                start.linkTo(backButtonRef.end , margin = backButtonSize + 16.dp)
-                end.linkTo(resetButtonRef.start, margin = 16.dp)
+                start.linkTo(backButtonRef.end, margin = 8.dp)
+                end.linkTo(resetButtonRef.start, margin = 8.dp)
+                width = Dimension.fillToConstraints
             }
         )
 
@@ -130,7 +131,7 @@ private fun SensitivityContent(
                 }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_undo),
+                painter = painterResource(id = R.drawable.ic_reset),
                 contentDescription = stringResource(R.string.reset_sensitivity_title),
                 tint = Color.Unspecified
             )

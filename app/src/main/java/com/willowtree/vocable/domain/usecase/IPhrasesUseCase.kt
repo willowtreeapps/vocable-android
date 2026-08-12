@@ -19,4 +19,10 @@ interface IPhrasesUseCase {
     suspend fun addPhrase(localizedUtterance: LocalesWithText, parentCategoryId: String)
 
     suspend fun resetToDefaults()
+
+    /**
+     * Resets only this category's phrases: removes any custom/edited phrases in it and restores
+     * its preset phrases (if it has any), without touching other categories.
+     */
+    suspend fun resetPhrasesForCategory(categoryId: String)
 }

@@ -211,6 +211,45 @@ class PhrasesUseCaseTest {
         assertEquals(0, useCase.getPhrasesForCategory(PresetCategories.RECENTS.id).size)
     }
 
+    @Test
+    fun resetPhrasesForCategory_restores_edited_preset_phrase_in_that_category() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        val entryNames = getResourceNamesForCategory("category_general")
+        val phraseId = entryNames.first()
+        useCase.updatePhrase(phraseId, "Edited text")
+
+        useCase.resetPhrasesForCategory(PresetCategories.GENERAL.id)
+
+        val reset = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id)
+        assertEquals(entryNames, reset.map { it.phraseId })
+        assertEquals(true, reset.first { it.phraseId == phraseId } is PresetPhrase)
+    }
+
+    @Test
+    fun resetPhrasesForCategory_removes_custom_phrase_added_to_that_category() = runTest {
+        val useCase = createUseCase()
+        useCase.addPhrase(testLocalesWithText, PresetCategories.GENERAL.id)
+        assertEquals(1, useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).size)
+
+        useCase.resetPhrasesForCategory(PresetCategories.GENERAL.id)
+
+        val entryNames = getResourceNamesForCategory("category_general")
+        assertEquals(entryNames, useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map { it.phraseId })
+    }
+
+    @Test
+    fun resetPhrasesForCategory_does_not_touch_other_categories() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        useCase.addPhrase(testLocalesWithText, PresetCategories.BASIC_NEEDS.id)
+        val basicNeedsBefore = useCase.getPhrasesForCategory(PresetCategories.BASIC_NEEDS.id)
+
+        useCase.resetPhrasesForCategory(PresetCategories.GENERAL.id)
+
+        assertEquals(basicNeedsBefore, useCase.getPhrasesForCategory(PresetCategories.BASIC_NEEDS.id))
+    }
+
     private fun getResourceNamesForCategory(categoryName: String): List<String> {
         val resources = ApplicationProvider.getApplicationContext<Context>().resources
         val categoryArrayId = resources.getIdentifier(categoryName, "array", ApplicationProvider.getApplicationContext<Context>().packageName)

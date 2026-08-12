@@ -9,4 +9,7 @@ sealed interface EditCategoryPhrasesIntent {
     data class UpdateItemsPerPage(val itemsPerPage: Int) : EditCategoryPhrasesIntent
     object NextPage : EditCategoryPhrasesIntent
     object PrevPage : EditCategoryPhrasesIntent
+    object RequestReset : EditCategoryPhrasesIntent
+    object DismissResetDialog : EditCategoryPhrasesIntent
+    object ConfirmResetDialog : EditCategoryPhrasesIntent
 }

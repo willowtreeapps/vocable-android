@@ -29,6 +29,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -122,7 +124,7 @@ private fun EditCategoriesContent(
             .padding(top = topPadding)
             .onSizeChanged { rootHeightPx = it.height - topPaddingPx }
     ) {
-        val (titleRef, backButtonRef, resetCategoriesButtonRef, resetPhrasesButtonRef, addButtonRef, listRef, pageControlRef) = createRefs()
+        val (titleRef, backButtonRef, resetButtonRef, addButtonRef, listRef, pageControlRef) = createRefs()
 
         Text(
             text = stringResource(id = R.string.categories_edit_title),
@@ -131,10 +133,15 @@ private fun EditCategoriesContent(
                 color = TextColor,
                 fontSize = dimensionResource(id = R.dimen.edit_categories_title_text_size).value.sp
             ),
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .constrainAs(titleRef) {
                     top.linkTo(parent.top)
-                    centerHorizontallyTo(parent)
+                    start.linkTo(backButtonRef.end, margin = 8.dp)
+                    end.linkTo(resetButtonRef.start, margin = 8.dp)
+                    width = Dimension.fillToConstraints
                 }
                 .onSizeChanged { titleHeightPx = it.height }
         )
@@ -177,38 +184,19 @@ private fun EditCategoriesContent(
         }
 
         GazeButton(
-            onClick = { onIntent(EditCategoriesIntent.RequestResetPhrases) },
-            accessibilityLabel = stringResource(R.string.reset_phrases_title),
-            modifier = Modifier
-                .size(dimensionResource(id = R.dimen.edit_categories_action_button_width))
-                .constrainAs(resetPhrasesButtonRef) {
-                    top.linkTo(titleRef.top)
-                    bottom.linkTo(titleRef.bottom)
-                    end.linkTo(addButtonRef.start, margin = 8.dp)
-                }
-                .testTag("edit_categories_reset_phrases_button")
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_undo),
-                contentDescription = stringResource(R.string.reset_phrases_title),
-                tint = Color.Unspecified
-            )
-        }
-
-        GazeButton(
             onClick = { onIntent(EditCategoriesIntent.RequestResetCategories) },
             accessibilityLabel = stringResource(R.string.reset_categories_title),
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.edit_categories_action_button_width))
-                .constrainAs(resetCategoriesButtonRef) {
+                .constrainAs(resetButtonRef) {
                     top.linkTo(titleRef.top)
                     bottom.linkTo(titleRef.bottom)
-                    end.linkTo(resetPhrasesButtonRef.start, margin = 8.dp)
+                    end.linkTo(addButtonRef.start, margin = 8.dp)
                 }
                 .testTag("edit_categories_reset_categories_button")
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_undo),
+                painter = painterResource(id = R.drawable.ic_reset),
                 contentDescription = stringResource(R.string.reset_categories_title),
                 tint = Color.Unspecified
             )
@@ -300,14 +288,10 @@ private fun EditCategoriesContent(
         }
     }
 
-    if (state.resetTarget != null) {
-        val (titleRes, messageRes) = when (state.resetTarget) {
-            ResetTarget.CATEGORIES -> R.string.reset_categories_title to R.string.reset_categories_dialog_message
-            ResetTarget.PHRASES -> R.string.reset_phrases_title to R.string.reset_phrases_dialog_message
-        }
+    if (state.isResetDialogOpen) {
         ConfirmationDialog(
-            title = stringResource(titleRes),
-            message = stringResource(messageRes),
+            title = stringResource(R.string.reset_categories_title),
+            message = stringResource(R.string.reset_categories_dialog_message),
             confirmText = stringResource(R.string.settings_reset_dialog_confirm),
             onDismiss = { onIntent(EditCategoriesIntent.DismissResetDialog) },
             onConfirm = { onIntent(EditCategoriesIntent.ConfirmResetDialog) },

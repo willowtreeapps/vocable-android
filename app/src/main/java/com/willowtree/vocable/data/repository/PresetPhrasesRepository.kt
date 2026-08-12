@@ -14,4 +14,5 @@ interface PresetPhrasesRepository {
     suspend fun getPhrase(phraseId: String): PresetPhrase?
     suspend fun deletePhrase(phraseId: String)
     suspend fun deleteAllPhrases()
+    suspend fun deletePhrasesForCategory(categoryId: String)
 }

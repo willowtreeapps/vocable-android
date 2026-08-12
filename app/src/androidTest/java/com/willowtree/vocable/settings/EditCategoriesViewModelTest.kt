@@ -65,7 +65,7 @@ class EditCategoriesViewModelTest {
     )
 
     private fun createViewModel(): EditCategoriesViewModel {
-        return EditCategoriesViewModel(categoriesUseCase, phrasesUseCase)
+        return EditCategoriesViewModel(categoriesUseCase)
     }
 
     @Test
@@ -152,20 +152,6 @@ class EditCategoriesViewModelTest {
 
         val state = vm.uiState.first { it.categories.size == 7 }
         assertEquals(true, state.categories.none { it is Category.StoredCategory })
-        assertEquals(null, state.resetTarget)
-    }
-
-    @Test
-    fun ConfirmResetDialog_for_phrases_does_not_remove_categories() = runTest(UnconfinedTestDispatcher()) {
-        val vm = createViewModel()
-        vm.uiState.first { it.categories.isNotEmpty() }
-        categoriesUseCase.addCategory("new category")
-        vm.uiState.first { it.categories.size >= 8 }
-
-        vm.onIntent(EditCategoriesIntent.RequestResetPhrases)
-        vm.onIntent(EditCategoriesIntent.ConfirmResetDialog)
-
-        assertEquals(8, vm.uiState.value.categories.size)
-        assertEquals(null, vm.uiState.value.resetTarget)
+        assertEquals(false, state.isResetDialogOpen)
     }
 }

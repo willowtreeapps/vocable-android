@@ -12,16 +12,10 @@ data class EditCategoriesState(
     val categories: List<Category> = emptyList(),
     val currentPage: Int = 0,
     val itemsPerPage: Int = 6,
-    val resetTarget: ResetTarget? = null,
+    val isResetDialogOpen: Boolean = false,
 ) {
     val totalPages: Int get() = if (categories.isEmpty()) 1 else ceil(categories.size.toFloat() / itemsPerPage).toInt()
     val currentPageCategories: List<Category>
         get() = categories.chunked(itemsPerPage).getOrElse(currentPage) { emptyList() }
     val visibleCount: Int get() = categories.count { !it.hidden }
-}
-
-/** Which domain-scoped reset the confirmation dialog is currently open for, if any. */
-enum class ResetTarget {
-    CATEGORIES,
-    PHRASES
 }

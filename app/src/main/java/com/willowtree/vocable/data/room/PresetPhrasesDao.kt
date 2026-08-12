@@ -41,6 +41,15 @@ interface PresetPhrasesDao {
     suspend fun deleteAllPresetPhrases()
 
     /**
+     * Hard delete, unlike [deletePhrase]'s soft delete - a per-category reset needs to actually
+     * remove the rows (including already soft-deleted ones) so ensurePopulated()'s existing-row
+     * check treats them as missing and reinserts them fresh, matching how the global reset
+     * (deleteAllPresetPhrases + populateDatabase) restores presets.
+     */
+    @Query("DELETE FROM PresetPhrase WHERE parent_category_id = :categoryId")
+    suspend fun deletePresetPhrasesForCategory(categoryId: String)
+
+    /**
      * Targeted update rather than an insert with [OnConflictStrategy.REPLACE], which would
      * clobber the row's last_spoken_date and deleted flag.
      */

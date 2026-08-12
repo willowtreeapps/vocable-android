@@ -45,6 +45,7 @@ import com.willowtree.vocable.domain.model.Category
 import com.willowtree.vocable.domain.model.CustomPhrase
 import com.willowtree.vocable.domain.model.Phrase
 import com.willowtree.vocable.ui.base.MviScreen
+import com.willowtree.vocable.ui.components.ConfirmationDialog
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.TextColor
@@ -140,7 +141,7 @@ private fun EditCategoryPhrasesContent(
             .padding(top = topPadding)
             .onSizeChanged { rootHeightPx = it.height - topPaddingPx }
     ) {
-        val (backRef, titleRef, addRef, listRef, pageControlRef, emptyRef) = createRefs()
+        val (backRef, titleRef, resetRef, addRef, listRef, pageControlRef, emptyRef) = createRefs()
 
         GazeButton(
             onClick = { onIntent(EditCategoryPhrasesIntent.Back) },
@@ -177,10 +178,30 @@ private fun EditCategoryPhrasesContent(
             modifier = Modifier
                 .constrainAs(titleRef) {
                     top.linkTo(parent.top)
-                    centerHorizontallyTo(parent)
+                    start.linkTo(backRef.end, margin = 8.dp)
+                    end.linkTo(resetRef.start, margin = 8.dp)
+                    width = Dimension.fillToConstraints
                 }
                 .onSizeChanged { titleHeightPx = it.height }
         )
+
+        GazeButton(
+            onClick = { onIntent(EditCategoryPhrasesIntent.RequestReset) },
+            accessibilityLabel = stringResource(R.string.reset_phrases_title),
+            modifier = Modifier
+                .size(actionButtonSize)
+                .constrainAs(resetRef) {
+                    top.linkTo(titleRef.top)
+                    bottom.linkTo(titleRef.bottom)
+                    end.linkTo(addRef.start, margin = 8.dp)
+                }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_reset),
+                contentDescription = stringResource(R.string.reset_phrases_title),
+                tint = Color.Unspecified
+            )
+        }
 
         GazeButton(
             onClick = { onIntent(EditCategoryPhrasesIntent.AddPhrase) },
@@ -310,6 +331,17 @@ private fun EditCategoryPhrasesContent(
                 }
             }
         }
+    }
+
+    if (state.isResetDialogOpen) {
+        ConfirmationDialog(
+            title = stringResource(R.string.reset_phrases_title),
+            message = stringResource(R.string.reset_category_phrases_dialog_message),
+            confirmText = stringResource(R.string.settings_reset_dialog_confirm),
+            onDismiss = { onIntent(EditCategoryPhrasesIntent.DismissResetDialog) },
+            onConfirm = { onIntent(EditCategoryPhrasesIntent.ConfirmResetDialog) },
+            isDestructive = true
+        )
     }
 }
 

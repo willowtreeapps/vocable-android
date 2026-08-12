@@ -2,7 +2,6 @@ package com.willowtree.vocable.ui.editcategories
 
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
-import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
@@ -11,8 +10,7 @@ import kotlin.math.ceil
  * ViewModel for the Edit Categories screen. It manages the list of categories and pagination logic.
  */
 class EditCategoriesViewModel(
-    private val categoriesUseCase: ICategoriesUseCase,
-    private val phrasesUseCase: IPhrasesUseCase
+    private val categoriesUseCase: ICategoriesUseCase
 ) : BaseViewModel<EditCategoriesState, EditCategoriesEvent>(EditCategoriesState()) {
 
     init {
@@ -59,23 +57,15 @@ class EditCategoriesViewModel(
                 copy(currentPage = if (currentPage - 1 < 0) totalPages - 1 else currentPage - 1)
             }
             EditCategoriesIntent.RequestResetCategories -> updateState {
-                copy(resetTarget = ResetTarget.CATEGORIES)
-            }
-            EditCategoriesIntent.RequestResetPhrases -> updateState {
-                copy(resetTarget = ResetTarget.PHRASES)
+                copy(isResetDialogOpen = true)
             }
             EditCategoriesIntent.DismissResetDialog -> updateState {
-                copy(resetTarget = null)
+                copy(isResetDialogOpen = false)
             }
             EditCategoriesIntent.ConfirmResetDialog -> {
-                val target = uiState.value.resetTarget
-                updateState { copy(resetTarget = null) }
+                updateState { copy(isResetDialogOpen = false) }
                 viewModelScope.launch {
-                    when (target) {
-                        ResetTarget.CATEGORIES -> categoriesUseCase.resetCategoriesToDefaults()
-                        ResetTarget.PHRASES -> phrasesUseCase.resetToDefaults()
-                        null -> Unit
-                    }
+                    categoriesUseCase.resetCategoriesToDefaults()
                 }
             }
         }

@@ -23,16 +23,20 @@ by the ticket author: ship both proposed mechanisms together rather than picking
   - Voice (`SettingsVoiceScreen`) — clears the selected voice name (falls back to system default).
   - Timing and Sensitivity (`SensitivityScreen`) — new `IVocableSharedPreferences.resetSensitivity()`.
   - Selection Mode (`SelectionModeScreen`) — new `IFaceTrackingPermissions.resetToDefault()`.
-  - Categories and Phrases (`EditCategoriesScreen`) — two icons, "Reset Categories" and "Reset
-    Phrases" (see decisions below for why both live on this one screen).
+  - Categories (`EditCategoriesScreen`) — new `ICategoriesUseCase.resetCategoriesToDefaults()`.
+  - Phrases (`EditCategoryPhrasesScreen`, one per category) — new
+    `IPhrasesUseCase.resetPhrasesForCategory(categoryId)`, scoped to just that category (see
+    decisions below — this replaced an earlier draft that put both icons on `EditCategoriesScreen`).
+  All icons use a new `ic_reset` drawable (a circular-arrow/clear icon supplied directly by the
+  ticket's requester as an SVG, transcribed into a vector drawable), replacing the placeholder
+  `ic_undo` used in an earlier draft of this change.
 - **A new "Reset App Settings" screen** (`ui/resetsettings/`) reachable from the main Settings
   screen, with one checkbox per domain for granular reset ("Reset Selected") plus a separate
   "Reset Everything" nuclear action styled in `ErrorColor`. Both are gated behind
   `ConfirmationDialog`. The Settings screen's existing "Reset App Settings" row now navigates here
   instead of opening a dialog directly — the dialog it used to open (`ExitDialogType.RESET_APP_SETTINGS`)
-  was removed.
-- **`ICategoriesUseCase.resetCategoriesToDefaults()`** — new, categories-only reset (see below for
-  why `resetToDefaults()` couldn't be reused as-is).
+  was removed. Its "Phrases" checkbox stays global-scope (`phrasesUseCase.resetToDefaults()`) —
+  deliberately different scope than the per-category icon above; see decisions below.
 
 ## Key decisions, and why
 
@@ -54,16 +58,47 @@ categories. Phrases in categories that remain — preset or shadowed — are lef
 itself is unchanged and still backs the "Reset Everything" nuclear option, matching prior behavior
 exactly.
 
-### Why Categories and Phrases resets both live on `EditCategoriesScreen`
+### Phrases reset is per-category, on `EditCategoryPhrasesScreen` — not global, not on `EditCategoriesScreen`
 
-The domain list in the ticket ("phrases just resets phrases... categories resets categories") assumes
-one screen per domain, but there is no single "Phrases" screen in the nav graph — phrases are only
-ever viewed scoped to one category, via `EditCategoryPhrasesScreen`. Putting a "reset every phrase
-everywhere" icon on a single-category phrase editor would be surprising. Both icons were placed on
-`EditCategoriesScreen` instead (reached via the "Categories and Phrases" Settings row), since that's
-the closest existing entry point representing the combined domain. They use the same `ic_undo` icon
-and are only distinguished by position/accessibility label/dialog title — a real rough edge, flagged
-for a design pass rather than solved here (see Pointers).
+An earlier draft of this change put both "Reset Categories" and "Reset Phrases" icons on
+`EditCategoriesScreen`, reasoning that there's no single global "Phrases" screen in the nav graph.
+Direct feedback from the ticket requester overrode that: the Categories screen should only reset
+categories, and *each* category's own phrase-editing screen (`EditCategoryPhrasesScreen`) should
+have its own phrase reset, scoped to that one category — not a "reset every phrase everywhere"
+control living somewhere unrelated.
+
+That requires a real category-scoped reset, which didn't exist: `PhrasesUseCase.resetToDefaults()`
+is global (delete every stored + preset phrase, repopulate every preset category). The new
+`resetPhrasesForCategory(categoryId)` instead: hard-deletes stored (custom + shadow) phrases for
+just that category via `getPhrasesForCategoryFlow(categoryId).first()` + `deletePhrase()` per row,
+then hard-deletes that category's `PresetPhrase` rows via a new
+`PresetPhrasesDao.deletePresetPhrasesForCategory()` query, then calls `populateDatabase()`. The hard
+delete (vs. `PhrasesUseCase.deletePhrase()`'s existing soft-delete-and-never-reinsert behavior,
+which is correct for a user manually deleting one phrase) matters: `ensurePopulated()`'s
+existing-row check only looks at whether a row exists at all, not its `deleted` flag, so a
+soft-deleted preset phrase would never come back. Hard-deleting first, then repopulating, is what
+lets a preset category's phrases actually restore to default — the same trick the global
+`resetToDefaults()` already relies on (`deleteAllPhrases()` is also a hard delete). For a
+user-created category with no presets, `populateDatabase()` is a no-op for that id, so the reset
+correctly just empties it with nothing to restore.
+
+The Reset App Settings screen's "Phrases" checkbox is intentionally *not* changed to per-category —
+it's a different, legitimate scope (bulk reset across every category from one place), kept as the
+existing global `resetToDefaults()`.
+
+### Icon-in-header placement caused title text to overflow behind it
+
+Every per-screen reset icon was first added to each screen's `ConstraintLayout` header, anchored
+`end.linkTo(parent.end)` (or, on `EditCategoriesScreen`, one icon further from the add button).
+Titles were left on their original constraints — mostly `centerHorizontallyTo(parent)` or an
+`end.linkTo(parent.end, margin = backButtonSize + 16.dp)` sized for the *old*, icon-free layout —
+without a `width = Dimension.fillToConstraints`. Compose's `ConstraintLayout` doesn't shrink a
+composable to fit between two anchors unless told to with an explicit `Dimension`; left as
+`wrapContent`, a title long enough to want the reserved space rendered past its anchor and under
+the new icon. Fixed on every affected screen (`SettingsVoiceScreen`, `SensitivityScreen`,
+`SelectionModeScreen`, `EditCategoriesScreen`, `EditCategoryPhrasesScreen`) by re-anchoring each
+title's `start`/`end` to its two nearest neighbor buttons with `width = Dimension.fillToConstraints`,
+`textAlign = Center` (where not already center-ish), and `maxLines = 1` + ellipsis as a backstop.
 
 ### Selection Mode reset goes through `IFaceTrackingPermissions`, not raw prefs
 
@@ -88,16 +123,17 @@ would silently no-op.
 
 `./gradlew testDebugUnitTest` — all suites pass, including new/updated ones:
 `SensitivityViewModelTest` (new), `ResetSettingsViewModelTest` (new), `EditCategoriesViewModelTest`
-(new, JVM fake-based — a separate Room-backed `EditCategoriesViewModelTest` already existed under
-`androidTest` and was updated for the new constructor param and reset intents),
-`SelectionModeViewModelTest`, `SettingsVoiceViewModelTest`, `SettingsViewModelTest` (all extended).
-`./gradlew assembleDebug assembleDebugAndroidTest` compiles clean. androidTest cases (`CategoriesUseCaseTest`,
-`EditCategoriesViewModelTest`) were not run against a device/emulator in this environment — compile-verified only.
+(new JVM fake-based version — a separate Room-backed `EditCategoriesViewModelTest` already existed
+under `androidTest` and was updated for the reset intent, minus the phrases branch this pass
+removed), `EditCategoryPhrasesViewModelTest` (new), `SelectionModeViewModelTest`,
+`SettingsVoiceViewModelTest`, `SettingsViewModelTest` (all extended).
+`./gradlew assembleDebug assembleDebugAndroidTest` compiles clean. androidTest cases
+(`CategoriesUseCaseTest`, `PhrasesUseCaseTest`, `EditCategoriesViewModelTest`) were not run against
+a device/emulator in this environment — compile-verified only.
 
 Not done: manual verification in a running app (no device/emulator available in this session), and
 no design sign-off — the original ticket explicitly gated the UI on design sign-off, which this pass
-skips per direct product decision. The dual `ic_undo` icon ambiguity on `EditCategoriesScreen` is the
-most likely thing a design pass would change.
+skips per direct product decision.
 
 ## Pointers
 

@@ -31,7 +31,7 @@
     <string name="settings_edit_saying">My Sayings</string>
     <string name="settings_edit_categories">Categories and Phrases</string>
     <string name="settings_selection_mode">Selection Mode</string>
-    <string name="settings_reset_app">Reset App Settings</string>
+    <string name="settings_reset_app">Reset App</string>
     <string name="settings_options_voice">Voice</string>
 
     <!-- Per-domain reset (icon + confirmation dialog on each settings screen) -->
@@ -45,7 +45,7 @@
     <string name="reset_categories_dialog_message">Are you sure you want to reset category order and visibility, and remove any categories you\'ve added? This action cannot be undone.</string>
     <string name="reset_phrases_title">Reset Phrases</string>
     <string name="reset_phrases_label">Phrases</string>
-    <string name="reset_phrases_dialog_message">Are you sure you want to reset all phrases to their defaults and remove any phrases you\'ve added or edited? This action cannot be undone.</string>
+    <string name="reset_category_phrases_dialog_message">Are you sure you want to reset the phrases in this category to their defaults and remove any you\'ve added or edited? This action cannot be undone.</string>
 
     <!-- Reset App Settings screen (granular checkboxes + nuclear "Reset Everything") -->
     <string name="reset_settings_footer_voice">Resets your voice selection to the device default.</string>

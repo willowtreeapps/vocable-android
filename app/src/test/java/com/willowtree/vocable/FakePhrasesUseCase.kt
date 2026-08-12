@@ -64,4 +64,10 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     override suspend fun resetToDefaults() {
         _categoriesToPhrases = initialCategoriesToPhrases
     }
+
+    override suspend fun resetPhrasesForCategory(categoryId: String) {
+        _categoriesToPhrases = _categoriesToPhrases.toMutableMap().apply {
+            this[categoryId] = initialCategoriesToPhrases[categoryId].orEmpty()
+        }
+    }
 }

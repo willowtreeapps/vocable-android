@@ -11,6 +11,7 @@ data class EditCategoryPhrasesState(
     val phrases: List<Phrase> = emptyList(),
     val currentPage: Int = 0,
     val itemsPerPage: Int = 8, // Single column, 8 rows per page matching wireframe
+    val isResetDialogOpen: Boolean = false,
 ) {
     val totalPages: Int get() = if (phrases.isEmpty()) 1 else ceil(phrases.size.toFloat() / itemsPerPage).toInt()
     val currentPagePhrases: List<Phrase>

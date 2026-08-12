@@ -118,7 +118,7 @@ val vocableKoinModule = module {
     single<VocableEnvironment> { VocableEnvironmentImpl() }
 
     viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get(), get()) }
-    viewModel { EditCategoriesViewModel(get(), get()) }
+    viewModel { EditCategoriesViewModel(get()) }
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
     viewModel { EditCategoryMenuViewModel(get()) }
     viewModel { KeyboardViewModel() }

@@ -20,6 +20,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,11 +73,15 @@ fun SettingsVoiceScreen(
             style = MaterialTheme.typography.headlineLarge.copy(
                 fontWeight = FontWeight.Bold,
                 color = TextColor,
-                fontSize = dimensionResource(id = R.dimen.settings_title_text_size).value.sp
+                fontSize = dimensionResource(id = R.dimen.settings_title_text_size).value.sp,
+                textAlign = TextAlign.Center
             ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.constrainAs(titleRef) {
-                start.linkTo(backButtonRef.end, margin = backButtonSize + 16.dp)
-                end.linkTo(parent.end, margin = backButtonSize + 16.dp)
+                start.linkTo(backButtonRef.end, margin = 8.dp)
+                end.linkTo(resetButtonRef.start, margin = 8.dp)
+                width = Dimension.fillToConstraints
             }
         )
 
@@ -108,7 +114,7 @@ fun SettingsVoiceScreen(
                 }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_undo),
+                painter = painterResource(id = R.drawable.ic_reset),
                 contentDescription = stringResource(R.string.reset_voice_title),
                 tint = Color.Unspecified
             )

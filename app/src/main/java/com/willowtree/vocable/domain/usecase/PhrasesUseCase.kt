@@ -114,4 +114,14 @@ class PhrasesUseCase(
         presetPhrasesRepository.deleteAllPhrases()
         presetPhrasesRepository.populateDatabase()
     }
+
+    override suspend fun resetPhrasesForCategory(categoryId: String) {
+        storedPhrasesRepository.getPhrasesForCategoryFlow(categoryId).first().forEach {
+            storedPhrasesRepository.deletePhrase(it.phraseId)
+        }
+        presetPhrasesRepository.deletePhrasesForCategory(categoryId)
+        // No-op for a category with no presets (e.g. a user-added category) - populateDatabase()
+        // only ever (re)inserts rows for PresetCategories entries.
+        presetPhrasesRepository.populateDatabase()
+    }
 }
