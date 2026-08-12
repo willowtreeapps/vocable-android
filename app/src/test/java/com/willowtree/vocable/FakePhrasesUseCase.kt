@@ -24,7 +24,7 @@ class FakePhrasesUseCase : IPhrasesUseCase {
         )
     )
 
-    var _categoriesToPhrases = mapOf(
+    private val initialCategoriesToPhrases = mapOf(
         "1" to listOf(
             PhraseDto(
                 phraseId = "1",
@@ -36,6 +36,8 @@ class FakePhrasesUseCase : IPhrasesUseCase {
             )
         )
     )
+
+    var _categoriesToPhrases = initialCategoriesToPhrases
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return _categoriesToPhrases[categoryId].orEmpty().map { it.asPhrase() }
@@ -60,6 +62,6 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     }
 
     override suspend fun resetToDefaults() {
-        error("Not implemented")
+        _categoriesToPhrases = initialCategoriesToPhrases
     }
 }

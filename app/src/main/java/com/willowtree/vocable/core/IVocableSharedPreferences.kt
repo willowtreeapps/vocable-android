@@ -29,5 +29,8 @@ interface IVocableSharedPreferences {
 
     fun getSelectedVoiceName(): String?
 
+    /** Resets dwell time and cursor sensitivity to their defaults, leaving other preferences untouched. */
+    fun resetSensitivity()
+
     fun clearAll()
 }

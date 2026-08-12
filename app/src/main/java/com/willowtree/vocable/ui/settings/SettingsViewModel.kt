@@ -1,16 +1,12 @@
 package com.willowtree.vocable.ui.settings
 
-import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.core.IVocableSharedPreferences
-import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
 import com.willowtree.vocable.ui.base.BaseViewModel
-import kotlinx.coroutines.launch
 
 /** ViewModel for the [SettingsScreen]. */
 class SettingsViewModel(
-    private val prefs: IVocableSharedPreferences,
-    private val categoriesUseCase: ICategoriesUseCase
+    private val prefs: IVocableSharedPreferences
 ) : BaseViewModel<SettingsState, SettingsEvent>(SettingsState(selectedVoiceLabel = prefs.getSelectedVoiceName())) {
 
     fun onEditCategories() {
@@ -29,16 +25,16 @@ class SettingsViewModel(
         sendEvent(SettingsEvent.NavigateToVoiceSelection)
     }
 
+    fun onResetAppSettings() {
+        sendEvent(SettingsEvent.NavigateToResetSettings)
+    }
+
     fun requestPrivacyPolicy() {
         updateState { copy(dialogType = ExitDialogType.PRIVACY_POLICY) }
     }
 
     fun requestContactDevs() {
         updateState { copy(dialogType = ExitDialogType.CONTACT_DEVELOPERS) }
-    }
-
-    fun requestReset() {
-        updateState { copy(dialogType = ExitDialogType.RESET_APP_SETTINGS) }
     }
 
     fun dismissDialog() {
@@ -55,12 +51,6 @@ class SettingsViewModel(
             ExitDialogType.CONTACT_DEVELOPERS -> {
                 val versionSuffix = "${BuildConfig.VERSION_NAME}-${BuildConfig.VERSION_CODE}"
                 sendEvent(SettingsEvent.ContactDevelopers(MAIL_TO + versionSuffix))
-            }
-            ExitDialogType.RESET_APP_SETTINGS -> {
-                viewModelScope.launch {
-                    categoriesUseCase.resetToDefaults()
-                    prefs.clearAll()
-                }
             }
             ExitDialogType.NONE -> {
                 // Do nothing

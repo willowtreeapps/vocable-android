@@ -28,6 +28,24 @@ class SensitivityViewModel(
     private val _dwellTime = MutableStateFlow(sharedPrefs.getDwellTime())
     val dwellTime: StateFlow<Long> = _dwellTime.asStateFlow()
 
+    private val _isResetDialogOpen = MutableStateFlow(false)
+    val isResetDialogOpen: StateFlow<Boolean> = _isResetDialogOpen.asStateFlow()
+
+    fun requestReset() {
+        _isResetDialogOpen.update { true }
+    }
+
+    fun dismissResetDialog() {
+        _isResetDialogOpen.update { false }
+    }
+
+    fun confirmReset() {
+        _isResetDialogOpen.update { false }
+        sharedPrefs.resetSensitivity()
+        _sensitivity.update { sharedPrefs.getSensitivity() }
+        _dwellTime.update { sharedPrefs.getDwellTime() }
+    }
+
     fun setSensitivity(value: Float) {
         sharedPrefs.setSensitivity(value)
         _sensitivity.update { value }

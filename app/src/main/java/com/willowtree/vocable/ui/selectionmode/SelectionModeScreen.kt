@@ -26,6 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.willowtree.vocable.R
+import com.willowtree.vocable.ui.components.ConfirmationDialog
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.ColorPrimaryDark
@@ -40,9 +41,11 @@ fun SelectionModeScreen(
     viewModel: SelectionModeViewModel = koinViewModel()
 ) {
     val enabled by viewModel.headTrackingEnabled.asFlow().collectAsStateWithLifecycle(initialValue = false)
+    val isResetDialogOpen by viewModel.isResetDialogOpen.collectAsStateWithLifecycle()
 
     SelectionModeContent(
         enabled = enabled,
+        isResetDialogOpen = isResetDialogOpen,
         onBack = onBack,
         onToggleHeadTracking = {
             if (!enabled) {
@@ -50,15 +53,22 @@ fun SelectionModeScreen(
             } else {
                 viewModel.disableHeadTracking()
             }
-        }
+        },
+        onRequestReset = viewModel::requestReset,
+        onDismissResetDialog = viewModel::dismissResetDialog,
+        onConfirmReset = viewModel::confirmReset
     )
 }
 
 @Composable
 fun SelectionModeContent(
     enabled: Boolean,
+    isResetDialogOpen: Boolean = false,
     onBack: () -> Unit,
-    onToggleHeadTracking: () -> Unit
+    onToggleHeadTracking: () -> Unit,
+    onRequestReset: () -> Unit = {},
+    onDismissResetDialog: () -> Unit = {},
+    onConfirmReset: () -> Unit = {}
 ) {
     val buttonHeight = dimensionResource(id = R.dimen.selection_mode_button_height)
 
@@ -67,7 +77,7 @@ fun SelectionModeContent(
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, trackingButtonRef) = createRefs()
+        val (titleRef, backButtonRef, resetButtonRef, trackingButtonRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         Text(
@@ -80,7 +90,7 @@ fun SelectionModeContent(
             modifier = Modifier.constrainAs(titleRef) {
                 top.linkTo(parent.top)
                 start.linkTo(backButtonRef.end, margin = 72.dp)
-                end.linkTo(parent.end, margin = backButtonSize + 16.dp)
+                end.linkTo(resetButtonRef.start, margin = 16.dp)
             }
         )
 
@@ -97,6 +107,24 @@ fun SelectionModeContent(
             Icon(
                 painter = painterResource(id = R.drawable.ic_arrow_back_40dp),
                 contentDescription = stringResource(R.string.close_settings),
+                tint = Color.Unspecified
+            )
+        }
+
+        GazeButton(
+            onClick = onRequestReset,
+            accessibilityLabel = stringResource(R.string.reset_selection_mode_title),
+            modifier = Modifier
+                .size(backButtonSize)
+                .constrainAs(resetButtonRef) {
+                    top.linkTo(titleRef.top, margin = 8.dp)
+                    bottom.linkTo(titleRef.bottom)
+                    end.linkTo(parent.end)
+                }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_undo),
+                contentDescription = stringResource(R.string.reset_selection_mode_title),
                 tint = Color.Unspecified
             )
         }
@@ -145,6 +173,17 @@ fun SelectionModeContent(
                 )
             }
         }
+    }
+
+    if (isResetDialogOpen) {
+        ConfirmationDialog(
+            title = stringResource(R.string.reset_selection_mode_title),
+            message = stringResource(R.string.reset_selection_mode_dialog_message),
+            confirmText = stringResource(R.string.settings_reset_dialog_confirm),
+            onDismiss = onDismissResetDialog,
+            onConfirm = onConfirmReset,
+            isDestructive = true
+        )
     }
 }
 

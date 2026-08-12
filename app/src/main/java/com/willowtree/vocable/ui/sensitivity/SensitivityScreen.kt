@@ -28,6 +28,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.willowtree.vocable.R
+import com.willowtree.vocable.ui.components.ConfirmationDialog
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.ColorPrimaryDark
@@ -44,14 +45,19 @@ fun SensitivityScreen(
 ) {
     val sensitivity by viewModel.sensitivity.collectAsStateWithLifecycle()
     val dwellTime by viewModel.dwellTime.collectAsStateWithLifecycle()
+    val isResetDialogOpen by viewModel.isResetDialogOpen.collectAsStateWithLifecycle()
 
     SensitivityContent(
         sensitivity = sensitivity,
         dwellTime = dwellTime,
+        isResetDialogOpen = isResetDialogOpen,
         onBack = onBack,
         onSetSensitivity = viewModel::setSensitivity,
         onIncreaseDwellTime = viewModel::increaseDwellTime,
-        onDecreaseDwellTime = viewModel::decreaseDwellTime
+        onDecreaseDwellTime = viewModel::decreaseDwellTime,
+        onRequestReset = viewModel::requestReset,
+        onDismissResetDialog = viewModel::dismissResetDialog,
+        onConfirmReset = viewModel::confirmReset
     )
 }
 
@@ -59,17 +65,21 @@ fun SensitivityScreen(
 private fun SensitivityContent(
     sensitivity: Float,
     dwellTime: Long,
+    isResetDialogOpen: Boolean = false,
     onBack: () -> Unit,
     onSetSensitivity: (Float) -> Unit,
     onIncreaseDwellTime: () -> Unit,
-    onDecreaseDwellTime: () -> Unit
+    onDecreaseDwellTime: () -> Unit,
+    onRequestReset: () -> Unit = {},
+    onDismissResetDialog: () -> Unit = {},
+    onConfirmReset: () -> Unit = {}
 ) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, hoverTitleRef, hoverControlsRef, cursorTitleRef, cursorControlsRef) = createRefs()
+        val (titleRef, backButtonRef, resetButtonRef, hoverTitleRef, hoverControlsRef, cursorTitleRef, cursorControlsRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         // Title
@@ -87,7 +97,7 @@ private fun SensitivityContent(
             maxLines = 2,
             modifier = Modifier.constrainAs(titleRef) {
                 start.linkTo(backButtonRef.end , margin = backButtonSize + 16.dp)
-                end.linkTo(parent.end, margin = backButtonSize + 16.dp)
+                end.linkTo(resetButtonRef.start, margin = 16.dp)
             }
         )
 
@@ -103,6 +113,25 @@ private fun SensitivityContent(
             Icon(
                 painter = painterResource(id = R.drawable.ic_arrow_back_40dp),
                 contentDescription = stringResource(R.string.close_settings),
+                tint = Color.Unspecified
+            )
+        }
+
+        // Reset Button
+        GazeButton(
+            onClick = onRequestReset,
+            accessibilityLabel = stringResource(R.string.reset_sensitivity_title),
+            modifier = Modifier
+                .size(backButtonSize)
+                .constrainAs(resetButtonRef) {
+                    top.linkTo(backButtonRef.top)
+                    bottom.linkTo(backButtonRef.bottom)
+                    end.linkTo(parent.end)
+                }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_undo),
+                contentDescription = stringResource(R.string.reset_sensitivity_title),
                 tint = Color.Unspecified
             )
         }
@@ -201,6 +230,17 @@ private fun SensitivityContent(
                 modifier = Modifier.weight(1f).fillMaxHeight()
             )
         }
+    }
+
+    if (isResetDialogOpen) {
+        ConfirmationDialog(
+            title = stringResource(R.string.reset_sensitivity_title),
+            message = stringResource(R.string.reset_sensitivity_dialog_message),
+            confirmText = stringResource(R.string.settings_reset_dialog_confirm),
+            onDismiss = onDismissResetDialog,
+            onConfirm = onConfirmReset,
+            isDestructive = true
+        )
     }
 }
 

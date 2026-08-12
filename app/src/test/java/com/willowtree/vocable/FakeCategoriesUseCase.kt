@@ -127,4 +127,8 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
     override suspend fun resetToDefaults() {
         _categories.value = initialCategories
     }
+
+    override suspend fun resetCategoriesToDefaults() {
+        _categories.value = initialCategories
+    }
 }

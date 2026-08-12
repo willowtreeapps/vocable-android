@@ -93,6 +93,17 @@ class FaceTrackingPermissions(
         permissionState.tryEmit(IFaceTrackingPermissions.PermissionState.Disabled)
     }
 
+    override fun resetToDefault() {
+        sharedPreferences.setHeadTrackingEnabled(VocableSharedPreferences.DEFAULT_HEAD_TRACKING_ENABLED)
+        permissionState.tryEmit(
+            if (VocableSharedPreferences.DEFAULT_HEAD_TRACKING_ENABLED) {
+                IFaceTrackingPermissions.PermissionState.Enabled
+            } else {
+                IFaceTrackingPermissions.PermissionState.Disabled
+            }
+        )
+    }
+
     override fun requestFaceTracking() {
         // Bypass check if we already have permission
         if (hasPermissionsChecker.hasPermissions(Manifest.permission.CAMERA)) {

@@ -2,6 +2,7 @@ package com.willowtree.vocable.ui.editcategories
 
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
+import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
@@ -10,7 +11,8 @@ import kotlin.math.ceil
  * ViewModel for the Edit Categories screen. It manages the list of categories and pagination logic.
  */
 class EditCategoriesViewModel(
-    private val categoriesUseCase: ICategoriesUseCase
+    private val categoriesUseCase: ICategoriesUseCase,
+    private val phrasesUseCase: IPhrasesUseCase
 ) : BaseViewModel<EditCategoriesState, EditCategoriesEvent>(EditCategoriesState()) {
 
     init {
@@ -55,6 +57,26 @@ class EditCategoriesViewModel(
             }
             EditCategoriesIntent.PrevPage -> updateState {
                 copy(currentPage = if (currentPage - 1 < 0) totalPages - 1 else currentPage - 1)
+            }
+            EditCategoriesIntent.RequestResetCategories -> updateState {
+                copy(resetTarget = ResetTarget.CATEGORIES)
+            }
+            EditCategoriesIntent.RequestResetPhrases -> updateState {
+                copy(resetTarget = ResetTarget.PHRASES)
+            }
+            EditCategoriesIntent.DismissResetDialog -> updateState {
+                copy(resetTarget = null)
+            }
+            EditCategoriesIntent.ConfirmResetDialog -> {
+                val target = uiState.value.resetTarget
+                updateState { copy(resetTarget = null) }
+                viewModelScope.launch {
+                    when (target) {
+                        ResetTarget.CATEGORIES -> categoriesUseCase.resetCategoriesToDefaults()
+                        ResetTarget.PHRASES -> phrasesUseCase.resetToDefaults()
+                        null -> Unit
+                    }
+                }
             }
         }
     }

@@ -29,6 +29,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.willowtree.vocable.R
+import com.willowtree.vocable.ui.components.ConfirmationDialog
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.settings.SettingsButton
 import com.willowtree.vocable.ui.theme.TextColor
@@ -41,6 +42,9 @@ fun SettingsVoiceScreen(
     onChangeVoice: () -> Unit,
     onRefreshActiveVoice: () -> Unit,
     onPreviewActiveVoice: () -> Unit,
+    onRequestReset: () -> Unit,
+    onDismissResetDialog: () -> Unit,
+    onConfirmReset: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -59,7 +63,7 @@ fun SettingsVoiceScreen(
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, previewRowRef, changeVoiceRowRef, footerRef) = createRefs()
+        val (titleRef, backButtonRef, resetButtonRef, previewRowRef, changeVoiceRowRef, footerRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         Text(
@@ -88,6 +92,24 @@ fun SettingsVoiceScreen(
             Icon(
                 painter = painterResource(id = R.drawable.ic_arrow_back_40dp),
                 contentDescription = stringResource(R.string.close_settings),
+                tint = Color.Unspecified
+            )
+        }
+
+        GazeButton(
+            onClick = onRequestReset,
+            accessibilityLabel = stringResource(R.string.reset_voice_title),
+            modifier = Modifier
+                .size(backButtonSize)
+                .constrainAs(resetButtonRef) {
+                    top.linkTo(titleRef.top)
+                    bottom.linkTo(titleRef.bottom)
+                    end.linkTo(parent.end)
+                }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_undo),
+                contentDescription = stringResource(R.string.reset_voice_title),
                 tint = Color.Unspecified
             )
         }
@@ -157,6 +179,17 @@ fun SettingsVoiceScreen(
             }
         )
     }
+
+    if (state.isResetDialogOpen) {
+        ConfirmationDialog(
+            title = stringResource(R.string.reset_voice_title),
+            message = stringResource(R.string.reset_voice_dialog_message),
+            confirmText = stringResource(R.string.settings_reset_dialog_confirm),
+            onDismiss = onDismissResetDialog,
+            onConfirm = onConfirmReset,
+            isDestructive = true
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -169,7 +202,10 @@ fun SettingsVoiceScreenPreview() {
             onBack = {},
             onChangeVoice = {},
             onRefreshActiveVoice = {},
-            onPreviewActiveVoice = {}
+            onPreviewActiveVoice = {},
+            onRequestReset = {},
+            onDismissResetDialog = {},
+            onConfirmReset = {}
         )
     }
 }

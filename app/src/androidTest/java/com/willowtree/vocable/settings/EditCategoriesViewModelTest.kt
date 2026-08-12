@@ -48,22 +48,24 @@ class EditCategoriesViewModelTest {
     )
     private val storedPhrasesRepository = RoomStoredPhrasesRepository(database, FakeDateProvider())
 
+    private val phrasesUseCase = PhrasesUseCase(
+        storedPhrasesRepository,
+        presetPhrasesRepository,
+        FakeDateProvider(),
+        FakeUUIDProvider(),
+        FakeLocaleProvider()
+    )
+
     private val categoriesUseCase = CategoriesUseCase(
         FakeUUIDProvider(),
         FakeLocaleProvider(),
         storedCategoriesRepository,
         presetCategoriesRepository,
-        PhrasesUseCase(
-            storedPhrasesRepository,
-            presetPhrasesRepository,
-            FakeDateProvider(),
-            FakeUUIDProvider(),
-            FakeLocaleProvider()
-        )
+        phrasesUseCase
     )
 
     private fun createViewModel(): EditCategoriesViewModel {
-        return EditCategoriesViewModel(categoriesUseCase)
+        return EditCategoriesViewModel(categoriesUseCase, phrasesUseCase)
     }
 
     @Test
@@ -136,5 +138,34 @@ class EditCategoriesViewModelTest {
             state.categories.last()
         )
         assertEquals(1, state.currentPage)
+    }
+
+    @Test
+    fun ConfirmResetDialog_for_categories_removes_custom_category() = runTest(UnconfinedTestDispatcher()) {
+        val vm = createViewModel()
+        vm.uiState.first { it.categories.isNotEmpty() }
+        categoriesUseCase.addCategory("new category")
+        vm.uiState.first { it.categories.size >= 8 }
+
+        vm.onIntent(EditCategoriesIntent.RequestResetCategories)
+        vm.onIntent(EditCategoriesIntent.ConfirmResetDialog)
+
+        val state = vm.uiState.first { it.categories.size == 7 }
+        assertEquals(true, state.categories.none { it is Category.StoredCategory })
+        assertEquals(null, state.resetTarget)
+    }
+
+    @Test
+    fun ConfirmResetDialog_for_phrases_does_not_remove_categories() = runTest(UnconfinedTestDispatcher()) {
+        val vm = createViewModel()
+        vm.uiState.first { it.categories.isNotEmpty() }
+        categoriesUseCase.addCategory("new category")
+        vm.uiState.first { it.categories.size >= 8 }
+
+        vm.onIntent(EditCategoriesIntent.RequestResetPhrases)
+        vm.onIntent(EditCategoriesIntent.ConfirmResetDialog)
+
+        assertEquals(8, vm.uiState.value.categories.size)
+        assertEquals(null, vm.uiState.value.resetTarget)
     }
 }

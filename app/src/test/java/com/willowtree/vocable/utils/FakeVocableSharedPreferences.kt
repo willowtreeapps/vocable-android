@@ -63,6 +63,11 @@ class FakeVocableSharedPreferences(
         return selectedVoiceName
     }
 
+    override fun resetSensitivity() {
+        dwellTime = DEFAULT_DWELL_TIME
+        sensitivity = DEFAULT_SENSITIVITY
+    }
+
     override fun clearAll() {
         mySayings = listOf()
         dwellTime = DEFAULT_DWELL_TIME

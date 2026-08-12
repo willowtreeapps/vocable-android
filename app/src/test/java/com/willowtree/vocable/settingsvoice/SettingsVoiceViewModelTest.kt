@@ -23,8 +23,10 @@ class SettingsVoiceViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private fun createViewModel(selectedVoiceName: String? = null): SettingsVoiceViewModel =
-        SettingsVoiceViewModel(FakeVocableSharedPreferences(selectedVoiceName = selectedVoiceName))
+    private fun createViewModel(
+        selectedVoiceName: String? = null,
+        prefs: FakeVocableSharedPreferences = FakeVocableSharedPreferences(selectedVoiceName = selectedVoiceName)
+    ): SettingsVoiceViewModel = SettingsVoiceViewModel(prefs)
 
     @Test
     fun `initial state falls back to default label when no voice can be resolved`() = runTest {
@@ -79,5 +81,38 @@ class SettingsVoiceViewModelTest {
         viewModel.onPreviewActiveVoice()
 
         assertFalse(viewModel.uiState.value.isPreviewPlaying)
+    }
+
+    @Test
+    fun `requestReset opens the reset dialog`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.requestReset()
+
+        assertTrue(viewModel.uiState.value.isResetDialogOpen)
+    }
+
+    @Test
+    fun `dismissResetDialog after requestReset makes no changes`() = runTest {
+        val prefs = FakeVocableSharedPreferences(selectedVoiceName = "en-us-x-sfg#male_1-local")
+        val viewModel = createViewModel(prefs = prefs)
+        viewModel.requestReset()
+
+        viewModel.dismissResetDialog()
+
+        assertFalse(viewModel.uiState.value.isResetDialogOpen)
+        assertEquals("en-us-x-sfg#male_1-local", prefs.getSelectedVoiceName())
+    }
+
+    @Test
+    fun `confirmReset clears the selected voice and closes the dialog`() = runTest {
+        val prefs = FakeVocableSharedPreferences(selectedVoiceName = "en-us-x-sfg#male_1-local")
+        val viewModel = createViewModel(prefs = prefs)
+        viewModel.requestReset()
+
+        viewModel.confirmReset()
+
+        assertFalse(viewModel.uiState.value.isResetDialogOpen)
+        assertEquals(null, prefs.getSelectedVoiceName())
     }
 }

@@ -16,4 +16,11 @@ interface ICategoriesUseCase {
     suspend fun moveCategoryUp(categoryId: String)
     suspend fun moveCategoryDown(categoryId: String)
     suspend fun resetToDefaults()
+
+    /**
+     * Resets category order/visibility and removes user-added categories (and their phrases),
+     * without touching phrases in categories that remain - unlike [resetToDefaults], which also
+     * wipes every phrase.
+     */
+    suspend fun resetCategoriesToDefaults()
 }

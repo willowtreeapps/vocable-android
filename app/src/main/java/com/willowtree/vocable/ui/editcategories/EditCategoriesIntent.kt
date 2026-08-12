@@ -15,4 +15,8 @@ sealed interface EditCategoriesIntent {
     data class UpdateItemsPerPage(val itemsPerPage: Int) : EditCategoriesIntent
     object NextPage : EditCategoriesIntent
     object PrevPage : EditCategoriesIntent
+    object RequestResetCategories : EditCategoriesIntent
+    object RequestResetPhrases : EditCategoriesIntent
+    object DismissResetDialog : EditCategoriesIntent
+    object ConfirmResetDialog : EditCategoriesIntent
 }
