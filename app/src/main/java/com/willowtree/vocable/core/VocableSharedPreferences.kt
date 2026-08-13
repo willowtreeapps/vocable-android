@@ -27,6 +27,7 @@ class VocableSharedPreferences :
         const val DEFAULT_DWELL_TIME = DWELL_TIME_ONE_SECOND
         const val KEY_SELECTED_VOICE_NAME = "KEY_SELECTED_VOICE_NAME"
         const val DEFAULT_HEAD_TRACKING_ENABLED = true
+        const val KEY_DEBUG_TRACKING_ENGINE = "KEY_DEBUG_TRACKING_ENGINE"
     }
 
     private val encryptedPrefs: SharedPreferences by lazy {
@@ -93,6 +94,13 @@ class VocableSharedPreferences :
     }
 
     override fun getSelectedVoiceName(): String? = encryptedPrefs.getString(KEY_SELECTED_VOICE_NAME, null)
+
+    override fun getDebugTrackingEngine(): String? =
+        encryptedPrefs.getString(KEY_DEBUG_TRACKING_ENGINE, null)
+
+    override fun setDebugTrackingEngine(engineName: String) {
+        encryptedPrefs.edit { putString(KEY_DEBUG_TRACKING_ENGINE, engineName) }
+    }
 
     @SuppressLint("ApplySharedPref")
     override fun clearAll() {

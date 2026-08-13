@@ -12,6 +12,8 @@ constraintlayout-compose = "1.1.1"
 activity-ktx = "1.13.0"
 sceneview = "2.3.3"
 ksp = "2.3.6"
+camerax = "1.4.2"
+mediapipe-tasks-vision = "1.0.0"
 
 coroutines = "1.10.2"
 
@@ -62,6 +64,11 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "compose-ui-test" }
 
 sceneview-arsceneview = { group = "io.github.sceneview", name = "arsceneview", version.ref = "sceneview" }
+
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
+mediapipe-tasks-vision = { group = "com.google.mediapipe", name = "tasks-vision", version.ref = "mediapipe-tasks-vision" }
 
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }

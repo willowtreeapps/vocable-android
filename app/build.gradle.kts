@@ -56,6 +56,14 @@ android {
         compose = true
     }
 
+    // MediaPipe .task bundles are themselves zip archives internally - if AAPT re-compresses
+    // them when packaging assets, MediaPipe's direct byte-offset reads into the bundle break
+    // and it silently fails to detect anything (no thrown error). The asset only exists in the
+    // debug source set (#678 engine-comparison tooling); this setting is harmless for release.
+    androidResources {
+        noCompress += "task"
+    }
+
     sourceSets {
         getByName("androidTest") {
             assets.directories.add("schemas")
@@ -101,6 +109,14 @@ dependencies {
 
     // SceneView
     implementation(libs.sceneview.arsceneview)
+
+    // Debug-only tracking-engine comparison (#678): MediaPipe + CameraX live exclusively in
+    // the debug source set, so these MUST stay debugImplementation - release artifacts carry
+    // neither the libraries nor the model assets.
+    debugImplementation(libs.androidx.camera.core)
+    debugImplementation(libs.androidx.camera.camera2)
+    debugImplementation(libs.androidx.camera.lifecycle)
+    debugImplementation(libs.mediapipe.tasks.vision)
 
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)

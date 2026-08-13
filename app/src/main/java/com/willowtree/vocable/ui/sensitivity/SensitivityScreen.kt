@@ -29,6 +29,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.components.GazeButton
+import com.willowtree.vocable.ui.facetracking.TrackingEngine
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.ColorPrimaryDark
 import com.willowtree.vocable.ui.theme.SelectedColor
@@ -44,14 +45,17 @@ fun SensitivityScreen(
 ) {
     val sensitivity by viewModel.sensitivity.collectAsStateWithLifecycle()
     val dwellTime by viewModel.dwellTime.collectAsStateWithLifecycle()
+    val debugTrackingEngine by viewModel.debugTrackingEngine.collectAsStateWithLifecycle()
 
     SensitivityContent(
         sensitivity = sensitivity,
         dwellTime = dwellTime,
+        debugTrackingEngine = debugTrackingEngine,
         onBack = onBack,
         onSetSensitivity = viewModel::setSensitivity,
         onIncreaseDwellTime = viewModel::increaseDwellTime,
-        onDecreaseDwellTime = viewModel::decreaseDwellTime
+        onDecreaseDwellTime = viewModel::decreaseDwellTime,
+        onSetDebugTrackingEngine = viewModel::setDebugTrackingEngine
     )
 }
 
@@ -59,17 +63,19 @@ fun SensitivityScreen(
 private fun SensitivityContent(
     sensitivity: Float,
     dwellTime: Long,
+    debugTrackingEngine: TrackingEngine,
     onBack: () -> Unit,
     onSetSensitivity: (Float) -> Unit,
     onIncreaseDwellTime: () -> Unit,
-    onDecreaseDwellTime: () -> Unit
+    onDecreaseDwellTime: () -> Unit,
+    onSetDebugTrackingEngine: (TrackingEngine) -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(dimensionResource(id = R.dimen.settings_margin_default))
     ) {
-        val (titleRef, backButtonRef, hoverTitleRef, hoverControlsRef, cursorTitleRef, cursorControlsRef) = createRefs()
+        val (titleRef, backButtonRef, hoverTitleRef, hoverControlsRef, cursorTitleRef, cursorControlsRef, engineTitleRef, engineControlsRef) = createRefs()
         val backButtonSize = dimensionResource(id = R.dimen.settings_close_button_width)
 
         // Title
@@ -201,6 +207,51 @@ private fun SensitivityContent(
                 modifier = Modifier.weight(1f).fillMaxHeight()
             )
         }
+
+        // Debug-only (#678): live tracking-engine comparison, all engines feeding the same PID
+        // smoothing so the A/B isolates the tracking source. Labels are deliberately hardcoded,
+        // not string resources - this section never ships (the MediaPipe engines don't exist in
+        // release builds at all; see DebugEngineTrackingScreen's release stub).
+        if (com.willowtree.vocable.BuildConfig.DEBUG) {
+            Text(
+                text = "Tracking Engine (debug only)",
+                style = MaterialTheme.typography.titleLarge.copy(color = TextColor),
+                modifier = Modifier.constrainAs(engineTitleRef) {
+                    top.linkTo(cursorControlsRef.bottom, margin = 32.dp)
+                    start.linkTo(parent.start)
+                }
+            )
+
+            Row(
+                modifier = Modifier.constrainAs(engineControlsRef) {
+                    top.linkTo(engineTitleRef.bottom, margin = 16.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.value(88.dp)
+                },
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                SensitivityButton(
+                    text = "ARCore",
+                    selected = debugTrackingEngine == TrackingEngine.ARCORE,
+                    onClick = { onSetDebugTrackingEngine(TrackingEngine.ARCORE) },
+                    modifier = Modifier.weight(1f).fillMaxHeight()
+                )
+                SensitivityButton(
+                    text = "Face Detector",
+                    selected = debugTrackingEngine == TrackingEngine.FACE_DETECTOR,
+                    onClick = { onSetDebugTrackingEngine(TrackingEngine.FACE_DETECTOR) },
+                    modifier = Modifier.weight(1f).fillMaxHeight()
+                )
+                SensitivityButton(
+                    text = "Face Landmarker",
+                    selected = debugTrackingEngine == TrackingEngine.FACE_LANDMARKER,
+                    onClick = { onSetDebugTrackingEngine(TrackingEngine.FACE_LANDMARKER) },
+                    modifier = Modifier.weight(1f).fillMaxHeight()
+                )
+            }
+        }
     }
 }
 
@@ -242,10 +293,12 @@ fun SensitivityScreenPreview() {
         SensitivityContent(
             sensitivity = SensitivityViewModel.MEDIUM_SENSITIVITY,
             dwellTime = 1000L,
+            debugTrackingEngine = TrackingEngine.ARCORE,
             onBack = {},
             onSetSensitivity = {},
             onIncreaseDwellTime = {},
-            onDecreaseDwellTime = {}
+            onDecreaseDwellTime = {},
+            onSetDebugTrackingEngine = {}
         )
     }
 }

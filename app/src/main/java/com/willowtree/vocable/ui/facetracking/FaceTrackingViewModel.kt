@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityManager
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.LifecycleObserver
 import com.google.ar.core.AugmentedFace
+import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.base.BaseViewModel
 import com.willowtree.vocable.core.ComposeGazeTarget
@@ -130,8 +131,30 @@ class FaceTrackingViewModel(
                     headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
                     updateState { copy(headTrackingEnabled = headTrackingEnabled) }
                 }
+
+                VocableSharedPreferences.KEY_DEBUG_TRACKING_ENGINE -> {
+                    if (BuildConfig.DEBUG) {
+                        applyTrackingEngine(readTrackingEnginePref())
+                    }
+                }
             }
         }
+
+    private fun readTrackingEnginePref(): TrackingEngine =
+        sharedPrefs.getDebugTrackingEngine()
+            ?.let { name -> TrackingEngine.entries.firstOrNull { it.name == name } }
+            ?: TrackingEngine.ARCORE
+
+    // Full smoothing/error-state reset on engine switch: the engines' signals aren't in the
+    // same coordinate space, so carrying filter history across a switch would swoop the cursor
+    // between unrelated positions (same rationale as the reset on face-tracking loss).
+    private fun applyTrackingEngine(engine: TrackingEngine) {
+        if (uiState.value.trackingEngine == engine) return
+        pidFilter.reset()
+        latestRawTarget = null
+        lastDetectedFaceTime = 0L
+        updateState { copy(trackingEngine = engine, showError = false) }
+    }
 
     private var isTablet = false
     private var lastDetectedFaceTime = 0L
@@ -183,6 +206,9 @@ class FaceTrackingViewModel(
         headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
         sensitivityAmplitude = sensitivityToAmplitude(sharedPrefs.getSensitivity())
         updateState { copy(headTrackingEnabled = headTrackingEnabled) }
+        if (BuildConfig.DEBUG) {
+            updateState { copy(trackingEngine = readTrackingEnginePref()) }
+        }
         
         // Collect permission state
         backgroundScope.launch {
@@ -196,6 +222,10 @@ class FaceTrackingViewModel(
     }
 
     fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?) {
+        // A frame from a tracker that's being torn down mid-engine-switch must not fight the
+        // newly selected engine for latestRawTarget.
+        if (uiState.value.trackingEngine != TrackingEngine.ARCORE) return
+
         if (!uiState.value.headTrackingEnabled) {
             if (uiState.value.showError) {
                 updateState { copy(showError = false) }
@@ -243,6 +273,53 @@ class FaceTrackingViewModel(
                 latestRawTarget = Vector3(x, y, z)
             }
         }
+    }
+
+    /**
+     * Debug-only (#678 engine comparison) input path for the alternate MediaPipe engines. Takes
+     * an already-remapped centered vector (or nulls when the frame had no detection) - the
+     * engine-specific calibration/remap constants live with each engine's adapter in the debug
+     * source set, so this class never references a MediaPipe type (those dependencies don't
+     * exist in release builds). Shares the same face-lost timeout/error behavior and PID tick
+     * hand-off as [onSceneUpdate].
+     *
+     * Coordinate contract: same shape [onSceneUpdate] feeds - a signed, roughly-zero-when-
+     * centered component per axis, pre- the tick loop's `!isTablet` y-doubling (adapters must
+     * account for that in their amplitude constants).
+     */
+    fun onDebugEngineUpdate(centeredX: Float?, centeredY: Float?) {
+        if (uiState.value.trackingEngine == TrackingEngine.ARCORE) return
+
+        if (!uiState.value.headTrackingEnabled) {
+            if (uiState.value.showError) {
+                updateState { copy(showError = false) }
+            }
+            return
+        }
+
+        val hasDetection = centeredX != null && centeredY != null
+        if (hasDetection || lastDetectedFaceTime == 0L) {
+            lastDetectedFaceTime = System.currentTimeMillis()
+        }
+
+        val faceDetectionTimeoutExpired = System.currentTimeMillis() - lastDetectedFaceTime > FACE_DETECTION_TIMEOUT
+
+        if (!hasDetection && faceDetectionTimeoutExpired) {
+            if (!uiState.value.showError) {
+                updateState { copy(showError = true) }
+                pidFilter.reset()
+                latestRawTarget = null
+            }
+            return
+        }
+
+        if (uiState.value.showError) {
+            updateState { copy(showError = false) }
+        }
+
+        if (centeredX == null || centeredY == null) return
+
+        latestRawTarget = Vector3(centeredX, centeredY, 0f)
     }
 
     override fun onCleared() {

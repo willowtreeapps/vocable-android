@@ -26,8 +26,10 @@ import com.willowtree.vocable.core.VocableEnvironmentType
 import com.willowtree.vocable.core.VocableTextToSpeech
 import com.willowtree.vocable.ui.VocableNavHost
 import com.willowtree.vocable.ui.base.MviScreen
+import com.willowtree.vocable.ui.facetracking.DebugEngineTrackingScreen
 import com.willowtree.vocable.ui.facetracking.FaceTrackingEvent
 import com.willowtree.vocable.ui.facetracking.FaceTrackingScreen
+import com.willowtree.vocable.ui.facetracking.TrackingEngine
 import com.willowtree.vocable.ui.theme.VocableTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -120,8 +122,20 @@ class MainActivity : ScopeActivity() {
                                 }
                             }
                         }
-                    ) { _ ->
-                        FaceTrackingScreen(viewModel = faceTrackingViewModel)
+                    ) { state ->
+                        // Non-ARCore engines only exist in debug builds (#678 engine
+                        // comparison); the release variant's DebugEngineTrackingScreen is an
+                        // empty stub and state.trackingEngine is always ARCORE there.
+                        when (state.trackingEngine) {
+                            TrackingEngine.ARCORE ->
+                                FaceTrackingScreen(viewModel = faceTrackingViewModel)
+
+                            else ->
+                                DebugEngineTrackingScreen(
+                                    engine = state.trackingEngine,
+                                    viewModel = faceTrackingViewModel
+                                )
+                        }
                     }
                 }
             }
