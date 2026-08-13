@@ -19,62 +19,88 @@ Pulse's integral damping or quiescence detection.
 
 - `core/PIDFilter.kt` (new): a from-scratch Kotlin port of Pulse's actual `calculateOutput`/
   `tick` logic, read directly from the vendored iOS source (not just its constants):
-  - Derivative is computed on the *followed value* (`pv - previousValue`), not on the raw
-    error — this is why Pulse's own derivative term doesn't need a noise low-pass the way the
-    spike's hand-rolled version (which differentiated `error`, i.e. raw signal noise) did. The
-    followed value is already smooth by construction, so its derivative is too.
-  - Per-tick integral damping (`integral *= 0.9`), applied unconditionally every step.
-  - Quiescence/deadband: once `|error|`, `|integral|`, and `|derivative·dt|` are all under
-    `minimumValueStep` (0.010, matching iOS), output freezes at the current value and the
-    integral resets, instead of micro-jittering at rest.
-  - dt capping/chunking at 0.05s (`MaxTimeDelayDuration`, matching iOS): a gap larger than that
-    (app backgrounded, face briefly lost) runs as several fixed-size steps instead of one large,
-    unstable one.
-  - `kp`/`ki`/`kd` default to iOS's real production constants (3.307 / 0.365 / 0.690) — this PID
-    is genuinely shipping on iOS today, only its tuning UI is unreachable in a shipped build.
-  - `Vector3PIDFilter` applies an independent `PIDFilter` per axis, same shape as the spike's
-    prototype wrapper.
-- `FaceTrackingViewModel`: `onSceneUpdate()`'s tracking block now calls `pidFilter.filter(...)`
-  instead of `Vector3.lerp(...)`. This is the only production code path changed — `Vector3.lerp`
-  and `oldVector` are gone entirely, no debug toggle gates it, matching the ticket's requirement
-  to ship this as the default behavior.
-- Preserved one existing quirk on purpose rather than "fixing" it as a drive-by: the very first
-  tracking sample of a session was, and still is, passed through unscaled (no `y *= 2F` tablet
-  correction) before smoothing kicks in — `hasTrackedFirstVector` replaces the old
-  `oldVector == null` check to gate that. `PIDFilter.filter()`'s own first-sample pass-through
-  behavior means this stays a no-op for the smoothing algorithm itself.
-- `app/src/test/java/com/willowtree/vocable/core/PIDFilterTest.kt` (new): first-sample
-  pass-through, convergence to a held set point, integral damping bounding a sustained error,
-  quiescence freezing output once within threshold, dt-chunking on a large time gap staying
-  finite/bounded, and `reset()`/`Vector3PIDFilter` per-axis independence.
+  - Derivative computed on the *followed value* (`pv - previousValue`), not on raw error — this
+    is why Pulse's D-term doesn't need the noise low-pass the spike's hand-rolled version did.
+    Note the faithful-to-Pulse sign quirk documented in the class KDoc: the D-term is
+    `+Kd·d(pv)/dt` — velocity *momentum*, not the textbook damping term. It's why the cursor
+    glides into its target rather than braking hard; don't "fix" the sign without expecting the
+    feel to diverge from iOS.
+  - Per-tick integral damping (`integral *= 0.9`), matching Pulse.
+  - Quiescence/deadband (`minimumValueStep = 0.010`, iOS's literal value — see tuning history
+    below), with dt capping/chunking at 0.05s (`MaxTimeDelayDuration`, matching iOS), plus a
+    1s total catch-up cap so an arbitrarily long gap can't run an arbitrary number of chunks.
+  - `kp`/`ki`/`kd` are iOS's real production constants (3.307 / 0.365 / 0.690).
+- **Additions beyond Pulse, each fixing an on-device-confirmed failure mode Pulse's design
+  didn't cover at ARCore's noise level** (ARCore's raw signal is noisier than what iOS's Pulse
+  operates on; each was diagnosed from captured raw-vs-smoothed logcat data, not feel alone):
+  - *Wake hysteresis* (`wakeThresholdMultiplier = 2`): a single shared freeze/wake threshold
+    flickered in/out of quiescence right at the boundary (visible jitter just before rest).
+  - *Wake confirmation* (`wakeConfirmationTicks = 3`, counted at most once per sample so
+    dt-chunking after a frame hitch can't satisfy it with one noisy sample): single-tick noise
+    spikes used to run a full PID episode and re-freeze slightly displaced — accumulating into
+    visible at-rest drift ("the dot moves while my head is still").
+  - *Leaky freeze* (`quiescentCatchUpRate = 3/s`): a hard freeze parked up to
+    `minimumValueStep` of residual error below the wake threshold; when the user's head kept
+    settling, that residual eventually crossed the wake threshold and corrected all at once —
+    a visible pause-then-snap at the end of every movement. The leak absorbs it gradually
+    (~1/3s time constant); zero-mean noise still averages out to sub-pixel wobble.
+- `FaceTrackingViewModel` rework:
+  - Smoothing runs on a `Choreographer` vsync frame callback (Android's `CADisplayLink`
+    equivalent) toward the latest raw target, not once per ARCore frame — ARCore delivers
+    ~30fps, under display refresh, and iOS's Pulse ticks on `CADisplayLink` for exactly this
+    reason. A `delay()`-loop version was tried first and rejected: its timing jitter feeds
+    straight into the dt-dividing integral/derivative terms (confirmed on-device as
+    overshoot/bounce before settling).
+  - The `!isTablet` `y *= 2` reachability scaling moved from *before* smoothing to *after* —
+    pre-scaling doubled y's noise floor relative to x's, which made y (and only y) drift at
+    rest (confirmed from logged raw data: y's stationary noise band was ~2× x's).
+  - Filter resets on face-tracking loss, matching iOS's `needsResetOnNextUpdate` — otherwise
+    the cursor swoops in from its stale position with garbage integral history on re-acquire.
+  - Frozen-output ticks skip StateFlow emission (sceneview's `Vector3` has no `equals`, so
+    every 60Hz tick otherwise emits a distinct-but-identical object and recomposes the cursor
+    at rest; Pulse pauses its display link at quiescence for the same reason).
+  - Replaces `Vector3.lerp` and `oldVector` entirely; no debug toggle, per the ticket's AC.
+- **Sensitivity setting re-wired to iOS semantics.** The old lerp consumed the stored
+  sensitivity (0.05/0.10/0.15) as its blend fraction, so replacing it orphaned the Settings
+  control. On iOS, sensitivity is *not* a smoothing knob: `CursorSensitivity.swift` maps
+  Low/Medium/High to screen-mapping scale ranges (midpoints 3.0/4.0/5.25) and the PID constants
+  never change. Android now does the same: the stored value maps to a cursor-travel amplitude
+  multiplier (0.75× / 1.0× / 1.3×, mirroring iOS's ratios) applied in `convertCoordSystems`,
+  after smoothing. **Note for PR/product: this silently changes what existing users' saved
+  setting does** — "High" used to mean less smoothing (snappier, jitterier); it now means more
+  cursor travel per head movement. Same stored value, new (iOS-parity) behavior.
+- `app/src/test/java/com/willowtree/vocable/core/PIDFilterTest.kt` (new, 13 tests): first-sample
+  pass-through, convergence, integral damping, quiescence freeze, hysteresis, single-tick-spike
+  rejection, frame-hitch chunking rejection, sustained-wake acceptance, gradual residual
+  absorption, dt-chunking stability, reset, per-axis independence.
 
-## Known gap — the Settings sensitivity control is now orphaned
+## Tuning history worth keeping (so it isn't re-litigated)
 
-`SensitivityViewModel`/the Settings sensitivity screen still read/write
-`VocableSharedPreferences`'s sensitivity value, but nothing consumes it anymore —
-`FaceTrackingViewModel` no longer reads `getSensitivity()` at all, since PID uses fixed gains
-(matching iOS, which also doesn't expose these as a real user-facing setting). This ticket's
-scope was the smoothing algorithm only, so the Settings screen itself was deliberately left
-alone rather than guessing at a fix (e.g. mapping sensitivity to a PID gain) that iOS doesn't do
-either. **Needs a product decision** — likely a follow-up ticket — on whether to remove/repurpose
-that screen or leave it as a currently-inert setting.
+- `minimumValueStep` was initially rescaled down from iOS's 0.010 on the theory that iOS
+  operates in screen points (hundreds) while we operate on ARCore zAxis components (±0.1–0.3).
+  Testing seemed to confirm it ("0.010 feels laggy") — but that verdict was contaminated by the
+  two then-unfixed bugs (delay-loop dt jitter, pre-filter y scaling). With those fixed, iOS's
+  literal 0.010 works at our measured (~0.013 peak-to-peak per axis) noise floor and is what
+  ships. Don't rescale it again without re-measuring.
+- "Fast x-movement causes diagonal drift" was investigated with raw-signal capture: **no
+  systematic velocity- or position-coupling exists** (corr ≈ 0; per-sweep y drift has both
+  signs). The visible effect is genuine small head pitch wobble during fast turns, amplified by
+  the y-scaling stack (×2 phone × 1.5 base × sensitivity ≈ 3.9× vs x's 2.6×) — a pre-existing,
+  shipped characteristic that predates this ticket. Deliberately not addressed here: rebalancing
+  y/x amplitude changes corner reachability, and dominant-axis suppression would harm users who
+  can't produce clean single-axis movements. Candidate follow-up ticket if user reports recur.
 
-## Known verification gap — needs on-device testing
+## Known verification gap
 
-This PID port was validated with unit tests on the algorithm in isolation (`PIDFilterTest`) and
-a full `assembleDebug`/`assembleDebugAndroidTest`/`testDebugUnitTest` pass, but the ticket's last
-acceptance criterion — an on-device feel/latency/jitter assessment confirming parity with iOS's
-smoothing feel — could not be done in this session (no physical device/ARCore-capable emulator
-available). The spike (#629) already confirmed these exact gains feel right on-device for the
-hand-rolled prototype; this port is algorithmically closer to iOS (integral damping, quiescence,
-dt-chunking added), so a regression is unlikely, but **someone with an ARCore-capable device
-needs to confirm the on-device feel before this ships**, not just before merge.
+Validated with unit tests, full `testDebugUnitTest`/`assembleDebug`/`assembleDebugAndroidTest`,
+and extensive on-device iteration on a Pixel 3a (feel/latency/jitter assessed against iOS
+side-by-side through multiple tuning rounds — responsive, stable at rest, smooth settling).
+Not yet validated on a tablet (`is_tablet` path skips the y×2 scaling) or on other phone
+form factors.
 
 ## Pointers
 
 - Issue: #678 · Parent (spike, not an integration branch): #629
-- Branch: `feature/678/pid-gaze-smoothing` off `main` (this is a normal production change, not a
-  sub-issue of an in-progress parent feature branch — #629 is a completed research spike, its
-  scope explicitly excluded implementation)
-- Superseded: the hand-rolled `PIDFilter.kt` on `prototype/mediapipe-facelandmarker` (a separate,
-  uncommitted exploration branch not touched by this change)
+- Branch: `feature/678/pid-gaze-smoothing` off `main`
+- Supersedes: the hand-rolled `PIDFilter.kt` on `prototype/mediapipe-facelandmarker`
+- Comparison branch (FaceDetector signal source + this PID): see `prototype/pid-facedetector`
