@@ -11,6 +11,7 @@ import com.willowtree.vocable.ui.base.BaseViewModel
 import com.willowtree.vocable.core.ComposeGazeTarget
 import com.willowtree.vocable.core.GazeInteractionManager
 import com.willowtree.vocable.core.IFaceTrackingPermissions
+import com.willowtree.vocable.core.Vector3PIDFilter
 import com.willowtree.vocable.core.VocableSharedPreferences
 import com.willowtree.vocable.core.isEnabled
 import io.github.sceneview.collision.Vector3
@@ -38,21 +39,20 @@ class FaceTrackingViewModel(
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
-    private var oldVector: Vector3? = null
+    // Defaults match iOS's actual production PID constants (HeadGazeTrackingInterpolator.swift
+    // / PIDInterpolator.swift, via the vendored Pulse library) - that PID is genuinely live in
+    // shipped iOS builds today, not a guess. Replaces the old fixed-fraction Vector3.lerp.
+    private val pidFilter = Vector3PIDFilter()
+    private var hasTrackedFirstVector = false
 
     private val liveAdjustedVector = MutableStateFlow<Vector3?>(null)
     val adjustedVector : StateFlow<Vector3?> = liveAdjustedVector
 
     private val sharedPrefs: VocableSharedPreferences by inject()
-    private var sensitivity = VocableSharedPreferences.DEFAULT_SENSITIVITY
     private var headTrackingEnabled = true
     private val sharedPrefsListener =
         SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             when (key) {
-                VocableSharedPreferences.KEY_SENSITIVITY -> {
-                    sensitivity = sharedPrefs.getSensitivity()
-                }
-
                 VocableSharedPreferences.KEY_HEAD_TRACKING_ENABLED -> {
                     headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
                     updateState { copy(headTrackingEnabled = headTrackingEnabled) }
@@ -155,24 +155,20 @@ class FaceTrackingViewModel(
                 var y = zAxis[1]
                 val z = -zAxis[2]
 
-                when (oldVector) {
-                    null -> {
-                        oldVector = Vector3(x, y, z)
-                        updateState { copy(adjustedVector = oldVector) }
-                        liveAdjustedVector.value = oldVector
-                    }
-
-                    else -> {
-                        if (!isTablet) {
-                            y *= 2F
-                        }
-                        // sensitivity (smoothing) is applied here
-                        val adjustedVector = Vector3.lerp(oldVector, Vector3(x, y, z), sensitivity)
-                        updateState { copy(adjustedVector = adjustedVector) }
-                        liveAdjustedVector.value = adjustedVector
-                        oldVector = adjustedVector
-                    }
+                // Matches the pre-PID behavior: the first sample of a tracking session is
+                // passed straight through unscaled (the PID filter also treats its first
+                // sample as a pass-through, so this stays a no-op for smoothing purposes).
+                if (hasTrackedFirstVector && !isTablet) {
+                    y *= 2F
                 }
+                hasTrackedFirstVector = true
+
+                // PID-based smoothing (replaces the old fixed-fraction Vector3.lerp) - see
+                // Vector3PIDFilter/PIDFilter for the algorithm.
+                val (fx, fy, fz) = pidFilter.filter(x, y, z, System.currentTimeMillis())
+                val adjustedVector = Vector3(fx, fy, fz)
+                updateState { copy(adjustedVector = adjustedVector) }
+                liveAdjustedVector.value = adjustedVector
             }
         }
     }
