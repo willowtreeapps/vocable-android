@@ -106,7 +106,15 @@ Pulse's integral damping or quiescence detection.
   limited neck rotation get less signal than orientation-based tracking gave them (the nose
   travels on a lever arm) — the accessibility population question product should weigh in on.
 
-## Debug-only tracking-engine comparison toggle
+## Debug-only tracking-engine comparison toggle (built, used, removed)
+
+**Status: the comparison is decided and the tooling has been removed from this branch** for a
+reviewable diff against `main`. ARCore (with position-based tracking, above) won: FaceDetector
+matched it on horizontal cleanliness but its detection noise and calibration needs gave ARCore
+the better overall feel once ARCore switched to the same position-signal shape; FaceLandmarker
+was already known hardware-limited (~15fps) from the spike. The full tooling lives intact at
+commit `9dd1bd65` on this branch's history - a future engine evaluation should revert the
+removal commit rather than rebuild it. Original design notes kept below for that future reader.
 
 To complete the ticket's on-device assessment AC - and to answer "which tracking source best
 feeds this PID" with a live A/B instead of separate builds - the branch also adds an engine

@@ -63,22 +63,11 @@ class FakeVocableSharedPreferences(
         return selectedVoiceName
     }
 
-    private var debugTrackingEngine: String? = null
-
-    override fun getDebugTrackingEngine(): String? {
-        return debugTrackingEngine
-    }
-
-    override fun setDebugTrackingEngine(engineName: String) {
-        debugTrackingEngine = engineName
-    }
-
     override fun clearAll() {
         mySayings = listOf()
         dwellTime = DEFAULT_DWELL_TIME
         sensitivity = DEFAULT_SENSITIVITY
         headTrackingEnabled = DEFAULT_HEAD_TRACKING_ENABLED
         selectedVoiceName = null
-        debugTrackingEngine = null
     }
 }

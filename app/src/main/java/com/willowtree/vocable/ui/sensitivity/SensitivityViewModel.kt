@@ -2,7 +2,6 @@ package com.willowtree.vocable.ui.sensitivity
 
 import androidx.lifecycle.ViewModel
 import com.willowtree.vocable.core.IVocableSharedPreferences
-import com.willowtree.vocable.ui.facetracking.TrackingEngine
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,21 +31,6 @@ class SensitivityViewModel(
     fun setSensitivity(value: Float) {
         sharedPrefs.setSensitivity(value)
         _sensitivity.update { value }
-    }
-
-    // Debug-only (#678 engine comparison) - the selector UI is gated on BuildConfig.DEBUG in
-    // SensitivityScreen; release builds never write this pref and FaceTrackingViewModel never
-    // reads it there.
-    private val _debugTrackingEngine = MutableStateFlow(
-        sharedPrefs.getDebugTrackingEngine()
-            ?.let { name -> TrackingEngine.entries.firstOrNull { it.name == name } }
-            ?: TrackingEngine.ARCORE
-    )
-    val debugTrackingEngine: StateFlow<TrackingEngine> = _debugTrackingEngine.asStateFlow()
-
-    fun setDebugTrackingEngine(engine: TrackingEngine) {
-        sharedPrefs.setDebugTrackingEngine(engine.name)
-        _debugTrackingEngine.update { engine }
     }
 
     fun increaseDwellTime() {

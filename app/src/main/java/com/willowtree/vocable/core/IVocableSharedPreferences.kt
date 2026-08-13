@@ -29,14 +29,5 @@ interface IVocableSharedPreferences {
 
     fun getSelectedVoiceName(): String?
 
-    /**
-     * Debug-only (#678 engine comparison): which tracking engine drives the gaze cursor,
-     * stored as a [com.willowtree.vocable.ui.facetracking.TrackingEngine] name. Only read when
-     * BuildConfig.DEBUG - release builds always use ARCore and contain no alternate engines.
-     */
-    fun getDebugTrackingEngine(): String?
-
-    fun setDebugTrackingEngine(engineName: String)
-
     fun clearAll()
 }
