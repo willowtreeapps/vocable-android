@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityManager
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.LifecycleObserver
 import com.google.ar.core.AugmentedFace
+import com.google.ar.core.Pose
 import com.willowtree.vocable.BuildConfig
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.base.BaseViewModel
@@ -20,7 +21,6 @@ import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel
 import io.github.sceneview.collision.Vector3
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class FaceTrackingViewModel(
@@ -36,9 +37,23 @@ class FaceTrackingViewModel(
 
     companion object {
         private const val FACE_DETECTION_TIMEOUT = 1000
+
+        // Gain applied to the depth-normalized nose-position offset (see onSceneUpdate). The
+        // position signal is ~4x weaker per degree of head rotation than the old orientation
+        // components (the nose swings on a ~10cm lever arm around the neck at ~40cm from the
+        // device), so these are correspondingly larger. Y is half of X because the PID tick
+        // loop applies the phone `y * 2` reachability scaling on the smoothed output - the
+        // same split MediaPipe FaceDetector's remap uses.
+        private const val ARCORE_POSITION_AMPLITUDE_X = 4f
+        private const val ARCORE_POSITION_AMPLITUDE_Y = 2f
+
+        // Samples averaged before the neutral position locks (~0.7s at ARCore's ~30fps). A
+        // single-first-frame neutral was tried and rested visibly off-center: ARCore's first
+        // tracked sample lands before the mesh fit stabilizes and before the user has settled
+        // facing the screen, and whatever offset existed in that instant became "center".
+        private const val NEUTRAL_CALIBRATION_SAMPLES = 20
     }
 
-    private var faceTrackingJob: Job? = null
     private val viewModelJob = SupervisorJob()
     private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
@@ -159,6 +174,14 @@ class FaceTrackingViewModel(
     private var isTablet = false
     private var lastDetectedFaceTime = 0L
 
+    // Neutral head position (depth-normalized image-space), averaged over the first
+    // NEUTRAL_CALIBRATION_SAMPLES tracked samples - see onSceneUpdate. Cleared on tracking
+    // loss so re-acquisition recalibrates.
+    private var neutralHeadPosition: FloatArray? = null
+    private var neutralSumX = 0f
+    private var neutralSumY = 0f
+    private var neutralSampleCount = 0
+
     // Track the last hovered target to handle enter/exit events
     private var lastTarget: ComposeGazeTarget? = null
 
@@ -221,7 +244,7 @@ class FaceTrackingViewModel(
         Choreographer.getInstance().postFrameCallback(pidTickCallback)
     }
 
-    fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?) {
+    fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?, cameraPose: Pose?) {
         // A frame from a tracker that's being torn down mid-engine-switch must not fight the
         // newly selected engine for latestRawTarget.
         if (uiState.value.trackingEngine != TrackingEngine.ARCORE) return
@@ -248,6 +271,10 @@ class FaceTrackingViewModel(
                 // fresh at the new position.
                 pidFilter.reset()
                 latestRawTarget = null
+                neutralHeadPosition = null
+                neutralSumX = 0f
+                neutralSumY = 0f
+                neutralSampleCount = 0
             }
             return
         }
@@ -256,21 +283,68 @@ class FaceTrackingViewModel(
             updateState { copy(showError = false) }
         }
 
-        if (faceTrackingJob != null && faceTrackingJob?.isActive == true) {
-            return
-        }
+        if (cameraPose == null) return
 
+        // Runs inline on the caller's thread, not a background job: the per-sample math is a
+        // pose compose plus a few multiplies, and the old launch-and-skip-if-busy pattern
+        // (from when this path did heavy region-pose work) silently dropped camera frames
+        // whenever dispatcher scheduling lagged - every sample ARCore produces should reach
+        // the filter.
         augmentedFaces?.firstOrNull()?.let { augmentedFace ->
-            faceTrackingJob = backgroundScope.launch {
-                val pose = augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP)
-                val zAxis = pose.zAxis
-                val x = zAxis[0]
-                val y = zAxis[1]
-                val z = -zAxis[2]
+            run {
+                // POSITION-based tracking, not orientation-based. The engine comparison (#678)
+                // isolated a yaw->pitch cross-error in ARCore's face ORIENTATION estimate: the
+                // cursor swooped vertically during horizontal turns, and the artifact survived
+                // every consumption-side fix (centerPose, angle decomposition, velocity
+                // gating, and finally a port of iOS's exact camera-relative ray projection) -
+                // placing it in the orientation estimate itself. iOS doesn't show it because
+                // iPhones face-track with the TrueDepth depth sensor; ARCore fits a mesh to
+                // flat RGB, and an orientation derived from that fit bends under yaw. Directly
+                // OBSERVED positions don't: MediaPipe FaceDetector's image-space landmark
+                // position showed no swoop and "perfect" horizontal feel on-device. This path
+                // is that same signal shape from the shipped engine: the nose-tip's position
+                // in the camera's display-oriented frame, normalized by depth (= image-space
+                // position, distance-invariant), relative to a neutral captured at tracking
+                // start.
+                val noseInCamera = cameraPose.inverse()
+                    .compose(augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP))
+                val position = noseInCamera.translation
+                val depth = abs(position[2]).coerceAtLeast(0.05f)
+                val imageX = position[0] / depth
+                val imageY = position[1] / depth
+
+                // Neutral = average of the first NEUTRAL_CALIBRATION_SAMPLES tracked samples
+                // (the user looks at the screen while tracking starts). The cursor holds
+                // screen-center while calibrating. Cleared on tracking loss alongside the
+                // filter reset, so re-acquisition recalibrates rather than resuming a stale
+                // offset.
+                val neutral = neutralHeadPosition
+                if (neutral == null) {
+                    neutralSumX += imageX
+                    neutralSumY += imageY
+                    neutralSampleCount++
+                    if (neutralSampleCount >= NEUTRAL_CALIBRATION_SAMPLES) {
+                        neutralHeadPosition = floatArrayOf(
+                            neutralSumX / neutralSampleCount,
+                            neutralSumY / neutralSampleCount,
+                        )
+                        neutralSumX = 0f
+                        neutralSumY = 0f
+                        neutralSampleCount = 0
+                    }
+                    latestRawTarget = Vector3(0f, 0f, 0f)
+                    return@run
+                }
+
+                // Y sign confirmed on-device (x was correct as-is, y read reversed) - the
+                // display-oriented camera frame's +y and convertCoordSystems' inversion stack
+                // up such that the raw offset is already screen-directional for y.
+                val x = (imageX - neutral[0]) * ARCORE_POSITION_AMPLITUDE_X
+                val y = (imageY - neutral[1]) * ARCORE_POSITION_AMPLITUDE_Y
 
                 // Hand off to the PID tick loop (see init{}) rather than smoothing here -
                 // that loop ticks independently of how often a new ARCore sample arrives.
-                latestRawTarget = Vector3(x, y, z)
+                latestRawTarget = Vector3(x, y, 0f)
             }
         }
     }

@@ -25,6 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.ar.core.AugmentedFace
+import com.google.ar.core.CameraConfig
+import com.google.ar.core.CameraConfigFilter
 import com.google.ar.core.Config
 import com.google.ar.core.Frame
 import com.google.ar.core.Session
@@ -35,6 +37,7 @@ import io.github.sceneview.ar.ARScene
 import io.github.sceneview.ar.node.ARCameraNode
 import io.github.sceneview.ar.rememberARCameraNode
 import io.github.sceneview.rememberEngine
+import timber.log.Timber
 import java.util.EnumSet
 
 /**
@@ -64,9 +67,11 @@ private fun FaceTrackingContent(
     if (!state.headTrackingEnabled) return
 
     Box(modifier = Modifier.fillMaxSize()) {
-        VocableARScene(cameraNode = cameraNode) { session, _ ->
+        VocableARScene(cameraNode = cameraNode) { session, frame ->
             val faces = session.getAllTrackables(AugmentedFace::class.java)
-            viewModel.onSceneUpdate(faces)
+            // displayOrientedPose: camera pose whose axes follow the display rotation, so the
+            // ViewModel's camera-relative ray projection lands in screen-aligned coordinates.
+            viewModel.onSceneUpdate(faces, frame.camera.displayOrientedPose)
         }
 
         GazePointer(
@@ -125,6 +130,22 @@ fun VocableARScene(cameraNode: ARCameraNode, onSessionUpdated: (Session, Frame) 
             config.focusMode = Config.FocusMode.AUTO
             config.augmentedFaceMode = Config.AugmentedFaceMode.MESH3D
             session.configure(config)
+
+            // Request 60fps camera capture where the hardware offers it - ARCore defaults to
+            // 30fps, and the raw sample rate is the tracking pipeline's fidelity floor (the
+            // PID tick runs at display refresh and interpolates whatever cadence arrives).
+            // Degrades to the default config on devices without a 60fps option, and to 30fps
+            // if ARCore rejects the change for session-state timing (setting cameraConfig
+            // requires a paused session; sceneview's callback timing isn't contractual).
+            runCatching {
+                val sixtyFpsConfigs = session.getSupportedCameraConfigs(
+                    CameraConfigFilter(session)
+                        .setTargetFps(EnumSet.of(CameraConfig.TargetFps.TARGET_FPS_60))
+                )
+                if (sixtyFpsConfigs.isNotEmpty()) {
+                    session.cameraConfig = sixtyFpsConfigs.first()
+                }
+            }.onFailure { Timber.w(it, "60fps camera config not applied; staying on default") }
         },
         onSessionUpdated = { session, frame -> onSessionUpdated(session, frame) },
         cameraNode = cameraNode,

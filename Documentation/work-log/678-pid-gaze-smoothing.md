@@ -82,13 +82,29 @@ Pulse's integral damping or quiescence detection.
   two then-unfixed bugs (delay-loop dt jitter, pre-filter y scaling). With those fixed, iOS's
   literal 0.010 works at our measured (~0.013 peak-to-peak per axis) noise floor and is what
   ships. Don't rescale it again without re-measuring.
-- "Fast x-movement causes diagonal drift" was investigated with raw-signal capture: **no
-  systematic velocity- or position-coupling exists** (corr ≈ 0; per-sweep y drift has both
-  signs). The visible effect is genuine small head pitch wobble during fast turns, amplified by
-  the y-scaling stack (×2 phone × 1.5 base × sensitivity ≈ 3.9× vs x's 2.6×) — a pre-existing,
-  shipped characteristic that predates this ticket. Deliberately not addressed here: rebalancing
-  y/x amplitude changes corner reachability, and dominant-axis suppression would harm users who
-  can't produce clean single-axis movements. Candidate follow-up ticket if user reports recur.
+- **The "swoop" investigation, and why tracking is now position-based, not orientation-based.**
+  On-device, the cursor swooped vertically during horizontal head turns (absent on iOS). Fixes
+  tried against the ORIENTATION signal, in order, all failed: `centerPose` instead of the
+  nose-region pose (no change), yaw/pitch angle decomposition via `atan2`/`asin` to cancel the
+  `sin(yaw)·cos(pitch)` component coupling (no change), yaw-velocity-gated pitch trust (no
+  change), and finally a faithful port of iOS's actual projection math — camera-relative
+  ray-plane intersection from `HeadGazeTrackingInterpolator.swift`, which Android had never
+  ported (reduced but did not eliminate it). Conclusion: the artifact lives in ARCore's face
+  *orientation estimate itself* — a mesh fit to flat RGB bends under yaw in a way iPhone's
+  TrueDepth-sensed orientation doesn't. Directly *observed positions* don't have the artifact:
+  MediaPipe FaceDetector's image-space landmark position showed zero swoop and "perfect"
+  horizontal feel in the engine comparison. The shipped path now uses that same signal shape
+  from ARCore: the nose-tip's *position* in the camera's display-oriented frame, depth-
+  normalized (distance-invariant), relative to a neutral averaged over the first ~0.7s of
+  tracking (a single-first-frame neutral rested visibly off-center). All experiments preserved
+  on `experiment/678-swoop-investigation`.
+- **Known characteristics of position tracking, flagged for product before ship:** (a) moving
+  or tilting the *device* moves the cursor — inherent to camera-relative tracking with no
+  world tracking in ARCore front-camera sessions, and iOS behaves the same way (ARKit face
+  config defaults to no world tracking); mounted-device usage makes this a non-issue in
+  practice, and breaking tracking for ~1s recalibrates the neutral. (b) Users with very
+  limited neck rotation get less signal than orientation-based tracking gave them (the nose
+  travels on a lever arm) — the accessibility population question product should weigh in on.
 
 ## Debug-only tracking-engine comparison toggle
 
