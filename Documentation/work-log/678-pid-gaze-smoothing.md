@@ -147,13 +147,63 @@ Mechanics worth knowing:
   3a-class devices, and live engine switching exercises a camera hand-off (ARCore/SceneView vs
   CameraX both want the front camera) that had a suspected race in the spike.
 
+## Pre-PR review round (2026-08-14)
+
+A senior Kotlin/math review of the branch (separate session) confirmed the filter port's math
+and surfaced real findings; all were fixed on this branch before the PR opened:
+
+- **Wake confirmation counted vsync ticks, not distinct samples.** The PID tick runs at display
+  refresh but ARCore samples slower, so the same raw sample is re-filtered across ~2 ticks at
+  60Hz/30fps and ~4 at 120Hz/30fps — on a high-refresh display, ONE noisy sample could satisfy
+  `wakeConfirmationTicks = 3` by itself, resurrecting exactly the at-rest drift the mechanism
+  exists to prevent. Fixed: `PIDFilter.filter()` takes `isNewSample`, and the tick loop derives
+  it from reference identity (`HeadPositionTracker` returns a fresh `GazePoint` per sample).
+- **The documented threading model was wrong (the code was safe, the comments weren't).**
+  Verified from sceneview 2.3.3 sources: `onSessionUpdated` is invoked from `ARSceneView.onFrame`,
+  a *main-thread* `Choreographer.FrameCallback` — there is no background "session-update thread",
+  and the old "written from the background face-tracking coroutine" comment was stale. Everything
+  is main-thread-confined, which is load-bearing (`pidFilter.reset()` from the scene-update path
+  mutates state the tick loop reads). `@Volatile` dropped; the invariant is now documented on the
+  ViewModel.
+- **Stale neutral/filter survived a head-tracking disable→re-enable.** The AR scene leaves
+  composition while disabled; re-enabling starts a new ARCore session against the *old* neutral
+  (device/user usually moved), leaving the cursor off-center until a ≥1s tracking loss happened
+  to recalibrate. Fixed: the disabled→enabled transition resets filter + neutral + target.
+- **dt was truncated to milliseconds** — at 120Hz that's alternating 8/9ms, ±6% dt jitter fed
+  into the exact dt-dividing terms the Choreographer move was made to protect. The filter API now
+  takes nanoseconds (`frameTimeNanos` passthrough).
+- **The tick loop ran at vsync forever** (even for touch-only users with head tracking off).
+  It now stops itself when there's no target or tracking is disabled and restarts on the next
+  sample — same reason Pulse pauses its `CADisplayLink`.
+- **60fps camera-config selection took `first()` arbitrarily**, which could change capture
+  resolution as a side effect; it now prefers the config matching the session's current image
+  size.
+- **Testability refactor**, closing the repo-baseline gap on `FaceTrackingViewModel`: constructor
+  injection replaces `KoinComponent`/`inject`/`get<Context>()`; the neutral-calibration and
+  position-mapping math moved to `core/HeadPositionTracker` (pure, JVM-testable); the vsync
+  source is a `FrameClock` interface (`ChoreographerFrameClock` in prod, `FakeFrameClock` in
+  tests); the ad hoc `backgroundScope` is gone in favor of `viewModelScope`. `GazePoint` (with
+  value equality) replaces `Vector3` in the smoothing path, so `StateFlow` dedups frozen-output
+  ticks natively — the manual last-emitted tracking is deleted. New tests:
+  `HeadPositionTrackerTest` (6), `FaceTrackingViewModelTest` (7, driving the full
+  sample→calibrate→tick→emit pipeline through the `onHeadSample` seam), plus new `PIDFilterTest`
+  cases pinning the +Kd momentum sign (so a well-meaning "fix" fails a test), the 1s catch-up
+  cap, and stale-sample wake counting.
+
+Deliberately NOT changed, reviewer-confirmed as Pulse/iOS parity: the +Kd momentum D-term sign,
+`minimumValueStep = 0.010`, post-filter y×2 scaling, and the per-tick (not per-second)
+`integral *= 0.9` damping. That last one makes integral decay refresh-rate-dependent — iOS has
+the identical property on ProMotion — see the verification gap below.
+
 ## Known verification gap
 
 Validated with unit tests, full `testDebugUnitTest`/`assembleDebug`/`assembleDebugAndroidTest`,
 and extensive on-device iteration on a Pixel 3a (feel/latency/jitter assessed against iOS
 side-by-side through multiple tuning rounds — responsive, stable at rest, smooth settling).
-Not yet validated on a tablet (`is_tablet` path skips the y×2 scaling) or on other phone
-form factors.
+Not yet validated on a tablet (`is_tablet` path skips the y×2 scaling), on other phone form
+factors, or on a high-refresh-rate (90/120Hz) display — the per-tick integral damper decays
+proportionally faster there (faithful to Pulse, same property on iOS ProMotion), so feel should
+be spot-checked on one before ship.
 
 ## Pointers
 
