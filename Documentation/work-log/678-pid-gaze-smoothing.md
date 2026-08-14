@@ -116,33 +116,34 @@ was already known hardware-limited (~15fps) from the spike. The full tooling liv
 commit `9dd1bd65` on this branch's history - a future engine evaluation should revert the
 removal commit rather than rebuild it. Original design notes kept below for that future reader.
 
-To complete the ticket's on-device assessment AC - and to answer "which tracking source best
-feeds this PID" with a live A/B instead of separate builds - the branch also adds an engine
-selector (ARCore / MediaPipe FaceDetector / MediaPipe FaceLandmarker) to the Timing &
-Sensitivity screen, gated on `BuildConfig.DEBUG`. All three engines feed the same PID pipeline,
-so the comparison isolates exactly one variable: the tracking source. Note #678's Out-of-Scope
-originally listed MediaPipe FaceDetector; it's pulled in here strictly as evaluation tooling,
-not shipped behavior - whether the menu stays long-term is a question for product once the
-engine decision is made.
+Everything below describes the tooling AS IT EXISTED at `9dd1bd65` - none of it is in the
+final diff. To complete the ticket's on-device assessment AC - and to answer "which tracking
+source best feeds this PID" with a live A/B instead of separate builds - the branch temporarily
+added an engine selector (ARCore / MediaPipe FaceDetector / MediaPipe FaceLandmarker) to the
+Timing & Sensitivity screen, gated on `BuildConfig.DEBUG`. All three engines fed the same PID
+pipeline, so the comparison isolated exactly one variable: the tracking source. Note #678's
+Out-of-Scope originally listed MediaPipe FaceDetector; it was pulled in strictly as evaluation
+tooling, never shipped behavior.
 
-**The isolation is artifact-level, not just a runtime flag.** The MediaPipe/CameraX libraries
-are `debugImplementation`; the trackers, comparison screens, and model assets (~230KB
-FaceDetector `.tflite`, ~3.7MB FaceLandmarker `.task`) live in `app/src/debug/`; MainActivity
-bridges to the debug screens via a source-set-split composable
+**The isolation was artifact-level, not just a runtime flag.** The MediaPipe/CameraX libraries
+were `debugImplementation`; the trackers, comparison screens, and model assets (~230KB
+FaceDetector `.tflite`, ~3.7MB FaceLandmarker `.task`) lived in `app/src/debug/`; MainActivity
+bridged to the debug screens via a source-set-split composable
 (`DebugEngineTrackingScreen` - real host in `src/debug`, empty stub in `src/release`); and
-`FaceTrackingViewModel` takes engine input through an engine-agnostic
-`onDebugEngineUpdate(x, y)` so no MediaPipe type appears in main source. Verified: release
-compiles with **zero** MediaPipe/CameraX entries on `releaseRuntimeClasspath` (13 in debug).
+`FaceTrackingViewModel` took engine input through an engine-agnostic
+`onDebugEngineUpdate(x, y)` so no MediaPipe type appeared in main source. Verified at the time:
+release compiled with **zero** MediaPipe/CameraX entries on `releaseRuntimeClasspath` (13 in
+debug).
 
-Mechanics worth knowing:
-- Engine choice persists via a debug-only pref (`KEY_DEBUG_TRACKING_ENGINE`); switching resets
+Mechanics a future revival should know:
+- Engine choice persisted via a debug-only pref (`KEY_DEBUG_TRACKING_ENGINE`); switching reset
   the PID filter and raw target (engines' signals aren't in the same coordinate space - carrying
   filter history across a switch would swoop the cursor between unrelated positions).
-- Each engine's calibration/remap constants live with its adapter in the debug source set, with
-  y-amplitudes halved vs. the #629 spike's values because the PID tick loop now applies the
-  phone `y * 2` reachability scaling to every engine's output (the spike's paths never had it).
-- `onSceneUpdate` ignores frames when a non-ARCore engine is selected (and vice versa), so a
-  tracker being torn down mid-switch can't fight the new engine for the cursor.
+- Each engine's calibration/remap constants lived with its adapter in the debug source set, with
+  y-amplitudes halved vs. the #629 spike's values because the PID tick loop applies the phone
+  `y * 2` reachability scaling to every engine's output (the spike's paths never had it).
+- `onSceneUpdate` ignored frames when a non-ARCore engine was selected (and vice versa), so a
+  tracker being torn down mid-switch couldn't fight the new engine for the cursor.
 - The spike's known caveats still apply: FaceLandmarker hit a ~15fps hardware ceiling on Pixel
   3a-class devices, and live engine switching exercises a camera hand-off (ARCore/SceneView vs
   CameraX both want the front camera) that had a suspected race in the spike.
