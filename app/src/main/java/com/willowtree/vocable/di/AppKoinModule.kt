@@ -1,8 +1,12 @@
 package com.willowtree.vocable.di
 
+import android.content.Context
+import android.view.accessibility.AccessibilityManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.willowtree.vocable.MainActivity
+import com.willowtree.vocable.R
+import com.willowtree.vocable.core.ChoreographerFrameClock
 import com.willowtree.vocable.core.DateProvider
 import com.willowtree.vocable.core.FaceTrackingManager
 import com.willowtree.vocable.core.FaceTrackingPermissions
@@ -81,7 +85,18 @@ val vocableKoinModule = module {
         }
 
         scoped { FaceTrackingManager(get(), get()) }
-        viewModel { FaceTrackingViewModel(get()) }
+        viewModel {
+            val appContext = androidContext().applicationContext
+            val accessibilityManager =
+                appContext.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+            FaceTrackingViewModel(
+                headTrackingPermissions = get(),
+                sharedPrefs = get(),
+                isTablet = appContext.resources.getBoolean(R.bool.is_tablet),
+                isAccessibilityEnabled = { accessibilityManager.isEnabled },
+                frameClock = ChoreographerFrameClock(),
+            )
+        }
         viewModel { SelectionModeViewModel(get()) }
     }
 

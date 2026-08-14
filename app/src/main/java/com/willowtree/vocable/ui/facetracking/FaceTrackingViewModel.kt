@@ -1,81 +1,68 @@
 package com.willowtree.vocable.ui.facetracking
 
-import android.content.Context
 import android.content.SharedPreferences
-import android.view.Choreographer
-import android.view.accessibility.AccessibilityManager
 import androidx.compose.ui.geometry.Offset
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.viewModelScope
 import com.google.ar.core.AugmentedFace
 import com.google.ar.core.Pose
-import com.willowtree.vocable.R
-import com.willowtree.vocable.ui.base.BaseViewModel
 import com.willowtree.vocable.core.ComposeGazeTarget
+import com.willowtree.vocable.core.FrameClock
 import com.willowtree.vocable.core.GazeInteractionManager
+import com.willowtree.vocable.core.GazePIDFilter
+import com.willowtree.vocable.core.GazePoint
+import com.willowtree.vocable.core.HeadPositionTracker
 import com.willowtree.vocable.core.IFaceTrackingPermissions
-import com.willowtree.vocable.core.Vector3PIDFilter
+import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.core.VocableSharedPreferences
 import com.willowtree.vocable.core.isEnabled
+import com.willowtree.vocable.ui.base.BaseViewModel
 import com.willowtree.vocable.ui.sensitivity.SensitivityViewModel
-import io.github.sceneview.collision.Vector3
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-import org.koin.core.component.inject
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
+/**
+ * THREADING: everything in this class runs on the main thread, and that confinement is
+ * load-bearing. sceneview (2.3.3) drives [onSceneUpdate] from `ARSceneView.onFrame`, a
+ * main-thread `Choreographer.FrameCallback` that calls `session.update()` synchronously -
+ * verified in its sources; there is no separate "ARCore session thread" delivering it. The PID
+ * tick ([FrameClock]) is the same main-thread Choreographer. [onSceneUpdate]'s reset path
+ * mutates the same filter/tracker state the tick loop reads, which is safe only because both
+ * run on the main thread - if a sceneview upgrade ever moves session updates off-main, this
+ * class needs real synchronization, not sprinkled `@Volatile`.
+ */
 class FaceTrackingViewModel(
     headTrackingPermissions: IFaceTrackingPermissions,
-) : BaseViewModel<FaceTrackingState, FaceTrackingEvent>(FaceTrackingState()), LifecycleObserver, KoinComponent {
+    private val sharedPrefs: IVocableSharedPreferences,
+    private val isTablet: Boolean,
+    private val isAccessibilityEnabled: () -> Boolean,
+    private val frameClock: FrameClock,
+) : BaseViewModel<FaceTrackingState, FaceTrackingEvent>(FaceTrackingState()) {
 
     companion object {
         private const val FACE_DETECTION_TIMEOUT = 1000
-
-        // Gain applied to the depth-normalized nose-position offset (see onSceneUpdate). The
-        // position signal is ~4x weaker per degree of head rotation than the old orientation
-        // components (the nose swings on a ~10cm lever arm around the neck at ~40cm from the
-        // device), so these are correspondingly larger. Y is half of X because the PID tick
-        // loop applies the phone `y * 2` reachability scaling on the smoothed output.
-        private const val ARCORE_POSITION_AMPLITUDE_X = 4f
-        private const val ARCORE_POSITION_AMPLITUDE_Y = 2f
-
-        // Samples averaged before the neutral position locks (~0.7s at ARCore's ~30fps). A
-        // single-first-frame neutral was tried and rested visibly off-center: ARCore's first
-        // tracked sample lands before the mesh fit stabilizes and before the user has settled
-        // facing the screen, and whatever offset existed in that instant became "center".
-        private const val NEUTRAL_CALIBRATION_SAMPLES = 20
     }
-
-    private val viewModelJob = SupervisorJob()
-    private val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     // Defaults match iOS's actual production PID constants (HeadGazeTrackingInterpolator.swift
     // / PIDInterpolator.swift, via the vendored Pulse library) - that PID is genuinely live in
     // shipped iOS builds today, not a guess. Replaces the old fixed-fraction Vector3.lerp.
-    private val pidFilter = Vector3PIDFilter()
+    private val pidFilter = GazePIDFilter()
 
-    // Latest raw (unsmoothed) nose-tip vector from ARCore - the PID tick loop below reads this
-    // on its own schedule rather than being driven directly by onSceneUpdate. Volatile: written
-    // from the background face-tracking coroutine, read from the Choreographer callback on the
-    // main thread.
-    @Volatile
-    private var latestRawTarget: Vector3? = null
+    private val positionTracker = HeadPositionTracker()
 
-    // Last values pushed into state by the tick loop - lets frozen-output ticks skip emission
-    // entirely. Vector3 doesn't override equals, so without this every 60Hz tick would push a
-    // distinct-but-identical object through the StateFlow and recompose the cursor at rest
-    // (Pulse pauses its CADisplayLink at quiescence for the same reason).
-    private var lastEmittedX = Float.NaN
-    private var lastEmittedY = Float.NaN
-    private var lastEmittedZ = Float.NaN
+    // Latest raw (unsmoothed) gaze sample - the PID tick loop reads this on its own schedule
+    // rather than being driven directly by onSceneUpdate. Every sample is a fresh GazePoint
+    // instance, so the tick loop can use reference identity to tell a genuinely new sample
+    // from the same one re-presented across vsync frames - the filter's wake-confirmation
+    // counting depends on that distinction (see PIDFilter's class doc).
+    private var latestRawTarget: GazePoint? = null
+    private var lastFilteredSample: GazePoint? = null
 
-    // Ticks the PID filter on Choreographer's vsync callback (Android's actual equivalent of
+    private var isTicking = false
+
+    // Ticks the PID filter on the display's vsync callback (Android's actual equivalent of
     // iOS's CADisplayLink) instead of once per incoming ARCore frame or an approximated
     // delay()-based loop. Two reasons this matters, not just one: (1) ARCore's AugmentedFace
     // updates land at ~30fps, under a typical display's refresh rate, so a per-frame-only tick
@@ -84,37 +71,45 @@ class FaceTrackingViewModel(
     // math divides/multiplies by dt every tick, that timing jitter injects real noise into the
     // integral/derivative terms - confirmed on-device as visible overshoot/bounce before the
     // cursor settled, not just a quiescence-threshold flicker.
-    private val pidTickCallback = object : Choreographer.FrameCallback {
-        override fun doFrame(frameTimeNanos: Long) {
-            val target = latestRawTarget
-            if (target != null && uiState.value.headTrackingEnabled) {
-                val timestampMs = frameTimeNanos / 1_000_000L
-                val (fx, fy, fz) = pidFilter.filter(target.x, target.y, target.z, timestampMs)
+    //
+    // The loop stops itself when there's no target or head tracking is off, and onHeadSample
+    // restarts it with the next sample - otherwise a self-reposting vsync callback keeps the
+    // main thread waking at refresh rate for the ViewModel's whole life even for touch-only
+    // users (Pulse pauses its CADisplayLink for the same reason).
+    private val onPidFrame: (Long) -> Unit = ::tickPidFilter
 
-                // Reachability scaling applied to the smoothed output, not the raw input feeding
-                // the filter - doing it before smoothing doubled y's raw noise floor right along
-                // with the signal (confirmed on-device: y drifted at rest while x stayed put),
-                // since minimumValueStep's deadband was sized for x's unscaled noise floor.
-                val scaledY = if (!isTablet) fy * 2F else fy
-
-                if (fx != lastEmittedX || scaledY != lastEmittedY || fz != lastEmittedZ) {
-                    lastEmittedX = fx
-                    lastEmittedY = scaledY
-                    lastEmittedZ = fz
-                    val adjustedVector = Vector3(fx, scaledY, fz)
-                    updateState { copy(adjustedVector = adjustedVector) }
-                    liveAdjustedVector.value = adjustedVector
-                }
-            }
-            Choreographer.getInstance().postFrameCallback(this)
+    private fun tickPidFilter(frameTimeNanos: Long) {
+        val target = latestRawTarget
+        if (target == null || !uiState.value.headTrackingEnabled) {
+            isTicking = false
+            return
         }
+
+        val isNewSample = target !== lastFilteredSample
+        lastFilteredSample = target
+        val smoothed = pidFilter.filter(target.x, target.y, frameTimeNanos, isNewSample)
+
+        // Reachability scaling applied to the smoothed output, not the raw input feeding the
+        // filter - doing it before smoothing doubled y's raw noise floor right along with the
+        // signal (confirmed on-device: y drifted at rest while x stayed put), since
+        // minimumValueStep's deadband was sized for x's unscaled noise floor.
+        val scaled = if (!isTablet) GazePoint(smoothed.x, smoothed.y * 2f) else smoothed
+
+        // GazePoint has value equality, so the StateFlow dedups frozen-output ticks by itself -
+        // no emission, no recomposition of the cursor at rest.
+        _adjustedVector.value = scaled
+
+        frameClock.requestFrame(onPidFrame)
     }
 
-    private val liveAdjustedVector = MutableStateFlow<Vector3?>(null)
-    val adjustedVector : StateFlow<Vector3?> = liveAdjustedVector
+    private fun startTicking() {
+        if (isTicking) return
+        isTicking = true
+        frameClock.requestFrame(onPidFrame)
+    }
 
-    private val sharedPrefs: VocableSharedPreferences by inject()
-    private var headTrackingEnabled = true
+    private val _adjustedVector = MutableStateFlow<GazePoint?>(null)
+    val adjustedVector: StateFlow<GazePoint?> = _adjustedVector.asStateFlow()
 
     // The user's Low/Medium/High sensitivity setting, as a cursor-travel amplitude multiplier.
     // This matches what "sensitivity" means on iOS (CursorSensitivity.swift scales the
@@ -126,7 +121,7 @@ class FaceTrackingViewModel(
 
     // Stored values are the lerp-era constants (0.05/0.10/0.15) written verbatim by
     // SensitivityViewModel; multipliers mirror iOS's CursorSensitivity range midpoints
-    // (3.0/4.0/5.25) relative to Medium.
+    // (3.0/4.0/5.25) relative to Medium. Any unrecognized stored value falls back to Medium.
     private fun sensitivityToAmplitude(storedSensitivity: Float): Float = when (storedSensitivity) {
         SensitivityViewModel.LOW_SENSITIVITY -> 0.75f
         SensitivityViewModel.HIGH_SENSITIVITY -> 1.3f
@@ -141,29 +136,37 @@ class FaceTrackingViewModel(
                 }
 
                 VocableSharedPreferences.KEY_HEAD_TRACKING_ENABLED -> {
-                    headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
-                    updateState { copy(headTrackingEnabled = headTrackingEnabled) }
+                    setHeadTrackingEnabled(sharedPrefs.getHeadTrackingEnabled())
                 }
             }
         }
 
-    private var isTablet = false
-    private var lastDetectedFaceTime = 0L
+    private fun setHeadTrackingEnabled(enabled: Boolean) {
+        if (enabled && !uiState.value.headTrackingEnabled) {
+            // Re-enabling composes a brand-new ARCore session (the AR scene leaves composition
+            // entirely while disabled), and the neutral, filter history, and raw target are
+            // camera-frame quantities from the previous session - the device or user has
+            // usually moved in between, and nothing else clears them (the tracking-loss reset
+            // below only runs while enabled). Without this, the cursor rests off-center after
+            // a re-enable until a >=1s tracking loss happens to recalibrate.
+            resetTracking()
+        }
+        updateState { copy(headTrackingEnabled = enabled) }
+    }
 
-    // Neutral head position (depth-normalized image-space), averaged over the first
-    // NEUTRAL_CALIBRATION_SAMPLES tracked samples - see onSceneUpdate. Cleared on tracking
-    // loss so re-acquisition recalibrates.
-    private var neutralHeadPosition: FloatArray? = null
-    private var neutralSumX = 0f
-    private var neutralSumY = 0f
-    private var neutralSampleCount = 0
+    private fun resetTracking() {
+        pidFilter.reset()
+        positionTracker.reset()
+        latestRawTarget = null
+        lastFilteredSample = null
+    }
+
+    private var lastDetectedFaceTime = 0L
 
     // Track the last hovered target to handle enter/exit events
     private var lastTarget: ComposeGazeTarget? = null
 
-    private val accessibilityManager = get<Context>().applicationContext.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-
-    fun convertCoordSystems(vector: Vector3, screenHeightPx: Float, screenWidthPx: Float) : Offset {
+    fun convertCoordSystems(vector: GazePoint, screenHeightPx: Float, screenWidthPx: Float): Offset {
         // Invert X axis logic: (1.0f - vector.x) instead of (vector.x + 1.0f)
         // Apply scaling factor to make it easier to reach corners; the user's Low/Medium/High
         // sensitivity setting multiplies these base factors (see sensitivityAmplitude).
@@ -175,11 +178,11 @@ class FaceTrackingViewModel(
         return Offset(pixelX, pixelY)
     }
 
-    fun intersect(offset: Offset) : ComposeGazeTarget? {
+    fun intersect(offset: Offset): ComposeGazeTarget? {
         val targets = GazeInteractionManager.getTargets()
         val x = offset.x.roundToInt()
         val y = offset.y.roundToInt()
-        
+
         // Find the first target containing the point.
         return targets.firstOrNull { it.bounds.contains(x, y) }
     }
@@ -189,10 +192,10 @@ class FaceTrackingViewModel(
             lastTarget?.onExit?.invoke()
             lastTarget = target
             target?.onEnter?.invoke()
-            
+
             // Announce accessibility label if available
             target?.accessibilityLabel?.let { label ->
-                if (accessibilityManager.isEnabled) {
+                if (isAccessibilityEnabled()) {
                     sendEvent(FaceTrackingEvent.Speak(label))
                 }
             }
@@ -201,20 +204,14 @@ class FaceTrackingViewModel(
 
     init {
         sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
-        isTablet = get<Context>().resources.getBoolean(R.bool.is_tablet)
-        headTrackingEnabled = sharedPrefs.getHeadTrackingEnabled()
         sensitivityAmplitude = sensitivityToAmplitude(sharedPrefs.getSensitivity())
-        updateState { copy(headTrackingEnabled = headTrackingEnabled) }
+        setHeadTrackingEnabled(sharedPrefs.getHeadTrackingEnabled())
 
-        // Collect permission state
-        backgroundScope.launch {
+        viewModelScope.launch {
             headTrackingPermissions.permissionState.collect { state ->
-                val enabled = state.isEnabled()
-                updateState { copy(headTrackingEnabled = enabled) }
+                setHeadTrackingEnabled(state.isEnabled())
             }
         }
-
-        Choreographer.getInstance().postFrameCallback(pidTickCallback)
     }
 
     fun onSceneUpdate(augmentedFaces: Collection<AugmentedFace>?, cameraPose: Pose?) {
@@ -237,13 +234,9 @@ class FaceTrackingViewModel(
                 // Matches iOS's needsResetOnNextUpdate on tracking loss: without this, the
                 // filter's integral/derivative history spans the gap and the cursor swoops in
                 // from its stale position when the face is re-acquired, instead of starting
-                // fresh at the new position.
-                pidFilter.reset()
-                latestRawTarget = null
-                neutralHeadPosition = null
-                neutralSumX = 0f
-                neutralSumY = 0f
-                neutralSampleCount = 0
+                // fresh at the new position - and re-acquisition recalibrates the neutral
+                // rather than resuming a stale offset.
+                resetTracking()
             }
             return
         }
@@ -254,73 +247,33 @@ class FaceTrackingViewModel(
 
         if (cameraPose == null) return
 
-        // Runs inline on the caller's thread, not a background job: the per-sample math is a
-        // pose compose plus a few multiplies, and the old launch-and-skip-if-busy pattern
+        // Runs inline on the caller's (main) thread, not a background job: the per-sample math
+        // is a pose compose plus a few multiplies, and the old launch-and-skip-if-busy pattern
         // (from when this path did heavy region-pose work) silently dropped camera frames
         // whenever dispatcher scheduling lagged - every sample ARCore produces should reach
         // the filter.
-        augmentedFaces?.firstOrNull()?.let { augmentedFace ->
-            run {
-                // POSITION-based tracking, not orientation-based. The engine comparison (#678)
-                // isolated a yaw->pitch cross-error in ARCore's face ORIENTATION estimate: the
-                // cursor swooped vertically during horizontal turns, and the artifact survived
-                // every consumption-side fix (centerPose, angle decomposition, velocity
-                // gating, and finally a port of iOS's exact camera-relative ray projection) -
-                // placing it in the orientation estimate itself. iOS doesn't show it because
-                // iPhones face-track with the TrueDepth depth sensor; ARCore fits a mesh to
-                // flat RGB, and an orientation derived from that fit bends under yaw. Directly
-                // OBSERVED positions don't: MediaPipe FaceDetector's image-space landmark
-                // position showed no swoop and "perfect" horizontal feel on-device. This path
-                // is that same signal shape from the shipped engine: the nose-tip's position
-                // in the camera's display-oriented frame, normalized by depth (= image-space
-                // position, distance-invariant), relative to a neutral captured at tracking
-                // start.
-                val noseInCamera = cameraPose.inverse()
-                    .compose(augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP))
-                val position = noseInCamera.translation
-                val depth = abs(position[2]).coerceAtLeast(0.05f)
-                val imageX = position[0] / depth
-                val imageY = position[1] / depth
+        val augmentedFace = augmentedFaces?.firstOrNull() ?: return
+        val noseInCamera = cameraPose.inverse()
+            .compose(augmentedFace.getRegionPose(AugmentedFace.RegionType.NOSE_TIP))
+        val position = noseInCamera.translation
+        onHeadSample(position[0], position[1], position[2])
+    }
 
-                // Neutral = average of the first NEUTRAL_CALIBRATION_SAMPLES tracked samples
-                // (the user looks at the screen while tracking starts). The cursor holds
-                // screen-center while calibrating. Cleared on tracking loss alongside the
-                // filter reset, so re-acquisition recalibrates rather than resuming a stale
-                // offset.
-                val neutral = neutralHeadPosition
-                if (neutral == null) {
-                    neutralSumX += imageX
-                    neutralSumY += imageY
-                    neutralSampleCount++
-                    if (neutralSampleCount >= NEUTRAL_CALIBRATION_SAMPLES) {
-                        neutralHeadPosition = floatArrayOf(
-                            neutralSumX / neutralSampleCount,
-                            neutralSumY / neutralSampleCount,
-                        )
-                        neutralSumX = 0f
-                        neutralSumY = 0f
-                        neutralSampleCount = 0
-                    }
-                    latestRawTarget = Vector3(0f, 0f, 0f)
-                    return@run
-                }
-
-                // Y sign confirmed on-device (x was correct as-is, y read reversed) - the
-                // display-oriented camera frame's +y and convertCoordSystems' inversion stack
-                // up such that the raw offset is already screen-directional for y.
-                val x = (imageX - neutral[0]) * ARCORE_POSITION_AMPLITUDE_X
-                val y = (imageY - neutral[1]) * ARCORE_POSITION_AMPLITUDE_Y
-
-                // Hand off to the PID tick loop (see init{}) rather than smoothing here -
-                // that loop ticks independently of how often a new ARCore sample arrives.
-                latestRawTarget = Vector3(x, y, 0f)
-            }
-        }
+    /**
+     * Engine-agnostic seam: takes the nose-tip translation in the display-oriented camera
+     * frame, no ARCore types - JVM tests drive the full tracking pipeline through here
+     * (AugmentedFace can't be constructed off-device).
+     */
+    internal fun onHeadSample(x: Float, y: Float, z: Float) {
+        latestRawTarget = positionTracker.process(x, y, z)
+        // Hand off to the PID tick loop rather than smoothing here - it ticks at display
+        // refresh, independent of how often a new sample arrives, and stops itself when
+        // there's nothing left to do.
+        startTicking()
     }
 
     override fun onCleared() {
-        viewModelJob.cancel()
-        Choreographer.getInstance().removeFrameCallback(pidTickCallback)
+        frameClock.cancel()
         sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
     }
 }
