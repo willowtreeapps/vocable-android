@@ -143,7 +143,15 @@ fun VocableARScene(cameraNode: ARCameraNode, onSessionUpdated: (Session, Frame) 
                         .setTargetFps(EnumSet.of(CameraConfig.TargetFps.TARGET_FPS_60))
                 )
                 if (sixtyFpsConfigs.isNotEmpty()) {
-                    session.cameraConfig = sixtyFpsConfigs.first()
+                    // The list varies by more than fps (capture resolution, GPU texture size),
+                    // and its order is not contractual - blindly taking the head could change
+                    // resolution as a side effect of requesting 60fps, which affects face-mesh
+                    // quality and CPU load. Only the fps should change: prefer the config whose
+                    // capture resolution matches what the session already chose.
+                    val currentImageSize = session.cameraConfig.imageSize
+                    session.cameraConfig = sixtyFpsConfigs
+                        .firstOrNull { it.imageSize == currentImageSize }
+                        ?: sixtyFpsConfigs.first()
                 }
             }.onFailure { Timber.w(it, "60fps camera config not applied; staying on default") }
         },
