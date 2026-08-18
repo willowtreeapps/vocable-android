@@ -245,7 +245,7 @@ fun SensitivityScreenPreview() {
             onBack = {},
             onSetSensitivity = {},
             onIncreaseDwellTime = {},
-            onDecreaseDwellTime = {}
+            onDecreaseDwellTime = {},
         )
     }
 }
