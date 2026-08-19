@@ -185,7 +185,8 @@ fun VoiceSelectionScreen(
                 Text(
                     text = stringResource(R.string.voice_settings_change_voice),
                     style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        fontSize = dimensionResource(id = R.dimen.settings_title_text_size).value.sp
                     )
                 )
 

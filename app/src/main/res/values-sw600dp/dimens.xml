@@ -103,6 +103,7 @@
     <dimen name="hover_time_end_margin">44dp</dimen>
     <dimen name="timing_title_text_size">48sp</dimen>
     <dimen name="timing_subtitle_text_size">34sp</dimen>
+    <dimen name="hover_time_text_size">34sp</dimen>
     <dimen name="cursor_button_height">88dp</dimen>
     <dimen name="cursor_sensitivity_margin_top">44dp</dimen>
 
@@ -116,6 +117,10 @@
     <dimen name="category_back_button_margin_start">44dp</dimen>
     <dimen name="edit_categories_title_text_size">48sp</dimen>
     <dimen name="edit_categories_title_margin">76dp</dimen>
+    <dimen name="settings_edit_individual_category_text_size">42sp</dimen>
+    <dimen name="edit_category_menu_action_text_size">24sp</dimen>
+    <dimen name="edit_category_phrases_item_text_size">24sp</dimen>
+    <dimen name="head_tracking_paused_text_size">24sp</dimen>
 
     <!-- Edit Categories Options -->
     <dimen name="edit_options_button_width">56dp</dimen>
