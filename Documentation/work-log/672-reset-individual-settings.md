@@ -173,9 +173,13 @@ app-wide, not something new to this pass.
 
 `EditCategoryMenuScreen`'s action list was already conditionally hidden top-down when the screen is
 too short to fit all of them (`visibleActionCount`, capped at 4: Rename, Toggle Show, Edit Phrases,
-Remove). `Reset Category` is a 5th slot, added *after* Remove in priority order (`maxActionCount` is
-5 only for non-custom categories) so an already-tight screen keeps showing the existing four actions
-before revealing the new one, rather than bumping something users already rely on.
+Remove). `Reset Category` is a 5th slot for non-custom categories (`maxActionCount` is 5 only then),
+rendered *above* `Remove Category` — a less-destructive action (restores defaults) reads better
+placed before the fully-destructive one (deletes the category outright). The reveal priority moved
+to match the visual order: `showReset` is now the 4th slot's condition and `showRemove` the 5th (for
+non-custom categories only — for custom categories, which never show Reset, Remove stays the 4th
+slot exactly as before), so a cramped screen still reveals top-to-bottom in the order buttons are
+actually drawn, rather than revealing Remove before the Reset button positioned above it.
 
 ### Removed: the five per-screen reset icons, their dialogs, and their now-dead ViewModel/state code
 

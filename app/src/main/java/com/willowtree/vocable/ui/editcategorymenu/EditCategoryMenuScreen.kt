@@ -123,8 +123,8 @@ private fun EditCategoryMenuContent(
     val showRename = visibleActionCount >= 1
     val showToggle = visibleActionCount >= 2
     val showEditPhrases = visibleActionCount >= 3
-    val showRemove = visibleActionCount >= 4
-    val showReset = isNonCustomCategory && visibleActionCount >= 5
+    val showReset = isNonCustomCategory && visibleActionCount >= 4
+    val showRemove = if (isNonCustomCategory) visibleActionCount >= 5 else visibleActionCount >= 4
 
     ConstraintLayout(
         modifier = Modifier
@@ -264,6 +264,30 @@ private fun EditCategoryMenuContent(
                 }
             }
 
+            if (showReset) {
+                GazeButton(
+                    onClick = { onIntent(EditCategoryMenuIntent.RequestResetCategory) },
+                    backgroundColor = ErrorColor,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(actionButtonHeight)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_reset),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.reset_category),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            }
+
             if (showRemove) {
                 GazeButton(
                     onClick = { onIntent(EditCategoryMenuIntent.DeleteCategory) },
@@ -284,30 +308,6 @@ private fun EditCategoryMenuContent(
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
-            }
-
-            if (showReset) {
-                GazeButton(
-                    onClick = { onIntent(EditCategoryMenuIntent.RequestResetCategory) },
-                    backgroundColor = ErrorColor,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(actionButtonHeight)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_reset),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.reset_category),
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
