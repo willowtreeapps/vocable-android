@@ -80,7 +80,7 @@ class ResetSettingsViewModel(
                             ResetDomain.SENSITIVITY -> prefs.resetSensitivity()
                             ResetDomain.SELECTION_MODE -> faceTrackingPermissions.resetToDefault()
                             ResetDomain.CATEGORIES -> categoriesUseCase.resetCategoriesToDefaults()
-                            ResetDomain.PHRASES -> phrasesUseCase.resetToDefaults()
+                            ResetDomain.PHRASES -> phrasesUseCase.resetPresetPhrasesToDefaults()
                         }
                     }
                     updateState { copy(checkedDomains = emptySet()) }

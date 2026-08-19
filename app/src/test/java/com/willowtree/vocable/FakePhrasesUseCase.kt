@@ -38,6 +38,8 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     )
 
     var _categoriesToPhrases = initialCategoriesToPhrases
+    var resetToDefaultsCalled = false
+    var resetPresetPhrasesToDefaultsCalled = false
 
     override suspend fun getPhrasesForCategory(categoryId: String): List<Phrase> {
         return _categoriesToPhrases[categoryId].orEmpty().map { it.asPhrase() }
@@ -62,6 +64,7 @@ class FakePhrasesUseCase : IPhrasesUseCase {
     }
 
     override suspend fun resetToDefaults() {
+        resetToDefaultsCalled = true
         _categoriesToPhrases = initialCategoriesToPhrases
     }
 
@@ -69,5 +72,13 @@ class FakePhrasesUseCase : IPhrasesUseCase {
         _categoriesToPhrases = _categoriesToPhrases.toMutableMap().apply {
             this[categoryId] = initialCategoriesToPhrases[categoryId].orEmpty()
         }
+    }
+
+    // This fake has no notion of preset vs. custom phrases, so it falls back to the same
+    // behavior as resetToDefaults() - real preset/shadow scoping is exercised against Room in
+    // PhrasesUseCaseTest instead.
+    override suspend fun resetPresetPhrasesToDefaults() {
+        resetPresetPhrasesToDefaultsCalled = true
+        _categoriesToPhrases = initialCategoriesToPhrases
     }
 }

@@ -250,6 +250,60 @@ class PhrasesUseCaseTest {
         assertEquals(basicNeedsBefore, useCase.getPhrasesForCategory(PresetCategories.BASIC_NEEDS.id))
     }
 
+    @Test
+    fun resetPresetPhrasesToDefaults_restores_edited_preset_phrase() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        val entryNames = getResourceNamesForCategory("category_general")
+        val phraseId = entryNames.first()
+        useCase.updatePhrase(phraseId, "Edited text")
+
+        useCase.resetPresetPhrasesToDefaults()
+
+        val reset = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id)
+        assertEquals(entryNames, reset.map { it.phraseId })
+        assertEquals(true, reset.first { it.phraseId == phraseId } is PresetPhrase)
+    }
+
+    @Test
+    fun resetPresetPhrasesToDefaults_restores_deleted_preset_phrase() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        val entryNames = getResourceNamesForCategory("category_general")
+        val phraseId = entryNames.first()
+        useCase.deletePhrase(phraseId)
+
+        useCase.resetPresetPhrasesToDefaults()
+
+        assertEquals(entryNames, useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map { it.phraseId })
+    }
+
+    @Test
+    fun resetPresetPhrasesToDefaults_does_not_remove_custom_phrase_added_to_a_preset_category() = runTest {
+        presetPhrasesRepository.populateDatabase()
+        val useCase = createUseCase()
+        useCase.addPhrase(testLocalesWithText, PresetCategories.GENERAL.id)
+        val entryNames = getResourceNamesForCategory("category_general")
+
+        useCase.resetPresetPhrasesToDefaults()
+
+        val phraseIds = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map { it.phraseId }
+        assertEquals(true, phraseIds.containsAll(entryNames))
+        assertEquals(true, phraseIds.contains("random"))
+    }
+
+    @Test
+    fun resetPresetPhrasesToDefaults_does_not_touch_phrases_in_a_custom_category() = runTest {
+        val useCase = createUseCase()
+        val customCategoryId = "customCategoryId"
+        useCase.addPhrase(testLocalesWithText, customCategoryId)
+        val before = useCase.getPhrasesForCategory(customCategoryId)
+
+        useCase.resetPresetPhrasesToDefaults()
+
+        assertEquals(before, useCase.getPhrasesForCategory(customCategoryId))
+    }
+
     private fun getResourceNamesForCategory(categoryName: String): List<String> {
         val resources = ApplicationProvider.getApplicationContext<Context>().resources
         val categoryArrayId = resources.getIdentifier(categoryName, "array", ApplicationProvider.getApplicationContext<Context>().packageName)

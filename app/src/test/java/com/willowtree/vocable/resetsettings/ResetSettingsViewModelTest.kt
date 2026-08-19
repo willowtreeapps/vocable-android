@@ -149,6 +149,22 @@ class ResetSettingsViewModelTest {
     }
 
     @Test
+    fun `confirmDialog for selected phrases calls the preset-scoped reset, not the nuclear one`() = runTest {
+        val phrasesUseCase = FakePhrasesUseCase()
+        val viewModel = createViewModel(phrasesUseCase = phrasesUseCase)
+        viewModel.toggleDomain(ResetDomain.PHRASES)
+        viewModel.requestResetSelected()
+
+        viewModel.confirmDialog()
+
+        // Actual preset-vs-custom scoping is exercised against Room in PhrasesUseCaseTest; this
+        // only confirms the PHRASES domain calls the scoped method, not resetToDefaults() (which
+        // also wipes genuinely custom phrases and backs the separate "Reset Everything" option).
+        assertTrue(phrasesUseCase.resetPresetPhrasesToDefaultsCalled)
+        assertFalse(phrasesUseCase.resetToDefaultsCalled)
+    }
+
+    @Test
     fun `all domains fit on one page by default`() = runTest {
         val viewModel = createViewModel()
 

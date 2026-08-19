@@ -241,12 +241,76 @@ Three asks, addressed together since they interact:
   was added to `ResetSettingsState` and `ResetSettingsViewModel` following the same
   `updateItemsPerPage`/`nextPage`/`prevPage` shape as `EditCategoriesViewModel`.
 
+## Second follow-up pass: scope the Phrases domain to non-custom phrases, rename the screen
+
+Direct feedback after the pass above caught that the Reset App Settings screen's standalone
+"Phrases" checkbox was still calling `IPhrasesUseCase.resetToDefaults()` — the same method that
+backs the "Reset Everything" nuclear option — which deletes every stored phrase outright, including
+genuinely custom ones (phrases added to a preset category, and every phrase in a user-created
+category). That's the wrong scope for a domain reset that's supposed to mean "put back what has a
+default to go back to": a custom phrase has no default, so "resetting" it doesn't make sense -
+the only sensible operation on one is delete, and this domain reset shouldn't be silently deleting
+content the user authored.
+
+### New `IPhrasesUseCase.resetPresetPhrasesToDefaults()`
+
+Added specifically for this domain, distinct from both `resetToDefaults()` (global, still backs
+"Reset Everything" — unchanged) and `resetPhrasesForCategory(categoryId)` (single category, still
+deletes that category's custom phrases too — unchanged, since resetting one category the user
+picked is a different, already-understood scope). The new method:
+
+1. Reads every phraseId `PresetPhrasesRepository.getAllPresetPhrases()` knows about (deliberately
+   including soft-deleted rows, so an individually-deleted preset's id is still recognized as
+   preset-derived).
+2. Deletes only the stored ("shadow") phrases whose phraseId is in that set — per the invariant
+   documented in `RoomPresetPhrasesRepository.ensurePopulated()`, a stored row keyed by a preset's
+   array-entry-name id is always a shadow, since genuinely custom phrases get a random UUID and can
+   never collide with one. Everything else in the stored table (custom phrases added to a preset
+   category, and every phrase in a user-created category) is left completely untouched.
+3. Hard-deletes and repopulates every `PresetPhrase` row (`presetPhrasesRepository.deleteAllPhrases()`
+   + `populateDatabase()`) — safe unconditionally, since preset-category rows only ever exist for
+   actual `PresetCategories` entries; a custom category never has any to begin with.
+
+Needed a new `StoredPhrasesRepository.getAllPhrases()` (there was no way to enumerate stored phrases
+across every category before this — only per-category or per-id lookups existed). New tests in
+`PhrasesUseCaseTest` (androidTest, against real Room) cover restoring an edited preset phrase,
+restoring a deleted preset phrase, leaving a custom phrase added to a preset category alone, and
+leaving a custom category's phrases alone entirely. `FakePhrasesUseCase` can't model the
+preset-vs-custom distinction itself (it's a flat category→phrases map with no concept of which
+phrases are preset-derived), so it just tracks which of the two reset methods was called
+(`resetToDefaultsCalled`/`resetPresetPhrasesToDefaultsCalled`) — good enough for
+`ResetSettingsViewModelTest` to confirm the PHRASES domain wires to the new, narrower method instead
+of the nuclear one; the real preset/custom scoping behavior is what `PhrasesUseCaseTest` verifies
+against actual data.
+
+### `Reset App` → `Reset Vocable`
+
+The Settings menu row and the Reset App Settings screen's own header both read the same
+`settings_reset_app` string. Renamed from "Reset App" to "Reset Vocable" — reuses the app's own
+existing phrasing (`settings_reset_dialog_message` already says "reset Vocable to default
+settings") rather than introducing a second way of naming the same action, and reads less
+ambiguously than a bare "Reset" sitting in a list of noun-phrase settings rows ("My Sayings",
+"Voice", "Selection Mode").
+
+### Reset Category button reordered above Remove Category
+
+Also merged in `feature/681/typography-parity` (issue #681) so this branch picks up the
+newly-established per-breakpoint font-size conventions, and moved `EditCategoryMenuScreen`'s
+`Reset Category` button above `Remove Category` — the less-destructive action (restores defaults)
+now reads before the fully-destructive one (deletes the category outright) — swapping their reveal
+priority to match, so a cramped screen still reveals top-to-bottom in drawn order. The Reset
+Category button itself picked up a hardcoded `fontSize` in the process (it was added after the font
+branch diverged, so the earlier merge didn't touch it) — fixed to use the same
+`edit_category_menu_action_text_size` dimen its sibling buttons already use.
+
 ## Verification
 
 `./gradlew testDebugUnitTest` — full suite passes, including the updated/added tests above
-(`EditCategoryMenuViewModelTest` reset cases, `ResetSettingsViewModelTest` pagination cases) and the
+(`EditCategoryMenuViewModelTest` reset cases, `ResetSettingsViewModelTest` pagination and
+PHRASES-domain-wiring cases, `PhrasesUseCaseTest`'s new `resetPresetPhrasesToDefaults` cases) and the
 trimmed-down `SettingsVoiceViewModelTest`/`SensitivityViewModelTest`/`SelectionModeViewModelTest`/
 `EditCategoriesViewModelTest` (unit + androidTest) with their reset-icon cases removed.
 `./gradlew compileDebugKotlin compileDebugUnitTestKotlin compileDebugAndroidTestKotlin` and
 `./gradlew assembleDebug assembleDebugAndroidTest` all pass. Not done: manual verification in a
-running app/emulator (none available in this session) and no design sign-off, same as the pass above.
+running app/emulator (none available in this session) and no design sign-off, same as the passes
+above.
