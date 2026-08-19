@@ -1,6 +1,7 @@
 package com.willowtree.vocable.ui.resetsettings
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
@@ -65,9 +67,18 @@ fun ResetSettingsScreen(
     onBack: () -> Unit,
     viewModel: ResetSettingsViewModel = koinViewModel()
 ) {
+    val context = LocalContext.current
     MviScreen(viewModel = viewModel, onEvent = { event ->
         when (event) {
             ResetSettingsEvent.NavigateBack -> onBack()
+            is ResetSettingsEvent.ShowResetResult -> {
+                val message = if (event.success) {
+                    R.string.reset_settings_success
+                } else {
+                    R.string.reset_settings_failure
+                }
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            }
         }
     }) { state ->
         ResetSettingsContent(

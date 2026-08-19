@@ -6,6 +6,7 @@ import com.willowtree.vocable.core.IVocableSharedPreferences
 import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
 import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.ui.base.BaseViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
 
@@ -68,24 +69,31 @@ class ResetSettingsViewModel(
         val domains = uiState.value.checkedDomains
         updateState { copy(dialogTarget = null) }
         viewModelScope.launch {
-            when (target) {
-                ResetDialogTarget.Everything -> {
-                    categoriesUseCase.resetToDefaults()
-                    prefs.clearAll()
-                }
-                ResetDialogTarget.Selected -> {
-                    domains.forEach { domain ->
-                        when (domain) {
-                            ResetDomain.VOICE -> prefs.setSelectedVoiceName(null)
-                            ResetDomain.SENSITIVITY -> prefs.resetSensitivity()
-                            ResetDomain.SELECTION_MODE -> faceTrackingPermissions.resetToDefault()
-                            ResetDomain.CATEGORIES -> categoriesUseCase.resetCategoriesToDefaults()
-                            ResetDomain.PHRASES -> phrasesUseCase.resetPresetPhrasesToDefaults()
-                        }
+            try {
+                when (target) {
+                    ResetDialogTarget.Everything -> {
+                        categoriesUseCase.resetToDefaults()
+                        prefs.clearAll()
                     }
-                    updateState { copy(checkedDomains = emptySet()) }
+                    ResetDialogTarget.Selected -> {
+                        domains.forEach { domain ->
+                            when (domain) {
+                                ResetDomain.VOICE -> prefs.setSelectedVoiceName(null)
+                                ResetDomain.SENSITIVITY -> prefs.resetSensitivity()
+                                ResetDomain.SELECTION_MODE -> faceTrackingPermissions.resetToDefault()
+                                ResetDomain.CATEGORIES -> categoriesUseCase.resetCategoriesToDefaults()
+                                ResetDomain.PHRASES -> phrasesUseCase.resetPresetPhrasesToDefaults()
+                            }
+                        }
+                        updateState { copy(checkedDomains = emptySet()) }
+                    }
+                    null -> return@launch
                 }
-                null -> Unit
+                sendEvent(ResetSettingsEvent.ShowResetResult(success = true))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                sendEvent(ResetSettingsEvent.ShowResetResult(success = false))
             }
         }
     }

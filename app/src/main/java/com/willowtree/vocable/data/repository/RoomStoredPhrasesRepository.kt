@@ -38,10 +38,6 @@ class RoomStoredPhrasesRepository(
             .map { phraseList -> phraseList.map { it.asPhrase() } }
     }
 
-    override suspend fun getAllPhrases(): List<Phrase> {
-        return database.phraseDao().getAllPhrases().map { it.asPhrase() }
-    }
-
     override suspend fun getPhrase(phraseId: String): Phrase? {
         return database.phraseDao().getPhrase(phraseId)?.asPhrase()
     }

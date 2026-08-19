@@ -165,6 +165,41 @@ class ResetSettingsViewModelTest {
     }
 
     @Test
+    fun `confirmDialog for everything emits a success toast event`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.requestResetEverything()
+
+        viewModel.event.test {
+            viewModel.confirmDialog()
+            assertEquals(ResetSettingsEvent.ShowResetResult(success = true), awaitItem())
+        }
+    }
+
+    @Test
+    fun `confirmDialog for selected emits a success toast event`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.toggleDomain(ResetDomain.SENSITIVITY)
+        viewModel.requestResetSelected()
+
+        viewModel.event.test {
+            viewModel.confirmDialog()
+            assertEquals(ResetSettingsEvent.ShowResetResult(success = true), awaitItem())
+        }
+    }
+
+    @Test
+    fun `confirmDialog emits a failure toast event when a reset call throws`() = runTest {
+        val categoriesUseCase = FakeCategoriesUseCase().apply { shouldThrowOnReset = true }
+        val viewModel = createViewModel(categoriesUseCase = categoriesUseCase)
+        viewModel.requestResetEverything()
+
+        viewModel.event.test {
+            viewModel.confirmDialog()
+            assertEquals(ResetSettingsEvent.ShowResetResult(success = false), awaitItem())
+        }
+    }
+
+    @Test
     fun `all domains fit on one page by default`() = runTest {
         val viewModel = createViewModel()
 

@@ -303,14 +303,83 @@ Category button itself picked up a hardcoded `fontSize` in the process (it was a
 branch diverged, so the earlier merge didn't touch it) — fixed to use the same
 `edit_category_menu_action_text_size` dimen its sibling buttons already use.
 
+## Third follow-up pass: custom phrases added to a preset category weren't removed, toast feedback
+
+### `resetPresetPhrasesToDefaults()` corrected to remove custom additions too, not just shadows
+
+Live on-device testing (a real connected device was available this pass, not just the emulatorless
+JVM/Room test suite) surfaced a real gap the previous pass's tests didn't cover: a phrase newly
+*added* to a preset category (e.g. "Please" left as-is, plus a brand new custom phrase added
+alongside it) survived the "Phrases" domain reset. The previous implementation only deleted stored
+rows whose phraseId matched an existing preset phraseId (i.e. shadows/edits) — a genuinely new
+addition has a random UUID phraseId, so it was correctly never touched by that filter. That filter
+was too narrow for what "reset to default" should mean, though: a preset category's default *is*
+the array it was seeded from, and nothing added to it since — edit or addition — has a "default" of
+its own to fall back to. Corrected `resetPresetPhrasesToDefaults()` to instead delete *every* stored
+phrase belonging to each real preset category (`General`, `Basic Needs`, `Personal Care`,
+`Conversation`, `Environment`, the `123` keypad), the same "wipe the category's stored rows, then
+hard-delete+repopulate the presets" shape `resetPhrasesForCategory(categoryId)` already used for a
+single category — just applied across every preset category at once instead of one. `Recents`
+(derived from `lastSpokenDate`, no store of its own) and `My Sayings` (a pure user-favorites bucket
+`populateDatabase()` never seeds from an array) are excluded, along with every genuinely
+user-created category, since none of those have a default state to reset to at all. This only
+changes the Reset App Settings screen's standalone "Phrases" checkbox — `resetPhrasesForCategory`
+(the per-category `Reset Category` button on `EditCategoryMenuScreen`) was already correct and is
+unchanged.
+
+The now-unneeded `StoredPhrasesRepository.getAllPhrases()` (added the previous pass specifically for
+the shadow-only filter) was removed along with its Room implementation, since the corrected approach
+reuses the existing per-category `getPhrasesForCategoryFlow` instead.
+
+Tests: `resetPresetPhrasesToDefaults_does_not_remove_custom_phrase_added_to_a_preset_category` was
+inverted to `..._removes_custom_phrase_added_to_a_preset_category` (the old assertion was
+encoding the bug), and a new `resetPresetPhrasesToDefaults_does_not_touch_my_sayings` case was
+added. All 16 `PhrasesUseCaseTest` cases were run against the connected physical device via
+`connectedDebugAndroidTest`, not just compile-verified — a step skipped in earlier passes for lack
+of a device.
+
+### A red herring: two "doesn't work" reports that were actually a test-methodology bug
+
+Before finding the real gap above, the *first* live-device attempt to verify the previous pass's fix
+appeared to show the fix not working at all — editing a phrase in `General`, then using the Reset
+App Settings screen's "Phrases" checkbox, seemed to leave the edit in place. Debug logging
+(temporarily added to `resetPresetPhrasesToDefaults()`, removed once resolved) showed the method
+was never even being *called*. Root cause: screenshots from this device are captured at
+1080×2280 but displayed to the model at a downscaled 947×2000, and several `adb shell input tap`
+coordinates were taken directly from the displayed image without converting back to the actual
+device resolution (a ~1.14x factor) — the "Reset Selected" tap was consequently landing back on the
+"Phrases" checkbox row above it, silently un-checking it with no dialog ever opening. Once tap
+coordinates were corrected, the confirmation dialog appeared and the previous pass's fix was
+confirmed working correctly end-to-end. Worth remembering for future on-device verification in this
+environment: always convert displayed-image coordinates to actual device resolution before issuing
+`adb shell input tap`.
+
+### Toast feedback on reset success/failure
+
+`ResetSettingsScreen` had no feedback at all after a reset completed — the confirmation dialog
+closes and the screen just sits there. Added a `ResetSettingsEvent.ShowResetResult(success: Boolean)`
+event, matching the existing `KeyboardEvent.ShowToast` convention elsewhere in this codebase
+(sealed event → `sendEvent()` from the ViewModel → `Toast.makeText()` in the screen's `MviScreen`
+`onEvent` handler). `confirmDialog()` now wraps its reset calls in a `try`/`catch` (rethrowing
+`CancellationException` so ViewModel-cleared cancellation isn't swallowed) and emits `success = true`
+after either branch completes, or `success = false` if any reset call throws. The ViewModel sends
+only a boolean rather than a raw message string — matching how every other screen in this codebase
+resolves user-facing text from `stringResource(...)` in the Composable layer rather than embedding
+English text in the ViewModel, which `KeyboardViewModel`'s existing toasts don't do (they pass raw
+string literals) but which is the more correct pattern and was worth not propagating further.
+
 ## Verification
 
 `./gradlew testDebugUnitTest` — full suite passes, including the updated/added tests above
-(`EditCategoryMenuViewModelTest` reset cases, `ResetSettingsViewModelTest` pagination and
-PHRASES-domain-wiring cases, `PhrasesUseCaseTest`'s new `resetPresetPhrasesToDefaults` cases) and the
-trimmed-down `SettingsVoiceViewModelTest`/`SensitivityViewModelTest`/`SelectionModeViewModelTest`/
-`EditCategoriesViewModelTest` (unit + androidTest) with their reset-icon cases removed.
-`./gradlew compileDebugKotlin compileDebugUnitTestKotlin compileDebugAndroidTestKotlin` and
-`./gradlew assembleDebug assembleDebugAndroidTest` all pass. Not done: manual verification in a
-running app/emulator (none available in this session) and no design sign-off, same as the passes
-above.
+(`EditCategoryMenuViewModelTest` reset cases, `ResetSettingsViewModelTest` pagination,
+PHRASES-domain-wiring, and toast-event cases, `PhrasesUseCaseTest`'s `resetPresetPhrasesToDefaults`
+cases) and the trimmed-down `SettingsVoiceViewModelTest`/`SensitivityViewModelTest`/
+`SelectionModeViewModelTest`/`EditCategoriesViewModelTest` (unit + androidTest) with their
+reset-icon cases removed. `./gradlew connectedDebugAndroidTest` for `PhrasesUseCaseTest` (16 cases)
+passed against a connected physical device. `./gradlew compileDebugKotlin
+compileDebugUnitTestKotlin compileDebugAndroidTestKotlin` and `./gradlew assembleDebug
+assembleDebugAndroidTest` all pass. The edited-phrase-restore path was manually verified end-to-end
+via the live UI on the connected device (edit a phrase in `General`, reset via the Reset App
+Settings screen's Phrases checkbox, confirm the edit reverts); the custom-addition-removal fix and
+the toast feedback were verified via `PhrasesUseCaseTest`/`ResetSettingsViewModelTest` respectively,
+not yet via the live UI. No design sign-off, same as the passes above.

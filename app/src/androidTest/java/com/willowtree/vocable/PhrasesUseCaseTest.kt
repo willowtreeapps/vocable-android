@@ -279,7 +279,7 @@ class PhrasesUseCaseTest {
     }
 
     @Test
-    fun resetPresetPhrasesToDefaults_does_not_remove_custom_phrase_added_to_a_preset_category() = runTest {
+    fun resetPresetPhrasesToDefaults_removes_custom_phrase_added_to_a_preset_category() = runTest {
         presetPhrasesRepository.populateDatabase()
         val useCase = createUseCase()
         useCase.addPhrase(testLocalesWithText, PresetCategories.GENERAL.id)
@@ -288,8 +288,8 @@ class PhrasesUseCaseTest {
         useCase.resetPresetPhrasesToDefaults()
 
         val phraseIds = useCase.getPhrasesForCategory(PresetCategories.GENERAL.id).map { it.phraseId }
-        assertEquals(true, phraseIds.containsAll(entryNames))
-        assertEquals(true, phraseIds.contains("random"))
+        assertEquals(entryNames, phraseIds)
+        assertEquals(false, phraseIds.contains("random"))
     }
 
     @Test
@@ -302,6 +302,17 @@ class PhrasesUseCaseTest {
         useCase.resetPresetPhrasesToDefaults()
 
         assertEquals(before, useCase.getPhrasesForCategory(customCategoryId))
+    }
+
+    @Test
+    fun resetPresetPhrasesToDefaults_does_not_touch_my_sayings() = runTest {
+        val useCase = createUseCase()
+        useCase.addPhrase(testLocalesWithText, PresetCategories.MY_SAYINGS.id)
+        val before = useCase.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id)
+
+        useCase.resetPresetPhrasesToDefaults()
+
+        assertEquals(before, useCase.getPhrasesForCategory(PresetCategories.MY_SAYINGS.id))
     }
 
     private fun getResourceNamesForCategory(categoryName: String): List<String> {

@@ -126,14 +126,16 @@ class PhrasesUseCase(
     }
 
     override suspend fun resetPresetPhrasesToDefaults() {
-        // A stored row keyed by a preset's phraseId (an arrays.xml entry name) is always a
-        // "shadow" - a genuinely custom phrase gets a random UUID and can never collide with one.
-        // getAllPresetPhrases() deliberately doesn't filter deleted=true rows, so an
-        // individually-deleted preset's id is still recognized here.
-        val presetPhraseIds = presetPhrasesRepository.getAllPresetPhrases().map { it.phraseId }.toSet()
-        storedPhrasesRepository.getAllPhrases()
-            .filter { it.phraseId in presetPhraseIds }
-            .forEach { storedPhrasesRepository.deletePhrase(it.phraseId) }
+        // Recents is derived (no store of its own) and My Sayings is a pure user-favorites
+        // bucket - populateDatabase() never seeds either from an array, so neither has a default
+        // phrase set to reset to; every other PresetCategories entry does.
+        PresetCategories.entries
+            .filterNot { it == PresetCategories.RECENTS || it == PresetCategories.MY_SAYINGS }
+            .forEach { presetCategory ->
+                storedPhrasesRepository.getPhrasesForCategoryFlow(presetCategory.id).first().forEach {
+                    storedPhrasesRepository.deletePhrase(it.phraseId)
+                }
+            }
         presetPhrasesRepository.deleteAllPhrases()
         presetPhrasesRepository.populateDatabase()
     }
