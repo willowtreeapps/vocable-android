@@ -42,13 +42,13 @@ jobs:
         run: |
           echo "value=$(./scripts/get-next-version-code.sh com.willowtree.vocable)" >> "$GITHUB_OUTPUT"
 
-      - name: Build & Assemble Release APK
+      - name: Build & Assemble Release APK/Bundle
         env:
           VERSION_CODE: ${{ steps.version_code.outputs.value }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: |
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease bundleRelease
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
@@ -66,5 +66,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CREDENTIALS }}
           packageName: com.willowtree.vocable
-          releaseFiles: app/build/outputs/apk/release/app-release.apk
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: alpha
