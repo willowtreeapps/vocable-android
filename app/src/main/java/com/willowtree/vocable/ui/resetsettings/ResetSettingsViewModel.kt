@@ -7,6 +7,7 @@ import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
 import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 /**
  * ViewModel for the Reset App Settings screen: per-domain checkboxes for granular reset, plus a
@@ -41,6 +42,25 @@ class ResetSettingsViewModel(
 
     fun dismissDialog() {
         updateState { copy(dialogTarget = null) }
+    }
+
+    fun nextPage() {
+        updateState { copy(currentPage = (currentPage + 1) % totalPages) }
+    }
+
+    fun prevPage() {
+        updateState { copy(currentPage = if (currentPage - 1 < 0) totalPages - 1 else currentPage - 1) }
+    }
+
+    fun updateItemsPerPage(itemsPerPage: Int) {
+        updateState {
+            val newItemsPerPage = itemsPerPage.coerceAtLeast(1)
+            val newTotalPages = ceil(ResetDomain.entries.size.toFloat() / newItemsPerPage).toInt().coerceAtLeast(1)
+            copy(
+                itemsPerPage = newItemsPerPage,
+                currentPage = currentPage.coerceAtMost(newTotalPages - 1)
+            )
+        }
     }
 
     fun confirmDialog() {

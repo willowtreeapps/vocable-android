@@ -48,20 +48,6 @@ class SettingsVoiceViewModel(
         sendEvent(SettingsVoiceEvent.NavigateBack)
     }
 
-    fun requestReset() {
-        updateState { copy(isResetDialogOpen = true) }
-    }
-
-    fun dismissResetDialog() {
-        updateState { copy(isResetDialogOpen = false) }
-    }
-
-    fun confirmReset() {
-        updateState { copy(isResetDialogOpen = false) }
-        prefs.setSelectedVoiceName(null)
-        refreshActiveVoice()
-    }
-
     companion object {
         const val DEFAULT_VOICE_LABEL = "Default"
 

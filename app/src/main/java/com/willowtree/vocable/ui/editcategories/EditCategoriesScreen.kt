@@ -41,7 +41,6 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.core.locale.LocalesWithText
 import com.willowtree.vocable.domain.model.Category
 import com.willowtree.vocable.ui.base.MviScreen
-import com.willowtree.vocable.ui.components.ConfirmationDialog
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.theme.TextColor
 import com.willowtree.vocable.ui.theme.VocableTheme
@@ -124,7 +123,7 @@ private fun EditCategoriesContent(
             .padding(top = topPadding)
             .onSizeChanged { rootHeightPx = it.height - topPaddingPx }
     ) {
-        val (titleRef, backButtonRef, resetButtonRef, addButtonRef, listRef, pageControlRef) = createRefs()
+        val (titleRef, backButtonRef, addButtonRef, listRef, pageControlRef) = createRefs()
 
         Text(
             text = stringResource(id = R.string.categories_edit_title),
@@ -140,7 +139,7 @@ private fun EditCategoriesContent(
                 .constrainAs(titleRef) {
                     top.linkTo(parent.top)
                     start.linkTo(backButtonRef.end, margin = 8.dp)
-                    end.linkTo(resetButtonRef.start, margin = 8.dp)
+                    end.linkTo(addButtonRef.start, margin = 8.dp)
                     width = Dimension.fillToConstraints
                 }
                 .onSizeChanged { titleHeightPx = it.height }
@@ -179,25 +178,6 @@ private fun EditCategoriesContent(
             Icon(
                 painter = painterResource(id = R.drawable.ic_add_40dp),
                 contentDescription = stringResource(R.string.add_category),
-                tint = Color.Unspecified
-            )
-        }
-
-        GazeButton(
-            onClick = { onIntent(EditCategoriesIntent.RequestResetCategories) },
-            accessibilityLabel = stringResource(R.string.reset_categories_title),
-            modifier = Modifier
-                .size(dimensionResource(id = R.dimen.edit_categories_action_button_width))
-                .constrainAs(resetButtonRef) {
-                    top.linkTo(titleRef.top)
-                    bottom.linkTo(titleRef.bottom)
-                    end.linkTo(addButtonRef.start, margin = 8.dp)
-                }
-                .testTag("edit_categories_reset_categories_button")
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_reset),
-                contentDescription = stringResource(R.string.reset_categories_title),
                 tint = Color.Unspecified
             )
         }
@@ -286,17 +266,6 @@ private fun EditCategoriesContent(
                 )
             }
         }
-    }
-
-    if (state.isResetDialogOpen) {
-        ConfirmationDialog(
-            title = stringResource(R.string.reset_categories_title),
-            message = stringResource(R.string.reset_categories_dialog_message),
-            confirmText = stringResource(R.string.settings_reset_dialog_confirm),
-            onDismiss = { onIntent(EditCategoriesIntent.DismissResetDialog) },
-            onConfirm = { onIntent(EditCategoriesIntent.ConfirmResetDialog) },
-            isDestructive = true
-        )
     }
 }
 

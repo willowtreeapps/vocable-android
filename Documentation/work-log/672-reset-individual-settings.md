@@ -145,3 +145,104 @@ skips per direct product decision.
   text on clear background) and copy pattern ("Are you sure you want to reset ... to default settings?
   This action cannot be undone.") were prior art to mirror; the granular/per-domain mechanism itself
   is new ground for both platforms.
+
+## Follow-up pass (2026-08-18): per-category reset, remove the per-screen icons, accessible Reset App Settings screen
+
+The five per-screen reset icons above ended up duplicating the centralized Reset App Settings
+screen's per-domain checkboxes — the same action (e.g. "reset Voice") was reachable two ways, with
+two separate confirmation dialogs. Direct follow-up feedback: keep one path per action. This pass
+removes the per-screen icons and instead adds a category-scoped reset where it's actually distinct
+from anything the centralized screen offers — resetting a single non-custom category's phrases from
+its own menu.
+
+### `Reset Category` button on `EditCategoryMenuScreen`, gated to non-custom categories
+
+Added next to `Remove Category`, same full-width/icon+bold-text/`ErrorColor` treatment, behind a
+`ConfirmationDialog` (title/button text: new `reset_category` string; message: the existing
+`reset_category_phrases_dialog_message`, reused as-is since it already said exactly this — "reset
+the phrases in this category to their defaults and remove any you've added or edited"). Wired to
+the same `IPhrasesUseCase.resetPhrasesForCategory(categoryId)` the old `EditCategoryPhrasesScreen`
+icon used.
+
+Gating criterion is `category !is Category.StoredCategory` — the same check
+`EditCategoryPhrasesScreen` already used for `isCustomCategory` (inverted), kept for consistency
+rather than introducing a second way to ask the same question. This means a preset category that's
+been renamed (which converts it to a `StoredCategory` shadow row, see `CategoriesUseCase.updateCategoryName`)
+loses the Reset Category option going forward — a pre-existing limit of how "custom" is detected
+app-wide, not something new to this pass.
+
+`EditCategoryMenuScreen`'s action list was already conditionally hidden top-down when the screen is
+too short to fit all of them (`visibleActionCount`, capped at 4: Rename, Toggle Show, Edit Phrases,
+Remove). `Reset Category` is a 5th slot, added *after* Remove in priority order (`maxActionCount` is
+5 only for non-custom categories) so an already-tight screen keeps showing the existing four actions
+before revealing the new one, rather than bumping something users already rely on.
+
+### Removed: the five per-screen reset icons, their dialogs, and their now-dead ViewModel/state code
+
+`EditCategoriesScreen` (all-categories reset), `EditCategoryPhrasesScreen` (per-category phrases —
+superseded by the button above), `SettingsVoiceScreen`, `SensitivityScreen`, `SelectionModeScreen`.
+Each screen's header `ConstraintLayout` had its title re-anchored back to a single neighbor (back
+button, or back+add button) now that there's only one or two header buttons instead of two or three.
+Deleted the now-fully-unused strings (`reset_voice_title`/`_dialog_message`,
+`reset_sensitivity_title`/`_dialog_message`, `reset_selection_mode_title`/`_dialog_message`,
+`reset_categories_title`/`_dialog_message`, `reset_phrases_title`) — verified via grep that nothing
+else referenced them before removing. `EditCategoryPhrasesViewModelTest` was deleted outright: every
+test in it existed solely to cover the removed reset intent: the same coverage now lives in
+`EditCategoryMenuViewModelTest` against the new intent, and the underlying
+`resetPhrasesForCategory` use-case behavior was already independently covered by
+`PhrasesUseCaseTest` (androidTest).
+
+### `ResetSettingsScreen` accessibility rework
+
+Three asks, addressed together since they interact:
+
+- **Checkmarks → bullet dots, rows read as gaze buttons.** Swapped the Material `Checkbox` for a
+  small custom outlined/filled circle (`ResetSelectionBullet`) and made each domain row's whole
+  background flip to `SelectedColor`/`ColorPrimaryDark` when checked — the same selected-state
+  pattern `SensitivityButton`'s low/medium/high picker already uses elsewhere in this app. A tiny
+  checkbox off to the side is a small, separate-feeling target; a full-row color flip plus a bullet
+  reads as one big gaze-dwellable toggle, consistent with how the rest of the app signals "this is
+  selected."
+- **Column count degrades gracefully, one full-width button per row by default.** The old layout was
+  a single scrolling `Column` — workable in portrait, but a short landscape phone (e.g. 800×400dp)
+  couldn't fit 5×72dp rows plus two action buttons without scrolling, and this app avoids
+  scroll-driven gaze interaction (dwell-clicking through a moving list isn't a pattern used anywhere
+  else here). Went through two intermediate designs before landing here: first, 2 columns in
+  landscape only; then, following feedback that dropped the per-row description (it only repeated
+  what the confirmation dialog already says), a fixed 3-column grid in both orientations. Final
+  feedback: prefer one full-width button per row (more readable) and only add columns when there
+  isn't vertical room for that — so the screen now measures available height and tries 1 column,
+  then 2, then 3, picking the smallest column count where all 5 domains still fit on one page; a
+  local `columns` value (not `ResetSettingsState` — purely a derived layout choice, same pattern
+  `EditCategoryMenuScreen`'s `visibleActionCount` already uses) drives both the grid and each row's
+  internal layout: a full-width row lays the label and bullet out side by side (reads more
+  naturally at that width), while a narrower 2-or-3-column cell stacks a shrink-to-fit label
+  (`BasicText`/`TextAutoSize.StepBased`, the same narrow-column approach `SensitivityButton` already
+  uses) above the bullet instead, since truncating a two-word label like "Selection Mode" with
+  ellipsis at ⅓ width reads worse than shrinking it to two lines. The two action buttons
+  (`Reset Selected`, `Reset Everything`) still sit side-by-side in landscape instead of stacked,
+  independent of the domain-grid column count.
+- **Pagination as the fallback, not the default.** Even the densest grid (3 columns) doesn't
+  guarantee every domain fits on very short screens, so pagination only engages when none of 1/2/3
+  columns fit everything on one page — it reserves room for the page-control bar only at that point
+  (avoiding a circular measurement dependency between "do I need paging" and "how much space does
+  the paging control take") and always renders the 3-column grid in that case, matching the same
+  measured-height approach `EditCategoriesScreen`/`EditCategoryPhrasesScreen` already use
+  (`onSizeChanged` + a `LaunchedEffect` that computes rows-that-fit). When one page is enough
+  (`totalPages == 1`), no page-control row is rendered at all — unlike
+  `EditCategoriesScreen`/`EditCategoryPhrasesScreen`, which always show theirs. That's a deliberate
+  difference: those screens' content size is user-data-driven (could always grow past one page),
+  while this screen's 5 domains are fixed, so showing "Page 1 of 1" would just be static clutter on
+  every device that already fits them. Pagination state (`currentPage`/`itemsPerPage`/`totalPages`)
+  was added to `ResetSettingsState` and `ResetSettingsViewModel` following the same
+  `updateItemsPerPage`/`nextPage`/`prevPage` shape as `EditCategoriesViewModel`.
+
+## Verification
+
+`./gradlew testDebugUnitTest` — full suite passes, including the updated/added tests above
+(`EditCategoryMenuViewModelTest` reset cases, `ResetSettingsViewModelTest` pagination cases) and the
+trimmed-down `SettingsVoiceViewModelTest`/`SensitivityViewModelTest`/`SelectionModeViewModelTest`/
+`EditCategoriesViewModelTest` (unit + androidTest) with their reset-icon cases removed.
+`./gradlew compileDebugKotlin compileDebugUnitTestKotlin compileDebugAndroidTestKotlin` and
+`./gradlew assembleDebug assembleDebugAndroidTest` all pass. Not done: manual verification in a
+running app/emulator (none available in this session) and no design sign-off, same as the pass above.

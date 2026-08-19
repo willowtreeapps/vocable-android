@@ -147,4 +147,51 @@ class ResetSettingsViewModelTest {
 
         assertTrue(faceTrackingPermissions.resetToDefaultCalled)
     }
+
+    @Test
+    fun `all domains fit on one page by default`() = runTest {
+        val viewModel = createViewModel()
+
+        assertEquals(ResetDomain.entries.size, viewModel.uiState.value.itemsPerPage)
+        assertEquals(1, viewModel.uiState.value.totalPages)
+    }
+
+    @Test
+    fun `updateItemsPerPage below domain count creates multiple pages`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.updateItemsPerPage(2)
+
+        assertEquals(2, viewModel.uiState.value.itemsPerPage)
+        assertEquals(3, viewModel.uiState.value.totalPages)
+    }
+
+    @Test
+    fun `nextPage and prevPage wrap around totalPages`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.updateItemsPerPage(2)
+
+        viewModel.nextPage()
+        assertEquals(1, viewModel.uiState.value.currentPage)
+
+        viewModel.prevPage()
+        assertEquals(0, viewModel.uiState.value.currentPage)
+
+        viewModel.prevPage()
+        assertEquals(2, viewModel.uiState.value.currentPage)
+    }
+
+    @Test
+    fun `updateItemsPerPage coerces currentPage back into range when it grows`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.updateItemsPerPage(2)
+        viewModel.nextPage()
+        viewModel.nextPage()
+        assertEquals(2, viewModel.uiState.value.currentPage)
+
+        viewModel.updateItemsPerPage(ResetDomain.entries.size)
+
+        assertEquals(0, viewModel.uiState.value.currentPage)
+        assertEquals(1, viewModel.uiState.value.totalPages)
+    }
 }

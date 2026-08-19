@@ -120,7 +120,7 @@ val vocableKoinModule = module {
     viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get(), get()) }
     viewModel { EditCategoriesViewModel(get()) }
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
-    viewModel { EditCategoryMenuViewModel(get()) }
+    viewModel { EditCategoryMenuViewModel(get(), get()) }
     viewModel { KeyboardViewModel() }
     viewModel { SettingsViewModel(get()) }
     viewModel { SettingsVoiceViewModel(get()) }

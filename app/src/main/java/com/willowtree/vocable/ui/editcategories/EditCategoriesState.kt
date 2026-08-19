@@ -12,7 +12,6 @@ data class EditCategoriesState(
     val categories: List<Category> = emptyList(),
     val currentPage: Int = 0,
     val itemsPerPage: Int = 6,
-    val isResetDialogOpen: Boolean = false,
 ) {
     val totalPages: Int get() = if (categories.isEmpty()) 1 else ceil(categories.size.toFloat() / itemsPerPage).toInt()
     val currentPageCategories: List<Category>

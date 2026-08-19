@@ -34,25 +34,12 @@
     <string name="settings_reset_app">Reset App</string>
     <string name="settings_options_voice">Voice</string>
 
-    <!-- Per-domain reset (icon + confirmation dialog on each settings screen) -->
-    <string name="reset_voice_title">Reset Voice</string>
-    <string name="reset_voice_dialog_message">Are you sure you want to reset your voice selection to the default? This action cannot be undone.</string>
-    <string name="reset_sensitivity_title">Reset Timing and Sensitivity</string>
-    <string name="reset_sensitivity_dialog_message">Are you sure you want to reset hover time and cursor sensitivity to their defaults? This action cannot be undone.</string>
-    <string name="reset_selection_mode_title">Reset Selection Mode</string>
-    <string name="reset_selection_mode_dialog_message">Are you sure you want to reset Selection Mode to the default? This action cannot be undone.</string>
-    <string name="reset_categories_title">Reset Categories</string>
-    <string name="reset_categories_dialog_message">Are you sure you want to reset category order and visibility, and remove any categories you\'ve added? This action cannot be undone.</string>
-    <string name="reset_phrases_title">Reset Phrases</string>
+    <!-- Reset Category (EditCategoryMenuScreen, non-custom categories only) -->
+    <string name="reset_category">Reset Category</string>
     <string name="reset_phrases_label">Phrases</string>
     <string name="reset_category_phrases_dialog_message">Are you sure you want to reset the phrases in this category to their defaults and remove any you\'ve added or edited? This action cannot be undone.</string>
 
-    <!-- Reset App Settings screen (granular checkboxes + nuclear "Reset Everything") -->
-    <string name="reset_settings_footer_voice">Resets your voice selection to the device default.</string>
-    <string name="reset_settings_footer_sensitivity">Resets hover time and cursor sensitivity to their defaults.</string>
-    <string name="reset_settings_footer_selection_mode">Resets Selection Mode to enabled (the default).</string>
-    <string name="reset_settings_footer_categories">Resets category order and visibility, and removes any categories you\'ve added.</string>
-    <string name="reset_settings_footer_phrases">Resets all phrases to their defaults and removes any phrases you\'ve added or edited.</string>
+    <!-- Reset App Settings screen (granular selection + nuclear "Reset Everything") -->
     <string name="reset_settings_reset_selected">Reset Selected</string>
     <string name="reset_settings_reset_everything">Reset Everything</string>
     <string name="reset_settings_selected_dialog_title">Reset Selected Settings</string>

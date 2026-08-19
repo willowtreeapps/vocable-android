@@ -56,18 +56,6 @@ class EditCategoriesViewModel(
             EditCategoriesIntent.PrevPage -> updateState {
                 copy(currentPage = if (currentPage - 1 < 0) totalPages - 1 else currentPage - 1)
             }
-            EditCategoriesIntent.RequestResetCategories -> updateState {
-                copy(isResetDialogOpen = true)
-            }
-            EditCategoriesIntent.DismissResetDialog -> updateState {
-                copy(isResetDialogOpen = false)
-            }
-            EditCategoriesIntent.ConfirmResetDialog -> {
-                updateState { copy(isResetDialogOpen = false) }
-                viewModelScope.launch {
-                    categoriesUseCase.resetCategoriesToDefaults()
-                }
-            }
         }
     }
 }

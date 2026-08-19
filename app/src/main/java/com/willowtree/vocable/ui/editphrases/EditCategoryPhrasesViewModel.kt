@@ -73,23 +73,6 @@ class EditCategoryPhrasesViewModel(
             EditCategoryPhrasesIntent.PrevPage -> updateState {
                 copy(currentPage = if (currentPage - 1 < 0) totalPages - 1 else currentPage - 1)
             }
-
-            EditCategoryPhrasesIntent.RequestReset -> updateState {
-                copy(isResetDialogOpen = true)
-            }
-
-            EditCategoryPhrasesIntent.DismissResetDialog -> updateState {
-                copy(isResetDialogOpen = false)
-            }
-
-            EditCategoryPhrasesIntent.ConfirmResetDialog -> {
-                updateState { copy(isResetDialogOpen = false) }
-                uiState.value.category?.let { category ->
-                    viewModelScope.launch {
-                        phrasesUseCase.resetPhrasesForCategory(category.categoryId)
-                    }
-                }
-            }
         }
     }
 }

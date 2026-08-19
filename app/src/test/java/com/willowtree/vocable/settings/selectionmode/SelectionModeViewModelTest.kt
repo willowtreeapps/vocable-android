@@ -59,37 +59,4 @@ class SelectionModeViewModelTest {
         viewModel.disableHeadTracking()
         assertFalse(viewModel.headTrackingEnabled.getOrAwaitValue())
     }
-
-    @Test
-    fun `requestReset opens the reset dialog`() = runTest {
-        val viewModel = createViewModel(createTrackingPermissions(headTrackingEnabled = false))
-
-        viewModel.requestReset()
-
-        assertTrue(viewModel.isResetDialogOpen.value)
-    }
-
-    @Test
-    fun `dismissResetDialog after requestReset makes no changes`() = runTest {
-        val permissions = createTrackingPermissions(headTrackingEnabled = false)
-        val viewModel = createViewModel(permissions)
-        viewModel.requestReset()
-
-        viewModel.dismissResetDialog()
-
-        assertFalse(viewModel.isResetDialogOpen.value)
-        assertFalse(permissions.resetToDefaultCalled)
-    }
-
-    @Test
-    fun `confirmReset resets head tracking to default and closes the dialog`() = runTest {
-        val permissions = createTrackingPermissions(headTrackingEnabled = false)
-        val viewModel = createViewModel(permissions)
-        viewModel.requestReset()
-
-        viewModel.confirmReset()
-
-        assertFalse(viewModel.isResetDialogOpen.value)
-        assertTrue(permissions.resetToDefaultCalled)
-    }
 }

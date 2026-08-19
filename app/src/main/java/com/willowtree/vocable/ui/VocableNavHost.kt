@@ -260,10 +260,7 @@ fun VocableNavHost(
                     onBack = viewModel::onBack,
                     onChangeVoice = viewModel::onChangeVoice,
                     onRefreshActiveVoice = viewModel::refreshActiveVoice,
-                    onPreviewActiveVoice = viewModel::onPreviewActiveVoice,
-                    onRequestReset = viewModel::requestReset,
-                    onDismissResetDialog = viewModel::dismissResetDialog,
-                    onConfirmReset = viewModel::confirmReset
+                    onPreviewActiveVoice = viewModel::onPreviewActiveVoice
                 )
             }
         }

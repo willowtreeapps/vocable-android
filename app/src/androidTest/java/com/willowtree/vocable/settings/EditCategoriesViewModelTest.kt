@@ -139,19 +139,4 @@ class EditCategoriesViewModelTest {
         )
         assertEquals(1, state.currentPage)
     }
-
-    @Test
-    fun ConfirmResetDialog_for_categories_removes_custom_category() = runTest(UnconfinedTestDispatcher()) {
-        val vm = createViewModel()
-        vm.uiState.first { it.categories.isNotEmpty() }
-        categoriesUseCase.addCategory("new category")
-        vm.uiState.first { it.categories.size >= 8 }
-
-        vm.onIntent(EditCategoriesIntent.RequestResetCategories)
-        vm.onIntent(EditCategoriesIntent.ConfirmResetDialog)
-
-        val state = vm.uiState.first { it.categories.size == 7 }
-        assertEquals(true, state.categories.none { it is Category.StoredCategory })
-        assertEquals(false, state.isResetDialogOpen)
-    }
 }
