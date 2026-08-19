@@ -50,21 +50,21 @@ jobs:
         run: |
           echo "value=$(./scripts/get-next-version-code.sh com.willowtree.vocable)" >> "$GITHUB_OUTPUT"
 
-      - name: Build & Assemble Release APK
+      - name: Build & Assemble Release APK/Bundle
         env:
           VERSION_CODE: ${{ steps.version_code.outputs.value }}
           VERSION_NAME: ${{ env.version_name }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: |
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease bundleRelease
 
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CREDENTIALS }}
           packageName: com.willowtree.vocable
-          releaseFiles: app/build/outputs/apk/release/app-release.apk
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
 
       - uses: marvinpinto/action-automatic-releases@v1.2.1
