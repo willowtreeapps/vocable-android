@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.willowtree.vocable.R
 import com.willowtree.vocable.ui.base.MviScreen
 import com.willowtree.vocable.ui.components.GazeButton
@@ -115,6 +117,8 @@ fun KeyboardContent(
 ) {
     val keys = stringArrayResource(id = R.array.keyboard_keys)
     val numColumns = integerResource(id = R.integer.keyboard_columns)
+    val inputTextSize = dimensionResource(id = R.dimen.keyboard_input_text_size).value.sp
+    val keyTextSize = dimensionResource(id = R.dimen.keyboard_text_size).value.sp
 
     val isLandscapeOrTablet = numColumns > 5
 
@@ -165,6 +169,7 @@ fun KeyboardContent(
                             Text(
                                 text = inputText.ifEmpty { stringResource(R.string.keyboard_select_letters) },
                                 style = MaterialTheme.typography.headlineMedium.copy(
+                                    fontSize = inputTextSize,
                                     fontWeight = FontWeight.Bold,
                                     color = if (inputText.isEmpty()) Color.Gray else Color.White
                                 ),
@@ -178,12 +183,14 @@ fun KeyboardContent(
                                     Text(
                                         stringResource(R.string.keyboard_select_letters),
                                         style = MaterialTheme.typography.headlineMedium.copy(
+                                            fontSize = inputTextSize,
                                             fontWeight = FontWeight.Bold,
                                             color = Color.Gray
                                         )
                                     )
                                 },
                                 textStyle = MaterialTheme.typography.headlineMedium.copy(
+                                    fontSize = inputTextSize,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White
                                 ),
@@ -206,8 +213,8 @@ fun KeyboardContent(
                                     autoCorrectEnabled = true
                                 ),
                                 keyboardActions = KeyboardActions(
-                                    onDone = { 
-                                        onSpeak() 
+                                    onDone = {
+                                        onSpeak()
                                     }
                                 )
                             )
@@ -324,6 +331,7 @@ fun KeyboardContent(
                         Text(
                             text = inputText.ifEmpty { stringResource(R.string.keyboard_select_letters) },
                             style = MaterialTheme.typography.headlineMedium.copy(
+                                fontSize = inputTextSize,
                                 fontWeight = FontWeight.Bold,
                                 color = if (inputText.isEmpty()) Color.Gray else Color.White
                             ),
@@ -337,12 +345,14 @@ fun KeyboardContent(
                                 Text(
                                     stringResource(R.string.keyboard_select_letters),
                                     style = MaterialTheme.typography.headlineMedium.copy(
+                                        fontSize = inputTextSize,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Gray
                                     )
                                 )
                             },
                             textStyle = MaterialTheme.typography.headlineMedium.copy(
+                                fontSize = inputTextSize,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -365,8 +375,8 @@ fun KeyboardContent(
                                 autoCorrectEnabled = true
                             ),
                             keyboardActions = KeyboardActions(
-                                onDone = { 
-                                    onSpeak() 
+                                onDone = {
+                                    onSpeak()
                                 }
                             )
                         )
@@ -507,7 +517,11 @@ fun KeyboardContent(
                                         .weight(1f)
                                         .fillMaxHeight()
                                 ) {
-                                    Text(text = key, style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
+                                    Text(
+                                        text = key,
+                                        style = MaterialTheme.typography.headlineLarge.copy(fontSize = keyTextSize),
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                             }
                             if (rowKeys.size < numColumns) {

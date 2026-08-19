@@ -161,7 +161,8 @@ private fun EditCategoryMenuContent(
                 text = categoryName,
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = TextColor
+                    color = TextColor,
+                    fontSize = dimensionResource(id = R.dimen.settings_edit_individual_category_text_size).value.sp
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -190,7 +191,7 @@ private fun EditCategoryMenuContent(
                         text = stringResource(R.string.rename_category),
                         color = TextColor,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
+                        fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 16.dp)
@@ -214,7 +215,7 @@ private fun EditCategoryMenuContent(
                         text = stringResource(R.string.show_category),
                         color = TextColor,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
+                        fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 16.dp)
@@ -250,7 +251,7 @@ private fun EditCategoryMenuContent(
                         text = stringResource(R.string.edit_phrases),
                         color = TextColor,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
+                        fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 16.dp)
@@ -282,7 +283,7 @@ private fun EditCategoryMenuContent(
                         text = stringResource(R.string.remove_category),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
+                        fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
