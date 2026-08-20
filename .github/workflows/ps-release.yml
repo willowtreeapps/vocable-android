@@ -40,18 +40,13 @@ jobs:
           ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
         run: echo $ENCODED_RELEASE_KEYSTORE | base64 -d > keystore
 
-      - name: Authenticate to Google Play
-        id: play_auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.PLAY_STORE_CREDENTIALS }}
-          token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/androidpublisher
+      - name: Install google-auth
+        run: pip install --quiet google-auth requests
 
       - name: Compute next versionCode
         id: version_code
         env:
-          ACCESS_TOKEN: ${{ steps.play_auth.outputs.access_token }}
+          SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_CREDENTIALS }}
         run: |
           value=$(./scripts/get-next-version-code.sh com.willowtree.vocable)
           echo "value=$value" >> "$GITHUB_OUTPUT"
