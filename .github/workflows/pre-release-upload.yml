@@ -3,14 +3,25 @@ name: Pre-Release Upload
 on:
   workflow_call:
   workflow_dispatch:
+    inputs:
+      skip_device_tests:
+        description: >-
+          Skip device-tests. A standalone dispatch has no build.yml "build"
+          job in the same run to produce the debug/androidTest APKs
+          device-tests.yml downloads, so it always fails "not found" outside
+          of the normal build.yml -> pre-release-upload.yml call chain.
+        type: boolean
+        default: false
 
 jobs:
   device-tests:
+    if: ${{ github.event_name != 'workflow_dispatch' || !inputs.skip_device_tests }}
     uses: ./.github/workflows/device-tests.yml
     secrets: inherit
 
   pre-release-upload:
     needs: device-tests
+    if: ${{ always() && (needs.device-tests.result == 'success' || needs.device-tests.result == 'skipped') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
