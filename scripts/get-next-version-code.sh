@@ -11,22 +11,50 @@
 # a versionCode <= one already used on any track. Querying Play directly for
 # ground truth removes the dependency on run history entirely.
 #
-# Requires an OAuth access token scoped to
-# https://www.googleapis.com/auth/androidpublisher in $ACCESS_TOKEN — plain
-# `gcloud auth print-access-token` mints one scoped to cloud-platform instead,
-# which the Android Publisher API rejects, so the calling workflow must set
-# `token_format: access_token` + `access_token_scopes` on
-# google-github-actions/auth and pass its `access_token` output through
-# rather than relying on the ADC credentials file. Also requires `curl`/`jq`
-# on PATH.
+# Requires the Play service account's JSON key in $SERVICE_ACCOUNT_JSON (the
+# same key used by r0adkll/upload-google-play). We mint our own
+# androidpublisher-scoped access token from it via the standard OAuth2
+# JWT-bearer flow (google-auth's Credentials.refresh()), the same mechanism
+# r0adkll's action uses internally. This deliberately avoids
+# google-github-actions/auth's `token_format: access_token` output: that path
+# routes through the IAM Service Account Credentials API
+# (iamcredentials.googleapis.com), which is disabled on this GCP project and
+# would need to be enabled in the Google Cloud Console first — an infra
+# change, not a code fix. `gcloud auth print-access-token` was tried too and
+# doesn't work either: it has no --scopes flag, so it always mints a
+# cloud-platform-scoped token, which the Android Publisher API rejects.
 #
-# Usage: ACCESS_TOKEN=<token> ./get-next-version-code.sh <package-name>
+# Also requires python3 (with the `google-auth` package installed by the
+# calling workflow) and `curl`/`jq` on PATH.
+#
+# Usage: SERVICE_ACCOUNT_JSON=<json> ./get-next-version-code.sh <package-name>
 
 set -euo pipefail
 
 PACKAGE_NAME="${1:?usage: get-next-version-code.sh <package-name>}"
-ACCESS_TOKEN="${ACCESS_TOKEN:?ACCESS_TOKEN env var must be set to an androidpublisher-scoped access token}"
+: "${SERVICE_ACCOUNT_JSON:?SERVICE_ACCOUNT_JSON env var must be set to the Play service account key JSON}"
 API_BASE="https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${PACKAGE_NAME}"
+
+ACCESS_TOKEN=$(SERVICE_ACCOUNT_JSON="${SERVICE_ACCOUNT_JSON}" python3 - <<'PY'
+import json
+import os
+
+from google.auth.transport.requests import Request
+from google.oauth2 import service_account
+
+info = json.loads(os.environ["SERVICE_ACCOUNT_JSON"])
+credentials = service_account.Credentials.from_service_account_info(
+    info, scopes=["https://www.googleapis.com/auth/androidpublisher"]
+)
+credentials.refresh(Request())
+print(credentials.token)
+PY
+)
+
+if [[ -z "${ACCESS_TOKEN}" || "${ACCESS_TOKEN}" == "None" ]]; then
+  echo "Failed to mint an androidpublisher-scoped access token" >&2
+  exit 1
+fi
 
 EDIT_RESPONSE=$(curl -sS -X POST \
   -H "Authorization: Bearer ${ACCESS_TOKEN}" \

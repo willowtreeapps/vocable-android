@@ -2,14 +2,26 @@ name: Pre-Release Upload
 
 on:
   workflow_call:
+  workflow_dispatch:
+    inputs:
+      skip_device_tests:
+        description: >-
+          Skip device-tests. A standalone dispatch has no build.yml "build"
+          job in the same run to produce the debug/androidTest APKs
+          device-tests.yml downloads, so it always fails "not found" outside
+          of the normal build.yml -> pre-release-upload.yml call chain.
+        type: boolean
+        default: false
 
 jobs:
   device-tests:
+    if: ${{ github.event_name != 'workflow_dispatch' || !inputs.skip_device_tests }}
     uses: ./.github/workflows/device-tests.yml
     secrets: inherit
 
   pre-release-upload:
     needs: device-tests
+    if: ${{ always() && (needs.device-tests.result == 'success' || needs.device-tests.result == 'skipped') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,18 +44,13 @@ jobs:
           GOOGLE_SERVICES_JSON_B64: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
         run: echo $GOOGLE_SERVICES_JSON_B64 | base64 -d > app/google-services.json
 
-      - name: Authenticate to Google Play
-        id: play_auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.PLAY_STORE_CREDENTIALS }}
-          token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/androidpublisher
+      - name: Install google-auth
+        run: pip install --quiet google-auth requests
 
       - name: Compute next versionCode
         id: version_code
         env:
-          ACCESS_TOKEN: ${{ steps.play_auth.outputs.access_token }}
+          SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_CREDENTIALS }}
         run: |
           value=$(./scripts/get-next-version-code.sh com.willowtree.vocable)
           echo "value=$value" >> "$GITHUB_OUTPUT"
