@@ -42,7 +42,7 @@
     <dimen name="settings_title_padding_start">16dp</dimen>
     <dimen name="settings_title_padding_end">88dp</dimen>
     <dimen name="settings_title_margin_bottom">40dp</dimen>
-    <dimen name="settings_title_text_size">34sp</dimen>
+    <dimen name="settings_title_text_size">28sp</dimen>
     <dimen name="settings_margin_small">8dp</dimen>
     <dimen name="settings_margin_default">24dp</dimen>
     <dimen name="settings_action_button_layout_height">80dp</dimen>
@@ -182,6 +182,9 @@
     <dimen name="settings_contact_developers_top_margin">8dp</dimen>
     <dimen name="settings_edit_individual_category_text_size">30sp</dimen>
     <dimen name="settings_edit_individual_category_arrow_width">80dp</dimen>
+    <dimen name="edit_category_menu_action_text_size">18sp</dimen>
+    <dimen name="edit_category_phrases_item_text_size">18sp</dimen>
+    <dimen name="head_tracking_paused_text_size">18sp</dimen>
     <dimen name="settings_edit_individual_category_arrow_height">45dp</dimen>
     <dimen name="settings_edit_individual_category_arrow_top">8dp</dimen>
     <dimen name="settings_edit_individual_category_arrow_padding">10dp</dimen>
@@ -214,6 +217,10 @@
     <dimen name="hover_decrease_button_top_margin">16dp</dimen>
     <dimen name="hover_decrease_button_end_margin">8dp</dimen>
     <dimen name="hover_increase_margin_end">16dp</dimen>
+    <!-- timing_title_text_size backs a legacy pre-Compose XML style (styles.xml
+         TimingSensitivityTitle) that itself is unreferenced by any Compose screen - not
+         removed here since deleting it breaks resource linking; SensitivityScreen's main
+         title uses BasicText/TextAutoSize instead. -->
     <dimen name="timing_title_text_size">24sp</dimen>
     <dimen name="timing_subtitle_text_size">24sp</dimen>
     <dimen name="hover_time_text_size">24sp</dimen>

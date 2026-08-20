@@ -358,7 +358,7 @@ private fun PhraseEditItem(
                     text = phraseText,
                     color = TextColor,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
+                    fontSize = dimensionResource(id = R.dimen.edit_category_phrases_item_text_size).value.sp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 16.dp),

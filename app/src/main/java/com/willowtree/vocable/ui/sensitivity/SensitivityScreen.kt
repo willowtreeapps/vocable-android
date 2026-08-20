@@ -110,7 +110,10 @@ private fun SensitivityContent(
         // Hover Time Section
         Text(
             text = stringResource(id = R.string.hover_time_text),
-            style = MaterialTheme.typography.titleLarge.copy(color = TextColor),
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = TextColor,
+                fontSize = dimensionResource(id = R.dimen.timing_subtitle_text_size).value.sp
+            ),
             modifier = Modifier.constrainAs(hoverTitleRef) {
                 top.linkTo(backButtonRef.bottom, margin = 32.dp)
                 start.linkTo(parent.start)
@@ -143,7 +146,10 @@ private fun SensitivityContent(
 
             Text(
                 text = dwellTimeText,
-                style = MaterialTheme.typography.headlineMedium.copy(color = TextColor),
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    color = TextColor,
+                    fontSize = dimensionResource(id = R.dimen.hover_time_text_size).value.sp
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 16.dp),
@@ -161,7 +167,10 @@ private fun SensitivityContent(
         // Cursor Sensitivity Section
         Text(
             text = stringResource(id = R.string.cursor_sensitivity_text),
-            style = MaterialTheme.typography.titleLarge.copy(color = TextColor),
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = TextColor,
+                fontSize = dimensionResource(id = R.dimen.timing_subtitle_text_size).value.sp
+            ),
             modifier = Modifier.constrainAs(cursorTitleRef) {
                 top.linkTo(hoverControlsRef.bottom, margin = 32.dp)
                 start.linkTo(parent.start)
