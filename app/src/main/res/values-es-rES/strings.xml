@@ -26,8 +26,19 @@
     <string name="settings_edit_saying">Mis frases</string>
     <string name="settings_edit_categories">Categorías y frases</string>
     <string name="settings_selection_mode">Modo de selección</string>
-    <string name="settings_reset_app">Restablecer configuración</string>
+    <string name="settings_reset_app">Reset Vocable</string>
     <string name="settings_options_voice">Voice</string>
+    <!-- Reset Category (EditCategoryMenuScreen, non-custom categories only) -->
+    <string name="reset_category">Reset Category</string>
+    <string name="reset_phrases_label">Phrases</string>
+    <string name="reset_category_phrases_dialog_message">Are you sure you want to reset the phrases in this category to their defaults and remove any you\'ve added or edited? This action cannot be undone.</string>
+    <!-- Reset App Settings screen (granular selection + nuclear "Reset Everything") -->
+    <string name="reset_settings_reset_selected">Reset Selected</string>
+    <string name="reset_settings_reset_everything">Reset Everything</string>
+    <string name="reset_settings_selected_dialog_title">Reset Selected Settings</string>
+    <string name="reset_settings_selected_dialog_message">Are you sure you want to reset the selected settings to their defaults? This action cannot be undone.</string>
+    <string name="reset_settings_success">Reset successful</string>
+    <string name="reset_settings_failure">Reset failed. Please try again.</string>
     <!-- Selection Mode -->
     <string name="selection_mode_title">Selection Mode</string>
     <!-- Change Voice -->
