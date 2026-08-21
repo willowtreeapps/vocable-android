@@ -6,6 +6,7 @@ sealed interface SettingsEvent {
     data object NavigateToTimingSensitivity : SettingsEvent
     data object NavigateToSelectionMode : SettingsEvent
     data object NavigateToVoiceSelection : SettingsEvent
+    data object NavigateToResetSettings : SettingsEvent
     data class OpenPrivacyPolicy(val url: String) : SettingsEvent
     data class ContactDevelopers(val mailTo: String) : SettingsEvent
 }

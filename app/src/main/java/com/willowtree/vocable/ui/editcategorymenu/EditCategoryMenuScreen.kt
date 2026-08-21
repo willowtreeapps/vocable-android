@@ -40,6 +40,7 @@ import com.willowtree.vocable.R
 import com.willowtree.vocable.core.locale.LocalesWithText
 import com.willowtree.vocable.domain.model.Category
 import com.willowtree.vocable.ui.base.MviScreen
+import com.willowtree.vocable.ui.components.ConfirmationDialog
 import com.willowtree.vocable.ui.components.GazeButton
 import com.willowtree.vocable.ui.theme.ColorPrimary
 import com.willowtree.vocable.ui.theme.ErrorColor
@@ -83,6 +84,7 @@ private fun EditCategoryMenuContent(
     val density = LocalDensity.current
     val category = state.category
     val categoryName = category?.text(context) ?: ""
+    val isNonCustomCategory = category != null && category !is Category.StoredCategory
 
     val horizontalPadding = 24.dp
     val verticalPadding = 32.dp
@@ -97,28 +99,32 @@ private fun EditCategoryMenuContent(
     var availableHeightPx by remember { mutableIntStateOf(0) }
     var headerHeightPx by remember { mutableIntStateOf(0) }
 
+    val maxActionCount = if (isNonCustomCategory) 5 else 4
+
     val visibleActionCount = remember(
         availableHeightPx,
         headerHeightPx,
         headerBottomSpacingPx,
         itemSpacingPx,
-        actionButtonHeightPx
+        actionButtonHeightPx,
+        maxActionCount
     ) {
         if (availableHeightPx == 0 || headerHeightPx == 0) {
-            4
+            maxActionCount
         } else {
             val availableActionsHeight = availableHeightPx - headerHeightPx - headerBottomSpacingPx
             val rowsThatFit = floor(
                 (availableActionsHeight + itemSpacingPx).toFloat() / (actionButtonHeightPx + itemSpacingPx).toFloat()
             ).toInt()
-            rowsThatFit.coerceIn(1, 4)
+            rowsThatFit.coerceIn(1, maxActionCount)
         }
     }
 
     val showRename = visibleActionCount >= 1
     val showToggle = visibleActionCount >= 2
     val showEditPhrases = visibleActionCount >= 3
-    val showRemove = visibleActionCount >= 4
+    val showReset = isNonCustomCategory && visibleActionCount >= 4
+    val showRemove = if (isNonCustomCategory) visibleActionCount >= 5 else visibleActionCount >= 4
 
     ConstraintLayout(
         modifier = Modifier
@@ -258,6 +264,30 @@ private fun EditCategoryMenuContent(
                 }
             }
 
+            if (showReset) {
+                GazeButton(
+                    onClick = { onIntent(EditCategoryMenuIntent.RequestResetCategory) },
+                    backgroundColor = ErrorColor,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(actionButtonHeight)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_reset),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.reset_category),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = dimensionResource(id = R.dimen.edit_category_menu_action_text_size).value.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            }
+
             if (showRemove) {
                 GazeButton(
                     onClick = { onIntent(EditCategoryMenuIntent.DeleteCategory) },
@@ -284,6 +314,17 @@ private fun EditCategoryMenuContent(
             }
         }
     }
+
+    if (state.isResetDialogOpen) {
+        ConfirmationDialog(
+            title = stringResource(R.string.reset_category),
+            message = stringResource(R.string.reset_category_phrases_dialog_message),
+            confirmText = stringResource(R.string.settings_reset_dialog_confirm),
+            onDismiss = { onIntent(EditCategoryMenuIntent.DismissResetDialog) },
+            onConfirm = { onIntent(EditCategoryMenuIntent.ConfirmResetDialog) },
+            isDestructive = true
+        )
+    }
 }
 
 @Preview(showBackground = true, device = Devices.PIXEL)
@@ -303,6 +344,24 @@ private fun EditCategoryMenuPreview() {
                     LocalesWithText(mapOf("en" to "General")),
                     false,
                     0
+                ),
+                isLastCategory = false
+            ),
+            onIntent = {}
+        )
+    }
+}
+
+@Preview(name = "Non-custom category (shows Reset Category)", showBackground = true, device = Devices.PIXEL)
+@Composable
+private fun EditCategoryMenuNonCustomPreview() {
+    VocableTheme {
+        EditCategoryMenuContent(
+            state = EditCategoryMenuState(
+                category = Category.PresetCategory(
+                    categoryId = "preset_general",
+                    sortOrder = 0,
+                    hidden = false
                 ),
                 isLastCategory = false
             ),

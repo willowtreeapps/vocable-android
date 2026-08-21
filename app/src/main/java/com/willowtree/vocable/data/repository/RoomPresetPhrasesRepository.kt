@@ -76,6 +76,10 @@ class RoomPresetPhrasesRepository(
         presetPhrasesDao.deleteAllPresetPhrases()
     }
 
+    override suspend fun deletePhrasesForCategory(categoryId: String) {
+        presetPhrasesDao.deletePresetPhrasesForCategory(categoryId)
+    }
+
     private fun List<PresetPhraseDto>.filterDeletedPresets(): List<PresetPhraseDto> {
         return filterNot { it.deleted }
     }

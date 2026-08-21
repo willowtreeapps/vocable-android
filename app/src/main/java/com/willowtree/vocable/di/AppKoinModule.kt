@@ -49,6 +49,7 @@ import com.willowtree.vocable.ui.editphrases.EditCategoryPhrasesViewModel
 import com.willowtree.vocable.ui.facetracking.FaceTrackingViewModel
 import com.willowtree.vocable.ui.keyboard.KeyboardViewModel
 import com.willowtree.vocable.ui.presets.PresetsViewModel
+import com.willowtree.vocable.ui.resetsettings.ResetSettingsViewModel
 import com.willowtree.vocable.ui.selectionmode.SelectionModeViewModel
 import com.willowtree.vocable.ui.settings.SettingsViewModel
 import com.willowtree.vocable.ui.settingsvoice.SettingsVoiceViewModel
@@ -98,6 +99,7 @@ val vocableKoinModule = module {
             )
         }
         viewModel { SelectionModeViewModel(get()) }
+        viewModel { ResetSettingsViewModel(get(), get(), get(), get()) }
     }
 
     factory<IFaceTrackingPermissions> {
@@ -107,6 +109,7 @@ val vocableKoinModule = module {
 
             override fun disableFaceTracking() = Unit
             override fun requestFaceTracking() = Unit
+            override fun resetToDefault() = Unit
         }
     }
 
@@ -132,9 +135,9 @@ val vocableKoinModule = module {
     viewModel { PresetsViewModel(get(), get(), get(named<PresetsViewModel>()), get(), get()) }
     viewModel { EditCategoriesViewModel(get()) }
     viewModel { EditCategoryPhrasesViewModel(get(), get(), get()) }
-    viewModel { EditCategoryMenuViewModel(get()) }
+    viewModel { EditCategoryMenuViewModel(get(), get()) }
     viewModel { KeyboardViewModel() }
-    viewModel { SettingsViewModel(get(), get()) }
+    viewModel { SettingsViewModel(get()) }
     viewModel { SettingsVoiceViewModel(get()) }
     viewModel { SensitivityViewModel(get()) }
     viewModel { VoiceSelectionViewModel(get()) }

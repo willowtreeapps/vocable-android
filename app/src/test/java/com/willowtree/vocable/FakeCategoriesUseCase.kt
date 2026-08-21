@@ -124,7 +124,15 @@ class FakeCategoriesUseCase : ICategoriesUseCase {
         TODO("Not yet implemented")
     }
 
+    var shouldThrowOnReset = false
+
     override suspend fun resetToDefaults() {
+        if (shouldThrowOnReset) error("Simulated reset failure")
+        _categories.value = initialCategories
+    }
+
+    override suspend fun resetCategoriesToDefaults() {
+        if (shouldThrowOnReset) error("Simulated reset failure")
         _categories.value = initialCategories
     }
 }

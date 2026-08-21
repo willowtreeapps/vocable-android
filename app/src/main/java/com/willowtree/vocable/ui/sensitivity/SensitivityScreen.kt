@@ -86,8 +86,9 @@ private fun SensitivityContent(
             ),
             maxLines = 2,
             modifier = Modifier.constrainAs(titleRef) {
-                start.linkTo(backButtonRef.end , margin = backButtonSize + 16.dp)
-                end.linkTo(parent.end, margin = backButtonSize + 16.dp)
+                start.linkTo(backButtonRef.end, margin = 8.dp)
+                end.linkTo(parent.end, margin = 8.dp)
+                width = Dimension.fillToConstraints
             }
         )
 

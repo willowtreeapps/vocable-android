@@ -48,18 +48,20 @@ class EditCategoriesViewModelTest {
     )
     private val storedPhrasesRepository = RoomStoredPhrasesRepository(database, FakeDateProvider())
 
+    private val phrasesUseCase = PhrasesUseCase(
+        storedPhrasesRepository,
+        presetPhrasesRepository,
+        FakeDateProvider(),
+        FakeUUIDProvider(),
+        FakeLocaleProvider()
+    )
+
     private val categoriesUseCase = CategoriesUseCase(
         FakeUUIDProvider(),
         FakeLocaleProvider(),
         storedCategoriesRepository,
         presetCategoriesRepository,
-        PhrasesUseCase(
-            storedPhrasesRepository,
-            presetPhrasesRepository,
-            FakeDateProvider(),
-            FakeUUIDProvider(),
-            FakeLocaleProvider()
-        )
+        phrasesUseCase
     )
 
     private fun createViewModel(): EditCategoriesViewModel {

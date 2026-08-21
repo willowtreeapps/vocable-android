@@ -188,4 +188,57 @@ class CategoriesUseCaseTest {
         assertEquals(7, categories.size)
         assertEquals(true, categories.none { it is Category.StoredCategory })
     }
+
+    @Test
+    fun resetCategoriesToDefaults_removes_custom_category_and_restores_preset_order() = runTest {
+        val useCase = createUseCase()
+        useCase.addCategory("My Custom Category")
+        useCase.updateCategoryHidden(PresetCategories.GENERAL.id, true)
+        assertEquals(8, useCase.categories().first().size)
+
+        useCase.resetCategoriesToDefaults()
+
+        val categories = useCase.categories().first()
+        assertEquals(7, categories.size)
+        assertEquals(true, categories.none { it is Category.StoredCategory })
+        assertEquals(false, useCase.getCategoryById(PresetCategories.GENERAL.id).hidden)
+    }
+
+    @Test
+    fun resetCategoriesToDefaults_deletes_phrases_belonging_to_removed_custom_category() = runTest {
+        val useCase = createUseCase()
+        useCase.addCategory("My Custom Category")
+        val customCategory = useCase.categories().first().last { it is Category.StoredCategory }
+        val phrasesUseCase = PhrasesUseCase(
+            storedPhrasesRepository,
+            presetPhrasesRepository,
+            dateProvider,
+            FakeUUIDProvider(),
+            FakeLocaleProvider()
+        )
+        phrasesUseCase.addPhrase(LocalesWithText(mapOf("en_US" to "Custom phrase")), customCategory.categoryId)
+        assertEquals(1, phrasesUseCase.getPhrasesForCategory(customCategory.categoryId).size)
+
+        useCase.resetCategoriesToDefaults()
+
+        assertEquals(0, phrasesUseCase.getPhrasesForCategory(customCategory.categoryId).size)
+    }
+
+    @Test
+    fun resetCategoriesToDefaults_does_not_touch_phrases_in_retained_preset_categories() = runTest {
+        val useCase = createUseCase()
+        val phrasesUseCase = PhrasesUseCase(
+            storedPhrasesRepository,
+            presetPhrasesRepository,
+            dateProvider,
+            FakeUUIDProvider(),
+            FakeLocaleProvider()
+        )
+        phrasesUseCase.addPhrase(LocalesWithText(mapOf("en_US" to "Custom phrase")), PresetCategories.GENERAL.id)
+        assertEquals(1, phrasesUseCase.getPhrasesForCategory(PresetCategories.GENERAL.id).size)
+
+        useCase.resetCategoriesToDefaults()
+
+        assertEquals(1, phrasesUseCase.getPhrasesForCategory(PresetCategories.GENERAL.id).size)
+    }
 }

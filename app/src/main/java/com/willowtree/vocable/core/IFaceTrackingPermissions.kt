@@ -15,6 +15,9 @@ interface IFaceTrackingPermissions {
     fun requestFaceTracking()
 
     fun disableFaceTracking()
+
+    /** Resets head tracking to its default (enabled) without re-triggering the camera permission flow. */
+    fun resetToDefault()
 }
 
 fun IFaceTrackingPermissions.PermissionState.isEnabled() = this == IFaceTrackingPermissions.PermissionState.Enabled

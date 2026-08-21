@@ -2,6 +2,7 @@ package com.willowtree.vocable.ui.editcategorymenu
 
 import androidx.lifecycle.viewModelScope
 import com.willowtree.vocable.domain.usecase.ICategoriesUseCase
+import com.willowtree.vocable.domain.usecase.IPhrasesUseCase
 import com.willowtree.vocable.ui.base.BaseViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -11,7 +12,8 @@ import kotlinx.coroutines.launch
  * user interactions.
  */
 class EditCategoryMenuViewModel(
-    private val categoriesUseCase: ICategoriesUseCase
+    private val categoriesUseCase: ICategoriesUseCase,
+    private val phrasesUseCase: IPhrasesUseCase
 ) : BaseViewModel<EditCategoryMenuState, EditCategoryMenuEvent>(EditCategoryMenuState()) {
 
     fun loadCategory(categoryId: String) {
@@ -53,6 +55,23 @@ class EditCategoryMenuViewModel(
                 val category = uiState.value.category ?: return@launch
                 categoriesUseCase.deleteCategory(category.categoryId)
                 sendEvent(EditCategoryMenuEvent.NavigateBack)
+            }
+
+            EditCategoryMenuIntent.RequestResetCategory -> updateState {
+                copy(isResetDialogOpen = true)
+            }
+
+            EditCategoryMenuIntent.DismissResetDialog -> updateState {
+                copy(isResetDialogOpen = false)
+            }
+
+            EditCategoryMenuIntent.ConfirmResetDialog -> {
+                updateState { copy(isResetDialogOpen = false) }
+                uiState.value.category?.let { category ->
+                    viewModelScope.launch {
+                        phrasesUseCase.resetPhrasesForCategory(category.categoryId)
+                    }
+                }
             }
         }
     }

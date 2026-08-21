@@ -6,5 +6,6 @@ import com.willowtree.vocable.domain.model.Category
 data class EditCategoryMenuState(
     val category: Category? = null,
     /** True when this is the only category left (disable delete). */
-    val isLastCategory: Boolean = false
+    val isLastCategory: Boolean = false,
+    val isResetDialogOpen: Boolean = false
 )

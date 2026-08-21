@@ -7,4 +7,7 @@ sealed interface EditCategoryMenuIntent {
     object EditPhrases : EditCategoryMenuIntent
     data class SetCategoryShown(val shown: Boolean) : EditCategoryMenuIntent
     object DeleteCategory : EditCategoryMenuIntent
+    object RequestResetCategory : EditCategoryMenuIntent
+    object DismissResetDialog : EditCategoryMenuIntent
+    object ConfirmResetDialog : EditCategoryMenuIntent
 }

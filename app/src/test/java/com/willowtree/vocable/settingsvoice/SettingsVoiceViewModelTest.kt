@@ -23,8 +23,10 @@ class SettingsVoiceViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private fun createViewModel(selectedVoiceName: String? = null): SettingsVoiceViewModel =
-        SettingsVoiceViewModel(FakeVocableSharedPreferences(selectedVoiceName = selectedVoiceName))
+    private fun createViewModel(
+        selectedVoiceName: String? = null,
+        prefs: FakeVocableSharedPreferences = FakeVocableSharedPreferences(selectedVoiceName = selectedVoiceName)
+    ): SettingsVoiceViewModel = SettingsVoiceViewModel(prefs)
 
     @Test
     fun `initial state falls back to default label when no voice can be resolved`() = runTest {

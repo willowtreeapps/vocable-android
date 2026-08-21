@@ -114,4 +114,29 @@ class PhrasesUseCase(
         presetPhrasesRepository.deleteAllPhrases()
         presetPhrasesRepository.populateDatabase()
     }
+
+    override suspend fun resetPhrasesForCategory(categoryId: String) {
+        storedPhrasesRepository.getPhrasesForCategoryFlow(categoryId).first().forEach {
+            storedPhrasesRepository.deletePhrase(it.phraseId)
+        }
+        presetPhrasesRepository.deletePhrasesForCategory(categoryId)
+        // No-op for a category with no presets (e.g. a user-added category) - populateDatabase()
+        // only ever (re)inserts rows for PresetCategories entries.
+        presetPhrasesRepository.populateDatabase()
+    }
+
+    override suspend fun resetPresetPhrasesToDefaults() {
+        // Recents is derived (no store of its own) and My Sayings is a pure user-favorites
+        // bucket - populateDatabase() never seeds either from an array, so neither has a default
+        // phrase set to reset to; every other PresetCategories entry does.
+        PresetCategories.entries
+            .filterNot { it == PresetCategories.RECENTS || it == PresetCategories.MY_SAYINGS }
+            .forEach { presetCategory ->
+                storedPhrasesRepository.getPhrasesForCategoryFlow(presetCategory.id).first().forEach {
+                    storedPhrasesRepository.deletePhrase(it.phraseId)
+                }
+            }
+        presetPhrasesRepository.deleteAllPhrases()
+        presetPhrasesRepository.populateDatabase()
+    }
 }

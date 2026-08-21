@@ -177,7 +177,9 @@ private fun EditCategoryPhrasesContent(
             modifier = Modifier
                 .constrainAs(titleRef) {
                     top.linkTo(parent.top)
-                    centerHorizontallyTo(parent)
+                    start.linkTo(backRef.end, margin = 8.dp)
+                    end.linkTo(addRef.start, margin = 8.dp)
+                    width = Dimension.fillToConstraints
                 }
                 .onSizeChanged { titleHeightPx = it.height }
         )

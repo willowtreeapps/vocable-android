@@ -23,6 +23,8 @@ import com.willowtree.vocable.ui.editcategorymenu.EditCategoryMenuScreen
 import com.willowtree.vocable.ui.editphrases.EditCategoryPhrasesScreen
 import com.willowtree.vocable.ui.keyboard.KeyboardScreen
 import com.willowtree.vocable.ui.presets.PresetsScreen
+import com.willowtree.vocable.ui.resetsettings.ResetSettingsScreen
+import com.willowtree.vocable.ui.resetsettings.ResetSettingsViewModel
 import com.willowtree.vocable.ui.selectionmode.SelectionModeScreen
 import com.willowtree.vocable.ui.selectionmode.SelectionModeViewModel
 import com.willowtree.vocable.ui.sensitivity.SensitivityScreen
@@ -51,6 +53,7 @@ private const val ROUTE_RENAME_CATEGORY = "renameCategory"
 private const val ROUTE_EDIT_PHRASE = "editPhrase"
 private const val ROUTE_SENSITIVITY = "sensitivity"
 private const val ROUTE_SELECTION_MODE = "selectionMode"
+private const val ROUTE_RESET_SETTINGS = "resetSettings"
 private const val ROUTE_SETTINGS_VOICE = "settingsVoice"
 private const val ROUTE_VOICE_SELECTION = "voiceSelection"
 
@@ -153,6 +156,7 @@ fun VocableNavHost(
                     SettingsEvent.NavigateToTimingSensitivity -> navController.navigate(ROUTE_SENSITIVITY)
                     SettingsEvent.NavigateToSelectionMode -> navController.navigate(ROUTE_SELECTION_MODE)
                     SettingsEvent.NavigateToVoiceSelection -> navController.navigate(ROUTE_SETTINGS_VOICE)
+                    SettingsEvent.NavigateToResetSettings -> navController.navigate(ROUTE_RESET_SETTINGS)
                     is SettingsEvent.OpenPrivacyPolicy -> settingsContext.startActivity(
                         Intent(Intent.ACTION_VIEW, event.url.toUri())
                     )
@@ -169,7 +173,7 @@ fun VocableNavHost(
                     onTimingSensitivity = viewModel::onTimingSensitivity,
                     onSelectionMode = viewModel::onSelectionMode,
                     onVoiceSelection = viewModel::onVoiceSelection,
-                    onResetAppSettings = viewModel::requestReset,
+                    onResetAppSettings = viewModel::onResetAppSettings,
                     onPrivacyPolicy = viewModel::requestPrivacyPolicy,
                     onContactDevs = viewModel::requestContactDevs,
                     onDismissDialog = viewModel::dismissDialog,
@@ -227,6 +231,17 @@ fun VocableNavHost(
                 ?: error("VocableNavHost must be hosted in MainActivity")
             val vm: SelectionModeViewModel = mainActivity.getViewModel()
             SelectionModeScreen(
+                onBack = { navController.popBackStack(ROUTE_SETTINGS, false) },
+                viewModel = vm
+            )
+        }
+
+        composable(ROUTE_RESET_SETTINGS) {
+            val resetSettingsContext = LocalContext.current
+            val mainActivity = resetSettingsContext.findActivity() as? MainActivity
+                ?: error("VocableNavHost must be hosted in MainActivity")
+            val vm: ResetSettingsViewModel = mainActivity.getViewModel()
+            ResetSettingsScreen(
                 onBack = { navController.popBackStack(ROUTE_SETTINGS, false) },
                 viewModel = vm
             )

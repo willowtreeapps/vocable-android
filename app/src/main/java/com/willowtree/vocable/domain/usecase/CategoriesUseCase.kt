@@ -154,4 +154,16 @@ class CategoriesUseCase(
         presetCategoriesRepository.deleteAllCategories()
         presetCategoriesRepository.populateDatabase()
     }
+
+    override suspend fun resetCategoriesToDefaults() {
+        val userCategoryIds = storedCategoriesRepository.getAllCategories().first().map { it.categoryId }
+        userCategoryIds.forEach { categoryId ->
+            phrasesUseCase.getPhrasesForCategory(categoryId).forEach { phrase ->
+                phrasesUseCase.deletePhrase(phrase.phraseId)
+            }
+        }
+        storedCategoriesRepository.deleteAllCategories()
+        presetCategoriesRepository.deleteAllCategories()
+        presetCategoriesRepository.populateDatabase()
+    }
 }

@@ -11,11 +11,19 @@ class FakeFaceTrackingPermissions(enabled: Boolean) : IFaceTrackingPermissions {
     var requestFaceTrackingCalled: Boolean = false
         private set
 
+    var resetToDefaultCalled: Boolean = false
+        private set
+
     override fun requestFaceTracking() {
         requestFaceTrackingCalled = true
     }
 
     override fun disableFaceTracking() {
         permissionState.tryEmit(IFaceTrackingPermissions.PermissionState.Disabled)
+    }
+
+    override fun resetToDefault() {
+        resetToDefaultCalled = true
+        permissionState.tryEmit(IFaceTrackingPermissions.PermissionState.Enabled)
     }
 }

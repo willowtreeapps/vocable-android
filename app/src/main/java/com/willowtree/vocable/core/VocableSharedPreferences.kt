@@ -94,6 +94,13 @@ class VocableSharedPreferences :
 
     override fun getSelectedVoiceName(): String? = encryptedPrefs.getString(KEY_SELECTED_VOICE_NAME, null)
 
+    override fun resetSensitivity() {
+        encryptedPrefs.edit {
+            putLong(KEY_DWELL_TIME, DEFAULT_DWELL_TIME)
+            putFloat(KEY_SENSITIVITY, DEFAULT_SENSITIVITY)
+        }
+    }
+
     @SuppressLint("ApplySharedPref")
     override fun clearAll() {
         // A bare clear() only wipes the store - Android's SharedPreferences only notifies

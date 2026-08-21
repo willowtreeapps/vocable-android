@@ -6,8 +6,6 @@ enum class ExitDialogType {
     PRIVACY_POLICY,
     /** Dialog shown when the user taps Contact Developers, since it leaves the app. */
     CONTACT_DEVELOPERS,
-    /** Dialog shown when the user taps Reset App Settings, warning the wipe is permanent. */
-    RESET_APP_SETTINGS,
     /** No dialog should be shown. */
     NONE
 }
