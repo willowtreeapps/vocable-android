@@ -47,38 +47,16 @@ Once the body is drafted and passes the scope-creep guard, create it with `gh is
 
 ## Creating and linking the branch
 
-**For sub-issue tickets whose PR will target a parent integration branch
-(e.g. `feature/voice-selection`) — which is the normal case per `CLAUDE.md`'s
-sub-issue convention — `createLinkedBranch` is the ONLY way to get anything
-to show under the issue's "Development" section, not merely the preferred
-way.** Confirmed live and worth being precise about, since it's easy to
-assume the usual `Closes #N` trick covers this and it does not:
-
-- A `Closes #653`/`Closes #654` reference in a PR body targeting
-  `feature/voice-selection` did **not** register as a closing reference at
-  all — `closingIssuesReferences` came back empty on both the issue side and
-  the PR side, and the timeline's `CROSS_REFERENCED_EVENT` explicitly reports
-  `willCloseTarget: false`. This isn't just "won't auto-close on merge" (the
-  already-documented caveat above) — the reference is never linked as
-  "Development" material in the first place when the PR's base isn't the
-  repo's default branch.
-- There is **no GraphQL mutation to manually link an already-existing PR or
-  branch** to an issue's Development section — only `createLinkedBranch`
-  (which creates a brand-new ref) and `deleteLinkedBranch` exist. If a branch
-  with the intended name was already pushed via plain `git push` (not through
-  this mutation), there is no way to retroactively attach it — the name is
-  already taken, and `createLinkedBranch` only creates, it doesn't adopt.
-
-**Practical takeaway: call `createLinkedBranch` FIRST, before any branch
-with that name exists anywhere** — as part of ticket creation, right after
-`gh issue create`, not as an optional nicety alongside a manually-pushed
-branch. If you skip this step and push a plain branch first (as happened
-with #653/#654 before this gap was found), the ticket's Development section
-will stay empty even after the PR is opened and merged — the only fix at
-that point is deleting the already-pushed branch/PR and recreating it via
-this mutation, which is a real enough disruption (an open PR pointing at a
-now-deleted branch) that it's a judgment call for whoever hits it, not
-something to do automatically.
+**Sub-issue tickets whose PR will target a parent integration branch** (e.g.
+`feature/voice-selection` — the normal case per `CLAUDE.md`'s sub-issue
+convention) **must use `createLinkedBranch` to show up under the issue's
+"Development" section.** `Closes #N` does not link or auto-close when the
+PR's base isn't the repo's default branch (`closingIssuesReferences` comes
+back empty, `willCloseTarget: false`) — confirmed on #653/#654. There is also
+no mutation to attach an already-existing branch/PR after the fact —
+`createLinkedBranch` only creates a new ref, it can't adopt one. So call it
+**first**, before pushing any branch with that name; if a plain branch is
+pushed first, the only fix is deleting and recreating both the branch and PR.
 
 1. Get the issue's node ID (same query as "Adding it to the board" step 1),
    the repository's node ID, and the base commit to branch from (the tip of
@@ -89,11 +67,10 @@ something to do automatically.
    gh api repos/willowtreeapps/vocable-android --jq '.node_id'
    ```
 2. Create + link the branch in one call (name follows the usual
-   `feature/<issue-number>/<short-description>` convention) — this needs
-   **write access to the repo** (same requirement as pushing/opening a PR;
-   fails with `FORBIDDEN: does not have the correct permissions` if missing,
-   a distinct failure from the `project`-scope `INSUFFICIENT_SCOPES` case
-   above):
+   `feature/<issue-number>/<short-description>` convention) — needs
+   **write access to the repo** (fails with `FORBIDDEN: does not have the
+   correct permissions` if missing, a distinct failure from the
+   `project`-scope `INSUFFICIENT_SCOPES` case below):
    ```bash
    gh api graphql -f query='
    mutation($issueId: ID!, $oid: GitObjectID!, $name: String!, $repositoryId: ID!) {
@@ -110,17 +87,15 @@ something to do automatically.
    git checkout feature/<issue-number>/<short-description>
    ```
 
-A standalone issue whose PR will target `main` (the repo's default branch)
-doesn't have this problem — `Closes #N` links and auto-closes normally there
-— but every sub-issue in this repo's actual workflow targets a parent
-integration branch, so treat `createLinkedBranch`-first as the default, not
-the exception.
+Standalone issues targeting `main` don't have this problem — `Closes #N`
+works normally there — but every sub-issue in this repo's workflow targets a
+parent branch, so treat `createLinkedBranch`-first as the default.
 
 ## Adding it to the board
 
-Every issue this skill creates also gets added to [Project #50](https://github.com/orgs/willowtreeapps/projects/50/views/1) with Status **"Pre Backlog"** — don't leave a newly-created issue off the board; it's invisible to triage/prioritization until it's on it.
+Every issue this skill creates also gets added to [Project #50](https://github.com/orgs/willowtreeapps/projects/50/views/1) with Status **"Pre Backlog"** — an issue not on the board is invisible to triage/prioritization.
 
-The `gh` token needs the `project` scope for this (not just `read:project`) — if the mutation below fails with `INSUFFICIENT_SCOPES`, run `gh auth refresh -s project` (an interactive device-flow approval) before retrying.
+The `gh` token needs the `project` scope for this (not just `read:project`) — if a mutation below fails with `INSUFFICIENT_SCOPES`, run `gh auth refresh -s project` (an interactive device-flow approval) before retrying.
 
 1. **Get the issue's node ID** (from the `gh issue create` output URL, or query it):
    ```bash
@@ -138,8 +113,18 @@ The `gh` token needs the `project` scope for this (not just `read:project`) — 
      }
    }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f contentId="<issue node id>"
    ```
-   Note the returned `item.id` — that's the **project item ID**, different from the issue's node ID, and what the next step needs.
-3. **Set Status to "Pre Backlog"** (Status field ID `PVTSSF_lADOAAiCcM4AiZ3rzga7WAg`, "Pre Backlog" option ID `77e56e59`):
+   Note the returned `item.id` — that's the **project item ID**, different from the issue's node ID, and what the next steps need.
+3. **Look up the Status field ID and "Pre Backlog" option ID** — derive these live rather than hardcoding them; they're GitHub GraphQL object IDs (not secrets), but they're project config that can be renumbered if the board's fields/options ever change:
+   ```bash
+   gh api graphql -f query='
+   query { organization(login: "willowtreeapps") { projectV2(number: 50) {
+     fields(first: 20) { nodes {
+       ... on ProjectV2SingleSelectField { id name options { id name } }
+     } }
+   } } }' --jq '.data.organization.projectV2.fields.nodes[] | select(.name=="Status")'
+   ```
+   Take the field's `id` and the `id` of the `"Pre Backlog"` option from the output.
+4. **Set Status to "Pre Backlog"**:
    ```bash
    gh api graphql -f query='
    mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
@@ -148,16 +133,13 @@ The `gh` token needs the `project` scope for this (not just `read:project`) — 
        value: { singleSelectOptionId: $optionId }
      }) { projectV2Item { id } }
    }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f itemId="<project item id from step 2>" \
-      -f fieldId="PVTSSF_lADOAAiCcM4AiZ3rzga7WAg" -f optionId="77e56e59"
+      -f fieldId="<field id from step 3>" -f optionId="<option id from step 3>"
    ```
-4. **Move it to the top of its column** — new tickets should sort first in
-   the board's grouped-by-Status view, not get buried at the bottom.
-   `updateProjectV2ItemPosition` orders items on a single project-wide list;
-   omitting `afterId` moves an item to the very front of that list, which is
-   sufficient to put it first within its own Status group too (nothing
-   precedes it at all, so it's necessarily first among items sharing its
-   status). Confirmed live: this does not disturb other items' relative
-   order, only shifts the moved item ahead of everything.
+5. **Move it to the top of its column** — new tickets should sort first in
+   the board's grouped-by-Status view. Omitting `afterId` on
+   `updateProjectV2ItemPosition` moves an item to the front of the whole
+   project-wide list, which also puts it first within its own Status group,
+   without disturbing other items' relative order.
    ```bash
    gh api graphql -f query='
    mutation($projectId: ID!, $itemId: ID!) {
@@ -166,17 +148,6 @@ The `gh` token needs the `project` scope for this (not just `read:project`) — 
      }
    }' -f projectId="PVT_kwDOAAiCcM4AiZ3r" -f itemId="<project item id from step 2>"
    ```
-
-If the project's fields/options ever change, re-derive the IDs rather than trust the ones above indefinitely:
-```bash
-gh api graphql -f query='
-query { organization(login: "willowtreeapps") { projectV2(number: 50) {
-  id fields(first: 20) { nodes {
-    ... on ProjectV2FieldCommon { id name }
-    ... on ProjectV2SingleSelectField { id name options { id name } }
-  } }
-} } }'
-```
 
 ## Linking sub-issues to their parent
 
