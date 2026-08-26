@@ -67,6 +67,8 @@ jobs:
           packageName: com.willowtree.vocable
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
+          status: inProgress
+          userFraction: 0.2
 
       - uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
