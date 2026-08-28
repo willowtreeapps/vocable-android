@@ -36,29 +36,63 @@ type converter runs. So a genuine SQL `NULL` in `localized_name` can never be
 fixed at the converter/read layer for a non-null field; it has to be repaired
 in the data itself.
 
+**Correction found while testing**: the first version of `MIGRATION_7_8`'s
+test tried to insert a genuine SQL `NULL` into a `helper.createDatabase(TEST_DB,
+7)`-created table and SQLite rejected it — CI caught this
+(`SQLiteConstraintException: NOT NULL constraint failed`). Decompiling the
+KSP-generated `VocableDatabase_AutoMigration_6_7_Impl.kt` confirmed why: Room's
+6→7 auto-migration does a full table rebuild
+(`CREATE _new_Category ... NOT NULL` + `INSERT ... SELECT ... FROM Category`),
+so under the *current* Room version a genuine `NULL` row can never survive
+that migration — it would throw at migration time, with a different
+exception, not at query time. That means `MIGRATION_3_4`'s NULL row is not
+reachable through today's migration path at all; it's only a risk if some
+device's table already physically drifted from that (e.g. built years ago by
+an older Room version's migration codegen) despite Room believing it's at
+schema v7. `MIGRATION_7_8` is kept as cheap, harmless insurance against that
+possibility (a no-op `UPDATE` for any table that doesn't have the problem),
+but the test for it now seeds that drifted state directly via a raw
+`SupportSQLiteDatabase` instead of through Room's (NOT NULL-enforcing) schema
+validation.
+
+The literal `"null"` string from `MIGRATION_5_6` remains the best-understood,
+actually-reachable cause of the reported crash — it is a non-null column
+value, so it sails through any table's NOT NULL constraint and reaches
+`Converters` at read time, where the `languagesWithTextToStringMapNonNull`
+fallback added here fixes it.
+
 ## What changed
 
 - **`VocableDatabaseMigrations.kt`**: added `MIGRATION_7_8`, a one-time data
   repair — `UPDATE Category SET localized_name = '{}' WHERE localized_name IS
-  NULL` — for the genuine-SQL-NULL case (`MIGRATION_3_4`'s row).
+  NULL` — as defensive insurance against a physically-drifted table (see
+  correction above); not reachable via today's migration code path.
 - **`VocableDatabase.kt`**: bumped `version` 7 → 8 and registered
   `MIGRATION_7_8`. No entity/column changes, so `schemas/8.json` is
   structurally identical to `schemas/7.json` (verified via diff) — this is a
   pure data migration.
 - **`Converters.kt`**: added `languagesWithTextToStringMapNonNull`, used by
   Room for `CategoryDto.localizedName` specifically, falling back to
-  `LocalesWithText(emptyMap())` instead of null. This covers the *other*
-  case — a non-null column value that's degenerate JSON (the literal `"null"`
-  string from `MIGRATION_5_6`, or any other unparseable content) — which
-  *does* reach the converter, since `getText()` only throws for an actual SQL
-  `NULL`, not for a non-null-but-nonsense string.
+  `LocalesWithText(emptyMap())` instead of null. This is the fix for the
+  actually-reachable case — a non-null column value that's degenerate JSON
+  (the literal `"null"` string from `MIGRATION_5_6`, or any other unparseable
+  content) — since `getText()` only throws for an actual SQL `NULL`, not for
+  a non-null-but-nonsense string.
 - Tests:
-  - `MigrationTest.migrate7to8_repairsNullLocalizedName` — seeds a v7 DB with
-    a genuine `NULL` `localized_name` row, runs `MIGRATION_7_8`, and asserts
-    the DAO reads it back as an empty `LocalesWithText` instead of crashing.
+  - `MigrationTest.migrate7to8_repairsNullLocalizedName` — builds a raw
+    `SupportSQLiteDatabase` with a hand-written, intentionally-nullable
+    `Category` table (simulating a drifted physical table Room's own
+    schema-enforced test helper can't produce), inserts a genuine `NULL` row,
+    runs `MIGRATION_7_8.migrate(...)` directly, and asserts the row is
+    repaired to `'{}'`.
   - `RoomStoredCategoriesRepositoryTest.getAllCategories_treatsLiteralNullLocalizedNameAsEmpty`
     — seeds a fresh (already-v8) DB with the literal `"null"` string and
-    asserts the same fallback, independent of any migration.
+    asserts the DAO fallback, independent of any migration.
+  - Also fixed a collateral break in the pre-existing `migrate5to6` test: its
+    bare `Room.databaseBuilder(...).build()` call had no migration path past
+    the (now old) final version 7, so bumping the DB to version 8 broke it
+    with `IllegalStateException: A migration from 6 to 8 was required but not
+    found`. Added `.addMigrations(MIGRATION_7_8)` to that call.
 
 ## Notes
 
