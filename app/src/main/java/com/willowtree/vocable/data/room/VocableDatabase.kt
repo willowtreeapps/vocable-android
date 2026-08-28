@@ -14,7 +14,7 @@ import androidx.room.TypeConverters
         PresetCategoryDto::class,
         PresetPhraseDto::class
     ],
-    version = 7,
+    version = 8,
     // TODO: PK - May be able to consolidate 6 and 7 since we never released 6
     autoMigrations = [AutoMigration(from = 6, to = 7, spec = Version7Migration::class)]
 )
@@ -45,5 +45,6 @@ fun RoomDatabase.Builder<VocableDatabase>.addVocableMigrations() =
         VocableDatabaseMigrations.MIGRATION_2_3,
         VocableDatabaseMigrations.MIGRATION_3_4,
         VocableDatabaseMigrations.MIGRATION_4_5,
-        VocableDatabaseMigrations.MIGRATION_5_6
+        VocableDatabaseMigrations.MIGRATION_5_6,
+        VocableDatabaseMigrations.MIGRATION_7_8
     )

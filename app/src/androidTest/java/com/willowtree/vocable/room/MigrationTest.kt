@@ -375,4 +375,33 @@ class MigrationTest {
         )
     }
 
+    @Test
+    @Throws(IOException::class)
+    fun migrate7to8_repairsNullLocalizedName() = runTest {
+        // Legacy rows (e.g. MIGRATION_3_4's My Sayings insert) can have a NULL localized_name.
+        // CategoryDto.localizedName is non-null, and Room's generated read path for a NOT NULL
+        // column crashes with IllegalStateException instead of null-checking, so this data must
+        // be repaired in a migration rather than handled at read time.
+        val legacyCategoryId = "legacy_null_localized_name"
+
+        helper.createDatabase(TEST_DB, 7).apply {
+            execSQL(
+                "INSERT INTO Category (category_id, creation_date, localized_name, hidden, sort_order) " +
+                    "VALUES ('$legacyCategoryId', 0, NULL, 0, 90)"
+            )
+            close()
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 8, true, VocableDatabaseMigrations.MIGRATION_7_8)
+
+        val db = Room.databaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            VocableDatabase::class.java,
+            TEST_DB
+        ).build()
+
+        val repaired = db.categoryDao().getAllCategories().single { it.categoryId == legacyCategoryId }
+        assertEquals(LocalesWithText(emptyMap()), repaired.localizedName)
+    }
+
 }
