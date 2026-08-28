@@ -51,4 +51,13 @@ object Converters : KoinComponent {
 
         }
     }
+
+    // CategoryDto.localizedName is non-null, but legacy rows from old schema migrations can have
+    // a NULL/unparseable localized_name at the SQLite level (see MIGRATION_3_4). Falling back to
+    // an empty LocalesWithText instead of null keeps those rows readable instead of crashing Room.
+    @TypeConverter
+    @JvmStatic
+    fun languagesWithTextToStringMapNonNull(json: String?): LocalesWithText {
+        return languagesWithTextToStringMap(json) ?: LocalesWithText(emptyMap())
+    }
 }

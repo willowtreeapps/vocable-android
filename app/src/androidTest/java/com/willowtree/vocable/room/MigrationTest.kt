@@ -7,8 +7,11 @@ All new migrations should have a test confirming the migration.
 
 package com.willowtree.vocable.room
 
+import android.content.Context
 import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -325,7 +328,7 @@ class MigrationTest {
             ApplicationProvider.getApplicationContext(),
             VocableDatabase::class.java,
             TEST_DB
-        ).build()
+        ).addMigrations(VocableDatabaseMigrations.MIGRATION_7_8).build()
 
         val categories = db.categoryDao().getAllCategories()
         assertEquals(
@@ -373,6 +376,54 @@ class MigrationTest {
                 )
             ), recentPhrases
         )
+    }
+
+    @Test
+    fun migrate7to8_repairsNullLocalizedName() {
+        // Room's own 6->7 auto-migration does a full table rebuild that enforces NOT NULL (see
+        // the generated VocableDatabase_AutoMigration_6_7_Impl), so under the current Room
+        // version a genuine SQL NULL cannot survive that path -- it throws
+        // SQLiteConstraintException at migration time instead. MIGRATION_7_8 is defensive repair
+        // for a table that's already physically drifted from that (e.g. built by an older Room
+        // version's migration codegen) despite claiming schema v7, so this test seeds that state
+        // directly with a raw SupportSQLiteDatabase rather than through Room's schema-enforced
+        // (and therefore NOT NULL-enforcing) table creation.
+        val legacyCategoryId = "legacy_null_localized_name"
+        val dbName = "migration-7-8-test"
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        context.deleteDatabase(dbName)
+
+        val openHelper = FrameworkSQLiteOpenHelperFactory().create(
+            SupportSQLiteOpenHelper.Configuration.builder(context)
+                .name(dbName)
+                .callback(object : SupportSQLiteOpenHelper.Callback(7) {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        db.execSQL(
+                            "CREATE TABLE Category (category_id TEXT NOT NULL, creation_date INTEGER NOT NULL, " +
+                                "localized_name TEXT, hidden INTEGER NOT NULL, sort_order INTEGER NOT NULL, " +
+                                "PRIMARY KEY(category_id))"
+                        )
+                    }
+
+                    override fun onUpgrade(db: SupportSQLiteDatabase, oldVersion: Int, newVersion: Int) = Unit
+                })
+                .build()
+        )
+
+        openHelper.writableDatabase.execSQL(
+            "INSERT INTO Category (category_id, creation_date, localized_name, hidden, sort_order) " +
+                "VALUES ('$legacyCategoryId', 0, NULL, 0, 90)"
+        )
+
+        VocableDatabaseMigrations.MIGRATION_7_8.migrate(openHelper.writableDatabase)
+
+        val cursor = openHelper.writableDatabase.query(
+            "SELECT localized_name FROM Category WHERE category_id = '$legacyCategoryId'"
+        )
+        cursor.moveToFirst()
+        assertEquals("{}", cursor.getString(0))
+        cursor.close()
+        openHelper.close()
     }
 
 }

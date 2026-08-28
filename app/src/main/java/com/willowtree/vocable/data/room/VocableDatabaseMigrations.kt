@@ -210,4 +210,15 @@ object VocableDatabaseMigrations {
 
         }
     }
+
+    val MIGRATION_7_8: Migration = object : Migration(7, 8) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // Repairs legacy rows (e.g. from MIGRATION_3_4's My Sayings insert, or the
+            // MIGRATION_5_6 string-interpolation bug that wrote the literal text "null") whose
+            // localized_name is NULL. CategoryDto.localizedName is non-null, and Room's generated
+            // read path for a NOT NULL column skips its null check and throws IllegalStateException
+            // instead, crashing every query that touches an affected row.
+            db.execSQL("UPDATE Category SET localized_name = '{}' WHERE localized_name IS NULL")
+        }
+    }
 }
