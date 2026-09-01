@@ -170,7 +170,10 @@ object VocableDatabaseMigrations {
                         phraseCursor.getString(phraseCursor.getColumnIndex("localized_utterance"))
                     val sortOrder = phraseCursor.getInt(phraseCursor.getColumnIndex("sort_order"))
 
-                    db.execSQL("INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES ('$parentID', $creationDate, $lastSpokenDate, '$localizedUtterance', $sortOrder)")
+                    db.execSQL(
+                        "INSERT INTO Phrase_New (parent_category_id, creation_date, last_spoken_date, localized_utterance, sort_order) VALUES (?, ?, ?, ?, ?)",
+                        arrayOf(parentID, creationDate, lastSpokenDate, localizedUtterance, sortOrder)
+                    )
                 }
             }
             phraseCursor.close()
@@ -200,7 +203,10 @@ object VocableDatabaseMigrations {
                 val hidden = categoriesCursor.getInt(categoriesCursor.getColumnIndex("hidden"))
                 val sortOrder =
                     categoriesCursor.getInt(categoriesCursor.getColumnIndex("sort_order"))
-                db.execSQL("INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES ('$categoryID', '$creationDate', '$localizedName', '$hidden', '$sortOrder')")
+                db.execSQL(
+                    "INSERT INTO Category_New (category_id, creation_date, localized_name, hidden, sort_order) VALUES (?, ?, ?, ?, ?)",
+                    arrayOf(categoryID, creationDate, localizedName, hidden, sortOrder)
+                )
             }
 
             categoriesCursor.close()
