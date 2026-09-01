@@ -379,6 +379,77 @@ class MigrationTest {
     }
 
     @Test
+    fun migrate5to6_preservesApostropheInUserGeneratedText() = runTest {
+        // Regression test for #698: MIGRATION_5_6 built its Phrase_New/Category_New
+        // INSERT statements via raw string interpolation, so an apostrophe in
+        // user-generated text (e.g. "I'm hungry") broke out of the SQL string
+        // literal and threw SQLiteException -- which meant the app could never
+        // open a v5 database containing that data.
+        val apostropheUtterance = "{\"english\":\"I'm hungry\"}"
+        val apostropheCategoryName = "{\"english\":\"Jenny's Faves\"}"
+
+        helper.createDatabase(TEST_DB, 5).use {
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `Category` " +
+                        "(`category_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, `is_user_generated` INTEGER NOT NULL, " +
+                        "`resource_id` INTEGER, `localized_name` TEXT, `hidden` INTEGER NOT NULL, `sort_order` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`category_id`))"
+            )
+
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `Phrase` (`phrase_id` TEXT NOT NULL, `creation_date` INTEGER NOT NULL, " +
+                        "`is_user_generated` INTEGER NOT NULL, `last_spoken_date` INTEGER NOT NULL, `resource_id` INTEGER, " +
+                        "`localized_utterance` TEXT, `sort_order` INTEGER NOT NULL, PRIMARY KEY(`phrase_id`))"
+            )
+
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `CategoryPhraseCrossRef` (`category_id` TEXT NOT NULL, `phrase_id` TEXT NOT NULL, " +
+                        "`timestamp` INTEGER, PRIMARY KEY(`category_id`, `phrase_id`))"
+            )
+
+            // Bind args here (not string interpolation) so the apostrophe in the test
+            // fixture itself doesn't hit the same class of bug while seeding v5 data.
+            it.execSQL(
+                "INSERT INTO Category (category_id, creation_date, is_user_generated, localized_name, hidden, sort_order) VALUES (?, ?, ?, ?, ?, ?)",
+                arrayOf<Any>("custom", 0L, 1, apostropheCategoryName, 0, 7)
+            )
+
+            it.execSQL(
+                "INSERT INTO Phrase (phrase_id, creation_date, is_user_generated, last_spoken_date, localized_utterance, sort_order) VALUES (?, ?, ?, ?, ?, ?)",
+                arrayOf<Any>("1", 0L, 1, 0L, apostropheUtterance, 0)
+            )
+
+            it.execSQL(
+                "INSERT INTO CategoryPhraseCrossRef (category_id, phrase_id) VALUES (?, ?)",
+                arrayOf("custom", "1")
+            )
+        }
+
+        // Prior to the fix, this line threw SQLiteException.
+        helper.runMigrationsAndValidate(TEST_DB, 6, true, VocableDatabaseMigrations.MIGRATION_5_6)
+
+        val db = Room.databaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            VocableDatabase::class.java,
+            TEST_DB
+        ).addMigrations(VocableDatabaseMigrations.MIGRATION_7_8).build()
+
+        val category = db.categoryDao().getAllCategories().first { it.categoryId == "custom" }
+        assertEquals(
+            LocalesWithText(mapOf("english" to "Jenny's Faves")),
+            category.localizedName
+        )
+
+        val customPhrase = db.phraseDao().getPhrasesForCategory("custom").first().first()
+        assertEquals(
+            LocalesWithText(mapOf("english" to "I'm hungry")),
+            customPhrase.localizedUtterance
+        )
+
+        db.close()
+    }
+
+    @Test
     fun migrate7to8_repairsNullLocalizedName() {
         // Room's own 6->7 auto-migration does a full table rebuild that enforces NOT NULL (see
         // the generated VocableDatabase_AutoMigration_6_7_Impl), so under the current Room
