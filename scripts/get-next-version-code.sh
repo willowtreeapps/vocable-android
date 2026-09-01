@@ -80,4 +80,19 @@ TRACKS_JSON=$(curl -sS \
 
 MAX_VERSION_CODE=$(echo "${TRACKS_JSON}" | jq '[.tracks[]?.releases[]?.versionCodes[]? | tonumber] | max // 0')
 
+# Google Play permanently reserves a versionCode the moment a bundle is
+# uploaded to ANY edit, even one that later expires without being committed
+# to a track -- so a failed/expired upload burns a versionCode this script
+# has no way to see (it only looks at committed track releases above). The
+# 2026-09-01 1.6.2 release hit exactly this: an edit expired after upload,
+# silently burning versionCode 669, and the next run recomputed 669 again
+# and was rejected by Play with "Version code 669 has already been used."
+# This floor is a one-off unblock for that specific collision, not a general
+# fix -- see #700 for the durable version (a persisted ratchet that accounts
+# for attempted-but-not-necessarily-committed uploads).
+KNOWN_BURNED_VERSION_CODE_FLOOR=669
+if (( MAX_VERSION_CODE < KNOWN_BURNED_VERSION_CODE_FLOOR )); then
+  MAX_VERSION_CODE=${KNOWN_BURNED_VERSION_CODE_FLOOR}
+fi
+
 echo $((MAX_VERSION_CODE + 1))
